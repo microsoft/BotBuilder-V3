@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['idialog',['IDialog',['../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html',1,'Microsoft::Bot::Builder']]],
+  ['idialogcollection',['IDialogCollection',['../db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_collection.html',1,'Microsoft::Bot::Builder']]],
+  ['ifield',['IField',['../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['ifielddescription',['IFieldDescription',['../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['ifieldprompt',['IFieldPrompt',['../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['ifields',['IFields',['../d5/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_fields.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['ifieldstate',['IFieldState',['../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['iform',['IForm',['../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html',1,'Microsoft::Bot::Builder::Form']]],
+  ['ilocalizer',['ILocalizer',['../d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['inmemorystore',['InMemoryStore',['../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html',1,'Microsoft::Bot::Builder']]],
+  ['intentrecommendation',['IntentRecommendation',['../de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html',1,'Microsoft::Bot::Builder::Models']]],
+  ['iprompt',['IPrompt',['../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['irecognizer',['IRecognizer',['../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['isession',['ISession',['../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html',1,'Microsoft::Bot::Builder']]],
+  ['isessiondata',['ISessionData',['../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html',1,'Microsoft::Bot::Builder']]],
+  ['isessionstore',['ISessionStore',['../dc/dfe/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_store.html',1,'Microsoft::Bot::Builder']]]
+];

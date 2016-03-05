@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['advanced',['Advanced',['../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html',1,'Microsoft::Bot::Builder::Form']]],
+  ['bot',['Bot',['../d5/d61/namespace_microsoft_1_1_bot.html',1,'Microsoft']]],
+  ['builder',['Builder',['../d3/ddb/namespace_microsoft_1_1_bot_1_1_builder.html',1,'Microsoft::Bot']]],
+  ['form',['Form',['../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html',1,'Microsoft::Bot::Builder']]],
+  ['matchanalyzer',['MatchAnalyzer',['../dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['matchanalyzer',['MatchAnalyzer',['../dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html#a30b8d6a1bab6a7255512f335974fef73',1,'Microsoft::Bot::Builder::Form::Advanced::MatchAnalyzer']]],
+  ['matcher',['Matcher',['../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#ad1953e5a9758601aac71544331d1e47f',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['matches',['Matches',['../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a1ea145e4cb82c5d85fa5978f2e49ca44',1,'Microsoft.Bot.Builder.Form.Advanced.IRecognizer.Matches()'],['../d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a6778997e3fc54d47117f3143567d931f',1,'Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer.Matches()'],['../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae6254812cd3aa77db49c6a8551f0a58d',1,'Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer.Matches()']]],
+  ['maxretries',['MaxRetries',['../d1/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_args.html#a6d1dc50721a2fb854d889aa257aa7deb',1,'Microsoft::Bot::Builder::PromptDialogArgs']]],
+  ['message',['Message',['../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ac5eee4821d8e52ca20a503c79b2138ec',1,'Microsoft.Bot.Builder.ISession.Message()'],['../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a58934614c3336611a71759dde1b25d95',1,'Microsoft.Bot.Builder.Session.Message()']]],
+  ['messagereceived',['MessageReceived',['../d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a8cc97087d36ea63f892aadea49408b82',1,'Microsoft.Bot.Builder.ConnectorSession.MessageReceived()'],['../d3/dab/class_microsoft_1_1_bot_1_1_builder_1_1_console_session.html#a43f2764d6485ce16b7cbfb840400388d',1,'Microsoft.Bot.Builder.ConsoleSession.MessageReceived()']]],
+  ['messagereceivedasync',['MessageReceivedAsync',['../d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a9c4b06e7a67c354797b3238d66cfc6d0',1,'Microsoft.Bot.Builder.ConnectorSession.MessageReceivedAsync()'],['../d3/dab/class_microsoft_1_1_bot_1_1_builder_1_1_console_session.html#a1fec9c5f843bc9ed945fd1752b2244ca',1,'Microsoft.Bot.Builder.ConsoleSession.MessageReceivedAsync()']]],
+  ['messagesent',['MessageSent',['../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ad8a5818041169c9cb950e58b68b5d724',1,'Microsoft.Bot.Builder.ISession.MessageSent()'],['../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#abd21f0c6cedc9ab19a03c7f25792c013',1,'Microsoft.Bot.Builder.Session.MessageSent()']]],
+  ['messagestore',['MessageStore',['../de/d84/class_microsoft_1_1_bot_1_1_builder_1_1_message_store.html',1,'Microsoft::Bot::Builder']]],
+  ['messagestore',['MessageStore',['../de/d84/class_microsoft_1_1_bot_1_1_builder_1_1_message_store.html#ae58134312800228658652f6282a243db',1,'Microsoft.Bot.Builder.MessageStore.MessageStore()'],['../d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#aef975be1aa8e5794d9b21bb9fef6f3b1ac9687ea05e035d7348ae6df9ebc23443',1,'Microsoft.Bot.Builder.ConnectorSession.MessageStore()']]],
+  ['messagestore_2ecs',['MessageStore.cs',['../d1/dd0/_message_store_8cs.html',1,'']]],
+  ['microsoft',['Microsoft',['../d7/d4e/namespace_microsoft.html',1,'']]],
+  ['microsoft_2ebot_2ebuilder_2ecs',['Microsoft.Bot.Builder.cs',['../d7/d56/_microsoft_8_bot_8_builder_8cs.html',1,'']]],
+  ['modelid',['modelId',['../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#adf7b2b6709bb833d09d06e7030fe5d06',1,'Microsoft::Bot::Builder::LuisDialog']]],
+  ['models',['Models',['../d2/dd9/namespace_microsoft_1_1_bot_1_1_builder_1_1_models.html',1,'Microsoft::Bot::Builder']]],
+  ['msg',['Msg',['../dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_console_session_1_1_console_reply_message.html#ad3d67c6766682f910060ca55d0a96675',1,'Microsoft::Bot::Builder::ConsoleSession::ConsoleReplyMessage']]],
+  ['serializers',['Serializers',['../db/ddf/namespace_microsoft_1_1_bot_1_1_builder_1_1_serializers.html',1,'Microsoft::Bot::Builder']]]
+];
