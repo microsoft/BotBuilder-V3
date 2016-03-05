@@ -13,7 +13,7 @@
       "url": "http://botconnector.ai"
     }
   },
-  "host": "intercomppe.azure-api.net",
+  "host": "api.fuselabs.org",
   "schemes": [ "https" ],
   "paths": {
     "/bot/v1.0/messages/{id}": {
