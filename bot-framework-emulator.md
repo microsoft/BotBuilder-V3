@@ -10,7 +10,7 @@ parent: Bot Connector SDK
 {:toc}
 
 ## What is the Bot Framework Emulator?
-The Bot Framework Emulator is a great tool that allows you to test your bot on localhost while you are developing it.
+The Bot Framework Emulator is a tool that allows you to test your bot on localhost while you are developing it.
 
 The tool allows you to:
 
