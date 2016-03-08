@@ -7,7 +7,7 @@ parent: Bot Builder SDK
 ---
 
 ## Dialogs
-
+### Command
 
 ## Forms
 
