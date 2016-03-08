@@ -2,22 +2,15 @@
 layout: default
 ---
 <article class="post">
-
-
-  <table>
-  <tr>
-  <td style="width: 30%; vertical-align: top;">
-  {% include leftnav.html %}
-  </td>
-  <td style="width: 70%; vertical-align: top;">
-  <div class="post-content">
-	  <header class="post-header">
-		<h1 class="post-title">{{ page.title }}</h1>
-	  </header>
-    {{ content }}
-  </div>
-  </td>
-  </tr>
-  </table>
-
+	<div id="side-nav">
+	  {% include leftnav.html %}
+	</div>
+	<div id="doc-content">
+	  <div class="post-content">
+		  <header class="post-header">
+			<h1 class="post-title">{{ page.title }}</h1>
+		  </header>
+		{{ content }}
+	  </div>
+	</div>
 </article>

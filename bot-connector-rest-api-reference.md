@@ -1,10 +1,10 @@
 ---
 layout: page
-title: REST API Reference
+title: Bot Connector REST API Reference
 permalink: /bot-connector-rest-api-reference/
 weight: 30
 parent: Bot Connector SDK
+redirect: /botframework/sdkreference/restapi/
 ---
 
-<a href="/botframework/sdkreference/restapi/">Bot Connector API Reference</a>
-
+[Bot Connector REST API Reference](/botframework/sdkreference/restapi/)

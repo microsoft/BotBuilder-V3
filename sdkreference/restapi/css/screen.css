@@ -122,15 +122,15 @@
 }
 .swagger-section .swagger-ui-wrap {
   line-height: 1;
-  font-family: "Droid Sans", sans-serif;
-  max-width: 1020px;
+  font-family: "Segoe UI", sans-serif;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 20px;
   /* JSONEditor specific styling */
 }
 .swagger-section .swagger-ui-wrap b,
 .swagger-section .swagger-ui-wrap strong {
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap q,
@@ -334,7 +334,7 @@
   width: 100%;
 }
 .swagger-section .swagger-ui-wrap .model-signature {
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-size: 1em;
   line-height: 1.5em;
 }
@@ -479,7 +479,7 @@
   font-size: 1.5em;
   line-height: 1.3em;
   padding: 10px 0 10px 0;
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap .heading_with_menu {
@@ -531,7 +531,7 @@
   font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
 }
 .swagger-section .swagger-ui-wrap form.formtastic fieldset.inputs ol li.text textarea {
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   height: 250px;
   padding: 4px;
   display: block;
@@ -609,7 +609,7 @@
   margin: 20px 0 25px 0 !important;
 }
 .swagger-section .swagger-ui-wrap ul#resources {
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-size: 0.9em;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource {
@@ -682,7 +682,7 @@
   display: block;
   clear: none;
   float: left;
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-weight: bold;
 }
 .swagger-section .swagger-ui-wrap ul#resources li.resource div.heading h2 a {
@@ -1049,7 +1049,7 @@
   padding: 10px 0;
   font-size: 0.8em;
   border-top: 1px solid #dddddd;
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: #999999;
   font-style: italic;
 }
@@ -1064,7 +1064,7 @@
 }
 .swagger-section .swagger-ui-wrap .markdown ol,
 .swagger-section .swagger-ui-wrap .markdown ul {
-  font-family: "Droid Sans", sans-serif;
+  font-family: "Segoe UI", sans-serif;
   margin: 5px 0 10px;
   padding: 0 0 0 18px;
   list-style-type: disc;
@@ -1299,7 +1299,6 @@
   content: "+";
 }
 
-
 /**
  * Site header
  */
@@ -1307,7 +1306,8 @@
   position: relative;
   background-color: #FFFFFF;
   color: #333;
-  padding-top: 25px; }
+  font: 400 16px/1.5 "Segoe UI", sans-serif;
+}
   
   .site-header a {
 	text-decoration: none;
@@ -1341,9 +1341,37 @@
     color: #424242; }
 
 .wrapper {
-    max-width: 1020px;
     margin-right: auto;
     margin-left: auto;
     padding-right: 30px;
     padding-left: 30px;
+}
+
+
+.jumbo {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 84px;
+    background-color: #3e92d2;
+    padding-left: 20px;
+    padding-top: 20px;
+    color: white;
+    border: 1px solid #3e92d2;
+}
+
+.jumbo .jumbo-header {
+    display: inline-block;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.3px;
+    color: white;
+}
+
+.outline {
+    background: #eaeaea;
+    max-width: 1366px;
+    min-width: 480px;
+    min-height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
 }

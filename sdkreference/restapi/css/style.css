@@ -7,7 +7,7 @@
 }
 #text-head {
   font-size: 80px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   color: #ffffff;
   float: right;
   margin-right: 20%;
@@ -248,3 +248,4 @@ h2 {
   font-weight: bold;
   color: #08b;
 }
+

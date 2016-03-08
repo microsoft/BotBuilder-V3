@@ -4,13 +4,14 @@
 .site-header {
 	position: relative;
     background-color: $white-color;
-    color: #333;
-    padding-top: 25px;
+    color: #000;
+	min-height: 48px;
+	white-space: nowrap;
 	
 	.app-title {
 		display: inline-block;
 		font-size: 26px;
-		padding: 5px 32px 5px 0;
+		padding: 5px 32px 5px 40px;
 		
 		a {
 			color: $grey-color-333;
@@ -193,7 +194,7 @@
 /**
  * Page content
  */
-.page-content {
+.post {
     padding: $spacing-unit 0;
 }
 
@@ -265,4 +266,20 @@
             font-size: 18px;
         }
     }
+}
+
+/**
+ * Page outline
+ */
+
+.ms-footer {
+    font-size: 0.9em;
+    text-align: center;
+} 
+
+.ms-footer a, .ms-footer span {
+    margin-right: 25px;
+}
+.ms-footer img {
+    vertical-align: middle;
 }

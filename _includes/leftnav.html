@@ -4,11 +4,6 @@ $( document ).ready(function() {
     $('.page-link[href="' + currentpath + '"]').addClass('navselected');
 });
 </script>
-<style>
-	.navselected {
-		background-color: #C0C0C0;
-	}
-</style>
 
 	<div class="trigger">
 	{% assign sorted_pages = (site.pages | sort: 'weight') %}
