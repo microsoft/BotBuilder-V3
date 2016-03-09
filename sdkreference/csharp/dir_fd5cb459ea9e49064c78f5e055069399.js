@@ -20,5 +20,8 @@ var dir_fd5cb459ea9e49064c78f5e055069399 =
       [ "IPrompt", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt" ],
       [ "Prompter", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter" ]
     ] ],
-    [ "IRecognizer.cs", "d1/d48/_i_recognizer_8cs.html", "d1/d48/_i_recognizer_8cs" ]
+    [ "IRecognizer.cs", "d1/d48/_i_recognizer_8cs.html", "d1/d48/_i_recognizer_8cs" ],
+    [ "Language.cs", "d8/d82/_language_8cs.html", [
+      [ "Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language" ]
+    ] ]
 ];

@@ -4,7 +4,7 @@ title: Bot Connector REST API Reference
 permalink: /bot-connector-rest-api-reference/
 weight: 30
 parent: Bot Connector SDK
-redirect: /botframework/sdkreference/restapi/
+redirect: /sdkreference/restapi/
 ---
 
-[Bot Connector REST API Reference](/botframework/sdkreference/restapi/)
+[Bot Connector REST API Reference](/sdkreference/restapi/)

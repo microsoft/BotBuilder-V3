@@ -6,6 +6,11 @@ var _annotations_8cs =
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base" ],
     [ "Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template" ],
     [ "Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms" ],
+    [ "BoolDefault", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8", [
+      [ "Default", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67", null ],
+      [ "Yes", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a93cba07454f06a4a960172bbd6e2a435", null ],
+      [ "No", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8abafd7322c6e97d25b6299b5d6fe8920b", null ]
+    ] ],
     [ "PromptNormalization", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8df", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8dfa7a1920d61156abc05a60135aefe8bc67", null ],
       [ "Auto", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8dfa06b9281e396db002010bde1de57262eb", null ],
