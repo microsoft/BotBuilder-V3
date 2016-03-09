@@ -13,6 +13,7 @@ If you already have a bot and would like to extend its reach to more users on mo
 
 ### Bot Connector Emulator
 The Bot Framework Emulator is a tool that allows you to test your bot on localhost while you are developing it.
+
 * Download it [here](http://download.botframework.com/botconnector/tools/emulator/)
 * Learn how to use it [here](/botframework/bot-framework-emulator/)
 
