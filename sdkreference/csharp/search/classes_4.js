@@ -9,6 +9,7 @@ var searchData=
   ['ifieldstate',['IFieldState',['../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
   ['iform',['IForm',['../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html',1,'Microsoft::Bot::Builder::Form']]],
   ['ilocalizer',['ILocalizer',['../d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],
+  ['initialstate',['InitialState',['../d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_initial_state.html',1,'Microsoft::Bot::Builder::Form::Form']]],
   ['inmemorystore',['InMemoryStore',['../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html',1,'Microsoft::Bot::Builder']]],
   ['intentrecommendation',['IntentRecommendation',['../de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html',1,'Microsoft::Bot::Builder::Models']]],
   ['iprompt',['IPrompt',['../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html',1,'Microsoft::Bot::Builder::Form::Advanced']]],

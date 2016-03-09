@@ -16,55 +16,11 @@
   "host": "api.fuselabs.org",
   "schemes": [ "https" ],
   "paths": {
-    "/bot/v1.0/messages/{id}": {
-      "get": {
-        "tags": [ "Messages" ],
-        "summary": "get message by id",
-        "description": "This method allows you to retrieve a message by using the message id",
-        "operationId": "Messages_GetMessage",
-        "consumes": [ ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "message.id",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A message object will be returned\r\n",
-            "schema": { "$ref": "#/definitions/Message" }
-          },
-          "400": {
-            "description": "The response is a ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\n|       code           | Description |\r\n|----------------- | ----------------------------| \r\n| MissingPropery   | a property was missing |\r\n| MalformedData    | an argument was formatted incorrectly |\r\n| InvalidRange     |  a value was out of range |\r\n| Not Supported    |  a request was not supported |\r\n| Not Allowed      |  a request was not allowed because of credentials |\r\n\r\n\r\n \r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
-          "404": {
-            "description": "The response is a ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "500": {
-            "description": "The response is a ErrorMessage response.  \r\n\r\nThe innererror object may have internal statuscode, code and message data to help you diagnose the issue.\r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "503": {
-            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          }
-        },
-        "deprecated": false
-      }
-    },
     "/bot/v1.0/messages": {
       "post": {
         "tags": [ "Messages" ],
         "summary": "Send a message",
-        "description": "This method allows you to initiate a new conversation message with the user. \r\n\r\nThe important fields are\r\n\r\n| Property | Description|Example|\r\n| ---------|----------| ---------|\r\n| From     | The ChannelAccount of the Bot you want to send the message from |  SMS:+4255551212 (the bots address) |\r\n| To       | The channelAccount of the user you to start a conversation with | SMS:+4255551111 (the users address) |\r\n| Text     | The message you want to communicate | Text: \"Hello world\" |\r\n| Language | The language your message is expressed in (important if you have translation enabled) using the [language codes from Microsoft Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) | Language: \"en\" |\r\n| Attachments | Attachments represent images and attachments that will be rendered on the platform as appropriate | |\r\n\r\nBots can track state data by User, Conversation and users in the converation by embedding data objects into the message.  \r\nThis data will be stored in persistant storage and reflected back to the bot with future messages\r\n\r\n| Property | Description |\r\n| ----- | ------ |\r\n| BotUserData |  Bot controlled Object which is tracked on the user regardless of the channel they communicate on|\r\n| BotConversationData | Bot controlled object which is tracked on the conversation regardless of the user you are talking to |\r\n| BotPerUserConversationData | Bot controlled object which is tracked on a user in a given conversation |",
+        "description": "This method allows you to initiate a new conversation message with the user. \r\n\r\nThe important fields are:\r\n\r\n|Property    | Description                                                                                                                                                                                        |Example                              \r\n|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------\r\n|From        | The ChannelAccount of the Bot you want to send the message from                                                                                                                                    |  SMS:+4255551212 (the bots address) \r\n|To          | The channelAccount of the user you to start a conversation with                                                                                                                                    | SMS:+4255551111 (the users address) \r\n|Text        | The message you want to communicate                                                                                                                                                                | Text: \"Hello world\"                 \r\n|Language    | The language your message is expressed in (important if you have translation enabled) using the [language codes from Microsoft Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) | Language: \"en\"                      \r\n|Attachments | Attachments represent images and attachments that will be rendered on the platform as appropriate                                                                                                  | ...                                 \r\n|ChannelData | You can pass channel specific data to get custom native rendering of your message on a per channel basis. See channel documentation for information on what channels are expecting for this        | ...                                 \r\n\r\nBots can track state data by User, Conversation and Users within the Conversation by embedding data objects into the message.  \r\nThis data will be stored in persistent storage and reflected back to the bot with all future messages as appropriate to their scope.  \r\n\r\nThe properties you use to for Bot State are:\r\n\r\n|Property                   | Description                                                                                          | Example                                                         \r\n|-------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------\r\n|BotUserData                |  Bot controlled Object which is tracked on the user regardless of the channel they communicate on    | BotUserData: { 'Welcomed' : true }                              \r\n|BotConversationData        | Bot controlled object which is tracked on the conversation regardless of the user you are talking to | BotConversationData:  'MessageCount':13 }                       \r\n|BotPerUserConversationData | Bot controlled object which is tracked on a user in a given conversation                             | BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }",
         "operationId": "Messages_SendMessage",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -103,57 +59,6 @@
         },
         "deprecated": false
       }
-    },
-    "/bot/v1.0/messages/{id}/reply": {
-      "post": {
-        "tags": [ "Messages" ],
-        "summary": "Reply to a message",
-        "description": "This method allows you to reply to a conversation at a later time.\r\n\r\nNormally bots receive a message and reply directly (inline) to the conversation, but sometimes a bot\r\nneeds to reply to a conversation at a later point. \r\n\r\nThe important fields are\r\n\r\n| Property | Description|Example|\r\n| ---------|----------| ---------|\r\n| id       | the message id you want to reply to.  The message referred to will be used to determine all of the routing information such as From/To/ChannelConversationID etc.|\r\n| Text     | The message you want to communicate | Text: \"Hello world\" |\r\n| Language | The language your message is expressed in (important if you have translation enabled) using the language codes from Microsoft Translator https://msdn.microsoft.com/en-us/library/hh456380.aspx | Language: \"en\" |\r\n| Attachments | Attachments represent images and attachments that will be rendered on the platform as appropriate | |\r\n\r\nBots can track state data by User, Conversation and users in the converation by embedding data objects into the message.  \r\nThis data will be stored in persistant storage and reflected back to the bot with future messages\r\n\r\n| Property | Description |\r\n| ----- | ------ |\r\n| BotUserData |  Bot controlled Object which is tracked on the user regardless of the channel they communicate on|\r\n| BotConversationData | Bot controlled object which is tracked on the conversation regardless of the user you are talking to |\r\n| BotPerUserConversationData | Bot controlled object which is tracked on a user in a given conversation |",
-        "operationId": "Messages_ReplyToMessage",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "the message.id to reply to",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "replyMessage",
-            "in": "body",
-            "description": "message to reply with (only Text, Language are needed)",
-            "required": true,
-            "schema": { "$ref": "#/definitions/ReplyMessage" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A message object will be returned\r\n",
-            "schema": { "$ref": "#/definitions/Message" }
-          },
-          "400": {
-            "description": "The response is a ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\n|       code           | Description |\r\n|----------------- | ----------------------------| \r\n| MissingPropery   | a property was missing |\r\n| MalformedData    | an argument was formatted incorrectly |\r\n| InvalidRange     |  a value was out of range |\r\n| Not Supported    |  a request was not supported |\r\n| Not Allowed      |  a request was not allowed because of credentials |\r\n\r\n\r\n \r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
-          "404": {
-            "description": "The response is a ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "500": {
-            "description": "The response is a ErrorMessage response.  \r\n\r\nThe innererror object may have internal statuscode, code and message data to help you diagnose the issue.\r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          },
-          "503": {
-            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
-            "schema": { "$ref": "#/definitions/ErrorMessage" }
-          }
-        },
-        "deprecated": false
-      }
     }
   },
   "definitions": {
@@ -163,7 +68,7 @@
       "properties": {
         "type": {
           "description": "What kind of message is this",
-          "enum": [ "Message", "Ping", "DeleteUserData" ],
+          "enum": [ "Message", "Ping", "DeleteUserData", "BotAddedToConversation", "BotRemovedFromConversation", "UserAddedToConversation", "UserRemovedFromConversation", "EndOfConversation" ],
           "type": "string"
         },
         "id": {
@@ -372,6 +277,10 @@
           "format": "double",
           "description": "Longitude for the user when the message was created",
           "type": "number"
+        },
+        "name": {
+          "description": "Name for user location when the message was created",
+          "type": "string"
         }
       }
     },
@@ -385,7 +294,7 @@
       "properties": {
         "code": {
           "description": "Error code",
-          "enum": [ "MissingProperty", "MalformedData", "NotFound", "ServiceUnavilable", "Internal", "InvalidRange", "NotSupported", "NotAllowed" ],
+          "enum": [ "MissingProperty", "MalformedData", "NotFound", "ServiceError", "Internal", "InvalidRange", "NotSupported", "NotAllowed", "BadCertificate" ],
           "type": "string"
         },
         "message": {
@@ -396,50 +305,6 @@
           "format": "int32",
           "description": "Status code",
           "type": "integer"
-        },
-        "innerError": {
-          "$ref": "#/definitions/Error",
-          "description": "Internal information on the reason for the error"
-        }
-      }
-    },
-    "ReplyMessage": {
-      "description": "A reply message for Bot.Connector",
-      "type": "object",
-      "properties": {
-        "type": {
-          "description": "MessageType for the reply",
-          "enum": [ "Message", "Ping", "DeleteUserData" ],
-          "type": "string"
-        },
-        "language": {
-          "description": "The language that the Text is expressed in",
-          "type": "string"
-        },
-        "text": {
-          "description": "The text of the message (this will be target language depending on flags and destination",
-          "type": "string"
-        },
-        "attachments": {
-          "description": "Array of attachments that can be anything",
-          "type": "array",
-          "items": { "$ref": "#/definitions/Attachment" }
-        },
-        "channelData": {
-          "$ref": "#/definitions/Object",
-          "description": "Channel specific properties.  For example: Email may pass the Subject field as a property"
-        },
-        "botUserData": {
-          "$ref": "#/definitions/Object",
-          "description": "Private Bot opaque data associated with a user (across all channels and conversations)"
-        },
-        "botConversationData": {
-          "$ref": "#/definitions/Object",
-          "description": "Private Bot opaque state data associated with a conversation"
-        },
-        "botPerUserInConversationData": {
-          "$ref": "#/definitions/Object",
-          "description": "Private Bot opaque state data associated with a user in a conversation"
         }
       }
     }

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['messagestore',['MessageStore',['../d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#aef975be1aa8e5794d9b21bb9fef6f3b1ac9687ea05e035d7348ae6df9ebc23443',1,'Microsoft::Bot::Builder::ConnectorSession']]]
+  ['inline',['Inline',['../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a85d10e25c8a2448011842c66f7dc7732a0125cf5f3ca38b312ca5d3b511c45a13',1,'Microsoft::Bot::Builder::Form']]]
 ];

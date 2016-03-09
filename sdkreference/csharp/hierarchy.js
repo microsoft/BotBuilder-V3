@@ -61,6 +61,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Form.Advanced.MatchAnalyzer", "dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", null ],
+    [ "Microsoft.Bot.Builder.Form.Form< T >.InitialState", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_initial_state.html", null ],
     [ "Microsoft.Bot.Builder.Form.FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", null ],
     [ "Microsoft.Bot.Builder.IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", [
       [ "Microsoft.Bot.Builder.Dialog< TArgs, TResult >", "d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html", [
