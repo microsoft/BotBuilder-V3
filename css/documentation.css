@@ -165,6 +165,11 @@ a.button {
   min-height: 48px;
   position: relative;
 }
+.header:after {
+  content: '';
+  clear: both;
+  display: block;
+}
 .logo {
   background-repeat: no-repeat;
   background-position: center center;
@@ -175,11 +180,16 @@ a.button {
   display: block;
   margin-top: 12px;
 }
+.brand-primary {
+  background-color: #3e92d2;
+}
 .jumbo {
+  max-width: 1366px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   box-sizing: border-box;
   min-height: 84px;
-  background-color: #3e92d2;
   padding-left: 20px;
   padding-top: 20px;
   color: white;
@@ -358,8 +368,18 @@ ul.header-nav li a:visisted {
   margin-left: auto;
   margin-right: auto;
 }
+.outline:first-child {
+  min-height: 0;
+}
 .page-content {
   min-height: 175px;
+}
+body,
+table,
+div,
+p,
+dl {
+  font: 15px "Segoe UI", sans-serif;
 }
 #side-nav {
   width: 250px;
@@ -382,4 +402,21 @@ ul.header-nav li a:visisted {
 }
 article:after {
   clear: both;
+}
+.site-footer {
+  padding: 20px 0;
+}
+.ms-footer {
+  font-size: 0.9em;
+  text-align: center;
+}
+.ms-footer a,
+.ms-footer span {
+  margin-right: 25px;
+}
+.ms-footer img {
+  vertical-align: middle;
+}
+foobar {
+  border-color: #000;
 }

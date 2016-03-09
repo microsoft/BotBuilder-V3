@@ -1,9 +1,5 @@
 /* The standard CSS for doxygen 1.8.11 */
 
-body, table, div, p, dl {
-    font: 400 14px/22px 'Segoe UI', 'Segoe UI', Arial, Helvetica, sans-serif;
-}
-
 /* @group Heading Levels */
 
 h1.groupheader {
@@ -11,7 +7,7 @@ h1.groupheader {
 }
 
 .title {
-    font: 400 14px/28px 'Segoe UI', 'Segoe UI', Arial, Helvetica, sans-serif;
+    font: 400 14px/28px 'Segoe UI', sans-serif;
     font-size: 150%;
     font-weight: bold;
     margin: 10px 2px;
@@ -1021,14 +1017,6 @@ div.ingroups {
         white-space: nowrap;
     }
 
-div.header {
-    background-image: url('nav_h.png');
-    background-repeat: repeat-x;
-    background-color: #F9FAFC;
-    margin: 0px;
-    border-bottom: 1px solid #C4CFE5;
-}
-
 div.headertitle {
     padding: 5px 5px 5px 10px;
 }
@@ -1486,86 +1474,6 @@ tr.heading h2 {
     color: #C0C0C0;
 }
 
-.site-header {
-    position: relative;
-    background-color: #ffffff;
-    color: #333;
-    padding-top: 25px;
-    max-width: 1020px;
-    margin: auto;
-}
-
-.site-header .header-link {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.site-header .header-link a {
-    color: #333333;
-}
-
-
-.site-header .app-title {
-    display: inline-block;
-    font-size: 26px;
-    padding: 5px 32px 5px 0;
-}
-
-.site-header .app-title a {
-    color: #333333;
-}
-
-
-.site-header a:hover {
-    text-decoration: none;
-    color: #333333;
-}
-
-.selected {
-    color: #333333 !important;
-}
-
-.site-title {
-    font-size: 26px;
-    font-weight: 300;
-    line-height: 56px;
-    letter-spacing: -1px;
-    margin-bottom: 0;
-    float: left;
-}
-
-.site-title a:visited {
-    color: #C0C0C0;
-}
-
-div.header {
-    background-image: none;
-}
-
-.container {
-    max-width: 1020px;
-    margin: 0 auto;
-    padding: 0 40px;
-}
-
-.ms-footer {
-    font-size: 0.9em;
-    text-align: center;
-}
-
-.ms-footer a, .ms-footer span {
-    margin-right: 25px;
-}
-
-.ms-footer img {
-    vertical-align: middle;
-}
-
-#content-container, #navrow1, #navrow2, #navrow3, #navrow4 {
-    max-width: 1020px;
-    margin:auto;
-}
-
 #side-nav {
     position: relative;
     float:left;
@@ -1580,12 +1488,21 @@ div.header {
     background-color: transparent;
 }
 
-div.header {
-    background-image: none;
-    background-color: transparent;
-
-}
-
 .ui-resizable-e {
     background: none;
+}
+
+div.header {
+    background-image: none;
+    background-color: #fff;
+    margin: 0px;
+    border-bottom: none;
+}
+
+div#doc-content .header {
+    background-color: transparent;
+}
+
+div#content-container {
+    padding-top: 10px;
 }

@@ -7,7 +7,9 @@ var hierarchy =
         [ "Microsoft.Bot.Builder.Form.Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", null ],
         [ "Microsoft.Bot.Builder.Form.Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", null ]
       ] ],
-      [ "Microsoft.Bot.Builder.Form.Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", null ]
+      [ "Microsoft.Bot.Builder.Form.Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", null ],
+      [ "Microsoft.Bot.Builder.LuisIntent", "d7/da6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_intent.html", null ],
+      [ "Microsoft.Bot.Builder.LuisModel", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialog< PromptDialogArgs, DialogResult >", "d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html", [
       [ "Microsoft.Bot.Builder.PromptDialog", "d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html", null ]
@@ -24,6 +26,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.CommandDialog< TArgs, TResult >.CommandHandler", "dd/d27/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog_1_1_command_handler.html", null ],
     [ "Microsoft.Bot.Builder.ConsoleSession.ConsoleReplyMessage", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_console_session_1_1_console_reply_message.html", null ],
     [ "Microsoft.Bot.Builder.CookieHelper", "da/d17/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_helper.html", null ],
+    [ "Microsoft.Bot.Builder.DialogResponse", "d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html", null ],
     [ "Microsoft.Bot.Builder.DialogResult", "d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html", [
       [ "Microsoft.Bot.Builder.Form.FormResult< T >", "d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html", null ],
       [ "Microsoft.Bot.Builder.PromptDialogResult< T >", "d5/dee/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_result.html", null ]
@@ -34,7 +37,8 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Form.Advanced.IFieldDescription", "df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", [
         [ "Microsoft.Bot.Builder.Form.Advanced.FieldReflector< T >", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html", [
-          [ "Microsoft.Bot.Builder.Form.Advanced.Conditional< T >", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", null ]
+          [ "Microsoft.Bot.Builder.Form.Advanced.Conditional< T >", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", null ],
+          [ "Microsoft.Bot.Builder.Form.Advanced.Confirmation< T >", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html", null ]
         ] ]
       ] ]
     ] ],
@@ -57,6 +61,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Form.Advanced.MatchAnalyzer", "dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", null ],
+    [ "Microsoft.Bot.Builder.Form.FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", null ],
     [ "Microsoft.Bot.Builder.IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", [
       [ "Microsoft.Bot.Builder.Dialog< TArgs, TResult >", "d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html", [
         [ "Microsoft.Bot.Builder.CommandDialog< TArgs, TResult >", "d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html", null ],

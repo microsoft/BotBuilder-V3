@@ -22,9 +22,9 @@ Using the tool, you can:
 * Install the Emulator from [github or ?]()
 * Launch the Emulator
 * Copy the AppId and AppSecret from the Web.config of your Bot app
-![Configure the Bot Framework](../emulator-configure.jpg)
+![Configure the Bot Framework](../images/emulator-configure.jpg)
 * Enter the localhost REST endpoint of your bot
-![Enter the localhost REST endpoint of your bot](../emulator-url.jpg)
+![Enter the localhost REST endpoint of your bot](../images/emulator-url.jpg)
 
 
 ## Using the Emulator to test your bot
@@ -34,11 +34,11 @@ Let's use the [Echobot Sample](http://github.com/Microsoft/BotBuilder) for this 
 * Enter the localhost REST endpoint in the url field of the Bot framework Emulator
 * By default you will be in the Chat tab
 * Enter some text e.g. "Hello World!" and hit Send (or the Enter key)
-![Send message to bot](../emulator-helloworld.jpg)
+![Send message to bot](../images/emulator-helloworld.jpg)
 * The Emulator will send the request to your bot, and will display the response below your initial message
-![Emulator response](../emulator-response.jpg)
+![Emulator response](../images/emulator-response.jpg)
 * Switch to the Debug tab and inspect the full Json response
-![Inspect the Json response](../emulator-json.jpg)
+![Inspect the Json response](../images/emulator-json.jpg)
 
 
 Happy coding!

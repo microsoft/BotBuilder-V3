@@ -9,6 +9,7 @@ var dir_d9a683eda0ad7f9fb29f4a4bfe321cc8 =
     ] ],
     [ "ISession.cs", "d6/dbf/_i_session_8cs.html", [
       [ "CallStackSerializer", "d3/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_call_stack_serializer.html", "d3/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_call_stack_serializer" ],
+      [ "DialogResponse", "d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html", "d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response" ],
       [ "DialogState", "d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state.html", "d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state" ],
       [ "ISession", "d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html", "d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session" ],
       [ "ISessionData", "df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html", "df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data" ],

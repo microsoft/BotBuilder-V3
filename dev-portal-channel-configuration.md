@@ -29,11 +29,11 @@ To configure the Groupme channel, you need to provide the Groupme client Id. Get
 1. Login to Slack <a href="https://www.slack.com" target="_blank">https://www.slack.com</a>
 2. Create a Slack Application for your bot
 Connect to <a href="https://api.slack.com/applications/new" target="_blank">https://api.slack.com/applications/new</a>
-![Create a slack application](/botframework/StepApp.png)
+![Create a slack application](/botframework/images/StepApp.png)
 3. Copy Client Id and Client Secret and save for later
-![Copy Client Id and Client Secret and save for later](/botframework/StepAuth.png)
+![Copy Client Id and Client Secret and save for later](/botframework/images/StepAuth.png)
 4. Scroll down on page and create a bot
-![Scroll down on page and create a bot](/botframework/StepBot.png)
+![Scroll down on page and create a bot](/botframework/images/StepBot.png)
 5. Submit your Client Id and Client Secret in the Bot channel configuration page
 
 ## <a name="sms"></a>SMS channel

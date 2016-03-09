@@ -4,18 +4,25 @@
   {% include head.html %}
 
   <body>
-	<div class="outline">
-		{% include header.html %}
-
-		<div class="page-content">
-		{% include pageheader.html %}
-		  <div class="wrapper">
-			{{ content }}
-		  </div>
-		</div>
-
+	  <div id="app-body">
+		<div class="fullWidth">
+			<div class="outline">
+				{% include header.html %}
+			</div>
+			<div class="brand-primary">
+				{% include brand-primary.html %}
+			</div>
+			<div class="outline">
+				<div class="page-content">
+				  <div class="wrapper">
+					{{ content }}
+				  </div>
+				</div>		
+			</div>	
 		{% include footer.html %}
-	</div>
+		</div>
+	  </div>
   </body>
-
 </html>
+
+

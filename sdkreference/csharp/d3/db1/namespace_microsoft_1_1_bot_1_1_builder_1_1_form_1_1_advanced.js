@@ -1,6 +1,7 @@
 var namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced =
 [
     [ "Conditional", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional" ],
+    [ "Confirmation", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation" ],
     [ "EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer" ],
     [ "Extensions", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions" ],
     [ "FieldReflector", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector" ],

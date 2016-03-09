@@ -27,7 +27,7 @@ parent: Bot Connector SDK
   <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='lib/marked.js' type='text/javascript'></script>
   <script src='lib/swagger-oauth.js' type='text/javascript'></script>
-
+	<link rel="stylesheet" href="/botframework/css/documentation.css">
   <!-- Some basic translations -->
   <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
   <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
@@ -112,28 +112,52 @@ parent: Bot Connector SDK
 </head>
 
 <body class="swagger-section">
-<div class="outline">
-<header class="site-header">
-	  <div class="wrapper">
-		<div class="app-title"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-		<span class="header-link"><a href="https://intercom-devportal-scratch.azurewebsites.net/" data-reactid=".0.0.2.0">My bots</a></span>
-		<span class="header-link"><a href="/botframework/" class="selected">Documentation</a></span>
-		<span class="header-link"><a href="https://social.msdn.microsoft.com/Forums/en-US/home" data-reactid=".0.0.5.0">Community</a></span>
-		<span class="header-link"><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" data-reactid=".0.0.3.0">Bot directory</a></span>
-	  </div>
-</header>
-<div class="jumbo">
-	<div class="jumbo-header">Bot Connector REST API Reference</div>
-</div>
-<div class="swagger-ui-wrap" style="margin-top:20px;">
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="hidden" /></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-    </form>
-</div>
-<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-</div>
+	  <div id="app-body">
+		<div class="fullWidth">
+			<div class="outline">
+				<div class="header">
+					<a class="logo" style="background-image:url('/botframework/images/msft-logo.png');color:transparent;" href="//www.microsoft.com">Microsoft</a>
+					<div>
+						<div class="open-search"></div>
+						<div class="searchBox"></div>
+					</div>
+				</div>
+			</div>
+			<div class="brand-primary">
+				<div class="jumbo">
+					<div class="jumbo-header">Bot framework</div>
+						<ul class="header-nav">
+							<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
+							<li><a href="/botframework/">Documentation</a></li>
+							<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+							<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="outline">
+				<div class="swagger-ui-wrap" style="padding-top:20px;">
+					<form id='api_selector'>
+					  <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="hidden" /></div>
+					  <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+					  <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+					</form>
+				</div>
+				<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+				<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+			</div>				
+			<footer class="site-footer">
+				<div class="container">
+					<div class="ms-footer">
+						<a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a>
+						<a target="_blank" href="https://go.microsoft.com/fwlink/?LinkID=206977">Terms of Use</a>
+						<a target="_blank" href="http://research.microsoft.com">Microsoft Research</a>
+						<span>© 2016 Microsoft </span>
+						<img src="http://research.microsoft.com/a/i/c/ms-logo.png">
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
 </body>
 </html>

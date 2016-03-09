@@ -3,6 +3,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_form =
     [ "Advanced", "d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html", "d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced" ],
     [ "Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe" ],
     [ "Form", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form" ],
+    [ "FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration" ],
     [ "FormResult", "d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html", "d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result" ],
     [ "IForm", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form" ],
     [ "Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional" ],
