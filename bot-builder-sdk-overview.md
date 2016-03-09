@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Bot Builder SDK Overview
-permalink: /bot-builder-sdk-overview/
+title: Getting Started with the Bot Builder SDK
+permalink: /bot-builder-sdk-getstarted/
 weight: 50
 parent: Bot Builder SDK
 ---
