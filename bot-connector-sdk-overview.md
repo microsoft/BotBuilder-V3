@@ -7,6 +7,7 @@ parent: Bot Connector SDK
 ---
 
 ## What is the Bot Connector and why should I use it?
+If you already have a bot and would like to extend its reach to more users on more conversation channels use the Bot Connector Service and SDK. Simply register your bot using the Bot Framework Developer Portal, connect it to any or all of the nine available channels and (optionally) list it in the Bot Directory, a publicly accessible directory of all bots registered through the Bot Connector service.
 
 ## Tools
 
