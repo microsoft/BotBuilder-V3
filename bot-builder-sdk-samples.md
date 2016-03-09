@@ -6,6 +6,7 @@ weight: 60
 parent: Bot Builder SDK
 ---
 
+A great way to get started with the Bot Builder is following the code samples in the SDK. Here are some handy links to our SDK samples on github. Happy coding!
 
 ## C# Samples
 * <a href="https://github.com/Microsoft/BotBuilder/csharp/samples/" target="_blank">Echobot</a>
