@@ -50,23 +50,38 @@
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 	<div class="outline">
 		<div class="header">
-			<a class="logo" style="background-image:url('/images/msft-logo.png');color:transparent;" href="//www.microsoft.com">Microsoft</a>
-			<div>
-				<div class="open-search"></div>
-				<div class="searchBox"></div>
+			<a class="logo" href="//www.microsoft.com">
+				<svg class="svgicon svgicon-microsoft-color-logo">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo"/>
+				</svg>
+			</a>
+			<div class="loading-animation"></div>
+			<span></span>
+			<div class="rhs">
+				<div class="header-login">
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="brand-primary">
 		<div class="jumbo">
-			<div class="jumbo-header">Bot Framework</div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
+			<div class="jumbo-header">
+				<a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a>
 			</div>
+			<ul class="header-nav">
+				<li>
+					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots" class="active">My bots</a>
+				</li>
+				<li>
+					<a href="/">Documentation</a>
+				</li>
+				<li>
+					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a>
+				</li>
+				<li>
+					<a href="https://intercom-botdirectory-scratch.azurewebsites.net/">Bot Directory</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 <!-- end header part -->
@@ -135,16 +150,14 @@ $(document).ready(function(){initNavTree('functions_t.html','');});
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->
 <!-- id is needed for treeview function! -->
-<footer class="site-footer">
-    <div class="container">
-        <div class="ms-footer">
-            <a target="_blank" href="//go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a>
-            <a target="_blank" href="//go.microsoft.com/fwlink/?LinkID=206977">Terms of Use</a>
-            <a target="_blank" href="//research.microsoft.com">Microsoft Research</a>
-            <span>© 2016 Microsoft </span>
-            <img src="//research.microsoft.com/a/i/c/ms-logo.png">
-        </div>
-    </div>
-</footer>
+<div class="outline footer">
+	<ul>
+		<li><a href="">Contact Us</a></li>
+		<li><a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a></li>
+		<li><a target="_blank" href="https://go.microsoft.com/fwlink/?LinkID=206977">Term Of Use</a></li>
+		<li><a href="">Trademarks</a></li>
+		<li><a href="">&copy; 2016 Microsoft</a></li>
+	</ul>
+</div>
 </body>
 </html>

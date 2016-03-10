@@ -117,25 +117,10 @@ parent: Bot Connector SDK
 	  <div id="app-body">
 		<div class="fullWidth">
 			<div class="outline">
-				<div class="header">
-					<a class="logo" style="background-image:url('{{ "/images/msft-logo.png" | prepend: site.baseurl }}');color:transparent;" href="//www.microsoft.com">Microsoft</a>
-					<div>
-						<div class="open-search"></div>
-						<div class="searchBox"></div>
-					</div>
-				</div>
+				{% include header.html %}
 			</div>
 			<div class="brand-primary">
-				<div class="jumbo">
-					<div class="jumbo-header">Bot Framework</div>
-						<ul class="header-nav">
-							<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-							<li><a href="{{ "/" | prepend: site.baseurl }}">Documentation</a></li>
-							<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
-							<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-						</ul>
-					</div>
-				</div>
+				{% include brand-primary.html %}
 			</div>
 			<div class="outline">
 				<div class="swagger-ui-wrap" style="padding-top:20px;">
@@ -148,18 +133,15 @@ parent: Bot Connector SDK
 				<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
 				<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 			</div>				
-			<footer class="site-footer">
-				<div class="container">
-					<div class="ms-footer">
-						<a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a>
-						<a target="_blank" href="https://go.microsoft.com/fwlink/?LinkID=206977">Terms of Use</a>
-						<a target="_blank" href="http://research.microsoft.com">Microsoft Research</a>
-						<span>© 2016 Microsoft </span>
-						<img src="http://research.microsoft.com/a/i/c/ms-logo.png">
-					</div>
-				</div>
-			</footer>
-		</div>
+<div class="outline footer">
+	<ul>
+		<li><a href="">Contact Us</a></li>
+		<li><a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=521839">Privacy &amp; Cookies</a></li>
+		<li><a target="_blank" href="https://go.microsoft.com/fwlink/?LinkID=206977">Term Of Use</a></li>
+		<li><a href="">Trademarks</a></li>
+		<li><a href="">&copy; 2016 Microsoft</a></li>
+	</ul>
+</div>		</div>
 	</div>
 </body>
 </html>

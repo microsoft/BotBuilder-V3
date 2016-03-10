@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae259ff77d5f645222a0195ad610cb60e":[7,0,0,0,0,0,0,18,0],
+"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae6254812cd3aa77db49c6a8551f0a58d":[7,0,0,0,0,0,0,18,1],
+"de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html":[7,0,0,0,0,1,1],
 "de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html#a07caaacb89f6c53c39a9807743c12c14":[7,0,0,0,0,1,1,3],
 "de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html#a0f7acf30c264e99bdabc195c5f5495e7":[7,0,0,0,0,1,1,0],
 "de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html#a20d884e5de9b9be302a5cf11453f8235":[7,0,0,0,0,1,1,2],
@@ -89,8 +92,8 @@ var NAVTREEINDEX2 =
 "dir_d9a683eda0ad7f9fb29f4a4bfe321cc8.html":[8,0,0,6],
 "dir_fd5cb459ea9e49064c78f5e055069399.html":[8,0,0,2],
 "files.html":[8,0],
-"functions.html":[7,3,0,0],
 "functions.html":[7,3,0],
+"functions.html":[7,3,0,0],
 "functions_a.html":[7,3,0,1],
 "functions_b.html":[7,3,0,2],
 "functions_c.html":[7,3,0,3],

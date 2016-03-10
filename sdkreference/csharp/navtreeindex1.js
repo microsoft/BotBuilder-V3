@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a58b5b8105f7645fd0a13e40a286d23d8":[7,0,0,0,0,0,0,11,5],
+"d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a70b03b39efa77b8a3cd85dafec6002cb":[7,0,0,0,0,0,0,11,4],
+"d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a77564cae6685cc837e3e39ad8e800751":[7,0,0,0,0,0,0,11,6],
 "d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a7b896b1f62b459c0a8829fdc653a9768":[7,0,0,0,0,0,0,11,0],
 "d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a8248139f52dde6398a6c9eb52d305174":[7,0,0,0,0,0,0,11,3],
 "d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#abee34bf6ce3f85ff3586ebda20799801":[7,0,0,0,0,0,0,11,1],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#a496de5712c42c6a626e2ec5b3920b5bb":[7,0,0,0,0,0,0,18,3],
 "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#a66a0c0374211a849f340f8643c51617c":[7,0,0,0,0,0,0,18,4],
 "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#aacca6fb0cdd5e8af9bc1b711db2f25f7":[7,0,0,0,0,0,0,18,2],
-"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ad38f01f26953566982f76a737ad17117":[7,0,0,0,0,0,0,18,6],
-"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae259ff77d5f645222a0195ad610cb60e":[7,0,0,0,0,0,0,18,0],
-"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae6254812cd3aa77db49c6a8551f0a58d":[7,0,0,0,0,0,0,18,1],
-"de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html":[7,0,0,0,0,1,1]
+"de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ad38f01f26953566982f76a737ad17117":[7,0,0,0,0,0,0,18,6]
 };

@@ -22,6 +22,25 @@
   content: '\E71E';
   color: #999999;
 }
+.icon-hamburger:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 24px;
+}
+.icon-hamburger:after {
+  content: '\E700';
+}
+.svgicon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+.svgicon-microsoft-color-logo {
+  width: 4.6474609375em;
+}
 @font-face {
   font-family: "Segoe UI";
   src: url("../fonts/SegoeUI-Normal/latest.eot");
@@ -125,6 +144,29 @@ a.button {
 .grid-card-full-width {
   float: none;
   display: block;
+  width: auto;
+}
+.page-grid-outer {
+  padding: 0 60px;
+}
+.page-grid-outer:first-child {
+  padding-top: 20px;
+}
+.page-grid-outer .inner-grid {
+  margin-left: -20px;
+}
+.page-grid-outer .inner-grid:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+.page-grid-outer .inner-grid {
+  margin-right: -20px;
+  margin-left: 0;
+}
+.page-grid-outer .grid-card {
+  margin-left: 0;
+  margin-right: 20px;
 }
 .page-grid-right {
   padding: 0 60px;
@@ -171,10 +213,7 @@ a.button {
   display: block;
 }
 .logo {
-  background-repeat: no-repeat;
-  background-position: center center;
   font-size: 20px;
-  background-size: contain;
   margin-left: 20px;
   float: left;
   display: block;
@@ -198,8 +237,15 @@ a.button {
 .jumbo .jumbo-header {
   display: inline-block;
   font-family: "Segoe UI", sans-serif;
-  font-size: 36px;
+  font-size: 26px;
   letter-spacing: 0.3px;
+  color: white;
+}
+.jumbo .jumbo-header a {
+  color: white;
+}
+.jumbo .jumbo-header a:hover,
+.jumbo .jumbo-header a:visited {
   color: white;
 }
 .jumbo .jumbo-subheader {
@@ -235,6 +281,27 @@ ul.header-nav li a {
 ul.header-nav li a:hover,
 ul.header-nav li a:visisted {
   color: white;
+}
+.outline.footer {
+  height: auto;
+  background: white;
+  min-height: 0;
+}
+.outline.footer ul {
+  list-style-type: none;
+  text-align: right;
+}
+.outline.footer ul li {
+  display: inline;
+  padding-right: 1ex;
+  padding-left: 1ex;
+  border-left: 1px solid #eaeaea;
+}
+.outline.footer ul li:first-child {
+  border-left: 0px none transparent;
+}
+.outline.footer ul a {
+  color: #999999;
 }
 .two-tone-1 {
   background-color: #F4ABBA;
@@ -367,6 +434,7 @@ ul.header-nav li a:visisted {
   min-height: 100vh;
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
 }
 .outline:first-child {
   min-height: 0;
@@ -396,8 +464,6 @@ dl {
   color: #000;
   text-decoration: none;
 }
-
-
 #doc-content {
   overflow: auto;
   padding: 0 20px;
