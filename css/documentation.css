@@ -488,3 +488,19 @@ article:after {
 foobar {
   border-color: #000;
 }
+.level1.child {
+  padding-left: 30px;
+}
+.level2.parent {
+  padding-left: 30px;
+}
+.level2.child {
+  padding-left: 50px;
+}
+.parent {
+  font-weight: bold;
+  margin-top: 5px;
+}
+a {
+  text-decoration: none;
+}

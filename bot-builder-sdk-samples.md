@@ -2,8 +2,8 @@
 layout: page
 title: Bot Builder SDK Samples
 permalink: /bot-builder-sdk-samples/
-weight: 60
-parent: Bot Builder SDK
+weight: 600
+parent1: Bot Builder SDK
 ---
 
 A great way to get started with the Bot Builder is following the code samples in the SDK. Here are some handy links to our SDK samples on github. Happy coding!

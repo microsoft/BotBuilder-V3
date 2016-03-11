@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Client Library Reference
+title: SDK Reference
 permalink: /bot-builder-sdk-library-reference/
-weight: 70
-parent: Bot Builder SDK
+weight: 700
+parent1: Bot Builder SDK
 ---
 
 The Bot Builder SDK is available for both C# and Node.js developers.  

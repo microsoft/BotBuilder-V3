@@ -2,8 +2,8 @@
 layout: page
 title: Bot Channel configuration
 permalink: /developer-portal/bot-channel-configuration/
-weight: 160
-parent: Developer Portal
+weight: 1600
+parent1: Developer Portal
 ---
 
 

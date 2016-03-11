@@ -2,8 +2,8 @@
 layout: page
 title: Getting started with the Bot Connector
 permalink: /bot-connector-sdk-getstarted/
-weight: 20
-parent: Bot Connector SDK
+weight: 200
+parent1: Bot Connector SDK
 ---
 
 ## What is the Bot Connector and why should I use it?

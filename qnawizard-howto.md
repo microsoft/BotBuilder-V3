@@ -1,8 +1,9 @@
 ---
 layout: page
-title: How to use the Q&A Wizard
-permalink: /qnawizard/howto/
-weight: 120
-parent: Q&A Wizard
+title: How to use the Q&A Maker
+permalink: /qnamaker/howto/
+weight: 1200
+parent1: Tools
+parent2: Q&A Maker
 ---
 

@@ -2,8 +2,8 @@
 layout: page
 title: Developer tips
 permalink: /bot-connector-developer-tips/
-weight: 45
-parent: Bot Connector SDK
+weight: 350
+parent1: Bot Connector SDK
 ---
 
 * TOC

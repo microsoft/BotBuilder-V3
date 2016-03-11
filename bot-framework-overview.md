@@ -2,8 +2,8 @@
 layout: page
 title: Bot Framework Overview
 permalink: /
-weight: 10
-parent: none
+weight: 100
+parent1: none
 ---
 
 

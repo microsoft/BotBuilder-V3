@@ -2,8 +2,9 @@
 layout: page
 title: Channel's FAQ
 permalink: /developer-portal/channel-faq/
-weight: 170
-parent: Developer Portal
+weight: 470
+parent1: Bot Connector SDK
+parent2: Developer Portal
 ---
 
 * TOC
