@@ -32,6 +32,16 @@
 .icon-hamburger:after {
   content: '\E700';
 }
+.icon-right-arrow:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 24px;
+}
+.icon-right-arrow:after {
+  content: '\E76c';
+}
 .svgicon {
   display: inline-block;
   width: 1em;
@@ -66,6 +76,11 @@ h4 {
   font-family: "Segoe UI", sans-serif;
   font-weight: normal;
 }
+input,
+button,
+select {
+  font-family: "Segoe UI", sans-serif;
+}
 a {
   color: #00bcf8;
   text-decoration: none;
@@ -80,7 +95,6 @@ a:hover {
 input[type="submit"],
 input[type="button"],
 button {
-  font-family: "Segoe UI", sans-serif;
   height: 30px;
   min-width: 90px;
   padding-left: 15px;
@@ -138,7 +152,7 @@ a.button {
   background-color: #fff;
   box-shadow: 0px 2px 4px 0px rgba(51, 53, 52, 0.2);
 }
-.grid-card:hover {
+.grid-card.hoverable:hover {
   box-shadow: 0px 4px 6px 0px rgba(51, 53, 52, 0.2);
 }
 .grid-card-full-width {
@@ -202,15 +216,25 @@ a.button {
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-.header {
+header {
   background-color: #fff;
-  min-height: 48px;
+  min-height: 45px;
+}
+.header {
   position: relative;
 }
 .header:after {
   content: '';
   clear: both;
   display: block;
+}
+.header .environment {
+  color: #888;
+  font-size: 13px;
+  left: 20%;
+  letter-spacing: 1px;
+  position: absolute;
+  top: 16px;
 }
 .logo {
   font-size: 20px;
@@ -228,16 +252,16 @@ a.button {
   margin-right: auto;
   position: relative;
   box-sizing: border-box;
-  min-height: 84px;
+  min-height: 70px;
   padding-left: 20px;
-  padding-top: 20px;
+  padding-top: 0;
   color: white;
   border: 1px solid #3e92d2;
 }
 .jumbo .jumbo-header {
   display: inline-block;
   font-family: "Segoe UI", sans-serif;
-  font-size: 26px;
+  font-size: 20px;
   letter-spacing: 0.3px;
   color: white;
 }
@@ -253,30 +277,63 @@ a.button {
   margin-top: 15px;
 }
 .jumbo .jumbo-button {
-  height: auto;
-  border: 2px solid white;
-  position: absolute;
-  right: 35px;
-  top: 18px;
-  background-color: #3e92d2;
+  height: 70px;
+  line-height: 70px;
+  display: block;
+  position: relative;
+  float: right;
   color: white;
   font-size: 18px;
-  padding: 10px 50px 10px 50px;
+  margin-right: 50px;
+}
+.jumbo .jumbo-button:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+.jumbo .jumbo-button:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 24px;
+}
+.jumbo .jumbo-button:after {
+  content: '\E76c';
+}
+.jumbo .jumbo-button:hover,
+.jumbo .jumbo-button:visited {
+  color: white;
+}
+.jumbo .jumbo-button:after {
+  font-size: 18px;
+  left: 100%;
+  top: 0;
+  height: 70px;
+  margin-left: 10px;
 }
 ul.header-nav {
   list-style-type: none;
   display: inline-block;
-  vertical-align: middle;
+  height: 70px;
   font-family: "Segoe UI", sans-serif;
-  margin: 0 0 20px 0;
+  margin: 0;
 }
 ul.header-nav li {
   display: inline-block;
-  margin-left: 2ex;
+  height: 100%;
+  padding-left: 3ex;
+  padding-right: 3ex;
+}
+ul.header-nav li:hover {
+  background-color: #205c8a;
 }
 ul.header-nav li a {
   font-family: "Segoe UI", sans-serif;
   color: white;
+  line-height: 70px;
+  display: inline-block;
+  height: 70px;
 }
 ul.header-nav li a:hover,
 ul.header-nav li a:visisted {
@@ -284,7 +341,6 @@ ul.header-nav li a:visisted {
 }
 .outline.footer {
   height: auto;
-  background: white;
   min-height: 0;
 }
 .outline.footer ul {
@@ -427,8 +483,10 @@ ul.header-nav li a:visisted {
 .loading-animation.visible {
   visibility: visible;
 }
-.outline {
+body {
   background: #eaeaea;
+}
+.outline {
   max-width: 1366px;
   min-width: 480px;
   min-height: 100vh;
@@ -503,4 +561,11 @@ foobar {
 }
 a {
   text-decoration: none;
+}
+.post-header {
+  margin-bottom: 30px;
+  background-color: transparent;
+}
+ul.header-nav {
+  padding-left: 40px;
 }

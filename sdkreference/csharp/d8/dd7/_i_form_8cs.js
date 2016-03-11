@@ -15,6 +15,7 @@ var _i_form_8cs =
     ] ],
     [ "StepPhase", "d8/dd7/_i_form_8cs.html#a79547298fce3211abbc3bdb08df2f43b", null ],
     [ "StepType", "d8/dd7/_i_form_8cs.html#aa95d0c190a57f9bc63ec7e09473e4c6e", null ],
+    [ "CompletionDelegate< T >", "d8/dd7/_i_form_8cs.html#a580e0da562f6d2f8cb51ae20132091dc", null ],
     [ "ConditionalDelegate< T >", "d8/dd7/_i_form_8cs.html#a188cc0052e7c54f46ee8723103ae34a4", null ],
     [ "NextDelegate< T >", "d8/dd7/_i_form_8cs.html#abc0cdeb8424720b7add7990fcf9b0f27", null ]
 ];

@@ -48,40 +48,31 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-	<div class="outline">
-		<div class="header">
-			<a class="logo" href="//www.microsoft.com">
-				<svg class="svgicon svgicon-microsoft-color-logo">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo"/>
-				</svg>
-			</a>
-			<div class="loading-animation"></div>
-			<span></span>
-			<div class="rhs">
-				<div class="header-login">
-				</div>
-			</div>
-		</div>
-	</div>
+    <header>
+        <div class="outline">
+            <div class="header">
+                <a class="logo" href="//www.microsoft.com">
+                    <svg class="svgicon svgicon-microsoft-color-logo">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+                    </svg>
+                </a>
+                <div class="loading-animation"></div>
+                <span class="environment"></span>
+                <div>
+                </div>
+            </div>
+        </div>
+    </header>
 	<div class="brand-primary">
 		<div class="jumbo">
-			<div class="jumbo-header">
-				<a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a>
+			<div class="jumbo-header">Bot Framework</div>
+				<ul class="header-nav">
+					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
+				</ul>
 			</div>
-			<ul class="header-nav">
-				<li>
-					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots" class="active">My bots</a>
-				</li>
-				<li>
-					<a href="/">Documentation</a>
-				</li>
-				<li>
-					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a>
-				</li>
-				<li>
-					<a href="https://intercom-botdirectory-scratch.azurewebsites.net/">Bot Directory</a>
-				</li>
-			</ul>
 		</div>
 	</div>
 <!-- end header part -->
@@ -113,8 +104,9 @@ $(document).ready(function(){initNavTree('d1/da6/class_microsoft_1_1_bot_1_1_bui
   <tr><td class="entry"><a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html#a6206e93c24f9ad7c0a26734c6ac5f12d">Completed</a></td><td class="entry"><a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html">Microsoft.Bot.Builder.DialogResult</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html#a2ee20a9092233d197b7aebd7930ea076">Exception</a></td><td class="entry"><a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html">Microsoft.Bot.Builder.DialogResult</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#abe5aa913da2f86e6a7449305fc0f7b44">FormResult</a>(string id, T state)</td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#a64a220adc68ca666f6a248737d6ec3e4">FormResult</a>(string id, Exception exception)</td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#a5f0bf6a33c9ceec1fb26888dbe4b41a3">State</a></td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#a426b1757257a9fbbf4802d631cbbf386">FormResult</a>(string id)</td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#a64a220adc68ca666f6a248737d6ec3e4">FormResult</a>(string id, Exception exception)</td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html#a5f0bf6a33c9ceec1fb26888dbe4b41a3">State</a></td><td class="entry"><a class="el" href="../../d1/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_result.html">Microsoft.Bot.Builder.Form.FormResult&lt; T &gt;</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->

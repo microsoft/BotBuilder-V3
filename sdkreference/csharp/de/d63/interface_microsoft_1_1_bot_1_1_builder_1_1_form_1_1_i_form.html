@@ -48,40 +48,31 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-	<div class="outline">
-		<div class="header">
-			<a class="logo" href="//www.microsoft.com">
-				<svg class="svgicon svgicon-microsoft-color-logo">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo"/>
-				</svg>
-			</a>
-			<div class="loading-animation"></div>
-			<span></span>
-			<div class="rhs">
-				<div class="header-login">
-				</div>
-			</div>
-		</div>
-	</div>
+    <header>
+        <div class="outline">
+            <div class="header">
+                <a class="logo" href="//www.microsoft.com">
+                    <svg class="svgicon svgicon-microsoft-color-logo">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+                    </svg>
+                </a>
+                <div class="loading-animation"></div>
+                <span class="environment"></span>
+                <div>
+                </div>
+            </div>
+        </div>
+    </header>
 	<div class="brand-primary">
 		<div class="jumbo">
-			<div class="jumbo-header">
-				<a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a>
+			<div class="jumbo-header">Bot Framework</div>
+				<ul class="header-nav">
+					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
+				</ul>
 			</div>
-			<ul class="header-nav">
-				<li>
-					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots" class="active">My bots</a>
-				</li>
-				<li>
-					<a href="/">Documentation</a>
-				</li>
-				<li>
-					<a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a>
-				</li>
-				<li>
-					<a href="https://intercom-botdirectory-scratch.azurewebsites.net/">Bot Directory</a>
-				</li>
-			</ul>
 		</div>
 	</div>
 <!-- end header part -->
@@ -142,6 +133,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab41a0c28d054151cfb4a5876105291c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a0b07c6d13486e5942b1e8971fea822"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_fields.html">IFields</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a7a0b07c6d13486e5942b1e8971fea822">Fields</a> ()</td></tr>
 <tr class="separator:a7a0b07c6d13486e5942b1e8971fea822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc731d5baf45a23d57f775cf2077c08a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#acc731d5baf45a23d57f775cf2077c08a">OnCompletion</a> (CompletionDelegate&lt; T &gt; callback)</td></tr>
+<tr class="separator:acc731d5baf45a23d57f775cf2077c08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">Microsoft.Bot.Builder.IDialog</a></td></tr>
 <tr class="memitem:ac6cb267fe2b43ab2ced2aecac9c8c6b9 inherit pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#ac6cb267fe2b43ab2ced2aecac9c8c6b9">BeginAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, object args=null)</td></tr>
 <tr class="separator:ac6cb267fe2b43ab2ced2aecac9c8c6b9 inherit pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +160,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 </div>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00017">17</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a7aa4b3c6c4007e7ea8648492307c4071"></a>
 <div class="memitem">
@@ -430,6 +423,24 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a4752c2a26a0ad2abc3f99a009f283f36">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acc731d5baf45a23d57f775cf2077c08a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt;T&gt; <a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">Microsoft.Bot.Builder.Form.IForm</a>&lt; T &gt;.OnCompletion </td>
+          <td>(</td>
+          <td class="paramtype">CompletionDelegate&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#aa80bedf07bbfc956d7f0d72e8e8222c8">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>.</p>
 
 </div>
 </div>

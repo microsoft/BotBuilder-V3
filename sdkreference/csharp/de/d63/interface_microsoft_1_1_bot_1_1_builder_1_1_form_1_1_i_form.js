@@ -9,5 +9,6 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form =
     [ "Field", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#ab2af22c0f896589887cb949845ecb5b9", null ],
     [ "Field", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#af64e4895ab3785479890f616c7ec9430", null ],
     [ "Field", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#ab41a0c28d054151cfb4a5876105291c6", null ],
-    [ "Fields", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a7a0b07c6d13486e5942b1e8971fea822", null ]
+    [ "Fields", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a7a0b07c6d13486e5942b1e8971fea822", null ],
+    [ "OnCompletion", "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#acc731d5baf45a23d57f775cf2077c08a", null ]
 ];

@@ -11,6 +11,12 @@ var _annotations_8cs =
       [ "Yes", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a93cba07454f06a4a960172bbd6e2a435", null ],
       [ "No", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8abafd7322c6e97d25b6299b5d6fe8920b", null ]
     ] ],
+    [ "FeedbackOptions", "d3/dd4/_annotations_8cs.html#aea7fba55138daaa5828153e99614160d", [
+      [ "Default", "d3/dd4/_annotations_8cs.html#aea7fba55138daaa5828153e99614160da7a1920d61156abc05a60135aefe8bc67", null ],
+      [ "Auto", "d3/dd4/_annotations_8cs.html#aea7fba55138daaa5828153e99614160da06b9281e396db002010bde1de57262eb", null ],
+      [ "Always", "d3/dd4/_annotations_8cs.html#aea7fba55138daaa5828153e99614160da68eec46437c384d8dad18d5464ebc35c", null ],
+      [ "Never", "d3/dd4/_annotations_8cs.html#aea7fba55138daaa5828153e99614160da6e7b34fa59e1bd229b207892956dc41c", null ]
+    ] ],
     [ "PromptNormalization", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8df", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8dfa7a1920d61156abc05a60135aefe8bc67", null ],
       [ "Auto", "d3/dd4/_annotations_8cs.html#a0623beb69ca1766323dbb8ccb3b6a8dfa06b9281e396db002010bde1de57262eb", null ],
@@ -24,13 +30,14 @@ var _annotations_8cs =
       [ "PerLine", "d3/dd4/_annotations_8cs.html#a85d10e25c8a2448011842c66f7dc7732a2f15de9c45e5a145af424ac64d617aa0", null ]
     ] ],
     [ "TemplateUsage", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0", [
-      [ "SelectOne", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a67e85315f1af186e0c485a5bb335a48c", null ],
-      [ "SelectMany", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a2ee37614deb17a8497cfbc5f41eeba94", null ],
-      [ "NotUnderstood", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aca296fd71c8deadb1bccdad8e097bc50", null ],
       [ "Clarify", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a7f6cf09a6c241b092435452bdaa8162e", null ],
       [ "CurrentChoice", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a800c17cac7f40e8ca99b9c8c6221a73f", null ],
-      [ "NoPreference", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9c66f2227b4dc7054e34ea7bb3d1e010", null ],
+      [ "Feedback", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56", null ],
       [ "Help", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6a26f548831e6a8c26bfbbd9f6ec61e0", null ],
-      [ "NextStep", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9282a276e14082a54b4c4c46bb3640c9", null ]
+      [ "NextStep", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9282a276e14082a54b4c4c46bb3640c9", null ],
+      [ "NoPreference", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9c66f2227b4dc7054e34ea7bb3d1e010", null ],
+      [ "NotUnderstood", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aca296fd71c8deadb1bccdad8e097bc50", null ],
+      [ "SelectOne", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a67e85315f1af186e0c485a5bb335a48c", null ],
+      [ "SelectMany", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a2ee37614deb17a8497cfbc5f41eeba94", null ]
     ] ]
 ];

@@ -56,7 +56,8 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Form.Advanced.IRecognizer", "d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer", "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html", null ]
+      [ "Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer", "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html", null ],
+      [ "Microsoft.Bot.Builder.Form.Advanced.StringRecognizer", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Form.Advanced.Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.MatchAnalyzer", "dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html", null ],
