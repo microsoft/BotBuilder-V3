@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -115,22 +126,24 @@ $(document).ready(function(){initNavTree('functions_r.html','');});
 : <a class="el" href="d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html#a78167af8ed8ba3b1333d34c11dbec472">Microsoft.Bot.Builder.DialogResponse</a>
 </li>
 <li>ReplyReceivedAsync()
-: <a class="el" href="d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a233920e92938583f61387bd544da99d9">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>
-, <a class="el" href="d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#ad2cdf08ae1ba146c7f93e2980541516b">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a>
-, <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a4f9f3c6b63093a584150eab6cd30f276">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
-, <a class="el" href="da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a382055c935697df58d1cc00b91c674f2">Microsoft.Bot.Builder.IDialog</a>
-, <a class="el" href="d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#aac7d0a372ab74939acf9942ba8d4182c">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>
-, <a class="el" href="d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#ade89d72ca78f2705295ed2add348540e">Microsoft.Bot.Builder.PromptDialog</a>
+: <a class="el" href="d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aeaabe1179fc56c073a2f4e2cfb0a73ef">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>
+, <a class="el" href="d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#adf23d966dc98e68b00fa425d895f24ef">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a>
+, <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a11851a93f14e9045d4e9bc9a3b123711">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
+, <a class="el" href="da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a6f2606447e221183131a99bf35439d95">Microsoft.Bot.Builder.IDialog</a>
+, <a class="el" href="d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ae9d761be41aaa6823be2bd4cbee72ba4">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>
+, <a class="el" href="d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#add32355a5a28971ce9a2364d4a6f9002">Microsoft.Bot.Builder.PromptDialog</a>
 </li>
 <li>Reset()
-: <a class="el" href="d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#a5239056a92ddca668887fc0a36ab7f6e">Microsoft.Bot.Builder.ISession</a>
+: <a class="el" href="dc/d71/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_form_state.html#a9c50f85e5c9c834b424242d6936489c8">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FormState</a>
+, <a class="el" href="d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#a5239056a92ddca668887fc0a36ab7f6e">Microsoft.Bot.Builder.ISession</a>
 , <a class="el" href="d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a763f36326dc18403feed750748876338">Microsoft.Bot.Builder.Session</a>
 </li>
 <li>ResourceLocalizer()
 : <a class="el" href="d6/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_resource_localizer.html#aa75db09e4904380501506d1b242918a2">Microsoft.Bot.Builder.Form.Advanced.ResourceLocalizer</a>
 </li>
 <li>Response
-: <a class="el" href="d5/dee/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_result.html#abb572e41fa8659a06aaa553fc77fca4c">Microsoft.Bot.Builder.PromptDialogResult&lt; T &gt;</a>
+: <a class="el" href="db/d13/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_ambiguous.html#acbdc304903cdb57c7273948c021e45cc">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep.Ambiguous</a>
+, <a class="el" href="d5/dee/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_result.html#abb572e41fa8659a06aaa553fc77fca4c">Microsoft.Bot.Builder.PromptDialogResult&lt; T &gt;</a>
 </li>
 <li>ResumeHandler
 : <a class="el" href="d3/d59/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog_1_1_command_dialog_entry.html#a44fbcf2e2c9eeeb825ebe034bf4ed918">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;.CommandDialogEntry</a>
@@ -141,6 +154,11 @@ $(document).ready(function(){initNavTree('functions_r.html','');});
 </li>
 <li>RetryPrompt
 : <a class="el" href="d1/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_args.html#aacfc3be77d5d0969d6719830a5b9c7c0">Microsoft.Bot.Builder.PromptDialogArgs</a>
+</li>
+<li>Role()
+: <a class="el" href="d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#af155b3ceacfbeb09db1de3c6fd55a3e9">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>
+, <a class="el" href="d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#af974a81fe2d1ec6a347a9a92ee541b14">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>
+, <a class="el" href="df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a683a45f4daad945e83bf1e101604d1ab">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>
 </li>
 </ul>
 </div><!-- contents -->

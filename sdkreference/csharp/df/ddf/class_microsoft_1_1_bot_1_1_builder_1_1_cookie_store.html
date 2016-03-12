@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -115,8 +126,8 @@ Inheritance diagram for Microsoft.Bot.Builder.CookieStore:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e704a322b05d43f85664e32dc3968dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_store.html#a7e704a322b05d43f85664e32dc3968dc">CookieStore</a> (HttpRequestMessage request, TimeSpan?maxAge=null)</td></tr>
 <tr class="separator:a7e704a322b05d43f85664e32dc3968dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3950e199e75cb696773249786e7cc9d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_store.html#a3950e199e75cb696773249786e7cc9d5">AddSavedStateToCoockies</a> (ref HttpResponseMessage response)</td></tr>
-<tr class="separator:a3950e199e75cb696773249786e7cc9d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e0eaca48e6885cb018dd688213888b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_store.html#ae2e0eaca48e6885cb018dd688213888b">AddSavedStateToCookies</a> (ref HttpResponseMessage response)</td></tr>
+<tr class="separator:ae2e0eaca48e6885cb018dd688213888b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bd9c8b3328542102a703fea5394d029"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_store.html#a2bd9c8b3328542102a703fea5394d029">Load</a> (string Id)</td></tr>
 <tr class="separator:a2bd9c8b3328542102a703fea5394d029"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfef5f924b7d1a48e9c88c7f989b1e13"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_store.html#abfef5f924b7d1a48e9c88c7f989b1e13">LoadAsync</a> (string Id)</td></tr>
@@ -167,7 +178,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3950e199e75cb696773249786e7cc9d5"></a>
+<a class="anchor" id="ae2e0eaca48e6885cb018dd688213888b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -175,7 +186,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Microsoft.Bot.Builder.CookieStore.AddSavedStateToCoockies </td>
+          <td class="memname">void Microsoft.Bot.Builder.CookieStore.AddSavedStateToCookies </td>
           <td>(</td>
           <td class="paramtype">ref HttpResponseMessage&#160;</td>
           <td class="paramname"><em>response</em></td><td>)</td>

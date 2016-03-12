@@ -3,7 +3,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base =
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a3b53958e6ac264601c0e77b540d0d547", null ],
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a7cc4438f23e38af2d97e9f35a18c7915", null ],
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#adc4bc686a4b50c2f27a9252aad5c819b", null ],
-    [ "ApplyDefaults", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a3aa650f70f77cee3857cbe82f53a741c", null ],
+    [ "ApplyDefaults", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a885b62928669f7da1763576a18c41550", null ],
     [ "Template", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a324de6b542a621799810e3da408cc766", null ],
     [ "Templates", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a4658400304d4795899c4ead6d17bf95c", null ],
     [ "AllowDefault", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a14377b2ce3b6c374d53641cb7813f0c3", null ],

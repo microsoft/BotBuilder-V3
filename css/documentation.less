@@ -1,0 +1,114 @@
+﻿@import "../Less/_variables.less";
+@import "../Less/_icons.less";
+@import "../Less/_mixins.less";
+@import "../Less/_fonts.less";
+@import "../Less/_reset.less";
+@import "../Less/_grid.less";
+@import "../Less/_header.less";
+@import "../Less/_palette.less";
+@import "../Less/_dialog.less";
+@import "../Less/_error.less";
+@import "../Less/_loading.less";
+@import "../Less/_page.less";
+
+body, table, div, p, dl {
+    font: @base-font-size @font-family;
+}
+
+#side-nav {
+    width: 250px;
+    position: relative;
+    float: left;
+    padding: 0 10px;
+
+    ul {
+        list-style-type: none;
+    }
+}
+
+.navselected, .navselected:visited, .navselected:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+#doc-content {
+    overflow: auto;
+    padding: 0 20px;
+}
+
+article:after {
+    clear: both;
+}
+
+.site-footer {
+    padding: 20px 0;
+}
+
+
+.ms-footer {
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.ms-footer a, .ms-footer span {
+    margin-right: 25px;
+}
+
+.ms-footer img {
+    vertical-align: middle;
+}
+
+foobar {
+    border-color: #000;
+}
+
+.level0 {
+}
+
+.level1.parent {
+}
+
+.level1.child {
+    padding-left: 30px;
+}
+
+.level2.parent {
+    padding-left: 30px;
+}
+
+.level2.child {
+    padding-left: 50px;
+}
+
+.parent {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.child {
+}
+
+a {
+    text-decoration: none;
+}
+
+.post-header {
+    margin-bottom: 30px;
+    background-color: transparent;
+}
+
+ul.header-nav {
+    padding-left: 40px;
+}
+
+.post {
+    padding: 30px 0;
+}
+
+a:visited {
+    color: #1756a9;
+}
+
+.trigger div {
+    padding: 4px 0;
+}

@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -120,12 +131,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a52ff0f904ea2b2a159bddef9c55a0145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe6e9d2d0908cda7d6fd3ce7604a6570"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#afe6e9d2d0908cda7d6fd3ce7604a6570">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider, bool isDefaultDialog=false)</td></tr>
 <tr class="separator:afe6e9d2d0908cda7d6fd3ce7604a6570"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cd858d534579104dbe80283f9330e33"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1cd858d534579104dbe80283f9330e33">BeginAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, TArgs args=default(TArgs))</td></tr>
-<tr class="separator:a1cd858d534579104dbe80283f9330e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549724047cc15b0ef5ffec28f09ed694"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a549724047cc15b0ef5ffec28f09ed694">DialogResumedAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, TResult result=default(TResult))</td></tr>
-<tr class="separator:a549724047cc15b0ef5ffec28f09ed694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2cdf08ae1ba146c7f93e2980541516b"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#ad2cdf08ae1ba146c7f93e2980541516b">ReplyReceivedAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session)</td></tr>
-<tr class="separator:ad2cdf08ae1ba146c7f93e2980541516b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71217b1f0599a9a09e2616e1fcc39d44"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a71217b1f0599a9a09e2616e1fcc39d44">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TArgs args=default(TArgs))</td></tr>
+<tr class="separator:a71217b1f0599a9a09e2616e1fcc39d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a512b6f745542c2b54b00f59d5607c3e1"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a512b6f745542c2b54b00f59d5607c3e1">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TResult result=default(TResult))</td></tr>
+<tr class="separator:a512b6f745542c2b54b00f59d5607c3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf23d966dc98e68b00fa425d895f24ef"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#adf23d966dc98e68b00fa425d895f24ef">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
+<tr class="separator:adf23d966dc98e68b00fa425d895f24ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -220,7 +231,7 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a1cd858d534579104dbe80283f9330e33"></a>
+<a class="anchor" id="a71217b1f0599a9a09e2616e1fcc39d44"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -230,7 +241,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">virtual async Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog</a>&lt; TArgs, TResult &gt;.BeginAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em>, </td>
         </tr>
         <tr>
@@ -256,7 +267,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a549724047cc15b0ef5ffec28f09ed694"></a>
+<a class="anchor" id="a512b6f745542c2b54b00f59d5607c3e1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -266,7 +277,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">virtual async Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog</a>&lt; TArgs, TResult &gt;.DialogResumedAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em>, </td>
         </tr>
         <tr>
@@ -288,13 +299,13 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a2cd06aa8609488d8d833939f90fdaa35">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, and <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a9f01775ea04d05fca603a0eb54f2a6a2">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>.</p>
+<p>Reimplemented in <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a6e05310b8f47a9479b4baa9cead9f2a7">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, and <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a965fb7eee5533068d039864bbe9f039d">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>.</p>
 
 <p>Definition at line <a class="el" href="../../d0/de9/_dialog_8cs_source.html#l00035">35</a> of file <a class="el" href="../../d0/de9/_dialog_8cs_source.html">Dialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad2cdf08ae1ba146c7f93e2980541516b"></a>
+<a class="anchor" id="adf23d966dc98e68b00fa425d895f24ef"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -304,7 +315,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">abstract Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog</a>&lt; TArgs, TResult &gt;.ReplyReceivedAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em></td><td>)</td>
           <td></td>
         </tr>
@@ -316,9 +327,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a382055c935697df58d1cc00b91c674f2">Microsoft.Bot.Builder.IDialog</a>.</p>
+<p>Implements <a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a6f2606447e221183131a99bf35439d95">Microsoft.Bot.Builder.IDialog</a>.</p>
 
-<p>Implemented in <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#aac7d0a372ab74939acf9942ba8d4182c">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#ade89d72ca78f2705295ed2add348540e">Microsoft.Bot.Builder.PromptDialog</a>, and <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a233920e92938583f61387bd544da99d9">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ae9d761be41aaa6823be2bd4cbee72ba4">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#add32355a5a28971ce9a2364d4a6f9002">Microsoft.Bot.Builder.PromptDialog</a>, and <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aeaabe1179fc56c073a2f4e2cfb0a73ef">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>.</p>
 
 </div>
 </div>

@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -100,11 +111,22 @@ $(document).ready(function(){initNavTree('functions_func_m.html','');});
 <li>Map()
 : <a class="el" href="d3/dab/class_microsoft_1_1_bot_1_1_builder_1_1_console_session.html#a964d60a1b22bb080d29ca4e2ba3627a8">Microsoft.Bot.Builder.ConsoleSession</a>
 </li>
+<li>Match()
+: <a class="el" href="d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aef6cd57eb5797a9fd7c53d011203544a">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.ConfirmStep</a>
+, <a class="el" href="d0/de2/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step.html#ac76f7638ed3fa0a134694e1bcd3b8e31">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep</a>
+, <a class="el" href="d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#ac78989b468cdd413b4ac518c3ff83774">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.IStep</a>
+, <a class="el" href="d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#ae6b0e7693e2ca8483973bb2bb1b4c8e7">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.MessageStep</a>
+, <a class="el" href="d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a2326b80888d858cd8645d2488b17f5d5">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.NavigationStep</a>
+</li>
 <li>Matches()
 : <a class="el" href="d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a6778997e3fc54d47117f3143567d931f">Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer</a>
 , <a class="el" href="d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a1ea145e4cb82c5d85fa5978f2e49ca44">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a>
 , <a class="el" href="de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae6254812cd3aa77db49c6a8551f0a58d">Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer</a>
 , <a class="el" href="d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html#a05a9cf76a289c5316ba8ecebcfcd95de">Microsoft.Bot.Builder.Form.Advanced.StringRecognizer</a>
+</li>
+<li>Message()
+: <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#aa811e76783632669ae98406284038b7d">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
+, <a class="el" href="de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a439dedc1552187654270555f04d0ff36">Microsoft.Bot.Builder.Form.IForm&lt; T &gt;</a>
 </li>
 <li>MessageReceived()
 : <a class="el" href="d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#ac86ca0784e34016fa5acc74df1906b85">Microsoft.Bot.Builder.ConnectorSession</a>
@@ -114,8 +136,14 @@ $(document).ready(function(){initNavTree('functions_func_m.html','');});
 : <a class="el" href="d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a1efc3d8b1990b35fcfa0dfc4b5d5c2d7">Microsoft.Bot.Builder.ConnectorSession</a>
 , <a class="el" href="d3/dab/class_microsoft_1_1_bot_1_1_builder_1_1_console_session.html#a008394d63351c60ec80a24d6d7366477">Microsoft.Bot.Builder.ConsoleSession</a>
 </li>
+<li>MessageStep()
+: <a class="el" href="d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a25017670ac4885b9077280daba4a263f">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.MessageStep</a>
+</li>
 <li>MessageStore()
 : <a class="el" href="de/d84/class_microsoft_1_1_bot_1_1_builder_1_1_message_store.html#ae58134312800228658652f6282a243db">Microsoft.Bot.Builder.MessageStore</a>
+</li>
+<li>MoveToNext()
+: <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#afd3aade4c8702ba06d6303386289ea6c">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

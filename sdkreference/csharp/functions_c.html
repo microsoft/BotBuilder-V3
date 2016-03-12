@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -118,6 +129,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>Choices
 : <a class="el" href="d1/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_args.html#a896ad027e487b2cc3d6798daa2015bd9">Microsoft.Bot.Builder.PromptDialogArgs</a>
 </li>
+<li>Clarifications
+: <a class="el" href="d0/d59/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_field_step_state.html#aedb8d678e3bdc8212a2d6ef41a891821">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep.FieldStepState</a>
+</li>
 <li>CommandDialog()
 : <a class="el" href="d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a08a78fda2591dfd5ca47baff37f1c217">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>
 </li>
@@ -144,12 +158,15 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a5bd2927882d288f1ec6913d63c46163b">Microsoft.Bot.Builder.Form.IForm&lt; T &gt;</a>
 </li>
 <li>Confirm()
-: <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a488293c7bca2d8023d93b2c04518ab25">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
-, <a class="el" href="de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#aff1b1ed12e30721822f059add9620efb">Microsoft.Bot.Builder.Form.IForm&lt; T &gt;</a>
+: <a class="el" href="d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a08a234453f102a95f7b5fb8de6fe9cd6">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>
+, <a class="el" href="de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a7cae67be89817db01197ef4a1d099b53">Microsoft.Bot.Builder.Form.IForm&lt; T &gt;</a>
 , <a class="el" href="de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts.html#a94538404bfa8e08499c1b56d2944c3a1">Microsoft.Bot.Builder.Prompts</a>
 </li>
 <li>Confirmation()
 : <a class="el" href="d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#aa97fed6053b94fad77dabe0f2f89c85e">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>
+</li>
+<li>ConfirmStep()
+: <a class="el" href="d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aef84245b768eda99e33c898a3a2c3d02">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.ConfirmStep</a>
 </li>
 <li>ConnectorSession()
 : <a class="el" href="d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a0ad9ff1a341d66ab6ea9949700566224">Microsoft.Bot.Builder.ConnectorSession</a>
@@ -170,7 +187,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="da/d17/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_helper.html#abc04b1dc2679edb865cde61607c4466f">Microsoft.Bot.Builder.CookieHelper</a>
 </li>
 <li>CreateDialogErrorResponse()
-: <a class="el" href="d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ab8b55bf0898327e50a28f8840fb70bf6">Microsoft.Bot.Builder.ISession</a>
+: <a class="el" href="d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#aa2b6293e8fe4c8a79527f8a280a3788a">Microsoft.Bot.Builder.ISession</a>
 , <a class="el" href="d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a7835d02fd31119dccc2feaf2a1fc7dc1">Microsoft.Bot.Builder.Session</a>
 </li>
 <li>CreateDialogResponse()
@@ -186,6 +203,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>Culture()
 : <a class="el" href="d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html#a1ac5ee827ef04a1d301947b5873ec75a">Microsoft.Bot.Builder.Form.Advanced.ILocalizer</a>
 , <a class="el" href="d6/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_resource_localizer.html#ae91d04abc56d467d45e2cecc5a566867">Microsoft.Bot.Builder.Form.Advanced.ResourceLocalizer</a>
+, <a class="el" href="dc/d71/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_form_state.html#aa004159680360dad4fa17b8baedeec80">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FormState</a>
 </li>
 </ul>
 </div><!-- contents -->

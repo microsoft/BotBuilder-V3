@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -109,12 +120,13 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T
  <div class="center">
   <img src="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.png" usemap="#Microsoft.Bot.Builder.Form.Advanced.FieldReflector_3C_20T_20_3E_map" alt=""/>
   <map id="Microsoft.Bot.Builder.Form.Advanced.FieldReflector_3C_20T_20_3E_map" name="Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;_map">
+<area href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html" alt="Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;" shape="rect" coords="351,112,692,136"/>
 <area href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html" alt="Microsoft.Bot.Builder.Form.Advanced.IField&lt; T &gt;" shape="rect" coords="351,56,692,80"/>
 <area href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html" alt="Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;" shape="rect" coords="0,0,341,24"/>
 <area href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html" alt="Microsoft.Bot.Builder.Form.Advanced.IFieldDescription" shape="rect" coords="351,0,692,24"/>
 <area href="../../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html" alt="Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;" shape="rect" coords="702,0,1043,24"/>
-<area href="../../d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html" alt="Microsoft.Bot.Builder.Form.Advanced.Conditional&lt; T &gt;" shape="rect" coords="175,168,516,192"/>
-<area href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html" alt="Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;" shape="rect" coords="526,168,867,192"/>
+<area href="../../d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html" alt="Microsoft.Bot.Builder.Form.Advanced.Conditional&lt; T &gt;" shape="rect" coords="175,224,516,248"/>
+<area href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html" alt="Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;" shape="rect" coords="526,224,867,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -122,117 +134,135 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afdaf18556890c54216d2b97d8adc7cb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#afdaf18556890c54216d2b97d8adc7cb3">FieldReflector</a> (string name, bool ignoreAnnotations=false)</td></tr>
 <tr class="separator:afdaf18556890c54216d2b97d8adc7cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08dc689be7f16e1562ed8d229aa75121"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a08dc689be7f16e1562ed8d229aa75121">Active</a> (T state)</td></tr>
-<tr class="memdesc:a08dc689be7f16e1562ed8d229aa75121"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if field is currently active based on the current state.  <a href="#a08dc689be7f16e1562ed8d229aa75121">More...</a><br /></td></tr>
-<tr class="separator:a08dc689be7f16e1562ed8d229aa75121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad27c03062e4826b4f4257a75e67b844e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ad27c03062e4826b4f4257a75e67b844e">AddDescription</a> (object value, string description)</td></tr>
-<tr class="separator:ad27c03062e4826b4f4257a75e67b844e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d7026c6f6350fe0448172b1892e8587"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a9d7026c6f6350fe0448172b1892e8587">AddTerms</a> (object value, IEnumerable&lt; string &gt; terms)</td></tr>
-<tr class="separator:a9d7026c6f6350fe0448172b1892e8587"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a813bc18c5ad103db59e223fe71b519cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a813bc18c5ad103db59e223fe71b519cd">AllowDefault</a> ()</td></tr>
-<tr class="memdesc:a813bc18c5ad103db59e223fe71b519cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow the default value as an option.  <a href="#a813bc18c5ad103db59e223fe71b519cd">More...</a><br /></td></tr>
-<tr class="separator:a813bc18c5ad103db59e223fe71b519cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad378bfaa4a0ff318cc9e25eb95dc4b02"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ad378bfaa4a0ff318cc9e25eb95dc4b02">AllowNumbers</a> ()</td></tr>
-<tr class="memdesc:ad378bfaa4a0ff318cc9e25eb95dc4b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow numbers to be matched.  <a href="#ad378bfaa4a0ff318cc9e25eb95dc4b02">More...</a><br /></td></tr>
-<tr class="separator:ad378bfaa4a0ff318cc9e25eb95dc4b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d7ec5d67a92ae9cecab0785a1a005dc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a1d7ec5d67a92ae9cecab0785a1a005dc">AllowsMultiple</a> ()</td></tr>
-<tr class="memdesc:a1d7ec5d67a92ae9cecab0785a1a005dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are multiple matches allowed.  <a href="#a1d7ec5d67a92ae9cecab0785a1a005dc">More...</a><br /></td></tr>
-<tr class="separator:a1d7ec5d67a92ae9cecab0785a1a005dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92d28b700a8262d99d3261538a0f1a01"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a92d28b700a8262d99d3261538a0f1a01">Dependencies</a> ()</td></tr>
-<tr class="memdesc:a92d28b700a8262d99d3261538a0f1a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the other fields this one depends on.  <a href="#a92d28b700a8262d99d3261538a0f1a01">More...</a><br /></td></tr>
-<tr class="separator:a92d28b700a8262d99d3261538a0f1a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cd9c49c28ff56be294aca4fc76b9aaa"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a1cd9c49c28ff56be294aca4fc76b9aaa">Description</a> ()</td></tr>
-<tr class="memdesc:a1cd9c49c28ff56be294aca4fc76b9aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decription of the field itself.  <a href="#a1cd9c49c28ff56be294aca4fc76b9aaa">More...</a><br /></td></tr>
-<tr class="separator:a1cd9c49c28ff56be294aca4fc76b9aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ea8ff81f4c0b1ae37951e8da84f8351"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a6ea8ff81f4c0b1ae37951e8da84f8351">Description</a> (string description)</td></tr>
-<tr class="separator:a6ea8ff81f4c0b1ae37951e8da84f8351"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac7259b0279be97ba23218b04cfe99d"><td class="memItemLeft" align="right" valign="top">virtual object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a5ac7259b0279be97ba23218b04cfe99d">GetValue</a> (T state)</td></tr>
-<tr class="memdesc:a5ac7259b0279be97ba23218b04cfe99d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a value from state.  <a href="#a5ac7259b0279be97ba23218b04cfe99d">More...</a><br /></td></tr>
-<tr class="separator:a5ac7259b0279be97ba23218b04cfe99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f01717361681e0d24b4c8868438fa66"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a4f01717361681e0d24b4c8868438fa66">IsUnknown</a> (T state)</td></tr>
-<tr class="memdesc:a4f01717361681e0d24b4c8868438fa66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if a value in T is known or not.  <a href="#a4f01717361681e0d24b4c8868438fa66">More...</a><br /></td></tr>
-<tr class="separator:a4f01717361681e0d24b4c8868438fa66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08e055f30ccde4400481fe4f20c6f481"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a08e055f30ccde4400481fe4f20c6f481">Name</a> ()</td></tr>
-<tr class="separator:a08e055f30ccde4400481fe4f20c6f481"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af28e0354fec975ff53cb80a406d17aed"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html">NextStep</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#af28e0354fec975ff53cb80a406d17aed">Next</a> (object value, T state)</td></tr>
-<tr class="memdesc:af28e0354fec975ff53cb80a406d17aed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Next step to execute.  <a href="#af28e0354fec975ff53cb80a406d17aed">More...</a><br /></td></tr>
-<tr class="separator:af28e0354fec975ff53cb80a406d17aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdc0f2c7e99f1037f0880cddf5490131"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#acdc0f2c7e99f1037f0880cddf5490131">Optional</a> ()</td></tr>
-<tr class="memdesc:acdc0f2c7e99f1037f0880cddf5490131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if field is optional which means that no value is legal.  <a href="#acdc0f2c7e99f1037f0880cddf5490131">More...</a><br /></td></tr>
-<tr class="separator:acdc0f2c7e99f1037f0880cddf5490131"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a254d9dfc4d2314d08e0a6c34a5c5337b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a254d9dfc4d2314d08e0a6c34a5c5337b">Optional</a> (bool optional=true)</td></tr>
-<tr class="separator:a254d9dfc4d2314d08e0a6c34a5c5337b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab724b98888348f5f6552e26e2b7ab19f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">IPrompt</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ab724b98888348f5f6552e26e2b7ab19f">Prompt</a> ()</td></tr>
-<tr class="memdesc:ab724b98888348f5f6552e26e2b7ab19f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the prompt associated with a field.  <a href="#ab724b98888348f5f6552e26e2b7ab19f">More...</a><br /></td></tr>
-<tr class="separator:ab724b98888348f5f6552e26e2b7ab19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2383510937214e30b0ec23e2080ee5f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a2383510937214e30b0ec23e2080ee5f2">Prompt</a> (<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> prompt)</td></tr>
-<tr class="separator:a2383510937214e30b0ec23e2080ee5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a778519b6df8d29155933fe0cfcf8c690"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a778519b6df8d29155933fe0cfcf8c690">SetForm</a> (<a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt; form)</td></tr>
-<tr class="separator:a778519b6df8d29155933fe0cfcf8c690"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9ae9d83634510065a13cb72bc80c082"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ae9ae9d83634510065a13cb72bc80c082">SetUnknown</a> (T state)</td></tr>
-<tr class="memdesc:ae9ae9d83634510065a13cb72bc80c082"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a value in T to unknown.  <a href="#ae9ae9d83634510065a13cb72bc80c082">More...</a><br /></td></tr>
-<tr class="separator:ae9ae9d83634510065a13cb72bc80c082"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6456849573184ccbec5a58406731a0e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ab6456849573184ccbec5a58406731a0e">SetValue</a> (T state, object value)</td></tr>
-<tr class="memdesc:ab6456849573184ccbec5a58406731a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a value in T.  <a href="#ab6456849573184ccbec5a58406731a0e">More...</a><br /></td></tr>
-<tr class="separator:ab6456849573184ccbec5a58406731a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fe84a8259bcf9fcc8a01e7ea9f37da9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a5fe84a8259bcf9fcc8a01e7ea9f37da9">Template</a> (<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a> usage)</td></tr>
-<tr class="memdesc:a5fe84a8259bcf9fcc8a01e7ea9f37da9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a template for building a prompt.  <a href="#a5fe84a8259bcf9fcc8a01e7ea9f37da9">More...</a><br /></td></tr>
-<tr class="separator:a5fe84a8259bcf9fcc8a01e7ea9f37da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2030b6869ff52664b82ffe059a8454"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a2b2030b6869ff52664b82ffe059a8454">Template</a> (<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> template)</td></tr>
-<tr class="separator:a2b2030b6869ff52664b82ffe059a8454"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae463a63d90b220ded312ff2d4c16782"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#aae463a63d90b220ded312ff2d4c16782">Terms</a> ()</td></tr>
-<tr class="memdesc:aae463a63d90b220ded312ff2d4c16782"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> for matching this field.  <a href="#aae463a63d90b220ded312ff2d4c16782">More...</a><br /></td></tr>
-<tr class="separator:aae463a63d90b220ded312ff2d4c16782"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34bfd2990b060402a853aef8a0f93daa"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a34bfd2990b060402a853aef8a0f93daa">Terms</a> (object value)</td></tr>
-<tr class="memdesc:a34bfd2990b060402a853aef8a0f93daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an object return terms that can be used in a dialog to match the object.  <a href="#a34bfd2990b060402a853aef8a0f93daa">More...</a><br /></td></tr>
-<tr class="separator:a34bfd2990b060402a853aef8a0f93daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8a7d2a9945acc82e079c79a0e22075c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ae8a7d2a9945acc82e079c79a0e22075c">Terms</a> (IEnumerable&lt; string &gt; terms)</td></tr>
-<tr class="separator:ae8a7d2a9945acc82e079c79a0e22075c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7234ccd35dfe1847f6e86bafcea57ad8"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a7234ccd35dfe1847f6e86bafcea57ad8">ValueDescription</a> (object value)</td></tr>
-<tr class="memdesc:a7234ccd35dfe1847f6e86bafcea57ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the string describing a specific value.  <a href="#a7234ccd35dfe1847f6e86bafcea57ad8">More...</a><br /></td></tr>
-<tr class="separator:a7234ccd35dfe1847f6e86bafcea57ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9739883a7c3e15eabc63b31e5c3c7683"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a9739883a7c3e15eabc63b31e5c3c7683">ValueDescriptions</a> ()</td></tr>
-<tr class="memdesc:a9739883a7c3e15eabc63b31e5c3c7683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible value descriptions in order to support enumeration.  <a href="#a9739883a7c3e15eabc63b31e5c3c7683">More...</a><br /></td></tr>
-<tr class="separator:a9739883a7c3e15eabc63b31e5c3c7683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d0489ea90f569b025cba0efea282cf"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a21d0489ea90f569b025cba0efea282cf">Values</a> ()</td></tr>
-<tr class="memdesc:a21d0489ea90f569b025cba0efea282cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">All possible values or null if it is a data type like number.  <a href="#a21d0489ea90f569b025cba0efea282cf">More...</a><br /></td></tr>
-<tr class="separator:a21d0489ea90f569b025cba0efea282cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a614bb171dd46d40149626d6bb6318069"><td class="memItemLeft" align="right" valign="top">override object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a614bb171dd46d40149626d6bb6318069">GetValue</a> (T state)</td></tr>
+<tr class="memdesc:a614bb171dd46d40149626d6bb6318069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a value from state.  <a href="#a614bb171dd46d40149626d6bb6318069">More...</a><br /></td></tr>
+<tr class="separator:a614bb171dd46d40149626d6bb6318069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe78a110032b95ffd21d6d6455d705"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#addfe78a110032b95ffd21d6d6455d705">IsUnknown</a> (T state)</td></tr>
+<tr class="memdesc:addfe78a110032b95ffd21d6d6455d705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if a value in T is known or not.  <a href="#addfe78a110032b95ffd21d6d6455d705">More...</a><br /></td></tr>
+<tr class="separator:addfe78a110032b95ffd21d6d6455d705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7cf9d4be577484ba7a493ebbb452904"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">IPrompt</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ae7cf9d4be577484ba7a493ebbb452904">Prompt</a> ()</td></tr>
+<tr class="memdesc:ae7cf9d4be577484ba7a493ebbb452904"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the prompt associated with a field.  <a href="#ae7cf9d4be577484ba7a493ebbb452904">More...</a><br /></td></tr>
+<tr class="separator:ae7cf9d4be577484ba7a493ebbb452904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a059020999b6e758f786ac5ed131304"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a7a059020999b6e758f786ac5ed131304">SetUnknown</a> (T state)</td></tr>
+<tr class="memdesc:a7a059020999b6e758f786ac5ed131304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a value in T to unknown.  <a href="#a7a059020999b6e758f786ac5ed131304">More...</a><br /></td></tr>
+<tr class="separator:a7a059020999b6e758f786ac5ed131304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36f154927e37f83676cd21703fe97419"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a36f154927e37f83676cd21703fe97419">SetValue</a> (T state, object value)</td></tr>
+<tr class="memdesc:a36f154927e37f83676cd21703fe97419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a value in T.  <a href="#a36f154927e37f83676cd21703fe97419">More...</a><br /></td></tr>
+<tr class="separator:a36f154927e37f83676cd21703fe97419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a></td></tr>
+<tr class="memitem:a3ad7c5d2e05e22136d2b7250d81e620e inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a3ad7c5d2e05e22136d2b7250d81e620e">Field</a> (string name, <a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#a823c964613e0be566a50408f5407c44f">FieldRole</a> role)</td></tr>
+<tr class="separator:a3ad7c5d2e05e22136d2b7250d81e620e inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2cdebd1267a37457d4c676d421bc55a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ab2cdebd1267a37457d4c676d421bc55a">Active</a> (T state)</td></tr>
+<tr class="memdesc:ab2cdebd1267a37457d4c676d421bc55a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if field is currently active based on the current state.  <a href="#ab2cdebd1267a37457d4c676d421bc55a">More...</a><br /></td></tr>
+<tr class="separator:ab2cdebd1267a37457d4c676d421bc55a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520697511c024206a0aec443d07c7b35 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a520697511c024206a0aec443d07c7b35">AddDescription</a> (object value, string description)</td></tr>
+<tr class="separator:a520697511c024206a0aec443d07c7b35 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50190a3fef06f98fdc36ae3e1116c6b1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a50190a3fef06f98fdc36ae3e1116c6b1">AddTerms</a> (object value, IEnumerable&lt; string &gt; terms)</td></tr>
+<tr class="separator:a50190a3fef06f98fdc36ae3e1116c6b1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac577fe5f775d7a8321f4eac40ce9f055 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ac577fe5f775d7a8321f4eac40ce9f055">AllowDefault</a> ()</td></tr>
+<tr class="memdesc:ac577fe5f775d7a8321f4eac40ce9f055 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow the default value as an option.  <a href="#ac577fe5f775d7a8321f4eac40ce9f055">More...</a><br /></td></tr>
+<tr class="separator:ac577fe5f775d7a8321f4eac40ce9f055 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a305cdb0ff021c252b7d56a8d1959a3bb inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a305cdb0ff021c252b7d56a8d1959a3bb">AllowNumbers</a> ()</td></tr>
+<tr class="memdesc:a305cdb0ff021c252b7d56a8d1959a3bb inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow numbers to be matched.  <a href="#a305cdb0ff021c252b7d56a8d1959a3bb">More...</a><br /></td></tr>
+<tr class="separator:a305cdb0ff021c252b7d56a8d1959a3bb inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5891be3695a6ac811a5b7286f3eb9e3a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a5891be3695a6ac811a5b7286f3eb9e3a">AllowsMultiple</a> ()</td></tr>
+<tr class="memdesc:a5891be3695a6ac811a5b7286f3eb9e3a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are multiple matches allowed.  <a href="#a5891be3695a6ac811a5b7286f3eb9e3a">More...</a><br /></td></tr>
+<tr class="separator:a5891be3695a6ac811a5b7286f3eb9e3a inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d694627ecc11759cd5c75f180148b3e inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a8d694627ecc11759cd5c75f180148b3e">Dependencies</a> ()</td></tr>
+<tr class="memdesc:a8d694627ecc11759cd5c75f180148b3e inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the other fields this one depends on.  <a href="#a8d694627ecc11759cd5c75f180148b3e">More...</a><br /></td></tr>
+<tr class="separator:a8d694627ecc11759cd5c75f180148b3e inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab77517e85559afb12b8820bf58afde inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a1ab77517e85559afb12b8820bf58afde">Description</a> ()</td></tr>
+<tr class="memdesc:a1ab77517e85559afb12b8820bf58afde inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decription of the field itself.  <a href="#a1ab77517e85559afb12b8820bf58afde">More...</a><br /></td></tr>
+<tr class="separator:a1ab77517e85559afb12b8820bf58afde inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a7500d0d516c859865396213dec1f54 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a3a7500d0d516c859865396213dec1f54">Description</a> (string description)</td></tr>
+<tr class="separator:a3a7500d0d516c859865396213dec1f54 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37155fd2631650cf1db349140e20a45 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ab37155fd2631650cf1db349140e20a45">Name</a> ()</td></tr>
+<tr class="separator:ab37155fd2631650cf1db349140e20a45 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fb7c7ff6d8c17f209cb2956f41c052 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html">NextStep</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a55fb7c7ff6d8c17f209cb2956f41c052">Next</a> (object value, T state)</td></tr>
+<tr class="memdesc:a55fb7c7ff6d8c17f209cb2956f41c052 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Next step to execute.  <a href="#a55fb7c7ff6d8c17f209cb2956f41c052">More...</a><br /></td></tr>
+<tr class="separator:a55fb7c7ff6d8c17f209cb2956f41c052 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cca315a94810be0ded858e2002a20be inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a7cca315a94810be0ded858e2002a20be">Optional</a> ()</td></tr>
+<tr class="memdesc:a7cca315a94810be0ded858e2002a20be inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if field is optional which means that no value is legal.  <a href="#a7cca315a94810be0ded858e2002a20be">More...</a><br /></td></tr>
+<tr class="separator:a7cca315a94810be0ded858e2002a20be inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b6c9517785212910067009a604297bd inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a4b6c9517785212910067009a604297bd">Optional</a> (bool optional=true)</td></tr>
+<tr class="separator:a4b6c9517785212910067009a604297bd inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c9832f67c8371be71e076d53e0a1431 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a7c9832f67c8371be71e076d53e0a1431">Prompt</a> (<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> prompt)</td></tr>
+<tr class="separator:a7c9832f67c8371be71e076d53e0a1431 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af974a81fe2d1ec6a347a9a92ee541b14 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#a823c964613e0be566a50408f5407c44f">FieldRole</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#af974a81fe2d1ec6a347a9a92ee541b14">Role</a> ()</td></tr>
+<tr class="memdesc:af974a81fe2d1ec6a347a9a92ee541b14 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of field.  <a href="#af974a81fe2d1ec6a347a9a92ee541b14">More...</a><br /></td></tr>
+<tr class="separator:af974a81fe2d1ec6a347a9a92ee541b14 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2269635a79620df964b25f5f966e964 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ac2269635a79620df964b25f5f966e964">SetForm</a> (<a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt; form)</td></tr>
+<tr class="separator:ac2269635a79620df964b25f5f966e964 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02253ae22eaafa5c6d47716cfae080c0 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a02253ae22eaafa5c6d47716cfae080c0">Template</a> (<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a> usage)</td></tr>
+<tr class="memdesc:a02253ae22eaafa5c6d47716cfae080c0 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a template for building a prompt.  <a href="#a02253ae22eaafa5c6d47716cfae080c0">More...</a><br /></td></tr>
+<tr class="separator:a02253ae22eaafa5c6d47716cfae080c0 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9dd60291e7e6950a488398b53f9328f inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#af9dd60291e7e6950a488398b53f9328f">Template</a> (<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> template)</td></tr>
+<tr class="separator:af9dd60291e7e6950a488398b53f9328f inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04dbd1a6e5af304c633f41bb4cb6a3a6 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a04dbd1a6e5af304c633f41bb4cb6a3a6">Terms</a> ()</td></tr>
+<tr class="memdesc:a04dbd1a6e5af304c633f41bb4cb6a3a6 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> for matching this field.  <a href="#a04dbd1a6e5af304c633f41bb4cb6a3a6">More...</a><br /></td></tr>
+<tr class="separator:a04dbd1a6e5af304c633f41bb4cb6a3a6 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e1c55ddfdcafa418c43f3dab747a5b inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ae2e1c55ddfdcafa418c43f3dab747a5b">Terms</a> (object value)</td></tr>
+<tr class="memdesc:ae2e1c55ddfdcafa418c43f3dab747a5b inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an object return terms that can be used in a dialog to match the object.  <a href="#ae2e1c55ddfdcafa418c43f3dab747a5b">More...</a><br /></td></tr>
+<tr class="separator:ae2e1c55ddfdcafa418c43f3dab747a5b inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e4916f672cfc01e9353d8835b392be inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Field</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ae9e4916f672cfc01e9353d8835b392be">Terms</a> (IEnumerable&lt; string &gt; terms)</td></tr>
+<tr class="separator:ae9e4916f672cfc01e9353d8835b392be inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2cce588ac9f6d8d6e6a89c42608db2 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a9f2cce588ac9f6d8d6e6a89c42608db2">ValueDescription</a> (object value)</td></tr>
+<tr class="memdesc:a9f2cce588ac9f6d8d6e6a89c42608db2 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the string describing a specific value.  <a href="#a9f2cce588ac9f6d8d6e6a89c42608db2">More...</a><br /></td></tr>
+<tr class="separator:a9f2cce588ac9f6d8d6e6a89c42608db2 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf5a69c8cbe8732c9fd8690b2027d835 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aaf5a69c8cbe8732c9fd8690b2027d835">ValueDescriptions</a> ()</td></tr>
+<tr class="memdesc:aaf5a69c8cbe8732c9fd8690b2027d835 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible value descriptions in order to support enumeration.  <a href="#aaf5a69c8cbe8732c9fd8690b2027d835">More...</a><br /></td></tr>
+<tr class="separator:aaf5a69c8cbe8732c9fd8690b2027d835 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a517d04b71b147507bc545757b215fedf inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a517d04b71b147507bc545757b215fedf">Values</a> ()</td></tr>
+<tr class="memdesc:a517d04b71b147507bc545757b215fedf inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="mdescLeft">&#160;</td><td class="mdescRight">All possible values or null if it is a data type like number.  <a href="#a517d04b71b147507bc545757b215fedf">More...</a><br /></td></tr>
+<tr class="separator:a517d04b71b147507bc545757b215fedf inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9bff4ca2b76bf55e5c22cdbb26596211"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a9bff4ca2b76bf55e5c22cdbb26596211">AddTemplate</a> (<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> template)</td></tr>
-<tr class="separator:a9bff4ca2b76bf55e5c22cdbb26596211"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a592269539c0726581c5817fc226fad44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a592269539c0726581c5817fc226fad44">UpdateAnnotations</a> ()</td></tr>
-<tr class="separator:a592269539c0726581c5817fc226fad44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5d457d0b07a21fa045af3ee19733748"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ac5d457d0b07a21fa045af3ee19733748">AddField</a> (Type type, string[] path, int ipath)</td></tr>
+<tr class="separator:ac5d457d0b07a21fa045af3ee19733748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21fa7fd7ab9856017858e366e84e3e2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a21fa7fd7ab9856017858e366e84e3e2c">ProcessEnumAttributes</a> (Type type)</td></tr>
+<tr class="separator:a21fa7fd7ab9856017858e366e84e3e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a692919dcdaf36f055abf0ee4cb37a5e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a692919dcdaf36f055abf0ee4cb37a5e9">ProcessFieldAttributes</a> (FieldInfo field)</td></tr>
+<tr class="separator:a692919dcdaf36f055abf0ee4cb37a5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a271d66d19321aa357ba90725f924a789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a271d66d19321aa357ba90725f924a789">ProcessTemplates</a> (Type type)</td></tr>
+<tr class="separator:a271d66d19321aa357ba90725f924a789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a></td></tr>
+<tr class="memitem:aa159a852967a5925a768f1acf6d93daa inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa159a852967a5925a768f1acf6d93daa">AddTemplate</a> (<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> template)</td></tr>
+<tr class="separator:aa159a852967a5925a768f1acf6d93daa inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a225cd4ea1a02b8e060112dba8c102725 inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a225cd4ea1a02b8e060112dba8c102725">UpdateAnnotations</a> ()</td></tr>
+<tr class="separator:a225cd4ea1a02b8e060112dba8c102725 inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ae9c86fbd2812dd6efa64d000c7367168"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ae9c86fbd2812dd6efa64d000c7367168">_allowsMultiple</a></td></tr>
-<tr class="separator:ae9c86fbd2812dd6efa64d000c7367168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac1987a4bece360cd6bbc9cd359fe250"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#aac1987a4bece360cd6bbc9cd359fe250">_description</a></td></tr>
-<tr class="separator:aac1987a4bece360cd6bbc9cd359fe250"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ab5d92b5007c092c361cee724a2cfd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a7ab5d92b5007c092c361cee724a2cfd0">_form</a></td></tr>
-<tr class="separator:a7ab5d92b5007c092c361cee724a2cfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcdfe1aa3ed51723cfa9dcf6b709dfc5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#afcdfe1aa3ed51723cfa9dcf6b709dfc5">_ignoreAnnotations</a></td></tr>
 <tr class="separator:afcdfe1aa3ed51723cfa9dcf6b709dfc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7fc6beab395704b9acc8c4ff219c862"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ab7fc6beab395704b9acc8c4ff219c862">_name</a></td></tr>
-<tr class="separator:ab7fc6beab395704b9acc8c4ff219c862"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5209274c6e5a0f723416a97cb116d53f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a5209274c6e5a0f723416a97cb116d53f">_optional</a></td></tr>
-<tr class="separator:a5209274c6e5a0f723416a97cb116d53f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c918abfaad7f9d06e209a7042df6e37"><td class="memItemLeft" align="right" valign="top">List&lt; FieldInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a8c918abfaad7f9d06e209a7042df6e37">_path</a> = new List&lt;FieldInfo&gt;()</td></tr>
 <tr class="separator:a8c918abfaad7f9d06e209a7042df6e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0403be2bcac61b03c6818736c931c9a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">IPrompt</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a0403be2bcac61b03c6818736c931c9a9">_prompt</a></td></tr>
 <tr class="separator:a0403be2bcac61b03c6818736c931c9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15941ec23ae440999b478749318a17ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a15941ec23ae440999b478749318a17ea">_promptDefinition</a></td></tr>
-<tr class="separator:a15941ec23ae440999b478749318a17ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00b1d289cbe15704502716baa681f439"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; <a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a00b1d289cbe15704502716baa681f439">_templates</a> = new Dictionary&lt;<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&gt;()</td></tr>
-<tr class="separator:a00b1d289cbe15704502716baa681f439"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675892de4a7e9562e04f3b872050e344"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a675892de4a7e9562e04f3b872050e344">_terms</a></td></tr>
-<tr class="separator:a675892de4a7e9562e04f3b872050e344"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af463cd5a5e57e75ac707e32ef718c16b"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; object, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#af463cd5a5e57e75ac707e32ef718c16b">_valueDescriptions</a> = new Dictionary&lt;object, string&gt;()</td></tr>
-<tr class="separator:af463cd5a5e57e75ac707e32ef718c16b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae61fe293fd62fa9cbdf0c48cd757e94a"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; object, string[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ae61fe293fd62fa9cbdf0c48cd757e94a">_valueTerms</a> = new Dictionary&lt;object, string[]&gt;()</td></tr>
-<tr class="separator:ae61fe293fd62fa9cbdf0c48cd757e94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a></td></tr>
+<tr class="memitem:aa8909427f5849037d322a59417cc06eb inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa8909427f5849037d322a59417cc06eb">_allowsMultiple</a></td></tr>
+<tr class="separator:aa8909427f5849037d322a59417cc06eb inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4407337c90ac182d7bf106396df9f580 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a4407337c90ac182d7bf106396df9f580">_description</a></td></tr>
+<tr class="separator:a4407337c90ac182d7bf106396df9f580 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa884bd47f0006e3c642d94e243fa12b7 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa884bd47f0006e3c642d94e243fa12b7">_form</a></td></tr>
+<tr class="separator:aa884bd47f0006e3c642d94e243fa12b7 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15c4fcdad762fac558dd177cc663c801 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a15c4fcdad762fac558dd177cc663c801">_name</a></td></tr>
+<tr class="separator:a15c4fcdad762fac558dd177cc663c801 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada8e9a607ddbd7dc4827a8fb886ee3f8 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ada8e9a607ddbd7dc4827a8fb886ee3f8">_optional</a></td></tr>
+<tr class="separator:ada8e9a607ddbd7dc4827a8fb886ee3f8 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30793af54604be5fa388f42aaabc30c9 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a30793af54604be5fa388f42aaabc30c9">_promptDefinition</a></td></tr>
+<tr class="separator:a30793af54604be5fa388f42aaabc30c9 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc9919bd55ce85da03abb7750bc151c6 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; <a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#abc9919bd55ce85da03abb7750bc151c6">_templates</a> = new Dictionary&lt;<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&gt;()</td></tr>
+<tr class="separator:abc9919bd55ce85da03abb7750bc151c6 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ac1b59a6294ec82dea94fb93e426ee inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a89ac1b59a6294ec82dea94fb93e426ee">_terms</a></td></tr>
+<tr class="separator:a89ac1b59a6294ec82dea94fb93e426ee inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa473df6d28c048a67df4480e2cb1372c inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#a823c964613e0be566a50408f5407c44f">FieldRole</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa473df6d28c048a67df4480e2cb1372c">_type</a></td></tr>
+<tr class="separator:aa473df6d28c048a67df4480e2cb1372c inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46f6b5cb85e7426906335bd22d25e234 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; object, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a46f6b5cb85e7426906335bd22d25e234">_valueDescriptions</a> = new Dictionary&lt;object, string&gt;()</td></tr>
+<tr class="separator:a46f6b5cb85e7426906335bd22d25e234 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3642b186b13d65a4bf88238c651c5601 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; object, string[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a3642b186b13d65a4bf88238c651c5601">_valueTerms</a> = new Dictionary&lt;object, string[]&gt;()</td></tr>
+<tr class="separator:a3642b186b13d65a4bf88238c651c5601 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="typeconstraint">
@@ -245,7 +275,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00223">223</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="afdaf18556890c54216d2b97d8adc7cb3"></a>
 <div class="memitem">
@@ -279,12 +309,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00226">226</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a08dc689be7f16e1562ed8d229aa75121"></a>
+<a class="anchor" id="ac5d457d0b07a21fa045af3ee19733748"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -292,80 +322,27 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Active </td>
+          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AddField </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>state</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Test to see if field is currently active based on the current state. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if field is active.</dd></dl>
-
-<p>Implements <a class="el" href="../../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html#a0886342118bdfdbee77b8406fc478a70">Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;</a>.</p>
-
-<p>Reimplemented in <a class="el" href="../../d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html#a29445119d413afced29a95bea0860e16">Microsoft.Bot.Builder.Form.Advanced.Conditional&lt; T &gt;</a>, and <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#ae5e0993d86dd4a541620dfa416157ba0">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00208">208</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad27c03062e4826b4f4257a75e67b844e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AddDescription </td>
-          <td>(</td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>description</em>&#160;</td>
+          <td class="paramtype">string[]&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ipath</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00274">274</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9bff4ca2b76bf55e5c22cdbb26596211"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AddTemplate </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&#160;</td>
-          <td class="paramname"><em>template</em></td><td>)</td>
-          <td></td>
         </tr>
       </table>
   </td>
@@ -375,11 +352,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00333">333</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00383">383</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9d7026c6f6350fe0448172b1892e8587"></a>
+<a class="anchor" id="a614bb171dd46d40149626d6bb6318069"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -387,221 +364,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AddTerms </td>
-          <td>(</td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
-          <td class="paramname"><em>terms</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00281">281</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a813bc18c5ad103db59e223fe71b519cd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AllowDefault </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allow the default value as an option. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if default values are allowed.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a2aa04d1a9a1ea3a56592b3865f8a6e21">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00295">295</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad378bfaa4a0ff318cc9e25eb95dc4b02"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AllowNumbers </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Allow numbers to be matched. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if numbers are allowed as input.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a01398b98b642e8a136e2f547591c60b9">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00304">304</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1d7ec5d67a92ae9cecab0785a1a005dc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.AllowsMultiple </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Are multiple matches allowed. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if more than one value is allowed.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#ad22adcb710cec69b0fa591d6956a87f1">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00167">167</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a92d28b700a8262d99d3261538a0f1a01"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Dependencies </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the other fields this one depends on. </p>
-<dl class="section return"><dt>Returns</dt><dd>List of field names this one depends on.</dd></dl>
-
-<p>Implements <a class="el" href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#ae547a72652558b29904528d8a691dae6">Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;</a>.</p>
-
-<p>Reimplemented in <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#aeb7f6e95b456ea48dd294f48febb9014">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00160">160</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1cd9c49c28ff56be294aca4fc76b9aaa"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual string <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Description </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Decription of the field itself. </p>
-<dl class="section return"><dt>Returns</dt><dd>Field description.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a7ffa2afd7a6c5ed3fbbc7c7e491379e8">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00172">172</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ea8ff81f4c0b1ae37951e8da84f8351"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Description </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>description</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00260">260</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5ac7259b0279be97ba23218b04cfe99d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual object <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.GetValue </td>
+          <td class="memname">override object <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.GetValue </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>state</em></td><td>)</td>
@@ -624,15 +387,13 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Current value found in state.</dd></dl>
 
-<p>Implements <a class="el" href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#acf34ecd05b0340954e86e6c277668072">Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa0644130389874813e8bb20a653538da">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
-<p>Reimplemented in <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a40fe229e2175d3f80f53e82486458a94">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00050">50</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00236">236</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4f01717361681e0d24b4c8868438fa66"></a>
+<a class="anchor" id="addfe78a110032b95ffd21d6d6455d705"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -640,7 +401,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.IsUnknown </td>
+          <td class="memname">override bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.IsUnknown </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>state</em></td><td>)</td>
@@ -663,13 +424,13 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True is value is unknown.</dd></dl>
 
-<p>Implements <a class="el" href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#a546c553cc25dd54b14ed326a18cc48c4">Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ad1c3e17bac297aa56bbe9288e236ce84">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00124">124</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00310">310</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a08e055f30ccde4400481fe4f20c6f481"></a>
+<a class="anchor" id="a21fa7fd7ab9856017858e366e84e3e2c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -677,26 +438,25 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Name </td>
+          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.ProcessEnumAttributes </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html#a38d4bd76b05ff00adceb657fbd4cc543">Microsoft.Bot.Builder.Form.Advanced.IField&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00475">475</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af28e0354fec975ff53cb80a406d17aed"></a>
+<a class="anchor" id="a692919dcdaf36f055abf0ee4cb37a5e9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -704,79 +464,25 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html">NextStep</a> <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Next </td>
+          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.ProcessFieldAttributes </td>
           <td>(</td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>value</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Next step to execute. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Value in response to prompt.</td></tr>
-    <tr><td class="paramname">state</td><td>Current state.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Next step to execute.</dd></dl>
-
-<p>Implements <a class="el" href="../../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html#ac79450568348c2cd2dcd932c91151ef4">Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;</a>.</p>
-
-<p>Reimplemented in <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a3d88e9a459d9e019b7bbd09e70ae2ad0">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00248">248</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acdc0f2c7e99f1037f0880cddf5490131"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html">Optional</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">FieldInfo&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Test to see if field is optional which means that no value is legal. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if field is optional.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a0f9d2c78dca48b62b79d68b4c06c1f1b">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00176">176</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00437">437</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a254d9dfc4d2314d08e0a6c34a5c5337b"></a>
+<a class="anchor" id="a271d66d19321aa357ba90725f924a789"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -784,25 +490,25 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html">Optional</a> </td>
+          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.ProcessTemplates </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>optional</em> = <code>true</code></td><td>)</td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00288">288</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00426">426</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab724b98888348f5f6552e26e2b7ab19f"></a>
+<a class="anchor" id="ae7cf9d4be577484ba7a493ebbb452904"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -810,7 +516,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">IPrompt</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> </td>
+          <td class="memname">override <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">IPrompt</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -826,13 +532,13 @@ Protected Attributes</h2></td></tr>
 <p>Return the prompt associated with a field. </p>
 <dl class="section return"><dt>Returns</dt><dd>A prompt and recognizer packaged together.</dd></dl>
 
-<p>Implements <a class="el" href="../../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html#a26783ab33808d3d9df92a76ab024b24c">Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a52d94929393bddb34232e72237df98e4">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00220">220</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00350">350</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2383510937214e30b0ec23e2080ee5f2"></a>
+<a class="anchor" id="a7a059020999b6e758f786ac5ed131304"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -840,61 +546,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a>&#160;</td>
-          <td class="paramname"><em>prompt</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00309">309</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a778519b6df8d29155933fe0cfcf8c690"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.SetForm </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt;&#160;</td>
-          <td class="paramname"><em>form</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html#a9d729cfab88d069a57f6bea6ffe37b28">Microsoft.Bot.Builder.Form.Advanced.IField&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00039">39</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae9ae9d83634510065a13cb72bc80c082"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.SetUnknown </td>
+          <td class="memname">override void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.SetUnknown </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>state</em></td><td>)</td>
@@ -916,13 +568,13 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#afb4774d31f2a80aa91f12722ab8b82e9">Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a211066b990c2beab4843bce3d785e858">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00147">147</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00333">333</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab6456849573184ccbec5a58406731a0e"></a>
+<a class="anchor" id="a36f154927e37f83676cd21703fe97419"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -930,7 +582,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.SetValue </td>
+          <td class="memname">override void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.SetValue </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>state</em>, </td>
@@ -963,357 +615,13 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#a60b6c7b2175c637d9e37f37581a7ed0f">Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ad66c9a8864d16a784ab3ba9c5ab6dfb5">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00067">67</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5fe84a8259bcf9fcc8a01e7ea9f37da9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>&#160;</td>
-          <td class="paramname"><em>usage</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return a template for building a prompt. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">usage</td><td>Kind of template we are looking for.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>NULL if no template, otherwise a template annotation.</dd></dl>
-
-<p>Implements <a class="el" href="../../db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html#a10cdb76ffcdeafa18a7df056a4ee62a8">Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00213">213</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2b2030b6869ff52664b82ffe059a8454"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&#160;</td>
-          <td class="paramname"><em>template</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00316">316</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aae463a63d90b220ded312ff2d4c16782"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> for matching this field. </p>
-<dl class="section return"><dt>Returns</dt><dd>List of term regexs for matching the field name.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a1b9262e6752dec716608a767a8c9e749">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00181">181</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a34bfd2990b060402a853aef8a0f93daa"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> </td>
-          <td>(</td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Given an object return terms that can be used in a dialog to match the object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a27229b6cbf239ddc301c0f9ba7dab6ae">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00186">186</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae8a7d2a9945acc82e079c79a0e22075c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">FieldReflector</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.<a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html">Terms</a> </td>
-          <td>(</td>
-          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
-          <td class="paramname"><em>terms</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00267">267</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a592269539c0726581c5817fc226fad44"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.UpdateAnnotations </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00325">325</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7234ccd35dfe1847f6e86bafcea57ad8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual string <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.ValueDescription </td>
-          <td>(</td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return the string describing a specific value. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">value</td><td>Value being described.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>String describing value.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a336f219eb5e181eee49e25435b833cf6">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00191">191</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a9739883a7c3e15eabc63b31e5c3c7683"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.ValueDescriptions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return all possible value descriptions in order to support enumeration. </p>
-<dl class="section return"><dt>Returns</dt><dd>All possible value descriptions.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#ab4569b3ad66bf9511abfdee27b73e09e">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00196">196</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a21d0489ea90f569b025cba0efea282cf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;object&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;.Values </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>All possible values or null if it is a data type like number. </p>
-<dl class="section return"><dt>Returns</dt><dd>All possible values.</dd></dl>
-
-<p>Implements <a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html#a1e41a6f05b10eacac42189a718e4f42b">Microsoft.Bot.Builder.Form.Advanced.IFieldDescription</a>.</p>
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00201">201</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00253">253</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ae9c86fbd2812dd6efa64d000c7367168"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._allowsMultiple</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00463">463</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aac1987a4bece360cd6bbc9cd359fe250"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._description</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00465">465</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7ab5d92b5007c092c361cee724a2cfd0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt;T&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._form</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00462">462</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="afcdfe1aa3ed51723cfa9dcf6b709dfc5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1332,51 +640,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00460">460</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab7fc6beab395704b9acc8c4ff219c862"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._name</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00459">459</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5209274c6e5a0f723416a97cb116d53f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._optional</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00464">464</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00504">504</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
@@ -1398,7 +662,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00461">461</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00505">505</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
@@ -1420,122 +684,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00471">471</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a15941ec23ae440999b478749318a17ea"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._promptDefinition</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00470">470</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a00b1d289cbe15704502716baa681f439"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._templates = new Dictionary&lt;<a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0">TemplateUsage</a>, <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html">Template</a>&gt;()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00469">469</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a675892de4a7e9562e04f3b872050e344"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._terms</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00466">466</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af463cd5a5e57e75ac707e32ef718c16b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;object, string&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._valueDescriptions = new Dictionary&lt;object, string&gt;()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00467">467</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae61fe293fd62fa9cbdf0c48cd757e94a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;object, string[]&gt; <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html">Microsoft.Bot.Builder.Form.Advanced.FieldReflector</a>&lt; T &gt;._valueTerms = new Dictionary&lt;object, string[]&gt;()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html#l00468">468</a> of file <a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d6b/_field_8cs_source.html#l00506">506</a> of file <a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d9/d4b/_field_reflector_8cs_source.html">FieldReflector.cs</a></li>
+<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d2/d6b/_field_8cs_source.html">Field.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

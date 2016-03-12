@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -117,7 +128,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00078">78</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00074">74</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="ae44663486e8b8bf3fd5a765dec8b0e5a"></a>
 <div class="memitem">
@@ -129,7 +140,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;FormCommand, Tuple&lt;string, string[]&gt;&gt;()</div><div class="line">        {</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Backup, Tuple.Create(<span class="stringliteral">&quot;Backup&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;backup&quot;</span>, <span class="stringliteral">&quot;go back&quot;</span>, <span class="stringliteral">&quot;back&quot;</span> } ) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Help, Tuple.Create(<span class="stringliteral">&quot;Help&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;help&quot;</span>, <span class="stringliteral">&quot;choices&quot;</span>, <span class="stringliteral">@&quot;\?&quot;</span> } ) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Quit, Tuple.Create(<span class="stringliteral">&quot;Quit&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;quit&quot;</span>, <span class="stringliteral">&quot;stop&quot;</span>, <span class="stringliteral">&quot;finish&quot;</span>} ) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Reset, Tuple.Create( <span class="stringliteral">&quot;Start over&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;start over&quot;</span>, <span class="stringliteral">&quot;reset&quot;</span>, <span class="stringliteral">&quot;clear&quot;</span> } ) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Status, Tuple.Create(<span class="stringliteral">&quot;status&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;status&quot;</span>}) }</div><div class="line">        }</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00095">95</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00091">91</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 
 </div>
 </div>
@@ -143,7 +154,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Prompt(<span class="stringliteral">&quot;&quot;</span>)</div><div class="line">        {</div><div class="line">            AllowDefault = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a55d8462b67448ca4da5828d64c4a0db8">BoolDefault</a>.Yes,</div><div class="line">            AllowNumbers = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a55d8462b67448ca4da5828d64c4a0db8">BoolDefault</a>.Yes,</div><div class="line">            Case = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a0623beb69ca1766323dbb8ccb3b6a8df">PromptNormalization</a>.Auto,</div><div class="line">            <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56">Feedback</a> = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#aea7fba55138daaa5828153e99614160d">FeedbackOptions</a>.Auto,</div><div class="line">            Format = <span class="stringliteral">&quot;{0}. {1}&quot;</span>,</div><div class="line">            LastSeperator = <span class="stringliteral">&quot; and &quot;</span>,</div><div class="line">            Seperator = <span class="stringliteral">&quot;, &quot;</span>,</div><div class="line">            Style = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a85d10e25c8a2448011842c66f7dc7732">PromptStyle</a>.Auto</div><div class="line">        }</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00080">80</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00076">76</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 
 </div>
 </div>
@@ -157,7 +168,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00091">91</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00087">87</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 
 </div>
 </div>
@@ -171,7 +182,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00092">92</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00088">88</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 
 </div>
 </div>
@@ -185,7 +196,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00093">93</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00089">89</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
 
 </div>
 </div>

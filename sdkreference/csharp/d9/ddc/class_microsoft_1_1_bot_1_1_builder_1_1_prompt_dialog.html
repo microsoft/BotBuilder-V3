@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -116,19 +127,19 @@ Inheritance diagram for Microsoft.Bot.Builder.PromptDialog:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a83d639cfffe325a375a543df2be6ef26"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a83d639cfffe325a375a543df2be6ef26">BeginAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, <a class="el" href="../../d1/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_args.html">PromptDialogArgs</a> args)</td></tr>
-<tr class="separator:a83d639cfffe325a375a543df2be6ef26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade89d72ca78f2705295ed2add348540e"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#ade89d72ca78f2705295ed2add348540e">ReplyReceivedAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session)</td></tr>
-<tr class="separator:ade89d72ca78f2705295ed2add348540e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0165a377299c9ebd11aae2a5afe73af7"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a0165a377299c9ebd11aae2a5afe73af7">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, <a class="el" href="../../d1/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog_args.html">PromptDialogArgs</a> args)</td></tr>
+<tr class="separator:a0165a377299c9ebd11aae2a5afe73af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add32355a5a28971ce9a2364d4a6f9002"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#add32355a5a28971ce9a2364d4a6f9002">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
+<tr class="separator:add32355a5a28971ce9a2364d4a6f9002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a></td></tr>
 <tr class="memitem:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a52ff0f904ea2b2a159bddef9c55a0145">Dialog</a> (string <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a>, bool isDefaultDialog=false)</td></tr>
 <tr class="separator:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#afe6e9d2d0908cda7d6fd3ce7604a6570">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider, bool isDefaultDialog=false)</td></tr>
 <tr class="separator:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cd858d534579104dbe80283f9330e33 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1cd858d534579104dbe80283f9330e33">BeginAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, TArgs args=default(TArgs))</td></tr>
-<tr class="separator:a1cd858d534579104dbe80283f9330e33 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549724047cc15b0ef5ffec28f09ed694 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a549724047cc15b0ef5ffec28f09ed694">DialogResumedAsync</a> (<a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a> session, TResult result=default(TResult))</td></tr>
-<tr class="separator:a549724047cc15b0ef5ffec28f09ed694 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a71217b1f0599a9a09e2616e1fcc39d44">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TArgs args=default(TArgs))</td></tr>
+<tr class="separator:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a512b6f745542c2b54b00f59d5607c3e1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a512b6f745542c2b54b00f59d5607c3e1">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TResult result=default(TResult))</td></tr>
+<tr class="separator:a512b6f745542c2b54b00f59d5607c3e1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -178,7 +189,7 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a83d639cfffe325a375a543df2be6ef26"></a>
+<a class="anchor" id="a0165a377299c9ebd11aae2a5afe73af7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -188,7 +199,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">override async Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.PromptDialog.BeginAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em>, </td>
         </tr>
         <tr>
@@ -239,7 +250,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ade89d72ca78f2705295ed2add348540e"></a>
+<a class="anchor" id="add32355a5a28971ce9a2364d4a6f9002"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -249,7 +260,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">override async Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.PromptDialog.ReplyReceivedAsync </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html">Session</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em></td><td>)</td>
           <td></td>
         </tr>
@@ -261,7 +272,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#ad2cdf08ae1ba146c7f93e2980541516b">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#adf23d966dc98e68b00fa425d895f24ef">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a>.</p>
 
 <p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00062">62</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 

@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -98,8 +109,13 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 
 <h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
 <li>Name()
-: <a class="el" href="d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a08e055f30ccde4400481fe4f20c6f481">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>
+: <a class="el" href="d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ab37155fd2631650cf1db349140e20a45">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>
 , <a class="el" href="d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html#a38d4bd76b05ff00adceb657fbd4cc543">Microsoft.Bot.Builder.Form.Advanced.IField&lt; T &gt;</a>
+, <a class="el" href="d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aa85982d09672704e63a9bd5197e92aec">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.ConfirmStep</a>
+, <a class="el" href="d0/de2/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step.html#ade23c772ff363728a673fdd20d5ea7fe">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep</a>
+, <a class="el" href="d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#a45b08d13dfedf35b19085b2d1b532e63">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.IStep</a>
+, <a class="el" href="d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#aad14f8dbdb9de571dc10ebfd1842d9f6">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.MessageStep</a>
+, <a class="el" href="d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a0a78cf23e16af025f9f8a2083b9e1205">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.NavigationStep</a>
 </li>
 <li>Names
 : <a class="el" href="d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html#a76287b747fa6599c58e7a50da7f7bbe5">Microsoft.Bot.Builder.Form.Advanced.NextStep</a>
@@ -107,10 +123,17 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 <li>NavigationFormat
 : <a class="el" href="d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html#ac881b67db22534a7d01a33b0fbf7db64">Microsoft.Bot.Builder.Form.FormConfiguration</a>
 </li>
+<li>NavigationStep()
+: <a class="el" href="d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a61ace6af8462d304555798288b0123c2">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.NavigationStep</a>
+</li>
 <li>Next()
 : <a class="el" href="d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a3d88e9a459d9e019b7bbd09e70ae2ad0">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>
-, <a class="el" href="d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#af28e0354fec975ff53cb80a406d17aed">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>
+, <a class="el" href="d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a55fb7c7ff6d8c17f209cb2956f41c052">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>
 , <a class="el" href="db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html#ac79450568348c2cd2dcd932c91151ef4">Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt&lt; T &gt;</a>
+, <a class="el" href="dc/d71/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_form_state.html#a41468da68cbb52ed7874b0f4d4e42131">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FormState</a>
+</li>
+<li>NextClarifyPrompt()
+: <a class="el" href="d0/de2/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step.html#a941f91cf2e066cb5cf4c50620c39df2a">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep</a>
 </li>
 <li>NextStep()
 : <a class="el" href="d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html#a8f88a6249ca09d084f7ec73a7b82b052">Microsoft.Bot.Builder.Form.Advanced.NextStep</a>
@@ -123,6 +146,13 @@ $(document).ready(function(){initNavTree('functions_n.html','');});
 </li>
 <li>NonWord()
 : <a class="el" href="da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a7efbcf012a545913668e2f2172e6bc68">Microsoft.Bot.Builder.Form.Advanced.Language</a>
+</li>
+<li>NotUnderstood()
+: <a class="el" href="d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#a892cedd51cfe1e4a3235a0e78dc3e304">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.ConfirmStep</a>
+, <a class="el" href="d0/de2/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step.html#a4501f00553cdf0e1a6f19bf3e318f4ed">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.FieldStep</a>
+, <a class="el" href="d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#afeedcd9a73a27f470bf6557ee2cecc09">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.IStep</a>
+, <a class="el" href="d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a9f104ad8a29db60088b42096fe31ae4b">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.MessageStep</a>
+, <a class="el" href="d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#aca422a5f7e709286fd9f4d030450d365">Microsoft.Bot.Builder.Form.Form&lt; T &gt;.NavigationStep</a>
 </li>
 <li>Number()
 : <a class="el" href="de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts.html#a153403a8e5c7112531cacea6b72b430c">Microsoft.Bot.Builder.Prompts</a>

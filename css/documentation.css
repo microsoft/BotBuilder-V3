@@ -76,6 +76,8 @@ h4 {
   font-family: "Segoe UI", sans-serif;
   font-weight: normal;
 }
+div,
+span,
 input,
 button,
 select {
@@ -90,7 +92,7 @@ a:visited {
   text-decoration: none;
 }
 a:hover {
-  color: #6d6d6d;
+  color: #2b2b2b;
 }
 input[type="submit"],
 input[type="button"],
@@ -106,7 +108,7 @@ button {
 input[type="submit"]:hover,
 input[type="button"]:hover,
 button:hover {
-  background-color: #68dcbf;
+  background-color: #00bcf8;
   color: #505050;
 }
 input[type="submit"].default-button,
@@ -123,7 +125,7 @@ button.default-button:hover {
 a.button {
   width: 200px;
   height: 50px;
-  border: 1px solid #6d6d6d;
+  border: 1px solid #2b2b2b;
   text-decoration: none;
   text-align: center;
   display: inline-block;
@@ -143,14 +145,18 @@ a.button {
   clear: both;
   display: block;
 }
+.grid-card-base {
+  background-color: white;
+  box-shadow: 0px 2px 4px 0px rgba(51, 53, 52, 0.2);
+}
 .grid-card {
+  background-color: white;
+  box-shadow: 0px 2px 4px 0px rgba(51, 53, 52, 0.2);
   min-width: 402px;
   width: 402px;
   float: left;
   margin-left: 20px;
   margin-bottom: 20px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px 0px rgba(51, 53, 52, 0.2);
 }
 .grid-card.hoverable:hover {
   box-shadow: 0px 4px 6px 0px rgba(51, 53, 52, 0.2);
@@ -159,28 +165,6 @@ a.button {
   float: none;
   display: block;
   width: auto;
-}
-.page-grid-outer {
-  padding: 0 60px;
-}
-.page-grid-outer:first-child {
-  padding-top: 20px;
-}
-.page-grid-outer .inner-grid {
-  margin-left: -20px;
-}
-.page-grid-outer .inner-grid:after {
-  content: '';
-  clear: both;
-  display: block;
-}
-.page-grid-outer .inner-grid {
-  margin-right: -20px;
-  margin-left: 0;
-}
-.page-grid-outer .grid-card {
-  margin-left: 0;
-  margin-right: 20px;
 }
 .page-grid-right {
   padding: 0 60px;
@@ -236,6 +220,12 @@ header {
   position: absolute;
   top: 16px;
 }
+.header .rhs {
+  position: absolute;
+  top: 0;
+  line-height: 45px;
+  right: 20px;
+}
 .logo {
   font-size: 20px;
   margin-left: 20px;
@@ -256,7 +246,6 @@ header {
   padding-left: 20px;
   padding-top: 0;
   color: white;
-  border: 1px solid #3e92d2;
 }
 .jumbo .jumbo-header {
   display: inline-block;
@@ -277,19 +266,15 @@ header {
   margin-top: 15px;
 }
 .jumbo .jumbo-button {
+  color: white;
   height: 70px;
   line-height: 70px;
   display: block;
-  position: relative;
-  float: right;
-  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
   font-size: 18px;
   margin-right: 50px;
-}
-.jumbo .jumbo-button:after {
-  content: '';
-  clear: both;
-  display: block;
 }
 .jumbo .jumbo-button:after {
   font-family: Glyphs;
@@ -325,7 +310,11 @@ ul.header-nav li {
   padding-left: 3ex;
   padding-right: 3ex;
 }
-ul.header-nav li:hover {
+ul.header-nav li:hover,
+ul.header-nav li.active {
+  background-color: #2a78b3;
+}
+ul.header-nav li:active {
   background-color: #205c8a;
 }
 ul.header-nav li a {
@@ -338,6 +327,54 @@ ul.header-nav li a {
 ul.header-nav li a:hover,
 ul.header-nav li a:visisted {
   color: white;
+}
+.open-search {
+  display: none;
+}
+.searchBox {
+  position: absolute;
+  top: 19px;
+  right: 20px;
+  width: 300px;
+  border: 1px solid #999999;
+}
+.searchBox .icon-search {
+  position: absolute;
+  width: 40px;
+  height: 28px;
+  min-width: 0;
+  color: transparent;
+  overflow: hidden;
+  right: 0;
+  top: 0;
+  background: white;
+  cursor: pointer;
+  display: inline-block;
+}
+.searchBox input {
+  padding: 3px 50px 3px 10px;
+  font-size: 15px;
+  height: 30px;
+  width: 100%;
+  border: 0px none transparent;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+.searchBox input::-webkit-input-placeholder {
+  color: #999999;
+}
+.searchBox input::-moz-placeholder {
+  color: #999999;
+}
+.searchBox input:-ms-input-placeholder {
+  color: #999999;
+}
+.searchBox input::placeholder {
+  color: #999999;
+}
+.searchBox input:focus {
+  outline-width: 0;
 }
 .outline.footer {
   height: auto;
@@ -485,6 +522,8 @@ ul.header-nav li a:visisted {
 }
 body {
   background: #eaeaea;
+  color: #2b2b2b;
+  font-size: 15px;
 }
 .outline {
   max-width: 1366px;
@@ -499,6 +538,9 @@ body {
 }
 .page-content {
   min-height: 175px;
+}
+label {
+  color: #999999;
 }
 body,
 table,
@@ -568,4 +610,13 @@ a {
 }
 ul.header-nav {
   padding-left: 40px;
+}
+.post {
+  padding: 30px 0;
+}
+a:visited {
+  color: #1756a9;
+}
+.trigger div {
+  padding: 4px 0;
 }

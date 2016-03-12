@@ -69,10 +69,21 @@
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
 					<li><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/tools">Tools</a></li>
+                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
-            <a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" class="jumbo-button">Register a bot</a>
+			    <div class="search-outter">
+				    <div class="open-search"></div>
+				    <div class="searchBox">
+					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+							    <button type="submit" class="icon-search">
+								    <span>Search</span>
+							    </button>
+						    </form>
+					    </div>
+				    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
@@ -96,8 +107,7 @@ $(document).ready(function(){initNavTree('d1/d48/_i_recognizer_8cs.html','../../
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
 <div class="title">IRecognizer.cs File Reference</div>  </div>
 </div><!--header-->
@@ -107,17 +117,7 @@ $(document).ready(function(){initNavTree('d1/d48/_i_recognizer_8cs.html','../../
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple value table with explicitly added values.  <a href="../../d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d85/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_match_analyzer.html">Microsoft.Bot.Builder.Form.Advanced.MatchAnalyzer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular expression recognizer. For example if you had a DateTime field you would have this format the date for the culture and use regexs to recognize date/times.  <a href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.StringRecognizer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">Microsoft.Bot.Builder.Form.Advanced.TermMatch</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,13 +126,6 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html">Microsoft.Bot.Builder.Form.Advanced</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ad1953e5a9758601aac71544331d1e47f"><td class="memItemLeft" align="right" valign="top">delegate IEnumerable&lt; TermMatch &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#ad1953e5a9758601aac71544331d1e47f">Microsoft.Bot.Builder.Form.Advanced.Matcher</a> (string input)</td></tr>
-<tr class="separator:ad1953e5a9758601aac71544331d1e47f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a1e6067e94a32f5fc5bb88f5d3a7bdb"><td class="memItemLeft" align="right" valign="top">delegate string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db1/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced.html#a8a1e6067e94a32f5fc5bb88f5d3a7bdb">Microsoft.Bot.Builder.Form.Advanced.TypeValue</a> (object value, CultureInfo culture)</td></tr>
-<tr class="separator:a8a1e6067e94a32f5fc5bb88f5d3a7bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

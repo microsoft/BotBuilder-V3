@@ -36,13 +36,7 @@ parent1: Bot Connector SDK
 
   <script type="text/javascript">
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-      }
-	  
-        url = "{{ "/sdkreference/restapi/swagger.json" | prepend: site.baseurl }}";
+      var url = "{{ "/sdkreference/restapi/swagger.json" | prepend: site.baseurl }}";
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
@@ -77,7 +71,7 @@ parent1: Bot Connector SDK
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
         },
-        docExpansion: "list",
+        docExpansion: "full",
         jsonEditor: false,
         apisSorter: "alpha",
         defaultModelRendering: 'schema',
@@ -121,19 +115,26 @@ parent1: Bot Connector SDK
 					{% include header.html %}
 				</div>
 			</header>
-		<div class="brand-primary">
+			<div class="brand-primary">
 				{% include brand-primary.html %}
 			</div>
 			<div class="outline">
-				<div class="swagger-ui-wrap" style="padding-top:20px;">
-					<form id='api_selector'>
-					  <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="hidden" /></div>
-					  <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-					  <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-					</form>
-				</div>
-				<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-				<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+				<article class="post">
+					<div id="side-nav">
+						{% include leftnav.html %}
+					</div>
+					<div id="doc-content">
+						<div class="swagger-ui-wrap" style="padding-top:20px;">
+							<form id='api_selector'>
+							  <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="hidden" /></div>
+							  <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+							  <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
+							</form>
+						</div>
+						<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+						<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+					</div>
+				</article>
 			</div>				
 <div class="outline footer">
 	<ul>
