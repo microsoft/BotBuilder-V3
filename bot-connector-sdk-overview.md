@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Getting started with the Bot Connector
-permalink: /bot-connector-sdk-getstarted/
+title: Bot Connector Overview
+permalink: /bot-connector-overview/
 weight: 200
 parent1: Bot Connector SDK
 ---

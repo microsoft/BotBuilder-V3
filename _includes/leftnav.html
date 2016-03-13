@@ -4,7 +4,12 @@
 	{% for group1 in grouped_pages1 %}
 	  {% if group1.name == 'none' %}
 		{% for my_page in group1.items %} 
-			<div class="level1" weight="{{ my_page.weight }}"><a class="page-link level1" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></div>
+				{% if page.url == my_page.url %}
+					{% assign class = 'page-link navselected' %}
+				{% else %}
+					{% assign class = 'page-link' %}
+				{% endif %}
+			<div class="level1" weight="{{ my_page.weight }}"><a class="{{ class }}" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></div>
 		{% endfor %}
 	  {% endif %}
 	  {% if group1.name <> 'none' and group1.name <> '' %}
@@ -13,7 +18,12 @@
 		{% for my_page in group1.items %} 
 			{% if my_page.parent2 %}
 			{% else %}
-				<li class="" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>				
+				{% if page.url == my_page.url %}
+					{% assign class = 'page-link navselected' %}
+				{% else %}
+					{% assign class = 'page-link' %}
+				{% endif %}
+				<li class="" weight="{{ my_page.weight }}"><a class="{{ class }}" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>				
 			{% endif %}
 		{% endfor %}
 		</ul>		
@@ -24,7 +34,12 @@
 			<ul class="level2 child">
 			{% for my_page in group2.items %} 
 				{% if my_page.parent2 %}
-					<li class="" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>
+					{% if page.url == my_page.url %}
+						{% assign class = 'page-link navselected' %}
+					{% else %}
+						{% assign class = 'page-link' %}
+					{% endif %}
+					<li class="" weight="{{ my_page.weight }}"><a class="{{ class }}" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>
 				{% endif %}
 			{% endfor %}	
 			</ul>
