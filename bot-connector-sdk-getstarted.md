@@ -19,7 +19,7 @@ The Microsoft Bot Framework Connector is a communication service that helps you 
 
 To use the Microsoft Bot Framework Connector, you must have:
 
-1. A Microsoft Account (Hotmail, Live, Outlook.Com) to log into the Bot Framework developer portal, which you will use to register your bot
+1. A Microsoft Account (Hotmail, Live, Outlook.Com) to log into the Bot Framework developer portal, which you will use to register your bot.
 2. An Azure-accessible REST endpoint exposing a callback for the Connector service.
 3. Developer accounts on one or more communication services (such as Skype) where your bot will communicate. 
 	
@@ -67,18 +67,24 @@ Registering your bot tells the Connector how to call your bot's web service. Not
 	
 3. Click the "Register a bot" button and fill out the form. Many of the fields on this form can be changed later. Use a dummy endpoint for now.  Save your changes by hitting "Create" at the bottom of the form, and don't worry about the other settings for now.
 
+![Register a bot](/images/connector-getstarted-register-agent.png)
+
 4. Once your registration was created, Microsoft Bot Framework will have generated your AppId and Subscription Keys (Should this change to AppSecret?).  These are used to authenticate your bot with the Microsoft Bot Framewor, and will be used in the next step.
+
+![Microsoft Bot Framework will have generated your AppId and Subscription Keys](/images/connector-getstarted-subscription-keys.png)
 
 Note: there's no "Regenerate" on the web page I'm seeing. Is this functionality missing?
 
 Delete the image below… doesn't match what I see when creating the Bot 
-		
+
 Question: Why does the web page use "App ID" and "Primary subscription key" instead of "AppId" and "AppSecret" (which appear in the Web.Config file in VS)? - wouldn't it be better for these to match?
 
 
 ## Compiling the bot and publishing the bot to Microsoft Azure
 
 1. Now that the bot is configured, you need to update the keys in the web.config file in your Visual Studio project.  Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build.
+
+![Update the keys in the web.config file in your Visual Studio project](/images/connector-getstarted-configure-vs-keys.png)
 
 2. The core functionality of the EchoBot is all in one function.  In this case, the code takes the message text for the user, increments a counter that it pulled from the Message, and then replies using the CreateReplyMessage function, which can be found in Controllers\MessagesController.cs 
 
@@ -117,11 +123,13 @@ Question: Why does the web page use "App ID" and "Primary subscription key" inst
 3. Make what changes you like, and now you're ready to publish.  Right click on the project and choose "Publish", and then your appropriate Azure subscription information.  By default, the bot should be published as an Microsoft Azure App Service.  When publishing, keep track of the URL you chose because we'll need it to update the Bot Framework registration endpoint.
 
 //TODO: Walk through the publish process on Azure - Selecting "Publish" (Build | Publish) displays the following dialog:
-
+![Right click on the project and choose "Publish", and then your appropriate Azure subscription information](/images/connector-getstarted-publish.png)
 
 Assume that the developer doesn't know what options to choose, or hasn't been through this process before.
 
 4. Go back to the dev portal, and update the Endpoint with the URL of your bot.  If you're using the Bot Framework Connector template still, you'll need to extend it with the path to the endpoint at /API/Messages as shown below. (Question: the walkthrough uses the BotFramework connector template, Step4 states "if you are still using the bot framework template" - assuming that the developer is following along, then they are using the template, right?
+
+![Go back to the dev portal, and update the Endpoint with the URL of your bot](/images/connector-getstarted-portal-endpoint.png)
 
 ## Testing the connection to your bot
 
@@ -134,6 +142,8 @@ Note that the first request after your bot starts up can take 20-30s as Azure st
 Now that you have a bot up and running, you'll want to configure it for one or more channels your users are using.  Configuring channels is a combination of Microsoft Bot Framework workflow and conversation service workflow, and is unique for each channel you wish to configure.  
 
 1. To configure a channel, go back to the Bot Framework dev portal at https://www.botframework.com.  Sign in, select your bot, and go to the Channels panel.
+
+![Sign in, select your bot, and go to the Channels panel.](/images/connector-getstarted-configure-channels.png)
 
 2. Pick the channel you wish to configure, and click edit.  You'll be taken to a page of instructions for registering a bot.  In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf.
 
