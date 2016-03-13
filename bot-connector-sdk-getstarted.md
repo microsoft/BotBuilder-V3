@@ -123,7 +123,19 @@ Question: Why does the web page use "App ID" and "Primary subscription key" inst
 3. Make what changes you like, and now you're ready to publish.  Right click on the project and choose "Publish", and then your appropriate Azure subscription information.  By default, the bot should be published as an Microsoft Azure App Service.  When publishing, keep track of the URL you chose because we'll need it to update the Bot Framework registration endpoint.
 
 //TODO: Walk through the publish process on Azure - Selecting "Publish" (Build | Publish) displays the following dialog:
+![Right click on the project and choose "Publish", and then your appropriate Azure subscription information](/images/connector-getstarted-publish-dialog.png)
 ![Right click on the project and choose "Publish", and then your appropriate Azure subscription information](/images/connector-getstarted-publish.png)
+![](/images/connector-getstarted-publish-app-service.png)
+![](/images/connector-getstarted-publish-app-service-create.png)
+![](/images/connector-getstarted-publish-app-service-create-spinner.png)
+![](/images/connector-getstarted-publish-destination.png)
+![](/images/connector-getstarted-publish-configuration.png)
+![](/images/connector-getstarted-publish-preview.png)
+![](/images/connector-getstarted-publish-output.png)
+
+
+
+
 
 Assume that the developer doesn't know what options to choose, or hasn't been through this process before.
 
