@@ -17,7 +17,7 @@ Using the tool, you can:
 
 * Send requests and receive responses to/from your bot endpoint on localhost
 * Inspect the Json response
-* Emulate a specific user
+* Emulate a specific user and/or conversation
 
 ## Installation and configuration
 * Install the Emulator from [github or ?]()
