@@ -42,6 +42,16 @@
 .icon-right-arrow:after {
   content: '\E76c';
 }
+.icon-down-arrow:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 24px;
+}
+.icon-down-arrow:after {
+  content: '\E70D';
+}
 .svgicon {
   display: inline-block;
   width: 1em;
@@ -376,6 +386,30 @@ ul.header-nav li a:visisted {
 .searchBox input:focus {
   outline-width: 0;
 }
+.sub-banner {
+  display: block;
+  color: white;
+  width: 100%;
+  background-color: #205c8a;
+  text-align: center;
+  font-size: 18px;
+  line-height: 54px;
+}
+.sub-banner:hover,
+.sub-banner:visited {
+  color: white;
+}
+.sub-banner .icon-right-arrow {
+  position: relative;
+}
+.sub-banner .icon-right-arrow:after {
+  top: 50%;
+  left: 100%;
+  margin-left: 4px;
+  margin-top: -7px;
+  line-height: 1;
+  font-size: inherit;
+}
 .outline.footer {
   height: auto;
   min-height: 0;
@@ -553,10 +587,17 @@ dl {
   width: 250px;
   position: relative;
   float: left;
-  padding: 0 10px;
+  padding: 0 20px 30px 20px;
 }
 #side-nav ul {
   list-style-type: none;
+  margin: 0;
+}
+#side-nav ul li {
+  padding: 2px 0;
+}
+ul#markdown-toc {
+  padding: 0;
 }
 .navselected,
 .navselected:visited,
@@ -619,4 +660,307 @@ a:visited {
 }
 .trigger div {
   padding: 4px 0;
+}
+/** media break points based on card-width*/
+@media screen and (max-width: 554px) {
+  #app-body,
+  .fullWidth {
+    width: 100%;
+  }
+  .jumbo {
+    height: auto;
+  }
+  .jumbo .jumbo-button {
+    color: #00bcf8;
+    height: auto;
+    line-height: 2;
+    top: initial;
+  }
+  .jumbo .jumbo-button:hover,
+  .jumbo .jumbo-button:visited {
+    color: #00bcf8;
+  }
+  input[type="text"],
+  input[type="search"] {
+    font-size: 14pt;
+  }
+  .grid-card {
+    min-width: 0;
+  }
+  .agent-card .image-cell + * {
+    width: calc(100% - 120px);
+  }
+  .header {
+    min-height: 48px;
+    height: auto;
+  }
+  .outline {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+  .page-grid,
+  .page-grid-right {
+    padding: 0;
+  }
+  .page-grid .inner-grid,
+  .page-grid-right .inner-grid {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .page-grid .grid-card,
+  .page-grid-right .grid-card {
+    float: none;
+    margin: 0 auto 20px auto;
+    width: 100%;
+  }
+  .agent-info .info-cell .title {
+    font-size: 26px;
+  }
+  .bot-details .bot-card {
+    min-width: 0;
+  }
+  .bot-details .bot-card:first-child {
+    max-width: none;
+    height: auto;
+    width: auto;
+    float: none;
+    display: block;
+    position: static;
+    padding: 0;
+  }
+  .bot-details .bot-card:first-child .bot-content {
+    margin-top: 0;
+  }
+  .bot-details .bot-card:first-child .image-cell {
+    width: 90px;
+    height: 90px;
+  }
+  .bot-details .bot-card:first-child .image-cell img {
+    display: block;
+    width: 70%;
+    height: 70%;
+    border-radius: 70%;
+    margin: 15% auto;
+  }
+  .bot-details .bot-card:first-child ul.bot-desc {
+    position: static;
+    top: auto;
+    right: auto;
+    padding: 1ex 0;
+    text-align: center;
+  }
+  .bot-card.channels .channel-info {
+    float: none;
+    padding-right: 20px;
+  }
+  .bot-card.channels .channel-info:nth-child(2n+1) {
+    margin-right: 0;
+  }
+  .bot-card.channels .channel-info .channel {
+    width: 100%;
+  }
+  .bot-card.channels .channel-info .channel .cell:nth-child(2) {
+    display: none;
+  }
+  .outline.footer {
+    height: auto;
+    background: white;
+  }
+  .outline.footer ul {
+    text-align: left;
+    display: block;
+  }
+  .outline.footer ul li {
+    display: block;
+    border-left: 0px none transparent;
+  }
+  .outline.footer ul li a {
+    line-height: 40px;
+  }
+  .home-page .home-page-contents h3 {
+    margin-left: 20px;
+  }
+  .home-page .home-page-contents .grid-card h3 {
+    margin-left: 0;
+  }
+  .paging-progress {
+    display: inline-block;
+    width: 100%;
+    padding: 0 30px 20px;
+  }
+}
+@media screen and (max-width: 856px) {
+  .bot-page .bot-card .desc-cell {
+    position: static;
+    top: auto;
+    left: auto;
+  }
+  .bot-page .bot-card .bot-content {
+    max-width: 100%;
+  }
+  .bot-page .bot-card .image-cell {
+    width: 402px;
+  }
+  .bot-page .bot-card .image-cell img {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+  }
+  .bot-page .bot-card .info-cell {
+    width: 100%;
+    min-height: auto;
+  }
+  .bot-page .bot-card .info-cell .title,
+  .bot-page .bot-card .info-cell .publisher,
+  .bot-page .bot-card .info-cell .single-line {
+    text-align: center;
+  }
+  .open-search {
+    display: block;
+    width: 40px;
+    height: 48px;
+    position: absolute;
+    top: 0;
+    right: 56px;
+  }
+  .open-search:after {
+    font-family: Glyphs;
+    position: absolute;
+    right: 12px;
+    top: 4px;
+    font-size: 24px;
+  }
+  .open-search:after {
+    content: '\E71E';
+    color: #999999;
+  }
+  .open-search:after {
+    top: 50%;
+    color: white;
+  }
+  .searchBox {
+    display: none;
+    width: 48px;
+    right: 0;
+    border: 1px none transparent;
+    clear: both;
+  }
+  .searchBox.expand {
+    display: block;
+    position: static;
+    background: #3e92d2;
+    padding: 6px 20px 6px 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    height: auto;
+  }
+  .searchBox.expand form {
+    position: relative;
+  }
+  .searchBox.expand input {
+    display: block;
+  }
+  .searchBox > form {
+    position: relative;
+  }
+  .searchBox > form button {
+    min-width: 0;
+  }
+}
+@media screen and (max-width: 1278px) {
+  .page-grid,
+  .page-grid-right {
+    padding: 0;
+  }
+  .page-grid-right .bot-card.bot-overview,
+  .page-grid-right .bot-card.channels {
+    min-width: 268px;
+    max-width: 824px;
+    width: calc(60% - 32px);
+  }
+  .page-grid-right .bot-card.bot-webChat {
+    min-width: 268px;
+    max-width: 824px;
+    width: calc(40% - 28px);
+  }
+}
+@media screen and (max-width: 740px) {
+  .page-grid-right .bot-card.bot-overview,
+  .page-grid-right .bot-card.channels {
+    min-width: none;
+    max-width: none;
+    width: 100%;
+  }
+  .page-grid-right .bot-card.bot-webChat {
+    display: none;
+  }
+  a.button.link-web-chat {
+    display: block;
+    width: 100%;
+    border-style: none;
+  }
+  .jumbo .jumbo-header {
+    line-height: 70px;
+  }
+  ul.header-nav {
+    z-index: 10;
+    height: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  ul.header-nav:after {
+    font-family: Glyphs;
+    position: absolute;
+    right: 12px;
+    top: 4px;
+    font-size: 24px;
+  }
+  ul.header-nav:after {
+    content: '\E700';
+  }
+  ul.header-nav:after {
+    font-size: 32px;
+    top: 19px;
+    right: 20px;
+  }
+  ul.header-nav li {
+    display: none;
+    background-color: #3e92d2;
+    border-top: 1px solid white;
+  }
+  ul.header-nav li a {
+    line-height: 3em;
+    height: 3em;
+    width: 100%;
+  }
+  ul.header-nav.expand {
+    background-color: transparent;
+    padding: 70px 0 10px 0;
+    width: 100%;
+  }
+  ul.header-nav.expand li {
+    display: block;
+    padding-left: 20px;
+    padding-right: 0;
+  }
+}
+@media screen and (max-width: 1365px) {
+  .page-grid,
+  .page-grid-right {
+    padding: 20px calc((100% - 1246px)/2) 0 calc((100% - 1246px)/2);
+  }
+}
+@media screen and (max-width: 554px) {
+  .outline {
+    min-width: 0;
+  }
+  #side-nav,
+  #doc-content {
+    width: 100%;
+    float: none;
+  }
 }

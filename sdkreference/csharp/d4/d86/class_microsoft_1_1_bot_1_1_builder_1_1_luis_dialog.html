@@ -68,8 +68,8 @@
 			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-					<li><a href="/">Documentation</a></li>
                     <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
+					<li class="active"><a href="/">Documentation</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
 			    <div class="search-outter">
@@ -136,8 +136,8 @@ Classes</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:add9e4e92dfc9e7c620f6548600a466b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#add9e4e92dfc9e7c620f6548600a466b7">LuisDialog</a> ()</td></tr>
 <tr class="separator:add9e4e92dfc9e7c620f6548600a466b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52e368ffad6887aa66974d13558c3d53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a52e368ffad6887aa66974d13558c3d53">LuisDialog</a> (string dialogId, string <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a9dcb9772bfb2348aa54931d21c74b030">subscriptionKey</a>, string <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#adf7b2b6709bb833d09d06e7030fe5d06">modelId</a>, bool isDefault=false)</td></tr>
-<tr class="separator:a52e368ffad6887aa66974d13558c3d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3757037e2a0c1f8fc342e211f02c92d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ab3757037e2a0c1f8fc342e211f02c92d">LuisDialog</a> (string dialogId, string <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a9dcb9772bfb2348aa54931d21c74b030">subscriptionKey</a>, string <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#adf7b2b6709bb833d09d06e7030fe5d06">modelId</a>)</td></tr>
+<tr class="separator:ab3757037e2a0c1f8fc342e211f02c92d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e05310b8f47a9479b4baa9cead9f2a7"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a6e05310b8f47a9479b4baa9cead9f2a7">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TResult result=null)</td></tr>
 <tr class="separator:a6e05310b8f47a9479b4baa9cead9f2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2705286b52360f8f511bf836b3eaecb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html">LuisDialog</a>&lt; TArgs, TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a2705286b52360f8f511bf836b3eaecb7">On</a> (string intent, Func&lt; <a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>, <a class="el" href="../../de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html">LuisResult</a>, Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&gt; intentHandler, Func&lt; <a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>, <a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html">DialogResult</a>, Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&gt; resumeHandler=null)</td></tr>
@@ -147,10 +147,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae9d761be41aaa6823be2bd4cbee72ba4"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ae9d761be41aaa6823be2bd4cbee72ba4">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
 <tr class="separator:ae9d761be41aaa6823be2bd4cbee72ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td></tr>
-<tr class="memitem:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a52ff0f904ea2b2a159bddef9c55a0145">Dialog</a> (string <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a>, bool isDefaultDialog=false)</td></tr>
-<tr class="separator:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#afe6e9d2d0908cda7d6fd3ce7604a6570">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider, bool isDefaultDialog=false)</td></tr>
-<tr class="separator:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec7ee050cdbb3330d2e4a65b378b632d inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#aec7ee050cdbb3330d2e4a65b378b632d">Dialog</a> (string <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a>)</td></tr>
+<tr class="separator:aec7ee050cdbb3330d2e4a65b378b632d inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18219303efaab4991d419bede4cf4e82 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a18219303efaab4991d419bede4cf4e82">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider)</td></tr>
+<tr class="separator:a18219303efaab4991d419bede4cf4e82 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a71217b1f0599a9a09e2616e1fcc39d44">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TArgs args=default(TArgs))</td></tr>
 <tr class="separator:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -221,7 +221,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a52e368ffad6887aa66974d13558c3d53"></a>
+<a class="anchor" id="ab3757037e2a0c1f8fc342e211f02c92d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -244,13 +244,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>modelId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isDefault</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>modelId</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

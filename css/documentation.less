@@ -19,11 +19,20 @@ body, table, div, p, dl {
     width: 250px;
     position: relative;
     float: left;
-    padding: 0 10px;
+    padding: 0 20px 30px 20px;
 
     ul {
         list-style-type: none;
+        margin: 0;
+
+        li {
+            padding: 2px 0;
+        }
     }
+}
+
+ul#markdown-toc {
+    padding: 0;
 }
 
 .navselected, .navselected:visited, .navselected:hover {
@@ -112,3 +121,15 @@ a:visited {
 .trigger div {
     padding: 4px 0;
 }
+
+@import "../Less/_media.less";
+
+@media screen and (max-width: (@one-column-grid-width)) {
+    .outline {
+        min-width: 0;
+    }
+    #side-nav, #doc-content {
+        width: 100%;
+        float:none;
+    }
+} 

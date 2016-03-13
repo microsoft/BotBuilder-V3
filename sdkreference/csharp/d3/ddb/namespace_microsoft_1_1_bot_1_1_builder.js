@@ -14,6 +14,7 @@ var namespace_microsoft_1_1_bot_1_1_builder =
     [ "DialogResult", "d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html", "d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result" ],
     [ "DialogResumeHandler", "de/d54/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_resume_handler.html", "de/d54/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_resume_handler" ],
     [ "DialogState", "d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state.html", "d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state" ],
+    [ "Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field" ],
     [ "IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog" ],
     [ "IDialogCollection", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_collection.html", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_collection" ],
     [ "InMemoryStore", "d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html", "d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store" ],

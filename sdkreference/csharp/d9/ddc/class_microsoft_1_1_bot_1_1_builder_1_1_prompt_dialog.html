@@ -68,8 +68,8 @@
 			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-					<li><a href="/">Documentation</a></li>
                     <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
+					<li class="active"><a href="/">Documentation</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
 			    <div class="search-outter">
@@ -107,9 +107,7 @@ $(document).ready(function(){initNavTree('d9/ddc/class_microsoft_1_1_bot_1_1_bui
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#properties">Properties</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="../../d7/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Microsoft.Bot.Builder.PromptDialog Class Reference</div>  </div>
@@ -132,29 +130,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:add32355a5a28971ce9a2364d4a6f9002"><td class="memItemLeft" align="right" valign="top">override async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#add32355a5a28971ce9a2364d4a6f9002">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
 <tr class="separator:add32355a5a28971ce9a2364d4a6f9002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a></td></tr>
-<tr class="memitem:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a52ff0f904ea2b2a159bddef9c55a0145">Dialog</a> (string <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a>, bool isDefaultDialog=false)</td></tr>
-<tr class="separator:a52ff0f904ea2b2a159bddef9c55a0145 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#afe6e9d2d0908cda7d6fd3ce7604a6570">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider, bool isDefaultDialog=false)</td></tr>
-<tr class="separator:afe6e9d2d0908cda7d6fd3ce7604a6570 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec7ee050cdbb3330d2e4a65b378b632d inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#aec7ee050cdbb3330d2e4a65b378b632d">Dialog</a> (string <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a>)</td></tr>
+<tr class="separator:aec7ee050cdbb3330d2e4a65b378b632d inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18219303efaab4991d419bede4cf4e82 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a18219303efaab4991d419bede4cf4e82">Dialog</a> (Func&lt; <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Dialog</a>&lt; TArgs, TResult &gt;, string &gt; nameProvider)</td></tr>
+<tr class="separator:a18219303efaab4991d419bede4cf4e82 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a71217b1f0599a9a09e2616e1fcc39d44">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TArgs args=default(TArgs))</td></tr>
 <tr class="separator:a71217b1f0599a9a09e2616e1fcc39d44 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a512b6f745542c2b54b00f59d5607c3e1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a512b6f745542c2b54b00f59d5607c3e1">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, TResult result=default(TResult))</td></tr>
 <tr class="separator:a512b6f745542c2b54b00f59d5607c3e1 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a3ecb6e92753bc6d6fbca062dabbb96f4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a3ecb6e92753bc6d6fbca062dabbb96f4">CreatePromptDialog</a> ()</td></tr>
-<tr class="separator:a3ecb6e92753bc6d6fbca062dabbb96f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a9d752d8cdadf6f4c84c0629bed483b76"><td class="memItemLeft" align="right" valign="top">static readonly <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a9d752d8cdadf6f4c84c0629bed483b76">Instance</a> = new <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a>()</td></tr>
+<tr class="separator:a9d752d8cdadf6f4c84c0629bed483b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a045419c7b1c82466bfa6adeb9af51b37"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a045419c7b1c82466bfa6adeb9af51b37">PromptDialog</a> ()</td></tr>
-<tr class="separator:a045419c7b1c82466bfa6adeb9af51b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
-Properties</h2></td></tr>
-<tr class="memitem:a082fe1d83189379377561d52c251f612"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html#a082fe1d83189379377561d52c251f612">DialogId</a><code> [get]</code></td></tr>
-<tr class="separator:a082fe1d83189379377561d52c251f612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header properties_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td colspan="2" onclick="javascript:toggleInherit('properties_class_microsoft_1_1_bot_1_1_builder_1_1_dialog')"><img src="../../closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a></td></tr>
 <tr class="memitem:a1c6eeb99eb6c229c3fe6e6d3cf742bf3 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a><code> [get]</code></td></tr>
 <tr class="separator:a1c6eeb99eb6c229c3fe6e6d3cf742bf3 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,33 +153,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a045419c7b1c82466bfa6adeb9af51b37"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Microsoft.Bot.Builder.PromptDialog.PromptDialog </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00041">41</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a0165a377299c9ebd11aae2a5afe73af7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -221,32 +186,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00056">56</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3ecb6e92753bc6d6fbca062dabbb96f4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a> Microsoft.Bot.Builder.PromptDialog.CreatePromptDialog </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00046">46</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00045">45</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -274,12 +214,12 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#adf23d966dc98e68b00fa425d895f24ef">Microsoft.Bot.Builder.Dialog&lt; PromptDialogArgs, DialogResult &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00062">62</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00051">51</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Property Documentation</h2>
-<a class="anchor" id="a082fe1d83189379377561d52c251f612"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a9d752d8cdadf6f4c84c0629bed483b76"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -287,17 +227,17 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string Microsoft.Bot.Builder.PromptDialog.DialogId</td>
+          <td class="memname">readonly <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a> Microsoft.Bot.Builder.PromptDialog.Instance = new <a class="el" href="../../d9/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_prompt_dialog.html">PromptDialog</a>()</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00039">39</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00038">38</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 
 </div>
 </div>

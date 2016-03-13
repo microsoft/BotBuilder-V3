@@ -33,6 +33,7 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.DialogResumeHandler< T >", "de/d54/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_resume_handler.html", null ],
     [ "Microsoft.Bot.Builder.DialogState", "d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state.html", null ],
+    [ "Microsoft.Bot.Builder.Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.Extensions", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.IFieldDescription", "df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", [

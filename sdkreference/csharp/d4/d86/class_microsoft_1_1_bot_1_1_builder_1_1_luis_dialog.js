@@ -2,7 +2,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog =
 [
     [ "LuisIntentHandler", "d2/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog_1_1_luis_intent_handler.html", "d2/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog_1_1_luis_intent_handler" ],
     [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#add9e4e92dfc9e7c620f6548600a466b7", null ],
-    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a52e368ffad6887aa66974d13558c3d53", null ],
+    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ab3757037e2a0c1f8fc342e211f02c92d", null ],
     [ "DialogResumedAsync", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a6e05310b8f47a9479b4baa9cead9f2a7", null ],
     [ "GetLuisResult", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a17cdc7f03393c0a0f608f4016a471efe", null ],
     [ "On", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a2705286b52360f8f511bf836b3eaecb7", null ],

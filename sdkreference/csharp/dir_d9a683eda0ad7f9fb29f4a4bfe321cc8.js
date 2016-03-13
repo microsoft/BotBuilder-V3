@@ -16,6 +16,7 @@ var dir_d9a683eda0ad7f9fb29f4a4bfe321cc8 =
       [ "SessionState", "d7/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_session_state.html", "d7/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_session_state" ]
     ] ],
     [ "Session.cs", "dc/dba/_session_8cs.html", [
+      [ "Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field" ],
       [ "Session", "d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html", "d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session" ]
     ] ]
 ];

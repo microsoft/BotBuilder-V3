@@ -1,37 +1,34 @@
-<script>
-var currentpath = window.location.pathname;
-$( document ).ready(function() {
-    $('.page-link[href="' + currentpath + '"]').addClass('navselected');
-});
-</script>
-
 	<div class="trigger">
 	{% assign sorted_pages = (site.pages | sort: 'weight') %}
 	{% assign grouped_pages1 = (sorted_pages | group_by: 'parent1') %}
 	{% for group1 in grouped_pages1 %}
 	  {% if group1.name == 'none' %}
 		{% for my_page in group1.items %} 
-			<div class="level1" weight="{{ my_page.weight }}"><a class="page-link level1" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></div>
+			<div class="level1" weight="{{ my_page.weight }}"><a class="page-link level1" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></div>
 		{% endfor %}
 	  {% endif %}
 	  {% if group1.name <> 'none' and group1.name <> '' %}
 		<div class="level1 parent">{{group1.name}}</div>
+		<ul class="level1 child">
 		{% for my_page in group1.items %} 
 			{% if my_page.parent2 %}
 			{% else %}
-				<div class="level1 child" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></div>
+				<li class="" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>				
 			{% endif %}
-		{% endfor %}	
+		{% endfor %}
+		</ul>		
 		{% assign grouped_pages2 = (group1.items | group_by: 'parent2') %}
 		{% for group2 in grouped_pages2 %}
 			{% if group2.name <> '' %}
 			<div class="level2 parent">{{group2.name}}</div>
-			{% endif %}
+			<ul class="level2 child">
 			{% for my_page in group2.items %} 
 				{% if my_page.parent2 %}
-					<div class="level2 child" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a></div>
+					<li class="" weight="{{ my_page.weight }}"><a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>
 				{% endif %}
 			{% endfor %}	
+			</ul>
+			{% endif %}
 		{% endfor %}
 	  {% endif %}	
 	{% endfor %}
