@@ -21,14 +21,17 @@ Developers writing a bot all face the same problems: bots require basic I/O, the
 Within the framework developers will find the Bot Connector Service and developer portal, the Bot Builder SDK and the Bot Directory.
 
 ### Bot Connector Service and Developer Portal [link to documentation]
+{:.no_toc}
 
 The Bot Connector Service lets you write your bot once and connect it seamlessly to sms, Office 365 mail, Skype, Slack, Twitter and more. Simply register your bot, configure desired channels and publish in the Bot Directory. 
 
 ### Bot Builder SDK [link to documentation]
+{:.no_toc}
 
 Core to a great bot experience is a sound conversation experience. The Bot Builder SDK is an open source SDK that provides everything you need to build great dialogs within your Node.js- or C\#-based bot. 
 
 ### Bot Directory [link to directory]
+{:.no_toc}
 
 Users can discover, try and add bots to their favorite conversation experiences from the Bot Directory, a public directory of all the bots registered through the Bot Connector Service. 
 
@@ -64,6 +67,8 @@ Developers writing a bot all face the same problems: bots require basic I/O, the
 Bot Connector enables access to many of the world's top conversation experiences with a minimum of effort on your part.
 
 #### How it works
+{:.no_toc}
+
 Bot Connector lets you connect your bot with many different communication experiences. If you write a bot – sometimes called a conversation agent – and expose a Bot Connector-compatible API on the internet (a REST api), Bot Connector will forward messages from your bot to a user, and will send their messages back. 
 To get started, you must have:
 
@@ -73,6 +78,8 @@ To get started, you must have:
 * Optionally, accounts on one or more communication services where your bot will converse.
 
 #### Register
+{:.no_toc}
+
 To register your bot, sign in to the Bot Framework Developer Portal and provide the requisite details for your bot, including a bot profile image.
 
 [consider screenshot]
@@ -80,23 +87,28 @@ To register your bot, sign in to the Bot Framework Developer Portal and provide 
 Once registered, use the dashboard to test your bot to ensure it is talking to the Bot Connector service and/or use the web chat control, an auto-configured channel, to experience what your users will experience when conversing with your bot.
 
 #### Connect to Channels
+{:.no_toc}
 
 Once registered, connect your bot to the conversation channels of your choice using the channel configuration page.
 
 [consider screenshot]
 
 #### View in Bot Directory
+{:.no_toc}
+
 Bots registered through Bot Connector appear in the publicly accessible Bot Directory where users can discover, try and choose to add bots to their favorite conversation experiences. 
 
 [screenshots]
 
 #### Measure
+{:.no_toc}
 
 As an Azure service [confirm], Bot Connector also provides ways for you to analyze and measure your bot. Access Azure Analytics through your bot dashboard on the developer portal.
 
 [consider screenshot]
 
 #### Manage
+{:.no_toc}
 
 Once registered and connected to channels you can manage your bot through the portal.
 
