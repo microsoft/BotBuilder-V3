@@ -20,9 +20,7 @@ To configure the Groupme channel, you need to provide the Groupme client Id. Get
 1. Sign up for a GroupMe account <a href="https://web.groupme.com/signup" target="_blank">https://web.groupme.com/signup</a>
 2. Create a GroupMe Application for your bot
 
-## <a name="minecraft"></a>Minecraft channel
-
-## <a name="rest"></a>REST API channel
+## <a name="directLine"></a>DirectLine API channel
 
 ## <a name="slack"></a>Slack channel
 
