@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Q&A Maker Overview
+title: QnA Maker Overview
 permalink: /qnamaker/
 weight: 1100
-parent1: Tools
-parent2: Q&A Maker
+parent1: Bot Creation Tools
+parent2: QnA Maker
 ---
 
