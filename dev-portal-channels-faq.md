@@ -23,7 +23,7 @@ parent2: Developer Portal
 ## SMS
 
 * Bots chatting via SMS always reply directly to the sender of the message rather than replying to the group.  In turn, a bot will always see two users in the TotalParticipants field when using SMS
-	
+* If you're having troubles with with SMS, be sure to check the Twilio service logs; they provide a wealth of information. Logs are kept associated with your phone number in your account: [](https://www.twilio.com/user/account/messaging/logs?toNumber=+1%20XXX-XXX-XXXX)
 * Rate limit: 1 msg/s (long number) vs. 30 msg/s (short code) <a href="https://www.twilio.com/help/faq/twilio-basics/how-many-calls-and-sms-messages-per-second-can-my-twilio-account-make" target="_blank">Twilio docs</a>
 * Carrier’s spam filtering/blocking logic <a href="https://www.twilio.com/help/faq/sms/how-can-i-prevent-my-messages-from-being-filtered-as-spam" target="_blank">Twilio docs</a>
 
@@ -34,7 +34,8 @@ parent2: Developer Portal
 	
 ## Telegram
 
-* Bots on Telegram only receive messages if they are mentioned (due to Telegram behaviour)
+* By default, bots on Telegram only receive messages if they are mentioned (due to Telegram privacy setting).  To have them see all messages use the @BotFather account to configure the bot's /setprivacy setting
+* In order to register a bot on Telegram, the developer account registering the bot has to FIRST have isntalled the Telegram client on some machine.  It won't work if the account is an SMS only account.
 
 ## Email
 
