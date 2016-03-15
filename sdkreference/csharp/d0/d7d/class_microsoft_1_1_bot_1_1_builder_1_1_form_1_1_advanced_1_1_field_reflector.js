@@ -2,6 +2,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflecto
 [
     [ "FieldReflector", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#afdaf18556890c54216d2b97d8adc7cb3", null ],
     [ "AddField", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#ac5d457d0b07a21fa045af3ee19733748", null ],
+    [ "EnumeratedHelpFormat", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#aad552f43d95bff6e70f26e63e60d36a1", null ],
     [ "GetValue", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a614bb171dd46d40149626d6bb6318069", null ],
     [ "IsUnknown", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#addfe78a110032b95ffd21d6d6455d705", null ],
     [ "ProcessEnumAttributes", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a21fa7fd7ab9856017858e366e84e3e2c", null ],

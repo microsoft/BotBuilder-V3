@@ -53,7 +53,7 @@
             <div class="header">
                 <a class="logo" href="//www.microsoft.com">
                     <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/Images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
                     </svg>
                 </a>
                 <div class="loading-animation"></div>
@@ -129,9 +129,12 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer:</di
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae259ff77d5f645222a0195ad610cb60e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae259ff77d5f645222a0195ad610cb60e">RegexRecognizer</a> (<a class="el" href="../../df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html">IFieldDescription</a> fieldDescription)</td></tr>
 <tr class="separator:ae259ff77d5f645222a0195ad610cb60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6254812cd3aa77db49c6a8551f0a58d"><td class="memItemLeft" align="right" valign="top">abstract IEnumerable&lt; <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#ae6254812cd3aa77db49c6a8551f0a58d">Matches</a> (string input, object defaultValue, bool allowNull)</td></tr>
-<tr class="memdesc:ae6254812cd3aa77db49c6a8551f0a58d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the matches found in the input.  <a href="#ae6254812cd3aa77db49c6a8551f0a58d">More...</a><br /></td></tr>
-<tr class="separator:ae6254812cd3aa77db49c6a8551f0a58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefaa4930adc477c6293bed3bfb209235"><td class="memItemLeft" align="right" valign="top">abstract string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#aefaa4930adc477c6293bed3bfb209235">Help</a> (object defaultValue)</td></tr>
+<tr class="memdesc:aefaa4930adc477c6293bed3bfb209235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the help string describing what are valid inputs to the recognizer.  <a href="#aefaa4930adc477c6293bed3bfb209235">More...</a><br /></td></tr>
+<tr class="separator:aefaa4930adc477c6293bed3bfb209235"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad29c5b240ade24b96a5c23a579ee7be"><td class="memItemLeft" align="right" valign="top">abstract IEnumerable&lt; <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#aad29c5b240ade24b96a5c23a579ee7be">Matches</a> (string input, object defaultValue)</td></tr>
+<tr class="memdesc:aad29c5b240ade24b96a5c23a579ee7be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the matches found in the input.  <a href="#aad29c5b240ade24b96a5c23a579ee7be">More...</a><br /></td></tr>
+<tr class="separator:aad29c5b240ade24b96a5c23a579ee7be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacca6fb0cdd5e8af9bc1b711db2f25f7"><td class="memItemLeft" align="right" valign="top">abstract IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html#aacca6fb0cdd5e8af9bc1b711db2f25f7">ValidInputs</a> (object value)</td></tr>
 <tr class="memdesc:aacca6fb0cdd5e8af9bc1b711db2f25f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return valid inputs to describe a particular value.  <a href="#aacca6fb0cdd5e8af9bc1b711db2f25f7">More...</a><br /></td></tr>
 <tr class="separator:aacca6fb0cdd5e8af9bc1b711db2f25f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,7 +156,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Regular expression recognizer. For example if you had a DateTime field you would have this format the date for the culture and use regexs to recognize date/times. </p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00278">278</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00304">304</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ae259ff77d5f645222a0195ad610cb60e"></a>
 <div class="memitem">
@@ -177,12 +180,41 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00280">280</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00306">306</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae6254812cd3aa77db49c6a8551f0a58d"></a>
+<a class="anchor" id="aefaa4930adc477c6293bed3bfb209235"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract string Microsoft.Bot.Builder.Form.Advanced.RegexRecognizer.Help </td>
+          <td>(</td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaultValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the help string describing what are valid inputs to the recognizer. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help.html">Help</a> on what the recognizer accepts.</dd></dl>
+
+<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a45ad070d2c98decc7c189ace538632dd">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad29c5b240ade24b96a5c23a579ee7be"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -199,13 +231,7 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>defaultValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>allowNull</em>&#160;</td>
+          <td class="paramname"><em>defaultValue</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -230,7 +256,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Match records.</dd></dl>
 
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a1ea145e4cb82c5d85fa5978f2e49ca44">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a>.</p>
+<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a8f04d32ad55e47008556f07094af095b">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a>.</p>
 
 </div>
 </div>
@@ -358,7 +384,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#aef474e8b5edceeb037d9f777befa9c69">Microsoft.Bot.Builder.Form.Advanced.IRecognizer</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00289">289</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00315">315</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -381,7 +407,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00298">298</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00326">326</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>

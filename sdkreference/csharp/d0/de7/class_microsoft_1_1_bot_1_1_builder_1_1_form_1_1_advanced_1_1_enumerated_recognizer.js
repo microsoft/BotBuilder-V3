@@ -1,9 +1,10 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer =
 [
-    [ "EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a46e94830b2f2e41bb221217294aa44df", null ],
-    [ "EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a7e97ed2a267b7e7811a3d25bf6c6fb4f", null ],
+    [ "EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#aaeb59479782890447eccadf66d71fe6e", null ],
+    [ "EnumeratedRecognizer", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a9aa3d2fb8281811532e308bdf733e212", null ],
     [ "DescriptionDelegate", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#acdb7606a072eaa358aa771997b8ea4fb", null ],
-    [ "Matches", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a6778997e3fc54d47117f3143567d931f", null ],
+    [ "Help", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a21b601b5a9b73b5b0899c7c5fb1884ac", null ],
+    [ "Matches", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a0c2f18d9526f1f935a5bfe685f50538f", null ],
     [ "TermsDelegate", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#aa58c458d4f56daf6aae965065e1d40a3", null ],
     [ "ToString", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#a63b27925086242d9c65d554411ccd0c0", null ],
     [ "ValidInputs", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html#acfc09f3cac6bd57cfeea344c5f151e76", null ],

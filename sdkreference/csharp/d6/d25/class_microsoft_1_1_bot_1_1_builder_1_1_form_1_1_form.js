@@ -9,6 +9,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form =
     [ "NavigationStep", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step" ],
     [ "Form", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a2fb626ecb5562f34de64a1e9dec0c53c", null ],
     [ "ActiveSteps", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a39df19af99a12f607be9741149e669ed", null ],
+    [ "AddField", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a1e8710066ae3da9ee6027365b07bd8be", null ],
     [ "AddRemainingFields", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a30f7ea03e43a2ea791b42876ad4a117b", null ],
     [ "BeginAsync", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a8764db7d25d4de51bd638d15c34bb0c4", null ],
     [ "BuildCommandRecognizer", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a968cb1f5a7c4ad0f1628a86ff41cf093", null ],
@@ -39,7 +40,6 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form =
     [ "_id", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a0e0e5b0fb3b23e4bef2e51d417550576", null ],
     [ "_ignoreAnnotations", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#aa779e236f80ec64baeddf1a5a0485f63", null ],
     [ "_localizer", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a097cfc1ae220d9bb0f4e194ba9627808", null ],
-    [ "_name", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#ac33a56e3028d7af834e08422335e334f", null ],
     [ "_steps", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#afb917533a1e346c8396110f98c5cdd2a", null ],
     [ "DebugRecognizers", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#abe6ad0d514b084b8f836eb162dcc54bf", null ],
     [ "Id", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#ae265d52fbe922eb5a060906c041daf54", null ]

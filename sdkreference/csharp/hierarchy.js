@@ -4,6 +4,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Form.Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", null ],
       [ "Microsoft.Bot.Builder.Form.Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", null ],
       [ "Microsoft.Bot.Builder.Form.PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", [
+        [ "Microsoft.Bot.Builder.Form.Help", "d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help.html", null ],
         [ "Microsoft.Bot.Builder.Form.Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", null ],
         [ "Microsoft.Bot.Builder.Form.Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", null ]
       ] ],
@@ -65,6 +66,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Form.Advanced.Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", null ],
+    [ "Microsoft.Bot.Builder.Form.CommandDescription", "dc/ddd/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_command_description.html", null ],
     [ "Microsoft.Bot.Builder.Form.Form< T >.FieldStep.Ambiguous", "db/d13/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_ambiguous.html", null ],
     [ "Microsoft.Bot.Builder.Form.Form< T >.FieldStep.FieldStepState", "d0/d59/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_field_step_state.html", null ],
     [ "Microsoft.Bot.Builder.Form.Form< T >.FormState", "dc/d71/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_form_state.html", null ],

@@ -1,6 +1,7 @@
 var _annotations_8cs =
 [
     [ "Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe" ],
+    [ "Help", "d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help.html", "d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help" ],
     [ "Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional" ],
     [ "Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt" ],
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base" ],
@@ -34,6 +35,11 @@ var _annotations_8cs =
       [ "CurrentChoice", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a800c17cac7f40e8ca99b9c8c6221a73f", null ],
       [ "Feedback", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56", null ],
       [ "Help", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6a26f548831e6a8c26bfbbd9f6ec61e0", null ],
+      [ "HelpNavigation", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a3addee159385c2a7eb024f39140cf97e", null ],
+      [ "HelpOneNumber", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0ae4db26551e457ac5db69487fe2b8daf8", null ],
+      [ "HelpManyNumber", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abd9d363096836f7a57920efae7694bf8", null ],
+      [ "HelpOneWord", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a976649ebc3e39ec018d41305e4282a32", null ],
+      [ "HelpManyWord", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a1c13e9bac6353d6c691811710e299e38", null ],
       [ "NextStep", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9282a276e14082a54b4c4c46bb3640c9", null ],
       [ "NoPreference", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9c66f2227b4dc7054e34ea7bb3d1e010", null ],
       [ "NotUnderstood", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aca296fd71c8deadb1bccdad8e097bc50", null ],

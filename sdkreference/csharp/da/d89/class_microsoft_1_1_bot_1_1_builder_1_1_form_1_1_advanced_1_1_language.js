@@ -2,6 +2,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language =
 [
     [ "ANormalization", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a02855cc656884545331eec21e9f8c6c7", null ],
     [ "ArticleOrNone", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a7bdf5ffa597c48803646d1eb617ba723", null ],
+    [ "BuildList", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a0bbadf8eaa543c9670dae897af8ea954", null ],
     [ "CamelCase", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#aa6d985c2130014da5790b850e8ecbdf0", null ],
     [ "GenerateTerms", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a560b4b257b0a528bd8cd43187a92dd88", null ],
     [ "Ignorable", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a4d74b79cd5aa805cd317da93aafb810e", null ],
