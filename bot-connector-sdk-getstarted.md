@@ -50,8 +50,6 @@ This is a step-by-step guide to writing an bot in C\# using the Bot Connector SD
 
 ![Create a new C\# project using the new Bot Application template.](/images/connector-getstarted-create-project.png)
 
-Question: Why is the project type called "Bot Connector Service"? - Why isn't this "Conversational Bot" (or something similar)?
-
 5. The template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
 	* The bot has to be registered with Bot Connector
 	* The appid & appsecret from the BotFramework.net registration page have to be recorded in the web.config
@@ -75,11 +73,11 @@ Registering your bot tells the Connector how to call your bot's web service. Not
 
 ## Compiling the bot and publishing the bot to Microsoft Azure
 
-1. Now that the bot is configured, you need to update the keys in the web.config file in your Visual Studio project.  Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build.  You need only the primary AppSecret, the secondary is used when you wish to regenerate your primary key without downtime.  Regenerate is shown when you view the key.
+Now that the bot is configured, you need to update the keys in the web.config file in your Visual Studio project.  Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build.  You need only the primary AppSecret, the secondary is used when you wish to regenerate your primary key without downtime.  Regenerate is shown when you view the key.
 
 ![Update the keys in the web.config file in your Visual Studio project](/images/connector-getstarted-configure-vs-keys.png)
 
-2. The core functionality of the EchoBot is all in one function.  In this case, the code takes the message text for the user, increments a counter that it pulled from the Message, and then replies using the CreateReplyMessage function, which can be found in Controllers\MessagesController.cs 
+The core functionality of the EchoBot is all in one function.  In this case, the code takes the message text for the user, increments a counter that it pulled from the Message, and then replies using the CreateReplyMessage function, which can be found in Controllers\MessagesController.cs 
 
 // Where's the documentation that shows how to save/restore "per-user" settings (for example, if writing an MTBot [Machine Translation Bot] the Bot/Agent will need to track the users default/current language.
 
