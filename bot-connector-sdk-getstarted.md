@@ -23,10 +23,10 @@ To use the Microsoft Bot Framework Connector, you must have:
 2. An Azure-accessible REST endpoint exposing a callback for the Connector service.
 3. Developer accounts on one or more communication services (such as Skype) where your bot will communicate. 
 	
-In addition you may wish to have an Azure App Insights account so you can capture telemetry from your bot, and as appropriate, take a look at the Bot Framework Builder SDK's for Node.JS and .Net. (<< Wouldn't you do this anyway?)
+In addition you may wish to have an Azure App Insights account so you can capture telemetry from your bot.  There are additionally different ways to go about building a bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector SDK .Net template which is what this QuickStart guide demonstrates.
 	
 ## Getting started in C\#
-This is a step-by-step guide to writing an bot in C\#.  Steps are similar for Node.js if you're using Visual Studio. (<< can you use something else?)
+This is a step-by-step guide to writing an bot in C\# using the Bot Connector SDK .Net template.
 
 1. Install prerequisite software
 
@@ -54,7 +54,7 @@ Question: Why is the project type called "Bot Connector Service"? - Why isn't th
 
 5. The template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
 	* The bot has to be registered with Bot Connector
-	* The appid & appsecret have to be recorded in the web.config - should we mention where these come from?
+	* The appid & appsecret from the BotFramework.net registration page have to be recorded in the web.config
 	* The project needs to be published to the web
 
 ## Registering your bot with the Microsoft Bot Framework 
