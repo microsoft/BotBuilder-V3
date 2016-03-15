@@ -38,11 +38,11 @@
 			top.before('<div class="fullWidth"></div>');
 			var fullwidth = $('div.fullWidth');
 			fullwidth.before('<div id="app-body"></div>');
-			var appbody = $('#app-body');
 			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
 			appbody.append(fullwidth);
-			appbody.append(contentcontainer);
-			appbody.append($('footer'));
         });
     </script>
 </head>
@@ -68,8 +68,8 @@
 			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
 				<ul class="header-nav">
 					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-					<li><a href="/">Documentation</a></li>
                     <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
+					<li class="active"><a href="/">Documentation</a></li>
 					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
 				</ul>
 			    <div class="search-outter">
@@ -80,10 +80,9 @@
 							    <button type="submit" class="icon-search">
 								    <span>Search</span>
 							    </button>
-						    </form>
-					    </div>
-				    </div>
-			    </div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -157,10 +156,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a60e2c1894fa05a71da59bcfd45c66123 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec4d7ac37107810405031bdf2870bcc inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#aaec4d7ac37107810405031bdf2870bcc">Format</a><code> [get, set]</code></td></tr>
 <tr class="separator:aaec4d7ac37107810405031bdf2870bcc inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a911a3d1ee3d226cb08b2d1ceb981cc0e inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a911a3d1ee3d226cb08b2d1ceb981cc0e">LastSeperator</a><code> [get, set]</code></td></tr>
-<tr class="separator:a911a3d1ee3d226cb08b2d1ceb981cc0e inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acae17d293118dda9529aaf30fe050a35 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#acae17d293118dda9529aaf30fe050a35">Seperator</a><code> [get, set]</code></td></tr>
-<tr class="separator:acae17d293118dda9529aaf30fe050a35 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af22855a00bd9d0ad99a7654241dd7262 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#af22855a00bd9d0ad99a7654241dd7262">LastSeparator</a><code> [get, set]</code></td></tr>
+<tr class="separator:af22855a00bd9d0ad99a7654241dd7262 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3fdf418d351386bc62e3eb08e5aa598 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#ae3fdf418d351386bc62e3eb08e5aa598">Separator</a><code> [get, set]</code></td></tr>
+<tr class="separator:ae3fdf418d351386bc62e3eb08e5aa598 inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2551ead6d971ee7a5303e11a060de33c inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a85d10e25c8a2448011842c66f7dc7732">PromptStyle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a2551ead6d971ee7a5303e11a060de33c">Style</a><code> [get, set]</code></td></tr>
 <tr class="separator:a2551ead6d971ee7a5303e11a060de33c inherit properties_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

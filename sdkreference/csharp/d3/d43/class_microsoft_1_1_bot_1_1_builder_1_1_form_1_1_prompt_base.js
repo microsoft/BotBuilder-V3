@@ -11,7 +11,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base =
     [ "Case", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a561682030f8b10af2f58b0b95ae822aa", null ],
     [ "Feedback", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a60e2c1894fa05a71da59bcfd45c66123", null ],
     [ "Format", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#aaec4d7ac37107810405031bdf2870bcc", null ],
-    [ "LastSeperator", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a911a3d1ee3d226cb08b2d1ceb981cc0e", null ],
-    [ "Seperator", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#acae17d293118dda9529aaf30fe050a35", null ],
+    [ "LastSeparator", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#af22855a00bd9d0ad99a7654241dd7262", null ],
+    [ "Separator", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#ae3fdf418d351386bc62e3eb08e5aa598", null ],
     [ "Style", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html#a2551ead6d971ee7a5303e11a060de33c", null ]
 ];

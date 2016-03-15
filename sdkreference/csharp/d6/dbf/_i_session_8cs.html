@@ -38,11 +38,11 @@
 			top.before('<div class="fullWidth"></div>');
 			var fullwidth = $('div.fullWidth');
 			fullwidth.before('<div id="app-body"></div>');
-			var appbody = $('#app-body');
 			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
 			appbody.append(fullwidth);
-			appbody.append(contentcontainer);
-			appbody.append($('footer'));
         });
     </script>
 </head>
@@ -80,10 +80,9 @@
 							    <button type="submit" class="icon-search">
 								    <span>Search</span>
 							    </button>
-						    </form>
-					    </div>
-				    </div>
-			    </div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -124,8 +123,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dac/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_state.html">Microsoft.Bot.Builder.DialogState</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">Microsoft.Bot.Builder.ISession</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">Microsoft.Bot.Builder.ISessionData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_session_state.html">Microsoft.Bot.Builder.SessionState</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

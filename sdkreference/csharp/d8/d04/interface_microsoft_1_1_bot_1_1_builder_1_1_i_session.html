@@ -38,11 +38,11 @@
 			top.before('<div class="fullWidth"></div>');
 			var fullwidth = $('div.fullWidth');
 			fullwidth.before('<div id="app-body"></div>');
-			var appbody = $('#app-body');
 			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
 			appbody.append(fullwidth);
-			appbody.append(contentcontainer);
-			appbody.append($('footer'));
         });
     </script>
 </head>
@@ -80,10 +80,9 @@
 							    <button type="submit" class="icon-search">
 								    <span>Search</span>
 							    </button>
-						    </form>
-					    </div>
-				    </div>
-			    </div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -127,8 +126,8 @@ Inheritance diagram for Microsoft.Bot.Builder.ISession:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af424c04eb0a5d6e9a27ecab2fb52747a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#af424c04eb0a5d6e9a27ecab2fb52747a">BeginDialogAsync</a> (string id, object args=null)</td></tr>
-<tr class="separator:af424c04eb0a5d6e9a27ecab2fb52747a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae08a03ed2c4a69e0be8ec326e3e99141"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ae08a03ed2c4a69e0be8ec326e3e99141">BeginDialogAsync</a> (<a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">IDialog</a> dialog, object args=null)</td></tr>
+<tr class="separator:ae08a03ed2c4a69e0be8ec326e3e99141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2b6293e8fe4c8a79527f8a280a3788a"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#aa2b6293e8fe4c8a79527f8a280a3788a">CreateDialogErrorResponse</a> (HttpStatusCode status=HttpStatusCode.InternalServerError, string errorMessage=null)</td></tr>
 <tr class="separator:aa2b6293e8fe4c8a79527f8a280a3788a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cd512bc748ef74356bff9969c560d58"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#a3cd512bc748ef74356bff9969c560d58">CreateDialogResponse</a> (string message)</td></tr>
@@ -148,24 +147,22 @@ Properties</h2></td></tr>
 <tr class="separator:ad20f7b42089b0618a457a076e3d24fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5eee4821d8e52ca20a503c79b2138ec"><td class="memItemLeft" align="right" valign="top">Message&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ac5eee4821d8e52ca20a503c79b2138ec">Message</a><code> [get]</code></td></tr>
 <tr class="separator:ac5eee4821d8e52ca20a503c79b2138ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8a5818041169c9cb950e58b68b5d724"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#ad8a5818041169c9cb950e58b68b5d724">MessageSent</a><code> [get]</code></td></tr>
-<tr class="separator:ad8a5818041169c9cb950e58b68b5d724"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdffab6538a51343f2d502cd79a6ef04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#abdffab6538a51343f2d502cd79a6ef04">SessionData</a><code> [get]</code></td></tr>
 <tr class="separator:abdffab6538a51343f2d502cd79a6ef04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00032">32</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00030">30</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af424c04eb0a5d6e9a27ecab2fb52747a"></a>
+<a class="anchor" id="ae08a03ed2c4a69e0be8ec326e3e99141"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.ISession.BeginDialogAsync </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
+          <td class="paramtype"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">IDialog</a>&#160;</td>
+          <td class="paramname"><em>dialog</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -181,7 +178,7 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a54a589ec6e24ae8682a66068e420856a">Microsoft.Bot.Builder.Session</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#acc2926a61c9fe32bdc5a647d4219870d">Microsoft.Bot.Builder.Session</a>.</p>
 
 </div>
 </div>
@@ -245,7 +242,7 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#ac975cad72c5ac4d7fb39873bd4e64a24">Microsoft.Bot.Builder.Session</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a6021815fbb5768de114f729a937bd127">Microsoft.Bot.Builder.Session</a>.</p>
 
 </div>
 </div>
@@ -280,7 +277,7 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a1378370406aa41088f312200a489061f">Microsoft.Bot.Builder.Session</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d33/class_microsoft_1_1_bot_1_1_builder_1_1_session.html#a766adea5bfd83b2fd90423f63a71cc60">Microsoft.Bot.Builder.Session</a>.</p>
 
 </div>
 </div>
@@ -320,7 +317,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00036">36</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00033">33</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
 
 </div>
 </div>
@@ -342,29 +339,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad8a5818041169c9cb950e58b68b5d724"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Microsoft.Bot.Builder.ISession.MessageSent</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00035">35</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00032">32</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
 
 </div>
 </div>
@@ -386,7 +361,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00037">37</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/dbf/_i_session_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d6/dbf/_i_session_8cs_source.html">ISession.cs</a>.</p>
 
 </div>
 </div>

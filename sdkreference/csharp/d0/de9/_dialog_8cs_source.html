@@ -38,11 +38,11 @@
 			top.before('<div class="fullWidth"></div>');
 			var fullwidth = $('div.fullWidth');
 			fullwidth.before('<div id="app-body"></div>');
-			var appbody = $('#app-body');
 			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
 			appbody.append(fullwidth);
-			appbody.append(contentcontainer);
-			appbody.append($('footer'));
         });
     </script>
 </head>
@@ -80,10 +80,9 @@
 							    <button type="submit" class="icon-search">
 								    <span>Search</span>
 							    </button>
-						    </form>
-					    </div>
-				    </div>
-			    </div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -114,7 +113,7 @@ $(document).ready(function(){initNavTree('d0/de9/_dialog_8cs_source.html','../..
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialog_html_a18219303efaab4991d419bede4cf4e82"><div class="ttname"><a href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a18219303efaab4991d419bede4cf4e82">Microsoft.Bot.Builder.Dialog.Dialog</a></div><div class="ttdeci">Dialog(Func&lt; Dialog&lt; TArgs, TResult &gt;, string &gt; nameProvider)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de9/_dialog_8cs_source.html#l00021">Dialog.cs:21</a></div></div>
 <div class="ttc" id="namespace_microsoft_html"><div class="ttname"><a href="../../d7/d4e/namespace_microsoft.html">Microsoft</a></div></div>
 <div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_html"><div class="ttname"><a href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">Microsoft.Bot.Builder.IDialog</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d32/_i_dialog_8cs_source.html#l00021">IDialog.cs:21</a></div></div>
-<div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_html"><div class="ttname"><a href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">Microsoft.Bot.Builder.ISession</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbf/_i_session_8cs_source.html#l00032">ISession.cs:32</a></div></div>
+<div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_html"><div class="ttname"><a href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">Microsoft.Bot.Builder.ISession</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dbf/_i_session_8cs_source.html#l00030">ISession.cs:30</a></div></div>
 <div class="ttc" id="namespace_microsoft_1_1_bot_html"><div class="ttname"><a href="../../d5/d61/namespace_microsoft_1_1_bot.html">Microsoft.Bot</a></div></div>
 <div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_html_a73a9432e516a541077caea981dfa8720"><div class="ttname"><a href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a73a9432e516a541077caea981dfa8720">Microsoft.Bot.Builder.IDialog.DialogResumedAsync</a></div><div class="ttdeci">Task&lt; DialogResponse &gt; DialogResumedAsync(ISession session, DialogResult result)</div></div>
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialog_html_a512b6f745542c2b54b00f59d5607c3e1"><div class="ttname"><a href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a512b6f745542c2b54b00f59d5607c3e1">Microsoft.Bot.Builder.Dialog.DialogResumedAsync</a></div><div class="ttdeci">virtual async Task&lt; DialogResponse &gt; DialogResumedAsync(ISession session, TResult result=default(TResult))</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de9/_dialog_8cs_source.html#l00033">Dialog.cs:33</a></div></div>

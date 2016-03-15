@@ -7,5 +7,5 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_connector_session =
     [ "ConnectorSession", "d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a220d083473715b91beb0c71df56edaab", null ],
     [ "ComposeReply", "d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a6e7d2f0c461ce5837651ea3fb175d87d", null ],
     [ "MessageReceivedAsync", "d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a721be7fb8bfca94423d5c8e0a08c4657", null ],
-    [ "storeType", "d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#a38778bbc3bfe1d92b4bef56d9827576d", null ]
+    [ "storeType", "d4/d94/class_microsoft_1_1_bot_1_1_builder_1_1_connector_session.html#ade09037983c36efacf4783c30097f0a4", null ]
 ];

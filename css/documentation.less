@@ -106,9 +106,6 @@ a {
     background-color: transparent;
 }
 
-ul.header-nav {
-    padding-left: 40px;
-}
 
 .post {
     padding: 30px 0;
@@ -121,7 +118,8 @@ ul.header-nav {
 
 @import "../Less/_media.less";
 
-@media screen and (max-width: (@one-column-grid-width)) {
+//use single column mode when below 2 columns
+@media screen and (max-width: (@two-column-min-width - 1px)) {
     .outline {
         min-width: 0;
     }
