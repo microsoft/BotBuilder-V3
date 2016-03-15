@@ -20,7 +20,7 @@ Using the tool, you can:
 * Emulate a specific user and/or conversation
 
 ## Installation and configuration
-* Install the Emulator from [github or ?]()
+* [Install the Emulator](http://aka.ms/bf-bc-emulator)
 * Launch the Emulator
 * Copy the AppId and AppSecret from the Web.config of your Bot app
 ![Configure the Bot Framework](../images/emulator-configure.jpg)
