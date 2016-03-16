@@ -13,9 +13,9 @@ parent1: Bot Connector SDK
 
 ## Overview
 
-// TODO: add a basic architecture diagram to include names of 'things' - showing what the parts are, and what a developer would need to write - this will then ground the rest of the document (where is the agent/bot (are agents and bots the same thing?)), how does Agent/Bot fit in with "Bot Framework Connector" and is this the same as Intercom?. 
+The Microsoft Bot Framework Connector is a communication service that helps you connect your bot with many different communication channels (GroupMe, SMS, email, and others). If you write a conversational bot or agent and expose a Microsoft Bot Framework-compatible API on the internet, the Connector will forward messages from your bot to a user, and will send user messages back to your bot.  
 
-The Microsoft Bot Framework Connector is a communication service that helps you connect your bot with many different communication channels (GroupMe, SMS, email, and others). If you write a conversational bot or agent and expose a Microsoft Bot Framework-compatible API on the internet, the Connector will forward messages from your bot to a user, and will send user messages back to your bot.  In addition the Bot Framework Connector can provide additional value by translating a message's language on behalf of the user or bot, providing per user and per conversation storage and assist with layout by translating markdown to the appropriate layout for the communication channel you've chosen.
+![System Overview of the Bot Framework](/images/connector-getstarted-system-diagram.png)
 
 To use the Microsoft Bot Framework Connector, you must have:
 
@@ -26,7 +26,7 @@ To use the Microsoft Bot Framework Connector, you must have:
 In addition you may wish to have an Azure App Insights account so you can capture telemetry from your bot.  There are additionally different ways to go about building a bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector SDK .Net template which is what this QuickStart guide demonstrates.
 	
 ## Getting started in C\#
-This is a step-by-step guide to writing an bot in C\# using the Bot Connector SDK .Net template.
+This is a step-by-step guide to writing an bot in C\# using the Bot Framework Connector SDK .Net template.
 
 1. Install prerequisite software
 
@@ -37,7 +37,7 @@ This is a step-by-step guide to writing an bot in C\# using the Bot Connector SD
 	* Important: Please update all VS extensions to their latest versions
 		Tools->Extensions and Updates->Updates
 
-2. Download and install the Microsoft Bot Framework connector service template
+2. Download and install the Microsoft Bot Framework Connector service template
 	* From the MSDN Visual Studio Gallery:  [INSERT DOWNLOAD LINK HERE]()
 	* Download the file from the direct download link here: [INSERT DOWNLOAD LINK HERE]()
 	* Unpack the downloaded file into a folder
@@ -57,7 +57,7 @@ This is a step-by-step guide to writing an bot in C\# using the Bot Connector SD
 
 ## Registering your bot with the Microsoft Bot Framework 
 
-Registering your bot tells the Connector how to call your bot's web service. Note that the AppID and AppSecret are generated when your Bot is registered with the Microsoft Bot Framework, the AppID and AppSecret are used to authenticate the conversation, and allows the developer to configure their bot with the Channels they'd like to be visible on.
+Registering your bot tells the Connector how to call your bot's web service. Note that the AppID and AppSecret are generated when your Bot is registered with the Microsoft Bot Framework Connector, the AppID and AppSecret are used to authenticate the conversation, and allows the developer to configure their bot with the Channels they'd like to be visible on.
 
 1. Go to the Microsoft Bot Framework portal at [https://www.botframework.com](https://www.botframework.com) and sign in with your Microsoft Account.
 	
