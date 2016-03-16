@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BE961903-F968-40BE-BBEC-727A6008A1F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Bot.Builder</RootNamespace>
+    <AssemblyName>Microsoft.Bot.Builder</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Scratch|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Scratch\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PPE|AnyCPU'">
+    <OutputPath>bin\PPE\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WestUS|AnyCPU'">
+    <OutputPath>bin\WestUS\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EastUS|AnyCPU'">
+    <OutputPath>bin\EastUS\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Library\Dialogs\IDialog.cs">
+      <Link>Dialogs\IDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Dialogs\Dialog.cs">
+      <Link>Dialogs\Dialog.cs</Link>
+    </Compile>
+		<Compile Include="..\Library\Dialogs\CallDialog.cs">
+			<Link>Dialogs\CallDialog.cs</Link>
+		</Compile>
+		<Compile Include="..\Library\Dialogs\CommandDialog.cs">
+      <Link>Dialogs\CommandDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Dialogs\LuisDialog.cs">
+      <Link>Dialogs\LuisDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Dialogs\IDialogCollection.cs">
+      <Link>Dialogs\IDialogCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Dialogs\PromptDialog.cs">
+      <Link>Dialogs\PromptDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Extensions\Extensions.cs">
+      <Link>Extensions\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\SessionStores\CookieHelper.cs">
+      <Link>SessionStores\CookieHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\SessionStores\CookieStore.cs">
+      <Link>SessionStores\CookieStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\SessionStores\InMemoryStore.cs">
+      <Link>SessionStores\InMemoryStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\SessionStores\ISessionStore.cs">
+      <Link>SessionStores\ISessionStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\SessionStores\MessageStore.cs">
+      <Link>SessionStores\MessageStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Models\EntityRecommendation.cs">
+      <Link>Models\EntityRecommendation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Models\IntentRecommendation.cs">
+      <Link>Models\IntentRecommendation.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Serializers\BinarySerializer.cs">
+      <Link>Serializers\BinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Serializers\CookieSerializer.cs">
+      <Link>Serializers\CookieSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Serializers\JsonSerializer.cs">
+      <Link>Serializers\JsonSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\DialogStack.cs">
+      <Link>Sessions\DialogStack.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\IDialogStack.cs">
+      <Link>Sessions\IDialogStack.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\ISession.cs">
+      <Link>Sessions\ISession.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\ISessionData.cs">
+      <Link>Sessions\ISessionData.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\Session.cs">
+      <Link>Sessions\Session.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Extensions\WaitHandleEx.cs">
+      <Link>WaitHandleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\Library\Sessions\SessionData.cs">
+      <Link>Sessions\SessionData.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.Agents.Intercom\Microsoft.Bot.Connector.csproj">
+      <Project>{9f1a81ee-c6fe-474e-a3e2-c581435d55bf}</Project>
+      <Name>Microsoft.Bot.Connector</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,13 @@
+{
+  "name": "ConnectorBot_JS",
+  "version": "0.0.0",
+  "description": "ConnectorBot_JS",
+  "main": "app.js",
+  "author": {
+    "name": "stevenic",
+    "email": ""
+  },
+  "dependencies": {
+    "restify": "^4.0.4"
+  }
+}

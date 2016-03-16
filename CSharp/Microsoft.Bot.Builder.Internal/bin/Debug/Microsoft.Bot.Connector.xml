@@ -1,0 +1,905 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Connector</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Connector.ConnectorClient">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.Initialize">
+            <summary>
+            Initializes client properties.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the ConnectorClient class
+            </summary>
+            <param name="appId">Your app id. If null, this setting is read from settings["AppId"]</param>
+            <param name="appSecret">Your app secret. If null, this setting is read from settings["AppSecret"]</param>
+            <param name='handlers'>Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.ConnectorClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the ConnectorClient class
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IConnectorClient">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client
+            subscription.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IMessages">
+            <summary>
+            Messages operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IMessages.SendMessageWithHttpMessagesAsync(Microsoft.Bot.Connector.Message,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send a message
+            </summary>
+            This method allows you to initiate a new conversation message with
+            the user.
+            
+            The important fields are:
+            
+            |Property    | Description
+            |Example
+            
+            |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+            ------------------------------------
+            |From        | The ChannelAccount of the Bot you want to send the
+            message from
+            |
+            SMS:+4255551212 (the bots address)
+            |To          | The channelAccount of the user you to start a
+            conversation with
+            |
+            SMS:+4255551111 (the users address)
+            |Text        | The message you want to communicate
+            |
+            Text: "Hello world"
+            |Language    | The language your message is expressed in
+            (important if you have translation enabled) using the [language
+            codes from Microsoft
+            Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx)
+            | Language: "en"
+            |Attachments | Attachments represent images and attachments that
+            will be rendered on the platform as appropriate
+            |
+            ...
+            |ChannelData | You can pass channel specific data to get custom
+            native rendering of your message on a per channel basis. See
+            channel documentation for information on what channels are
+            expecting for this        | ...
+            
+            Bots can track state data by User, Conversation and Users within
+            the Conversation by embedding data objects into the message.
+            This data will be stored in persistent storage and reflected back
+            to the bot with all future messages as appropriate to their
+            scope.
+            
+            The properties you use to for Bot State are:
+            
+            |Property                   | Description
+            |
+            Example
+            |-------------------------- |
+            ----------------------------------------------------------------------------------------------------
+            | --------------------------------------------------------------
+            |BotUserData                |  Bot controlled Object which is
+            tracked on the user regardless of the channel they communicate on
+            | BotUserData: { 'Welcomed' : true }
+            
+            |BotConversationData        | Bot controlled object which is
+            tracked on the conversation regardless of the user you are
+            talking to | BotConversationData:  'MessageCount':13 }
+            
+            |BotPerUserConversationData | Bot controlled object which is
+            tracked on a user in a given conversation
+            | BotPerUserConversationData :
+            {'LastRequest' : 'FavoriteColor' }
+            <param name='message'>
+            message to send
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Messages">
+            <summary>
+            Messages operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Messages.#ctor(Microsoft.Bot.Connector.ConnectorClient)">
+            <summary>
+            Initializes a new instance of the Messages class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Messages.Client">
+            <summary>
+            Gets a reference to the ConnectorClient
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Messages.SendMessageWithHttpMessagesAsync(Microsoft.Bot.Connector.Message,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send a message
+            </summary>
+            This method allows you to initiate a new conversation message with the
+            user.
+            
+            The important fields are:
+            
+            |Property    | Description
+            |Example
+            
+            |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+            ------------------------------------
+            |From        | The ChannelAccount of the Bot you want to send the message
+            from
+            |
+            SMS:+4255551212 (the bots address)
+            |To          | The channelAccount of the user you to start a conversation
+            with
+            |
+            SMS:+4255551111 (the users address)
+            |Text        | The message you want to communicate
+            |
+            Text: "Hello world"
+            |Language    | The language your message is expressed in (important if you
+            have translation enabled) using the [language codes from Microsoft
+            Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) |
+            Language: "en"
+            |Attachments | Attachments represent images and attachments that will be
+            rendered on the platform as appropriate
+            |
+            ...
+            |ChannelData | You can pass channel specific data to get custom native
+            rendering of your message on a per channel basis. See channel
+            documentation for information on what channels are expecting for this
+            | ...
+            
+            Bots can track state data by User, Conversation and Users within the
+            Conversation by embedding data objects into the message.
+            This data will be stored in persistent storage and reflected back to the
+            bot with all future messages as appropriate to their scope.
+            
+            The properties you use to for Bot State are:
+            
+            |Property                   | Description
+            |
+            Example
+            |-------------------------- |
+            ----------------------------------------------------------------------------------------------------
+            | --------------------------------------------------------------
+            |BotUserData                |  Bot controlled Object which is tracked on
+            the user regardless of the channel they communicate on    | BotUserData:
+            { 'Welcomed' : true }
+            |BotConversationData        | Bot controlled object which is tracked on
+            the conversation regardless of the user you are talking to |
+            BotConversationData:  'MessageCount':13 }
+            |BotPerUserConversationData | Bot controlled object which is tracked on a
+            user in a given conversation                             |
+            BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }
+            <param name='message'>
+            message to send
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessagesExtensions.SendMessage(Microsoft.Bot.Connector.IMessages,Microsoft.Bot.Connector.Message)">
+            <summary>
+            Send a message
+            </summary>
+            This method allows you to initiate a new conversation message with the
+            user.
+            
+            The important fields are:
+            
+            |Property    | Description
+            |Example
+            
+            |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+            ------------------------------------
+            |From        | The ChannelAccount of the Bot you want to send the message
+            from
+            |
+            SMS:+4255551212 (the bots address)
+            |To          | The channelAccount of the user you to start a conversation
+            with
+            |
+            SMS:+4255551111 (the users address)
+            |Text        | The message you want to communicate
+            |
+            Text: "Hello world"
+            |Language    | The language your message is expressed in (important if you
+            have translation enabled) using the [language codes from Microsoft
+            Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) |
+            Language: "en"
+            |Attachments | Attachments represent images and attachments that will be
+            rendered on the platform as appropriate
+            |
+            ...
+            |ChannelData | You can pass channel specific data to get custom native
+            rendering of your message on a per channel basis. See channel
+            documentation for information on what channels are expecting for this
+            | ...
+            
+            Bots can track state data by User, Conversation and Users within the
+            Conversation by embedding data objects into the message.
+            This data will be stored in persistent storage and reflected back to the
+            bot with all future messages as appropriate to their scope.
+            
+            The properties you use to for Bot State are:
+            
+            |Property                   | Description
+            |
+            Example
+            |-------------------------- |
+            ----------------------------------------------------------------------------------------------------
+            | --------------------------------------------------------------
+            |BotUserData                |  Bot controlled Object which is tracked on
+            the user regardless of the channel they communicate on    | BotUserData:
+            { 'Welcomed' : true }
+            |BotConversationData        | Bot controlled object which is tracked on
+            the conversation regardless of the user you are talking to |
+            BotConversationData:  'MessageCount':13 }
+            |BotPerUserConversationData | Bot controlled object which is tracked on a
+            user in a given conversation                             |
+            BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='message'>
+            message to send
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessagesExtensions.SendMessageAsync(Microsoft.Bot.Connector.IMessages,Microsoft.Bot.Connector.Message,System.Threading.CancellationToken)">
+            <summary>
+            Send a message
+            </summary>
+            This method allows you to initiate a new conversation message with the
+            user.
+            
+            The important fields are:
+            
+            |Property    | Description
+            |Example
+            
+            |------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+            ------------------------------------
+            |From        | The ChannelAccount of the Bot you want to send the message
+            from
+            |
+            SMS:+4255551212 (the bots address)
+            |To          | The channelAccount of the user you to start a conversation
+            with
+            |
+            SMS:+4255551111 (the users address)
+            |Text        | The message you want to communicate
+            |
+            Text: "Hello world"
+            |Language    | The language your message is expressed in (important if you
+            have translation enabled) using the [language codes from Microsoft
+            Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) |
+            Language: "en"
+            |Attachments | Attachments represent images and attachments that will be
+            rendered on the platform as appropriate
+            |
+            ...
+            |ChannelData | You can pass channel specific data to get custom native
+            rendering of your message on a per channel basis. See channel
+            documentation for information on what channels are expecting for this
+            | ...
+            
+            Bots can track state data by User, Conversation and Users within the
+            Conversation by embedding data objects into the message.
+            This data will be stored in persistent storage and reflected back to the
+            bot with all future messages as appropriate to their scope.
+            
+            The properties you use to for Bot State are:
+            
+            |Property                   | Description
+            |
+            Example
+            |-------------------------- |
+            ----------------------------------------------------------------------------------------------------
+            | --------------------------------------------------------------
+            |BotUserData                |  Bot controlled Object which is tracked on
+            the user regardless of the channel they communicate on    | BotUserData:
+            { 'Welcomed' : true }
+            |BotConversationData        | Bot controlled object which is tracked on
+            the conversation regardless of the user you are talking to |
+            BotConversationData:  'MessageCount':13 }
+            |BotPerUserConversationData | Bot controlled object which is tracked on a
+            user in a given conversation                             |
+            BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='message'>
+            message to send
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Attachment">
+            <summary>
+            A attachment
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachment.#ctor">
+            <summary>
+            Initializes a new instance of the Attachment class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachment.#ctor(System.String,System.String,System.Object,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Attachment class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ContentType">
+            <summary>
+            mimetype/Contenttype for the file, either ContentUrl or
+            Content must be set depending on the mimetype
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ContentUrl">
+            <summary>
+            Url to content
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Content">
+            <summary>
+            Content Payload (for example, lat/long for contentype="location
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.FallbackText">
+            <summary>
+            (OPTIONAL-CARD) FallbackText - used for downlevel clients, should
+            be simple markup with links
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Title">
+            <summary>
+            (OPTIONAL-CARD) Title
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.TitleLink">
+            <summary>
+            (OPTIONAL-CARD) link to use for the title
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Text">
+            <summary>
+            (OPTIONAL-CARD) The Text description the attachment
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ThumbnailUrl">
+            <summary>
+            (OPTIONAL-CARD) Thumbnail associated with attachment
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachment.Validate">
+            <summary>
+            Validate the object. Throws ArgumentException or ArgumentNullException if validation fails.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ChannelAccount">
+            <summary>
+            Channel account information needed to route a message
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Name">
+            <summary>
+            Display friendly name of the user or bot
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.ChannelId">
+            <summary>
+            Channel Id that the channelAccount is to be communicated with
+            (Example: slack, sms, email, groupme, skype, twitter, etc.)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Address">
+            <summary>
+            Channel Address for the channelAccount (Example: @example)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Id">
+            <summary>
+            Id - id of the shared bot or user this channelaccount refers to
+            (many channelaccounts can share one user id or bot id)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.IsBot">
+            <summary>
+            Is this id a bot?
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.Validate">
+            <summary>
+            Validate the object. Throws ArgumentException or ArgumentNullException if validation fails.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Error">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor(System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Code">
+            <summary>
+            Error code. Possible values for this property include:
+            'MissingProperty', 'MalformedData', 'NotFound', 'ServiceError',
+            'Internal', 'InvalidRange', 'NotSupported', 'NotAllowed',
+            'BadCertificate'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.StatusCode">
+            <summary>
+            Status code
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ErrorMessage">
+            <summary>
+            A standardized message error payload
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorMessage.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorMessage class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorMessage.#ctor(Microsoft.Bot.Connector.Error)">
+            <summary>
+            Initializes a new instance of the ErrorMessage class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ErrorMessage.Error">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Location">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Location.#ctor">
+            <summary>
+            Initializes a new instance of the Location class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Location.#ctor(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.String)">
+            <summary>
+            Initializes a new instance of the Location class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Location.Altitude">
+            <summary>
+            Altitude
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Location.Latitude">
+            <summary>
+            Latitude for the user when the message was created
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Location.Longitude">
+            <summary>
+            Longitude for the user when the message was created
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Location.Name">
+            <summary>
+            Name for user location when the message was created
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Mention">
+            <summary>
+            Mention information
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Mention.#ctor">
+            <summary>
+            Initializes a new instance of the Mention class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Mention.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.String)">
+            <summary>
+            Initializes a new instance of the Mention class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Mention.Mentioned">
+            <summary>
+            The mentioned user
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Mention.Text">
+            <summary>
+            Sub Text which represents the mention (can be null or empty)
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Mention.Validate">
+            <summary>
+            Validate the object. Throws ArgumentException or ArgumentNullException if validation fails.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Message">
+            <summary>
+            A Microsoft.Bot.Connector message
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Message.#ctor">
+            <summary>
+            Initializes a new instance of the Message class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Message.#ctor(System.String,System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Nullable{System.Int32},System.Collections.Generic.IList{Microsoft.Bot.Connector.Mention},System.String,System.String,System.String,System.Object,System.Object,System.Object,System.Object,Microsoft.Bot.Connector.Location,System.Collections.Generic.IList{System.String},System.String)">
+            <summary>
+            Initializes a new instance of the Message class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Type">
+            <summary>
+            What kind of message is this. Possible values for this property
+            include: 'Message', 'Ping', 'DeleteUserData',
+            'BotAddedToConversation', 'BotRemovedFromConversation',
+            'UserAddedToConversation', 'UserRemovedFromConversation',
+            'EndOfConversation'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Id">
+            <summary>
+            Bot.Connector Id for the message (always assigned by transport)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ConversationId">
+            <summary>
+            Bot.Connector ConverationId id for the conversation (always
+            assigned by transport)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Created">
+            <summary>
+            Timestamp of when the message was created
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.SourceText">
+            <summary>
+            (if translated) The OriginalText of the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.SourceLanguage">
+            <summary>
+            (if translated) The language that the originator
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Language">
+            <summary>
+            The language that the Text is expressed in
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Text">
+            <summary>
+            The text of the message (this will be target language depending on
+            flags and destination
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Attachments">
+            <summary>
+            Array of attachments that can be anything
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.From">
+            <summary>
+            ChannelIdentity that sent the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.To">
+            <summary>
+            ChennelIdentity the message is sent to
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ReplyTo">
+            <summary>
+            Account to send replies to (for example, a group account that the
+            message was part of)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ReplyToMessageId">
+            <summary>
+            The message Id that this message is a reply to
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Participants">
+            <summary>
+            List of ChannelAccounts in the conversation (NOTE: this is not for
+            delivery means but for information)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.TotalParticipants">
+            <summary>
+            Total participants in the conversation.  2 means 1:1 message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Mentions">
+            <summary>
+            Array of mentions from the channel context
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Place">
+            <summary>
+            Place in user readable format:
+            Examples:
+            Starbucks, 140th Ave NE, Bellevue, WA
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ChannelMessageId">
+            <summary>
+            Channel Message Id
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ChannelConversationId">
+            <summary>
+            Channel Conversation Id
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ChannelData">
+            <summary>
+            Channel specific properties.  For example: Email channel may pass
+            the Subject field as a property
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.BotUserData">
+            <summary>
+            Private Bot opaque data associated with a user (across all
+            channels and conversations)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.BotConversationData">
+            <summary>
+            Private Bot opaque state data associated with a conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.BotPerUserInConversationData">
+            <summary>
+            Private Bot opaque state data associated with a user in a
+            conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Location">
+            <summary>
+            Location information (see
+            https://dev.onedrive.com/facets/location_facet.htm)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.Hashtags">
+            <summary>
+            Hashtags for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Message.ETag">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Message.Validate">
+            <summary>
+            Validate the object. Throws ArgumentException or ArgumentNullException if validation fails.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.CreateReplyMessage(Microsoft.Bot.Connector.Message,System.String,System.String)">
+            <summary>
+            Take a message and create a reply message for it with the routing information 
+            set up to correctly route a reply to the source message
+            </summary>
+            <param name="sourceMessage">the message being used to create the ReplyMessage from</param>
+            <param name="text">text you want to reply with</param>
+            <param name="language">language of your reply</param>
+            <returns>message set up to route back to the sender</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.HasContent(Microsoft.Bot.Connector.Message)">
+            <summary>
+            Check if the message has content
+            </summary>
+            <returns>Returns true if this message has any content to send</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.GetChannelData``1(Microsoft.Bot.Connector.Message)">
+            <summary>
+            Get channeldata as typed structure
+            </summary>
+            <typeparam name="TypeT">type to use</typeparam>
+            <param name="message">message</param>
+            <returns>typed object or default(TypeT)</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.GetBotUserData``1(Microsoft.Bot.Connector.Message,System.String)">
+            <summary>
+            Get BotUserData based on version
+            </summary>
+            <typeparam name="TypeT">Type you want the result in (can be "dynamic")</typeparam>
+            <param name="message">message to retrieve data from</param>
+            <param name="version">version (Default: "v1")</param>
+            <returns>object in type requested or default(TypeT) if the data is not present</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.GetBotConversationData``1(Microsoft.Bot.Connector.Message,System.String)">
+            <summary>
+            Get BotConversationData based on version
+            </summary>
+            <typeparam name="TypeT">Type you want the result in (can be "dynamic")</typeparam>
+            <param name="message">message to retrieve data from</param>
+            <param name="version">version (Default: "v1")</param>
+            <returns>object in type requested or default(TypeT) if the data is not present</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.GetBotPerUserInConversationData``1(Microsoft.Bot.Connector.Message,System.String)">
+            <summary>
+            Get BotPerUserInConversationData based on version
+            </summary>
+            <typeparam name="TypeT">Type you want the result in (can be "dynamic")</typeparam>
+            <param name="message">message to retrieve data from</param>
+            <param name="version">version (Default: "v1")</param>
+            <returns>object in type requested or default(TypeT) if the data is not present</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.SetBotUserData(Microsoft.Bot.Connector.Message,System.Object,System.String)">
+            <summary>
+            Set BotUserData as a versioned record
+            </summary>
+            <param name="message">message to set data on</param>
+            <param name="data">data to save under that version</param>
+            <param name="version">version (default: "v1")</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.SetBotConversationData(Microsoft.Bot.Connector.Message,System.Object,System.String)">
+            <summary>
+            Set BotConversationData as a versioned record
+            </summary>
+            <param name="message">message to set data on</param>
+            <param name="data">data to save under that version</param>
+            <param name="version">version (default: "v1")</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageExtensions.SetBotPerUserInConversationData(Microsoft.Bot.Connector.Message,System.Object,System.String)">
+            <summary>
+            Set BotPerUserInConversationData as a versioned record
+            </summary>
+            <param name="message">message to set data on</param>
+            <param name="data">data to save under that version</param>
+            <param name="version">version (default: "v1")</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConnectorClientCredentials">
+            <summary>
+            Use credentials from AppSetting "AppId" "AppSecret"
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClientCredentials.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Create a new instance of the ConnectorClientCredentials class
+            </summary>
+            <param name="appId">default will come from Settings["AppId"]</param>
+            <param name="appSecret">default will come from settings["AppSecret"]</param>
+            <param name="subscriptionKey"></param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClientCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Apply the credentials to the HTTP request.
+            </summary>
+            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        </member>
+    </members>
+</doc>

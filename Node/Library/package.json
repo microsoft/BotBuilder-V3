@@ -1,0 +1,17 @@
+{
+  "name": "BotBuilder",
+  "version": "0.1.2",
+  "description": "Simplifies the building of Bots for the Microsoft Bot Framework.",
+  "main": "main.js",
+  "author": {
+    "name": "stevenic",
+    "email": "stevenic@microsoft.com"
+  },
+  "dependencies": {
+    "chrono-node": "^1.1.3",
+    "node-uuid": "^1.4.7",
+    "request": "^2.69.0",
+    "skype-botkit": "http://skypetriviabot.blob.core.windows.net/botkit/skype-botkit.tar.gz",
+    "sprintf-js": "^1.0.3"
+  }
+}

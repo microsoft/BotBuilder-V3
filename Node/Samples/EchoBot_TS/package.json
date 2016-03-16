@@ -1,0 +1,15 @@
+{
+  "name": "EchoBot_TS",
+  "version": "0.0.0",
+  "description": "EchoBot_TS",
+  "main": "app.js",
+  "author": {
+    "name": "stevenic",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "^3.21.2",
+    "jade": "*",
+    "stylus": "*"
+  }
+}
