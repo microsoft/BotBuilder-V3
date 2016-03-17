@@ -99,6 +99,19 @@ var Session = (function (_super) {
         dialog.begin(this, args);
         return this;
     };
+    Session.prototype.replaceDialog = function (id, args) {
+        var dialog = this.dialogs.getDialog(id);
+        if (!dialog) {
+            throw new Error('Dialog[' + id + '] not found.');
+        }
+        var ss = this.sessionState;
+        var cur = { id: id, state: {} };
+        ss.callstack.pop();
+        ss.callstack.push(cur);
+        this.dialogData = cur.state;
+        dialog.begin(this, args);
+        return this;
+    };
     Session.prototype.endDialog = function (result) {
         var ss = this.sessionState;
         var r = result || { resumed: dialog.ResumeReason.completed };

@@ -750,7 +750,15 @@ export class Session {
      * @param id Unique ID of the dialog to start.
      * @param args Optional arguments to pass to the dialogs begin() method.
      */
-    beginDialog<T>(id: string, args?: T): Session
+    beginDialog<T>(id: string, args?: T): Session;
+
+    /**
+     * Ends the current dialog and starts a new one its place. The parent dialog will not be 
+     * resumed until the new dialog completes. 
+     * @param id Unique ID of the dialog to start.
+     * @param args Optional arguments to pass to the dialogs begin() method.
+     */
+    replaceDialog<T>(id: string, args?: T): Session;
 
     /**
      * Ends the current dialog. The dialogs parent will be resumed.

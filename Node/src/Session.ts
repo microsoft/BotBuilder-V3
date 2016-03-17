@@ -110,6 +110,20 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
+    public replaceDialog<T>(id: string, args?: T): ISession {
+        var dialog = this.dialogs.getDialog(id);
+        if (!dialog) {
+            throw new Error('Dialog[' + id + '] not found.');
+        }
+        var ss = this.sessionState;
+        var cur: IDialogState = { id: id, state: {} };
+        ss.callstack.pop();
+        ss.callstack.push(cur);
+        this.dialogData = cur.state;
+        dialog.begin(this, args);
+        return this;
+    }
+
     public endDialog(result?: any): ISession {
         var ss = this.sessionState;
         var r: dialog.IDialogResult<any> = result || { resumed: dialog.ResumeReason.completed };
