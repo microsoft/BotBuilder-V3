@@ -69,6 +69,11 @@
   <ItemGroup>
     <None Include="Microsoft.Bot.Builder.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="@(DirsToClean)" />
   </Target>
