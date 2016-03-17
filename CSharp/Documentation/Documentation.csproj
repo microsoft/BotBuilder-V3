@@ -7,7 +7,7 @@
   <!-- For local builds, the output is sent to .\docs\html.  Main file to open in a browser is index.html. -->
   <PropertyGroup>
     <DoxygenExe>Doxygen.1.8.11\tools\bin\doxygen.exe</DoxygenExe>
-    <RootPath>$(MSBuildThisFileDirectory)..\..\..\..\packages\</RootPath>
+    <RootPath>$(MSBuildThisFileDirectory)..\packages\</RootPath>
     <DoxygenExeFullPath>$(RootPath)$(DoxygenExe)</DoxygenExeFullPath>
     <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
     <CreateDirLinkPs1 Condition=" '$(CreateDirLinkPs1)'=='' ">$(RootPath)FUSEBinaries\Tools\CreateDirLink.ps1</CreateDirLinkPs1>

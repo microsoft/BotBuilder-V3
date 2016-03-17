@@ -1,1 +1,1 @@
-..\..\..\..\packages\Doxygen.1.8.11\tool\bin\doxygen.exe %1 %2 %3
+..\packages\Doxygen.1.8.11\tools\bin\doxygen.exe %1 %2 %3
