@@ -3,6 +3,7 @@ import session = require('../Session');
 import storage = require('../storage/Storage');
 
 interface ISlackMessage {
+    event: string;
     type: string;
     subtype?: string;
     channel: string;
@@ -42,10 +43,6 @@ export class SlackBot extends collection.DialogCollection {
     constructor(protected controller: BotKitController, protected bot?: Bot, options?: ISlackBotOptions) {
         super();
         this.configure(options);
-        controller.on('direct_message', (bot: Bot, msg: ISlackMessage) => {
-            this.emit('message', msg);
-            this.dispatchMessage(bot, msg, this.options.defaultDialogId, this.options.defaultDialogArgs);
-        });
     }
 
     public configure(options: ISlackBotOptions): this {
@@ -58,8 +55,18 @@ export class SlackBot extends collection.DialogCollection {
         }
         return this;
     }
+    
+    public listen(types: string[], dialogId?: string, dialogArgs?: any): this {
+        types.forEach((type) => {
+            this.controller.on(type, (bot: Bot, msg: ISlackMessage) => {
+                this.emit(type, msg);
+                this.dispatchMessage(bot, msg, dialogId || this.options.defaultDialogId, dialogArgs || this.options.defaultDialogArgs);
+            });
+        });
+        return this;
+    }
 
-    public beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): void {
+    public beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): this {
         // Validate args
         if (!this.bot) {
             throw new Error('Spawned BotKit Bot not passed to constructor.');
@@ -73,6 +80,7 @@ export class SlackBot extends collection.DialogCollection {
 
         // Dispatch message
         this.dispatchMessage(null, this.toSlackMessage(address), dialogId, dialogArgs);
+        return this;
     }
 
     private dispatchMessage(bot: Bot, data: ISlackMessage, dialogId: string, dialogArgs: any) {
@@ -81,6 +89,7 @@ export class SlackBot extends collection.DialogCollection {
         };
 
         // Initialize session
+        var sessionId = data.event == 'direct_message' ? data.user : data.channel;
         var ses = new session.Session({
             localizer: this.options.localizer,
             dialogs: this,
@@ -88,7 +97,7 @@ export class SlackBot extends collection.DialogCollection {
             dialogArgs: this.options.defaultDialogArgs
         });
         ses.on('send', (reply: IMessage) => {
-            this.saveData(message.from.address, ses.userData, ses.sessionState, () => {
+            this.saveData(data.user, sessionId, ses.userData, ses.sessionState, () => {
                 // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     var slackReply = this.toSlackMessage(reply);
@@ -118,13 +127,13 @@ export class SlackBot extends collection.DialogCollection {
 
         // Dispatch message
         var message = this.fromSlackMessage(data);
-        this.getData(message.from.address, (err, userData, sessionState) => {
+        this.getData(data.user, sessionId, (err, userData, sessionState) => {
             ses.userData = userData || {};
             ses.dispatch(sessionState, message);
         });
     }
 
-    private getData(userId: string, callback: (err: Error, userData: any, sessionState: ISessionState) => void) {
+    private getData(userId: string, sessionId: string, callback: (err: Error, userData: any, sessionState: ISessionState) => void) {
         // Ensure stores specified
         if (!this.options.userStore) {
             this.options.userStore = new storage.MemoryStorage();
@@ -146,7 +155,7 @@ export class SlackBot extends collection.DialogCollection {
                 callback(err, null, null);
             }
         });
-        this.options.sessionStore.get(userId, (err: Error, data: ISessionState) => {
+        this.options.sessionStore.get(sessionId, (err: Error, data: ISessionState) => {
             if (!err) {
                 if (data && (new Date().getTime() - data.lastAccess) < this.options.maxSessionAge) {
                     sessionState = data;
@@ -160,7 +169,7 @@ export class SlackBot extends collection.DialogCollection {
         });
     }
 
-    private saveData(userId: string, userData: any, sessionState: ISessionState, callback: (err: Error) => void) {
+    private saveData(userId: string, sessionId: string, userData: any, sessionState: ISessionState, callback: (err: Error) => void) {
         var ops = 2;
         function onComplete(err: Error) {
             if (!err) {
@@ -172,7 +181,7 @@ export class SlackBot extends collection.DialogCollection {
             }
         }
         this.options.userStore.save(userId, userData, onComplete);
-        this.options.sessionStore.save(userId, sessionState, onComplete);
+        this.options.sessionStore.save(sessionId, sessionState, onComplete);
     }
 
     private fromSlackMessage(msg: ISlackMessage): IMessage {
@@ -191,10 +200,11 @@ export class SlackBot extends collection.DialogCollection {
 
     private toSlackMessage(msg: IMessage): ISlackMessage {
         return {
+            event: msg.channelData ? msg.channelData.event : 'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
-            user: msg.to ? msg.to.address : msg.from.address,
+            user: msg.to ? msg.to.address : (msg.from ? msg.from.address : undefined),
             channel: msg.channelConversationId
         };
     }

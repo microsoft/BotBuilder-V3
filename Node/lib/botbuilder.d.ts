@@ -1524,15 +1524,15 @@ export class SkypeBot extends DialogCollection {
      * Updates the bots configuration settings.
      * @param options Configuration options to set.
      */
-    configure(options: ISkypeBotOptions): void;
-
+    configure(options: ISkypeBotOptions): SkypeBot;
+    
     /**
      * Starts a new conversation with a user.
      * @param address Address of the user to begin the conversation with.
      * @param dialogId Unique ID of the bots dialog to begin the conversation with.
      * @param dialogArgs Optional arguments to pass to the dialog.
      */
-    beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): void;
+    beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): SkypeBot;
 }
 
 /**
@@ -1555,7 +1555,10 @@ export class SlackBot extends DialogCollection {
      * - reply: A reply to an existing message was sent. [IBotMessageEvent]
      * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
      * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - message: This event is emitted for every received message. [IBotMessageEvent]
+     * - ambient: An ambient message was received. [IBotMessageEvent]
+     * - direct_mention: The bot was directly mentioned in a message. [IBotMessageEvent]
+     * - mention: The bot was mentioned in a message. [IBotMessageEvent]
+     * - direct_message: The bot has received a direct 1:1 chat message. [IBotMessageEvent]
      * @param event Name of event to listen for.
      * @param listener Function to invoke.
      */
@@ -1566,6 +1569,15 @@ export class SlackBot extends DialogCollection {
      * @param options Configuration options to set.
      */
     configure(options: ISlackBotOptions): void;
+
+    /**
+     * Begins listening for incoming messages of the specified types. Types:
+     * - ambient: Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way.
+     * - direct_mention: Direct mentions are messages that begin with the bot's name, as in "@bot hello".
+     * - mention: Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
+     * - direct_message: Direct messages are sent via private 1:1 direct message channels. 
+     */
+    listen(types: string[], dialogId?: string, dialogArgs?: any): SlackBot;
 
     /**
      * Starts a new conversation with a user.
