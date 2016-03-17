@@ -1,8 +1,11 @@
 ﻿import collection = require('../dialogs/DialogCollection');
 import session = require('../Session');
 import storage = require('../storage/Storage');
+import consts = require('../consts');
+import utils = require('../utils');
 
 interface ISlackMessage {
+    team: string;
     event: string;
     type: string;
     subtype?: string;
@@ -18,20 +21,46 @@ interface ISlackAttachment {
 
 declare class BotKitController  {
     on(event: string, listener: Function): void;
-} 
+    storage: {
+        channels: IBotKitStore,
+        teams: IBotKitStore,
+        users: IBotKitStore
+    };
+}
+
+interface IBotKitStore {
+    get(id: string, cb: (err: Error, item: IBotKitStoreItem) => void): void;
+    save(item: IBotKitStoreItem, cb: (err: Error) => void): void;
+}
+
+interface IBotKitStoreItem {
+    id: string;
+}
+
+interface IStoredData {
+    teamData: IBotKitStoreItem;
+    channelData: IBotKitStoreItem;
+    userData: IBotKitStoreItem;
+}
 
 declare class Bot {
     reply(message: ISlackMessage, text: string): void;
     say(message: ISlackMessage, cb: (err: Error) => void): void;
+    identifyTeam(cb: (err: Error, teamId: string) => void): void;
 }
 
 export interface ISlackBotOptions {
-    userStore?: storage.IStorage;
-    sessionStore?: storage.IStorage;
     maxSessionAge?: number;
     localizer?: ILocalizer;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
+}
+
+export interface ISlackBeginDialogAddress {
+    team?: string;
+    user?: string;
+    channel?: string;
+    text?: string;
 }
 
 export class SlackBot extends collection.DialogCollection {
@@ -40,7 +69,7 @@ export class SlackBot extends collection.DialogCollection {
         defaultDialogId: '/'
     };
 
-    constructor(protected controller: BotKitController, protected bot?: Bot, options?: ISlackBotOptions) {
+    constructor(protected controller: BotKitController, protected bot: Bot, options?: ISlackBotOptions) {
         super();
         this.configure(options);
     }
@@ -59,56 +88,64 @@ export class SlackBot extends collection.DialogCollection {
     public listen(types: string[], dialogId?: string, dialogArgs?: any): this {
         types.forEach((type) => {
             this.controller.on(type, (bot: Bot, msg: ISlackMessage) => {
-                this.emit(type, msg);
-                this.dispatchMessage(bot, msg, dialogId || this.options.defaultDialogId, dialogArgs || this.options.defaultDialogArgs);
+                bot.identifyTeam((err, teamId) => {
+                    msg.team = teamId;
+                    this.emit(type, msg);
+                    this.dispatchMessage(bot, msg, dialogId || this.options.defaultDialogId, dialogArgs || this.options.defaultDialogArgs);
+                });
             });
         });
         return this;
     }
 
-    public beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): this {
+    public beginDialog(address: ISlackBeginDialogAddress, dialogId: string, dialogArgs?: any): this {
         // Validate args
-        if (!this.bot) {
-            throw new Error('Spawned BotKit Bot not passed to constructor.');
-        }
-        if (!address.to) {
+        if (!address.user && !address.channel) {
             throw new Error('Invalid address passed to SlackBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to SlackBot.beginDialog().');
         }
-
+        
         // Dispatch message
-        this.dispatchMessage(null, this.toSlackMessage(address), dialogId, dialogArgs);
+        this.dispatchMessage(null, <ISlackMessage>address, dialogId, dialogArgs);
         return this;
     }
 
-    private dispatchMessage(bot: Bot, data: ISlackMessage, dialogId: string, dialogArgs: any) {
+    private dispatchMessage(bot: Bot, msg: ISlackMessage, dialogId: string, dialogArgs: any) {
         var onError = (err: Error) => {
-            this.emit('error', err, data);
+            this.emit('error', err, msg);
         };
 
         // Initialize session
-        var sessionId = data.event == 'direct_message' ? data.user : data.channel;
-        var ses = new session.Session({
+        var ses = new SlackSession({
             localizer: this.options.localizer,
             dialogs: this,
             dialogId: this.options.defaultDialogId,
             dialogArgs: this.options.defaultDialogArgs
         });
         ses.on('send', (reply: IMessage) => {
-            this.saveData(data.user, sessionId, ses.userData, ses.sessionState, () => {
+            // Clone data fields & store session state
+            var teamData = ses.teamData && ses.teamData.id ? utils.clone(ses.teamData) : null;
+            var channelData = ses.channelData && ses.channelData.id ? utils.clone(ses.channelData) : null;
+            var userData = ses.userData && ses.userData.id ? utils.clone(ses.userData) : null;
+            if (channelData) {
+                channelData[consts.Data.SessionState] = ses.sessionState;
+            }
+            
+            // Save data
+            this.saveData(teamData, channelData, userData, () => {
                 // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     var slackReply = this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
-                        if (slackReply.user && slackReply.user != data.user) {
+                        if (slackReply.user && slackReply.user != msg.user) {
                             this.emit('send', slackReply);
                             bot.say(slackReply, onError);
                         } else {
                             this.emit('reply', slackReply);
-                            bot.reply(data, slackReply.text);
+                            bot.reply(msg, slackReply.text);
                         }
                     } else {
                         slackReply.user = ses.message.to.address;
@@ -119,69 +156,94 @@ export class SlackBot extends collection.DialogCollection {
             });
         });
         ses.on('error', (err: Error) => {
-            this.emit('error', err, data);
+            this.emit('error', err, msg);
         });
         ses.on('quit', () => {
-            this.emit('quit', data);
+            this.emit('quit', msg);
         });
 
-        // Dispatch message
-        var message = this.fromSlackMessage(data);
-        this.getData(data.user, sessionId, (err, userData, sessionState) => {
-            ses.userData = userData || {};
-            ses.dispatch(sessionState, message);
-        });
-    }
-
-    private getData(userId: string, sessionId: string, callback: (err: Error, userData: any, sessionState: ISessionState) => void) {
-        // Ensure stores specified
-        if (!this.options.userStore) {
-            this.options.userStore = new storage.MemoryStorage();
-        }
-        if (!this.options.sessionStore) {
-            this.options.sessionStore = new storage.MemoryStorage();
-        }
-
-        // Load data
-        var ops = 2;
-        var userData: any, sessionState: ISessionState;
-        this.options.userStore.get(userId, (err, data) => {
+        // Load data from storage
+        var sessionState: ISessionState;
+        var message = this.fromSlackMessage(msg);
+        this.getData(msg, (err, data) => {
             if (!err) {
-                userData = data;
-                if (--ops == 0) {
-                    callback(null, userData, sessionState);
+                // Init data
+                if (!data.teamData && msg.team) {
+                    data.teamData = { id: msg.team };
                 }
+                if (!data.channelData && msg.channel) {
+                    data.channelData = { id: msg.channel };
+                }
+                if (!data.userData && msg.user) {
+                    data.userData = { id: msg.user };
+                }
+                
+                // Unpack session state
+                if (data.channelData && data.channelData.hasOwnProperty(consts.Data.SessionState)) {
+                    sessionState = (<any>data.channelData)[consts.Data.SessionState];
+                    delete (<any>data.channelData)[consts.Data.SessionState];
+                }
+               
+                // Dispatch message
+                ses.teamData = data.teamData;
+                ses.channelData = data.channelData;
+                ses.userData = data.userData;
+                ses.dispatch(sessionState, message);
             } else {
-                callback(err, null, null);
-            }
-        });
-        this.options.sessionStore.get(sessionId, (err: Error, data: ISessionState) => {
-            if (!err) {
-                if (data && (new Date().getTime() - data.lastAccess) < this.options.maxSessionAge) {
-                    sessionState = data;
-                }
-                if (--ops == 0) {
-                    callback(null, userData, sessionState);
-                }
-            } else {
-                callback(err, null, null);
+                this.emit('error', err, msg);
             }
         });
     }
 
-    private saveData(userId: string, sessionId: string, userData: any, sessionState: ISessionState, callback: (err: Error) => void) {
-        var ops = 2;
-        function onComplete(err: Error) {
-            if (!err) {
-                if (--ops == 0) {
-                    callback(null);
-                }
-            } else {
-                callback(err);
+    private getData(msg: ISlackMessage, callback: (err: Error, data: IStoredData) => void) {
+        var ops = 3;
+        var data = <IStoredData>{};
+        function load(store: IBotKitStore, id: string, field: string) {
+            (<any>data)[field] = null;
+            if (id && id.length > 0) {
+                store.get(id, (err, item) => {
+                    if (callback) {
+                        if (!err) {
+                            (<any>data)[field] = item;
+                            if (--ops == 0) {
+                                callback(null, data);
+                            }
+                        } else {
+                            callback(err, null);
+                            callback = null;
+                        }
+                    }
+                });
+            } else if (callback && --ops == 0) {
+                callback(null, data);
             }
         }
-        this.options.userStore.save(userId, userData, onComplete);
-        this.options.sessionStore.save(sessionId, sessionState, onComplete);
+        load(this.controller.storage.teams, msg.team, 'teamData');
+        load(this.controller.storage.channels, msg.channel, 'channelData');
+        load(this.controller.storage.users, msg.user, 'userData');
+    }
+
+    private saveData(teamData: IBotKitStoreItem, channelData: IBotKitStoreItem, userData: IBotKitStoreItem, callback: (err: Error) => void) {
+        var ops = 3;
+        function save(store: IBotKitStore, data: IBotKitStoreItem) {
+            if (data) {
+                store.save(data, (err) => {
+                    if (callback) {
+                        if (!err && --ops == 0) {
+                            callback(null);
+                        } else {
+                            callback(err);
+                            callback = null;
+                        }
+                    }
+                });
+            } else if (callback && --ops == 0) {
+                callback(null);
+            }
+        }
+        save(this.controller.storage.teams, teamData);
+        save(this.controller.storage.channels, channelData);
+        save(this.controller.storage.users, userData);
     }
 
     private fromSlackMessage(msg: ISlackMessage): IMessage {
@@ -199,8 +261,14 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private toSlackMessage(msg: IMessage): ISlackMessage {
+        var teamId: string, event: string;
+        if (msg.channelData) {
+            teamId = msg.channelData.teamId;
+            event = msg.channelData.event;    
+        }
         return {
-            event: msg.channelData ? msg.channelData.event : 'direct_message',
+            team: teamId,
+            event: event || 'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
@@ -208,4 +276,9 @@ export class SlackBot extends collection.DialogCollection {
             channel: msg.channelConversationId
         };
     }
+}
+
+export class SlackSession extends session.Session {
+    public teamData: any;
+    public channelData: any;
 }
