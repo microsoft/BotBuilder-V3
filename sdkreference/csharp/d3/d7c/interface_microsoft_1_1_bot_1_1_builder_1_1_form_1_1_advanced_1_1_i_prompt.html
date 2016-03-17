@@ -48,40 +48,43 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-    <header>
-        <div class="outline">
-            <div class="header">
-                <a class="logo" href="//www.microsoft.com">
-                    <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
-                    </svg>
-                </a>
-                <div class="loading-animation"></div>
-                <span class="environment"></span>
-                <div>
-                </div>
-            </div>
-        </div>
-    </header>
-	<div class="brand-primary">
-		<div class="jumbo">
-			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
-					<li class="active"><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
-			    <div class="search-outter">
-				    <div class="open-search"></div>
-				    <div class="searchBox">
-					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-							    <button type="submit" class="icon-search">
-								    <span>Search</span>
-							    </button>
-						</form>
+	<div>
+		<header>
+			<div class="outline">
+				<div class="header">
+					<a class="logo" href="//www.microsoft.com">
+						<svg class="svgicon svgicon-microsoft-color-logo">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+						</svg>
+					</a>
+					<div class="loading-animation"></div>
+					<span class="environment"></span>
+					<div>
 					</div>
+				</div>
+			</div>
+		</header>
+		<div class="brand-primary">
+			<div class="jumbo">
+				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+						</li><li>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="/">Documentation</a></li><li>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<!--
+						<div class="search-outter">
+						<div class="open-search"></div>
+						<div class="searchBox">
+							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+									<button type="submit" class="icon-search">
+										<span>Search</span>
+									</button>
+							</form>
+						</div>
+						</div>
+						-->
 				</div>
 			</div>
 		</div>
@@ -127,11 +130,20 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7789377df4ead81235f52fd91253a577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa57748b6ea5a81c1c4e2c2e2ce7f7792"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html#aa57748b6ea5a81c1c4e2c2e2ce7f7792">Prompt</a> (T state, string path, params object[] args)</td></tr>
 <tr class="separator:aa57748b6ea5a81c1c4e2c2e2ce7f7792"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d02ef9d6dcb2a69ec356bf3ef4f79fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html">IRecognizer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html#a4d02ef9d6dcb2a69ec356bf3ef4f79fb">Recognizer</a> ()</td></tr>
-<tr class="separator:a4d02ef9d6dcb2a69ec356bf3ef4f79fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a704c2d72977dd848be83a6c321a4f52c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html">IRecognizer</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html#a704c2d72977dd848be83a6c321a4f52c">Recognizer</a> ()</td></tr>
+<tr class="separator:a704c2d72977dd848be83a6c321a4f52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
 <p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00010">10</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a7789377df4ead81235f52fd91253a577"></a>
@@ -185,12 +197,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4d02ef9d6dcb2a69ec356bf3ef4f79fb"></a>
+<a class="anchor" id="a704c2d72977dd848be83a6c321a4f52c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html">IRecognizer</a> <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">Microsoft.Bot.Builder.Form.Advanced.IPrompt</a>&lt; T &gt;.Recognizer </td>
+          <td class="memname"><a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html">IRecognizer</a>&lt;T&gt; <a class="el" href="../../d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html">Microsoft.Bot.Builder.Form.Advanced.IPrompt</a>&lt; T &gt;.Recognizer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -198,12 +210,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html#adeb50fd855f33d4fe3e72e7907307ae4">Microsoft.Bot.Builder.Form.Advanced.Prompter&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html#ae06cdf1931d48dd9377034e875836e53">Microsoft.Bot.Builder.Form.Advanced.Prompter&lt; T &gt;</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

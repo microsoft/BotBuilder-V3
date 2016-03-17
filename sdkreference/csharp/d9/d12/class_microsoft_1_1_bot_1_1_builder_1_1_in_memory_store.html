@@ -48,40 +48,43 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-    <header>
-        <div class="outline">
-            <div class="header">
-                <a class="logo" href="//www.microsoft.com">
-                    <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
-                    </svg>
-                </a>
-                <div class="loading-animation"></div>
-                <span class="environment"></span>
-                <div>
-                </div>
-            </div>
-        </div>
-    </header>
-	<div class="brand-primary">
-		<div class="jumbo">
-			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
-					<li class="active"><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
-			    <div class="search-outter">
-				    <div class="open-search"></div>
-				    <div class="searchBox">
-					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-							    <button type="submit" class="icon-search">
-								    <span>Search</span>
-							    </button>
-						</form>
+	<div>
+		<header>
+			<div class="outline">
+				<div class="header">
+					<a class="logo" href="//www.microsoft.com">
+						<svg class="svgicon svgicon-microsoft-color-logo">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+						</svg>
+					</a>
+					<div class="loading-animation"></div>
+					<span class="environment"></span>
+					<div>
 					</div>
+				</div>
+			</div>
+		</header>
+		<div class="brand-primary">
+			<div class="jumbo">
+				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+						</li><li>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="/">Documentation</a></li><li>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<!--
+						<div class="search-outter">
+						<div class="open-search"></div>
+						<div class="searchBox">
+							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+									<button type="submit" class="icon-search">
+										<span>Search</span>
+									</button>
+							</form>
+						</div>
+						</div>
+						-->
 				</div>
 			</div>
 		</div>
@@ -105,8 +108,6 @@ $(document).ready(function(){initNavTree('d9/d12/class_microsoft_1_1_bot_1_1_bui
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="../../d1/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Microsoft.Bot.Builder.InMemoryStore Class Reference</div>  </div>
@@ -118,119 +119,18 @@ Inheritance diagram for Microsoft.Bot.Builder.InMemoryStore:</div>
  <div class="center">
   <img src="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.png" usemap="#Microsoft.Bot.Builder.InMemoryStore_map" alt=""/>
   <map id="Microsoft.Bot.Builder.InMemoryStore_map" name="Microsoft.Bot.Builder.InMemoryStore_map">
-<area href="../../dc/dfe/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_store.html" alt="Microsoft.Bot.Builder.ISessionStore" shape="rect" coords="0,0,221,24"/>
+<area href="../../dc/dfe/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_store.html" title="Persistent storage for session data. " alt="Microsoft.Bot.Builder.ISessionStore" shape="rect" coords="0,0,221,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a704a02d7ad8b44e0fc93d5fa14dae964"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html#a704a02d7ad8b44e0fc93d5fa14dae964">LoadAsync</a> (string Id)</td></tr>
-<tr class="separator:a704a02d7ad8b44e0fc93d5fa14dae964"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc7e29e27911a8063a938c90cc4c9cb7"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html#acc7e29e27911a8063a938c90cc4c9cb7">SaveAsync</a> (string Id, <a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a> data)</td></tr>
-<tr class="separator:acc7e29e27911a8063a938c90cc4c9cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac941c224cf4a18fea0f85f1e0f2304f0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html">InMemoryStore</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html#ac941c224cf4a18fea0f85f1e0f2304f0">GetStore</a> ()</td></tr>
-<tr class="separator:ac941c224cf4a18fea0f85f1e0f2304f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html#l00009">9</a> of file <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac941c224cf4a18fea0f85f1e0f2304f0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="../../d9/d12/class_microsoft_1_1_bot_1_1_builder_1_1_in_memory_store.html">InMemoryStore</a> Microsoft.Bot.Builder.InMemoryStore.GetStore </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html#l00031">31</a> of file <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a704a02d7ad8b44e0fc93d5fa14dae964"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">async Task&lt;<a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a>&gt; Microsoft.Bot.Builder.InMemoryStore.LoadAsync </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>Id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../dc/dfe/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_store.html#ae3ed726b1aefbacc5258b8dabcfa3c7c">Microsoft.Bot.Builder.ISessionStore</a>.</p>
-
-<p>Definition at line <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html#l00019">19</a> of file <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acc7e29e27911a8063a938c90cc4c9cb7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">async Task Microsoft.Bot.Builder.InMemoryStore.SaveAsync </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>Id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a>&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../dc/dfe/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_store.html#a71b4eaf0539e88c40560db34579d57c8">Microsoft.Bot.Builder.ISessionStore</a>.</p>
-
-<p>Definition at line <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html#l00026">26</a> of file <a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/SessionStores/<a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a></li>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
+<li>C:/code/BotBuilder/CSharp/Library/SessionStores/<a class="el" href="../../da/de0/_in_memory_store_8cs_source.html">InMemoryStore.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -5,6 +5,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step =
     [ "Back", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a0fef3c75498aba50b7dd5358c45ddcbd", null ],
     [ "Dependencies", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a1b503d0f07813ac2460abde2bb752c5b", null ],
     [ "Field", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a986c1c300284a5add85204721ba49227", null ],
+    [ "Help", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#aa49167f16eff673bd6a49958c207d4e5", null ],
     [ "Match", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#ae6b0e7693e2ca8483973bb2bb1b4c8e7", null ],
     [ "Name", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#aad14f8dbdb9de571dc10ebfd1842d9f6", null ],
     [ "NotUnderstood", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html#a9f104ad8a29db60088b42096fe31ae4b", null ],

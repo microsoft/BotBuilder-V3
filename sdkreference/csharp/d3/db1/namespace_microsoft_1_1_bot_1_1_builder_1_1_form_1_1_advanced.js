@@ -16,9 +16,9 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced =
     [ "IPrompt", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt" ],
     [ "IRecognizer", "d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html", "d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer" ],
     [ "Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language" ],
+    [ "LongRecognizer", "d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html", "d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer" ],
     [ "NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step" ],
     [ "Prompter", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter" ],
-    [ "RegexRecognizer", "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer.html", "de/d33/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_regex_recognizer" ],
     [ "ResourceLocalizer", "d6/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_resource_localizer.html", "d6/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_resource_localizer" ],
     [ "StringRecognizer", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer" ],
     [ "TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match" ]

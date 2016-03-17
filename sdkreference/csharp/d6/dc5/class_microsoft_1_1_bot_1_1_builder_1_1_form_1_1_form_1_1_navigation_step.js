@@ -5,6 +5,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step =
     [ "Back", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#acdfe5a9015e363d35e8d9196524feae8", null ],
     [ "Dependencies", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#aa6790a3b9700b2a7733bd8da85779025", null ],
     [ "Field", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a606de556d04d665e7fef094f5ec147fe", null ],
+    [ "Help", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a8ac88d1e06e04edec8a35e0a17998ad9", null ],
     [ "Match", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a2326b80888d858cd8645d2488b17f5d5", null ],
     [ "Name", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#a0a78cf23e16af025f9f8a2083b9e1205", null ],
     [ "NotUnderstood", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html#aca422a5f7e709286fd9f4d030450d365", null ],

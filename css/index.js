@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     $('ul.header-nav').click(function (e) {
         $(e.currentTarget).toggleClass('expand');
     });

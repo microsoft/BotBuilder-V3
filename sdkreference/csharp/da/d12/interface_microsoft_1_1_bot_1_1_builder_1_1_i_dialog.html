@@ -48,40 +48,43 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-    <header>
-        <div class="outline">
-            <div class="header">
-                <a class="logo" href="//www.microsoft.com">
-                    <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
-                    </svg>
-                </a>
-                <div class="loading-animation"></div>
-                <span class="environment"></span>
-                <div>
-                </div>
-            </div>
-        </div>
-    </header>
-	<div class="brand-primary">
-		<div class="jumbo">
-			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
-					<li class="active"><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
-			    <div class="search-outter">
-				    <div class="open-search"></div>
-				    <div class="searchBox">
-					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-							    <button type="submit" class="icon-search">
-								    <span>Search</span>
-							    </button>
-						</form>
+	<div>
+		<header>
+			<div class="outline">
+				<div class="header">
+					<a class="logo" href="//www.microsoft.com">
+						<svg class="svgicon svgicon-microsoft-color-logo">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+						</svg>
+					</a>
+					<div class="loading-animation"></div>
+					<span class="environment"></span>
+					<div>
 					</div>
+				</div>
+			</div>
+		</header>
+		<div class="brand-primary">
+			<div class="jumbo">
+				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+						</li><li>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="/">Documentation</a></li><li>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<!--
+						<div class="search-outter">
+						<div class="open-search"></div>
+						<div class="searchBox">
+							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+									<button type="submit" class="icon-search">
+										<span>Search</span>
+									</button>
+							</form>
+						</div>
+						</div>
+						-->
 				</div>
 			</div>
 		</div>
@@ -112,44 +115,54 @@ $(document).ready(function(){initNavTree('da/d12/interface_microsoft_1_1_bot_1_1
 <div class="title">Microsoft.Bot.Builder.IDialog Interface Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A dialog is an suspendable conversational process.  
+ <a href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Microsoft.Bot.Builder.IDialog:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.png" usemap="#Microsoft.Bot.Builder.IDialog_map" alt=""/>
   <map id="Microsoft.Bot.Builder.IDialog_map" name="Microsoft.Bot.Builder.IDialog_map">
-<area href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html" alt="Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;" shape="rect" coords="172,56,506,80"/>
-<area href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html" alt="Microsoft.Bot.Builder.Form.IForm&lt; T &gt;" shape="rect" coords="688,56,1022,80"/>
-<area href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html" alt="Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;" shape="rect" coords="0,112,334,136"/>
-<area href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html" alt="Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;" shape="rect" coords="344,112,678,136"/>
-<area href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html" alt="Microsoft.Bot.Builder.Form.Form&lt; T &gt;" shape="rect" coords="688,112,1022,136"/>
+<area href="../../d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html" alt="Microsoft.Bot.Builder.CallDialog" shape="rect" coords="0,56,334,80"/>
+<area href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html" alt="Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;" shape="rect" coords="344,56,678,80"/>
+<area href="../../de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html" alt="Microsoft.Bot.Builder.Form.IForm&lt; T &gt;" shape="rect" coords="860,56,1194,80"/>
+<area href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html" alt="Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;" shape="rect" coords="172,112,506,136"/>
+<area href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html" alt="Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;" shape="rect" coords="516,112,850,136"/>
+<area href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html" alt="Microsoft.Bot.Builder.Form.Form&lt; T &gt;" shape="rect" coords="860,112,1194,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a733ff8d03c59f8d604d79dfef20dfc91"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a733ff8d03c59f8d604d79dfef20dfc91">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, object args=null)</td></tr>
-<tr class="separator:a733ff8d03c59f8d604d79dfef20dfc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73a9432e516a541077caea981dfa8720"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a73a9432e516a541077caea981dfa8720">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, <a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html">DialogResult</a> result)</td></tr>
-<tr class="separator:a73a9432e516a541077caea981dfa8720"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f2606447e221183131a99bf35439d95"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a6f2606447e221183131a99bf35439d95">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
-<tr class="separator:a6f2606447e221183131a99bf35439d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a539d3f850a7229a68d11e8f04a49c79c"><td class="memItemLeft" align="right" valign="top">Task&lt; Connector.Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#a539d3f850a7229a68d11e8f04a49c79c">BeginAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, Task&lt; object &gt; taskArguments)</td></tr>
+<tr class="memdesc:a539d3f850a7229a68d11e8f04a49c79c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiate the dialog.  <a href="#a539d3f850a7229a68d11e8f04a49c79c">More...</a><br /></td></tr>
+<tr class="separator:a539d3f850a7229a68d11e8f04a49c79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc4c653a7417a13771127cc1eb212829"><td class="memItemLeft" align="right" valign="top">Task&lt; Connector.Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#afc4c653a7417a13771127cc1eb212829">DialogResumedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session, Task&lt; object &gt; taskResult)</td></tr>
+<tr class="memdesc:afc4c653a7417a13771127cc1eb212829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Respond to the result from a child dialog.  <a href="#afc4c653a7417a13771127cc1eb212829">More...</a><br /></td></tr>
+<tr class="separator:afc4c653a7417a13771127cc1eb212829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54a68cd80ab480bfa2addc0d02003f2"><td class="memItemLeft" align="right" valign="top">Task&lt; Connector.Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#ac54a68cd80ab480bfa2addc0d02003f2">ReplyReceivedAsync</a> (<a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a> session)</td></tr>
+<tr class="memdesc:ac54a68cd80ab480bfa2addc0d02003f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Respond to a message sent by the user.  <a href="#ac54a68cd80ab480bfa2addc0d02003f2">More...</a><br /></td></tr>
+<tr class="separator:ac54a68cd80ab480bfa2addc0d02003f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:afd5ef3b55337a83102b68845e3de3655"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#afd5ef3b55337a83102b68845e3de3655">Id</a><code> [get]</code></td></tr>
-<tr class="separator:afd5ef3b55337a83102b68845e3de3655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac529180faea6f588451f373dc8283bf1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#ac529180faea6f588451f373dc8283bf1">ID</a><code> [get]</code></td></tr>
+<tr class="memdesc:ac529180faea6f588451f373dc8283bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dialog ID  <a href="#ac529180faea6f588451f373dc8283bf1">More...</a><br /></td></tr>
+<tr class="separator:ac529180faea6f588451f373dc8283bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html#l00021">21</a> of file <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a>.</p>
+<div class="textblock"><p>A dialog is an suspendable conversational process. </p>
+<p>Dialogs can be suspended to call child dialogs or send a message to a user. Dialogs are resumed when child dialogs complete or the user sent a message to the bot. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a733ff8d03c59f8d604d79dfef20dfc91"></a>
+<a class="anchor" id="a539d3f850a7229a68d11e8f04a49c79c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.IDialog.BeginAsync </td>
+          <td class="memname">Task&lt;Connector.Message&gt; Microsoft.Bot.Builder.IDialog.BeginAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em>, </td>
@@ -157,8 +170,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>args</em> = <code>null</code>&#160;</td>
+          <td class="paramtype">Task&lt; object &gt;&#160;</td>
+          <td class="paramname"><em>taskArguments</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -168,16 +181,26 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a8764db7d25d4de51bd638d15c34bb0c4">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>.</p>
+<p>Initiate the dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">session</td><td>The session that manages the dialog in the stack.</td></tr>
+    <tr><td class="paramname">taskArguments</td><td>The arguments for the child dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The message to return to the user.</dd></dl>
+
+<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a5676dee48de6f1312a1d5e1a2efbaa6f">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>, and <a class="el" href="../../d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html#a75bed6d0a1d27dda5da63b8cd1d3bd1d">Microsoft.Bot.Builder.CallDialog</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a73a9432e516a541077caea981dfa8720"></a>
+<a class="anchor" id="afc4c653a7417a13771127cc1eb212829"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.IDialog.DialogResumedAsync </td>
+          <td class="memname">Task&lt;Connector.Message&gt; Microsoft.Bot.Builder.IDialog.DialogResumedAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em>, </td>
@@ -185,8 +208,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d3/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_result.html">DialogResult</a>&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramtype">Task&lt; object &gt;&#160;</td>
+          <td class="paramname"><em>taskResult</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -196,16 +219,26 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#aa9f6758e7de689522aaf59b7e9580582">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>.</p>
+<p>Respond to the result from a child dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">session</td><td>The session that manages the dialog in the stack.</td></tr>
+    <tr><td class="paramname">taskResult</td><td>The result from the child dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The message to return to the user.</dd></dl>
+
+<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#acb3d59613c4420981cc0de7d25ca8825">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>, and <a class="el" href="../../d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html#a7613cc9ecd518536dec424851dc71c22">Microsoft.Bot.Builder.CallDialog</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a6f2606447e221183131a99bf35439d95"></a>
+<a class="anchor" id="ac54a68cd80ab480bfa2addc0d02003f2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="../../d6/d3c/class_microsoft_1_1_bot_1_1_builder_1_1_dialog_response.html">DialogResponse</a>&gt; Microsoft.Bot.Builder.IDialog.ReplyReceivedAsync </td>
+          <td class="memname">Task&lt;Connector.Message&gt; Microsoft.Bot.Builder.IDialog.ReplyReceivedAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html">ISession</a>&#160;</td>
           <td class="paramname"><em>session</em></td><td>)</td>
@@ -214,12 +247,21 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a11851a93f14e9045d4e9bc9a3b123711">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>, <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ae9d761be41aaa6823be2bd4cbee72ba4">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aeaabe1179fc56c073a2f4e2cfb0a73ef">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>, and <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#adf23d966dc98e68b00fa425d895f24ef">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a>.</p>
+<p>Respond to a message sent by the user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">session</td><td>The session that manages the dialog in the stack.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The message to return to the user.</dd></dl>
+
+<p>Implemented in <a class="el" href="../../d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a5d00632079163e227abb906318a95c8a">Microsoft.Bot.Builder.Form.Form&lt; T &gt;</a>, <a class="el" href="../../d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a567e4a7adae77614fa64d2c51625a5ae">Microsoft.Bot.Builder.LuisDialog&lt; TArgs, TResult &gt;</a>, <a class="el" href="../../d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html#afb0ebb594313a6c3df308bbfcd775788">Microsoft.Bot.Builder.CallDialog</a>, <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aa75fc4b0d9d1e8f9c8e7406dcbc1b7b4">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>, and <a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a125649bb33b7c1d9d621ed3f21c4bd5d">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a class="anchor" id="afd5ef3b55337a83102b68845e3de3655"></a>
+<a class="anchor" id="ac529180faea6f588451f373dc8283bf1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -227,7 +269,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string Microsoft.Bot.Builder.IDialog.Id</td>
+          <td class="memname">string Microsoft.Bot.Builder.IDialog.ID</td>
         </tr>
       </table>
   </td>
@@ -237,12 +279,15 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html#l00026">26</a> of file <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a>.</p>
+<p>The dialog ID </p>
+<p>Since dialogs are immutable and all state is stored in the stack managed by the session, this ID tends to be a constant for each type of <a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html" title="A dialog is an suspendable conversational process. ">IDialog</a> implementation. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html#l00025">25</a> of file <a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/Dialogs/<a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Dialogs/<a class="el" href="../../d6/d32/_i_dialog_8cs_source.html">IDialog.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

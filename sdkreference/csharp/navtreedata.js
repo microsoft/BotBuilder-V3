@@ -4,7 +4,7 @@ var NAVTREE =
     [ "Overview", "index.html#overview", null ],
     [ "Table of Contents", "index.html#contents", null ],
     [ "High Level Features", "index.html#features", null ],
-    [ "README", "md_C:_code_Intercom_SDK_BotBuilder_CSharp_Library_README.html", null ],
+    [ "README", "md_C:_code_BotBuilder_CSharp_Library_README.html", null ],
     [ "Key Concepts", "key_concepts.html", [
       [ "Limits", "key_concepts.html#limits", null ]
     ] ],
@@ -46,9 +46,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html#aa0cc1d59d78fe1abd0bfdc1df00474cf",
-"d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html#ac7f097c610222938591907a4d37c84fa",
-"df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#aab7d8ff6556dd2b7543f2cbbf738218b"
+"d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67",
+"d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#abdffab6538a51343f2d502cd79a6ef04",
+"de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a439dedc1552187654270555f04d0ff36"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -48,40 +48,43 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-    <header>
-        <div class="outline">
-            <div class="header">
-                <a class="logo" href="//www.microsoft.com">
-                    <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
-                    </svg>
-                </a>
-                <div class="loading-animation"></div>
-                <span class="environment"></span>
-                <div>
-                </div>
-            </div>
-        </div>
-    </header>
-	<div class="brand-primary">
-		<div class="jumbo">
-			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
-					<li class="active"><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
-			    <div class="search-outter">
-				    <div class="open-search"></div>
-				    <div class="searchBox">
-					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-							    <button type="submit" class="icon-search">
-								    <span>Search</span>
-							    </button>
-						</form>
+	<div>
+		<header>
+			<div class="outline">
+				<div class="header">
+					<a class="logo" href="//www.microsoft.com">
+						<svg class="svgicon svgicon-microsoft-color-logo">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+						</svg>
+					</a>
+					<div class="loading-animation"></div>
+					<span class="environment"></span>
+					<div>
 					</div>
+				</div>
+			</div>
+		</header>
+		<div class="brand-primary">
+			<div class="jumbo">
+				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+						</li><li>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="/">Documentation</a></li><li>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<!--
+						<div class="search-outter">
+						<div class="open-search"></div>
+						<div class="searchBox">
+							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+									<button type="submit" class="icon-search">
+										<span>Search</span>
+									</button>
+							</form>
+						</div>
+						</div>
+						-->
 				</div>
 			</div>
 		</div>
@@ -111,15 +114,16 @@ $(document).ready(function(){initNavTree('d7/d5e/class_microsoft_1_1_bot_1_1_bui
 
 <p>This is the complete list of members for <a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a71217b1f0599a9a09e2616e1fcc39d44">BeginAsync</a>(ISession session, TArgs args=default(TArgs))</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#ab6c05612fc1553978050b1e46213324d">BeginAsync</a>(ISession session, Task&lt; TArgs &gt; taskArguments)</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a00627da60a06bcf7c0f55d46267e42c9">CommandDialog</a>(string id)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#aec7ee050cdbb3330d2e4a65b378b632d">Dialog</a>(string Id)</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a18219303efaab4991d419bede4cf4e82">Dialog</a>(Func&lt; Dialog&lt; TArgs, TResult &gt;, string &gt; nameProvider)</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a965fb7eee5533068d039864bbe9f039d">DialogResumedAsync</a>(ISession session, TResult result=null)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a1c6eeb99eb6c229c3fe6e6d3cf742bf3">Id</a></td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a3b1886b12aab84b153c6c63e27930db7">On</a>(Regex expression, Func&lt; ISession, Task&lt; DialogResponse &gt;&gt; cmdHandler, Func&lt; ISession, DialogResult, Task&lt; DialogResponse &gt;&gt; resumeHanlder=null, bool defaultHandler=false)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#afe541c935c737daffb39d1beec87ffbe">OnDefault</a>(Func&lt; ISession, Task&lt; DialogResponse &gt;&gt; cmdHandler, Func&lt; ISession, DialogResult, Task&lt; DialogResponse &gt;&gt; resumeHanlder=null)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aeaabe1179fc56c073a2f4e2cfb0a73ef">ReplyReceivedAsync</a>(ISession session)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a5932592430e424fe9cd48cad1c911db1">CommandHandler</a>(ISession session)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a440813fd3159d854bbe0750563c7d517">Dialog</a>(string id)</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a18219303efaab4991d419bede4cf4e82">Dialog</a>(Func&lt; Dialog&lt; TArgs, TResult &gt;, string &gt; nameProvider)</td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#afcba8c3db8d60f704d41382343fb1e80">DialogResumedAsync</a>(ISession session, Task&lt; TResult &gt; taskResult)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html#a636a7f2ddf48159363d0f0c05232cef0">ID</a></td><td class="entry"><a class="el" href="../../d1/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_dialog.html">Microsoft.Bot.Builder.Dialog&lt; TArgs, TResult &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#a1bb7a16dd7f11f4e110f5615764de99b">On</a>(Regex expression, CommandHandler commandHandler, ResumeHandler&lt; TResult &gt; resumeHandler=null, bool defaultHandler=false)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#ad689ddcad247194d69d00807782e7f64">OnDefault</a>(CommandHandler commandHandler, ResumeHandler&lt; TResult &gt; resumeHandler=null)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html#aa75fc4b0d9d1e8f9c8e7406dcbc1b7b4">ReplyReceivedAsync</a>(ISession session)</td><td class="entry"><a class="el" href="../../d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html">Microsoft.Bot.Builder.CommandDialog&lt; TArgs, TResult &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->

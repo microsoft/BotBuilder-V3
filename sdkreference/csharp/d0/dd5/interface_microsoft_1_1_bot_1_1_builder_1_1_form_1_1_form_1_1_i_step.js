@@ -4,6 +4,7 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step =
     [ "Back", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#aa939106db5ae702ce35e698c19899eaa", null ],
     [ "Dependencies", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#a524367ed353039aa131643690db146ed", null ],
     [ "Field", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#a840a7b44e7cbf700415890706637950e", null ],
+    [ "Help", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#a0eb6ba46c1a3427a052dff77340a5563", null ],
     [ "Match", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#ac78989b468cdd413b4ac518c3ff83774", null ],
     [ "Name", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#a45b08d13dfedf35b19085b2d1b532e63", null ],
     [ "NotUnderstood", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html#afeedcd9a73a27f470bf6557ee2cecc09", null ],

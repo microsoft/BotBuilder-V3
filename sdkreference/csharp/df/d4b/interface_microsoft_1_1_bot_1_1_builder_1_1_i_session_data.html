@@ -48,40 +48,43 @@
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-    <header>
-        <div class="outline">
-            <div class="header">
-                <a class="logo" href="//www.microsoft.com">
-                    <svg class="svgicon svgicon-microsoft-color-logo">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
-                    </svg>
-                </a>
-                <div class="loading-animation"></div>
-                <span class="environment"></span>
-                <div>
-                </div>
-            </div>
-        </div>
-    </header>
-	<div class="brand-primary">
-		<div class="jumbo">
-			<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-				<ul class="header-nav">
-					<li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a></li>
-                    <li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li>
-					<li class="active"><a href="/">Documentation</a></li>
-					<li><a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li>
-				</ul>
-			    <div class="search-outter">
-				    <div class="open-search"></div>
-				    <div class="searchBox">
-					    <form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-						    <input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-							    <button type="submit" class="icon-search">
-								    <span>Search</span>
-							    </button>
-						</form>
+	<div>
+		<header>
+			<div class="outline">
+				<div class="header">
+					<a class="logo" href="//www.microsoft.com">
+						<svg class="svgicon svgicon-microsoft-color-logo">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo" />
+						</svg>
+					</a>
+					<div class="loading-animation"></div>
+					<span class="environment"></span>
+					<div>
 					</div>
+				</div>
+			</div>
+		</header>
+		<div class="brand-primary">
+			<div class="jumbo">
+				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+						</li><li>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="/">Documentation</a></li><li>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<!--
+						<div class="search-outter">
+						<div class="open-search"></div>
+						<div class="searchBox">
+							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
+								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
+									<button type="submit" class="icon-search">
+										<span>Search</span>
+									</button>
+							</form>
+						</div>
+						</div>
+						-->
 				</div>
 			</div>
 		</div>
@@ -113,40 +116,69 @@ $(document).ready(function(){initNavTree('df/d4b/interface_microsoft_1_1_bot_1_1
 </div><!--header-->
 <div class="contents">
 
-<p>Inherited by Microsoft.Bot.Builder.SessionDataImpl.</p>
+<p>The data stored in the session, scoped to the user, conversation, or user in conversation.  
+ <a href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#details">More...</a></p>
+
+<p>Inherited by Microsoft.Bot.Builder.InMemorySessionData.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a3cb5a1a814c353d4e5cc9feb71a46998"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a3cb5a1a814c353d4e5cc9feb71a46998">Clear</a> ()</td></tr>
+<tr class="memdesc:a3cb5a1a814c353d4e5cc9feb71a46998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all data.  <a href="#a3cb5a1a814c353d4e5cc9feb71a46998">More...</a><br /></td></tr>
+<tr class="separator:a3cb5a1a814c353d4e5cc9feb71a46998"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab7d8ff6556dd2b7543f2cbbf738218b"><td class="memItemLeft" align="right" valign="top">object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#aab7d8ff6556dd2b7543f2cbbf738218b">GetConversationData</a> (string key)</td></tr>
+<tr class="memdesc:aab7d8ff6556dd2b7543f2cbbf738218b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data scoped to the conversation.  <a href="#aab7d8ff6556dd2b7543f2cbbf738218b">More...</a><br /></td></tr>
 <tr class="separator:aab7d8ff6556dd2b7543f2cbbf738218b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac11f2a58ea5665372cc5b1a57f526ace"><td class="memItemLeft" align="right" valign="top">object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#ac11f2a58ea5665372cc5b1a57f526ace">GetDialogState</a> (string key)</td></tr>
-<tr class="separator:ac11f2a58ea5665372cc5b1a57f526ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a110d1ba5612053a2125387eca0df7a04"><td class="memItemLeft" align="right" valign="top">object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a110d1ba5612053a2125387eca0df7a04">GetPerUserInConversationData</a> (string key)</td></tr>
+<tr class="memdesc:a110d1ba5612053a2125387eca0df7a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data scoped to the user in the conversation.  <a href="#a110d1ba5612053a2125387eca0df7a04">More...</a><br /></td></tr>
 <tr class="separator:a110d1ba5612053a2125387eca0df7a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7571a4a8096d715ea4a66c0c6c685777"><td class="memItemLeft" align="right" valign="top">object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a7571a4a8096d715ea4a66c0c6c685777">GetUserData</a> (string key)</td></tr>
+<tr class="memdesc:a7571a4a8096d715ea4a66c0c6c685777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data scoped to the user.  <a href="#a7571a4a8096d715ea4a66c0c6c685777">More...</a><br /></td></tr>
 <tr class="separator:a7571a4a8096d715ea4a66c0c6c685777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6255a6bfca1bfe5dbe90fe85a5373660"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a6255a6bfca1bfe5dbe90fe85a5373660">SetConversationData</a> (string key, object data)</td></tr>
-<tr class="separator:a6255a6bfca1bfe5dbe90fe85a5373660"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc2d80aa63e33efadf8187d716da9a29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#adc2d80aa63e33efadf8187d716da9a29">SetDialogState&lt; T &gt;</a> (string key, T data)</td></tr>
-<tr class="separator:adc2d80aa63e33efadf8187d716da9a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f704a13e8901794301c5215d38c545f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a4f704a13e8901794301c5215d38c545f">SetPerUserInConversationData</a> (string key, object data)</td></tr>
-<tr class="separator:a4f704a13e8901794301c5215d38c545f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb445c76ffb3f56baafdfcc3ad9ab993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#aeb445c76ffb3f56baafdfcc3ad9ab993">SetUserData</a> (string key, object data)</td></tr>
-<tr class="separator:aeb445c76ffb3f56baafdfcc3ad9ab993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49dd45f2666bf0b57a055f69c394a5f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a49dd45f2666bf0b57a055f69c394a5f0">SetConversationData</a> (string key, object value)</td></tr>
+<tr class="memdesc:a49dd45f2666bf0b57a055f69c394a5f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data scoped to the conversation.  <a href="#a49dd45f2666bf0b57a055f69c394a5f0">More...</a><br /></td></tr>
+<tr class="separator:a49dd45f2666bf0b57a055f69c394a5f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a913c06d16d5bf58c8f1929acb2e35b2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a913c06d16d5bf58c8f1929acb2e35b2c">SetPerUserInConversationData</a> (string key, object value)</td></tr>
+<tr class="memdesc:a913c06d16d5bf58c8f1929acb2e35b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data scoped to the user in the conversation.  <a href="#a913c06d16d5bf58c8f1929acb2e35b2c">More...</a><br /></td></tr>
+<tr class="separator:a913c06d16d5bf58c8f1929acb2e35b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab3fcbab812efbad6f58f753a514ddb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#aeab3fcbab812efbad6f58f753a514ddb">SetUserData</a> (string key, object value)</td></tr>
+<tr class="memdesc:aeab3fcbab812efbad6f58f753a514ddb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data scoped to the user.  <a href="#aeab3fcbab812efbad6f58f753a514ddb">More...</a><br /></td></tr>
+<tr class="separator:aeab3fcbab812efbad6f58f753a514ddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a564202c09ac0b6e12c0290cdc804ccb4"><td class="memItemLeft" align="right" valign="top">ReadOnlyDictionary&lt; string, object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a564202c09ac0b6e12c0290cdc804ccb4">ConversationData</a><code> [get]</code></td></tr>
+<tr class="memdesc:a564202c09ac0b6e12c0290cdc804ccb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the data scoped to the conversation.  <a href="#a564202c09ac0b6e12c0290cdc804ccb4">More...</a><br /></td></tr>
 <tr class="separator:a564202c09ac0b6e12c0290cdc804ccb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68f3bfff3f061a69bcfb58aaae7e3b85"><td class="memItemLeft" align="right" valign="top">ReadOnlyDictionary&lt; string, object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a68f3bfff3f061a69bcfb58aaae7e3b85">PerUserInConversationData</a><code> [get]</code></td></tr>
+<tr class="memdesc:a68f3bfff3f061a69bcfb58aaae7e3b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the data scoped to the user in the conversation.  <a href="#a68f3bfff3f061a69bcfb58aaae7e3b85">More...</a><br /></td></tr>
 <tr class="separator:a68f3bfff3f061a69bcfb58aaae7e3b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a4220b648159e6f1ae67d888a85583a"><td class="memItemLeft" align="right" valign="top">ReadOnlyDictionary&lt; string, object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html#a8a4220b648159e6f1ae67d888a85583a">UserData</a><code> [get]</code></td></tr>
+<tr class="memdesc:a8a4220b648159e6f1ae67d888a85583a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the data scoped to the user.  <a href="#a8a4220b648159e6f1ae67d888a85583a">More...</a><br /></td></tr>
 <tr class="separator:a8a4220b648159e6f1ae67d888a85583a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00010">10</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
+<div class="textblock"><p>The data stored in the session, scoped to the user, conversation, or user in conversation. </p>
+
+<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a3cb5a1a814c353d4e5cc9feb71a46998"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Microsoft.Bot.Builder.ISessionData.Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear all data. </p>
+
+</div>
+</div>
 <a class="anchor" id="aab7d8ff6556dd2b7543f2cbbf738218b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -161,21 +193,14 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="ac11f2a58ea5665372cc5b1a57f526ace"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">object Microsoft.Bot.Builder.ISessionData.GetDialogState </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>key</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Get data scoped to the conversation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Data value.</dd></dl>
 
 </div>
 </div>
@@ -193,6 +218,15 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get data scoped to the user in the conversation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Data value.</dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a7571a4a8096d715ea4a66c0c6c685777"></a>
@@ -209,9 +243,18 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get data scoped to the user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Data value.</dd></dl>
+
 </div>
 </div>
-<a class="anchor" id="a6255a6bfca1bfe5dbe90fe85a5373660"></a>
+<a class="anchor" id="a49dd45f2666bf0b57a055f69c394a5f0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -225,7 +268,7 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -235,35 +278,18 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="adc2d80aa63e33efadf8187d716da9a29"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../df/d4b/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session_data.html">ISessionData</a> Microsoft.Bot.Builder.ISessionData.SetDialogState&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Set data scoped to the conversation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+    <tr><td class="paramname">value</td><td>Data value.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="a4f704a13e8901794301c5215d38c545f"></a>
+<a class="anchor" id="a913c06d16d5bf58c8f1929acb2e35b2c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -277,7 +303,7 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -287,9 +313,18 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set data scoped to the user in the conversation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+    <tr><td class="paramname">value</td><td>Data value.</td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a class="anchor" id="aeb445c76ffb3f56baafdfcc3ad9ab993"></a>
+<a class="anchor" id="aeab3fcbab812efbad6f58f753a514ddb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -303,7 +338,7 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -312,6 +347,15 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Set data scoped to the user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Data key.</td></tr>
+    <tr><td class="paramname">value</td><td>Data value.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -334,7 +378,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00022">22</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
+<p>Gets the data scoped to the conversation. </p>
+
+<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00070">70</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
 
 </div>
 </div>
@@ -356,7 +402,9 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00023">23</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
+<p>Gets the data scoped to the user in the conversation. </p>
+
+<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00075">75</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
 
 </div>
 </div>
@@ -378,12 +426,14 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00021">21</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
+<p>Gets the data scoped to the user. </p>
+
+<p>Definition at line <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html#l00065">65</a> of file <a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>C:/code/Intercom/SDK/BotBuilder/CSharp/Library/Sessions/<a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Sessions/<a class="el" href="../../d9/d36/_i_session_data_8cs_source.html">ISessionData.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

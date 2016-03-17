@@ -1,7 +1,7 @@
 var _annotations_8cs =
 [
     [ "Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe" ],
-    [ "Help", "d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help.html", "d6/da5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_help" ],
+    [ "Numeric", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric" ],
     [ "Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional" ],
     [ "Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt" ],
     [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base" ],
@@ -33,17 +33,27 @@ var _annotations_8cs =
     [ "TemplateUsage", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0", [
       [ "Clarify", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a7f6cf09a6c241b092435452bdaa8162e", null ],
       [ "CurrentChoice", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a800c17cac7f40e8ca99b9c8c6221a73f", null ],
+      [ "DateTime", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a8cf10d2341ed01492506085688270c1e", null ],
+      [ "Double", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0ad909d38d705ce75386dd86e611a82f5b", null ],
       [ "Feedback", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56", null ],
       [ "Help", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6a26f548831e6a8c26bfbbd9f6ec61e0", null ],
+      [ "HelpClarify", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a4d5b98aef367e1b4a657988e2d9b96f3", null ],
+      [ "HelpDateTime", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a81be30d040b5bb7f7fe2593420020a60", null ],
+      [ "HelpDouble", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a2de30959f849e4030438839ec907c67d", null ],
+      [ "HelpInteger", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a1b469722f8d6b11ec84ada20da10fcd5", null ],
       [ "HelpNavigation", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a3addee159385c2a7eb024f39140cf97e", null ],
       [ "HelpOneNumber", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0ae4db26551e457ac5db69487fe2b8daf8", null ],
       [ "HelpManyNumber", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abd9d363096836f7a57920efae7694bf8", null ],
       [ "HelpOneWord", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a976649ebc3e39ec018d41305e4282a32", null ],
       [ "HelpManyWord", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a1c13e9bac6353d6c691811710e299e38", null ],
+      [ "HelpString", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a59b2876d89c69cae89ddc40724597a06", null ],
+      [ "Integer", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aa0faef0851b4294c06f2b94bb1cb2044", null ],
       [ "NextStep", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9282a276e14082a54b4c4c46bb3640c9", null ],
       [ "NoPreference", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9c66f2227b4dc7054e34ea7bb3d1e010", null ],
       [ "NotUnderstood", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aca296fd71c8deadb1bccdad8e097bc50", null ],
       [ "SelectOne", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a67e85315f1af186e0c485a5bb335a48c", null ],
-      [ "SelectMany", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a2ee37614deb17a8497cfbc5f41eeba94", null ]
+      [ "SelectMany", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a2ee37614deb17a8497cfbc5f41eeba94", null ],
+      [ "String", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a27118326006d3829667a400ad23d5d98", null ],
+      [ "Unspecified", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6fcdc090caeade09d0efd6253932b6f5", null ]
     ] ]
 ];

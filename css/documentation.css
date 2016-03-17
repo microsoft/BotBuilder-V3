@@ -1,8 +1,7 @@
 @font-face {
   font-family: "Glyphs";
-  src: url("../fonts/Glyphs/MWFMDL2.1.59.woff") format("woff"), url("../fonts/Glyphs/MWFMDL2.1.59.ttf") format("truetype");
-  font-style: normal;
-  font-weight: normal;
+  src: url("../fonts/Glyphs/winjs-symbols.eot");
+  src: url("../fonts/Glyphs/winjs-symbols.eot#iefix") format("embedded-opentype"), url("../fonts/Glyphs/winjs-symbols.ttf") format("truetype");
 }
 .icon-font {
   font-family: Glyphs;
@@ -27,7 +26,7 @@
   font-size: 24px;
 }
 .icon-search:after {
-  content: '\E71E';
+  content: '\E094';
   color: #999999;
 }
 .icon-hamburger:after {
@@ -48,7 +47,7 @@
   font-size: 24px;
 }
 .icon-right-arrow:after {
-  content: '\E76c';
+  content: '\E0E3';
 }
 .icon-up-arrow:after {
   font-family: Glyphs;
@@ -58,7 +57,7 @@
   font-size: 24px;
 }
 .icon-up-arrow:after {
-  content: '\E70E';
+  content: '\E018';
 }
 .icon-down-arrow:after {
   font-family: Glyphs;
@@ -68,7 +67,7 @@
   font-size: 24px;
 }
 .icon-down-arrow:after {
-  content: '\E70D';
+  content: '\E019';
 }
 .svgicon {
   display: inline-block;
@@ -86,8 +85,18 @@
   font-style: normal;
   font-weight: normal;
 }
+@font-face {
+  font-family: "Segoe UI Semilight";
+  src: url("../fonts/SegoeUI-Semilight/latest.eot");
+  src: url("../fonts/SegoeUI-Semilight/latest.eot?") format("embedded-opentype"), url("../fonts/SegoeUI-Semilight/latest.woff") format("woff"), url("../fonts/SegoeUI-Semilight/latest.ttf") format("truetype"), url("../fonts/SegoeUI-Semilight/latest.svg#web") format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
 h3 {
   font-size: 18px;
+}
+.nobreak {
+  white-space: nowrap;
 }
 html,
 body,
@@ -106,6 +115,8 @@ h3,
 h4 {
   font-family: "Segoe UI", sans-serif;
   font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 div,
 span,
@@ -115,7 +126,7 @@ select {
   font-family: "Segoe UI", sans-serif;
 }
 a {
-  color: #00bcf8;
+  color: #3A96DD;
   text-decoration: none;
 }
 a:hover,
@@ -133,14 +144,14 @@ button {
   padding-left: 15px;
   padding-right: 15px;
   border: 0;
-  background-color: #cacaca;
+  background-color: #E6E6E6;
   font-size: 15px;
+  color: #2b2b2b;
 }
 input[type="submit"]:hover,
 input[type="button"]:hover,
 button:hover {
-  background-color: #00bcf8;
-  color: #505050;
+  background-color: #d9d9d9;
 }
 input[type="submit"].default-button,
 input[type="button"].default-button,
@@ -151,7 +162,7 @@ button.default-button {
 input[type="submit"].default-button:hover,
 input[type="button"].default-button:hover,
 button.default-button:hover {
-  background-color: #67a9dc;
+  background-color: #307AB3;
 }
 a.button {
   width: 200px;
@@ -164,9 +175,6 @@ a.button {
 }
 .page-grid {
   padding: 0 20px;
-}
-.page-grid:first-child {
-  padding-top: 20px;
 }
 .page-grid .inner-grid {
   margin-left: -20px;
@@ -190,6 +198,7 @@ a.button {
   min-width: 402px;
   width: 402px;
   float: left;
+  position: relative;
 }
 .grid-card.hoverable:hover {
   box-shadow: 0px 4px 6px 0px rgba(51, 53, 52, 0.2);
@@ -201,9 +210,6 @@ a.button {
 }
 .page-grid-right {
   padding: 0 20px;
-}
-.page-grid-right:first-child {
-  padding-top: 20px;
 }
 .page-grid-right .inner-grid {
   margin-left: -20px;
@@ -228,9 +234,6 @@ a.button {
 }
 .page-grid-left {
   padding: 0 20px;
-}
-.page-grid-left:first-child {
-  padding-top: 20px;
 }
 .page-grid-left .inner-grid {
   margin-left: -20px;
@@ -349,7 +352,7 @@ header {
   font-size: 24px;
 }
 .jumbo .jumbo-button:after {
-  content: '\E76c';
+  content: '\E0E3';
 }
 .jumbo .jumbo-button:hover,
 .jumbo .jumbo-button:visited {
@@ -393,6 +396,7 @@ ul.header-nav li a {
   height: 70px;
   padding-left: 3ex;
   padding-right: 3ex;
+  letter-spacing: 0.3px;
 }
 ul.header-nav li a:hover,
 ul.header-nav li a:visisted {
@@ -406,7 +410,6 @@ ul.header-nav li a:visisted {
   top: 19px;
   right: 20px;
   width: 300px;
-  border: 1px solid #999999;
 }
 .searchBox .icon-search {
   position: absolute;
@@ -566,12 +569,21 @@ ul.header-nav li a:visisted {
   position: absolute;
   min-width: 270px;
   border: 1px solid #999;
-  padding: 10px;
+  padding: 30px;
   background-color: white;
 }
 .dialog .button-panel {
   margin-top: 25px;
   text-align: right;
+}
+.dialog .button-panel button {
+  margin-left: 20px;
+}
+.dialog .danger button.default-button {
+  background-color: #E81022;
+}
+.dialog .danger button.default-button:hover {
+  background-color: #d00e1f;
 }
 .message-box {
   width: 350px;
@@ -709,9 +721,6 @@ a {
 .post {
   padding: 30px 0;
 }
-.trigger div {
-  padding: 4px 0;
-}
 /** media break points based on card-width*/
 @media screen and (max-width: 843px) {
   #app-body,
@@ -719,14 +728,14 @@ a {
     width: 100%;
   }
   .jumbo .jumbo-button {
-    color: #00bcf8;
+    color: #3A96DD;
     height: auto;
     line-height: 2;
     top: initial;
   }
   .jumbo .jumbo-button:hover,
   .jumbo .jumbo-button:visited {
-    color: #00bcf8;
+    color: #3A96DD;
   }
   ul.header-nav {
     z-index: 10;
@@ -776,9 +785,6 @@ a {
   select {
     font-size: 18px;
   }
-  .grid-card {
-    min-width: 0;
-  }
   .agent-card .image-cell + * {
     width: calc(100% - 120px);
   }
@@ -792,11 +798,34 @@ a {
   .page-grid-left {
     padding: 0;
   }
+  .page-grid h1,
+  .page-grid-right h1,
+  .page-grid-left h1,
+  .page-grid h2,
+  .page-grid-right h2,
+  .page-grid-left h2 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-top: 20px;
+  }
+  .page-grid .more-link,
+  .page-grid-right .more-link,
+  .page-grid-left .more-link {
+    margin-left: 10px;
+  }
   .page-grid .inner-grid,
   .page-grid-right .inner-grid,
   .page-grid-left .inner-grid {
     margin-left: 0;
     margin-right: 0;
+  }
+  .page-grid .inner-grid > h1,
+  .page-grid-right .inner-grid > h1,
+  .page-grid-left .inner-grid > h1 {
+    margin-left: 20px;
   }
   .page-grid .grid-card,
   .page-grid-right .grid-card,
@@ -816,13 +845,22 @@ a {
   .page-grid-left .editor-card.floatable {
     float: none;
   }
+  .grid-card {
+    min-width: 0;
+  }
+  .grid-card h2 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 0;
+  }
   .agent-info .info-cell .title {
     font-size: 26px;
   }
   .bot-details .bot-card {
     min-width: 0;
   }
-  .bot-details .bot-card:bot-card-hero {
+  .bot-details .bot-card.bot-card-hero {
     max-width: none;
     height: auto;
     width: auto;
@@ -831,21 +869,21 @@ a {
     position: static;
     padding: 0;
   }
-  .bot-details .bot-card:bot-card-hero .bot-content {
+  .bot-details .bot-card.bot-card-hero .bot-content {
     margin-top: 0;
   }
-  .bot-details .bot-card:bot-card-hero .image-cell {
+  .bot-details .bot-card.bot-card-hero .image-cell {
     width: 90px;
     height: 90px;
   }
-  .bot-details .bot-card:bot-card-hero .image-cell img {
+  .bot-details .bot-card.bot-card-hero .image-cell img {
     display: block;
     width: 70%;
     height: 70%;
     border-radius: 70%;
     margin: 15% auto;
   }
-  .bot-details .bot-card:bot-card-hero ul.bot-desc {
+  .bot-details .bot-card.bot-card-hero .card-links {
     position: static;
     top: auto;
     right: auto;
@@ -882,9 +920,10 @@ a {
   .outline.footer ul li {
     display: block;
     border-left: 0px none transparent;
+    line-height: 40px;
   }
   .outline.footer ul li a {
-    line-height: 40px;
+    line-height: inherit;
   }
   .home-page .home-page-contents h3 {
     margin-left: 20px;
@@ -906,6 +945,25 @@ a {
     width: 824px;
     padding: 0;
     margin: 0 auto 0 20px;
+  }
+  .page-grid h1,
+  .page-grid-left h1,
+  .page-grid-right h1,
+  .page-grid h2,
+  .page-grid-left h2,
+  .page-grid-right h2 {
+    font-family: "Segoe UI Semilight", sans-serif;
+    font-size: 34px;
+    line-height: 46px;
+    margin-bottom: 20px;
+    margin-left: 0;
+    margin-top: 25px;
+  }
+  .grid-card h2 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 0;
   }
   .bot-page .bot-card .desc-cell {
     position: static;
@@ -965,7 +1023,7 @@ a {
     font-size: 24px;
   }
   .open-search:after {
-    content: '\E71E';
+    content: '\E094';
     color: #999999;
   }
   .open-search:after {
@@ -1009,6 +1067,9 @@ a {
   .page-grid-right .grid-card.floatable {
     min-width: 0;
     width: 340px;
+  }
+  .page-grid-right .grid-card.bot-card-hero {
+    margin-right: 0;
   }
 }
 @media screen and (max-width: 843px) {

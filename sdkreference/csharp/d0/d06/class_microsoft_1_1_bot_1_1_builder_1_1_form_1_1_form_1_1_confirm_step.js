@@ -5,6 +5,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step =
     [ "Back", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aef3a6a9f4fcb73b1b8c0ac9e23b62fc9", null ],
     [ "Dependencies", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#a4b0d387d6cf09315ab5184340ca3ebf5", null ],
     [ "Field", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#a4b1aed9fa2fee25b917e38c213b744f0", null ],
+    [ "Help", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#a3df1ab9ae41e5e8ad5cf656f55bc2e42", null ],
     [ "Match", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aef6cd57eb5797a9fd7c53d011203544a", null ],
     [ "Name", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#aa85982d09672704e63a9bd5197e92aec", null ],
     [ "NotUnderstood", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html#a892cedd51cfe1e4a3235a0e78dc3e304", null ],
