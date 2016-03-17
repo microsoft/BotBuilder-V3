@@ -2,13 +2,32 @@
 This Bot demonstrates how to use a waterfall to prompt the user with a series
 of questions.
 
-This example also shows the user of session.userData to persist information
-about a specific user. Depending on the type of bot you created this could 
-get automatically persisted for you (BotConnectorBot) or you might have to 
-configure your bot to use one of the storage plugins. 
+More details about setting up Botkit can be found at:
 
-Run the bot from the command line using "node app.js" and then type "hello"
-to wake the bot up.
+    http://howdy.ai/botkit
+ 
+
+# RUN THE BOT:
+
+  Get a Bot token from Slack:
+
+    http://my.slack.com/services/new/bot
+
+  Run your bot from the command line:
+
+    token=YOUR_TOKEN node app.js
+
+  Run your bot from the command line (WINDOWS):
+    
+    set token=YOUR_TOKEN
+    node app.js
+
+# USE THE BOT:
+
+  Find your bot inside Slack
+
+  Say: "hello"
+
 -----------------------------------------------------------------------------*/
 
 var Botkit = require('botkit');
@@ -16,7 +35,7 @@ var builder = require('../../');
 
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
-   token: process.env.token || 'xoxb-27353876818-1JaNnDS8yhLSKuzmX9DncWAI' 
+   token: process.env.token 
 });
 
 var slackBot = new builder.SlackBot(controller, bot);
