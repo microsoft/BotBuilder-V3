@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Builder
         /// Set the local dialog state for this frame.
         /// </summary>
         /// <param name="key">The state key.</param>
-        /// <param name="value">The state value.</param>
+        /// <param name="value">The state value.  This value should be serializable.</param>
         void SetLocal(string key, object value);
 
         /// <summary>

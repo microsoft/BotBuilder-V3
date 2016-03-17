@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder
         /// Set data scoped to the user.
         /// </summary>
         /// <param name="key">Data key.</param>
-        /// <param name="value">Data value.</param>
+        /// <param name="value">Data value.  This value should be serializable.</param>
         void SetUserData(string key, object value);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder
         /// Set data scoped to the conversation.
         /// </summary>
         /// <param name="key">Data key.</param>
-        /// <param name="value">Data value.</param>
+        /// <param name="value">Data value.  This value should be serializable.</param>
         void SetConversationData(string key, object value);
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder
         /// Set data scoped to the user in the conversation.
         /// </summary>
         /// <param name="key">Data key.</param>
-        /// <param name="value">Data value.</param>
+        /// <param name="value">Data value.  This value should be serializable.</param>
         void SetPerUserInConversationData(string key, object value);
 
         /// <summary>
