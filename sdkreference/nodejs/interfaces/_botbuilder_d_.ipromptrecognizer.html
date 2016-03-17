@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BotBuilder SDK Reference Library</title>
+	<title>IPromptRecognizer | BotBuilder SDK Reference Library</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script src="assets/js/modernizr.js"></script>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
 </head>
 <body>
@@ -62,7 +62,7 @@
 				<div class="tsd-page-toolbar">
 					<div class="container">
 						<div class="table-wrap">
-							<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+							<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 								<div class="field">
 									<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 									<input id="tsd-search-field" type="text" />
@@ -71,7 +71,7 @@
 									<li class="state loading">Preparing search index...</li>
 									<li class="state failure">The search index is not available</li>
 								</ul>
-								<a href="index.html" class="title">BotBuilder SDK Reference Library</a>
+								<a href="../index.html" class="title">BotBuilder SDK Reference Library</a>
 							</div>
 							<div class="table-cell" id="tsd-widgets">
 								<div id="tsd-filter">
@@ -102,42 +102,145 @@
 					<div class="container">
 						<ul class="tsd-breadcrumb">
 							<li>
-								<a href="index.html">Globals</a>
+								<a href="../index.html">Globals</a>
+							</li>
+							<li>
+								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
+							</li>
+							<li>
+								<a href="_botbuilder_d_.ipromptrecognizer.html">IPromptRecognizer</a>
 							</li>
 						</ul>
-						<h1> BotBuilder SDK Reference Library</h1>
+						<h1>Interface IPromptRecognizer</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
 				<div class="row">
 					<div class="col-8 col-content">
+						<section class="tsd-panel tsd-comment">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Plugin for recognizing prompt responses recieved by a user.</p>
+								</div>
+							</div>
+						</section>
+						<section class="tsd-panel tsd-hierarchy">
+							<h3>Hierarchy</h3>
+							<ul class="tsd-hierarchy">
+								<li>
+									<span class="target">IPromptRecognizer</span>
+								</li>
+							</ul>
+						</section>
+						<section class="tsd-panel">
+							<h3>Implemented by</h3>
+							<ul class="tsd-hierarchy">
+								<li><a href="../classes/_botbuilder_d_.simplepromptrecognizer.html" class="tsd-signature-type">SimplePromptRecognizer</a></li>
+							</ul>
+						</section>
 						<section class="tsd-panel-group tsd-index-group">
 							<h2>Index</h2>
 							<section class="tsd-panel tsd-index-panel">
 								<div class="tsd-index-content">
 									<section class="tsd-index-section ">
-										<h3>External modules</h3>
+										<h3>Methods</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-external-module"><a href="modules/_botbuilder_d_.html" class="tsd-kind-icon">"botbuilder.d"</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter"><a href="_botbuilder_d_.ipromptrecognizer.html#recognize" class="tsd-kind-icon">recognize</a></li>
 										</ul>
 									</section>
 								</div>
+							</section>
+						</section>
+						<section class="tsd-panel-group tsd-member-group ">
+							<h2>Methods</h2>
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+								<a name="recognize" class="tsd-anchor"></a>
+								<h3>recognize</h3>
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+									<li class="tsd-signature tsd-kind-icon">recognize&lt;T&gt;<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.ipromptrecognizerargs.html" class="tsd-signature-type">IPromptRecognizerArgs</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L305">botbuilder.d.ts:305</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Attempts to match a users reponse to a given prompt.</p>
+											</div>
+										</div>
+										<h4 class="tsd-type-parameters-title">Type parameters</h4>
+										<ul class="tsd-type-parameters">
+											<li>
+												<h4>T</h4>
+											</li>
+										</ul>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>args: <a href="_botbuilder_d_.ipromptrecognizerargs.html" class="tsd-signature-type">IPromptRecognizerArgs</a></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Arguments passed to the recognizer including that language, text, and prompt choices.</p>
+												</div>
+											</li>
+											<li>
+												<h5>callback: <span class="tsd-signature-type">function</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Function to invoke with the result of the recognition attempt.</p>
+												</div>
+												<ul class="tsd-parameters">
+													<li class="tsd-parameter-siganture">
+														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.ipromptrecognizerresult.html" class="tsd-signature-type">IPromptRecognizerResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+														</ul>
+														<ul class="tsd-descriptions">
+															<li class="tsd-description">
+																<h4 class="tsd-parameters-title">Parameters</h4>
+																<ul class="tsd-parameters">
+																	<li>
+																		<h5>result: <a href="_botbuilder_d_.ipromptrecognizerresult.html" class="tsd-signature-type">IPromptRecognizerResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+																	</li>
+																</ul>
+																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
 							</section>
 						</section>
 					</div>
 					<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 						<nav class="tsd-navigation primary">
 							<ul>
-								<li class="globals current ">
-									<a href="index.html"><em>Globals</em></a>
+								<li class="globals  ">
+									<a href="../index.html"><em>Globals</em></a>
 								</li>
-								<li class=" tsd-kind-external-module">
-									<a href="modules/_botbuilder_d_.html">"botbuilder.d"</a>
+								<li class="current tsd-kind-external-module">
+									<a href="../modules/_botbuilder_d_.html">"botbuilder.d"</a>
 								</li>
 							</ul>
 						</nav>
 						<nav class="tsd-navigation secondary menu-sticky">
 							<ul class="before-current">
+							</ul>
+							<ul class="current">
+								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+									<a href="_botbuilder_d_.ipromptrecognizer.html" class="tsd-kind-icon">IPrompt<wbr>Recognizer</a>
+									<ul>
+										<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter">
+											<a href="_botbuilder_d_.ipromptrecognizer.html#recognize" class="tsd-kind-icon">recognize</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="after-current">
 							</ul>
 						</nav>
 					</div>
@@ -213,8 +316,8 @@
 			</ul>
 		</div>
 		<div class="overlay"></div>
-		<script src="assets/js/main.js"></script>
-		<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+		<script src="../assets/js/main.js"></script>
+		<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 	</div>
 </div>
 </body>

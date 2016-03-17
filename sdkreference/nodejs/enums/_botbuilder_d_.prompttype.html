@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BotBuilder SDK Reference Library</title>
+	<title>PromptType | BotBuilder SDK Reference Library</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script src="assets/js/modernizr.js"></script>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
 </head>
 <body>
@@ -62,7 +62,7 @@
 				<div class="tsd-page-toolbar">
 					<div class="container">
 						<div class="table-wrap">
-							<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+							<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 								<div class="field">
 									<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 									<input id="tsd-search-field" type="text" />
@@ -71,7 +71,7 @@
 									<li class="state loading">Preparing search index...</li>
 									<li class="state failure">The search index is not available</li>
 								</ul>
-								<a href="index.html" class="title">BotBuilder SDK Reference Library</a>
+								<a href="../index.html" class="title">BotBuilder SDK Reference Library</a>
 							</div>
 							<div class="table-cell" id="tsd-widgets">
 								<div id="tsd-filter">
@@ -102,25 +102,120 @@
 					<div class="container">
 						<ul class="tsd-breadcrumb">
 							<li>
-								<a href="index.html">Globals</a>
+								<a href="../index.html">Globals</a>
+							</li>
+							<li>
+								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
+							</li>
+							<li>
+								<a href="_botbuilder_d_.prompttype.html">PromptType</a>
 							</li>
 						</ul>
-						<h1> BotBuilder SDK Reference Library</h1>
+						<h1>Enumeration PromptType</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
 				<div class="row">
 					<div class="col-8 col-content">
+						<section class="tsd-panel tsd-comment">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Type of prompt invoked.</p>
+								</div>
+							</div>
+						</section>
 						<section class="tsd-panel-group tsd-index-group">
 							<h2>Index</h2>
 							<section class="tsd-panel tsd-index-panel">
 								<div class="tsd-index-content">
 									<section class="tsd-index-section ">
-										<h3>External modules</h3>
+										<h3>Enumeration members</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-external-module"><a href="modules/_botbuilder_d_.html" class="tsd-kind-icon">"botbuilder.d"</a></li>
+											<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.prompttype.html#choice" class="tsd-kind-icon">choice</a></li>
+											<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.prompttype.html#confirm" class="tsd-kind-icon">confirm</a></li>
+											<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.prompttype.html#number" class="tsd-kind-icon">number</a></li>
+											<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.prompttype.html#text" class="tsd-kind-icon">text</a></li>
+											<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.prompttype.html#time" class="tsd-kind-icon">time</a></li>
 										</ul>
 									</section>
+								</div>
+							</section>
+						</section>
+						<section class="tsd-panel-group tsd-member-group ">
+							<h2>Enumeration members</h2>
+							<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+								<a name="choice" class="tsd-anchor"></a>
+								<h3>choice</h3>
+								<div class="tsd-signature tsd-kind-icon">choice<span class="tsd-signature-symbol">:</span> </div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L631">botbuilder.d.ts:631</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The user is prompted to select from a list of choices.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+								<a name="confirm" class="tsd-anchor"></a>
+								<h3>confirm</h3>
+								<div class="tsd-signature tsd-kind-icon">confirm<span class="tsd-signature-symbol">:</span> </div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L628">botbuilder.d.ts:628</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The user is prompted to confirm an action with a yes/no response.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+								<a name="number" class="tsd-anchor"></a>
+								<h3>number</h3>
+								<div class="tsd-signature tsd-kind-icon">number<span class="tsd-signature-symbol">:</span> </div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L625">botbuilder.d.ts:625</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The user is prompted to enter a number.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+								<a name="text" class="tsd-anchor"></a>
+								<h3>text</h3>
+								<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> </div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L622">botbuilder.d.ts:622</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The user is prompted for a string of text.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+								<a name="time" class="tsd-anchor"></a>
+								<h3>time</h3>
+								<div class="tsd-signature tsd-kind-icon">time<span class="tsd-signature-symbol">:</span> </div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L634">botbuilder.d.ts:634</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The user is prompted to enter a time.</p>
+									</div>
 								</div>
 							</section>
 						</section>
@@ -128,16 +223,40 @@
 					<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 						<nav class="tsd-navigation primary">
 							<ul>
-								<li class="globals current ">
-									<a href="index.html"><em>Globals</em></a>
+								<li class="globals  ">
+									<a href="../index.html"><em>Globals</em></a>
 								</li>
-								<li class=" tsd-kind-external-module">
-									<a href="modules/_botbuilder_d_.html">"botbuilder.d"</a>
+								<li class="current tsd-kind-external-module">
+									<a href="../modules/_botbuilder_d_.html">"botbuilder.d"</a>
 								</li>
 							</ul>
 						</nav>
 						<nav class="tsd-navigation secondary menu-sticky">
 							<ul class="before-current">
+							</ul>
+							<ul class="current">
+								<li class="current tsd-kind-enum tsd-parent-kind-external-module">
+									<a href="_botbuilder_d_.prompttype.html" class="tsd-kind-icon">Prompt<wbr>Type</a>
+									<ul>
+										<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+											<a href="_botbuilder_d_.prompttype.html#choice" class="tsd-kind-icon">choice</a>
+										</li>
+										<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+											<a href="_botbuilder_d_.prompttype.html#confirm" class="tsd-kind-icon">confirm</a>
+										</li>
+										<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+											<a href="_botbuilder_d_.prompttype.html#number" class="tsd-kind-icon">number</a>
+										</li>
+										<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+											<a href="_botbuilder_d_.prompttype.html#text" class="tsd-kind-icon">text</a>
+										</li>
+										<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+											<a href="_botbuilder_d_.prompttype.html#time" class="tsd-kind-icon">time</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="after-current">
 							</ul>
 						</nav>
 					</div>
@@ -213,8 +332,8 @@
 			</ul>
 		</div>
 		<div class="overlay"></div>
-		<script src="assets/js/main.js"></script>
-		<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+		<script src="../assets/js/main.js"></script>
+		<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 	</div>
 </div>
 </body>
