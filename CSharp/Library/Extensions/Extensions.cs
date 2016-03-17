@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Builder
 {
     public static partial class Field
     {
-        public static void SetNotNull<T>(ref T field, string name, T value) where T : class
+        public static void SetNotNull<T>(out T field, string name, T value) where T : class
         {
             if (value == null)
             {

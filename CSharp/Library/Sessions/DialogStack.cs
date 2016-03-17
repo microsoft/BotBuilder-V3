@@ -25,8 +25,8 @@ namespace Microsoft.Bot.Builder
 
         public DialogStack(ISessionData sessionData, IDialogCollection dialogs)
         {
-            Field.SetNotNull(ref this.sessionData, nameof(sessionData), sessionData);
-            Field.SetNotNull(ref this.dialogs, nameof(dialogs), dialogs);
+            Field.SetNotNull(out this.sessionData, nameof(sessionData), sessionData);
+            Field.SetNotNull(out this.dialogs, nameof(dialogs), dialogs);
 
             object encoded = sessionData.GetPerUserInConversationData(FieldName);
 

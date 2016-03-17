@@ -44,10 +44,10 @@ namespace Microsoft.Bot.Builder
 
         public Session(Message message, ISessionData sessionData, IDialogStack stack, IDialog defaultDialog)
         {
-            Field.SetNotNull(ref this.message, nameof(message), message);
-            Field.SetNotNull(ref this.sessionData, nameof(sessionData), sessionData);
-            Field.SetNotNull(ref this.stack, nameof(stack), stack);
-            Field.SetNotNull(ref this.defaultDialog, nameof(defaultDialog), defaultDialog);
+            Field.SetNotNull(out this.message, nameof(message), message);
+            Field.SetNotNull(out this.sessionData, nameof(sessionData), sessionData);
+            Field.SetNotNull(out this.stack, nameof(stack), stack);
+            Field.SetNotNull(out this.defaultDialog, nameof(defaultDialog), defaultDialog);
         }
 
         public Message Message { get { return this.message; } }

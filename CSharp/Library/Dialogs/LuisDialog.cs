@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder
 
         public LuisModel(string luisModelUrl)
         {
-            this.luisModelUrl = luisModelUrl; 
+            Field.SetNotNull(out this.luisModelUrl, nameof(luisModelUrl), luisModelUrl);
         }
     }
 
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Builder
         
         public LuisIntent(string intentName, bool resumeHandler = false)
         {
-            this.intentName = intentName;
+            Field.SetNotNull(out this.intentName, nameof(intentName), intentName);
             this.resumeHandler = resumeHandler; 
         }
     }

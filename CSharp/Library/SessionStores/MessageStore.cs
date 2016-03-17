@@ -10,11 +10,11 @@ namespace Microsoft.Bot.Builder
 {
     public class MessageStore : ISessionStore
     {
-        private Message message; 
+        private readonly Message message; 
 
         public MessageStore(Message message)
         {
-            this.message = message; 
+            Field.SetNotNull(out this.message, nameof(message), message);
         }
 
         public void Load(string sessionID, ISessionData sessionData)
