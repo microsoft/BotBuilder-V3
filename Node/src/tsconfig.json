@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "outDir": "..\build",
+        "noEmitOnError": true
+    },
+    "exclude": [
+        "botbuilder.d.ts"
+    ]
+}
