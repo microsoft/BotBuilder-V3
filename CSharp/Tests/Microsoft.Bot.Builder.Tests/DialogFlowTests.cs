@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static Mock<IDialog> MockDialog(string id = null)
         {
-            var dialog = new Moq.Mock<IDialog>();
+            var dialog = new Moq.Mock<IDialog>(MockBehavior.Loose);
             dialog.SetupGet(d => d.ID).Returns(id ?? NewID());
             dialog.Setup(d => d.ToString()).Returns(id);
             return dialog;
