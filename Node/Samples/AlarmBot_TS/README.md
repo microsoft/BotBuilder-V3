@@ -1,3 +1,0 @@
-﻿# AlarmBot_TS
-
-
