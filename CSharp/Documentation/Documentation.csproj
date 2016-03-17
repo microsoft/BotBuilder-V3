@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="ExecDoxygen;PublishTheDocs;UpdateDirLinkToLatestDocs" InitialTargets="MessagesD">
+  <!-- This project is not set up for building in TFS.  For that, use $/FUSEBinaries/Latest/Tools/Doxygen-1.8.7/Doxygen.proj. -->
+  <!-- To build this project from the command line locally, CD to the folder with the Doxyfile, then give (adjusting the number of "..\"s): -->
+  <!--   msbuild Doxygen.proj -->
+  <!-- This project may be added to a solution.  It will be included in the build when Configuration is set to 'Documentation'. -->
+  <!-- For local builds, the output is sent to .\docs\html.  Main file to open in a browser is index.html. -->
+  <PropertyGroup>
+    <DoxygenExe>Doxygen.1.8.11\tools\bin\doxygen.exe</DoxygenExe>
+    <RootPath>$(MSBuildThisFileDirectory)..\..\..\..\packages\</RootPath>
+    <DoxygenExeFullPath>$(RootPath)$(DoxygenExe)</DoxygenExeFullPath>
+    <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
+    <CreateDirLinkPs1 Condition=" '$(CreateDirLinkPs1)'=='' ">$(RootPath)FUSEBinaries\Tools\CreateDirLink.ps1</CreateDirLinkPs1>
+    <IsBuildingInTeamBuild Condition="'$(OutDir)' != ''">True</IsBuildingInTeamBuild>
+    <ConfigFileFullPath Condition="'$(IsBuildingInTeamBuild)' == 'True'">$(MSBuildThisFileDirectory)Doxyfile.TfsBuild.config</ConfigFileFullPath>
+    <ConfigFileFullPath Condition="'$(IsBuildingInTeamBuild)' != 'True'">$(MSBuildThisFileDirectory)Doxyfile</ConfigFileFullPath>
+    <TargetTopParent>\\fuseserver01\NuGetDocs\</TargetTopParent>
+    <TargetParent>$(TargetTopParent)$(BuildDefinition)\</TargetParent>
+    <TargetFolderName>$([System.DateTime]::Now.ToString(yyyy.MM.dd))</TargetFolderName>
+    <PublishTarget>$(TargetParent)$(TargetFolderName)\</PublishTarget>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ProjectGuid>{72C60ACB-4804-4584-AD49-00289A89F227}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Documentation'">
+    <RunDoxygen>True</RunDoxygen>
+    <PublishDocs>False</PublishDocs>
+  </PropertyGroup>
+  <Target Name="ExecDoxygen" Condition="'$(Configuration)' == '' OR '$(RunDoxygen)' == 'True'">
+    <Message Text="Generating documentation files." />
+    <Exec Command="&quot;$(DoxygenExeFullPath)&quot; &quot;$(ConfigFileFullPath)&quot;" />
+    <Message Text="Documentation completed." />
+  </Target>
+  <Target Name="PublishTheDocs" DependsOnTargets="ExecDoxygen" Condition="'$(IsBuildingInTeamBuild)' == 'True' AND '$(PublishDocs)' == 'True'">
+    <Message Text="Copying Docs from the TFS Binaries output folder to the documentation share" />
+    <CreateItem Include="$(OutDir)docs\**\*.*">
+      <Output TaskParameter="Include" ItemName="OutputDocs" />
+    </CreateItem>
+    <!-- Delete any already published doc files if they were published today. -->
+    <RemoveDir Directories="@(PublishTarget)" />
+    <Copy SourceFiles="@(OutputDocs)" DestinationFiles="@(OutputDocs->'$(PublishTarget)%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Message Text="Copying to share completed." />
+  </Target>
+  <Target Name="UpdateDirLinkToLatestDocs" DependsOnTargets="PublishTheDocs" Condition="'$(IsBuildingInTeamBuild)' == 'True' AND '$(PublishDocs)' == 'True'">
+    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { &amp;'$(CreateDirLinkPs1)' -ParentUncPath '$(TargetParent)' -ParentLocalPath '$(DocsParentShareLocalPath)' -TargetFolderName '$(TargetFolderName)'} &quot;" />
+  </Target>
+  <ItemGroup>
+    <None Include="Doxyfile" />
+    <None Include="Doxyfile.TfsBuild.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="doxygen.bat" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="botframework.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="customdoxygen-bootstrap.css" />
+    <Content Include="docs\html\index.html" />
+    <Content Include="DoxygenLayout.xml" />
+    <Content Include="Doxygen_ExtraStylesheet.css" />
+    <Content Include="Doxygen_Footerfile.html" />
+    <Content Include="footer.html" />
+    <Content Include="header.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Microsoft.Bot.Builder.cs" />
+  </ItemGroup>
+  <Target Name="Clean">
+    <RemoveDir Directories="@(DirsToClean)" />
+  </Target>
+  <Target Name="MessagesD">
+    <Message Text="%24(Configuration) = %22$(Configuration)%22" />
+    <Message Text="%24(RunDoxygen) = %22$(RunDoxygen)%22" />
+    <Message Text="%24(PublishDocs) = %22$(PublishDocs)%22" />
+    <Message Text="%24(RootPath) = %22$(RootPath)%22" />
+    <Message Text="%24(DoxygenExeFullPath) = %22$(DoxygenExeFullPath)%22" />
+    <Message Text="%24(CreateDirLinkPs1) = %22$(CreateDirLinkPs1)%22" />
+    <Message Text="%24(ConfigFileFullPath) = %22$(ConfigFileFullPath)%22" />
+    <Message Text="%24(OutDir) = %22$(OutDir)%22" />
+    <Message Text="%24(PublishTarget) = %22$(PublishTarget)%22" />
+  </Target>
+</Project>
