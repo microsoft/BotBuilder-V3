@@ -1506,3 +1506,42 @@ div#doc-content .header {
 div#content-container {
     padding-top: 10px;
 }
+
+/* Search overrides */
+
+
+#MSearchBox {
+    position: relative;
+    display: block;
+    width: 80%;
+    background: none;
+    border: 1px solid #C0C0C0;
+    padding: 4px 0;
+}
+
+#MSearchBox .left {
+    display: block;
+    position: relative;
+    left: 10px;
+    width: inherit;
+    background: none;
+}
+
+#MSearchSelect {
+    width: inherit;
+}
+
+#MSearchField {
+    background: none;
+    border: inherit;
+    width: 100%;
+    outline: inherit;
+}
+
+#MSearchBox .right {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    background: none;
+}

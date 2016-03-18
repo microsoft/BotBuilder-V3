@@ -776,7 +776,7 @@ footer .tsd-legend { display: inline-block; width: 25%; padding: 0; font-size: 1
 #tsd-search { -webkit-transition: background-color 0.2s; transition: background-color 0.2s; }
 #tsd-search .title { position: relative; z-index: 2; }
 #tsd-search .field { position: absolute; left: 0; top: 0; right: 40px; height: 40px; }
-#tsd-search .field input { box-sizing: border-box; position: relative; z-index: 1; width: 100%; padding: 0 10px; opacity: 0; outline: 0; border: 0; background: transparent; color: #222; }
+#tsd-search .field input { box-sizing: border-box; position: relative; z-index: 1; width: 100%; padding: 10px 10px; opacity: 0; outline: 0; border: 0; background: transparent; color: #222; }
 #tsd-search .field label { position: absolute; overflow: hidden; right: -40px; }
 #tsd-search .field input, #tsd-search .title { -webkit-transition: opacity 0.2s; transition: opacity 0.2s; }
 #tsd-search .results { position: absolute; visibility: hidden; top: 40px; width: 100%; margin: 0; padding: 0; list-style: none; box-shadow: 0 0 4px rgba(0, 0, 0, 0.25); }
@@ -843,7 +843,7 @@ ul.tsd-parameters .tsd-comment, ul.tsd-type-parameters .tsd-comment { margin-top
 .tsd-widget:before, .tsd-select .tsd-select-label:before, .tsd-select .tsd-select-list li:before { content: ""; display: inline-block; width: 40px; height: 40px; margin: 0 -8px 0 0; background-image: url(../images/widgets.png); background-repeat: no-repeat; text-indent: -1024px; vertical-align: bottom; }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) { .tsd-widget:before, .tsd-select .tsd-select-label:before, .tsd-select .tsd-select-list li:before { background-image: url(../images/widgets@2x.png); background-size: 320px 40px; } }
 
-.tsd-widget { display: inline-block; overflow: hidden; opacity: 0.6; height: 40px; -webkit-transition: opacity 0.1s, background-color 0.2s; transition: opacity 0.1s, background-color 0.2s; vertical-align: bottom; cursor: pointer; }
+.tsd-widget { display: inline-block; overflow: hidden; opacity: 0.6; height: 40px; -webkit-transition: opacity 0.1s, background-color 0.2s; transition: opacity 0.1s, background-color 0.2s; vertical-align: bottom; cursor: pointer;line-height: 45px;}
 .tsd-widget:hover { opacity: 0.8; }
 .tsd-widget.active { opacity: 1; background-color: #eee; }
 .tsd-widget.no-caption { width: 40px; }
@@ -856,7 +856,7 @@ ul.tsd-parameters .tsd-comment, ul.tsd-type-parameters .tsd-comment { margin-top
 input[type=checkbox] + .tsd-widget:before { background-position: -120px 0; }
 input[type=checkbox]:checked + .tsd-widget:before { background-position: -160px 0; }
 
-.tsd-select { position: relative; display: inline-block; height: 40px; -webkit-transition: opacity 0.1s, background-color 0.2s; transition: opacity 0.1s, background-color 0.2s; vertical-align: bottom; cursor: pointer; }
+.tsd-select { position: relative; display: inline-block; height: 40px; -webkit-transition: opacity 0.1s, background-color 0.2s; transition: opacity 0.1s, background-color 0.2s; vertical-align: bottom; cursor: pointer;line-height: 45px;}
 .tsd-select .tsd-select-label { opacity: 0.6; -webkit-transition: opacity 0.2s; transition: opacity 0.2s; }
 .tsd-select .tsd-select-label:before { background-position: -240px 0; }
 .tsd-select.active .tsd-select-label { opacity: 0.8; }
