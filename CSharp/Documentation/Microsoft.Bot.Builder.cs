@@ -30,6 +30,8 @@
 /// 
 /// There is not limit!
 /// 
+/// \page patterns Pattern Language
+/// 
 /// \page usage Usage
 /// 
 /// To use Microsoft Bot Builder ...

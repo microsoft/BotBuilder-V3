@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 values = values.Union(new string[] { _noPreference.First() });
             }
-            return string.Format(_helpFormat.Template(), 1, _max,
+            return string.Format(_helpFormat.Pattern(), 1, _max,
                 Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
         }
 
@@ -269,7 +269,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private IEnumerable<string> _valueDescriptions;
         private DescriptionDelegate _descriptionDelegate;
         private TermsDelegate _termsDelegate;
-        private TemplateBase _helpFormat;
+        private Template _helpFormat;
         private int _max;
         private List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }

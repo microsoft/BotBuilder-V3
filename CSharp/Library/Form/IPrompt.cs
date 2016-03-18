@@ -40,17 +40,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             if (pathName != "")
             {
                 var field = _fields.Field(pathName);
-                currentChoice = field.Template(TemplateUsage.CurrentChoice).Template();
+                currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional())
                 {
-                    noValue = field.Template(TemplateUsage.NoPreference).Template();
+                    noValue = field.Template(TemplateUsage.NoPreference).Pattern();
                 }
                 else
                 {
-                    noValue = field.Template(TemplateUsage.Unspecified).Template();
+                    noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            var response = ExpandTemplate(_annotation.Template(), currentChoice, noValue, state, pathName, args, out expectsArgs);
+            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args, out expectsArgs);
             return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(expectsArgs ? string.Format(response, args) : response), "$1 "), "$1"));
         }
 
