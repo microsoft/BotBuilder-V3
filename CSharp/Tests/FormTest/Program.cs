@@ -12,10 +12,10 @@ namespace Microsoft.Bot.Builder.FormTest
     public class Choices
     {
         public DebugOptions Choice;
-            }
+    }
 
     class Program
-            {
+    {
         static void Interactive(IDialogCollection dialogs, IDialog form)
         {
             var message = new Message()
@@ -57,6 +57,7 @@ namespace Microsoft.Bot.Builder.FormTest
             return form
                 .Message("Welcome to the pizza bot!!!")
                 .Message("Lets make pizza!!!")
+                .Field("Name")
                 .Field(nameof(PizzaOrder.NumberOfPizzas))
                 .Field(nameof(PizzaOrder.Size))
                 .Field(nameof(PizzaOrder.Kind))
@@ -75,7 +76,7 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza));
-                ;
+            ;
         }
 
         static void Main(string[] args)

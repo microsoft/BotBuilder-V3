@@ -90,6 +90,21 @@ namespace Microsoft.Bot.Builder.FormTest
     [Serializable]
     class PizzaOrder
     {
+        private string _name;
+        [Prompt("Your full name please {||}")]
+        [Template(TemplateUsage.Help, "Enter your full name.\n{0}\n{1}")]
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                DeliveryAddress = value;
+            }
+        }
         [Numeric(0, 10)]
         public int NumberOfPizzas;
         public SizeOptions Size;
