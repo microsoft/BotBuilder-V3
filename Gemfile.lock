@@ -130,6 +130,7 @@ PLATFORMS
 DEPENDENCIES
   classifier-reborn
   github-pages
+  jekyll-sitemap (~> 0.10.0)
   wdm (>= 0.1.0)
 
 BUNDLED WITH

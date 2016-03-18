@@ -20,3 +20,6 @@ lsi: false
 
 # Build settings
 markdown: kramdown
+
+gems:
+  - jekyll-sitemap
