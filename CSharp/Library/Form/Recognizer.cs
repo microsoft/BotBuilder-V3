@@ -49,6 +49,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _termsDelegate = termsDelegate;
             _valueDescriptions = (from value in values select _descriptionDelegate(value)).ToArray();
             _helpFormat = helpFormat;
+            _noPreference = noPreference;
+            if (currentChoice != null)
+            {
+                _currentChoice = currentChoice.FirstOrDefault();
+            }
+
             BuildPerValueMatcher(allowNumbers, noPreference, currentChoice);
         }
 
@@ -89,6 +95,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
         {
+            // if the user hit enter on an optional prompt, then consider taking the current choice as a low confidence option
+            bool userSkippedPrompt = string.IsNullOrWhiteSpace(input) && _noPreference != null;
+            if (userSkippedPrompt)
+            {
+                yield return new TermMatch(0, input.Length, 0.01, defaultValue);
+            }
+
             foreach (var expression in _expressions)
             {
                 double longest = expression.Longest.Length;
