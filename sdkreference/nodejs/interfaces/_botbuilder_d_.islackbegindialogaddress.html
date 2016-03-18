@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IPromptsOptions | BotBuilder SDK Reference Library</title>
+	<title>ISlackBeginDialogAddress | BotBuilder SDK Reference Library</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -108,10 +108,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.ipromptsoptions.html">IPromptsOptions</a>
+								<a href="_botbuilder_d_.islackbegindialogaddress.html">ISlackBeginDialogAddress</a>
 							</li>
 						</ul>
-						<h1>Interface IPromptsOptions</h1>
+						<h1>Interface ISlackBeginDialogAddress</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -120,7 +120,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Global configuration options for the Prompts dialog.</p>
+									<p>Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with.</p>
 								</div>
 							</div>
 						</section>
@@ -128,7 +128,7 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">IPromptsOptions</span>
+									<span class="target">ISlackBeginDialogAddress</span>
 								</li>
 							</ul>
 						</section>
@@ -139,7 +139,10 @@
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptsoptions.html#recognizer" class="tsd-kind-icon">recognizer</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.islackbegindialogaddress.html#channel" class="tsd-kind-icon">channel</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.islackbegindialogaddress.html#team" class="tsd-kind-icon">team</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.islackbegindialogaddress.html#text" class="tsd-kind-icon">text</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.islackbegindialogaddress.html#user" class="tsd-kind-icon">user</a></li>
 										</ul>
 									</section>
 								</div>
@@ -148,17 +151,62 @@
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="recognizer" class="tsd-anchor"></a>
-								<h3><span class="tsd-flag ts-flagOptional">Optional</span> recognizer</h3>
-								<div class="tsd-signature tsd-kind-icon">recognizer<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.ipromptrecognizer.html" class="tsd-signature-type">IPromptRecognizer</a></div>
+								<a name="channel" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> channel</h3>
+								<div class="tsd-signature tsd-kind-icon">channel<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L340">botbuilder.d.ts:340</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L558">botbuilder.d.ts:558</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies.</p>
+										<p>ID of the channel to begin a conversation with. If this is specified user should be blank.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+								<a name="team" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> team</h3>
+								<div class="tsd-signature tsd-kind-icon">team<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L561">botbuilder.d.ts:561</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional team ID. If specified the SlackSession.teamData will be loaded.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+								<a name="text" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> text</h3>
+								<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L564">botbuilder.d.ts:564</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional text to initialize the dialogs message with. Useful for scenarios where the dialog being called is expecting to be replying to something the user said.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+								<a name="user" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> user</h3>
+								<div class="tsd-signature tsd-kind-icon">user<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L555">botbuilder.d.ts:555</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>ID of the user to begin a conversation with. If this is specified channel should be blank.</p>
 									</div>
 								</div>
 							</section>
@@ -180,10 +228,19 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.ipromptsoptions.html" class="tsd-kind-icon">IPrompts<wbr>Options</a>
+									<a href="_botbuilder_d_.islackbegindialogaddress.html" class="tsd-kind-icon">ISlack<wbr>Begin<wbr>Dialog<wbr>Address</a>
 									<ul>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.ipromptsoptions.html#recognizer" class="tsd-kind-icon">recognizer</a>
+											<a href="_botbuilder_d_.islackbegindialogaddress.html#channel" class="tsd-kind-icon">channel</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface">
+											<a href="_botbuilder_d_.islackbegindialogaddress.html#team" class="tsd-kind-icon">team</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface">
+											<a href="_botbuilder_d_.islackbegindialogaddress.html#text" class="tsd-kind-icon">text</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface">
+											<a href="_botbuilder_d_.islackbegindialogaddress.html#user" class="tsd-kind-icon">user</a>
 										</li>
 									</ul>
 								</li>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Session | BotBuilder SDK Reference Library</title>
+	<title>SlackSession | BotBuilder SDK Reference Library</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -108,10 +108,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.session.html">Session</a>
+								<a href="_botbuilder_d_.slacksession.html">SlackSession</a>
 							</li>
 						</ul>
-						<h1>Class Session</h1>
+						<h1>Class SlackSession</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -120,7 +120,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Manages the bots conversation with a user.</p>
+									<p>Adds additional properties for working with Slack bots.</p>
 								</div>
 							</div>
 						</section>
@@ -128,13 +128,10 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">Session</span>
+									<a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>
 									<ul class="tsd-hierarchy">
 										<li>
-											<a href="_botbuilder_d_.botconnectorsession.html" class="tsd-signature-type">BotConnectorSession</a>
-										</li>
-										<li>
-											<a href="_botbuilder_d_.slacksession.html" class="tsd-signature-type">SlackSession</a>
+											<span class="target">SlackSession</span>
 										</li>
 									</ul>
 								</li>
@@ -144,59 +141,62 @@
 							<h2>Index</h2>
 							<section class="tsd-panel tsd-index-panel">
 								<div class="tsd-index-content">
-									<section class="tsd-index-section ">
+									<section class="tsd-index-section tsd-is-inherited">
 										<h3>Constructors</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#constructor" class="tsd-kind-icon">constructor</a></li>
+											<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#constructor" class="tsd-kind-icon">constructor</a></li>
 										</ul>
 									</section>
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#args" class="tsd-kind-icon">args</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#dialogid" class="tsd-kind-icon">dialog<wbr>Id</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dialogs" class="tsd-kind-icon">dialogs</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#localizer" class="tsd-kind-icon">localizer</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#message" class="tsd-kind-icon">message</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_botbuilder_d_.slacksession.html#args" class="tsd-kind-icon">args</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.slacksession.html#channeldata" class="tsd-kind-icon">channel<wbr>Data</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_botbuilder_d_.slacksession.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_botbuilder_d_.slacksession.html#dialogid" class="tsd-kind-icon">dialog<wbr>Id</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#dialogs" class="tsd-kind-icon">dialogs</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_botbuilder_d_.slacksession.html#localizer" class="tsd-kind-icon">localizer</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#message" class="tsd-kind-icon">message</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.slacksession.html#teamdata" class="tsd-kind-icon">team<wbr>Data</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
 										</ul>
 									</section>
-									<section class="tsd-index-section ">
+									<section class="tsd-index-section tsd-is-inherited">
 										<h3>Methods</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#begindialog" class="tsd-kind-icon">begin<wbr>Dialog</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dispatch" class="tsd-kind-icon">dispatch</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#error" class="tsd-kind-icon">error</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#gettext" class="tsd-kind-icon">gettext</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#isreset" class="tsd-kind-icon">is<wbr>Reset</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#messagesent" class="tsd-kind-icon">message<wbr>Sent</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#ngettext" class="tsd-kind-icon">ngettext</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#on" class="tsd-kind-icon">on</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#replacedialog" class="tsd-kind-icon">replace<wbr>Dialog</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#reset" class="tsd-kind-icon">reset</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#send" class="tsd-kind-icon">send</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#begindialog" class="tsd-kind-icon">begin<wbr>Dialog</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#dispatch" class="tsd-kind-icon">dispatch</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#error" class="tsd-kind-icon">error</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#gettext" class="tsd-kind-icon">gettext</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#isreset" class="tsd-kind-icon">is<wbr>Reset</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#messagesent" class="tsd-kind-icon">message<wbr>Sent</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#ngettext" class="tsd-kind-icon">ngettext</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#on" class="tsd-kind-icon">on</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#replacedialog" class="tsd-kind-icon">replace<wbr>Dialog</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#reset" class="tsd-kind-icon">reset</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slacksession.html#send" class="tsd-kind-icon">send</a></li>
 										</ul>
 									</section>
 								</div>
 							</section>
 						</section>
-						<section class="tsd-panel-group tsd-member-group ">
+						<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 							<h2>Constructors</h2>
-							<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a name="constructor" class="tsd-anchor"></a>
 								<h3>constructor</h3>
-								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">new <wbr>Session<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+									<li class="tsd-signature tsd-kind-icon">new <wbr>Slack<wbr>Session<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.slacksession.html" class="tsd-signature-type">SlackSession</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#constructor">constructor</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L675">botbuilder.d.ts:675</a></li>
 											</ul>
@@ -217,18 +217,19 @@
 												</div>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.slacksession.html" class="tsd-signature-type">SlackSession</a></h4>
 									</li>
 								</ul>
 							</section>
 						</section>
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a name="isessionstate" class="tsd-anchor"></a>
 								<h3>ISession<wbr>State</h3>
 								<div class="tsd-signature tsd-kind-icon">ISession<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionstate.html" class="tsd-signature-type">ISessionState</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#isessionstate">ISessionState</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L696">botbuilder.d.ts:696</a></li>
 									</ul>
@@ -239,11 +240,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a name="args" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagProtected">Protected</span> args</h3>
 								<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#args">args</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L666">botbuilder.d.ts:666</a></li>
 									</ul>
@@ -254,11 +256,27 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+								<a name="channeldata" class="tsd-anchor"></a>
+								<h3>channel<wbr>Data</h3>
+								<div class="tsd-signature tsd-kind-icon">channel<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1607">botbuilder.d.ts:1607</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Data that&#39;s persisted on a per channel basis.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a name="dialogargs" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagProtected">Protected</span> dialog<wbr>Args</h3>
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#dialogargs">dialogArgs</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L675">botbuilder.d.ts:675</a></li>
 									</ul>
@@ -269,11 +287,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a name="dialogdata" class="tsd-anchor"></a>
 								<h3>dialog<wbr>Data</h3>
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#dialogdata">dialogData</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L705">botbuilder.d.ts:705</a></li>
 									</ul>
@@ -284,11 +303,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a name="dialogid" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagProtected">Protected</span> dialog<wbr>Id</h3>
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#dialogid">dialogId</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L672">botbuilder.d.ts:672</a></li>
 									</ul>
@@ -299,11 +319,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a name="dialogs" class="tsd-anchor"></a>
 								<h3>dialogs</h3>
 								<div class="tsd-signature tsd-kind-icon">dialogs<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#dialogs">dialogs</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L693">botbuilder.d.ts:693</a></li>
 									</ul>
@@ -314,11 +335,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a name="localizer" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagProtected">Protected</span> localizer</h3>
 								<div class="tsd-signature tsd-kind-icon">localizer<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.ilocalizer.html" class="tsd-signature-type">ILocalizer</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#localizer">localizer</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L669">botbuilder.d.ts:669</a></li>
 									</ul>
@@ -329,11 +351,12 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a name="message" class="tsd-anchor"></a>
 								<h3>message</h3>
 								<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#message">message</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L699">botbuilder.d.ts:699</a></li>
 									</ul>
@@ -345,10 +368,26 @@
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+								<a name="teamdata" class="tsd-anchor"></a>
+								<h3>team<wbr>Data</h3>
+								<div class="tsd-signature tsd-kind-icon">team<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1604">botbuilder.d.ts:1604</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Data that&#39;s persisted on a per team basis.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a name="userdata" class="tsd-anchor"></a>
 								<h3>user<wbr>Data</h3>
 								<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#userdata">userData</a></p>
 									<ul>
 										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L702">botbuilder.d.ts:702</a></li>
 									</ul>
@@ -360,17 +399,18 @@
 								</div>
 							</section>
 						</section>
-						<section class="tsd-panel-group tsd-member-group ">
+						<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 							<h2>Methods</h2>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a name="begindialog" class="tsd-anchor"></a>
 								<h3>begin<wbr>Dialog</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">begin<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#begindialog">beginDialog</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L761">botbuilder.d.ts:761</a></li>
 											</ul>
@@ -407,15 +447,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="compareconfidence" class="tsd-anchor"></a>
 								<h3>compare<wbr>Confidence</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">compare<wbr>Confidence<span class="tsd-signature-symbol">(</span>language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, score<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#compareconfidence">compareConfidence</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L786">botbuilder.d.ts:786</a></li>
 											</ul>
@@ -476,15 +517,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="createmessage" class="tsd-anchor"></a>
 								<h3>create<wbr>Message</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">create<wbr>Message<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#createmessage">createMessage</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L807">botbuilder.d.ts:807</a></li>
 											</ul>
@@ -515,15 +557,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="dispatch" class="tsd-anchor"></a>
 								<h3>dispatch</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">dispatch<span class="tsd-signature-symbol">(</span>sessionState<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionstate.html" class="tsd-signature-type">ISessionState</a>, message<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#dispatch">dispatch</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L690">botbuilder.d.ts:690</a></li>
 											</ul>
@@ -554,15 +597,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a name="enddialog" class="tsd-anchor"></a>
 								<h3>end<wbr>Dialog</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#enddialog">endDialog</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L775">botbuilder.d.ts:775</a></li>
 											</ul>
@@ -591,15 +635,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="error" class="tsd-anchor"></a>
 								<h3>error</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#error">error</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L711">botbuilder.d.ts:711</a></li>
 											</ul>
@@ -622,15 +667,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="gettext" class="tsd-anchor"></a>
 								<h3>gettext</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">gettext<span class="tsd-signature-symbol">(</span>msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#gettext">gettext</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L719">botbuilder.d.ts:719</a></li>
 											</ul>
@@ -660,15 +706,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="isreset" class="tsd-anchor"></a>
 								<h3>is<wbr>Reset</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">is<wbr>Reset<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#isreset">isReset</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L798">botbuilder.d.ts:798</a></li>
 											</ul>
@@ -682,15 +729,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="messagesent" class="tsd-anchor"></a>
 								<h3>message<wbr>Sent</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">message<wbr>Sent<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#messagesent">messageSent</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L752">botbuilder.d.ts:752</a></li>
 											</ul>
@@ -704,15 +752,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="ngettext" class="tsd-anchor"></a>
 								<h3>ngettext</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">ngettext<span class="tsd-signature-symbol">(</span>msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid_plural<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#ngettext">ngettext</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L728">botbuilder.d.ts:728</a></li>
 											</ul>
@@ -748,15 +797,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="on" class="tsd-anchor"></a>
 								<h3>on</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#on">on</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L663">botbuilder.d.ts:663</a></li>
 											</ul>
@@ -790,15 +840,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a name="replacedialog" class="tsd-anchor"></a>
 								<h3>replace<wbr>Dialog</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">replace<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#replacedialog">replaceDialog</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L769">botbuilder.d.ts:769</a></li>
 											</ul>
@@ -834,15 +885,16 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a name="reset" class="tsd-anchor"></a>
 								<h3>reset</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">reset&lt;T&gt;<span class="tsd-signature-symbol">(</span>dialogId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#reset">reset</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L793">botbuilder.d.ts:793</a></li>
 											</ul>
@@ -877,10 +929,10 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a name="send" class="tsd-anchor"></a>
 								<h3>send</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
@@ -888,6 +940,7 @@
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#send">send</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L734">botbuilder.d.ts:734</a></li>
 											</ul>
@@ -902,6 +955,7 @@
 									</li>
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#send">send</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L742">botbuilder.d.ts:742</a></li>
 											</ul>
@@ -932,6 +986,7 @@
 									</li>
 									<li class="tsd-description">
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.session.html">Session</a>.<a href="_botbuilder_d_.session.html#send">send</a></p>
 											<ul>
 												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L747">botbuilder.d.ts:747</a></li>
 											</ul>
@@ -972,79 +1027,85 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-class tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.session.html" class="tsd-kind-icon">Session</a>
+									<a href="_botbuilder_d_.slacksession.html" class="tsd-kind-icon">Slack<wbr>Session</a>
 									<ul>
-										<li class=" tsd-kind-constructor tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#constructor" class="tsd-kind-icon">constructor</a>
+										<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#constructor" class="tsd-kind-icon">constructor</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+											<a href="_botbuilder_d_.slacksession.html#args" class="tsd-kind-icon">args</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a>
+											<a href="_botbuilder_d_.slacksession.html#channeldata" class="tsd-kind-icon">channel<wbr>Data</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-											<a href="_botbuilder_d_.session.html#args" class="tsd-kind-icon">args</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+											<a href="_botbuilder_d_.slacksession.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-											<a href="_botbuilder_d_.session.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+											<a href="_botbuilder_d_.slacksession.html#dialogid" class="tsd-kind-icon">dialog<wbr>Id</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-											<a href="_botbuilder_d_.session.html#dialogid" class="tsd-kind-icon">dialog<wbr>Id</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#dialogs" class="tsd-kind-icon">dialogs</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#dialogs" class="tsd-kind-icon">dialogs</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+											<a href="_botbuilder_d_.slacksession.html#localizer" class="tsd-kind-icon">localizer</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-											<a href="_botbuilder_d_.session.html#localizer" class="tsd-kind-icon">localizer</a>
-										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#message" class="tsd-kind-icon">message</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#message" class="tsd-kind-icon">message</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
+											<a href="_botbuilder_d_.slacksession.html#teamdata" class="tsd-kind-icon">team<wbr>Data</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-											<a href="_botbuilder_d_.session.html#begindialog" class="tsd-kind-icon">begin<wbr>Dialog</a>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#begindialog" class="tsd-kind-icon">begin<wbr>Dialog</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#dispatch" class="tsd-kind-icon">dispatch</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-											<a href="_botbuilder_d_.session.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#dispatch" class="tsd-kind-icon">dispatch</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#error" class="tsd-kind-icon">error</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#gettext" class="tsd-kind-icon">gettext</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#error" class="tsd-kind-icon">error</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#isreset" class="tsd-kind-icon">is<wbr>Reset</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#gettext" class="tsd-kind-icon">gettext</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#messagesent" class="tsd-kind-icon">message<wbr>Sent</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#isreset" class="tsd-kind-icon">is<wbr>Reset</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#ngettext" class="tsd-kind-icon">ngettext</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#messagesent" class="tsd-kind-icon">message<wbr>Sent</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#on" class="tsd-kind-icon">on</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#ngettext" class="tsd-kind-icon">ngettext</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-											<a href="_botbuilder_d_.session.html#replacedialog" class="tsd-kind-icon">replace<wbr>Dialog</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#on" class="tsd-kind-icon">on</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-											<a href="_botbuilder_d_.session.html#reset" class="tsd-kind-icon">reset</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#replacedialog" class="tsd-kind-icon">replace<wbr>Dialog</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#send" class="tsd-kind-icon">send</a>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#reset" class="tsd-kind-icon">reset</a>
+										</li>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+											<a href="_botbuilder_d_.slacksession.html#send" class="tsd-kind-icon">send</a>
 										</li>
 									</ul>
 								</li>
