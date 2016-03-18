@@ -54,6 +54,7 @@ export interface ISlackBotOptions {
     localizer?: ILocalizer;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
+    ambientMentionDuration?: number;
 }
 
 export interface ISlackBeginDialogAddress {
@@ -64,14 +65,20 @@ export interface ISlackBeginDialogAddress {
 }
 
 export class SlackBot extends collection.DialogCollection {
-    protected options: ISlackBotOptions = {
-        maxSessionAge: 14400000,    // <-- default max session age of 4 hours
-        defaultDialogId: '/'
+    private options: ISlackBotOptions = {
+        maxSessionAge: 14400000,        // <-- default max session age of 4 hours
+        defaultDialogId: '/',
+        ambientMentionDuration: 300000  // <-- default duration of 5 minutes
     };
-
-    constructor(protected controller: BotKitController, protected bot: Bot, options?: ISlackBotOptions) {
+    
+    constructor(private controller: BotKitController, private bot: Bot, options?: ISlackBotOptions) {
         super();
         this.configure(options);
+        ['message_received','bot_channel_join','user_channel_join','bot_group_join','user_group_join'].forEach((type) => {
+            this.controller.on(type, (bot: Bot, msg: ISlackMessage) => {
+               this.emit(type, bot, msg); 
+            });
+        });
     }
 
     public configure(options: ISlackBotOptions): this {
@@ -86,14 +93,53 @@ export class SlackBot extends collection.DialogCollection {
     }
     
     public listen(types: string[], dialogId?: string, dialogArgs?: any): this {
+        dialogId = dialogId || this.options.defaultDialogId;
+        dialogArgs = dialogArgs || this.options.defaultDialogArgs;
         types.forEach((type) => {
             this.controller.on(type, (bot: Bot, msg: ISlackMessage) => {
                 bot.identifyTeam((err, teamId) => {
                     msg.team = teamId;
-                    this.emit(type, msg);
-                    this.dispatchMessage(bot, msg, dialogId || this.options.defaultDialogId, dialogArgs || this.options.defaultDialogArgs);
+                    this.dispatchMessage(bot, msg, dialogId, dialogArgs);
                 });
             });
+        });
+        return this;
+    }
+    
+    public listenForMentions(dialogId?: string, dialogArgs?: any): this {
+        var sessions: { [key: string]: ISessionState; } = {};
+        var dispatch = (bot: Bot, msg: ISlackMessage, ss?: ISessionState) => {
+            bot.identifyTeam((err, teamId) => {
+                msg.team = teamId;
+                this.dispatchMessage(bot, msg, dialogId, dialogArgs, ss);
+            });
+        };
+        
+        dialogId = dialogId || this.options.defaultDialogId;
+        dialogArgs = dialogArgs || this.options.defaultDialogArgs;
+        this.controller.on('direct_message', (bot: Bot, msg: ISlackMessage) => {
+            dispatch(bot, msg);
+        });
+        ['direct_mention','mention'].forEach((type) => {
+            this.controller.on(type, (bot: Bot, msg: ISlackMessage) => {
+                // Create a new session
+                var key = msg.channel + ':' + msg.user;
+                var ss = sessions[key] = { callstack: <any>[], lastAccess: new Date().getTime() };
+                dispatch(bot, msg, ss);
+            });
+        });
+        this.controller.on('ambient', (bot: Bot, msg: ISlackMessage) => {
+            // Conditionally dispatch the message
+            var key = msg.channel + ':' + msg.user;
+            if (sessions.hasOwnProperty(key)) {
+                // Validate session
+                var ss = sessions[key];
+                if (ss.callstack && ss.callstack.length > 0 && (new Date().getTime() - ss.lastAccess) <= this.options.ambientMentionDuration) {
+                    dispatch(bot, msg, ss);
+                } else {
+                    delete sessions[key];
+                }
+            }
         });
         return this;
     }
@@ -112,7 +158,7 @@ export class SlackBot extends collection.DialogCollection {
         return this;
     }
 
-    private dispatchMessage(bot: Bot, msg: ISlackMessage, dialogId: string, dialogArgs: any) {
+    private dispatchMessage(bot: Bot, msg: ISlackMessage, dialogId: string, dialogArgs: any, smartState?: ISessionState) {
         var onError = (err: Error) => {
             this.emit('error', err, msg);
         };
@@ -129,7 +175,7 @@ export class SlackBot extends collection.DialogCollection {
             var teamData = ses.teamData && ses.teamData.id ? utils.clone(ses.teamData) : null;
             var channelData = ses.channelData && ses.channelData.id ? utils.clone(ses.channelData) : null;
             var userData = ses.userData && ses.userData.id ? utils.clone(ses.userData) : null;
-            if (channelData) {
+            if (channelData && !smartState) {
                 channelData[consts.Data.SessionState] = ses.sessionState;
             }
             
@@ -179,7 +225,9 @@ export class SlackBot extends collection.DialogCollection {
                 }
                 
                 // Unpack session state
-                if (data.channelData && data.channelData.hasOwnProperty(consts.Data.SessionState)) {
+                if (smartState) {
+                    sessionState = smartState;
+                } else if (data.channelData && data.channelData.hasOwnProperty(consts.Data.SessionState)) {
                     sessionState = (<any>data.channelData)[consts.Data.SessionState];
                     delete (<any>data.channelData)[consts.Data.SessionState];
                 }

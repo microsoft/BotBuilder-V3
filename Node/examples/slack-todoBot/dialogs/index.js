@@ -3,12 +3,10 @@ var prompts = require('../prompts');
 
 // Export Command Dialog
 module.exports = new builder.CommandDialog()
-    .matches('^(hello|hi|howdy)', builder.DialogAction.send(prompts.helpMessage))
+    .matches('^(hello|hi|howdy|help)', builder.DialogAction.send(prompts.helpMessage))
     .matches('^(?:new|save|create|add)(?: (.+))?', saveTask)
     .matches('^(?:done|delete|finish|remove)(?: (\\d+))?', finishTask)
-    .matches('^(list|show|tasks)', listTasks)
-    .onDefault(builder.DialogAction.send(prompts.notRecognized));
-
+    .matches('^(list|show|tasks)', listTasks);
 
 function saveTask(session, args) {
     if (args.matches) {

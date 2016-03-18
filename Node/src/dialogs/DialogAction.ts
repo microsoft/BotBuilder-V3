@@ -3,11 +3,7 @@ import dialog = require('./Dialog');
 import consts = require('../consts');
 
 export interface IDialogWaterfallStep {
-    (session: ISession, result?: any, skip?: IDialogWaterfallCursor): void;
-}
-
-export interface IDialogWaterfallCursor {
-    (count?: number, results?: dialog.IDialogResult<any>): void;
+    (session: ISession, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
 }
 
 export class DialogAction {
@@ -48,9 +44,11 @@ export class DialogAction {
 
     static waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
         return function waterfallAction(s: ISession, r: dialog.IDialogResult<any>) {
-            var skip = (count = 1, result?: dialog.IDialogResult<any>) => {
-                result = result || { resumed: dialog.ResumeReason.forward };
-                s.dialogData[consts.Data.WaterfallStep] += count;
+            var skip = (result?: dialog.IDialogResult<any>) => {
+                result = result || <any>{};
+                if (!result.resumed) {
+                    result.resumed = dialog.ResumeReason.forward;
+                }
                 waterfallAction(s, result);
             };
 
@@ -62,9 +60,6 @@ export class DialogAction {
                     switch (r.resumed) {
                         case dialog.ResumeReason.back:
                             step -= 1;
-                            break;
-                        case dialog.ResumeReason.forward:
-                            step += 2;
                             break;
                         default:
                             step++;

@@ -41,10 +41,11 @@ var DialogAction = (function () {
     };
     DialogAction.waterfall = function (steps) {
         return function waterfallAction(s, r) {
-            var skip = function (count, result) {
-                if (count === void 0) { count = 1; }
-                result = result || { resumed: dialog.ResumeReason.forward };
-                s.dialogData[consts.Data.WaterfallStep] += count;
+            var skip = function (result) {
+                result = result || {};
+                if (!result.resumed) {
+                    result.resumed = dialog.ResumeReason.forward;
+                }
                 waterfallAction(s, result);
             };
             try {
@@ -55,9 +56,6 @@ var DialogAction = (function () {
                     switch (r.resumed) {
                         case dialog.ResumeReason.back:
                             step -= 1;
-                            break;
-                        case dialog.ResumeReason.forward:
-                            step += 2;
                             break;
                         default:
                             step++;

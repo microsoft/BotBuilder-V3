@@ -1,11 +1,8 @@
-const helpMessage = 'Available commands are:\n\n' +
+module.exports = {
+    helpMessage: 'Available commands are:\n\n' +
     '* *list* - show all tasks (also *show*, *tasks*)\n' +
     '* *new* [your task] - create a new task (also *save*, *create*, *add*)\n' +
-    '* *done* [number of task] - finish a task, you can get the number of a task from *list* (also *delete", *finish*, *remove*)';
-
-module.exports = {
-    helpMessage: helpMessage,
-    notRecognized: 'I am afraid I don\'t understand. ' + helpMessage,
+    '* *done* [number of task] - finish a task, you can get the number of a task from *list* (also *delete", *finish*, *remove*)',
     saveTaskCreated: 'Created a new task no. %(index)d: %(task)s',
     saveTaskMissing: 'You need to tell me what the new task should be. For example: "new Remember the milk"',
     listTaskList: 'Tasks:\n%s',

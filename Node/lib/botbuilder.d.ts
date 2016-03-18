@@ -506,7 +506,7 @@ export interface ISkypeBotOptions {
     /** Storage system to use for persisting Session.sessionState values. By default the MemoryStorage is used. */
     sessionStore?: IStorage;
 
-    /** Maximum time since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
+    /** Maximum time (in milliseconds) since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
     maxSessionAge?: number;
 
     /** Optional localizer used to localize the bots responses to the user. */
@@ -536,7 +536,7 @@ export interface ISkypeBotOptions {
 
 /** Options used to configure the SlackBot. */
 export interface ISlackBotOptions {
-    /** Maximum time since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
+    /** Maximum time (in milliseconds) since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
     maxSessionAge?: number;
 
     /** Optional localizer used to localize the bots responses to the user. */
@@ -547,6 +547,9 @@ export interface ISlackBotOptions {
 
     /** Optional arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
+    
+    /** Maximum time (in milliseconds) that a bot continues to recieve ambient messages after its been @mentioned. Default 5 minutes.  */
+    ambientMentionDuration?: number;
 }
 
 /** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
@@ -572,7 +575,7 @@ export interface ITextBotOptions {
     /** Storage system to use for persisting Session.sessionState values. By default the MemoryStorage is used. */
     sessionStore?: IStorage;
 
-    /** Maximum time since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
+    /** Maximum time (in milliseconds) since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
     maxSessionAge?: number;
 
     /** Optional localizer used to localize the bots responses to the user. */
@@ -587,8 +590,7 @@ export interface ITextBotOptions {
 
 /** Signature for function passed as a step to DialogAction.waterfall(). */
 export interface IDialogWaterfallStep {
-    <T>(session: Session, result?: T, skip?: (count?: number, results?: IDialogResult<any>) => void): any;
-    <T>(session: Session, result?: IDialogResult<T>, skip?: (count?: number, results?: IDialogResult<any>) => void): any;
+    <T>(session: Session, result?: IDialogResult<T>, skip?: (results?: IDialogResult<any>) => void): any;
 }
 
 
@@ -1559,11 +1561,10 @@ export class SlackBot extends DialogCollection {
     /**
      * Creates a new instance of the Slack bot using BotKit. 
      * @param controller Controller created from a call to Botkit.slackbot().
-     * @param bot Optional bot created from a call to controller.spawn(). If you don't pass this in
-     * you won't be able to initiate outgoing conversations using SlackBot.beginDialog().
+     * @param bot The bot created from a call to controller.spawn(). 
      * @param options Optional configuration settings for the bot.
      */
-    constructor(controller: any, bot?: any, options?: ISlackBotOptions);
+    constructor(controller: any, bot: any, options?: ISlackBotOptions);
 
     /**
      * Registers an event listener to get notified of bot related events. 
@@ -1572,10 +1573,11 @@ export class SlackBot extends DialogCollection {
      * - reply: A reply to an existing message was sent. [IBotMessageEvent]
      * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
      * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - ambient: An ambient message was received. [IBotMessageEvent]
-     * - direct_mention: The bot was directly mentioned in a message. [IBotMessageEvent]
-     * - mention: The bot was mentioned in a message. [IBotMessageEvent]
-     * - direct_message: The bot has received a direct 1:1 chat message. [IBotMessageEvent]
+     * - message_received: The bot received a message. [IBotMessageEvent]
+     * - bot_channel_join: The bot has joined a channel. [IBotMessageEvent]
+     * - user_channel_join: A user has joined a channel. [IBotMessageEvent]
+     * - bot_group_join: The bot has joined a group. [IBotMessageEvent]
+     * - user_group_join: A user has joined a group. [IBotMessageEvent]
      * @param event Name of event to listen for.
      * @param listener Function to invoke.
      */
@@ -1593,8 +1595,21 @@ export class SlackBot extends DialogCollection {
      * - direct_mention: Direct mentions are messages that begin with the bot's name, as in "@bot hello".
      * - mention: Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
      * - direct_message: Direct messages are sent via private 1:1 direct message channels. 
+     * @param types The type of events to listen for,
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
+     * @param dialogArgs Optional arguments to pass to the dialog.
      */
     listen(types: string[], dialogId?: string, dialogArgs?: any): SlackBot;
+
+    /**
+     * Begins listening for messages sent to the bot. The bot will recieve direct messages, 
+     * direct mentions, and mentions. One the bot has been mentioned it will continue to receive
+     * ambient messages from the user that mentioned them for a short period of time. This time
+     * can be configured using ISlackBotOptions.ambientMentionDuration.
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
+     * @param dialogArgs Optional arguments to pass to the dialog.
+     */
+    listenForMentions(dialogId?: string, dialogArgs?: any): SlackBot;
 
     /**
      * Starts a new conversation with a user.
