@@ -78,6 +78,8 @@ interface ISession {
     send(): ISession;
     send(msg: string, ...args: any[]): ISession;
     send(msg: IMessage): ISession;
+    getMessageReceived(): any;
+    sendMessage(msg: any): ISession;
     messageSent(): boolean;
     beginDialog<T>(id: string, args?: T): ISession;
     replaceDialog<T>(id: string, args?: T): ISession;

@@ -746,6 +746,15 @@ export class Session {
      */
     send(msg: IMessage): Session;
 
+    /** Returns a native message the bot receieved. */
+    getMessageReceived(): any;
+    
+    /**
+     * Sends a message in the channels native format.
+     * @param msg Message formated in the channels native format.
+     */
+    sendMessage(msg: any): Session;
+
     /**
      * Returns true if a message has been sent for this session.
      */
@@ -1605,6 +1614,18 @@ export class SlackSession extends Session {
 
     /** Data that's persisted on a per channel basis. */
     channelData: any;
+    
+    /**
+     * Escapes &, <, and > characters in a text string. These characters are reserved in Slack for 
+     * control codes so should always be escaped when returning user generated text.
+     */
+    escapeText(text: string): string;
+    
+    /**
+     * Unescapes &amp;, &lt;, and &gt; characters in a text string. This restores a previously
+     * escaped string.
+     */
+    unescapeText(text: string): string;
 }
 
 /**

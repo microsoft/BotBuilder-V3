@@ -77,7 +77,7 @@ var SlackBot = (function (_super) {
             // Save data
             _this.saveData(teamData, channelData, userData, function () {
                 // If we have no message text then we're just saving state.
-                if (reply && reply.text) {
+                if (reply && (reply.text || reply.channelData)) {
                     var slackReply = _this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
@@ -202,18 +202,12 @@ var SlackBot = (function (_super) {
         };
     };
     SlackBot.prototype.toSlackMessage = function (msg) {
-        var teamId, event;
-        if (msg.channelData) {
-            teamId = msg.channelData.teamId;
-            event = msg.channelData.event;
-        }
-        return {
-            team: teamId,
-            event: event || 'direct_message',
+        return msg.channelData || {
+            event: 'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
-            user: msg.to ? msg.to.address : (msg.from ? msg.from.address : undefined),
+            user: msg.to ? msg.to.address : (msg.from ? msg.from.address : null),
             channel: msg.channelConversationId
         };
     };
@@ -225,6 +219,22 @@ var SlackSession = (function (_super) {
     function SlackSession() {
         _super.apply(this, arguments);
     }
+    SlackSession.prototype.escapeText = function (text) {
+        if (text) {
+            text = text.replace('&', '&amp;');
+            text = text.replace('<', '&lt;');
+            text = text.replace('>', '&gt;');
+        }
+        return text;
+    };
+    SlackSession.prototype.unescapeText = function (text) {
+        if (text) {
+            text = text.replace('&amp;', '&');
+            text = text.replace('&lt;', '<');
+            text = text.replace('&gt;', '>');
+        }
+        return text;
+    };
     return SlackSession;
 })(session.Session);
 exports.SlackSession = SlackSession;

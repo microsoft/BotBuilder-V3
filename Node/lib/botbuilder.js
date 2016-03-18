@@ -1,5 +1,6 @@
 var session = require('./Session');
 var dialog = require('./dialogs/Dialog');
+var actions = require('./dialogs/DialogAction');
 var collection = require('./dialogs/DialogCollection');
 var prompts = require('./dialogs/Prompts');
 var intent = require('./dialogs/IntentDialog');
@@ -14,6 +15,7 @@ var text = require('./bots/TextBot');
 exports.Session = session.Session;
 exports.Dialog = dialog.Dialog;
 exports.ResumeReason = dialog.ResumeReason;
+exports.DialogAction = actions.DialogAction;
 exports.DialogCollection = collection.DialogCollection;
 exports.PromptType = prompts.PromptType;
 exports.ListStyle = prompts.ListStyle;

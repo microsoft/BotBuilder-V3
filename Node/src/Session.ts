@@ -92,6 +92,14 @@ export class Session extends events.EventEmitter implements ISession {
         this.emit('send', message);
         return this;
     }
+    
+    public getMessageReceived(): any {
+        return this.message.channelData;
+    }
+    
+    public sendMessage(msg: any): ISession {
+        return this.send({ channelData: msg });
+    }
 
     public messageSent(): boolean {
         return this.msgSent;

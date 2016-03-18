@@ -136,7 +136,7 @@ export class SlackBot extends collection.DialogCollection {
             // Save data
             this.saveData(teamData, channelData, userData, () => {
                 // If we have no message text then we're just saving state.
-                if (reply && reply.text) {
+                if (reply && (reply.text || reply.channelData)) {
                     var slackReply = this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
@@ -261,18 +261,12 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private toSlackMessage(msg: IMessage): ISlackMessage {
-        var teamId: string, event: string;
-        if (msg.channelData) {
-            teamId = msg.channelData.teamId;
-            event = msg.channelData.event;    
-        }
-        return {
-            team: teamId,
-            event: event || 'direct_message',
+        return msg.channelData || {
+            event:'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
-            user: msg.to ? msg.to.address : (msg.from ? msg.from.address : undefined),
+            user: msg.to ? msg.to.address : (msg.from ? msg.from.address : null),
             channel: msg.channelConversationId
         };
     }
@@ -281,4 +275,24 @@ export class SlackBot extends collection.DialogCollection {
 export class SlackSession extends session.Session {
     public teamData: any;
     public channelData: any;
+    
+    public escapeText(text: string): string {
+        if (text) {
+            text = text.replace('&', '&amp;');
+            text = text.replace('<', '&lt;');
+            text = text.replace('>', '&gt;');
+        }
+        return text;
+    }
+    
+    public unescapeText(text: string): string {
+        if (text) {
+            text = text.replace('&amp;', '&');
+            text = text.replace('&lt;', '<');
+            text = text.replace('&gt;', '>');
+        }
+        return text;
+    }
+    
+    
 }

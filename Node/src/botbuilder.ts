@@ -2,6 +2,7 @@
 import utils = require('./utils');
 import session = require('./Session');
 import dialog = require('./dialogs/Dialog');
+import actions = require('./dialogs/DialogAction');
 import collection = require('./dialogs/DialogCollection');
 import prompts = require('./dialogs/Prompts');
 import intent = require('./dialogs/IntentDialog');
@@ -20,6 +21,7 @@ declare var exports: any;
 exports.Session = session.Session;
 exports.Dialog = dialog.Dialog;
 exports.ResumeReason = dialog.ResumeReason;
+exports.DialogAction = actions.DialogAction;
 exports.DialogCollection = collection.DialogCollection;
 exports.PromptType = prompts.PromptType;
 exports.ListStyle = prompts.ListStyle;
