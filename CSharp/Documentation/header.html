@@ -24,6 +24,7 @@ $extrastylesheet
 			var contentcontainer = $('#content-container');
             contentcontainer.append(sidenav);
             contentcontainer.append(doccontent);
+            doccontent.prepend($('#referenceSearch'));
 			var top = $('#top');
 			top.before('<div class="fullWidth"></div>');
 			var fullwidth = $('div.fullWidth');
@@ -33,10 +34,13 @@ $extrastylesheet
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+
+			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
 </head>
 <body>
+<div id="referenceSearch">$searchbox</div>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 	<div>
 		<header>
@@ -62,19 +66,6 @@ $extrastylesheet
 						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
 						<a href="/">Documentation</a></li><li>
 						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
-						<!--
-						<div class="search-outter">
-						<div class="open-search"></div>
-						<div class="searchBox">
-							<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-								<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…">
-									<button type="submit" class="icon-search">
-										<span>Search</span>
-									</button>
-							</form>
-						</div>
-						</div>
-						-->
 				</div>
 			</div>
 		</div>

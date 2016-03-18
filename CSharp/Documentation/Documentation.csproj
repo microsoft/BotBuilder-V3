@@ -28,6 +28,10 @@
     <RunDoxygen>True</RunDoxygen>
     <PublishDocs>False</PublishDocs>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <Target Name="ExecDoxygen" Condition="'$(Configuration)' == '' OR '$(RunDoxygen)' == 'True'">
     <Message Text="Generating documentation files." />
     <Exec Command="&quot;$(DoxygenExeFullPath)&quot; &quot;$(ConfigFileFullPath)&quot;" />
