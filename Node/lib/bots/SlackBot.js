@@ -5,7 +5,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var collection = require('../dialogs/DialogCollection');
 var session = require('../Session');
-var storage = require('../storage/Storage');
+var consts = require('../consts');
+var utils = require('../utils');
 var SlackBot = (function (_super) {
     __extends(SlackBot, _super);
     function SlackBot(controller, bot, options) {
@@ -32,54 +33,61 @@ var SlackBot = (function (_super) {
         var _this = this;
         types.forEach(function (type) {
             _this.controller.on(type, function (bot, msg) {
-                _this.emit(type, msg);
-                _this.dispatchMessage(bot, msg, dialogId || _this.options.defaultDialogId, dialogArgs || _this.options.defaultDialogArgs);
+                bot.identifyTeam(function (err, teamId) {
+                    msg.team = teamId;
+                    _this.emit(type, msg);
+                    _this.dispatchMessage(bot, msg, dialogId || _this.options.defaultDialogId, dialogArgs || _this.options.defaultDialogArgs);
+                });
             });
         });
         return this;
     };
     SlackBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
         // Validate args
-        if (!this.bot) {
-            throw new Error('Spawned BotKit Bot not passed to constructor.');
-        }
-        if (!address.to) {
+        if (!address.user && !address.channel) {
             throw new Error('Invalid address passed to SlackBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to SlackBot.beginDialog().');
         }
         // Dispatch message
-        this.dispatchMessage(null, this.toSlackMessage(address), dialogId, dialogArgs);
+        this.dispatchMessage(null, address, dialogId, dialogArgs);
         return this;
     };
-    SlackBot.prototype.dispatchMessage = function (bot, data, dialogId, dialogArgs) {
+    SlackBot.prototype.dispatchMessage = function (bot, msg, dialogId, dialogArgs) {
         var _this = this;
         var onError = function (err) {
-            _this.emit('error', err, data);
+            _this.emit('error', err, msg);
         };
         // Initialize session
-        var sessionId = data.event == 'direct_message' ? data.user : data.channel;
-        var ses = new session.Session({
+        var ses = new SlackSession({
             localizer: this.options.localizer,
             dialogs: this,
             dialogId: this.options.defaultDialogId,
             dialogArgs: this.options.defaultDialogArgs
         });
         ses.on('send', function (reply) {
-            _this.saveData(data.user, sessionId, ses.userData, ses.sessionState, function () {
+            // Clone data fields & store session state
+            var teamData = ses.teamData && ses.teamData.id ? utils.clone(ses.teamData) : null;
+            var channelData = ses.channelData && ses.channelData.id ? utils.clone(ses.channelData) : null;
+            var userData = ses.userData && ses.userData.id ? utils.clone(ses.userData) : null;
+            if (channelData) {
+                channelData[consts.Data.SessionState] = ses.sessionState;
+            }
+            // Save data
+            _this.saveData(teamData, channelData, userData, function () {
                 // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     var slackReply = _this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
-                        if (slackReply.user && slackReply.user != data.user) {
+                        if (slackReply.user && slackReply.user != msg.user) {
                             _this.emit('send', slackReply);
                             bot.say(slackReply, onError);
                         }
                         else {
                             _this.emit('reply', slackReply);
-                            bot.reply(data, slackReply.text);
+                            bot.reply(msg, slackReply.text);
                         }
                     }
                     else {
@@ -91,69 +99,94 @@ var SlackBot = (function (_super) {
             });
         });
         ses.on('error', function (err) {
-            _this.emit('error', err, data);
+            _this.emit('error', err, msg);
         });
         ses.on('quit', function () {
-            _this.emit('quit', data);
+            _this.emit('quit', msg);
         });
-        // Dispatch message
-        var message = this.fromSlackMessage(data);
-        this.getData(data.user, sessionId, function (err, userData, sessionState) {
-            ses.userData = userData || {};
-            ses.dispatch(sessionState, message);
-        });
-    };
-    SlackBot.prototype.getData = function (userId, sessionId, callback) {
-        var _this = this;
-        // Ensure stores specified
-        if (!this.options.userStore) {
-            this.options.userStore = new storage.MemoryStorage();
-        }
-        if (!this.options.sessionStore) {
-            this.options.sessionStore = new storage.MemoryStorage();
-        }
-        // Load data
-        var ops = 2;
-        var userData, sessionState;
-        this.options.userStore.get(userId, function (err, data) {
+        // Load data from storage
+        var sessionState;
+        var message = this.fromSlackMessage(msg);
+        this.getData(msg, function (err, data) {
             if (!err) {
-                userData = data;
-                if (--ops == 0) {
-                    callback(null, userData, sessionState);
+                // Init data
+                if (!data.teamData && msg.team) {
+                    data.teamData = { id: msg.team };
                 }
+                if (!data.channelData && msg.channel) {
+                    data.channelData = { id: msg.channel };
+                }
+                if (!data.userData && msg.user) {
+                    data.userData = { id: msg.user };
+                }
+                // Unpack session state
+                if (data.channelData && data.channelData.hasOwnProperty(consts.Data.SessionState)) {
+                    sessionState = data.channelData[consts.Data.SessionState];
+                    delete data.channelData[consts.Data.SessionState];
+                }
+                // Dispatch message
+                ses.teamData = data.teamData;
+                ses.channelData = data.channelData;
+                ses.userData = data.userData;
+                ses.dispatch(sessionState, message);
             }
             else {
-                callback(err, null, null);
-            }
-        });
-        this.options.sessionStore.get(sessionId, function (err, data) {
-            if (!err) {
-                if (data && (new Date().getTime() - data.lastAccess) < _this.options.maxSessionAge) {
-                    sessionState = data;
-                }
-                if (--ops == 0) {
-                    callback(null, userData, sessionState);
-                }
-            }
-            else {
-                callback(err, null, null);
+                _this.emit('error', err, msg);
             }
         });
     };
-    SlackBot.prototype.saveData = function (userId, sessionId, userData, sessionState, callback) {
-        var ops = 2;
-        function onComplete(err) {
-            if (!err) {
-                if (--ops == 0) {
-                    callback(null);
-                }
+    SlackBot.prototype.getData = function (msg, callback) {
+        var ops = 3;
+        var data = {};
+        function load(store, id, field) {
+            data[field] = null;
+            if (id && id.length > 0) {
+                store.get(id, function (err, item) {
+                    if (callback) {
+                        if (!err) {
+                            data[field] = item;
+                            if (--ops == 0) {
+                                callback(null, data);
+                            }
+                        }
+                        else {
+                            callback(err, null);
+                            callback = null;
+                        }
+                    }
+                });
             }
-            else {
-                callback(err);
+            else if (callback && --ops == 0) {
+                callback(null, data);
             }
         }
-        this.options.userStore.save(userId, userData, onComplete);
-        this.options.sessionStore.save(sessionId, sessionState, onComplete);
+        load(this.controller.storage.teams, msg.team, 'teamData');
+        load(this.controller.storage.channels, msg.channel, 'channelData');
+        load(this.controller.storage.users, msg.user, 'userData');
+    };
+    SlackBot.prototype.saveData = function (teamData, channelData, userData, callback) {
+        var ops = 3;
+        function save(store, data) {
+            if (data) {
+                store.save(data, function (err) {
+                    if (callback) {
+                        if (!err && --ops == 0) {
+                            callback(null);
+                        }
+                        else {
+                            callback(err);
+                            callback = null;
+                        }
+                    }
+                });
+            }
+            else if (callback && --ops == 0) {
+                callback(null);
+            }
+        }
+        save(this.controller.storage.teams, teamData);
+        save(this.controller.storage.channels, channelData);
+        save(this.controller.storage.users, userData);
     };
     SlackBot.prototype.fromSlackMessage = function (msg) {
         return {
@@ -169,8 +202,14 @@ var SlackBot = (function (_super) {
         };
     };
     SlackBot.prototype.toSlackMessage = function (msg) {
+        var teamId, event;
+        if (msg.channelData) {
+            teamId = msg.channelData.teamId;
+            event = msg.channelData.event;
+        }
         return {
-            event: msg.channelData ? msg.channelData.event : 'direct_message',
+            team: teamId,
+            event: event || 'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
@@ -181,3 +220,11 @@ var SlackBot = (function (_super) {
     return SlackBot;
 })(collection.DialogCollection);
 exports.SlackBot = SlackBot;
+var SlackSession = (function (_super) {
+    __extends(SlackSession, _super);
+    function SlackSession() {
+        _super.apply(this, arguments);
+    }
+    return SlackSession;
+})(session.Session);
+exports.SlackSession = SlackSession;

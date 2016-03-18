@@ -340,7 +340,6 @@ export interface IPromptsOptions {
     recognizer?: IPromptRecognizer
 }
 
-
 /** A recognized intent. */
 export interface IIntent {
     /** Intent that was recognized. */
@@ -537,12 +536,6 @@ export interface ISkypeBotOptions {
 
 /** Options used to configure the SlackBot. */
 export interface ISlackBotOptions {
-    /** Storage system to use for persisting Session.userData values. By default the MemoryStorage is used. */
-    userStore?: IStorage;
-
-    /** Storage system to use for persisting Session.sessionState values. By default the MemoryStorage is used. */
-    sessionStore?: IStorage;
-
     /** Maximum time since ISessionState.lastAccess before the current session state is discarded. Default is 4 hours. */
     maxSessionAge?: number;
 
@@ -554,6 +547,21 @@ export interface ISlackBotOptions {
 
     /** Optional arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
+}
+
+/** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
+export interface ISlackBeginDialogAddress {
+    /** ID of the user to begin a conversation with. If this is specified channel should be blank. */
+    user?: string;
+    
+    /** ID of the channel to begin a conversation with. If this is specified user should be blank. */
+    channel?: string;
+
+    /** Optional team ID. If specified the SlackSession.teamData will be loaded. */
+    team?: string;
+
+    /** Optional text to initialize the dialogs message with. Useful for scenarios where the dialog being called is expecting to be replying to something the user said. */
+    text?: string;
 }
 
 /** Options used to configure the TextBot. */
@@ -1586,6 +1594,17 @@ export class SlackBot extends DialogCollection {
      * @param dialogArgs Optional arguments to pass to the dialog.
      */
     beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): void;
+}
+
+/**
+ * Adds additional properties for working with Slack bots.
+ */
+export class SlackSession extends Session {
+    /** Data that's persisted on a per team basis. */
+    teamData: any;
+
+    /** Data that's persisted on a per channel basis. */
+    channelData: any;
 }
 
 /**
