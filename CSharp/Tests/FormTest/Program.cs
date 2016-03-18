@@ -47,12 +47,12 @@ namespace Microsoft.Bot.Builder.FormTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                form.Configuration().DefaultPrompt.Format = "{1}";
+                form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
                 form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.No;
             }
             else
             {
-                form.Configuration().DefaultPrompt.Format = "{0}. {1}";
+                form.Configuration().DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
             return form
                 .Message("Welcome to the pizza bot!!!")

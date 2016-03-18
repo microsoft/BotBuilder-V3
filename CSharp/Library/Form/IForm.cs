@@ -66,12 +66,13 @@ namespace Microsoft.Bot.Builder.Form
         {
             AllowDefault = BoolDefault.Yes,
             AllowNumbers = BoolDefault.Yes,
-            Case = PromptNormalization.Auto,
+            ChoiceStyle = ChoiceStyleOptions.Auto,
+            FieldCase = CaseNormalization.Lower,
             Feedback = FeedbackOptions.Auto,
-            Format = "{0}. {1}",
+            ChoiceFormat = "{0}. {1}",
             LastSeparator = " and ",
             Separator = ", ",
-            Style = PromptStyle.Auto
+            ValueCase = CaseNormalization.Upper
         };
         public string NavigationFormat = "{&} ({})";
         public string StatusFormat = "{&}: {}";
@@ -81,19 +82,19 @@ namespace Microsoft.Bot.Builder.Form
         public List<Template> Templates = new List<Template>
         {
             // {0} is term being clarified
-            new Template(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}"),
             new Template(TemplateUsage.CurrentChoice, "(current choice: {})"),
 
-            new Template(TemplateUsage.DateTime, "Please enter a date and time for {&}") {Case = PromptNormalization.Lower },
-            new Template(TemplateUsage.Double, "Please enter a number for {&}") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.DateTime, "Please enter a date and time for {&}"),
+            new Template(TemplateUsage.Double, "Please enter a number for {&}"),
 
             // {0} is the not understood term
-            new Template(TemplateUsage.Feedback, "For {&} I understood {}. {?\"{0}\" is not an option.}") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.Feedback, "For {&} I understood {}. {?\"{0}\" is not an option.}"),
 
             // For help {0} is recognizer help and {1} is command help.
-            new Template(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}") { Case = PromptNormalization.Lower },
-            new Template(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}"),
 
+            new Template(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}"),
             new Template(TemplateUsage.HelpDateTime, "Please enter a date and/or time{?, {0}}."),
             new Template(TemplateUsage.HelpDouble, "Please enter a number{? between {1} and {2}}{?, {0}}."),
 
@@ -113,20 +114,20 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.HelpString, "You can enter anything{?, {0}}."),
 
             // {0} is min and {1} is max if present
-            new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") {Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}"),
 
             // {0} is current choice
             new Template(TemplateUsage.HelpInteger, "You can enter a number{? between {1} and {2}}{?, {0}}."),
 
-            new Template(TemplateUsage.NextStep, "What do you want to change? {||}"),
+            new Template(TemplateUsage.Navigation, "What do you want to change? {||}"),
             new Template(TemplateUsage.NoPreference, "No Preference"),
 
             // {0} is the term that is not understood
-            new Template(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option.") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option."),
 
-            new Template(TemplateUsage.SelectOne, "Please select a {&} {||}") { Case = PromptNormalization.Lower },
-            new Template(TemplateUsage.SelectMany, "Please select one or more {&} {||}") { Case = PromptNormalization.Lower },
-            new Template(TemplateUsage.String, "Please enter {&} {||}") { Case = PromptNormalization.Lower },
+            new Template(TemplateUsage.SelectOne, "Please select a {&} {||}"),
+            new Template(TemplateUsage.SelectMany, "Please select one or more {&} {||}"),
+            new Template(TemplateUsage.String, "Please enter {&} {||}"),
 
             new Template(TemplateUsage.Unspecified, "Unspecified")
         };

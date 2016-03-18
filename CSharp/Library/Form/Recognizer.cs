@@ -269,7 +269,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private IEnumerable<string> _valueDescriptions;
         private DescriptionDelegate _descriptionDelegate;
         private TermsDelegate _termsDelegate;
-        private PromptBase _helpFormat;
+        private TemplateBase _helpFormat;
         private int _max;
         private List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }

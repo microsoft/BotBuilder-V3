@@ -1411,10 +1411,9 @@ namespace Microsoft.Bot.Builder.Form
                 _fields = form.Fields();
                 var field = _fields.Field(_name);
                 var fieldPrompt = new Prompt(form.Configuration().NavigationFormat);
-                var template = field.Template(TemplateUsage.NextStep);
+                var template = field.Template(TemplateUsage.Navigation);
                 var recognizer = new EnumeratedRecognizer<T>(Name(), null, formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
-                    (value) => _fields.Field(value as string).Terms(),
                     _form.Configuration().DefaultPrompt.AllowNumbers != BoolDefault.No,
                     null);
                 _prompt = new Prompter<T>(template, form, recognizer);
