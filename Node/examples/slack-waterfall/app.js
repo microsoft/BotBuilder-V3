@@ -35,7 +35,7 @@ var builder = require('../../');
 
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
-   token: process.env.token || 'xoxb-27353876818-1JaNnDS8yhLSKuzmX9DncWAI'
+   token: process.env.token
 });
 
 var slackBot = new builder.SlackBot(controller, bot);
