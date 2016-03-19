@@ -4,7 +4,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Form.Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", null ],
       [ "Microsoft.Bot.Builder.Form.Numeric", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html", null ],
       [ "Microsoft.Bot.Builder.Form.Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", null ],
-      [ "Microsoft.Bot.Builder.Form.PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", [
+      [ "Microsoft.Bot.Builder.Form.TemplateBase", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html", [
         [ "Microsoft.Bot.Builder.Form.Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", null ],
         [ "Microsoft.Bot.Builder.Form.Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", null ]
       ] ],

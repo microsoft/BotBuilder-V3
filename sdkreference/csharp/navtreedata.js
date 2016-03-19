@@ -1,18 +1,7 @@
 var NAVTREE =
 [
   [ "Bot Framework", "index.html", [
-    [ "Overview", "index.html#overview", null ],
-    [ "Table of Contents", "index.html#contents", null ],
-    [ "High Level Features", "index.html#features", null ],
     [ "README", "md_C:_code_BotBuilder_CSharp_Library_README.html", null ],
-    [ "Key Concepts", "key_concepts.html", [
-      [ "Limits", "key_concepts.html#limits", null ]
-    ] ],
-    [ "Usage", "usage.html", [
-      [ "Updates", "usage.html#Updates", null ],
-      [ "Running in Azure", "usage.html#running_in_azure", null ],
-      [ "Troubleshooting Q and A", "usage.html#troubleshooting_q_and_a", null ]
-    ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -46,8 +35,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67",
-"d8/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_session.html#abdffab6538a51343f2d502cd79a6ef04",
+"d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6fcdc090caeade09d0efd6253932b6f5",
+"d8/dc0/_confirmation_8cs.html",
 "de/d63/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html#a439dedc1552187654270555f04d0ff36"
 ];
 

@@ -9,7 +9,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_form =
     [ "Numeric", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric" ],
     [ "Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional" ],
     [ "Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt" ],
-    [ "PromptBase", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base.html", "d3/d43/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt_base" ],
     [ "Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template" ],
+    [ "TemplateBase", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base" ],
     [ "Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms" ]
 ];
