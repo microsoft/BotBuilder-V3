@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(expectsArgs ? string.Format(response, args) : response), "$1 "), "$1"));
         }
 
-        private string ExpandTemplate(string template, string currentChoice,  string noValue, T state, string pathName, object[] args, out bool expectsArgs)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args, out bool expectsArgs)
         {
             expectsArgs = false;
             bool foundUnspecified = false;
@@ -275,6 +275,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             switch (normalization)
             {
+                case CaseNormalization.InitialUpper:
+                    string.Join(" ", (from word in Language.WordBreak(value)
+                                      select char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+                    break;
                 case CaseNormalization.Lower: value = value.ToLower(); break;
                 case CaseNormalization.Upper: value = value.ToUpper(); break;
             }

@@ -72,11 +72,11 @@ namespace Microsoft.Bot.Builder.Form
             ChoiceFormat = "{0}. {1}",
             LastSeparator = " and ",
             Separator = ", ",
-            ValueCase = CaseNormalization.Upper
+            ValueCase = CaseNormalization.InitialUpper
         };
         public string NavigationFormat = "{&} ({})";
         public string StatusFormat = "{&}: {}";
-        public string[] NoPreference = new string[] { "No Preference", "none", "I don'?t care" };
+        public string[] NoPreference = new string[] { "No Preference", "no", "none", "I don'?t care" };
         public string[] CurrentChoice = new string[] { "Current Choice", "current" };
 
         public List<Template> Templates = new List<Template>
@@ -110,8 +110,8 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.HelpManyWord, "You can enter in one or more selections from the descriptions. ({0})"),
             new Template(TemplateUsage.HelpNavigation, "You can switch to another field by entering its name. ({0})."),
 
-            // {0} is current choice if available
-            new Template(TemplateUsage.HelpString, "You can enter anything{?, {0}}."),
+            // {0} is current choice if available, {1} is no preference if available
+			new Template(TemplateUsage.HelpString, "You can enter anything{?, {0}}{?, {1}}."),
 
             // {0} is min and {1} is max if present
             new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}"),
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Form
 
             new Template(TemplateUsage.SelectOne, "Please select a {&} {||}"),
             new Template(TemplateUsage.SelectMany, "Please select one or more {&} {||}"),
-            new Template(TemplateUsage.String, "Please enter {&} {||}"),
+            new Template(TemplateUsage.String, "Please enter {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
 
             new Template(TemplateUsage.Unspecified, "Unspecified")
         };

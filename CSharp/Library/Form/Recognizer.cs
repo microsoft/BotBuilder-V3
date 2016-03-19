@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                             {
                                 yield return new TermMatch(group1.Index, group1.Length, confidence, defaultValue);
                             }
-                            else if (special == Special.NoPreference && defaultValue != null)
+                            else if (special == Special.NoPreference)
                             {
                                 yield return new TermMatch(group1.Index, group1.Length, confidence, null);
                             }
@@ -295,23 +295,29 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form().Configuration().CurrentChoice
                                                   select choice.Trim().ToLower());
+            if (field.Optional())
+            {
+                _noPreference = new HashSet<string>(from choice in field.Form().Configuration().NoPreference
+                                                    select choice.Trim().ToLower());
+            }
         }
 
         public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue = null)
         {
             var value = input.Trim();
             var matchValue = value.ToLower();
-            if (defaultValue != null && (value == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
+            if (_noPreference != null && _noPreference.Contains(matchValue))
             {
-                value = defaultValue as string;
+                yield return new TermMatch(0, input.Length, 1.0, null);
             }
-            if (value != null)
+            else if ((defaultValue != null || _noPreference != null)  && (matchValue == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
             {
+                yield return new TermMatch(0, input.Length, 1.0, defaultValue);
+            }
+            else if (matchValue != "")
+            {
+                // Confidence is 0.0 so commands get a crack
                 yield return new TermMatch(0, input.Length, 0.0, value);
-            }
-            else if (_field.Optional() == true)
-            {
-                yield return new TermMatch(0, 0, 0.0, null);
             }
         }
 
@@ -338,12 +344,25 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public virtual string Help(T state, object defaultValue)
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpString), _field.Form(), null);
-            return prompt.Prompt(state, _field.Name(), _field.Form().Configuration().CurrentChoice.FirstOrDefault() + " or 'c'");
+            var args = new List<object>();
+            // current if default != null & !optional
+            // or optional 
+            // no preference if optional
+            if (defaultValue != null || _field.Optional())
+            {
+                if (_field.Optional())
+                {
+                    args.Add(_field.Form().Configuration().NoPreference.First());
+                }
+                args.Add(_field.Form().Configuration().CurrentChoice.First() + " or 'c'");
+            }
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
         protected IField<T> _field;
         protected bool _allowNull;
         protected HashSet<string> _currentChoices;
+        protected HashSet<string> _noPreference;
     }
 
     public delegate string TypeValue(object value, CultureInfo culture);

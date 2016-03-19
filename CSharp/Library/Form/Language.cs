@@ -86,15 +86,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else
                 {
-                    if (first)
-                    {
-                        first = false;
-                    }
                     var isUpper = Char.IsUpper(ch);
                     var isLetter = Char.IsLetter(ch);
                     if ((!previousUpper && isUpper)
                         || (isLetter != previousLetter)
-                        || (isUpper && (i + 1) < name.Length && Char.IsLower(name[i+1])))
+                        || (!first && isUpper && (i + 1) < name.Length && Char.IsLower(name[i+1])))
                     {
                         // Break on lower to upper, number boundaries and Upper to lower
                         builder.Append(' ');
@@ -102,6 +98,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     previousUpper = isUpper;
                     previousLetter = isLetter;
                     builder.Append(ch);
+                    if (first)
+                    {
+                        first = false;
+                    }
                 }
             }
             return builder.ToString();

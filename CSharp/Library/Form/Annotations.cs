@@ -118,6 +118,11 @@ namespace Microsoft.Bot.Builder.Form
         Default,
 
         /// <summary>
+        /// First letter of each word is capitalized
+        /// </summary>
+        InitialUpper, 
+
+        /// <summary>
         /// Normalize words to lower case.
         /// </summary>
         Lower,

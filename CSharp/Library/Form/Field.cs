@@ -348,7 +348,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         if (value != null && ftype != typeof(string))
                         {
                             // Build list and coerce elements
-                            var list = Activator.CreateInstance(field.FieldType);
+                            var list = Activator.CreateInstance(ftype);
                             var addMethod = list.GetType().GetMethod("Add");
                             foreach (var elt in value as System.Collections.IEnumerable)
                             {

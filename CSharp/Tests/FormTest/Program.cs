@@ -57,7 +57,6 @@ namespace Microsoft.Bot.Builder.FormTest
             return form
                 .Message("Welcome to the pizza bot!!!")
                 .Message("Lets make pizza!!!")
-                .Field("Name")
                 .Field(nameof(PizzaOrder.NumberOfPizzas))
                 .Field(nameof(PizzaOrder.Size))
                 .Field(nameof(PizzaOrder.Kind))
@@ -99,7 +98,10 @@ namespace Microsoft.Bot.Builder.FormTest
                         }
                     }
                 }
-
+                else if (taskResult.Status == TaskStatus.Faulted)
+                {
+                    await session.CreateDialogResponse(taskResult.Exception.ToString());
+                }
                 return await session.EndDialogAsync(dialogs.Get("Root"), taskResult);
             });
             dialogs.Add(annotationsAndNumbers).Add(annotationsAndWords).Add(callDebug).Add(debugForm);
