@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public string Help(T state, object defaultValue)
         {
             var values = _valueDescriptions;
-            if (defaultValue != null && _currentChoice != null)
+            if ((defaultValue != null || _noPreference != null)  && _currentChoice != null)
             {
                 values = values.Union(new string[] { _currentChoice + " or 'c'" });
             }
