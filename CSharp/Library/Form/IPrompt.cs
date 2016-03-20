@@ -34,7 +34,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public virtual string Prompt(T state, string pathName, params object[] args)
         {
-            bool expectsArgs;
             string currentChoice = null;
             string noValue = null;
             if (pathName != "")
@@ -50,13 +49,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args, out expectsArgs);
-            return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(expectsArgs ? string.Format(response, args) : response), "$1 "), "$1"));
+            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args);
+            return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
         }
 
-        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args, out bool expectsArgs)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args)
         {
-            expectsArgs = false;
             bool foundUnspecified = false;
             int last = 0;
             int numeric;
@@ -89,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         {
                             if (!field.IsUnknown(state))
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                             }
                         }
@@ -97,12 +95,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         {
                             if (field.IsUnknown(state))
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                             }
                             else
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                                 values = values.Concat(new string[] { noValue });
                             }
@@ -200,25 +198,22 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 else if (expr.StartsWith("?"))
                 {
                     // Conditional template
-                    bool subExpects;
-                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args, out subExpects);
+                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args);
                     if (subValue == null)
                     {
                         substitute = "";
                     }
                     else
                     {
-                        expectsArgs = expectsArgs || subExpects;
                         substitute = subValue;
                     }
                 }
-                else if (int.TryParse(expr, out numeric))
+                else if (TryParseFormat(expr, out numeric))
                 {
-                    // Pass through numeric format strings
-                    expectsArgs = true;
-                    if (numeric < args.Length)
+                    // Process ad hoc arg
+                    if (numeric < args.Length && args[numeric] != null)
                     {
-                        substitute = "{" + expr + "}";
+                        substitute = string.Format("{" + expr + "}", args);
                     }
                     else
                     {
@@ -259,6 +254,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 last = match.Index + match.Length;
             }
             return (foundUnspecified ? null : response.Append(template.Substring(last, template.Length - last)).ToString());
+        }
+
+        private bool TryParseFormat(string format, out int number)
+        {
+            var args = format.Split(':');
+            return int.TryParse(args[0], out number);
         }
 
         private string ValueDescription(IField<T> field, object value)

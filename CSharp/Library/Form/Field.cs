@@ -126,6 +126,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             Template template;
             _templates.TryGetValue(usage, out template);
+            if (template != null)
+            {
+                template.ApplyDefaults(_form.Configuration().DefaultPrompt);
+            }
             return template;
         }
 
@@ -279,7 +283,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 if (_type.IsEnum)
                 {
-                    _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.SelectMany : TemplateUsage.SelectOne));
+                    _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
                 }
                 else if (_type == typeof(string))
                 {
@@ -289,11 +293,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
                 }
-                /* TODO: 
+                else if (_type == typeof(bool))
+                {
+                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.No };
+                }
                 else if (_type.IsDouble())
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.Double));
                 }
+                /*
                 else if (_type == typeof(DateTime))
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
@@ -359,7 +367,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     else
                     {
-                        if (value == null && (ftype.IsEnum || ftype.IsIntegral()))
+                        if (value == null && (ftype.IsEnum || ftype.IsIntegral() || ftype.IsDouble()))
                         {
                             // Default value for numbers and enums
                             newValue = 0;
@@ -367,6 +375,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         else if (ftype.IsIntegral())
                         {
                             newValue = Convert.ChangeType(value, ftype);
+                        }
+                        else if (ftype.IsDouble())
+                        {
+                            newValue = Convert.ChangeType(value, ftype);
+                        }
+                        else if (ftype == typeof(bool))
+                        {
+                            newValue = Convert.ChangeType(value, typeof(bool));
                         }
                     }
                     if (field != null)
@@ -455,9 +471,21 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     recognizer = new EnumeratedRecognizer<T>(this);
                 }
+                else if (_type == typeof(bool))
+                {
+                    recognizer = new BoolRecognizer<T>(this);
+                }
                 else if (_type == typeof(string))
                 {
                     recognizer = new StringRecognizer<T>(this);
+                }
+                else if (_type.IsIntegral())
+                {
+                    recognizer = new LongRecognizer<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type.IsDouble())
+                {
+                    recognizer = new DoubleRecognizer<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsIEnumerable())
                 {
@@ -466,10 +494,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     {
                         recognizer = new EnumeratedRecognizer<T>(this);
                     }
-                }
-                else if (_type.IsIntegral())
-                {
-                    recognizer = new LongRecognizer<T>(this, CultureInfo.CurrentCulture);
                 }
                 _prompt = new Prompter<T>(_promptDefinition, _form, recognizer);
             }
@@ -546,6 +570,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         ProcessFieldAttributes(field);
                         ProcessEnumAttributes(ftype);
                     }
+                    else if (ftype == typeof(bool))
+                    {
+                        ProcessFieldAttributes(field);
+                    }
                     else if (ftype.IsIntegral())
                     {
                         long min = long.MinValue;
@@ -563,7 +591,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     else if (ftype.IsDouble())
                     {
-                        // TODO: double recognizer
+                        double min = long.MinValue;
+                        double max = long.MaxValue;
+                        if (ftype == typeof(float)) { min = float.MinValue; max = float.MaxValue; }
+                        else if (ftype == typeof(double)) { min = double.MinValue; max = double.MaxValue; }
+                        SetLimits(min, max, false);
+                        ProcessFieldAttributes(field);
                     }
                     else if (ftype == typeof(DateTime))
                     {

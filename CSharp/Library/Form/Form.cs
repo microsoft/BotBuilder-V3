@@ -612,15 +612,19 @@ namespace Microsoft.Bot.Builder.Form
             {
                 paths.Add(path);
             }
+            else if (type == typeof(bool))
+            {
+                paths.Add(path);
+            }
             else if (type.IsIntegral())
             {
                 paths.Add(path);
             }
-            /* TODO: Add more recognizers
             else if (type.IsDouble())
             {
                 paths.Add(path);
             }
+            /* TODO: Add more recognizers
             else if (type == typeof(DateTime))
             {
                 paths.Add(path);
@@ -1278,9 +1282,8 @@ namespace Microsoft.Bot.Builder.Form
                 if (clarify != null)
                 {
                     var template = Template(TemplateUsage.Clarify);
-                    var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.No ? TemplateUsage.HelpOneNumber : TemplateUsage.HelpManyNumber);
-                    helpTemplate.ApplyDefaults(_form.Configuration().DefaultPrompt);
-                    var choiceRecognizer = new EnumeratedRecognizer<T>("", null,
+                    var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.No ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
+                    var choiceRecognizer = new EnumeratedRecognizer<T>(_form, "", null,
                         clarify.Values,
                         (value) => recognizer.ValueDescription(value),
                         (value) => recognizer.ValidInputs(value),
@@ -1412,7 +1415,7 @@ namespace Microsoft.Bot.Builder.Form
                 var field = _fields.Field(_name);
                 var fieldPrompt = new Prompt(form.Configuration().NavigationFormat);
                 var template = field.Template(TemplateUsage.Navigation);
-                var recognizer = new EnumeratedRecognizer<T>(Name(), null, formState.Next.Names,
+                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null, formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                     (value) => _fields.Field(value as string).Terms(),
                     _form.Configuration().DefaultPrompt.AllowNumbers != BoolDefault.No,
@@ -1581,7 +1584,7 @@ namespace Microsoft.Bot.Builder.Form
                     terms.Add(field.Name(), fterms.ToArray());
                 }
             }
-            _commands = new EnumeratedRecognizer<T>("Form commands", null,
+            _commands = new EnumeratedRecognizer<T>(this, "Form commands", null,
                 values,
                     (value) => descriptions[value],
                     (value) => terms[value],

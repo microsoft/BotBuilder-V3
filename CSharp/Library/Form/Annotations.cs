@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Builder.Form
     /// <see cref="MaxPhrase"/> attribute you can cause <see cref="Advanced.Language.GenerateTerms(string, int)"/> to be called on your strings with the
     /// maximum phrase length you specify.
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class Terms : Attribute
     {
         /// <summary>
@@ -372,6 +372,16 @@ namespace Microsoft.Bot.Builder.Form
     public enum TemplateUsage
     {
         /// <summary>
+        /// How to ask for a boolean.
+        /// </summary>
+        Bool,
+
+        /// <summary>
+        /// What you can enter when entering a bool.
+        /// </summary>
+        BoolHelp,
+
+        /// <summary>
         /// Clarify an ambiguous choice.
         /// </summary>
         /// <remarks>This template can use {0} to capture the term that was ambiguous.</remarks>
@@ -392,9 +402,52 @@ namespace Microsoft.Bot.Builder.Form
         DateTime,
 
         /// <summary>
+        /// What you can enter when entering a <see cref="DateTime"/>.
+        /// </summary>
+        DateTimeHelp,
+
+        /// <summary>
         /// How to ask for a double.
         /// </summary>
         Double,
+
+        /// <summary>
+        /// What you can enter when entering a double.
+        /// </summary>
+        /// <remarks>
+        /// Within this template, {0} is current choice if any and {1} and {2} are min/max if specified.
+        /// </remarks>
+        DoubleHelp,
+
+        /// <summary>
+        /// What you can enter when selecting a single value from a numbered enumeration.
+        /// </summary>
+        EnumOneNumberHelp,
+
+        /// <summary>
+        ///  What you can enter when selecting multiple values from a numbered enumeration.
+        /// </summary>
+        EnumManyNumberHelp,
+
+        /// <summary>
+        /// What you can enter when selecting one value from an enumeration.
+        /// </summary>
+        EnumOneWordHelp,
+
+        /// <summary>
+        /// What you can enter when selecting mutiple values from an enumeration.
+        /// </summary>
+        EnumManyWordHelp,
+
+        /// <summary>
+        /// How to ask for one value from an enumeration.
+        /// </summary>
+        EnumSelectOne,
+
+        /// <summary>
+        /// How to ask for multiple values from an enumeration.
+        /// </summary>
+        EnumSelectMany,
 
         /// <summary>
         /// How to show feedback after user input.
@@ -413,59 +466,33 @@ namespace Microsoft.Bot.Builder.Form
         Help,
 
         /// <summary>
-        /// What you can enter when clarifying. 
+        /// What to display when asked for help while clarifying. 
         /// </summary>
+        /// <remarks>
+        /// This template controls the overall help experience.  {0} will be recognizer specific help and {1} will be command help.
+        /// </remarks>
         HelpClarify,
 
         /// <summary>
-        /// What for can enter when entering a <see cref="DateTime"/>.
+        /// What to display when asked for help while navigating between fields. 
         /// </summary>
-        HelpDateTime,
-
-        /// <summary>
-        /// What you can enter when entering a double.
-        /// </summary>
-        HelpDouble,
-
-        /// <summary>
-        /// What you can enter while entering an integer.
-        /// </summary>
-        HelpInteger,
-
-        /// <summary>
-        /// What you can enter while navigating.
-        /// </summary>
+        /// <remarks>
+        /// This template controls the overall help experience.  {0} will be recognizer specific help and {1} will be command help.
+        /// </remarks>
         HelpNavigation,
-
-        /// <summary>
-        /// What you can enter when selecting a single value from a numbered enumeration.
-        /// </summary>
-        HelpOneNumber,
-
-        /// <summary>
-        ///  What you can enter when selecting multiple values from a numbered enumeration.
-        /// </summary>
-        HelpManyNumber,
-
-        /// <summary>
-        /// What you can enter when selecting one value from an enumeration.
-        /// </summary>
-        HelpOneWord,
-
-        /// <summary>
-        /// What you can enter when selecting mutiple values from an enumeration.
-        /// </summary>
-        HelpManyWord,
-
-        /// <summary>
-        /// What you can enter when entering a string.
-        /// </summary>
-        HelpString,
 
         /// <summary>
         /// How to ask for an integer.
         /// </summary>
         Integer,
+
+        /// <summary>
+        /// What you can enter while entering an integer.
+        /// </summary>
+        /// <remarks>
+        /// Within this template, {0} is current choice if any and {1} and {2} are min/max if specified.
+        /// </remarks>
+        IntegerHelp,
 
         /// <summary>
         /// How to ask for a navigation.
@@ -485,19 +512,16 @@ namespace Microsoft.Bot.Builder.Form
         NotUnderstood,
 
         /// <summary>
-        /// How to ask for one value from an enumeration.
-        /// </summary>
-        SelectOne,
-
-        /// <summary>
-        /// How to ask for multiple values from an enumeration.
-        /// </summary>
-        SelectMany,
-
-        /// <summary>
         /// How to ask for a string.
         /// </summary>
         String,
+
+        /// <summary>
+        /// What to display when asked for help when entering a string. 
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        StringHelp,
 
         /// <summary>
         /// How to represent a value that has not yet been specified.

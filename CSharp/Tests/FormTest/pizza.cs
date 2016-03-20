@@ -98,7 +98,6 @@ namespace Microsoft.Bot.Builder.FormTest
             }
         }
 
-        /*
         public bool HalfAndHalf;
         private List<ToppingOptions> _halfToppings;
         public List<ToppingOptions> HalfToppings
@@ -112,7 +111,6 @@ namespace Microsoft.Bot.Builder.FormTest
                 _halfToppings = _ProcessToppings(value);
             }
         }
-        */
 
         private List<ToppingOptions> _ProcessToppings(List<ToppingOptions> options)
         {
@@ -148,6 +146,9 @@ namespace Microsoft.Bot.Builder.FormTest
         [Optional]
         public CouponOptions Coupon;
         public string DeliveryAddress;
+        [Numeric(1, 5)]
+        [Optional]
+        public double Rating;
         // public DateTime Available;
         // TODO: Need to add property processing public PizzaOptions Choice { get; set;  }
 
