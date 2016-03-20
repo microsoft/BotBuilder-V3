@@ -41,22 +41,34 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        public virtual IForm<T> Field(string name, ConditionalDelegate<T> condition = null)
+        public virtual IForm<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, condition, _ignoreAnnotations));
+            if (validate != null)
+            {
+                field.Validate(validate);
+            }
             return AddField(field);
         }
 
-        public IForm<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null)
+        public IForm<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, condition, _ignoreAnnotations));
+            if (validate != null)
+            {
+                field.Validate(validate);
+            }
             field.Prompt(new Prompt(prompt));
             return AddField(field);
         }
 
-        public IForm<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null)
+        public IForm<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, condition, _ignoreAnnotations));
+            if (validate != null)
+            {
+                field.Validate(validate);
+            }
             field.Prompt(prompt);
             return AddField(field);
         }
@@ -440,17 +452,19 @@ namespace Microsoft.Bot.Builder.Form
                     if (MatchAnalyzer.IsFullMatch(lastInput, matches))
                     {
                         next = step.Process(session, state, form, lastInput, matches, out feedback, out prompt);
-                        requirePrompt = true;
-                        useLastPrompt = false;
+                        // 1) Not completed, not valid -> Not require, last
+                        // 2) Completed, feedback -> require, not last
+                        requirePrompt = (form.Phase() == StepPhase.Completed);
+                        useLastPrompt = !requirePrompt;
                     }
                     else
                     {
                         // Filter non-active steps out of command matches
                         var commands =
                             (from command in MatchAnalyzer.Coalesce(_commands.Matches(lastInput), lastInput)
-                                where (command.Value is FormCommand
-                                    || _fields.Field(command.Value as string).Active(state))
-                                select command).ToArray();
+                             where (command.Value is FormCommand
+                                 || _fields.Field(command.Value as string).Active(state))
+                             select command).ToArray();
                         if (MatchAnalyzer.IsFullMatch(lastInput, commands))
                         {
                             next = DoCommand(session, state, form, commands, out feedback);
@@ -463,8 +477,8 @@ namespace Microsoft.Bot.Builder.Form
                             {
                                 // TODO: If we implement fallback, opportunity to call parent dialogs
                                 feedback = step.NotUnderstood(session, state, form, lastInput);
-                                useLastPrompt = false;
                                 requirePrompt = false;
+                                useLastPrompt = false;
                             }
                             else
                             {
@@ -473,12 +487,14 @@ namespace Microsoft.Bot.Builder.Form
                                 if (bestMatch == 0)
                                 {
                                     next = step.Process(session, state, form, lastInput, matches, out feedback, out prompt);
-                                    requirePrompt = true;
-                                    useLastPrompt = false;
+                                    requirePrompt = (form.Phase() == StepPhase.Completed);
+                                    useLastPrompt = !requirePrompt;
                                 }
                                 else
                                 {
                                     next = DoCommand(session, state, form, commands, out feedback);
+                                    requirePrompt = false;
+                                    useLastPrompt = true;
                                 }
                             }
                         }
@@ -1046,8 +1062,7 @@ namespace Microsoft.Bot.Builder.Form
                     var firstMatch = matches.FirstOrDefault();
                     if (matches.Count() == 1)
                     {
-                        response = SetValue(state, firstMatch.Value);
-                        form.SetPhase(StepPhase.Completed);
+                        response = SetValue(state, firstMatch.Value, form, out feedback);
                     }
                     else if (matches.Count() > 1)
                     {
@@ -1105,14 +1120,13 @@ namespace Microsoft.Bot.Builder.Form
                         {
                             if (_field.AllowsMultiple())
                             {
-                                response = SetValue(state, settled);
+                                response = SetValue(state, settled, form, out feedback);
                             }
                             else
                             {
                                 Debug.Assert(settled.Count() == 1);
-                                response = SetValue(state, settled.First());
+                                response = SetValue(state, settled.First(), form, out feedback);
                             }
-                            form.SetPhase(StepPhase.Completed);
                         }
                     }
                     var unmatched = MatchAnalyzer.Unmatched(input, matches);
@@ -1150,12 +1164,12 @@ namespace Microsoft.Bot.Builder.Form
                             // No clarification left, so set the field
                             if (_field.AllowsMultiple())
                             {
-                                response = SetValue(state, fieldState.Settled);
+                                response = SetValue(state, fieldState.Settled, form, out feedback);
                             }
                             else
                             {
                                 Debug.Assert(fieldState.Settled.Count() == 1);
-                                response = SetValue(state, fieldState.Settled.First());
+                                response = SetValue(state, fieldState.Settled.First(), form, out feedback);
                             }
                             form.SetPhase(StepPhase.Completed);
                         }
@@ -1261,12 +1275,23 @@ namespace Microsoft.Bot.Builder.Form
                     {
                         desc.SetValue(state, new List<object> { value });
                     }
-
                 }
                 else
                 {
                     // Singleton value
                     desc.SetValue(state, value);
+                }
+                return value;
+            }
+
+            protected object SetValue(T state, object value, FormState form, out string feedback)
+            {
+                var desc = _form.Fields().Field(_name);
+                feedback = desc.Validate(state, value);
+                if (feedback == null)
+                {
+                    SetValue(state, value);
+                    form.SetPhase(StepPhase.Completed);
                 }
                 return value;
             }
@@ -1417,7 +1442,7 @@ namespace Microsoft.Bot.Builder.Form
                 _form = form;
                 _fields = form.Fields();
                 var field = _fields.Field(_name);
-                var fieldPrompt = new Prompt(form.Configuration().NavigationFormat);
+                var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
                 var template = field.Template(TemplateUsage.Navigation);
                 var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null, formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),

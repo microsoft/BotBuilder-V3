@@ -114,7 +114,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
         private List<ToppingOptions> _ProcessToppings(List<ToppingOptions> options)
         {
-            if (options.Contains(ToppingOptions.All))
+            if (options != null && options.Contains(ToppingOptions.All))
             {
                 options = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
                          where !options.Contains(topping)

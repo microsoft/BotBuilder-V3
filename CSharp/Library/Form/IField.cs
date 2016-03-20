@@ -35,6 +35,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         void SetUnknown(T state);
 
         /// <summary>
+        /// Test to see if field is optional which means that no value is legal.
+        /// </summary>
+        /// <returns>True if field is optional.</returns>
+        bool Optional();
+
+        /// <summary>
+        /// Test to see if field allows setting null as value.
+        /// </summary>
+        /// <returns>True if field is nullable.</returns>
+        bool IsNullable();
+
+        /// <summary>
         /// Limits of numeric values.
         /// </summary>
         /// <param name="min">Minimum possible value.</param>
@@ -102,18 +114,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// </summary>
         /// <returns>True if more than one value is allowed.</returns>
         bool AllowsMultiple();
-
-        /// <summary>
-        /// Test to see if field is optional which means that no value is legal.
-        /// </summary>
-        /// <returns>True if field is optional.</returns>
-        bool Optional();
-
-        /// <summary>
-        /// Test to see if field allows setting null as value.
-        /// </summary>
-        /// <returns>True if field is nullable.</returns>
-        bool IsNullable();
 
         /// <summary>
         /// Allow the default value as an option.
@@ -215,6 +215,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// </summary>
         /// <returns>A prompt and recognizer packaged together.</returns>
         IPrompt<T> Prompt();
+
+        /// <summary>
+        /// Validate value to be set on state and return feedback if not valid.
+        /// </summary>
+        /// <param name="state">State before setting value.</param>
+        /// <param name="value">Value to be set in field.</param>
+        /// <returns>Null if OK, otherwise feedback on what should change.</returns>
+        string Validate(T state, object value);
 
         /// <summary>
         /// Return the help description for this field.

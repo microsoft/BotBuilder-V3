@@ -54,6 +54,16 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public abstract void SetUnknown(T state);
 
+        public virtual bool Optional()
+        {
+            return _optional;
+        }
+
+        public virtual bool IsNullable()
+        {
+            return _isNullable;
+        }
+
         public virtual bool Limits(out double min, out double max)
         {
             min = _min;
@@ -81,16 +91,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public virtual string Description()
         {
             return _description;
-        }
-
-        public virtual bool Optional()
-        {
-            return _optional;
-        }
-
-        public virtual bool IsNullable()
-        {
-            return _isNullable;
         }
 
         public virtual IEnumerable<string> Terms()
@@ -139,6 +139,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
 
         public abstract IPrompt<T> Prompt();
+
+        public virtual string Validate(T state, object value)
+        {
+            return _validate(state, value);
+        }
 
         public virtual IPrompt<T> Help()
         {
@@ -244,6 +249,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             AddTemplate(template);
             return this;
         }
+
+        public virtual IField<T> Validate(ValidateDelegate<T> validate)
+        {
+            _validate = validate;
+            return this;
+        }
         #endregion
 
         #region Internals
@@ -268,8 +279,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected bool _allowsMultiple;
         protected bool _optional;
         protected bool _isNullable;
+        protected bool _keepZero;
         protected string _description;
         protected Prompt _help;
+        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>((state, value) => null);
         protected string[] _terms;
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
@@ -549,6 +562,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 if (ftype.IsNullable())
                 {
                     _isNullable = true;
+                    _keepZero = true;
                     ftype = Nullable.GetUnderlyingType(ftype);
                 }
                 else if (ftype.IsEnum || ftype.IsClass)
@@ -690,7 +704,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             foreach (var enumField in type.GetFields(BindingFlags.Static | BindingFlags.Public))
             {
                 var enumValue = enumField.GetValue(null);
-                if ((int)enumValue > 0)
+                if (_keepZero || (int)enumValue > 0)
                 {
                     var describe = enumField.GetCustomAttribute<Describe>();
                     var terms = enumField.GetCustomAttribute<Terms>();

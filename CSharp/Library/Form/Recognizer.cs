@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 : (field.AllowsMultiple() ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional() ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(field.AllowNumbers(), configuration.NoPreference, configuration.CurrentChoice);
+            BuildPerValueMatcher(field.AllowNumbers(), configuration.CurrentChoice);
         }
 
         public EnumeratedRecognizer(IForm<T> form,
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 _currentChoice = currentChoice.FirstOrDefault();
             }
-            BuildPerValueMatcher(allowNumbers, noPreference, currentChoice);
+            BuildPerValueMatcher(allowNumbers, currentChoice);
         }
 
         public IEnumerable<object> Values()
@@ -81,15 +81,20 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public string Help(T state, object defaultValue)
         {
             var values = _valueDescriptions;
+            var max = _max;
             if (_noPreference != null)
             {
                 values = values.Union(new string[] { _noPreference.First() });
+                if (defaultValue == null)
+                {
+                    --max;
+                }
             }
             if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
             {
                 values = values.Union(new string[] { _currentChoice + " or 'c'" });
             }
-            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", 1, _max,
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", 1, max,
                 Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
         }
 
@@ -158,7 +163,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
         protected static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
 
-        protected void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> noPreference, IEnumerable<string> currentChoice)
+        protected void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> currentChoice)
         {
             if (currentChoice != null)
             {
@@ -170,10 +175,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 n = AddExpression(n, value, _termsDelegate(value), allowNumbers);
             }
-            if (noPreference != null)
+            if (_noPreference != null)
             {
                 // Add recognizer for no preference
-                n = AddExpression(n, Special.NoPreference, noPreference, allowNumbers);
+                n = AddExpression(n, Special.NoPreference, _noPreference, allowNumbers);
             }
             if (_terms != null && _terms.Count() > 0)
             {

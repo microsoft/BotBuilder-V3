@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace Microsoft.Bot.Builder.Form
 {
     public delegate bool ConditionalDelegate<T>(T state);
+    public delegate string ValidateDelegate<T>(T state, object value);
     public delegate void CompletionDelegate<T>(ISession session, T state);
 
     public interface IForm<T> : IDialog
@@ -15,11 +16,11 @@ namespace Microsoft.Bot.Builder.Form
         IForm<T> Message(string message, ConditionalDelegate<T> condition = null);
         IForm<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null);
 
-        IForm<T> Field(string name, ConditionalDelegate<T> condition = null);
+        IForm<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
-        IForm<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null);
+        IForm<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
-        IForm<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null);
+        IForm<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
         IForm<T> Field(IField<T> field);
 
@@ -32,8 +33,6 @@ namespace Microsoft.Bot.Builder.Form
         IForm<T> Confirm(IFieldPrompt<T> field);
 
         IForm<T> OnCompletion(CompletionDelegate<T> callback);
-
-        // TODO: IForm<T> Step(IStep<T);
 
         IFields<T> Fields();
 
@@ -74,8 +73,6 @@ namespace Microsoft.Bot.Builder.Form
             Separator = ", ",
             ValueCase = CaseNormalization.InitialUpper
         };
-        public string NavigationFormat = "{&} ({})";
-        public string StatusFormat = "{&}: {}";
         public string[] NoPreference = new string[] { "No Preference", "no", "none", "I don'?t care" };
         public string[] CurrentChoice = new string[] { "Current Choice", "current" };
         public string[] Yes = new string[] { "Yes", "yes", "y", "sure", "ok" };
@@ -127,10 +124,13 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
 
             new Template(TemplateUsage.Navigation, "What do you want to change? {||}"),
+            new Template(TemplateUsage.NavigationFormat, "{&}({})"),
             new Template(TemplateUsage.NoPreference, "No Preference"),
 
             // {0} is the term that is not understood
             new Template(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option."),
+
+            new Template(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
 
             new Template(TemplateUsage.String, "Please enter {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
  

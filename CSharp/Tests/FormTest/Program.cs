@@ -65,13 +65,24 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Field("BYO.Crust", isBYO)
                 .Field("BYO.Sauce", isBYO)
                 .Field("BYO.Toppings", isBYO)
-                .Field("BYO.HalfToppings", (pizza) => isBYO(pizza) && pizza.BYO.HalfAndHalf)
+                .Field("BYO.HalfToppings", (pizza) => isBYO(pizza) && pizza.BYO != null && pizza.BYO.HalfAndHalf)
                 .Message("Almost there!!! {*filled}", isBYO)
                 .Field(nameof(PizzaOrder.GourmetDelite), isGourmet)
                 .Field(nameof(PizzaOrder.Signature), isSignature)
                 .Field(nameof(PizzaOrder.Stuffed), isStuffed)
 
                 .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
+                .Field("DeliveryAddress", validate:
+                    (state, value) =>
+                    {
+                        string feedback = null;
+                        var str = value as string;
+                        if (str.Length == 0 || str[0] < '1' || str[0] > '9')
+                        {
+                            feedback = "Address must start with number.";
+                        }
+                        return feedback;
+                    })
                 .AddRemainingFields()
                 .Confirm("Would you like a {Size}, {[BYO.Crust BYO.Sauce BYO.Toppings]} pizza delivered to {DeliveryAddress}?", isBYO)
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })

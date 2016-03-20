@@ -500,6 +500,11 @@ namespace Microsoft.Bot.Builder.Form
         Navigation,
 
         /// <summary>
+        /// Navigation format for one line in navigation.
+        /// </summary>
+        NavigationFormat,
+
+        /// <summary>
         /// How to represent no value in an optional field. 
         /// </summary>
         NoPreference,
@@ -510,6 +515,11 @@ namespace Microsoft.Bot.Builder.Form
         /// <remarks>
         /// When no input is matched this template is used and gets {0} for what the user entered.</remarks>
         NotUnderstood,
+
+        /// <summary>
+        /// Format for one entry in status.
+        /// </summary>
+        StatusFormat,
 
         /// <summary>
         /// How to ask for a string.

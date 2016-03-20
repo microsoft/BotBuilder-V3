@@ -153,14 +153,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var prompt = new Prompt(_form.Configuration().StatusFormat);
+                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
                     {
-                        builder.Append("* ").AppendLine(new Prompter<T>(prompt, _form, entry.Prompt().Recognizer()).Prompt(state, entry.Name()));
+                        builder.Append("* ").AppendLine(format.Prompt(state, entry.Name()));
                     }
                     substitute = builder.ToString();
                 }
@@ -284,6 +284,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 case CaseNormalization.Upper: value = value.ToUpper(); break;
             }
             return value;
+        }
+
+        private Template Template(IField<T> field, TemplateUsage usage)
+        {
+            return field == null ?
+                (from template in _form.Configuration().Templates
+                 where template.Usage == usage
+                 select template).First()
+                 : field.Template(usage);
         }
 
         private static Regex _args = new Regex(@"{((?>[^{}]+|{(?<number>)|}(?<-number>))*(?(number)(?!)))}", RegexOptions.Compiled);
