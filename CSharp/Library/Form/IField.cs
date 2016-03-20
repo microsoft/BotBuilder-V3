@@ -110,6 +110,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         bool Optional();
 
         /// <summary>
+        /// Test to see if field allows setting null as value.
+        /// </summary>
+        /// <returns>True if field is nullable.</returns>
+        bool IsNullable();
+
+        /// <summary>
         /// Allow the default value as an option.
         /// </summary>
         /// <returns>True if default values are allowed.</returns>

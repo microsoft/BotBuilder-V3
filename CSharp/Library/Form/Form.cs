@@ -624,6 +624,10 @@ namespace Microsoft.Bot.Builder.Form
             {
                 paths.Add(path);
             }
+            else if (type.IsNullable() && type.IsValueType)
+            {
+                paths.Add(path);
+            }
             /* TODO: Add more recognizers
             else if (type == typeof(DateTime))
             {

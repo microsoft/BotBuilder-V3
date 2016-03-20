@@ -298,8 +298,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                                                   select choice.Trim().ToLower());
             if (field.Optional())
             {
-                _noPreference = new HashSet<string>(from choice in field.Form().Configuration().NoPreference
-                                                    select choice.Trim().ToLower());
+                if (field.IsNullable())
+                {
+                    _noPreference = new HashSet<string>(from choice in field.Form().Configuration().NoPreference
+                                                        select choice.Trim().ToLower());
+                }
+                else
+                {
+                    throw new ArgumentException("Primitive values must be nullable to be optional.");
+                }
             }
         }
 

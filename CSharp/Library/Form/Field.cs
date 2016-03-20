@@ -88,6 +88,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _optional;
         }
 
+        public virtual bool IsNullable()
+        {
+            return _isNullable;
+        }
+
         public virtual IEnumerable<string> Terms()
         {
             return _terms;
@@ -198,6 +203,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        public Field<T> IsNullable(bool nullable = true)
+        {
+            UpdateAnnotations();
+            _isNullable = nullable;
+            return this;
+        }
+
         public bool AllowDefault()
         {
             return _promptDefinition.AllowDefault != BoolDefault.No;
@@ -255,6 +267,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected bool _limited;
         protected bool _allowsMultiple;
         protected bool _optional;
+        protected bool _isNullable;
         protected string _description;
         protected Prompt _help;
         protected string[] _terms;
@@ -426,8 +439,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             else
             {
                 var step = _path.Last();
-                var field = step as FieldInfo;
-                var prop = step as PropertyInfo;
                 var ftype = StepType(step);
                 if (ftype.IsValueType && ftype.IsEnum)
                 {
@@ -534,6 +545,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     ftype = (field as FieldInfo).FieldType;
                     _path.Add(field);
+                }
+                if (ftype.IsNullable())
+                {
+                    _isNullable = true;
+                    ftype = Nullable.GetUnderlyingType(ftype);
+                }
+                else if (ftype.IsEnum || ftype.IsClass)
+                {
+                    _isNullable = true;
                 }
                 if (ftype.IsClass)
                 {

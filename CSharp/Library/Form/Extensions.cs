@@ -53,6 +53,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return type.IsGenericType && (typeof(IList<>) == type.GetGenericTypeDefinition());
         }
 
+        public static bool IsNullable(this Type type)
+        {
+            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
+        }
+
         public static Type GetGenericElementType(this Type type)
         {
             return (from i in type.GetInterfaces()

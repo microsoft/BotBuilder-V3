@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Builder.FormTest
     public enum SizeOptions
     {
         // 0 value in enums is reserved for unknown values.  Either you can supply an explicit one or start enumeration at 1.
-        Unknown,
+        // Unknown,
         [Terms(new string[] { "med", "medium" })]
         Medium,
         Large,
@@ -129,7 +129,8 @@ namespace Microsoft.Bot.Builder.FormTest
     {
         [Numeric(0, 10)]
         public int NumberOfPizzas = 1;
-        public SizeOptions Size;
+        [Optional]
+        public SizeOptions? Size;
         // [Prompt("What kind of pizza do you want? {||}", Format = "{1}")]
         [Prompt("What kind of pizza do you want? {||}")]
         // [Prompt("What {&Kind} of pizza do you want? {||}", Name = "inline", Style = PromptStyle.Inline)]
@@ -148,9 +149,8 @@ namespace Microsoft.Bot.Builder.FormTest
         public string DeliveryAddress;
         [Numeric(1, 5)]
         [Optional]
-        public double Rating;
+        public double? Rating;
         // public DateTime Available;
-        // TODO: Need to add property processing public PizzaOptions Choice { get; set;  }
 
         public override string ToString()
         {
