@@ -15,13 +15,11 @@ var Dialog = (function () {
         this.replyReceived(session);
     };
     Dialog.prototype.dialogResumed = function (session, result) {
-        if (!session.messageSent()) {
-            if (result.error) {
-                session.error(result.error);
-            }
-            else {
-                session.send();
-            }
+        if (result.error) {
+            session.error(result.error);
+        }
+        else {
+            session.send();
         }
     };
     Dialog.prototype.compareConfidence = function (action, language, utterance, score) {
