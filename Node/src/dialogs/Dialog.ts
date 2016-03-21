@@ -23,12 +23,10 @@ export abstract class Dialog implements IDialog {
     abstract replyReceived(session: ISession): void;
 
     public dialogResumed<T>(session: ISession, result: IDialogResult<T>): void {
-        if (!session.messageSent()) {
-            if (result.error) {
-                session.error(result.error);
-            } else {
-                session.send();
-            }
+        if (result.error) {
+            session.error(result.error);
+        } else {
+            session.send();
         }
     }
 
