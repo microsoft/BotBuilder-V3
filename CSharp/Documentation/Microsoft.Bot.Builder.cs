@@ -31,7 +31,10 @@
 /// There is not limit!
 /// 
 /// \page patterns Pattern Language
-/// 
+/// One of the keys to creating a Bot is being able to generate text that is clear and
+/// meaningful to the bot user.  To this end this framework supports a pattern language with  
+///elements that can be filled in at runtime.  Everything in a pattern that is not surrounded by
+///
 /// \page usage Usage
 /// 
 /// To use Microsoft Bot Builder ...
