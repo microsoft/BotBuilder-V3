@@ -20,6 +20,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             var configuration = field.Form().Configuration();
             _form = field.Form();
+            _allowNumbers = field.AllowNumbers();
             _description = field.Description();
             _terms = field.Terms();
             _values = field.Values();
@@ -31,7 +32,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 : (field.AllowsMultiple() ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional() ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(field.AllowNumbers(), configuration.CurrentChoice);
+            BuildPerValueMatcher(configuration.CurrentChoice);
         }
 
         public EnumeratedRecognizer(IForm<T> form,
@@ -45,6 +46,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             IEnumerable<string> noPreference = null,
             IEnumerable<string> currentChoice = null)
         {
+            _form = form;
+            _allowNumbers = allowNumbers;
             _values = values;
             _descriptionDelegate = descriptionDelegate;
             _termsDelegate = termsDelegate;
@@ -55,7 +58,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 _currentChoice = currentChoice.FirstOrDefault();
             }
-            BuildPerValueMatcher(allowNumbers, currentChoice);
+            BuildPerValueMatcher(currentChoice);
         }
 
         public IEnumerable<object> Values()
@@ -94,8 +97,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 values = values.Union(new string[] { _currentChoice + " or 'c'" });
             }
-            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", 1, max,
-                Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
+            var args = new List<object>();
+            if (_allowNumbers)
+            {
+                args.Add(1);
+                args.Add(max);
+            }
+            else
+            {
+                args.Add(null);
+                args.Add(null);
+            }
+            args.Add(Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -163,22 +177,22 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
         protected static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
 
-        protected void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> currentChoice)
+        protected void BuildPerValueMatcher(IEnumerable<string> currentChoice)
         {
             if (currentChoice != null)
             {
                 // 0 is reserved for current default if any
-                AddExpression(0, Special.CurrentChoice, currentChoice, allowNumbers);
+                AddExpression(0, Special.CurrentChoice, currentChoice, _allowNumbers);
             }
             var n = 1;
             foreach (var value in _values)
             {
-                n = AddExpression(n, value, _termsDelegate(value), allowNumbers);
+                n = AddExpression(n, value, _termsDelegate(value), _allowNumbers);
             }
             if (_noPreference != null)
             {
                 // Add recognizer for no preference
-                n = AddExpression(n, Special.NoPreference, _noPreference, allowNumbers);
+                n = AddExpression(n, Special.NoPreference, _noPreference, _allowNumbers);
             }
             if (_terms != null && _terms.Count() > 0)
             {
@@ -279,18 +293,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             public readonly string Longest;
         }
 
-        protected IForm<T> _form;
-        protected string _description;
-        protected IEnumerable<string> _noPreference;
-        protected string _currentChoice;
-        protected IEnumerable<string> _terms;
-        protected IEnumerable<object> _values;
-        protected IEnumerable<string> _valueDescriptions;
-        protected DescriptionDelegate _descriptionDelegate;
-        protected TermsDelegate _termsDelegate;
-        protected Template _helpFormat;
+        protected readonly IForm<T> _form;
+        protected readonly string _description;
+        protected readonly IEnumerable<string> _noPreference;
+        protected readonly string _currentChoice;
+        protected readonly bool _allowNumbers;
+        protected readonly IEnumerable<string> _terms;
+        protected readonly IEnumerable<object> _values;
+        protected readonly IEnumerable<string> _valueDescriptions;
+        protected readonly DescriptionDelegate _descriptionDelegate;
+        protected readonly TermsDelegate _termsDelegate;
+        protected readonly Template _helpFormat;
         protected int _max;
-        protected List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
+        protected readonly List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }
 
     public abstract class PrimitiveRecognizer<T> : IRecognizer<T>

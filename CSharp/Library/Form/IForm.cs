@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Form.Advanced;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Form
 {
@@ -102,8 +103,8 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.EnumManyNumberHelp, "You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})"),
 
             // {0} are the words people can type
-            new Template(TemplateUsage.EnumOneWordHelp, "You can enter in any words from the descriptions. ({0})"),
-            new Template(TemplateUsage.EnumManyWordHelp, "You can enter in one or more selections from the descriptions. ({0})"),
+            new Template(TemplateUsage.EnumOneWordHelp, "You can enter in any words from the descriptions. ({2})"),
+            new Template(TemplateUsage.EnumManyWordHelp, "You can enter in one or more selections from the descriptions. ({2})"),
 
             new Template(TemplateUsage.EnumSelectOne, "Please select a {&} {||}"),
             new Template(TemplateUsage.EnumSelectMany, "Please select one or more {&} {||}"),
@@ -113,9 +114,9 @@ namespace Microsoft.Bot.Builder.Form
 
             // For {0} is recognizer help and {1} is command help.
             new Template(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}"),
+            new Template(TemplateUsage.HelpConfirm, "Please answer the question.  Possible responses:\n{0}\n{1}"),
             new Template(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}"),
-            // {0} is list of field names.
-            new Template(TemplateUsage.HelpNavigation, "You can switch to another field by entering its name. ({0})."),
+            new Template(TemplateUsage.HelpNavigation, "Choose what field to change.  Possible responses:\n{0}\n{1}"),
 
             // {0} is min and {1} is max if present
             new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
@@ -123,8 +124,12 @@ namespace Microsoft.Bot.Builder.Form
             // {2} is min and {3} is max
             new Template(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
 
-            new Template(TemplateUsage.Navigation, "What do you want to change? {||}"),
-            new Template(TemplateUsage.NavigationFormat, "{&}({})"),
+            new Template(TemplateUsage.Navigation, "What do you want to change? {||}") { FieldCase = CaseNormalization.None },
+            // {0} is list of field names.
+            new Template(TemplateUsage.NavigationCommandHelp, "You can switch to another field by entering its name. ({0})."),
+            new Template(TemplateUsage.NavigationFormat, "{&}({})") {FieldCase = CaseNormalization.None },
+            new Template(TemplateUsage.NavigationHelp, "Choose {?a number from {0}-{1}, or} a field name."),
+
             new Template(TemplateUsage.NoPreference, "No Preference"),
 
             // {0} is the term that is not understood
@@ -153,6 +158,21 @@ namespace Microsoft.Bot.Builder.Form
             {FormCommand.Status, new CommandDescription("status", new string[] {"status", "progress", "so far" },
                 "Status: Show your progress in filling in the form so far.") }
         };
+
+        public Template Template(TemplateUsage usage)
+        {
+            Template result = null;
+            foreach(var template in Templates)
+            {
+                if (template.Usage == usage)
+                {
+                    result = template;
+                    break;
+                }
+            }
+            Debug.Assert(result != null);
+            return result;
+        }
     };
 }
 

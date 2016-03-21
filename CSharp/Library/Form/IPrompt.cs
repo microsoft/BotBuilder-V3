@@ -169,8 +169,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     // Generate a list from multiple fields
                     var paths = expr.Substring(1, expr.Length - 2).Split(' ');
                     var values = new List<Tuple<IField<T>, object>>();
-                    foreach (var name in paths)
+                    foreach (var spec in paths)
                     {
+                        if (!spec.StartsWith("{") || !spec.EndsWith("}"))
+                        {
+                            throw new ArgumentException("Only {<field>} references are allowed in lists.");
+                        }
+                        var name = spec.Substring(1, spec.Length - 2).Trim();
                         var eltDesc = _fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
@@ -288,11 +293,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         private Template Template(IField<T> field, TemplateUsage usage)
         {
-            return field == null ?
-                (from template in _form.Configuration().Templates
-                 where template.Usage == usage
-                 select template).First()
-                 : field.Template(usage);
+            return field == null
+                ? _form.Configuration().Template(usage)
+                : field.Template(usage);
         }
 
         private static Regex _args = new Regex(@"{((?>[^{}]+|{(?<number>)|}(?<-number>))*(?(number)(?!)))}", RegexOptions.Compiled);

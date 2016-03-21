@@ -165,6 +165,15 @@ namespace Microsoft.Bot.Builder.FormTest
                         builder.AppendFormat("{0} ", topping);
                     }
                     builder.AppendFormat("]");
+                    if (BYO.HalfAndHalf)
+                    {
+                        builder.AppendFormat(", [");
+                        foreach (var topping in BYO.HalfToppings)
+                        {
+                            builder.AppendFormat("{0} ", topping);
+                        }
+                        builder.Append("]");
+                    }
                     break;
                 case PizzaOptions.GourmetDelitePizza:
                     builder.AppendFormat("{0}, {1}", Kind, GourmetDelite);
@@ -176,7 +185,7 @@ namespace Microsoft.Bot.Builder.FormTest
                     builder.AppendFormat("{0}, {1}", Kind, Stuffed);
                     break;
             }
-            builder.AppendFormat(", {0}, {1})", DeliveryAddress, Coupon);
+            builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating.Value);
             return builder.ToString();
         }
     };

@@ -467,7 +467,7 @@ namespace Microsoft.Bot.Builder.Form
                              select command).ToArray();
                         if (MatchAnalyzer.IsFullMatch(lastInput, commands))
                         {
-                            next = DoCommand(session, state, form, commands, out feedback);
+                            next = DoCommand(session, state, form, step, commands, out feedback);
                             requirePrompt = false;
                             useLastPrompt = true;
                         }
@@ -492,7 +492,7 @@ namespace Microsoft.Bot.Builder.Form
                                 }
                                 else
                                 {
-                                    next = DoCommand(session, state, form, commands, out feedback);
+                                    next = DoCommand(session, state, form, step, commands, out feedback);
                                     requirePrompt = false;
                                     useLastPrompt = true;
                                 }
@@ -925,7 +925,7 @@ namespace Microsoft.Bot.Builder.Form
             return index;
         }
 
-        protected NextStep DoCommand(ISession session, T state, FormState form, IEnumerable<TermMatch> matches, out string feedback)
+        protected NextStep DoCommand(ISession session, T state, FormState form, IStep step, IEnumerable<TermMatch> matches, out string feedback)
         {
             // TODO: What if there are more than one command?
             feedback = null;
@@ -937,28 +937,26 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     case FormCommand.Backup:
                         {
-                            var step = _steps[form.Step];
                             next.Direction = step.Back(session, state, form) ? StepDirection.Next : StepDirection.Previous;
                         }
                         break;
                     case FormCommand.Help:
                         {
-                            var current = _steps[form.Step];
-                            var field = current.Field();
+                            var field = step.Field();
                             var builder = new StringBuilder();
                             foreach (var entry in _configuration.Commands)
                             {
                                 builder.Append("* ");
                                 builder.AppendLine(entry.Value.Help);
                             }
-                            var navigation = new Prompter<T>(field.Template(TemplateUsage.HelpNavigation), this, null);
-                            var active = (from step in _steps
-                                          where step.Type() == StepType.Field && step.Active(state)
-                                          select step.Field().Description());
+                            var navigation = new Prompter<T>(field.Template(TemplateUsage.NavigationCommandHelp), this, null);
+                            var active = (from istep in _steps
+                                          where istep.Type() == StepType.Field && istep.Active(state)
+                                          select istep.Field().Description());
                             var activeList = Language.BuildList(active, navigation.Annotation().Separator, navigation.Annotation().LastSeparator);
                             builder.Append("* ");
                             builder.Append(navigation.Prompt(state, "", activeList));
-                            feedback = current.Help(state, form, builder.ToString());
+                            feedback = step.Help(state, form, builder.ToString());
                         }
                         break;
                     case FormCommand.Quit: next.Direction = StepDirection.Quit; break;
@@ -974,8 +972,8 @@ namespace Microsoft.Bot.Builder.Form
             else
             {
                 var name = value as string;
-                var step = Step(name);
-                if (step != null && step.Active(state))
+                var istep = Step(name);
+                if (istep != null && istep.Active(state))
                 {
                     next = new NextStep(new string[] { name });
                 }
@@ -1416,7 +1414,9 @@ namespace Microsoft.Bot.Builder.Form
 
             public string Help(T state, FormState form, string commandHelp)
             {
-                return "TODO confirmation";
+                var template = _field.Template(TemplateUsage.HelpConfirm);
+                var prompt = new Prompter<T>(template, _form, _field.Prompt().Recognizer());
+                return "* " + prompt.Prompt(state, _name, "* " + prompt.Recognizer().Help(state, null), commandHelp);
             }
 
             public StepType Type()
@@ -1444,11 +1444,12 @@ namespace Microsoft.Bot.Builder.Form
                 var field = _fields.Field(_name);
                 var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
                 var template = field.Template(TemplateUsage.Navigation);
-                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null, formState.Next.Names,
+                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null, 
+                    formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                     (value) => _fields.Field(value as string).Terms(),
                     _form.Configuration().DefaultPrompt.AllowNumbers != BoolDefault.No,
-                    null);
+                    field.Template(TemplateUsage.NavigationHelp));
                 _prompt = new Prompter<T>(template, form, recognizer);
             }
 
@@ -1508,7 +1509,9 @@ namespace Microsoft.Bot.Builder.Form
 
             public string Help(T state, FormState form, string commandHelp)
             {
-                return "TODO navigation";
+                var recognizer = _prompt.Recognizer();
+                var prompt = new Prompter<T>(Field().Template(TemplateUsage.HelpNavigation), _form, recognizer);
+                return "* " +  prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
             }
 
             public IEnumerable<string> Dependencies()
@@ -1517,7 +1520,7 @@ namespace Microsoft.Bot.Builder.Form
             }
 
             protected string _name;
-            protected readonly Form<T> _form;
+            protected readonly IForm<T> _form;
             protected readonly IFields<T> _fields;
             protected readonly IPrompt<T> _prompt;
         }

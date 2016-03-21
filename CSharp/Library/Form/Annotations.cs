@@ -63,22 +63,9 @@ namespace Microsoft.Bot.Builder.Form
         /// with a maximum phrase size of <see cref="MaxPhrase"/>.
         /// </remarks>
         /// <param name="alternatives">Regular expressions or terms.</param>
-        public Terms(string[] alternatives)
+        public Terms(params string[] alternatives)
         {
             Alternatives = alternatives;
-        }
-
-        /// <summary>
-        /// Regular expression or terms to use when matching user input.
-        /// </summary>
-        /// <remarks>
-        /// If <see cref="MaxPhrase"/> is specified the supplied alternatives will be passed to <see cref="Advanced.Language.GenerateTerms(string, int)"/> to generate regular expressions
-        /// with a maximum phrase size of <see cref="MaxPhrase"/>.
-        /// </remarks>
-        /// <param name="root">A single regular expression or term.</param>
-        public Terms(string root)
-        {
-            Alternatives = new string[] { root };
         }
     }
 
@@ -474,11 +461,13 @@ namespace Microsoft.Bot.Builder.Form
         HelpClarify,
 
         /// <summary>
-        /// What to display when asked for help while navigating between fields. 
+        /// What to display when asked for help while in a confirmation.
         /// </summary>
-        /// <remarks>
-        /// This template controls the overall help experience.  {0} will be recognizer specific help and {1} will be command help.
-        /// </remarks>
+        HelpConfirm,
+
+        /// <summary>
+        /// What to display when asked for help while navigating.
+        /// </summary>
         HelpNavigation,
 
         /// <summary>
@@ -503,6 +492,16 @@ namespace Microsoft.Bot.Builder.Form
         /// Navigation format for one line in navigation.
         /// </summary>
         NavigationFormat,
+
+        /// <summary>
+        /// Help pattern for navigation commands. 
+        /// </summary>
+        NavigationCommandHelp,
+
+        /// <summary>
+        /// What you can enter when navigating.
+        /// </summary>
+        NavigationHelp,
 
         /// <summary>
         /// How to represent no value in an optional field. 
