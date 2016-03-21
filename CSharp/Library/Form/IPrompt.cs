@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public interface IPrompt<T>
         where T : class, new()
     {
-        PromptBase Annotation();
+        TemplateBase Annotation();
         string Prompt(T state, string path, params object[] args);
         IRecognizer<T> Recognizer();
     }
@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class Prompter<T> : IPrompt<T>
         where T : class, new()
     {
-        public Prompter(PromptBase annotation, IForm<T> form, IRecognizer<T> recognizer)
+        public Prompter(TemplateBase annotation, IForm<T> form, IRecognizer<T> recognizer)
         {
             annotation.ApplyDefaults(form.Configuration().DefaultPrompt);
             _annotation = annotation;
@@ -27,36 +27,34 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _recognizer = recognizer;
         }
 
-        public virtual PromptBase Annotation()
+        public virtual TemplateBase Annotation()
         {
             return _annotation;
         }
 
         public virtual string Prompt(T state, string pathName, params object[] args)
         {
-            bool expectsArgs;
             string currentChoice = null;
             string noValue = null;
             if (pathName != "")
             {
                 var field = _fields.Field(pathName);
-                currentChoice = field.Template(TemplateUsage.CurrentChoice).Template();
+                currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional())
                 {
-                    noValue = field.Template(TemplateUsage.NoPreference).Template();
+                    noValue = field.Template(TemplateUsage.NoPreference).Pattern();
                 }
                 else
                 {
-                    noValue = field.Template(TemplateUsage.Unspecified).Template();
+                    noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            var response = ExpandTemplate(_annotation.Template(), currentChoice, noValue, state, pathName, args, out expectsArgs);
-            return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(expectsArgs ? string.Format(response, args) : response), "$1 "), "$1"));
+            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args);
+            return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
         }
 
-        private string ExpandTemplate(string template, string currentChoice,  string noValue, T state, string pathName, object[] args, out bool expectsArgs)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args)
         {
-            expectsArgs = false;
             bool foundUnspecified = false;
             int last = 0;
             int numeric;
@@ -76,7 +74,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         name = pathName;
                     }
                     var pathField = _fields.Field(name);
-                    substitute = Normalize(pathField == null ? pathName : pathField.Description(), PromptNormalization.Default);
+                    substitute = Normalize(pathField == null ? pathName : pathField.Description(), _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {
@@ -89,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         {
                             if (!field.IsUnknown(state))
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                             }
                         }
@@ -97,12 +95,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         {
                             if (field.IsUnknown(state))
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                             }
                             else
                             {
-                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args, out expectsArgs));
+                                builder.Append(ExpandTemplate(currentChoice, null, noValue, state, pathName, args));
                                 builder.Append(' ');
                                 values = values.Concat(new string[] { noValue });
                             }
@@ -110,8 +108,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     if (values.Count() > 0)
                     {
-                        if ((_annotation.Style == PromptStyle.Auto && values.Count() < 4)
-                            || (_annotation.Style == PromptStyle.Inline))
+                        if ((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto && values.Count() < 4)
+                            || (_annotation.ChoiceStyle == ChoiceStyleOptions.Inline))
                         {
                             // Inline choices
                             bool first = true;
@@ -127,7 +125,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                                 {
                                     builder.Append(", ");
                                 }
-                                builder.AppendFormat(_annotation.Format, i, value);
+                                builder.AppendFormat(_annotation.ChoiceFormat, i, value);
                                 ++i;
                             }
                             builder.Append(')');
@@ -143,7 +141,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                                 {
                                     builder.Append("* ");
                                 }
-                                builder.AppendFormat(_annotation.Format, i, value);
+                                builder.AppendFormat(_annotation.ChoiceFormat, i, value);
                                 ++i;
                             }
                         }
@@ -155,14 +153,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var prompt = new Prompt(_form.Configuration().StatusFormat);
+                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
                     {
-                        builder.Append("* ").AppendLine(new Prompter<T>(prompt, _form, entry.Prompt().Recognizer()).Prompt(state, entry.Name()));
+                        builder.Append("* ").AppendLine(format.Prompt(state, entry.Name()));
                     }
                     substitute = builder.ToString();
                 }
@@ -193,32 +191,29 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     if (values.Count() > 0)
                     {
-                        var elements = (from elt in values select Normalize(ValueDescription(elt.Item1, elt.Item2), PromptNormalization.Default)).ToArray();
+                        var elements = (from elt in values select Normalize(ValueDescription(elt.Item1, elt.Item2), _annotation.ValueCase)).ToArray();
                         substitute = Language.BuildList(elements, _annotation.Separator, _annotation.LastSeparator);
                     }
                 }
                 else if (expr.StartsWith("?"))
                 {
                     // Conditional template
-                    bool subExpects;
-                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args, out subExpects);
+                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args);
                     if (subValue == null)
                     {
                         substitute = "";
                     }
                     else
                     {
-                        expectsArgs = expectsArgs || subExpects;
                         substitute = subValue;
                     }
                 }
-                else if (int.TryParse(expr, out numeric))
+                else if (TryParseFormat(expr, out numeric))
                 {
-                    // Pass through numeric format strings
-                    expectsArgs = true;
-                    if (numeric < args.Length)
+                    // Process ad hoc arg
+                    if (numeric < args.Length && args[numeric] != null)
                     {
-                        substitute = "{" + expr + "}";
+                        substitute = string.Format("{" + expr + "}", args);
                     }
                     else
                     {
@@ -246,7 +241,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                         {
                             var values = (value as System.Collections.IEnumerable);
-                            substitute = Language.BuildList(from elt in values.Cast<object>() select Normalize(ValueDescription(pathDesc, elt), PromptNormalization.Default),
+                            substitute = Language.BuildList(from elt in values.Cast<object>() select Normalize(ValueDescription(pathDesc, elt), _annotation.ValueCase),
                                 _annotation.Separator, _annotation.LastSeparator);
                         }
                         else
@@ -261,6 +256,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return (foundUnspecified ? null : response.Append(template.Substring(last, template.Length - last)).ToString());
         }
 
+        private bool TryParseFormat(string format, out int number)
+        {
+            var args = format.Split(':');
+            return int.TryParse(args[0], out number);
+        }
+
         private string ValueDescription(IField<T> field, object value)
         {
             return field.Prompt().Recognizer().ValueDescription(value);
@@ -271,22 +272,27 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _recognizer;
         }
 
-        private string Normalize(string value, PromptNormalization auto)
+        private string Normalize(string value, CaseNormalization normalization)
         {
-            switch (_annotation.Case)
+            switch (normalization)
             {
-                case PromptNormalization.Auto:
-                    switch (auto)
-                    {
-                        case PromptNormalization.Lower: value = value.ToLower(); break;
-                        case PromptNormalization.Upper: value = value.ToUpper(); break;
-                    }
+                case CaseNormalization.InitialUpper:
+                    string.Join(" ", (from word in Language.WordBreak(value)
+                                      select char.ToUpper(word[0]) + word.Substring(1).ToLower()));
                     break;
-                case PromptNormalization.Lower: value = value.ToLower(); break;
-                case PromptNormalization.Upper: value = value.ToUpper(); break;
-                case PromptNormalization.Default: break;
+                case CaseNormalization.Lower: value = value.ToLower(); break;
+                case CaseNormalization.Upper: value = value.ToUpper(); break;
             }
             return value;
+        }
+
+        private Template Template(IField<T> field, TemplateUsage usage)
+        {
+            return field == null ?
+                (from template in _form.Configuration().Templates
+                 where template.Usage == usage
+                 select template).First()
+                 : field.Template(usage);
         }
 
         private static Regex _args = new Regex(@"{((?>[^{}]+|{(?<number>)|}(?<-number>))*(?(number)(?!)))}", RegexOptions.Compiled);
@@ -294,7 +300,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private static Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
         private IForm<T> _form;
         private IFields<T> _fields;
-        private PromptBase _annotation;
+        private TemplateBase _annotation;
         private IRecognizer<T> _recognizer;
     }
 }

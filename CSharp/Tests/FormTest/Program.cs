@@ -12,10 +12,10 @@ namespace Microsoft.Bot.Builder.FormTest
     public class Choices
     {
         public DebugOptions Choice;
-            }
+    }
 
     class Program
-            {
+    {
         static void Interactive(IDialogCollection dialogs, IDialog form)
         {
             var message = new Message()
@@ -47,12 +47,12 @@ namespace Microsoft.Bot.Builder.FormTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                form.Configuration().DefaultPrompt.Format = "{1}";
+                form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
                 form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.No;
             }
             else
             {
-                form.Configuration().DefaultPrompt.Format = "{0}. {1}";
+                form.Configuration().DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
             return form
                 .Message("Welcome to the pizza bot!!!")
@@ -61,21 +61,35 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Field(nameof(PizzaOrder.Size))
                 .Field(nameof(PizzaOrder.Kind))
                 .Field("Size")
+                .Field("BYO.HalfAndHalf", isBYO)
                 .Field("BYO.Crust", isBYO)
                 .Field("BYO.Sauce", isBYO)
                 .Field("BYO.Toppings", isBYO)
+                .Field("BYO.HalfToppings", (pizza) => isBYO(pizza) && pizza.BYO != null && pizza.BYO.HalfAndHalf)
                 .Message("Almost there!!! {*filled}", isBYO)
                 .Field(nameof(PizzaOrder.GourmetDelite), isGourmet)
                 .Field(nameof(PizzaOrder.Signature), isSignature)
                 .Field(nameof(PizzaOrder.Stuffed), isStuffed)
+
                 .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
+                .Field("DeliveryAddress", validate:
+                    (state, value) =>
+                    {
+                        string feedback = null;
+                        var str = value as string;
+                        if (str.Length == 0 || str[0] < '1' || str[0] > '9')
+                        {
+                            feedback = "Address must start with number.";
+                        }
+                        return feedback;
+                    })
                 .AddRemainingFields()
                 .Confirm("Would you like a {Size}, {[BYO.Crust BYO.Sauce BYO.Toppings]} pizza delivered to {DeliveryAddress}?", isBYO)
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza));
-                ;
+            ;
         }
 
         static void Main(string[] args)
@@ -98,7 +112,10 @@ namespace Microsoft.Bot.Builder.FormTest
                         }
                     }
                 }
-
+                else if (taskResult.Status == TaskStatus.Faulted)
+                {
+                    await session.CreateDialogResponse(taskResult.Exception.ToString());
+                }
                 return await session.EndDialogAsync(dialogs.Get("Root"), taskResult);
             });
             dialogs.Add(annotationsAndNumbers).Add(annotationsAndWords).Add(callDebug).Add(debugForm);

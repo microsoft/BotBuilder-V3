@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Builder.FormTest
     public enum SizeOptions
     {
         // 0 value in enums is reserved for unknown values.  Either you can supply an explicit one or start enumeration at 1.
-        Unknown,
+        // Unknown,
         [Terms(new string[] { "med", "medium" })]
         Medium,
         Large,
@@ -47,7 +47,10 @@ namespace Microsoft.Bot.Builder.FormTest
 
     public enum ToppingOptions
     {
-        Beef = 1,
+        [Terms(new string[] { "except", "but", "not", "no", "all", "everything" })]
+        [Describe("All except")]
+        All = 1,
+        Beef,
         BlackOlives,
         CanadianBacon,
         CrispyBacon,
@@ -84,15 +87,50 @@ namespace Microsoft.Bot.Builder.FormTest
     {
         public CrustOptions Crust;
         public SauceOptions Sauce;
-        public List<ToppingOptions> Toppings = new List<ToppingOptions>();
+
+        private List<ToppingOptions> _toppings;
+        public List<ToppingOptions> Toppings
+        {
+            get { return _toppings; }
+            set
+            {
+                _toppings = _ProcessToppings(value);
+            }
+        }
+
+        public bool HalfAndHalf;
+        private List<ToppingOptions> _halfToppings;
+        public List<ToppingOptions> HalfToppings
+        {
+            get
+            {
+                return _halfToppings;
+            }
+            set
+            {
+                _halfToppings = _ProcessToppings(value);
+            }
+        }
+
+        private List<ToppingOptions> _ProcessToppings(List<ToppingOptions> options)
+        {
+            if (options != null && options.Contains(ToppingOptions.All))
+            {
+                options = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
+                         where !options.Contains(topping)
+                         select topping).ToList();
+            }
+            return options;
+        }
     };
 
     [Serializable]
     class PizzaOrder
     {
         [Numeric(0, 10)]
-        public int NumberOfPizzas;
-        public SizeOptions Size;
+        public int NumberOfPizzas = 1;
+        [Optional]
+        public SizeOptions? Size;
         // [Prompt("What kind of pizza do you want? {||}", Format = "{1}")]
         [Prompt("What kind of pizza do you want? {||}")]
         // [Prompt("What {&Kind} of pizza do you want? {||}", Name = "inline", Style = PromptStyle.Inline)]
@@ -109,8 +147,10 @@ namespace Microsoft.Bot.Builder.FormTest
         [Optional]
         public CouponOptions Coupon;
         public string DeliveryAddress;
+        [Numeric(1, 5)]
+        [Optional]
+        public double? Rating;
         // public DateTime Available;
-        // TODO: Need to add property processing public PizzaOptions Choice { get; set;  }
 
         public override string ToString()
         {
@@ -120,7 +160,7 @@ namespace Microsoft.Bot.Builder.FormTest
             {
                 case PizzaOptions.BYOPizza:
                     builder.AppendFormat("{0}, {1}, {2}, [", Kind, BYO.Crust, BYO.Sauce);
-                    foreach(var topping in BYO.Toppings)
+                    foreach (var topping in BYO.Toppings)
                     {
                         builder.AppendFormat("{0} ", topping);
                     }

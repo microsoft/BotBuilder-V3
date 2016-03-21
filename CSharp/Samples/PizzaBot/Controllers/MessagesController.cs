@@ -26,11 +26,11 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 const bool NoNumbers = false;
                 if (NoNumbers)
                 {
-                    form.Configuration().DefaultPrompt.Format = "{1}";
+                    form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
                 }
                 else
                 {
-                    form.Configuration().DefaultPrompt.Format = "{0}. {1}";
+                    form.Configuration().DefaultPrompt.ChoiceFormat = "{0}. {1}";
                 }
 
                 ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;

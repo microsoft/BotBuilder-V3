@@ -19,6 +19,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public EnumeratedRecognizer(IField<T> field)
         {
             var configuration = field.Form().Configuration();
+            _form = field.Form();
             _description = field.Description();
             _terms = field.Terms();
             _values = field.Values();
@@ -26,15 +27,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _descriptionDelegate = (value) => field.ValueDescription(value);
             _termsDelegate = (value) => field.Terms(value);
             _helpFormat = field.Template(field.AllowNumbers()
-                ? (field.AllowsMultiple() ? TemplateUsage.HelpManyNumber : TemplateUsage.HelpOneNumber)
-                : (field.AllowsMultiple() ? TemplateUsage.HelpManyWord : TemplateUsage.HelpOneWord));
-            _helpFormat.ApplyDefaults(configuration.DefaultPrompt);
+                ? (field.AllowsMultiple() ? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
+                : (field.AllowsMultiple() ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional() ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(field.AllowNumbers(), configuration.NoPreference, configuration.CurrentChoice);
+            BuildPerValueMatcher(field.AllowNumbers(), configuration.CurrentChoice);
         }
 
-        public EnumeratedRecognizer(string description,
+        public EnumeratedRecognizer(IForm<T> form,
+            string description,
             IEnumerable<object> terms,
             IEnumerable<object> values,
             DescriptionDelegate descriptionDelegate,
@@ -49,7 +50,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _termsDelegate = termsDelegate;
             _valueDescriptions = (from value in values select _descriptionDelegate(value)).ToArray();
             _helpFormat = helpFormat;
-            BuildPerValueMatcher(allowNumbers, noPreference, currentChoice);
+            _noPreference = noPreference;
+            if (currentChoice != null)
+            {
+                _currentChoice = currentChoice.FirstOrDefault();
+            }
+            BuildPerValueMatcher(allowNumbers, currentChoice);
         }
 
         public IEnumerable<object> Values()
@@ -75,20 +81,32 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public string Help(T state, object defaultValue)
         {
             var values = _valueDescriptions;
-            if (defaultValue != null && _currentChoice != null)
-            {
-                values = values.Union(new string[] { _currentChoice + " or 'c'" });
-            }
+            var max = _max;
             if (_noPreference != null)
             {
                 values = values.Union(new string[] { _noPreference.First() });
+                if (defaultValue == null)
+                {
+                    --max;
+                }
             }
-            return string.Format(_helpFormat.Template(), 1, _max,
+            if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
+            {
+                values = values.Union(new string[] { _currentChoice + " or 'c'" });
+            }
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", 1, max,
                 Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
         {
+            // if the user hit enter on an optional prompt, then consider taking the current choice as a low confidence option
+            bool userSkippedPrompt = string.IsNullOrWhiteSpace(input) && (defaultValue != null || _noPreference != null);
+            if (userSkippedPrompt)
+            {
+                yield return new TermMatch(0, input.Length, 1.0, defaultValue);
+            }
+
             foreach (var expression in _expressions)
             {
                 double longest = expression.Longest.Length;
@@ -106,7 +124,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                             {
                                 yield return new TermMatch(group1.Index, group1.Length, confidence, defaultValue);
                             }
-                            else if (special == Special.NoPreference && defaultValue != null)
+                            else if (special == Special.NoPreference)
                             {
                                 yield return new TermMatch(group1.Index, group1.Length, confidence, null);
                             }
@@ -138,14 +156,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return builder.ToString();
         }
 
-        private enum Special { CurrentChoice, NoPreference };
+        protected enum Special { CurrentChoice, NoPreference };
 
         // Word character, any word character, any digit, any positive group over word characters
-        private const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
-        private static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
-        private static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
+        protected const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
+        protected static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
+        protected static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
 
-        private void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> noPreference, IEnumerable<string> currentChoice)
+        protected void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> currentChoice)
         {
             if (currentChoice != null)
             {
@@ -157,10 +175,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 n = AddExpression(n, value, _termsDelegate(value), allowNumbers);
             }
-            if (noPreference != null)
+            if (_noPreference != null)
             {
                 // Add recognizer for no preference
-                n = AddExpression(n, Special.NoPreference, noPreference, allowNumbers);
+                n = AddExpression(n, Special.NoPreference, _noPreference, allowNumbers);
             }
             if (_terms != null && _terms.Count() > 0)
             {
@@ -170,7 +188,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = n - 1;
         }
 
-        private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
+        protected int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             var word = new StringBuilder();
@@ -247,7 +265,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return n;
         }
 
-        private class ValueAndExpression
+        protected class ValueAndExpression
         {
             public ValueAndExpression(object value, Regex expression, string longest)
             {
@@ -261,56 +279,67 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             public readonly string Longest;
         }
 
-        private string _description;
-        private IEnumerable<string> _noPreference;
-        private string _currentChoice;
-        private IEnumerable<string> _terms;
-        private IEnumerable<object> _values;
-        private IEnumerable<string> _valueDescriptions;
-        private DescriptionDelegate _descriptionDelegate;
-        private TermsDelegate _termsDelegate;
-        private PromptBase _helpFormat;
-        private int _max;
-        private List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
+        protected IForm<T> _form;
+        protected string _description;
+        protected IEnumerable<string> _noPreference;
+        protected string _currentChoice;
+        protected IEnumerable<string> _terms;
+        protected IEnumerable<object> _values;
+        protected IEnumerable<string> _valueDescriptions;
+        protected DescriptionDelegate _descriptionDelegate;
+        protected TermsDelegate _termsDelegate;
+        protected Template _helpFormat;
+        protected int _max;
+        protected List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }
 
-    public class StringRecognizer<T> : IRecognizer<T>
+    public abstract class PrimitiveRecognizer<T> : IRecognizer<T>
         where T : class, new()
     {
-        public StringRecognizer(IField<T> field)
+        public PrimitiveRecognizer(IField<T> field)
         {
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form().Configuration().CurrentChoice
                                                   select choice.Trim().ToLower());
+            if (field.Optional())
+            {
+                if (field.IsNullable())
+                {
+                    _noPreference = new HashSet<string>(from choice in field.Form().Configuration().NoPreference
+                                                        select choice.Trim().ToLower());
+                }
+                else
+                {
+                    throw new ArgumentException("Primitive values must be nullable to be optional.");
+                }
+            }
         }
+
+        public abstract TermMatch Parse(string input);
 
         public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue = null)
         {
-            var value = input.Trim();
-            var matchValue = value.ToLower();
-            if (defaultValue != null && (value == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
+            var matchValue = input.Trim().ToLower();
+            if (_noPreference != null && _noPreference.Contains(matchValue))
             {
-                value = defaultValue as string;
+                yield return new TermMatch(0, input.Length, 1.0, null);
             }
-            if (value != null)
+            else if ((defaultValue != null || _noPreference != null) && (matchValue == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
             {
-                yield return new TermMatch(0, input.Length, 0.0, value);
+                yield return new TermMatch(0, input.Length, 1.0, defaultValue);
             }
-            else if (_field.Optional() == true)
-            {
-                yield return new TermMatch(0, 0, 0.0, null);
+            else {
+                var result = Parse(input);
+                if (result != null)
+                {
+                    yield return result;
+                }
             }
         }
 
-        public virtual IEnumerable<string> ValidInputs(object value)
-        {
-            yield return value as string;
-        }
+        public abstract IEnumerable<string> ValidInputs(object value);
 
-        public virtual string ValueDescription(object value)
-        {
-            return value as string;
-        }
+        public abstract string ValueDescription(object value);
 
         public virtual IEnumerable<string> ValueDescriptions()
         {
@@ -322,74 +351,173 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return null;
         }
 
-        public virtual string Help(T state, object defaultValue)
+        public abstract string Help(T state, object defaultValue);
+
+        protected List<object> HelpArgs(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpString), _field.Form(), null);
-            return prompt.Prompt(state, _field.Name(), _field.Form().Configuration().CurrentChoice.FirstOrDefault() + " or 'c'");
+            var args = new List<object>();
+            if (defaultValue != null || _field.Optional())
+            {
+                args.Add(_field.Form().Configuration().CurrentChoice.First() + " or 'c'");
+                if (_field.Optional())
+                {
+                    args.Add(_field.Form().Configuration().NoPreference.First());
+                }
+                else
+                {
+                    args.Add(null);
+                }
+            }
+            else
+            {
+                args.Add(null);
+                args.Add(null);
+            }
+            return args;
         }
 
         protected IField<T> _field;
-        protected bool _allowNull;
         protected HashSet<string> _currentChoices;
+        protected HashSet<string> _noPreference;
+    }
+
+    public class BoolRecognizer<T> : PrimitiveRecognizer<T>
+        where T : class, new()
+    {
+        public BoolRecognizer(IField<T> field)
+            : base(field)
+        {
+            if (field.Optional())
+            {
+                throw new ArgumentException("A bool field cannot be optional use an optional enumeration instead.");
+            }
+            _yes = new HashSet<string>(from term in field.Form().Configuration().Yes
+                                       select term.Trim().ToLower());
+            _no = new HashSet<string>(from term in field.Form().Configuration().No
+                                      select term.Trim().ToLower());
+        }
+
+        public override TermMatch Parse(string input)
+        {
+            TermMatch result = null;
+            var matchValue = input.Trim().ToLower();
+            if (_yes.Contains(matchValue))
+            {
+                result = new TermMatch(0, input.Length, 1.0, true);
+            }
+            else if (_no.Contains(matchValue))
+            {
+                result = new TermMatch(0, input.Length, 1.0, false);
+            }
+            return result;
+        }
+
+        public override string Help(T state, object defaultValue)
+        {
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
+        }
+
+        public override IEnumerable<string> ValidInputs(object value)
+        {
+            return (bool)value
+                ? _field.Form().Configuration().Yes
+                : _field.Form().Configuration().No;
+        }
+
+        public override string ValueDescription(object value)
+        {
+            return ((bool)value
+                ? _field.Form().Configuration().Yes
+                : _field.Form().Configuration().No).First();
+        }
+
+        protected HashSet<string> _yes;
+        protected HashSet<string> _no;
+    }
+
+    public class StringRecognizer<T> : PrimitiveRecognizer<T>
+        where T : class, new()
+    {
+        public StringRecognizer(IField<T> field)
+            : base(field)
+        {
+        }
+
+        public override IEnumerable<string> ValidInputs(object value)
+        {
+            yield return value as string;
+        }
+
+        public override string ValueDescription(object value)
+        {
+            return value as string;
+        }
+
+        public override TermMatch Parse(string input)
+        {
+            TermMatch result = null;
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                // Confidence is 0.0 so commands get a crack
+                result = new TermMatch(0, input.Length, 0.0, input);
+            }
+            return result;
+        }
+
+        public override string Help(T state, object defaultValue)
+        {
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
+        }
     }
 
     public delegate string TypeValue(object value, CultureInfo culture);
     public delegate IEnumerable<TermMatch> Matcher(string input);
 
-    public class LongRecognizer<T> : IRecognizer<T>
+    public class LongRecognizer<T> : PrimitiveRecognizer<T>
         where T : class, new()
     {
         public LongRecognizer(IField<T> field, CultureInfo culture)
+            : base(field)
         {
-            _field = field;
             _culture = culture;
             double min, max;
             _showLimits = field.Limits(out min, out max);
-            _min = (long) min;
-            _max = (long) max;
-            _currentChoices = new HashSet<string>(from choice in field.Form().Configuration().CurrentChoice select choice.Trim().ToLower());
+            _min = (long)min;
+            _max = (long)max;
         }
 
-        public virtual IEnumerable<string> ValueDescriptions()
-        {
-            return new string[0];
-        }
-
-        public virtual string ValueDescription(object value)
+        public override string ValueDescription(object value)
         {
             return ((long)Convert.ChangeType(value, typeof(long))).ToString(_culture.NumberFormat);
         }
 
-        public virtual IEnumerable<string> ValidInputs(object value)
+        public override IEnumerable<string> ValidInputs(object value)
         {
             yield return ((long)value).ToString(_culture.NumberFormat);
         }
 
-        public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue)
+        public override TermMatch Parse(string input)
         {
-            long result;
-            if (long.TryParse(input, out result))
+            TermMatch result = null;
+            long number;
+            if (long.TryParse(input, out number))
             {
-                if (result >= _min && result <= _max)
+                if (number >= _min && number <= _max)
                 {
-                    yield return new TermMatch(0, input.Length, 1.0, result);
+                    result = new TermMatch(0, input.Length, 1.0, number);
                 }
             }
-            else if (_currentChoices != null)
-            {
-                var matchValue = input.Trim().ToLower();
-                if (matchValue == "" || matchValue == "c" || _currentChoices.Contains(matchValue))
-                {
-                    yield return new TermMatch(0, input.Length, 1.0, defaultValue);
-                }
-            }
+            return result;
         }
 
-        public virtual string Help(T state, object defaultValue)
+        public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpInteger), _field.Form(), null);
-            var args = new List<object>();
-            args.Add(_field.Form().Configuration().CurrentChoice.First() + " or 'c'");
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.IntegerHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
             if (_showLimits)
             {
                 args.Add(_min);
@@ -398,17 +526,62 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        public IEnumerable<object> Values()
-        {
-            return new object[0];
-        }
-
-        protected IField<T> _field;
         protected long _min;
         protected long _max;
         protected bool _showLimits;
         protected CultureInfo _culture;
-        protected HashSet<string> _currentChoices;
+    }
+
+    public class DoubleRecognizer<T> : PrimitiveRecognizer<T>
+        where T : class, new()
+    {
+        public DoubleRecognizer(IField<T> field, CultureInfo culture)
+            : base(field)
+        {
+            _culture = culture;
+            _showLimits = field.Limits(out _min, out _max);
+        }
+
+        public override string ValueDescription(object value)
+        {
+            return ((double)Convert.ChangeType(value, typeof(double))).ToString(_culture.NumberFormat);
+        }
+
+        public override IEnumerable<string> ValidInputs(object value)
+        {
+            yield return ((double)value).ToString(_culture.NumberFormat);
+        }
+
+        public override TermMatch Parse(string input)
+        {
+            TermMatch result = null;
+            double number;
+            if (double.TryParse(input, out number))
+            {
+                if (number >= _min && number <= _max)
+                {
+                    result = new TermMatch(0, input.Length, 1.0, number);
+                }
+            }
+            return result;
+        }
+
+        public override string Help(T state, object defaultValue)
+        {
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DoubleHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
+            if (_showLimits)
+            {
+                args.Add(_min);
+                args.Add(_max);
+            }
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
+        }
+
+        protected double _min;
+        protected double _max;
+        protected bool _showLimits;
+        protected CultureInfo _culture;
     }
 
     /* TODO: Implement more recognizers.  May want to use built-in datetime parser.
