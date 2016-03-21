@@ -120,7 +120,6 @@ Global
 		{72C60ACB-4804-4584-AD49-00289A89F227}.PPE|Any CPU.ActiveCfg = Documentation|Any CPU
 		{72C60ACB-4804-4584-AD49-00289A89F227}.PPE|Any CPU.Build.0 = Documentation|Any CPU
 		{72C60ACB-4804-4584-AD49-00289A89F227}.Release|Any CPU.ActiveCfg = Documentation|Any CPU
-		{72C60ACB-4804-4584-AD49-00289A89F227}.Release|Any CPU.Build.0 = Documentation|Any CPU
 		{72C60ACB-4804-4584-AD49-00289A89F227}.Scratch|Any CPU.ActiveCfg = Documentation|Any CPU
 		{72C60ACB-4804-4584-AD49-00289A89F227}.Scratch|Any CPU.Build.0 = Documentation|Any CPU
 		{72C60ACB-4804-4584-AD49-00289A89F227}.WestUS|Any CPU.ActiveCfg = Documentation|Any CPU
