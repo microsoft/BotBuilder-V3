@@ -31,13 +31,41 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
             if (message.Type == "Message")
             {
                 // This adds the SandwichOrder form to the dialog and sets it up as the default dialog
-                var dialogs = new DialogCollection().Add(sandwichForm);
-                return await ConnectorSession.MessageReceivedAsync(Request, message, dialogs, sandwichForm);
+                var dialogs = new DialogCollection().Add(sandwichForm).Add(OrderFlowDialog.Instance);
+                return await ConnectorSession.MessageReceivedAsync(Request, message, dialogs, OrderFlowDialog.Instance);
             }
             else
             {
                 return Request.CreateResponse(HttpStatusCode.NoContent);
                 // return HandleSystemMessage(message);
+            }
+        }
+
+        private sealed class OrderFlowDialog : IDialog
+        {
+            public static readonly IDialog Instance = new OrderFlowDialog();
+
+            string IDialog.ID
+            {
+                get
+                {
+                    return typeof(OrderFlowDialog).Name;
+                }
+            }
+
+            Task<Message> IDialog.BeginAsync(ISession session, Task<object> taskArguments)
+            {
+                return session.BeginDialogAsync(sandwichForm, Tasks.Null);
+            }
+
+            Task<Message> IDialog.DialogResumedAsync(ISession session, Task<object> taskResult)
+            {
+                return session.CreateDialogResponse("sandwich being made");
+            }
+
+            Task<Message> IDialog.ReplyReceivedAsync(ISession session)
+            {
+                return session.CreateDialogResponse("sandwich out for delivery");
             }
         }
 
