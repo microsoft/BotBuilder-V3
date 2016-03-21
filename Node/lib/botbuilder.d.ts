@@ -1027,11 +1027,29 @@ export class Prompts extends Dialog {
      * Prompts the user to chose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param enumValues List of valid values.
+     * @param choices List of choices as a pipe ('|') delimted string.
      * @param retryPrompt Message to send should the user send the wrong value.
      * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
      */
-    static choice(session: Session, prompt: string, enumValues: string[], retryPrompt?: string, maxRetries?: number): void;
+    static choice(session: Session, prompt: string, choices: string, retryPrompt?: string, maxRetries?: number): void;
+    /**
+     * Prompts the user to chose from a list of options.
+     * @param session Session object for the current conversation.
+     * @param prompt Initial message to send the user.
+     * @param choices List of choices expressed as an Object map. The objects field names will be used to build the list of values.
+     * @param retryPrompt Message to send should the user send the wrong value.
+     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     */
+    static choice(session: Session, prompt: string, choices: Object, retryPrompt?: string, maxRetries?: number): void;
+    /**
+     * Prompts the user to chose from a list of options.
+     * @param session Session object for the current conversation.
+     * @param prompt Initial message to send the user.
+     * @param choices List of choices as an array of strings.
+     * @param retryPrompt Message to send should the user send the wrong value.
+     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     */
+    static choice(session: Session, prompt: string, choices: string[], retryPrompt?: string, maxRetries?: number): void;
 
     /**
      * Manually calls the current choice prompt recognizer. Useful when needing to manually parse
@@ -1302,7 +1320,22 @@ export class EntityRecognizer {
     
     /**
      * Finds the best match for a users utterance in a list of values.
-     * @param choices Values to compare again the users utterance.
+     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * @param utterance Text utterance to parse.
+     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
+     */
+    static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
+    /**
+     * Finds the best match for a users utterance in a list of values.
+     * @param choices Object used to generate the list of choices. The objects field names will be used to 
+     * build the list of choices.
+     * @param utterance Text utterance to parse.
+     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
+     */
+    static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
+    /**
+     * Finds the best match for a users utterance in a list of values.
+     * @param choices Array of strings to compare against the users utterance.
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
@@ -1310,11 +1343,43 @@ export class EntityRecognizer {
 
     /**
      * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Values to compare again the users utterance.
+     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * @param utterance Text utterance to parse.
+     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
+     */
+    static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
+    /**
+     * Finds all possible matches for a users utterance in a list of values.
+     * @param choices Object used to generate the list of choices. The objects field names will be used to 
+     * build the list of choices.
+     * @param utterance Text utterance to parse.
+     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
+     */
+    static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
+    /**
+     * Finds all possible matches for a users utterance in a list of values.
+     * @param choices Array of strings to compare against the users utterance.
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
     static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
+
+    /**
+     * Returns an array of choices give a pipe delimted string.
+     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     */
+    static expandChoices(choices: string): string[];
+    /**
+     * Returns an array of choices given an Object.
+     * @param choices Object used to generate the list of choices. The objects field names will be used to 
+     * build the list of choices.
+     */
+    static expandChoices(choices: Object): string[];
+    /**
+     * Returns an array of choices.
+     * @param choices Array of strings. This array will just be echoed back.
+     */
+    static expandChoices(choices: string[]): string[];
 }
 
 /**

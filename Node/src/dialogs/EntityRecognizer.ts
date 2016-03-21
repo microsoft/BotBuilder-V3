@@ -167,7 +167,10 @@ export class EntityRecognizer {
         return undefined;
     }
 
-    static findBestMatch(choices: string[], utterance: string, threshold = 0.6): IFindMatchResult {
+    static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
+    static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
+    static findBestMatch(choices: string[], utterance: string, threshold?: number): IFindMatchResult;
+    static findBestMatch(choices: any, utterance: string, threshold = 0.6): IFindMatchResult {
         var best: IFindMatchResult;
         var matches = EntityRecognizer.findAllMatches(choices, utterance, threshold);
         matches.forEach((value) => {
@@ -178,11 +181,14 @@ export class EntityRecognizer {
         return best;
     }
     
-    static findAllMatches(choices: string[], utterance: string, threshold = 0.6): IFindMatchResult[] {
+    static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
+    static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
+    static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
+    static findAllMatches(choices: any, utterance: string, threshold = 0.6): IFindMatchResult[] {
         var matches: IFindMatchResult[] = [];
         utterance = utterance.trim().toLowerCase();
         var tokens = utterance.split(' ');
-        choices.forEach((choice, index) => {
+        EntityRecognizer.expandChoices(choices).forEach((choice: string, index: number) => {
             var score = 0.0;
             var value = choice.trim().toLowerCase();
             if (value.indexOf(utterance) >= 0) {
@@ -203,5 +209,26 @@ export class EntityRecognizer {
             }
         });
         return matches;
-    } 
+    }
+    
+    static expandChoices(choices: string): string[];
+    static expandChoices(choices: Object): string[];
+    static expandChoices(choices: string[]): string[];
+    static expandChoices(choices: any): string[] {
+        if (!choices) {
+            return [];
+        } else if (Array.isArray(choices)) {
+            return choices;
+        } else if (typeof choices == 'string') {
+            return choices.split('|');
+        } else if (typeof choices == 'object') {
+            var list: string[] = [];
+            for (var key in choices) {
+                list.push(key);
+            }
+            return list;
+        } else {
+            return [choices.toString()];
+        }
+    }
 }

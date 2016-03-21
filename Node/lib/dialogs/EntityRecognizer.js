@@ -147,7 +147,7 @@ var EntityRecognizer = (function () {
         var matches = [];
         utterance = utterance.trim().toLowerCase();
         var tokens = utterance.split(' ');
-        choices.forEach(function (choice, index) {
+        EntityRecognizer.expandChoices(choices).forEach(function (choice, index) {
             var score = 0.0;
             var value = choice.trim().toLowerCase();
             if (value.indexOf(utterance) >= 0) {
@@ -170,6 +170,27 @@ var EntityRecognizer = (function () {
             }
         });
         return matches;
+    };
+    EntityRecognizer.expandChoices = function (choices) {
+        if (!choices) {
+            return [];
+        }
+        else if (Array.isArray(choices)) {
+            return choices;
+        }
+        else if (typeof choices == 'string') {
+            return choices.split('|');
+        }
+        else if (typeof choices == 'object') {
+            var list = [];
+            for (var key in choices) {
+                list.push(key);
+            }
+            return list;
+        }
+        else {
+            return [choices.toString()];
+        }
     };
     EntityRecognizer.yesExp = /^(1|y|yes|yep|sure|ok|true)\z/i;
     EntityRecognizer.noExp = /^(0|n|no|nope|not|false)\z/i;

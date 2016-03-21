@@ -241,11 +241,14 @@ export class Prompts extends dialog.Dialog {
             }, callback);
     }
 
-    static choice(ses: session.Session, prompt: string, enumValues: string[], options?: IPromptOptions): void {
+    static choice(ses: session.Session, prompt: string, choices: string, options?: IPromptOptions): void;
+    static choice(ses: session.Session, prompt: string, choices: Object, options?: IPromptOptions): void;
+    static choice(ses: session.Session, prompt: string, choices: string[], options?: IPromptOptions): void;
+    static choice(ses: session.Session, prompt: string, choices: any, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
-        args.enumValues = enumValues;
+        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
         args.listStyle = args.listStyle || ListStyle.list;
         
         // Format list
@@ -253,7 +256,7 @@ export class Prompts extends dialog.Dialog {
         switch (args.listStyle) {
             case ListStyle.list:
                 list = '\n   ';
-                enumValues.forEach((value, index) => {
+                args.enumValues.forEach((value, index) => {
                     list += connector + (index + 1) + '. ' + value;
                     connector = '\n   ';
                 });
@@ -261,9 +264,9 @@ export class Prompts extends dialog.Dialog {
                 break;
             case ListStyle.inline:
                 list = ' ';
-                enumValues.forEach((value, index) => {
+                args.enumValues.forEach((value, index) => {
                     list += connector + (index + 1) + '. ' + value;
-                    if (index == enumValues.length - 2) {
+                    if (index == args.enumValues.length - 2) {
                         connector = index == 0 ? ' or ' : ', or ';
                     } else {
                         connector = ', ';

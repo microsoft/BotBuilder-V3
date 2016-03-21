@@ -199,18 +199,18 @@ var Prompts = (function (_super) {
             }
         }, callback);
     };
-    Prompts.choice = function (ses, prompt, enumValues, options) {
+    Prompts.choice = function (ses, prompt, choices, options) {
         var args = options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
-        args.enumValues = enumValues;
+        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
         args.listStyle = args.listStyle || ListStyle.list;
         // Format list
         var connector = '', list;
         switch (args.listStyle) {
             case ListStyle.list:
                 list = '\n   ';
-                enumValues.forEach(function (value, index) {
+                args.enumValues.forEach(function (value, index) {
                     list += connector + (index + 1) + '. ' + value;
                     connector = '\n   ';
                 });
@@ -218,9 +218,9 @@ var Prompts = (function (_super) {
                 break;
             case ListStyle.inline:
                 list = ' ';
-                enumValues.forEach(function (value, index) {
+                args.enumValues.forEach(function (value, index) {
                     list += connector + (index + 1) + '. ' + value;
-                    if (index == enumValues.length - 2) {
+                    if (index == args.enumValues.length - 2) {
                         connector = index == 0 ? ' or ' : ', or ';
                     }
                     else {
