@@ -17,8 +17,16 @@ export class DialogAction {
 
     static beginDialog<T>(id: string, args?: T): IDialogHandler<T> {
         return function beginDialogAction(s: ISession, a: any) {
-            // Ignore calls where we're being resumed.
-            if (!a || !a.hasOwnProperty('resumed')) {
+            // Handle calls where we're being resumed.
+            if (a && a.hasOwnProperty('resumed')) {
+                // We have to implement logic to ensure our callstack gets persisted.
+                var r = <dialog.IDialogResult<any>>a;
+                if (r.error) {
+                    s.error(r.error);
+                } else {
+                    s.send();
+                }
+            } else  {
                 // Merge args
                 if (args) {
                     a = a || {};

@@ -17,8 +17,18 @@ var DialogAction = (function () {
     };
     DialogAction.beginDialog = function (id, args) {
         return function beginDialogAction(s, a) {
-            // Ignore calls where we're being resumed.
-            if (!a || !a.hasOwnProperty('resumed')) {
+            // Handle calls where we're being resumed.
+            if (a && a.hasOwnProperty('resumed')) {
+                // We have to implement logic to ensure our callstack gets persisted.
+                var r = a;
+                if (r.error) {
+                    s.error(r.error);
+                }
+                else {
+                    s.send();
+                }
+            }
+            else {
                 // Merge args
                 if (args) {
                     a = a || {};
