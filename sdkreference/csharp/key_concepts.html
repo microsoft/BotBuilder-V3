@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Bot Framework - Bot Builder SDK C# Reference Library</title>
+<title>Key Concepts | Bot Builder SDK C# Reference Library | Bot Framework</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,10 +101,61 @@ $(document).ready(function(){initNavTree('key_concepts.html','');});
 <div class="title">Key Concepts </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="d7/d4e/namespace_microsoft.html">Microsoft</a> bot builder supports</p>
-<h1><a class="anchor" id="limits"></a>
-Limits</h1>
-<p>There is not limit! </p>
+<div class="textblock"><h1><a class="anchor" id="dialogs"></a>
+Dialogs</h1>
+<h1><a class="anchor" id="forms"></a>
+Form Flow</h1>
+<p>Dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich can require a lot of effort. At each point in the dialog, there are many possibilities for what happens next. You may need to clarify an ambiguity, provide help, go back or show progress so far. In order to simplify building guided conversations the framework provides a very powerful dialog building block known as a form. A form sacrifices some of the flexibility provided by dialogs, but in a way that requires much less effort. Even better, you can combine forms and other kinds of dialogs like a LUIS dialog to get the best of both worlds. The dialog guides the user through filling in the form while provding help and guidance along the way.</p>
+<p>The clearest way to understand this is to take a look at the SimpleSandwichBot sample. In that sample you define the form you want using C# classes, fields and properties. That is all you need to do to get a pretty good dialog that supports help, clarification, status and navigation without any more effort. Once you have that dialog you can make use of simple annotations to improve your bot in a straightforward way.</p>
+<h1><a class="anchor" id="patterns"></a>
+Pattern Language</h1>
+<p>One of the keys to creating a Bot is being able to generate text that is clear and meaningful to the bot user. This framework supports a pattern language with elements that can be filled in at runtime. Everything in a pattern that is not surrounded by curly braces is just passed straight through. Anything in curly braces is substitued with values to make a string that can be shown to the user. Once substitution is done some additional processing to remove double spaces and use the proper form of a/an is also done.</p>
+<p>Possible curly brace pattern elements are outline in the table below.</p>
+<table class="doxtable">
+<tr>
+<th>Pattern Elements </th><th>Description  </th></tr>
+<tr>
+<td>{} </td><td>Value of the current field.  </td></tr>
+<tr>
+<td>{&amp;} </td><td>Description of the current field.  </td></tr>
+<tr>
+<td>{&lt;field </td><td>Value of a particular field.  </td></tr>
+<tr>
+<td>{&amp;&lt;field&gt;} </td><td>Description of a particulsar field.  </td></tr>
+<tr>
+<td>{||} </td><td>Show the current choices for enumerated fields.  </td></tr>
+<tr>
+<td>{[{&lt;field&gt;}... </td><td>Create a list with all field values together.  </td></tr>
+<tr>
+<td>{*} </td><td>Show the status of all the active fields in a form.  </td></tr>
+<tr>
+<td>{*filled} </td><td>Show the status of all active fields with a current value.  </td></tr>
+<tr>
+<td>{&lt;format&gt; </td><td>A regular C# format specifier that refers to the nth arg. See TemplateUsage to see what args are available. </td></tr>
+<tr>
+<td>{?&lt;text or pattern element&gt;&gt;...} </td><td>Conditional substitution. If all referred to pattern elements have values, the values are substituted and the whole expression is used.  </td></tr>
+</table>
+<p>Patterns are used in Prompt and Template annotations. Prompt defines a prompt to the user for a particular field or confirmation. Template is used to automatically construct prompts and other things like help. There is a built-in set of templates defined in FormConfiguration.Templates. A good way to see examples of the pattern language is to look at the templates defined there. A Prompt can be specified by annotating a particular field or property or implicitly defined through IField&lt;T&gt;.Field&lt;/see&gt;]]&gt;. A default Template can be overridden on a class or field basis. Both prompts and templates support the formatting parameters outlined below.</p>
+<table class="doxtable">
+<tr>
+<td>TemplateBase.AllowDefault </td><td>When processing choices using {||} controls whether the current value should be showed as a choice.  </td></tr>
+<tr>
+<td>TemplateBase.AllowNumbers </td><td>When processing choices using {||} controls whether or not you can enter numbers for choices. If set to false, you should also set TemplateBase.ChoiceFormat.  </td></tr>
+<tr>
+<td>TemplateBase.ChoiceFormat </td><td>When processing choices using {||} controls how each choice is formatted. {0} is the choice number sand {1} the choice description.  </td></tr>
+<tr>
+<td>TemplateBase.ChoiceStyle </td><td>When processing choices using {||} controls whether the choices are presented in line or per line.  </td></tr>
+<tr>
+<td>TemplateBase.Feedback </td><td>For Prompt only controls feedback after user entry.  </td></tr>
+<tr>
+<td>TemplateBase.FieldCase&gt; </td><td>Controls case normalization when displaying a field description.  </td></tr>
+<tr>
+<td>TemplateBase.LastSeparator} </td><td>When lists are constructed for {[]} or in line choices from {||} provides the separator before the last item.  </td></tr>
+<tr>
+<td>TemplateBasse.Separator </td><td>When lists are constructed for {[]} or in line choices from {||} provides the separator before every item except the last.  /// </td></tr>
+<tr>
+<td>TemplateBase.ValueCase&gt; </td><td>Controls case normalization when displaying a field value.  </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->
@@ -112,10 +163,10 @@ Limits</h1>
 <!-- id is needed for treeview function! -->
 <div class="outline footer">
 	<ul>
-        <li><a href="//aka.ms/bf-contactus">Contact Us</a></li>
-        <li><a href="//aka.ms/bf-privacy">Privacy & Cookies</a></li>
-        <li><a href="//aka.ms/bf-terms">Terms Of Use</a></li>
-        <li><a href="//aka.ms/bf-conduct">Code Of Conduct</a></li>
+        <li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+        <li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+        <li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+        <li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
         <li>&copy; 2016 Microsoft</li>
 	</ul>
 </div>

@@ -18,7 +18,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form =
     [ "Confirm", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#ac6664c82a5a3e73359e6ac45b4a0f765", null ],
     [ "Confirm", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#aeb1a7018a936c15d7da3c4006d29b3d9", null ],
     [ "DialogResumedAsync", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#acb3d59613c4420981cc0de7d25ca8825", null ],
-    [ "DoCommand", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#abb896d28e39ae1f17a2365001feae8eb", null ],
+    [ "DoCommand", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a9f0e872a530c1ced13401836e1670abe", null ],
     [ "Field", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#af80477627e63b7c29628f36bb1bcbc8b", null ],
     [ "Field", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a3bef6a8c0f3a05787f0bbf527da7f9af", null ],
     [ "Field", "d6/d25/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form.html#a0427fbcf0ac68bf9e500e9399033c6a4", null ],
