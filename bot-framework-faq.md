@@ -135,22 +135,28 @@ Supported channels as of March 30, 2016 are:
 7. Telegram
 8. Web (via the Bot Framework embeddable web chat control).
 
+## I have a communication channel I’d like to be configurable on Bot Connector. Can I work with Microsoft to do that?
+
+We have not provided a mechanism for developers to add new channels to the Bot Connector, but if you are a developer of a communication channel and would like to work with us to enable your channel in the Bot Connector [we’d love to hear from you] (http://feedback.botframework.com).
+
 ## What does the Bot Builder SDK provide to developers? How does it work?
 
-The Bot Builder SDK is an open source SDK that provides everything you need to build a great bot using two popular languages: Node.js and C\#. From simple prompt and command dialogs to simple to use yet sophisticated "FormFlow" dialogs – the SDK provides the libraries, samples and tools you need to get you up and running. Visit the Bot Builder SDK Documentation to learn more.
+The Bot Builder SDK is an open source SDK hosted on GitHub that provides everything you need to build a great bot using Node.js or C\#. From simple prompt and command dialogs to simple-to-use yet sophisticated “FormFlow” dialogs that help with tricky issues such as multi-turn and disambiguation – the SDK provides the libraries, samples and tools you need to get up and running. Visit the Bot Builder SDK [Documentation] (http://docs.botframework.com) to learn more.
 
-## [consider a Q for defining each dialog, particularly FormFlow as it is a differetiator; also need approval for that name]
-[answer]
+## Is it possible for me to build a bot using the Bot Framework/SDK that is a “private or enterprise-only” bot that is only available inside my company?
+
+At this point, we do not have plans to enable a private instance of the Bot Directory, but we are interested in exploring ideas like this with the developer community.
 
 ## What does the Bot Directory provide to developers? How does it work?
 
-The Bot Directory is a publicly accessible list of all the bots registered with Bot Connector. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try it out using the web chat control and add the bot to the channels of their choosing.
+The [Bot Directory] (http://bots.botframework.com) is a publicly accessible list of all the bots registered with Bot Connector. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
 
-The Bot Directory includes a featured set of bots and is searchable for easy discovery.
+The Bot Directory includes featured bots and is searchable to aid discovery. Developers can choose whether or not to list their bot in the directory during bot registration.
 
-## Can you give some examples of real-world problems that can be solved with the Bot Framework?
+## How do I get my bot in the featured list in the Bot Directory?
 
-Sure [answers, include special services that Connector provides automatically such as translation, others]
+For now, presence in the featured list is determined by the Bot Framework team. If you think your bot should be featured feel free to provide that [feedback] (http://feedback.botframework.com).
+
 
 ## What is the roadmap for Bot Framework?
 
