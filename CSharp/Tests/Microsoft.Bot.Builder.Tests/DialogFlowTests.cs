@@ -52,6 +52,19 @@ namespace Microsoft.Bot.Builder.Tests
             return task => task.IsFaulted && task.Exception.InnerException is E;
         }
 
+        public static Expression<Func<Task<T>, bool>> IsNull<T>() where T : class
+        {
+            return task => task.Status == TaskStatus.RanToCompletion && task.Result == null;
+        }
+
+        public static Expression<Func<Task<object>, bool>> NullTask
+        {
+            get
+            {
+                return IsNull<object>();
+            }
+        }
+
         public static async Task AssertExceptionAsync<T>(Task<T> task, Type type = null)
         {
             type = type ?? typeof(MockException);
@@ -74,7 +87,7 @@ namespace Microsoft.Bot.Builder.Tests
             var message2 = new Connector.Message();
 
             var session = MakeSession(dialogRoot);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).ReturnsAsync(message1);
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).ReturnsAsync(message1);
             dialogRoot.Setup(d => d.ReplyReceivedAsync(session)).ReturnsAsync(message2);
 
             var response1 = await session.DispatchAsync();
@@ -90,12 +103,12 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog("root");
             var dialogLeaf = MockDialog("leaf");
 
-            var message1 = new Connector.Message();
-            var message2 = new Connector.Message();
+            var message1 = new Connector.Message() { Text = "one" };
+            var message2 = new Connector.Message() { Text = "two" };
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).ReturnsAsync(message1);
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).ReturnsAsync(message1);
             dialogLeaf.Setup(d => d.ReplyReceivedAsync(session)).ReturnsAsync(message2);
 
             var response1 = await session.DispatchAsync();
@@ -116,7 +129,7 @@ namespace Microsoft.Bot.Builder.Tests
             var queue = new Queue<Connector.Message>(new[] { message1, message2 });
 
             var session = MakeSession(dialogRoot);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => Task.FromResult(queue.Dequeue()));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => Task.FromResult(queue.Dequeue()));
             dialogRoot.Setup(d => d.ReplyReceivedAsync(session)).Returns(() => session.EndDialogAsync(dialogRoot.Object, Tasks.Null));
 
             var response1 = await session.DispatchAsync();
@@ -139,8 +152,8 @@ namespace Microsoft.Bot.Builder.Tests
             var expected = Task.FromResult(new object());
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected));
 
             await session.DispatchAsync();
 
@@ -156,7 +169,7 @@ namespace Microsoft.Bot.Builder.Tests
             var expected = Task.FromResult(new object());
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
             dialogLeaf.Setup(d => d.ReplyReceivedAsync(session)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected));
 
             await session.DispatchAsync();
@@ -174,8 +187,8 @@ namespace Microsoft.Bot.Builder.Tests
             var expected = Tasks.Cancelled;
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected));
 
             await session.DispatchAsync();
 
@@ -189,8 +202,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, MockException.Task));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, MockException.Task));
 
             await session.DispatchAsync();
 
@@ -210,8 +223,8 @@ namespace Microsoft.Bot.Builder.Tests
             var expected = new TaskCompletionSource<object>();
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected.Task));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected.Task));
 
             await session.DispatchAsync();
 
@@ -227,7 +240,7 @@ namespace Microsoft.Bot.Builder.Tests
             var expected = new TaskCompletionSource<object>();
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
             dialogLeaf.Setup(d => d.ReplyReceivedAsync(session)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, expected.Task));
 
             await session.DispatchAsync();
@@ -246,7 +259,7 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog();
 
             var session = MakeSession(dialogRoot);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Throws<MockException>();
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Throws<MockException>();
 
             var taskResponse = session.DispatchAsync();
             await AssertExceptionAsync(taskResponse);
@@ -258,13 +271,13 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog();
 
             var session = MakeSession(dialogRoot);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Throws<MockException>();
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Throws<MockException>();
 
             var taskResponse = session.DispatchAsync();
             await AssertExceptionAsync(taskResponse);
 
             var expected = new Connector.Message();
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).ReturnsAsync(expected);
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).ReturnsAsync(expected);
 
             var actual = await session.DispatchAsync();
             Assert.AreEqual(expected, actual);
@@ -279,7 +292,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var expected = new Connector.Message();
 
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).ReturnsAsync(expected);
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).ReturnsAsync(expected);
             dialogRoot.Setup(d => d.ReplyReceivedAsync(session)).Throws<MockException>();
 
             var actual = await session.DispatchAsync();
@@ -298,7 +311,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var expectedBegin = new Connector.Message();
 
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).ReturnsAsync(expectedBegin);
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).ReturnsAsync(expectedBegin);
             dialogRoot.Setup(d => d.ReplyReceivedAsync(session)).Throws<MockException>();
 
             {
@@ -328,8 +341,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
             dialogRoot.Setup(d => d.DialogResumedAsync(session, Tasks.Null)).Throws<MockException>();
 
             var taskResponse = session.DispatchAsync();
@@ -343,15 +356,15 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogRoot.Setup(d => d.DialogResumedAsync(session, Tasks.Null)).Throws<MockException>();
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.DialogResumedAsync(session, It.Is(NullTask))).Throws<MockException>();
 
             var taskResponse = session.DispatchAsync();
             await AssertExceptionAsync(taskResponse);
 
             var expectedBegin = new Connector.Message();
-            dialogRoot.Setup(d => d.DialogResumedAsync(session, Tasks.Null)).ReturnsAsync(expectedBegin);
+            dialogRoot.Setup(d => d.DialogResumedAsync(session, It.Is(NullTask))).ReturnsAsync(expectedBegin);
 
             var actualBegin = await session.DispatchAsync();
             Assert.AreEqual(expectedBegin, actualBegin);
@@ -364,8 +377,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Throws<MockException>();
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Throws<MockException>();
 
             await session.DispatchAsync();
 
@@ -379,7 +392,7 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
             dialogLeaf.Setup(d => d.ReplyReceivedAsync(session)).Throws<MockException>();
 
             await session.DispatchAsync();
@@ -396,10 +409,10 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogNode, dialogLeaf);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogNode.Object, Tasks.Null));
-            dialogNode.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogLeaf.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
-            dialogNode.Setup(d => d.DialogResumedAsync(session, Tasks.Null)).Throws<MockException>();
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogNode.Object, Tasks.Null));
+            dialogNode.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogLeaf.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.EndDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogNode.Setup(d => d.DialogResumedAsync(session, It.Is(NullTask))).Throws<MockException>();
 
             await session.DispatchAsync();
 
@@ -417,7 +430,7 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
 
             var taskResponse = session.DispatchAsync();
             await AssertExceptionAsync(taskResponse, typeof(InvalidSessionException));
@@ -431,8 +444,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogLeaf = MockDialog("leaf");
 
             var session = MakeSession(dialogRoot, dialogNode);
-            dialogRoot.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogNode.Object, Tasks.Null));
-            dialogNode.Setup(d => d.BeginAsync(session, Tasks.Null)).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
+            dialogRoot.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogNode.Object, Tasks.Null));
+            dialogNode.Setup(d => d.BeginAsync(session, It.Is(NullTask))).Returns(() => session.BeginDialogAsync(dialogLeaf.Object, Tasks.Null));
 
             await session.DispatchAsync();
 
