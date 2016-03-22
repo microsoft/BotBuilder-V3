@@ -1,12 +1,12 @@
 ---
 layout: page
-title: ChannelAccounts, Participants and Mentions
+title: Addresses
 permalink: /connector/channelaccounts/
-weight: 230
+weight: 235
 parent1: Bot Connector SDK
 ---
 
-The Bot Connector uses ChannelAccount records to represent an account for a user or bot
+The Bot Connector uses ChannelAccount records to represent an contact address for a user or bot
 on a communication channel.  Numerous fields in the message have ChannelAccount 
 references in them to represent the relationships between the users that are participating in
 a conversation. 

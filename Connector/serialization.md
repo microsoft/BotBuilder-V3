@@ -2,7 +2,7 @@
 layout: page
 title:  Conventions
 permalink: /connector/doc-conventions/
-weight: 299
+weight: 279
 parent1: Bot Connector SDK
 ---
 
