@@ -56,7 +56,7 @@ The core Bot Framework work has been underway since the summer of 2015, primaril
 
 ## Is the Bot Framework publicly available now?
 
-The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [//Build] (http://build.microsoft.com/).
+The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [/build] (http://build.microsoft.com/).
 
 ## How long will the Bot Framework be in preview? Can I start building/shipping products based on a preview framework?
 
@@ -151,7 +151,7 @@ For now, presence in the featured list is determined by the Bot Framework team. 
 
 ## What is the roadmap for Bot Framework?
 
-We are excited to provide initial availability of the Bot Framework at //Build 2016 and plan to continuously improve the framework with additional tools, samples, and channels.  Bot Builder is an open source SDK hosted on GitHub and we look forward to the contributions of the community at large. [Feedback] (http://feedback.botframework.com) as to what you’d like to see is welcome.
+We are excited to provide initial availability of the Bot Framework at [/build 2016] (http://build.microsoft.com/) and plan to continuously improve the framework with additional tools, samples, and channels.  Bot Builder is an open source SDK hosted on GitHub and we look forward to the contributions of the community at large. [Feedback] (http://feedback.botframework.com) as to what you’d like to see is welcome.
 
 ## How does Microsoft Bot Framework compare with other bot development tools?
 
