@@ -127,6 +127,9 @@ namespace Microsoft.Bot.Builder.Form
     /// <summary>
     /// Three state boolean value.
     /// </summary>
+    /// <remarks>
+    /// This is necessary because C# attributes do not support nullable properties.
+    /// </remarks>
     public enum BoolDefault {
         /// <summary>
         /// Use the default from the <see cref="FormConfiguration.DefaultPrompt"/>.
@@ -136,12 +139,12 @@ namespace Microsoft.Bot.Builder.Form
         /// <summary>
         /// Boolean true.
         /// </summary>
-        Yes,
+        True,
 
         /// <summary>
         /// Boolean false.
         /// </summary>
-        No };
+        False };
 
     /// <summary>
     /// Control how the user gets feedback after each entry.

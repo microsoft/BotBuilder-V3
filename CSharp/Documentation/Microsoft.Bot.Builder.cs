@@ -1,3 +1,6 @@
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Form;
+
 ///
 /// \mainpage 
 ///
@@ -52,101 +55,43 @@
 /// shown to the user. Once substitution is done some additional processing to remove double spaces and
 /// use the proper form of a/an is also done.
 /// 
-/// Possible curly brace pattern elements are outline in the table below.
+/// Possible curly brace pattern elements are outline in the table below.  Within a pattern element, "<field>" refers to the  path within your form class to get
+/// to the field value.  So if I had a class with a field named "Size" you would refer to the size value with the pattern element {Size}.  
+/// "..." within a pattern element means multiple elements are allowed.
 /// 
-/// <list type="table">
-/// <listheader>
-/// <term>Pattern Elements</term>
-/// <description>Description</description>
-/// </listheader>
-/// <item>
-///     <term>{}</term>
-///     <description>Value of the current field.</description>
-/// </item>
-/// <item>
-///     <term>{&amp;}</term>
-///     <description>Description of the current field.</description>
-/// </item>
-/// <item>
-///     <term>{&lt;field&rt;</term>
-///     <description>Value of a particular field.</description>
-/// </item>
-/// <item>
-///     <term>{&amp;&lt;field&gt;}</term>
-///     <description>Description of a particulsar field.</description>
-/// </item>
-/// <item>
-///     <term>{||}</term>
-///     <description>Show the current choices for enumerated fields.</description>
-/// </item>
-/// <item>
-///     <term>{[{&lt;field&gt;}...</term>
-///     <description>Create a list with all field values together.</description>
-/// </item>
-/// <item>
-///     <term>{*}</term>
-///     <description>Show the status of all the active fields in a form.</description>
-/// </item>
-/// <item>
-///     <term>{*filled}</term>
-///     <description>Show the status of all active fields with a current value.</description>
-/// </item>
-/// <item>
-///     <term>{&lt;format&gt;</term>
-///     <description>A regular C# format specifier that refers to the nth arg.  See <see cref="TemplateUsage"/> to see what args are available.</description></item>
-/// <item>
-///     <term>{?&lt;text or pattern element&gt;>...}</term>
-///     <description>Conditional substitution.  If all referred to pattern elements have values, the values are substituted and the whole expression is used.</description>
-/// </item>
-/// </list>
+/// Pattern Element | Description
+/// --------------- | -----------
+/// {} | Value of the current field.
+/// {&} | Description of the current field.
+/// {<field>} | Value of a particular field. 
+/// {&<field>} | Description of a particular field.
+/// {\|\|} | Show the current choices for enumerated fields.
+/// {[<field> ...]} | Create a list with all field values together utilizing Microsoft.Bot.Builder.Form.TemplateBase.Separator and Microsoft.Bot.Builder.Form.TemplatBase.LastSeparator to separate the individual values.
+/// {*} | Show one line for each active field with the description and current value.
+/// {*filled} | Show one line for each active field that has an actual value with the description and current value.
+/// {<format>} | A regular C# format specifier that refers to the nth arg.  See Microsoft.Bot.Builder.Form.TemplateUsage to see what args are available.
+/// {?<textOrPatternElement>...} | Conditional substitution.  If all referred to pattern elements have values, the values are substituted and the whole expression is used.
 ///
-/// Patterns are used in <see cref="Prompt"/> and <see cref="Template"/> annotations.  
-/// <see cref="Prompt"/> defines a prompt to the user for a particular field or confirmation.  
-/// <see cref="Template"/> is used to automatically construct prompts and other things like help.
-/// There is a built-in set of templates defined in <see cref="FormConfiguration.Templates"/>.
+/// Patterns are used in Microsoft.Bot.Builder.Form.Prompt and Microsoft.Bot.Builder.Form.Template annotations.  
+/// Microsoft.Bot.Builder.Form.Prompt defines a prompt to the user for a particular field or confirmation.  
+/// Microsoft.Bot.Builder.Form.Template is used to automatically construct prompts and other things like help.
+/// There is a built-in set of templates defined in Microsoft.Bot.Builder.Form.FormConfiguration.Templates.
 /// A good way to see examples of the pattern language is to look at the templates defined there.
-/// A <see cref="Prompt"/> can be specified by annotating a particular field or property or implicitly defined through <see cref="IField&lt;T&gt;.Field</see>]]>"/>.
-/// A default <see cref="Template"/> can be overridden on a class or field basis.  
+/// A Microsoft.Bot.Builder.Form.Prompt can be specified by annotating a particular field or property or implicitly defined through Microsoft.Bot.Builder.Form.IField<T>.Field.
+/// A default Microsoft.Bot.Builder.Form.Template can be overridden on a class or field basis.  
 /// Both prompts and templates support the formatting parameters outlined below.
 /// 
-/// <list type="table">
-/// <item>
-///     <term><see cref="TemplateBase.AllowDefault"/></term>
-///     <description>When processing choices using {||} controls whether the current value should be showed as a choice.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.AllowNumbers"/></term>
-///     <description>When processing choices using {||} controls whether or not you can enter numbers for choices. If set to false, you should also set <see cref="TemplateBase.ChoiceFormat"/>.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.ChoiceFormat"/></term>
-///     <description>When processing choices using {||} controls how each choice is formatted. {0} is the choice number sand {1} the choice description.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.ChoiceStyle"/></term>
-///     <description>When processing choices using {||} controls whether the choices are presented in line or per line.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.Feedback"/></term>
-///     <description>For <see cref="Prompt"/> only controls feedback after user entry.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.FieldCase>"/></term>
-///     <description>Controls case normalization when displaying a field description.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBase.LastSeparator"/></term>}
-///     <description>When lists are constructed for {[]} or in line choices from {||} provides the separator before the last item.</description>
-/// </item>
-/// <item>
-///     <term><see cref="TemplateBasse.Separator"/></term>
-///     <description>When lists are constructed for {[]} or in line choices from {||} provides the separator before every item except the last.</description>
-/// </item>
-/// /// <item>
-///     <term><see cref="TemplateBase.ValueCase>"/></term>
-///     <description>Controls case normalization when displaying a field value.</description>
-/// </item>
-/// </list>
+/// Usage | Description
+/// ------|------------
+/// Microsoft.Bot.Builder.Form.TemplateBase.AllowDefault | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
+/// Microsoft.Bot.Builder.Form.TemplateBase.AllowNumbers | When processing choices using {\|\|} controls whether or not you can enter numbers for choices. If set to false, you should also set Microsoft.Bot.Builder.Form.TemplateBase.ChoiceFormat.
+/// Microsoft.Bot.Builder.Form.TemplateBase.ChoiceFormat | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+/// Microsoft.Bot.Builder.Form.TemplateBase.ChoiceStyle | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
+/// Microsoft.Bot.Builder.Form.TemplateBase.Feedback | For Microsoft.Bot.Builder.Form.Prompt only controls feedback after user entry.
+/// Microsoft.Bot.Builder.Form.TemplateBase.FieldCase | Controls case normalization when displaying a field description.
+/// Microsoft.Bot.Builder.Form.TemplateBase.LastSeparator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
+/// Microsoft.Bot.Builder.Form.TemplateBase.Separator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
+/// Microsoft.Bot.Builder.Form.TemplateBase.ValueCase | Controls case normalization when displaying a field value.
 /// 
 /// \page usage Usage
 /// 

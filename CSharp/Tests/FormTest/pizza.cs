@@ -12,18 +12,18 @@ namespace Microsoft.Bot.Builder.FormTest
     {
         // 0 value in enums is reserved for unknown values.  Either you can supply an explicit one or start enumeration at 1.
         // Unknown,
-        [Terms(new string[] { "med", "medium" })]
+        [Terms("med", "medium")]
         Medium,
         Large,
 
-        [Terms(new string[] { "family", "extra large" })]
+        [Terms("family", "extra large")]
         Family
     };
     public enum PizzaOptions
     {
         Unkown, SignaturePizza, GourmetDelitePizza, StuffedPizza,
 
-        [Terms(new string[] { "byo", "build your own" })]
+        [Terms("byo", "build your own")]
         [Describe("Build your own")]
         BYOPizza
     };
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     public enum SauceOptions
     {
-        [Terms(new string[] { "traditional", "tomatoe?" })]
+        [Terms("traditional", "tomatoe?")]
         Traditional = 1,
 
         CreamyGarlic, OliveOil
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     public enum ToppingOptions
     {
-        [Terms(new string[] { "except", "but", "not", "no", "all", "everything" })]
+        [Terms("except", "but", "not", "no", "all", "everything")]
         [Describe("All except")]
         All = 1,
         Beef,
@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Builder.FormTest
         GreenPeppers,
         GrilledChicken,
 
-        [Terms(new string[] { "herb & cheese", "herb and cheese", "herb and cheese blend", "herb" })]
+        [Terms("herb & cheese", "herb and cheese", "herb and cheese blend", "herb")]
         HerbAndCheeseBlend,
 
         ItalianSausage,
@@ -117,8 +117,8 @@ namespace Microsoft.Bot.Builder.FormTest
             if (options != null && options.Contains(ToppingOptions.All))
             {
                 options = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
-                         where !options.Contains(topping)
-                         select topping).ToList();
+                           where !options.Contains(topping)
+                           select topping).ToList();
             }
             return options;
         }

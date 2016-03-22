@@ -7,17 +7,47 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
 
+    /// <summary>
+    /// Interface for a prompt and its associated recognizer.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    /// <remarks>
+    /// This interface allows taking a \ref patterns expression and making it into a string with the template parts filled in.
+    /// </remarks>
     public interface IPrompt<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Description of the prompt and how to generate it.
+        /// </summary>
+        /// <returns>Attribute describing how to generate prompt.</returns>
         TemplateBase Annotation();
+
+        /// <summary>
+        /// Return string to send to user.
+        /// </summary>
+        /// <param name="state">Current form state.</param>
+        /// <param name="path">Current field being processed.</param>
+        /// <param name="args">Optional arguments.</param>
+        /// <returns>Message to user.</returns>
         string Prompt(T state, string path, params object[] args);
+
+        /// <summary>
+        /// Associated recognizer if any.
+        /// </summary>
+        /// <returns>Recognizer for matching user input.</returns>
         IRecognizer<T> Recognizer();
     }
 
-    public class Prompter<T> : IPrompt<T>
+    public sealed class Prompter<T> : IPrompt<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Construct a prompter.
+        /// </summary>
+        /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
+        /// <param name="form">Current form.</param>
+        /// <param name="recognizer">Recognizer if any.</param>
         public Prompter(TemplateBase annotation, IForm<T> form, IRecognizer<T> recognizer)
         {
             annotation.ApplyDefaults(form.Configuration().DefaultPrompt);
@@ -27,12 +57,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _recognizer = recognizer;
         }
 
-        public virtual TemplateBase Annotation()
+        public TemplateBase Annotation()
         {
             return _annotation;
         }
 
-        public virtual string Prompt(T state, string pathName, params object[] args)
+        public string Prompt(T state, string pathName, params object[] args)
         {
             string currentChoice = null;
             string noValue = null;
@@ -81,7 +111,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     var builder = new StringBuilder();
                     var defaultValue = field.GetValue(state);
                     var values = _recognizer.ValueDescriptions();
-                    if (_annotation.AllowDefault != BoolDefault.No)
+                    if (_annotation.AllowDefault != BoolDefault.False)
                     {
                         if (!field.Optional())
                         {
@@ -137,7 +167,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                             foreach (var value in values)
                             {
                                 builder.Append("\n  ");
-                                if (_annotation.AllowNumbers != BoolDefault.Yes)
+                                if (_annotation.AllowNumbers != BoolDefault.True)
                                 {
                                     builder.Append("* ");
                                 }
@@ -272,7 +302,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return field.Prompt().Recognizer().ValueDescription(value);
         }
 
-        public virtual IRecognizer<T> Recognizer()
+        public IRecognizer<T> Recognizer()
         {
             return _recognizer;
         }

@@ -217,7 +217,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public bool AllowDefault()
         {
-            return _promptDefinition.AllowDefault != BoolDefault.No;
+            return _promptDefinition.AllowDefault != BoolDefault.False;
         }
 
         public void SetLimits(double min, double max, bool limited)
@@ -233,7 +233,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <returns>True if numbers are allowed as input.</returns>
         public bool AllowNumbers()
         {
-            return _promptDefinition.AllowNumbers != BoolDefault.No;
+            return _promptDefinition.AllowNumbers != BoolDefault.False;
         }
 
         public Field<T> Prompt(Prompt prompt)
@@ -321,7 +321,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else if (_type == typeof(bool))
                 {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.No };
+                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.False };
                 }
                 else if (_type.IsDouble())
                 {

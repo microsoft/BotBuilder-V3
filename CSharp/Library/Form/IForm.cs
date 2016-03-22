@@ -281,8 +281,8 @@ namespace Microsoft.Bot.Builder.Form
         /// </remarks>
         public Prompt DefaultPrompt = new Prompt("")
         {
-            AllowDefault = BoolDefault.Yes,
-            AllowNumbers = BoolDefault.Yes,
+            AllowDefault = BoolDefault.True,
+            AllowNumbers = BoolDefault.True,
             ChoiceStyle = ChoiceStyleOptions.Auto,
             FieldCase = CaseNormalization.Lower,
             Feedback = FeedbackOptions.Auto,
@@ -334,7 +334,7 @@ namespace Microsoft.Bot.Builder.Form
             // {0} is current choice, {1} is no preference
             new Template(TemplateUsage.DateTimeHelp, "Please enter a date and/or time{?, {0}}{?, {1}}."),
 
-            new Template(TemplateUsage.Double, "Please enter a number for {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
+            new Template(TemplateUsage.Double, "Please enter a number for {&} {||}") { AllowNumbers = BoolDefault.False, ChoiceFormat = "{1}" },
 
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
@@ -361,7 +361,7 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.HelpNavigation, "Choose what field to change.  Possible responses:\n{0}\n{1}"),
 
             // {0} is min and {1} is max if present
-            new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
+            new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { AllowNumbers = BoolDefault.False, ChoiceFormat = "{1}" },
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
             new Template(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
@@ -379,7 +379,7 @@ namespace Microsoft.Bot.Builder.Form
 
             new Template(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
 
-            new Template(TemplateUsage.String, "Please enter {&} {||}") { AllowNumbers = BoolDefault.No, ChoiceFormat = "{1}" },
+            new Template(TemplateUsage.String, "Please enter {&} {||}") { AllowNumbers = BoolDefault.False, ChoiceFormat = "{1}" },
  
             // {0} is current choice, {1} is no preference
 			new Template(TemplateUsage.StringHelp, "You can enter anything{?, {0}}{?, {1}}."),

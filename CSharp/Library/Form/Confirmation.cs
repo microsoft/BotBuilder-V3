@@ -56,9 +56,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         #endregion
 
         #region Implementation
+        private delegate NextStep NextDelegate(bool response, T state);
         private readonly ConditionalDelegate<T> _condition;
         private readonly string[] _dependencies;
-        private readonly NextDelegate<T> _next;
+        private readonly NextDelegate _next;
         #endregion
     }
 }

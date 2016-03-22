@@ -10,38 +10,53 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form
 {
-    public delegate NextStep NextDelegate<T>(bool response, T state);
-
-    public class Form<T> : IForm<T>
+    /// <summary>
+    /// Form dialog manager for to fill in your state.
+    /// </summary>
+    /// <typeparam name="T">The type to fill in.</typeparam>
+    /// <remarks>
+    /// This is the root class for creating a form.  To use it, you:
+    /// * Create an instance of this class parameterized with the class you want to fill in.
+    /// * Optionally use the fluent API to specify the order of fields, messages and confirmations.
+    /// * Register with the global dialog collection.
+    /// * Start the form dialog.
+    /// </remarks>
+    public sealed class Form<T> : IForm<T>
          where T : class, new()
     {
 
+        /// <summary>
+        /// Construct a form.
+        /// </summary>
+        /// <param name="id">Unique dialog id to register with dialog system.</param>
+        /// <param name="ignoreAnnotations">True if you want to ignore any annotations on classes when doing reflection.</param>
         public Form(string id, bool ignoreAnnotations = false)
         {
             _id = id;
             _ignoreAnnotations = ignoreAnnotations;
-            _localizer = new ResourceLocalizer("");
         }
 
         #region IForm<T> statics
+#if DEBUG
         public static bool DebugRecognizers = false;
+#endif
         #endregion
 
         #region  IForm<T> implementation
 
-        public virtual IForm<T> Message(string message, ConditionalDelegate<T> condition = null)
+        public IForm<T> Message(string message, ConditionalDelegate<T> condition = null)
         {
             _steps.Add(new MessageStep(new Prompt(message), condition, this));
             return this;
         }
 
-        public virtual IForm<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null)
+        public IForm<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null)
         {
             _steps.Add(new MessageStep(prompt, condition, this));
             return this;
         }
 
-        public virtual IForm<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
+        public IForm<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, condition, _ignoreAnnotations));
             if (validate != null)
@@ -73,12 +88,12 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        public virtual IForm<T> Field(IField<T> field)
+        public IForm<T> Field(IField<T> field)
         {
             return AddField(field);
         }
 
-        public virtual IForm<T> AddRemainingFields(IEnumerable<string> exclude = null)
+        public IForm<T> AddRemainingFields(IEnumerable<string> exclude = null)
         {
             var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
             var paths = new List<string>();
@@ -97,13 +112,13 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        public virtual IForm<T> Confirm(string prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public IForm<T> Confirm(string prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            Confirm(new Prompt(prompt) { AllowNumbers = BoolDefault.No, AllowDefault = BoolDefault.No }, condition, dependencies);
+            Confirm(new Prompt(prompt) { AllowNumbers = BoolDefault.False, AllowDefault = BoolDefault.False }, condition, dependencies);
             return this;
         }
 
-        public virtual IForm<T> Confirm(Prompt prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public IForm<T> Confirm(Prompt prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             var name = "confirm" + _steps.Count().ToString();
             if (condition == null) condition = (state) => true;
@@ -147,24 +162,24 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        public virtual IForm<T> Confirm(IFieldPrompt<T> prompt)
+        public IForm<T> Confirm(IFieldPrompt<T> prompt)
         {
             // TODO: Need to fill this in
             return this;
         }
 
-        public virtual IForm<T> OnCompletion(CompletionDelegate<T> callback)
+        public IForm<T> OnCompletion(CompletionDelegate<T> callback)
         {
             _completion = callback;
             return this;
         }
 
-        public virtual IFields<T> Fields()
+        public IFields<T> Fields()
         {
             return _fields;
         }
 
-        public virtual FormConfiguration Configuration()
+        public FormConfiguration Configuration()
         {
             return _configuration;
         }
@@ -173,13 +188,31 @@ namespace Microsoft.Bot.Builder.Form
 
         #region IDialog implementation
 
+        /// <summary>
+        /// Initial state for a Microsoft.Bot.Builder.Form.Form.
+        /// </summary>
+        /// <remarks>
+        /// If a parent dialog wants to pass in the initial state of the form, you would use this structure.
+        /// It includes both the state and optionally initial entities from a LUIS dialog that will be used to 
+        /// initially populate the form state.
+        /// </remarks>
         public class InitialState
         {
+            /// <summary>
+            /// Default form state.
+            /// </summary>
             public T State;
+
+            /// <summary>
+            /// LUIS entities to put into state.
+            /// </summary>
+            /// <remarks>
+            /// In order to set a field in the form state, the Entity must be named with the path to the field in the form state.
+            /// </remarks>
             public Models.EntityRecommendation[] Entities;
         }
 
-        public async virtual Task<Connector.Message> BeginAsync(ISession session, Task<object> arguments)
+        public async Task<Connector.Message> BeginAsync(ISession session, Task<object> arguments)
         {
             var initialState = await arguments as InitialState;
             BuildCommandRecognizer();
@@ -270,130 +303,7 @@ namespace Microsoft.Bot.Builder.Form
             return await ReplyReceivedAsync(session);
         }
 
-        /*
-        protected async Task<DialogResponse> ReplyReceivedAsync2(ISession session)
-        {
-            var form = session.SessionData.GetDialogState(_id) as FormState;
-            var state = session.SessionData.PerUserInConversationData[_id] as T;
-            foreach ()
-                string feedback = null;
-            string prompt = null;
-            NextStep next = new NextStep();
-            while (prompt == null && feedback == null && form.FieldInputs != null)
-            {
-                var input = form.FieldInputs.First();
-                var newStep = Step(input.Item1);
-                if (newStep == null)
-                {
-                    form.FieldInputs.Remove(input);
-                }
-                else
-                {
-                    var newIndex = StepIndex(newStep);
-                    if (newIndex == form.Step)
-                    {
-                        // Continue current input
-                    }
-                    else
-                    {
-                        // Start new input
-                        string lastInput;
-                        form.Step = newIndex;
-                        form.StepState = null;
-                        form.SetPhase(StepPhase.Responding);
-                        var matches = MatchAnalyzer.Coalesce(newStep.Match(session, state, form, input.Item2, out lastInput));
-                        if (MatchAnalyzer.IsFullMatch(lastInput, matches))
-                        {
-                            next = newStep.Process(session, state, form, lastInput, matches, out prompt);
-                            if (form.Phase() == StepPhase.Completed)
-                            {
-                                form.FieldInputs.Remove(input);
-                            }
-                        }
-                        else
-                        {
-                            var commands = MatchAnalyzer.Coalesce(_commands.Matches(lastInput)).ToArray();
-                            if (MatchAnalyzer.IsFullMatch(lastInput, commands))
-                            {
-                                next = DoCommand(session, state, form, commands, out feedback);
-                            }
-                            else
-                            {
-                                if (matches.Count() == 0 && commands.Count() == 0)
-                                {
-                                    prompt = newStep.NotUnderstood(session, state, form, lastInput);
-                                }
-                                else
-                                {
-                                    // Pick best match between choices
-                                    var bestMatch = MatchAnalyzer.BestMatches(matches, commands);
-                                    if (bestMatch == 0)
-                                    {
-                                        next = newStep.Process(session, state, form, lastInput, matches, out prompt);
-                                    }
-                                    else
-                                    {
-                                        next = DoCommand(session, state, form, commands, out feedback);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                switch (next.Direction)
-                {
-                    case StepDirection.Complete: goto case StepDirection.Next;
-                    case StepDirection.Named: goto case StepDirection.Next;
-                    case StepDirection.Next:
-                        if (form.Phase() == StepPhase.Completed)
-                        {
-                            form.FieldInputs.Remove(input);
-                        }
-                        break;
-                    case StepDirection.Previous:
-                        if (form.History.Count() > 0)
-                        {
-                            form.Step = form.History.Pop();
-                            form.StepState = null;
-                        }
-                        else
-                        {
-                            next.Direction = StepDirection.Quit;
-                            form.FieldInputs = null;
-                        }
-                        break;
-                    case StepDirection.Quit:
-                        form.FieldInputs = null;
-                        break;
-                    case StepDirection.Reset:
-                        state = new T();
-                        break;
-                }
-                if (form.FieldInputs.Count() == 0)
-                {
-                    form.FieldInputs = null;
-                }
-            }
-            if (next.Direction == StepDirection.Quit)
-            {
-                return await session.EndDialogAsync(new FormResult<T>(_id, state));
-            }
-            else
-            {
-                if (feedback != null)
-                {
-                    prompt = feedback + "\n" + form.LastPrompt;
-                }
-                else
-                {
-                    form.LastPrompt = prompt;
-                }
-                return await session.CreateDialogResponse(prompt);
-            }
-        }
-        */
-
-        public virtual async Task<Connector.Message> ReplyReceivedAsync(ISession session)
+        public async Task<Connector.Message> ReplyReceivedAsync(ISession session)
         {
             var form = session.Stack.GetLocal(_id) as FormState;
             var state = session.SessionData.PerUserInConversationData[_id] as T;
@@ -545,7 +455,7 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
-        public async virtual Task<Connector.Message> DialogResumedAsync(ISession session, Task<object> result)
+        public async Task<Connector.Message> DialogResumedAsync(ISession session, Task<object> result)
         {
             var form = session.Stack.GetLocal(_id) as FormState;
             ++form.Step;
@@ -565,7 +475,7 @@ namespace Microsoft.Bot.Builder.Form
 
         #region Implementation
 
-        protected IForm<T> AddField(IField<T> field)
+        private IForm<T> AddField(IField<T> field)
         {
             _fields.Add(field);
             field.SetForm(this);
@@ -582,7 +492,7 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        protected void FieldPaths(Type type, string path, List<string> paths)
+        private void FieldPaths(Type type, string path, List<string> paths)
         {
             var newPath = (path == "" ? path : path + ".");
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -599,7 +509,7 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
-        protected void TypePaths(Type type, string path, List<string> paths)
+        private void TypePaths(Type type, string path, List<string> paths)
         {
             if (type.IsClass)
             {
@@ -652,7 +562,7 @@ namespace Microsoft.Bot.Builder.Form
             */
         }
 
-        protected IStep Step(string name)
+        private IStep Step(string name)
         {
             IStep result = null;
             foreach (var step in _steps)
@@ -666,7 +576,7 @@ namespace Microsoft.Bot.Builder.Form
             return result;
         }
 
-        protected NextStep ActiveSteps(NextStep next, T state)
+        private NextStep ActiveSteps(NextStep next, T state)
         {
             var result = next;
             if (next.Direction == StepDirection.Named)
@@ -686,7 +596,7 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         [Serializable]
-        protected class FormState
+        private class FormState
         {
             // Last sent prompt which is used when feedback is supplied
             public string LastPrompt;
@@ -746,9 +656,9 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
-        protected enum StepPhase { Ready, Responding, Completed };
-        protected enum StepType { Field, Confirm, Navigation, Message };
-        protected interface IStep
+        private enum StepPhase { Ready, Responding, Completed };
+        private enum StepType { Field, Confirm, Navigation, Message };
+        private interface IStep
         {
             string Name();
 
@@ -781,7 +691,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <param name="form">The current form state.</param>
         /// <param name="next">What step to execute next.</param>
         /// <returns>True if can switch to step.</returns>
-        protected bool MoveToNext(T state, FormState form, NextStep next)
+        private bool MoveToNext(T state, FormState form, NextStep next)
         {
             bool found = false;
             switch (next.Direction)
@@ -911,7 +821,7 @@ namespace Microsoft.Bot.Builder.Form
             return found;
         }
 
-        protected int StepIndex(IStep step)
+        private int StepIndex(IStep step)
         {
             var index = -1;
             for (var i = 0; i < _steps.Count(); ++i)
@@ -925,7 +835,7 @@ namespace Microsoft.Bot.Builder.Form
             return index;
         }
 
-        protected NextStep DoCommand(ISession session, T state, FormState form, IStep step, IEnumerable<TermMatch> matches, out string feedback)
+        private NextStep DoCommand(ISession session, T state, FormState form, IStep step, IEnumerable<TermMatch> matches, out string feedback)
         {
             // TODO: What if there are more than one command?
             feedback = null;
@@ -981,7 +891,7 @@ namespace Microsoft.Bot.Builder.Form
             return next;
         }
 
-        protected class FieldStep : IStep
+        private class FieldStep : IStep
         {
             public FieldStep(string name, IForm<T> form)
             {
@@ -1039,10 +949,12 @@ namespace Microsoft.Bot.Builder.Form
                         matches = new TermMatch[0];
                     }
                 }
+#if DEBUG
                 if (Form<T>.DebugRecognizers)
                 {
                     MatchAnalyzer.PrintMatches(matches, 2);
                 }
+#endif
                 return matches;
             }
 
@@ -1250,13 +1162,13 @@ namespace Microsoft.Bot.Builder.Form
                 return new string[0];
             }
 
-            protected IPrompt<T> Template(TemplateUsage usage, IRecognizer<T> recognizer = null)
+            private IPrompt<T> Template(TemplateUsage usage, IRecognizer<T> recognizer = null)
             {
                 var template = _field.Template(usage);
                 return new Prompter<T>(template, _form, recognizer == null ? _field.Prompt().Recognizer() : recognizer);
             }
 
-            protected object SetValue(T state, object value)
+            private object SetValue(T state, object value)
             {
                 var desc = _form.Fields().Field(_name);
                 if (value == null)
@@ -1282,7 +1194,7 @@ namespace Microsoft.Bot.Builder.Form
                 return value;
             }
 
-            protected object SetValue(T state, object value, FormState form, out string feedback)
+            private object SetValue(T state, object value, FormState form, out string feedback)
             {
                 var desc = _form.Fields().Field(_name);
                 feedback = desc.Validate(state, value);
@@ -1294,7 +1206,7 @@ namespace Microsoft.Bot.Builder.Form
                 return value;
             }
 
-            protected IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognizer<T> recognizer, out Ambiguous clarify)
+            private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognizer<T> recognizer, out Ambiguous clarify)
             {
                 IPrompt<T> prompter = null;
                 clarify = null;
@@ -1309,21 +1221,21 @@ namespace Microsoft.Bot.Builder.Form
                 if (clarify != null)
                 {
                     var template = Template(TemplateUsage.Clarify);
-                    var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.No ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
+                    var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.False ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
                     var choiceRecognizer = new EnumeratedRecognizer<T>(_form, "", null,
                         clarify.Values,
                         (value) => recognizer.ValueDescription(value),
                         (value) => recognizer.ValidInputs(value),
-                        template.Annotation().AllowNumbers != BoolDefault.No, helpTemplate);
+                        template.Annotation().AllowNumbers != BoolDefault.False, helpTemplate);
                     prompter = Template(TemplateUsage.Clarify, choiceRecognizer);
                 }
                 return prompter;
             }
 
-            protected enum FieldStepStates { Unknown, SentPrompt, SentClarify };
+            private enum FieldStepStates { Unknown, SentPrompt, SentClarify };
 
             [Serializable]
-            protected class Ambiguous
+            private class Ambiguous
             {
                 public readonly string Response;
                 public object[] Values;
@@ -1335,7 +1247,7 @@ namespace Microsoft.Bot.Builder.Form
             }
 
             [Serializable]
-            protected class FieldStepState
+            private class FieldStepState
             {
                 public FieldStepStates State;
                 public string Unmatched;
@@ -1347,12 +1259,12 @@ namespace Microsoft.Bot.Builder.Form
                 }
             }
 
-            protected readonly string _name;
-            protected readonly IField<T> _field;
-            protected readonly IForm<T> _form;
+            private readonly string _name;
+            private readonly IField<T> _field;
+            private readonly IForm<T> _form;
         }
 
-        protected class ConfirmStep : IStep
+        private class ConfirmStep : IStep
         {
             public ConfirmStep(string name, IForm<T> form)
             {
@@ -1429,12 +1341,12 @@ namespace Microsoft.Bot.Builder.Form
                 return _field.Dependencies();
             }
 
-            protected readonly string _name;
-            protected readonly IField<T> _field;
-            protected readonly IForm<T> _form;
+            private readonly string _name;
+            private readonly IField<T> _field;
+            private readonly IForm<T> _form;
         }
 
-        protected class NavigationStep : IStep
+        private class NavigationStep : IStep
         {
             public NavigationStep(string name, Form<T> form, T state, FormState formState)
             {
@@ -1444,11 +1356,11 @@ namespace Microsoft.Bot.Builder.Form
                 var field = _fields.Field(_name);
                 var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
                 var template = field.Template(TemplateUsage.Navigation);
-                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null, 
+                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null,
                     formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                     (value) => _fields.Field(value as string).Terms(),
-                    _form.Configuration().DefaultPrompt.AllowNumbers != BoolDefault.No,
+                    _form.Configuration().DefaultPrompt.AllowNumbers != BoolDefault.False,
                     field.Template(TemplateUsage.NavigationHelp));
                 _prompt = new Prompter<T>(template, form, recognizer);
             }
@@ -1511,7 +1423,7 @@ namespace Microsoft.Bot.Builder.Form
             {
                 var recognizer = _prompt.Recognizer();
                 var prompt = new Prompter<T>(Field().Template(TemplateUsage.HelpNavigation), _form, recognizer);
-                return "* " +  prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
+                return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
             }
 
             public IEnumerable<string> Dependencies()
@@ -1519,13 +1431,13 @@ namespace Microsoft.Bot.Builder.Form
                 return new string[0];
             }
 
-            protected string _name;
-            protected readonly IForm<T> _form;
-            protected readonly IFields<T> _fields;
-            protected readonly IPrompt<T> _prompt;
+            private string _name;
+            private readonly IForm<T> _form;
+            private readonly IFields<T> _fields;
+            private readonly IPrompt<T> _prompt;
         }
 
-        protected class MessageStep : IStep
+        private class MessageStep : IStep
         {
             public MessageStep(Prompt prompt, ConditionalDelegate<T> condition, Form<T> form)
             {
@@ -1590,12 +1502,12 @@ namespace Microsoft.Bot.Builder.Form
                 return StepType.Message;
             }
 
-            protected readonly string _name;
-            protected readonly ConditionalDelegate<T> _condition;
-            protected readonly IPrompt<T> _prompt;
+            private readonly string _name;
+            private readonly ConditionalDelegate<T> _condition;
+            private readonly IPrompt<T> _prompt;
         }
 
-        protected void BuildCommandRecognizer()
+        private void BuildCommandRecognizer()
         {
             var values = new List<object>();
             var descriptions = new Dictionary<object, string>();
@@ -1623,14 +1535,13 @@ namespace Microsoft.Bot.Builder.Form
                     false, null);
         }
 
-        protected readonly string _id;
-        protected readonly FormConfiguration _configuration = new FormConfiguration();
-        protected bool _ignoreAnnotations;
-        protected List<IStep> _steps = new List<IStep>();
-        protected Fields<T> _fields = new Fields<T>();
-        protected IRecognizer<T> _commands;
-        protected ResourceLocalizer _localizer;
-        protected CompletionDelegate<T> _completion = null;
+        private readonly string _id;
+        private readonly FormConfiguration _configuration = new FormConfiguration();
+        private bool _ignoreAnnotations;
+        private List<IStep> _steps = new List<IStep>();
+        private Fields<T> _fields = new Fields<T>();
+        private IRecognizer<T> _commands;
+        private CompletionDelegate<T> _completion = null;
         #endregion
 
     }

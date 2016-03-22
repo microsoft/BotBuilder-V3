@@ -83,7 +83,7 @@
     <Compile Include="Form\Field.cs" />
     <Compile Include="Form\Form.cs" />
     <Compile Include="Form\IField.cs" />
-    <Compile Include="Form\ILocalizer.cs" />
+    <None Include="Form\ILocalizer.cs" />
     <Compile Include="Form\Language.cs" />
     <Compile Include="Form\MatchAnalyzer.cs" />
     <Compile Include="Form\Recognizer.cs" />

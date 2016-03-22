@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.FormTest
             if (noNumbers)
             {
                 form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
-                form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.No;
+                form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.False;
             }
             else
             {

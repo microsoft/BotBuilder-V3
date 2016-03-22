@@ -3,10 +3,28 @@ using System.Linq;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
-    public enum SpecialValues { Field };
+    /// <summary>
+    /// Enumeration of special kinds of matches.
+    /// </summary>
+    public enum SpecialValues {
+        /// <summary>
+        /// Match corresponds to a field, not a specific value in the field.
+        /// </summary>
+        Field
+    };
 
+    /// <summary>
+    /// Describe a possible match in the user input.
+    /// </summary>
     public class TermMatch
     {
+        /// <summary>
+        /// Construct a match.
+        /// </summary>
+        /// <param name="start">Start of match in input string.</param>
+        /// <param name="length">Length of match in input string.</param>
+        /// <param name="confidence">Confidence of match, 0-1.0.</param>
+        /// <param name="value">The underlying C# value for the match.</param>
         public TermMatch(int start, int length, double confidence, object value)
         {
             Start = start;
@@ -15,11 +33,30 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             Value = value;
         }
 
-        public readonly object Value;
-        public readonly double Confidence;
+        /// <summary>
+        /// Start of match in input string.
+        /// </summary>
         public readonly int Start;
+
+        /// <summary>
+        /// End of match in input string.
+        /// </summary>
         public int End { get { return Start + Length; } }
+
+        /// <summary>
+        /// Length of match in input string.
+        /// </summary>
         public readonly int Length;
+
+        /// <summary>
+        /// Confidence of match, 0-1.0.
+        /// </summary>
+        public readonly double Confidence;
+
+        /// <summary>
+        /// Underlying C# value.
+        /// </summary>
+        public readonly object Value;
 
         /// <summary>
         /// Check to see if this covers the same span as match.
@@ -34,7 +71,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>
         /// Check to see if this completely covers match.
         /// </summary>
-        /// <param name="match"></param>
+        /// <param name="match">TermMatch to compare.</param>
         /// <returns>True if this covers all of match.</returns>
         public bool Covers(TermMatch match)
         {
@@ -42,10 +79,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
 
         /// <summary>
-        /// Check to see if this overlaps with match.
+        /// Check to see if this overlaps with match in input.
         /// </summary>
-        /// <param name="match"></param>
-        /// <returns></returns>
+        /// <param name="match">TermMatch to compare.</param>
+        /// <returns>True if the matches overlap in the input.</returns>
         public bool Overlaps(TermMatch match)
         {
             return (match.Start <= End && Start <= match.Start && End <= match.End) // tmtm
@@ -81,6 +118,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
     }
 
+    /// <summary>
+    /// Interface for recognizers that look for matches in user input.
+    /// </summary>
+    /// <typeparam name="T">Underlying form state.</typeparam>
     public interface IRecognizer<T>
         where T : class, new()
     {
