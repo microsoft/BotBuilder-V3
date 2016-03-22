@@ -1,16 +1,15 @@
+	{% comment %}
+		current implementation supports only 2 levels in the TOC, adding a new level requires
+		code changes and css changes.
+	{% endcomment %}
 	<div class="trigger">
 	{% assign sorted_pages = (site.pages | sort: 'weight') %}
 	{% assign grouped_pages1 = (sorted_pages | group_by: 'parent1') %}
 	{% for group1 in grouped_pages1 %}
 	  {% if group1.name == 'none' %}
 		<ul class="level0">
-		{% for my_page in group1.items %} 
-				{% if page.url == my_page.url %}
-					{% assign class = 'page-link navselected' %}
-				{% else %}
-					{% assign class = 'page-link' %}
-				{% endif %}
-			<li class="level1" weight="{{ my_page.weight }}"><a class="{{ class }}" href="{{ my_page.url | prepend: site.baseurl }}#navtitle">{{ my_page.title }}</a></li>
+		{% for my_page in group1.items %} 		
+			{% include _function_navselected.html page = page my_page = my_page %}
 		{% endfor %}
 		</ul>
 	  {% endif %}

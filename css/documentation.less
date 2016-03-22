@@ -73,6 +73,7 @@ foobar {
 }
 
 .level0 {
+    padding-left: 0;
 }
 
 .level1.parent {
@@ -105,6 +106,26 @@ a {
 .post-header {
     margin-bottom: 30px;
     background-color: transparent;
+}
+
+.post-content {
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        tr {
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            td {
+                padding: 6px 13px;
+                border: 1px solid #ddd;
+            }
+        }
+        th {
+            padding: 6px 13px;
+            border: 1px solid #ddd;
+        }
+    }
+
 }
 
 

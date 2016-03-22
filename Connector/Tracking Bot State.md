@@ -47,15 +47,20 @@ When your bot sends a reply you  simply set your object in one of the BotData re
 played back to you on future messages. 
 
 Example of setting the data on a reply message
+{% highlight C# %}
 
     Message replyMessage = sourceMessage.CreateReplyMessage("my response);
     replyMessage.BotPerUserConversationData = myState;
     return replyMessage;
-
+	
+{% endhighlight %}
 
 *When a new message comes from that user in that conversation the botPerUserConversationData will have your state*
+{% highlight C# %}
 
     var myState = replyMessage.BotPerUserConversationData;
+	
+{% endhighlight %}
 
 With the C# nuget library the message has methods to make it easy to deal with setting and getting the object back as a typed value.
 
