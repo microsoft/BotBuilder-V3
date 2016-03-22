@@ -89,7 +89,7 @@ To connect your bot to your users you must have:
 #### Register
 {:.no_toc}
 
-To register your bot, sign in to the Bot Framework Developer Portal and provide the requisite details for your bot, including a bot profile image.
+To register your bot, sign in to the Bot Framework website and provide the requisite details for your bot, including a bot profile image.
 
 [consider screenshot]
 
@@ -98,28 +98,28 @@ Once registered, use the dashboard to test your bot to ensure it is talking to t
 #### Connect to Channels
 {:.no_toc}
 
-Once registered, connect your bot to the conversation channels of your choice using the channel configuration page.
+Connect your bot to the conversation channels of your choice using the channel configuration page and your developer credentials associated with that channel.
 
 [consider screenshot]
 
 #### View in Bot Directory
 {:.no_toc}
 
-Bots registered through Bot Connector appear in the publicly accessible Bot Directory where users can discover, try and choose to add bots to their favorite conversation experiences. 
+Bots registered through Bot Connector appear in the publicly accessible Bot Directory where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
 
 [screenshots]
 
 #### Measure
 {:.no_toc}
 
-As an Azure service [confirm], Bot Connector also provides ways for you to analyze and measure your bot. Access Azure Analytics through your bot dashboard on the developer portal.
+If you host your bot in Azure you can link to Azure Application Insights analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
 [consider screenshot]
 
 #### Manage
 {:.no_toc}
 
-Once registered and connected to channels you can manage your bot through the portal.
+Once registered and connected to channels you can manage your bot via the Bot Framework website.
 
 [consider screenshot]
 
