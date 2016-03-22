@@ -1,4 +1,5 @@
-		<div class="{{ include.level }} parent">{{include.group.name}}</div>
+<div class="accordion">
+   		<div class="{{ include.level }} parent">{{include.group.name}}</div>
 		<ul class="{{ include.level }} child">
 		{% for my_page in include.group.items %}
 			{% if include.level == 'level1' %}
@@ -12,4 +13,4 @@
 			{% endif %}
 		{% endfor %}
 		</ul>	
-		
+</div>		
