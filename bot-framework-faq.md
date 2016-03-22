@@ -26,12 +26,12 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 ### Bot Builder SDK
 {:.no_toc}
 
-The Bot Builder SDK is [an open source SDK hosted on GitHub] (https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
+The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
 
 ### Bot Directory
 {:.no_toc}
 
-The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the [Bot Directory] (http://bots.botframework.com).
+The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the [Bot Directory](http://bots.botframework.com).
 
 ## Why should I write a bot?
 The Conversational User Interface, or CUI, has arrived. 
@@ -56,7 +56,7 @@ The core Bot Framework work has been underway since the summer of 2015, primaril
 
 ## Is the Bot Framework publicly available now?
 
-The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [/build] (http://build.microsoft.com/).
+The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [/build](http://build.microsoft.com/).
 
 ## How long will the Bot Framework be in preview? Can I start building/shipping products based on a preview framework?
 
@@ -81,7 +81,7 @@ Bot Connector lets you connect your bot with many different communication experi
 To connect your bot to your users you must have:
 
 
-* A bot (if you don’t have one, check out the [Bot Builder SDK] (http://github/Microsoft/BotBuilder) on Github
+* A bot (if you don’t have one, check out the [Bot Builder SDK](http://github/Microsoft/BotBuilder) on Github
 * A Microsoft Account, which you will use to register and manage your bot in the Bot Framework
 * An internet-accessible REST endpoint exposing the Bot Connector messages API
 * Optionally, accounts on one or more communication services where your bot will converse.
@@ -101,12 +101,12 @@ Connect your bot to the conversation channels of your choice using the channel c
 #### View in Bot Directory
 {:.no_toc}
 
-Bots registered through Bot Connector appear in the publicly accessible [Bot Directory] (http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
+Bots registered through Bot Connector appear in the publicly accessible [Bot Directory](http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
 
 #### Measure
 {:.no_toc}
 
-If you host your bot in Azure you can link to [Azure Application Insights] (https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
+If you host your bot in Azure you can link to [Azure Application Insights](https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
 #### Manage
 {:.no_toc}
@@ -128,11 +128,11 @@ Supported channels as of March 30, 2016 are:
 
 ## I have a communication channel I’d like to be configurable on Bot Connector. Can I work with Microsoft to do that?
 
-We have not provided a mechanism for developers to add new channels to the Bot Connector, but if you are a developer of a communication channel and would like to work with us to enable your channel in the Bot Connector [we’d love to hear from you] (http://feedback.botframework.com).
+We have not provided a mechanism for developers to add new channels to the Bot Connector, but if you are a developer of a communication channel and would like to work with us to enable your channel in the Bot Connector [we’d love to hear from you](http://feedback.botframework.com).
 
 ## What does the Bot Builder SDK provide to developers? How does it work?
 
-The Bot Builder SDK is an open source SDK hosted on GitHub that provides everything you need to build a great bot using Node.js or C\#. From simple prompt and command dialogs to simple-to-use yet sophisticated “FormFlow” dialogs that help with tricky issues such as multi-turn and disambiguation – the SDK provides the libraries, samples and tools you need to get up and running. Visit the Bot Builder SDK [Documentation] (http://docs.botframework.com) to learn more.
+The Bot Builder SDK is an open source SDK hosted on GitHub that provides everything you need to build a great bot using Node.js or C\#. From simple prompt and command dialogs to simple-to-use yet sophisticated “FormFlow” dialogs that help with tricky issues such as multi-turn and disambiguation – the SDK provides the libraries, samples and tools you need to get up and running. Visit the Bot Builder SDK [Documentation](http://docs.botframework.com) to learn more.
 
 ## Is it possible for me to build a bot using the Bot Framework/SDK that is a “private or enterprise-only” bot that is only available inside my company?
 
@@ -140,18 +140,18 @@ At this point, we do not have plans to enable a private instance of the Bot Dire
 
 ## What does the Bot Directory provide to developers? How does it work?
 
-The [Bot Directory] (http://bots.botframework.com) is a publicly accessible list of all the bots registered with Bot Connector. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
+The [Bot Directory](http://bots.botframework.com) is a publicly accessible list of all the bots registered with Bot Connector. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
 
 The Bot Directory includes featured bots and is searchable to aid discovery. Developers can choose whether or not to list their bot in the directory during bot registration.
 
 ## How do I get my bot in the featured list in the Bot Directory?
 
-For now, presence in the featured list is determined by the Bot Framework team. If you think your bot should be featured feel free to provide that [feedback] (http://feedback.botframework.com).
+For now, presence in the featured list is determined by the Bot Framework team. If you think your bot should be featured feel free to provide that [feedback](http://feedback.botframework.com).
 
 
 ## What is the roadmap for Bot Framework?
 
-We are excited to provide initial availability of the Bot Framework at [/build 2016] (http://build.microsoft.com/) and plan to continuously improve the framework with additional tools, samples, and channels.  Bot Builder is an open source SDK hosted on GitHub and we look forward to the contributions of the community at large. [Feedback] (http://feedback.botframework.com) as to what you’d like to see is welcome.
+We are excited to provide initial availability of the Bot Framework at [/build 2016](http://build.microsoft.com/) and plan to continuously improve the framework with additional tools, samples, and channels.  Bot Builder is an open source SDK hosted on GitHub and we look forward to the contributions of the community at large. [Feedback](http://feedback.botframework.com) as to what you’d like to see is welcome.
 
 ## How does Microsoft Bot Framework compare with other bot development tools?
 
@@ -163,11 +163,11 @@ Simply visit www.botframework.com to learn more.
 
 ## I'm a developer, what do I need to get started?
 
-You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK] (http://github/Microsoft/BotBuilder) is open source and available to all on Github.
+You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK](http://github/Microsoft/BotBuilder) is open source and available to all on Github.
 
 ## I'm an end user looking for great bots, what do I need to do?
 
-Visit the [Bot Directory] (http://bots.botframework.com) to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
+Visit the [Bot Directory](http://bots.botframework.com) to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
 
 ## Do the bots registered with the Bot Connector collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
@@ -185,7 +185,7 @@ For the vast majority of bot interactions (text/sms, image, or card) Bot Connect
 
 ## If I want to create a bot for Skype, what tools and services should I use?
 
-Any bot with an internet-accessible REST endpoint can be connected to Skype via the Bot Framework Bot Connector. The Bot Framework provides SDKs designed to create text/sms, image and card-capable bots, which constitute the majority of bot interactions today across conversation experiences. The [Skype Bot SDK and APIs] (http://www.skype.com/en/developer/signup) enable those interactions plus bot interactions which are Skype-specific and tuned to leverage the unique capabilities found in Skype, among them rich audio and video experiences. 
+Any bot with an internet-accessible REST endpoint can be connected to Skype via the Bot Framework Bot Connector. The Bot Framework provides SDKs designed to create text/sms, image and card-capable bots, which constitute the majority of bot interactions today across conversation experiences. The [Skype Bot SDK and APIs](http://www.skype.com/en/developer/signup) enable those interactions plus bot interactions which are Skype-specific and tuned to leverage the unique capabilities found in Skype, among them rich audio and video experiences. 
 
 ## When will Bot Builder SDK provide support for other languages such as Python?
 
