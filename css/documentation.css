@@ -108,6 +108,7 @@ body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   overflow-y: scroll;
+  -webkit-text-size-adjust: none;
 }
 h1,
 h2,
@@ -126,15 +127,20 @@ select {
   font-family: "Segoe UI", sans-serif;
 }
 a {
-  color: #3A96DD;
+  color: #3E92D2;
   text-decoration: none;
 }
-a:hover,
-a:visited {
-  text-decoration: none;
+a:active {
+  color: #1E425C;
+  text-decoration: underline;
 }
 a:hover {
-  color: #2b2b2b;
+  color: #307AB3;
+  text-decoration: underline;
+}
+a .icon-font {
+  display: inline-block;
+  vertical-align: -2px;
 }
 input[type="submit"],
 input[type="button"],
@@ -146,7 +152,7 @@ button {
   border: 0;
   background-color: #E6E6E6;
   font-size: 15px;
-  color: #2b2b2b;
+  color: #2B2B2B;
 }
 input[type="submit"]:hover,
 input[type="button"]:hover,
@@ -156,7 +162,7 @@ button:hover {
 input[type="submit"].default-button,
 input[type="button"].default-button,
 button.default-button {
-  background-color: #3e92d2;
+  background-color: #3E92D2;
   color: white;
 }
 input[type="submit"].default-button:hover,
@@ -166,6 +172,7 @@ button.default-button:hover {
 }
 button.danger {
   background-color: #E81022;
+  color: white;
 }
 button.danger:hover {
   background-color: #d00e1f;
@@ -173,7 +180,7 @@ button.danger:hover {
 a.button {
   width: 200px;
   height: 50px;
-  border: 1px solid #2b2b2b;
+  border: 1px solid #2B2B2B;
   text-decoration: none;
   text-align: center;
   display: inline-block;
@@ -195,20 +202,31 @@ a.button {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   margin-left: 20px;
   margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
+}
+.grid-card-base.hoverable:hover {
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.grid-card-base.hoverable:active {
+  box-shadow: 0 0 0 1px rgba(62, 146, 210, 0.2);
 }
 .grid-card {
   background-color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   margin-left: 20px;
   margin-bottom: 20px;
+  overflow: hidden;
+  position: relative;
   min-width: 402px;
   width: 402px;
   float: left;
-  overflow: hidden;
-  position: relative;
 }
 .grid-card.hoverable:hover {
-  box-shadow: 0 4px 6px 0 rgba(51, 53, 52, 0.2);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.grid-card.hoverable:active {
+  box-shadow: 0 0 0 1px rgba(62, 146, 210, 0.2);
 }
 .grid-card-full-width {
   float: none;
@@ -308,7 +326,7 @@ header {
   margin-top: 12px;
 }
 .brand-primary {
-  background-color: #3e92d2;
+  background-color: #3E92D2;
 }
 .jumbo {
   max-width: 1366px;
@@ -380,6 +398,7 @@ header {
 .jumbo a:hover {
   background-color: #307AB3;
   color: white;
+  text-decoration: none;
 }
 .jumbo a:active {
   background-color: #1E425C;
@@ -473,9 +492,6 @@ ul.header-nav li a:visisted {
   line-height: 2;
   margin: 0 auto;
 }
-.sub-banner .icon-font {
-  vertical-align: -2px;
-}
 .outline.footer {
   height: auto;
   min-height: 0;
@@ -495,7 +511,7 @@ ul.header-nav li a:visisted {
   border-left: 0px none transparent;
 }
 .outline.footer ul a {
-  color: #2b2b2b;
+  color: #2B2B2B;
 }
 .no-bots-prompt {
   font-family: "Segoe UI", sans-serif;
@@ -518,7 +534,7 @@ ul.header-nav li a:visisted {
 }
 .no-bots-prompt .button {
   margin-top: 46px;
-  background: #3e92d2;
+  background: #3E92D2;
   color: white;
 }
 .no-bots-prompt .button:hover,
@@ -655,7 +671,7 @@ ul.header-nav li a:visisted {
 }
 body {
   background: #F6F7F8;
-  color: #2b2b2b;
+  color: #2B2B2B;
   font-size: 15px;
 }
 .outline {
@@ -693,7 +709,7 @@ dl {
   margin: 0;
 }
 #side-nav ul li {
-  padding: 2px 0;
+  padding: 1px 0;
 }
 ul#markdown-toc {
   padding: 0;
@@ -732,13 +748,13 @@ foobar {
   padding-left: 0;
 }
 .level1.child {
-  padding-left: 30px;
+  padding-left: 20px;
 }
 .level2.parent {
-  padding-left: 30px;
+  padding-left: 20px;
 }
 .level2.child {
-  padding-left: 50px;
+  padding-left: 40px;
 }
 .parent {
   font-weight: bold;
@@ -750,6 +766,10 @@ a {
 .post-header {
   margin-bottom: 30px;
   background-color: transparent;
+}
+.trigger div,
+.trigger li {
+  font-size: 0.9em;
 }
 .post-content table {
   border-spacing: 0;
@@ -777,14 +797,14 @@ a {
     width: 100%;
   }
   .jumbo .jumbo-button {
-    color: #3A96DD;
+    color: #3E92D2;
     height: auto;
     line-height: 2;
     top: initial;
   }
   .jumbo .jumbo-button:hover,
   .jumbo .jumbo-button:visited {
-    color: #3A96DD;
+    color: #3E92D2;
   }
   ul.header-nav {
     z-index: 10;
@@ -810,7 +830,7 @@ a {
   }
   ul.header-nav li {
     display: none;
-    background-color: #3e92d2;
+    background-color: #3E92D2;
     border-top: 1px solid white;
   }
   ul.header-nav li a {
@@ -909,35 +929,37 @@ a {
   .bot-details .bot-card {
     min-width: 0;
   }
-  .bot-details .bot-card.bot-card-hero {
-    max-width: none;
-    height: auto;
-    width: auto;
-    float: none;
-    display: block;
+  .bot-card-hero {
+    height: 120px;
+  }
+  .bot-card-hero.no-card-links {
+    height: 80px;
+  }
+  .bot-card-hero .image-cell {
+    height: 80px;
+    width: 80px;
+  }
+  .bot-card-hero .bot-content {
+    height: 80px;
+    margin-left: 100px;
+  }
+  .bot-card-hero h3 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 20px;
+    line-height: 27px;
+    padding-top: 17px;
+  }
+  .bot-card-hero li {
+    font-size: 10px;
+    line-height: 14px;
+  }
+  .bot-card-hero .card-links {
+    font-size: 12px;
+    line-height: 16px;
     position: static;
-    padding: 0;
-  }
-  .bot-details .bot-card.bot-card-hero .bot-content {
-    margin-top: 0;
-  }
-  .bot-details .bot-card.bot-card-hero .image-cell {
-    width: 90px;
-    height: 90px;
-  }
-  .bot-details .bot-card.bot-card-hero .image-cell img {
-    display: block;
-    width: 70%;
-    height: 70%;
-    border-radius: 70%;
-    margin: 15% auto;
-  }
-  .bot-details .bot-card.bot-card-hero .card-links {
-    position: static;
-    top: auto;
-    right: auto;
-    padding: 1ex 0;
     text-align: center;
+    margin-bottom: 12px;
+    margin-top: 12px;
   }
   .maximize {
     display: none;
@@ -974,12 +996,6 @@ a {
   .outline.footer ul li a {
     line-height: inherit;
   }
-  .home-page .home-page-contents h3 {
-    margin-left: 20px;
-  }
-  .home-page .home-page-contents .grid-card h3 {
-    margin-left: 0;
-  }
   .paging-progress {
     display: inline-block;
     width: 100%;
@@ -1001,7 +1017,7 @@ a {
   }
   .no-bots-prompt .button {
     margin-top: 24px;
-    background: #3e92d2;
+    background: #3E92D2;
     color: white;
   }
   .no-bots-prompt .button:hover,
@@ -1060,6 +1076,29 @@ a {
   .bot-page .bot-card .info-cell .single-line {
     text-align: center;
   }
+  .bot-card-hero {
+    height: 100px;
+  }
+  .bot-card-hero .image-cell {
+    height: 100px;
+    width: 100px;
+  }
+  .bot-card-hero .bot-content {
+    margin-left: 120px;
+  }
+  .bot-card-hero h3 {
+    font-family: "Segoe UI Semilight", sans-serif;
+    font-size: 34px;
+    line-height: 46px;
+    padding-bottom: 6px;
+    padding-top: 14px;
+    margin-right: 5em;
+  }
+  .bot-card-hero .card-links {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
 }
 @media screen and (min-width: 1300px) {
   .page-grid,
@@ -1109,7 +1148,7 @@ a {
   .searchBox.expand {
     display: block;
     position: static;
-    background: #3e92d2;
+    background: #3E92D2;
     padding: 6px 20px 6px 0;
     width: 100%;
     left: 0;
@@ -1136,9 +1175,6 @@ a {
   .page-grid-right .grid-card.floatable {
     min-width: 0;
     width: 340px;
-  }
-  .page-grid-right .grid-card.bot-card-hero {
-    margin-right: 0;
   }
 }
 @media screen and (max-width: 843px) {
