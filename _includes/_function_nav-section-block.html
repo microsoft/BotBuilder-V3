@@ -1,0 +1,15 @@
+		<div class="{{ include.level }} parent">{{include.group.name}}</div>
+		<ul class="{{ include.level }} child">
+		{% for my_page in include.group.items %}
+			{% if include.level == 'level1' %}
+				{% if my_page.parent2 == null %}
+					{% include _function_navselected.html page = include.page my_page = my_page level = include.level %}
+				{% endif %}
+			{% else %}
+				{% if my_page.parent2 != null %}
+					{% include _function_navselected.html page = include.page my_page = my_page level = include.level %}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+		</ul>	
+		

@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Glyphs";
-  src: url("../fonts/Glyphs/winjs-symbols.eot");
-  src: url("../fonts/Glyphs/winjs-symbols.eot#iefix") format("embedded-opentype"), url("../fonts/Glyphs/winjs-symbols.ttf") format("truetype");
+  src: url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.eot");
+  src: url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.eot#iefix") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.ttf") format("truetype");
 }
 .icon-font {
   font-family: Glyphs;
@@ -80,15 +80,15 @@
 }
 @font-face {
   font-family: "Segoe UI";
-  src: url("../fonts/SegoeUI-Normal/latest.eot");
-  src: url("../fonts/SegoeUI-Normal/latest.eot?") format("embedded-opentype"), url("../fonts/SegoeUI-Normal/latest.woff") format("woff"), url("../fonts/SegoeUI-Normal/latest.ttf") format("truetype"), url("../fonts/SegoeUI-Normal/latest.svg#web") format("svg");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.eot");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.svg#web") format("svg");
   font-style: normal;
   font-weight: normal;
 }
 @font-face {
   font-family: "Segoe UI Semilight";
-  src: url("../fonts/SegoeUI-Semilight/latest.eot");
-  src: url("../fonts/SegoeUI-Semilight/latest.eot?") format("embedded-opentype"), url("../fonts/SegoeUI-Semilight/latest.woff") format("woff"), url("../fonts/SegoeUI-Semilight/latest.ttf") format("truetype"), url("../fonts/SegoeUI-Semilight/latest.svg#web") format("svg");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.eot");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.svg#web") format("svg");
   font-style: normal;
   font-weight: normal;
 }
@@ -164,6 +164,12 @@ input[type="button"].default-button:hover,
 button.default-button:hover {
   background-color: #307AB3;
 }
+button.danger {
+  background-color: #E81022;
+}
+button.danger:hover {
+  background-color: #d00e1f;
+}
 a.button {
   width: 200px;
   height: 50px;
@@ -186,22 +192,23 @@ a.button {
 }
 .grid-card-base {
   background-color: white;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   margin-left: 20px;
   margin-bottom: 20px;
 }
 .grid-card {
   background-color: white;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   margin-left: 20px;
   margin-bottom: 20px;
   min-width: 402px;
   width: 402px;
   float: left;
+  overflow: hidden;
   position: relative;
 }
 .grid-card.hoverable:hover {
-  box-shadow: 0px 4px 6px 0px rgba(51, 53, 52, 0.2);
+  box-shadow: 0 4px 6px 0 rgba(51, 53, 52, 0.2);
 }
 .grid-card-full-width {
   float: none;
@@ -490,6 +497,34 @@ ul.header-nav li a:visisted {
 .outline.footer ul a {
   color: #2b2b2b;
 }
+.no-bots-prompt {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  display: none;
+  min-height: 290px;
+  background-color: #1E425C;
+  text-align: center;
+  color: white;
+}
+.no-bots-prompt h1 {
+  font-family: "Segoe UI Semilight", sans-serif;
+  font-size: 34px;
+  line-height: 46px;
+  padding-top: 67px;
+}
+.no-bots-prompt p {
+  margin: 1ex 0 0 0;
+}
+.no-bots-prompt .button {
+  margin-top: 46px;
+  background: #3e92d2;
+  color: white;
+}
+.no-bots-prompt .button:hover,
+.no-bots-prompt .button:visited {
+  color: white;
+}
 .two-tone-1 {
   background-color: #F4ABBA;
 }
@@ -612,15 +647,10 @@ ul.header-nav li a:visisted {
   display: inline-block;
 }
 .loading-animation {
-  width: 24px;
-  height: 24px;
-  display: inline-block;
+  margin: 0 auto;
   visibility: hidden;
-  position: relative;
-  top: 4px;
-  background-image: url("teal-spinner.gif");
 }
-.loading-animation.visible {
+.loading-animation.loading {
   visibility: visible;
 }
 body {
@@ -697,6 +727,9 @@ article:after {
 }
 foobar {
   border-color: #000;
+}
+.level0 {
+  padding-left: 0;
 }
 .level1.child {
   padding-left: 30px;
@@ -938,6 +971,26 @@ a {
   }
   .search-result-title {
     min-height: 45px;
+  }
+  .no-bots-prompt {
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-bottom: 48px;
+  }
+  .no-bots-prompt h1 {
+    padding-top: 27px;
+  }
+  .no-bots-prompt p span {
+    display: block;
+  }
+  .no-bots-prompt .button {
+    margin-top: 24px;
+    background: #3e92d2;
+    color: white;
+  }
+  .no-bots-prompt .button:hover,
+  .no-bots-prompt .button:visited {
+    color: white;
   }
 }
 @media screen and (min-width: 844px) {
