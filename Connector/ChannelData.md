@@ -2,7 +2,7 @@
 layout: page
 title:  ChannelData in Messages
 permalink: /connector/custom-channeldata/
-weight: 250
+weight: 245
 parent1: Bot Connector SDK
 ---
 # Custom Channel Messages

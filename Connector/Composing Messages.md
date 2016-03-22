@@ -2,7 +2,7 @@
 layout: page
 title: Composing Messages
 permalink: /connector/message-content/
-weight: 240
+weight: 230
 parent1: Bot Connector SDK
 ---
 

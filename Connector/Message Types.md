@@ -2,7 +2,7 @@
 layout: page
 title: Message Types
 permalink: /connector/message-types/
-weight: 245
+weight: 255
 parent1: Bot Connector SDK
 ---
 
