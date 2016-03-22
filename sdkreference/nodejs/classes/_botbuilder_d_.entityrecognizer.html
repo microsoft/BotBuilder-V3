@@ -139,6 +139,7 @@
 									<section class="tsd-index-section ">
 										<h3>Methods</h3>
 										<ul class="tsd-index-list">
+											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.entityrecognizer.html#expandchoices" class="tsd-kind-icon">expand<wbr>Choices</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.entityrecognizer.html#findallentities" class="tsd-kind-icon">find<wbr>All<wbr>Entities</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.entityrecognizer.html#findallmatches" class="tsd-kind-icon">find<wbr>All<wbr>Matches</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.entityrecognizer.html#findbestmatch" class="tsd-kind-icon">find<wbr>Best<wbr>Match</a></li>
@@ -156,6 +157,84 @@
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Methods</h2>
 							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a name="expandchoices" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagStatic">Static</span> expand<wbr>Choices</h3>
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+									<li class="tsd-signature tsd-kind-icon">expand<wbr>Choices<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">expand<wbr>Choices<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">expand<wbr>Choices<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1371">botbuilder.d.ts:1371</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Returns an array of choices give a pipe delimted string.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1377">botbuilder.d.ts:1377</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Returns an array of choices given an Object.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Object used to generate the list of choices. The objects field names will be used to
+													build the list of choices.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1382">botbuilder.d.ts:1382</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Returns an array of choices.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Array of strings. This array will just be echoed back.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+								</ul>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a name="findallentities" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> find<wbr>All<wbr>Entities</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -165,7 +244,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1239">botbuilder.d.ts:1239</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1268">botbuilder.d.ts:1268</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -196,13 +275,84 @@
 								<a name="findallmatches" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> find<wbr>All<wbr>Matches</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+									<li class="tsd-signature tsd-kind-icon">find<wbr>All<wbr>Matches<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">find<wbr>All<wbr>Matches<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></li>
 									<li class="tsd-signature tsd-kind-icon">find<wbr>All<wbr>Matches<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1306">botbuilder.d.ts:1306</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1350">botbuilder.d.ts:1350</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Finds all possible matches for a users utterance in a list of values.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+												</div>
+											</li>
+											<li>
+												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text utterance to parse.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1358">botbuilder.d.ts:1358</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Finds all possible matches for a users utterance in a list of values.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Object used to generate the list of choices. The objects field names will be used to
+													build the list of choices.</p>
+												</div>
+											</li>
+											<li>
+												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text utterance to parse.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1365">botbuilder.d.ts:1365</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -215,7 +365,7 @@
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Values to compare again the users utterance.</p>
+													<p>Array of strings to compare against the users utterance.</p>
 												</div>
 											</li>
 											<li>
@@ -239,13 +389,84 @@
 								<a name="findbestmatch" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> find<wbr>Best<wbr>Match</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+									<li class="tsd-signature tsd-kind-icon">find<wbr>Best<wbr>Match<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></li>
+									<li class="tsd-signature tsd-kind-icon">find<wbr>Best<wbr>Match<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></li>
 									<li class="tsd-signature tsd-kind-icon">find<wbr>Best<wbr>Match<span class="tsd-signature-symbol">(</span>choices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, threshold<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1298">botbuilder.d.ts:1298</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1327">botbuilder.d.ts:1327</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Finds the best match for a users utterance in a list of values.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+												</div>
+											</li>
+											<li>
+												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text utterance to parse.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1335">botbuilder.d.ts:1335</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Finds the best match for a users utterance in a list of values.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Object used to generate the list of choices. The objects field names will be used to
+													build the list of choices.</p>
+												</div>
+											</li>
+											<li>
+												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text utterance to parse.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1342">botbuilder.d.ts:1342</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -258,7 +479,7 @@
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Values to compare again the users utterance.</p>
+													<p>Array of strings to compare against the users utterance.</p>
 												</div>
 											</li>
 											<li>
@@ -288,7 +509,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1232">botbuilder.d.ts:1232</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1261">botbuilder.d.ts:1261</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -325,7 +546,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1290">botbuilder.d.ts:1290</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1319">botbuilder.d.ts:1319</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -358,7 +579,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1276">botbuilder.d.ts:1276</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1305">botbuilder.d.ts:1305</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -381,7 +602,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1283">botbuilder.d.ts:1283</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1312">botbuilder.d.ts:1312</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -414,7 +635,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1246">botbuilder.d.ts:1246</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1275">botbuilder.d.ts:1275</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -437,7 +658,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1253">botbuilder.d.ts:1253</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1282">botbuilder.d.ts:1282</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -469,7 +690,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1269">botbuilder.d.ts:1269</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1298">botbuilder.d.ts:1298</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -507,7 +728,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1261">botbuilder.d.ts:1261</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1290">botbuilder.d.ts:1290</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -555,6 +776,9 @@
 								<li class="current tsd-kind-class tsd-parent-kind-external-module">
 									<a href="_botbuilder_d_.entityrecognizer.html" class="tsd-kind-icon">Entity<wbr>Recognizer</a>
 									<ul>
+										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+											<a href="_botbuilder_d_.entityrecognizer.html#expandchoices" class="tsd-kind-icon">expand<wbr>Choices</a>
+										</li>
 										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 											<a href="_botbuilder_d_.entityrecognizer.html#findallentities" class="tsd-kind-icon">find<wbr>All<wbr>Entities</a>
 										</li>
@@ -653,10 +877,10 @@
 		</div>
 		<div class="outline footer">
 			<ul>
-				<li><a href="//aka.ms/bf-contactus">Contact Us</a></li>
-				<li><a href="//aka.ms/bf-privacy">Privacy & Cookies</a></li>
-				<li><a href="//aka.ms/bf-terms">Terms Of Use</a></li>
-				<li><a href="//aka.ms/bf-conduct">Code Of Conduct</a></li>
+				<li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
 				<li>&copy; 2016 Microsoft</li>
 			</ul>
 		</div>

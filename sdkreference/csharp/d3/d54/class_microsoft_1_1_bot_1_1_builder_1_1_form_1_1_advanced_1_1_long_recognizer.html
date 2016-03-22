@@ -111,7 +111,8 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.LongRecognizer&lt; T
  <div class="center">
   <img src="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.png" usemap="#Microsoft.Bot.Builder.Form.Advanced.LongRecognizer_3C_20T_20_3E_map" alt=""/>
   <map id="Microsoft.Bot.Builder.Form.Advanced.LongRecognizer_3C_20T_20_3E_map" name="Microsoft.Bot.Builder.Form.Advanced.LongRecognizer&lt; T &gt;_map">
-<area href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html" alt="Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;" shape="rect" coords="0,0,353,24"/>
+<area href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html" alt="Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;" shape="rect" coords="0,56,383,80"/>
+<area href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html" alt="Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;" shape="rect" coords="0,0,383,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -119,39 +120,53 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.LongRecognizer&lt; T
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a836881702b8dc2b8e616940feacb059a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a836881702b8dc2b8e616940feacb059a">LongRecognizer</a> (<a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt; field, CultureInfo culture)</td></tr>
 <tr class="separator:a836881702b8dc2b8e616940feacb059a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b1e6f0f5f5704be829133207091e7cf"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a2b1e6f0f5f5704be829133207091e7cf">Help</a> (T state, object defaultValue)</td></tr>
-<tr class="memdesc:a2b1e6f0f5f5704be829133207091e7cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the help string describing what are valid inputs to the recognizer.  <a href="#a2b1e6f0f5f5704be829133207091e7cf">More...</a><br /></td></tr>
-<tr class="separator:a2b1e6f0f5f5704be829133207091e7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7007316e200e6c80f9b9be9e76e58062"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a7007316e200e6c80f9b9be9e76e58062">Matches</a> (string input, object defaultValue)</td></tr>
-<tr class="memdesc:a7007316e200e6c80f9b9be9e76e58062"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the matches found in the input.  <a href="#a7007316e200e6c80f9b9be9e76e58062">More...</a><br /></td></tr>
-<tr class="separator:a7007316e200e6c80f9b9be9e76e58062"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafb693057aa25f8c603cacb7e6c2184a"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#aafb693057aa25f8c603cacb7e6c2184a">ValidInputs</a> (object value)</td></tr>
-<tr class="memdesc:aafb693057aa25f8c603cacb7e6c2184a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return valid inputs to describe a particular value.  <a href="#aafb693057aa25f8c603cacb7e6c2184a">More...</a><br /></td></tr>
-<tr class="separator:aafb693057aa25f8c603cacb7e6c2184a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eb64800c99271dffc21e85f6c47f28a"><td class="memItemLeft" align="right" valign="top">virtual string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a7eb64800c99271dffc21e85f6c47f28a">ValueDescription</a> (object value)</td></tr>
-<tr class="memdesc:a7eb64800c99271dffc21e85f6c47f28a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of a specific value.  <a href="#a7eb64800c99271dffc21e85f6c47f28a">More...</a><br /></td></tr>
-<tr class="separator:a7eb64800c99271dffc21e85f6c47f28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4351f50479206efd2c7cbb848a9ddaf9"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a4351f50479206efd2c7cbb848a9ddaf9">ValueDescriptions</a> ()</td></tr>
-<tr class="memdesc:a4351f50479206efd2c7cbb848a9ddaf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible value descriptions in order to support enumeration.  <a href="#a4351f50479206efd2c7cbb848a9ddaf9">More...</a><br /></td></tr>
-<tr class="separator:a4351f50479206efd2c7cbb848a9ddaf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75d6d35686d8d6138b7790f610a0e633"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a75d6d35686d8d6138b7790f610a0e633">Values</a> ()</td></tr>
-<tr class="memdesc:a75d6d35686d8d6138b7790f610a0e633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible values or null if a primitive type.  <a href="#a75d6d35686d8d6138b7790f610a0e633">More...</a><br /></td></tr>
-<tr class="separator:a75d6d35686d8d6138b7790f610a0e633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4382a6493fb68b32bed0fad53e7a3e9c"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a4382a6493fb68b32bed0fad53e7a3e9c">Help</a> (T state, object defaultValue)</td></tr>
+<tr class="memdesc:a4382a6493fb68b32bed0fad53e7a3e9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the help string describing what are valid inputs to the recognizer.  <a href="#a4382a6493fb68b32bed0fad53e7a3e9c">More...</a><br /></td></tr>
+<tr class="separator:a4382a6493fb68b32bed0fad53e7a3e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56415046b5b0598b56722cc3dd39a6dd"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a56415046b5b0598b56722cc3dd39a6dd">Parse</a> (string input)</td></tr>
+<tr class="separator:a56415046b5b0598b56722cc3dd39a6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29cc8fde49a5b5d8b009b52df0aa1f4a"><td class="memItemLeft" align="right" valign="top">override IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a29cc8fde49a5b5d8b009b52df0aa1f4a">ValidInputs</a> (object value)</td></tr>
+<tr class="memdesc:a29cc8fde49a5b5d8b009b52df0aa1f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return valid inputs to describe a particular value.  <a href="#a29cc8fde49a5b5d8b009b52df0aa1f4a">More...</a><br /></td></tr>
+<tr class="separator:a29cc8fde49a5b5d8b009b52df0aa1f4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c3f129432b6dcf61080d44d6c8dbe1b"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a3c3f129432b6dcf61080d44d6c8dbe1b">ValueDescription</a> (object value)</td></tr>
+<tr class="memdesc:a3c3f129432b6dcf61080d44d6c8dbe1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of a specific value.  <a href="#a3c3f129432b6dcf61080d44d6c8dbe1b">More...</a><br /></td></tr>
+<tr class="separator:a3c3f129432b6dcf61080d44d6c8dbe1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a></td></tr>
+<tr class="memitem:a31615974f3f24a6904b4cfbaa9309071 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a31615974f3f24a6904b4cfbaa9309071">PrimitiveRecognizer</a> (<a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt; field)</td></tr>
+<tr class="separator:a31615974f3f24a6904b4cfbaa9309071 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab154067ddddeef843f4441c7013e8566 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#ab154067ddddeef843f4441c7013e8566">Matches</a> (string input, object defaultValue=null)</td></tr>
+<tr class="memdesc:ab154067ddddeef843f4441c7013e8566 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the matches found in the input.  <a href="#ab154067ddddeef843f4441c7013e8566">More...</a><br /></td></tr>
+<tr class="separator:ab154067ddddeef843f4441c7013e8566 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a643017da300516d6501812ecda9a9cac inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a643017da300516d6501812ecda9a9cac">ValueDescriptions</a> ()</td></tr>
+<tr class="memdesc:a643017da300516d6501812ecda9a9cac inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible value descriptions in order to support enumeration.  <a href="#a643017da300516d6501812ecda9a9cac">More...</a><br /></td></tr>
+<tr class="separator:a643017da300516d6501812ecda9a9cac inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94d92f6b5f63195132ecbf3e1aea97f5 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">virtual IEnumerable&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a94d92f6b5f63195132ecbf3e1aea97f5">Values</a> ()</td></tr>
+<tr class="memdesc:a94d92f6b5f63195132ecbf3e1aea97f5 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all possible values or null if a primitive type.  <a href="#a94d92f6b5f63195132ecbf3e1aea97f5">More...</a><br /></td></tr>
+<tr class="separator:a94d92f6b5f63195132ecbf3e1aea97f5 inherit pub_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:ae96cf2aa678ff1b3322e5564fd90df31"><td class="memItemLeft" align="right" valign="top">CultureInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#ae96cf2aa678ff1b3322e5564fd90df31">_culture</a></td></tr>
 <tr class="separator:ae96cf2aa678ff1b3322e5564fd90df31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a911ebfaa5c508cabc2911cb45652519c"><td class="memItemLeft" align="right" valign="top">HashSet&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a911ebfaa5c508cabc2911cb45652519c">_currentChoices</a></td></tr>
-<tr class="separator:a911ebfaa5c508cabc2911cb45652519c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4979a00a18e876c5bf3d516337157ec5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a4979a00a18e876c5bf3d516337157ec5">_field</a></td></tr>
-<tr class="separator:a4979a00a18e876c5bf3d516337157ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5af6e38feaa8c7c3c1bda8cbb7786010"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a5af6e38feaa8c7c3c1bda8cbb7786010">_max</a></td></tr>
 <tr class="separator:a5af6e38feaa8c7c3c1bda8cbb7786010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71a992afef353773e42a19e8ca14a6db"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a71a992afef353773e42a19e8ca14a6db">_min</a></td></tr>
 <tr class="separator:a71a992afef353773e42a19e8ca14a6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4baffae057271376e4c646b692c0a4d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html#a4baffae057271376e4c646b692c0a4d4">_showLimits</a></td></tr>
 <tr class="separator:a4baffae057271376e4c646b692c0a4d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a></td></tr>
+<tr class="memitem:a1fe0959f59e6634b2732f2fb6445ad49 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">HashSet&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a1fe0959f59e6634b2732f2fb6445ad49">_currentChoices</a></td></tr>
+<tr class="separator:a1fe0959f59e6634b2732f2fb6445ad49 inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac5ebf51ef595ba7b8515cd1ef0389e inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a0ac5ebf51ef595ba7b8515cd1ef0389e">_field</a></td></tr>
+<tr class="separator:a0ac5ebf51ef595ba7b8515cd1ef0389e inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeb14c5a5e1a6246f0cc3526980f484c inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">HashSet&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#aeeb14c5a5e1a6246f0cc3526980f484c">_noPreference</a></td></tr>
+<tr class="separator:aeeb14c5a5e1a6246f0cc3526980f484c inherit pro_attribs_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a></td></tr>
+<tr class="memitem:a06553d00cc4743eeed088f3a145a0c21 inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memItemLeft" align="right" valign="top">List&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a06553d00cc4743eeed088f3a145a0c21">HelpArgs</a> (T state, object defaultValue)</td></tr>
+<tr class="separator:a06553d00cc4743eeed088f3a145a0c21 inherit pro_methods_class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="typeconstraint">
@@ -164,7 +179,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00339">339</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00480">480</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a836881702b8dc2b8e616940feacb059a"></a>
 <div class="memitem">
@@ -198,12 +213,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00342">342</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00483">483</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a2b1e6f0f5f5704be829133207091e7cf"></a>
+<a class="anchor" id="a4382a6493fb68b32bed0fad53e7a3e9c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -211,7 +226,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual string <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.Help </td>
+          <td class="memname">override string <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.Help </td>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>state</em>, </td>
@@ -238,13 +253,13 @@ Protected Attributes</h2></td></tr>
 <p>Return the help string describing what are valid inputs to the recognizer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Help on what the recognizer accepts.</dd></dl>
 
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#afd192cb503810a909843dc4c2cb66930">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#acb4b106dc248b352bfbe68cc30128845">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00388">388</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00517">517</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7007316e200e6c80f9b9be9e76e58062"></a>
+<a class="anchor" id="a56415046b5b0598b56722cc3dd39a6dd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -252,21 +267,11 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual IEnumerable&lt;<a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a>&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.Matches </td>
+          <td class="memname">override <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.Parse </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>input</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>defaultValue</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -276,23 +281,13 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return the matches found in the input. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">input</td><td>The input string being matched.</td></tr>
-    <tr><td class="paramname">defaultValue</td><td>The default value or null if none.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Match records.</dd></dl>
+<p>Implements <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#aa7a5e22db6fbd4d5cfdcd1758be74855">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a>.</p>
 
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#aa2cabe4bc6ef0ac0d353d6ffabc8c503">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00368">368</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00503">503</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aafb693057aa25f8c603cacb7e6c2184a"></a>
+<a class="anchor" id="a29cc8fde49a5b5d8b009b52df0aa1f4a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -300,7 +295,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.ValidInputs </td>
+          <td class="memname">override IEnumerable&lt;string&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.ValidInputs </td>
           <td>(</td>
           <td class="paramtype">object&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -323,13 +318,13 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Valid inputs for describing value.</dd></dl>
 
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a0603da579931e32f78fb112850d1316e">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a555aa6fe6bcfe6ea444e47b76e7249dd">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00363">363</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00498">498</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7eb64800c99271dffc21e85f6c47f28a"></a>
+<a class="anchor" id="a3c3f129432b6dcf61080d44d6c8dbe1b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -337,7 +332,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual string <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.ValueDescription </td>
+          <td class="memname">override string <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.ValueDescription </td>
           <td>(</td>
           <td class="paramtype">object&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -360,69 +355,9 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a8163605ec7575e1ebf54160c908ff081">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html#a1c050ff0f696df6658fb1618bfcf8a91">Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00358">358</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4351f50479206efd2c7cbb848a9ddaf9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerable&lt;string&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.ValueDescriptions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return all possible value descriptions in order to support enumeration. </p>
-<dl class="section return"><dt>Returns</dt><dd>All possible value descriptions.</dd></dl>
-
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a2bbfe83dbb953f2aa3eda29ee72166df">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00353">353</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a75d6d35686d8d6138b7790f610a0e633"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">IEnumerable&lt;object&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;.Values </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return all possible values or null if a primitive type. </p>
-<dl class="section return"><dt>Returns</dt><dd>All possible values.</dd></dl>
-
-<p>Implements <a class="el" href="../../d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html#a856055bca70a539dea168a0e9cbb021e">Microsoft.Bot.Builder.Form.Advanced.IRecognizer&lt; T &gt;</a>.</p>
-
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00401">401</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00493">493</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -445,51 +380,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00410">410</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a911ebfaa5c508cabc2911cb45652519c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">HashSet&lt;string&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;._currentChoices</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00411">411</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4979a00a18e876c5bf3d516337157ec5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html">IField</a>&lt;T&gt; <a class="el" href="../../d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html">Microsoft.Bot.Builder.Form.Advanced.LongRecognizer</a>&lt; T &gt;._field</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00406">406</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00532">532</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -511,7 +402,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00408">408</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00530">530</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -533,7 +424,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00407">407</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00529">529</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -555,7 +446,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00409">409</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00531">531</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -569,10 +460,10 @@ Protected Attributes</h2></td></tr>
 <!-- id is needed for treeview function! -->
 <div class="outline footer">
 	<ul>
-        <li><a href="//aka.ms/bf-contactus">Contact Us</a></li>
-        <li><a href="//aka.ms/bf-privacy">Privacy & Cookies</a></li>
-        <li><a href="//aka.ms/bf-terms">Terms Of Use</a></li>
-        <li><a href="//aka.ms/bf-conduct">Code Of Conduct</a></li>
+        <li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+        <li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+        <li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+        <li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
         <li>&copy; 2016 Microsoft</li>
 	</ul>
 </div>

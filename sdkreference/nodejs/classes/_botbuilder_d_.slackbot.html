@@ -157,6 +157,7 @@
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slackbot.html#getmiddleware" class="tsd-kind-icon">get<wbr>Middleware</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slackbot.html#hasdialog" class="tsd-kind-icon">has<wbr>Dialog</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.slackbot.html#listen" class="tsd-kind-icon">listen</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.slackbot.html#listenformentions" class="tsd-kind-icon">listen<wbr>For<wbr>Mentions</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.slackbot.html#on" class="tsd-kind-icon">on</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.slackbot.html#use" class="tsd-kind-icon">use</a></li>
 										</ul>
@@ -170,13 +171,13 @@
 								<a name="constructor" class="tsd-anchor"></a>
 								<h3>constructor</h3>
 								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">new <wbr>Slack<wbr>Bot<span class="tsd-signature-symbol">(</span>controller<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, bot<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.islackbotoptions.html" class="tsd-signature-type">ISlackBotOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.slackbot.html" class="tsd-signature-type">SlackBot</a></li>
+									<li class="tsd-signature tsd-kind-icon">new <wbr>Slack<wbr>Bot<span class="tsd-signature-symbol">(</span>controller<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, bot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.islackbotoptions.html" class="tsd-signature-type">ISlackBotOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.slackbot.html" class="tsd-signature-type">SlackBot</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1549">botbuilder.d.ts:1549</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1625">botbuilder.d.ts:1625</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -195,11 +196,10 @@
 												</div>
 											</li>
 											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> bot: <span class="tsd-signature-type">any</span></h5>
+												<h5>bot: <span class="tsd-signature-type">any</span></h5>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Optional bot created from a call to controller.spawn(). If you don&#39;t pass this in
-														you won&#39;t be able to initiate outgoing conversations using SlackBot.beginDialog().</p>
+														<p>The bot created from a call to controller.spawn().</p>
 													</div>
 												</div>
 											</li>
@@ -233,7 +233,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#add">add</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L859">botbuilder.d.ts:859</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L870">botbuilder.d.ts:870</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -261,7 +261,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#add">add</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L867">botbuilder.d.ts:867</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L878">botbuilder.d.ts:878</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -313,7 +313,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#add">add</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L874">botbuilder.d.ts:874</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L885">botbuilder.d.ts:885</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -343,7 +343,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#add">add</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L880">botbuilder.d.ts:880</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L891">botbuilder.d.ts:891</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -380,7 +380,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1596">botbuilder.d.ts:1596</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1685">botbuilder.d.ts:1685</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -423,7 +423,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1579">botbuilder.d.ts:1579</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1655">botbuilder.d.ts:1655</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -455,7 +455,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#getdialog">getDialog</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L886">botbuilder.d.ts:886</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L897">botbuilder.d.ts:897</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -487,7 +487,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#getmiddleware">getMiddleware</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L891">botbuilder.d.ts:891</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L902">botbuilder.d.ts:902</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -531,7 +531,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#hasdialog">hasDialog</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L897">botbuilder.d.ts:897</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L908">botbuilder.d.ts:908</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -562,7 +562,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1588">botbuilder.d.ts:1588</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1667">botbuilder.d.ts:1667</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -580,12 +580,61 @@
 										<ul class="tsd-parameters">
 											<li>
 												<h5>types: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>The type of events to listen for,</p>
+												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogId: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional ID of the bots dialog to begin for new conversations.</p>
+												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogArgs: <span class="tsd-signature-type">any</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional arguments to pass to the dialog.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.slackbot.html" class="tsd-signature-type">SlackBot</a></h4>
+									</li>
+								</ul>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+								<a name="listenformentions" class="tsd-anchor"></a>
+								<h3>listen<wbr>For<wbr>Mentions</h3>
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+									<li class="tsd-signature tsd-kind-icon">listen<wbr>For<wbr>Mentions<span class="tsd-signature-symbol">(</span>dialogId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.slackbot.html" class="tsd-signature-type">SlackBot</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1677">botbuilder.d.ts:1677</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Begins listening for messages sent to the bot. The bot will recieve direct messages,
+													direct mentions, and mentions. One the bot has been mentioned it will continue to receive
+													ambient messages from the user that mentioned them for a short period of time. This time
+												can be configured using ISlackBotOptions.ambientMentionDuration.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogId: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional ID of the bots dialog to begin for new conversations.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogArgs: <span class="tsd-signature-type">any</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional arguments to pass to the dialog.</p>
+												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.slackbot.html" class="tsd-signature-type">SlackBot</a></h4>
@@ -602,7 +651,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1573">botbuilder.d.ts:1573</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1649">botbuilder.d.ts:1649</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -614,10 +663,11 @@
 													<li>reply: A reply to an existing message was sent. [IBotMessageEvent]</li>
 													<li>send: A new message was sent to start a new conversation. [IBotMessageEvent]</li>
 													<li>quit: The bot has elected to ended the current conversation. [IBotMessageEvent]</li>
-													<li>ambient: An ambient message was received. [IBotMessageEvent]</li>
-													<li>direct_mention: The bot was directly mentioned in a message. [IBotMessageEvent]</li>
-													<li>mention: The bot was mentioned in a message. [IBotMessageEvent]</li>
-													<li>direct_message: The bot has received a direct 1:1 chat message. [IBotMessageEvent]</li>
+													<li>message_received: The bot received a message. [IBotMessageEvent]</li>
+													<li>bot_channel_join: The bot has joined a channel. [IBotMessageEvent]</li>
+													<li>user_channel_join: A user has joined a channel. [IBotMessageEvent]</li>
+													<li>bot_group_join: The bot has joined a group. [IBotMessageEvent]</li>
+													<li>user_group_join: A user has joined a group. [IBotMessageEvent]</li>
 												</ul>
 											</div>
 										</div>
@@ -651,7 +701,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.dialogcollection.html">DialogCollection</a>.<a href="_botbuilder_d_.dialogcollection.html#use">use</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L902">botbuilder.d.ts:902</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L913">botbuilder.d.ts:913</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -735,6 +785,9 @@
 											<a href="_botbuilder_d_.slackbot.html#listen" class="tsd-kind-icon">listen</a>
 										</li>
 										<li class=" tsd-kind-method tsd-parent-kind-class">
+											<a href="_botbuilder_d_.slackbot.html#listenformentions" class="tsd-kind-icon">listen<wbr>For<wbr>Mentions</a>
+										</li>
+										<li class=" tsd-kind-method tsd-parent-kind-class">
 											<a href="_botbuilder_d_.slackbot.html#on" class="tsd-kind-icon">on</a>
 										</li>
 										<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -811,10 +864,10 @@
 		</div>
 		<div class="outline footer">
 			<ul>
-				<li><a href="//aka.ms/bf-contactus">Contact Us</a></li>
-				<li><a href="//aka.ms/bf-privacy">Privacy & Cookies</a></li>
-				<li><a href="//aka.ms/bf-terms">Terms Of Use</a></li>
-				<li><a href="//aka.ms/bf-conduct">Code Of Conduct</a></li>
+				<li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
 				<li>&copy; 2016 Microsoft</li>
 			</ul>
 		</div>

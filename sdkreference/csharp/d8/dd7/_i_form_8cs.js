@@ -11,5 +11,6 @@ var _i_form_8cs =
       [ "Status", "d8/dd7/_i_form_8cs.html#a1c6898f469d423f820184dc631832da5aec53a8c4f07baed5d8825072c89799be", null ]
     ] ],
     [ "CompletionDelegate< T >", "d8/dd7/_i_form_8cs.html#ad47837d826325076e2a99f96c2b76f8d", null ],
-    [ "ConditionalDelegate< T >", "d8/dd7/_i_form_8cs.html#a188cc0052e7c54f46ee8723103ae34a4", null ]
+    [ "ConditionalDelegate< T >", "d8/dd7/_i_form_8cs.html#a188cc0052e7c54f46ee8723103ae34a4", null ],
+    [ "ValidateDelegate< T >", "d8/dd7/_i_form_8cs.html#af055f1be181162ea2388157aa3c7e1e7", null ]
 ];

@@ -8,5 +8,6 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions =
     [ "IsIEnumerable", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#a30698d5bda83879af27db0df8d88daa9", null ],
     [ "IsIList", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#a8813633331b494b44db60e6446bdd13d", null ],
     [ "IsIntegral", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#a2bb5621e73bebd591948d8425099f523", null ],
-    [ "IsListCollectionType", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#ad60c44fbcda2c3d64282d146863973fe", null ]
+    [ "IsListCollectionType", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#ad60c44fbcda2c3d64282d146863973fe", null ],
+    [ "IsNullable", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html#a2cac221ffacaef1f1403aa4bec7ea172", null ]
 ];
