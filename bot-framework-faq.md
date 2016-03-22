@@ -91,8 +91,6 @@ To connect your bot to your users you must have:
 
 To register your bot, sign in to the Bot Framework website and provide the requisite details for your bot, including a bot profile image.
 
-[consider screenshot]
-
 Once registered, use the dashboard to test your bot to ensure it is talking to the Bot Connector service and/or use the web chat control, an auto-configured channel, to experience what your users will experience when conversing with your bot.
 
 #### Connect to Channels
@@ -100,27 +98,20 @@ Once registered, use the dashboard to test your bot to ensure it is talking to t
 
 Connect your bot to the conversation channels of your choice using the channel configuration page and your developer credentials associated with that channel.
 
-[consider screenshot]
-
 #### View in Bot Directory
 {:.no_toc}
 
 Bots registered through Bot Connector appear in the publicly accessible [Bot Directory] (http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
-
-[screenshots]
 
 #### Measure
 {:.no_toc}
 
 If you host your bot in Azure you can link to [Azure Application Insights] (https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
-[consider screenshot]
-
 #### Manage
 {:.no_toc}
 
 Once registered and connected to channels you can manage your bot via the Bot Framework website.
-
 
 ## What channels does the Bot Framework currently support?
 
@@ -174,10 +165,9 @@ Simply visit www.botframework.com to learn more.
 
 You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK] (http://github/Microsoft/BotBuilder) is open source and available to all on Github.
 
-
 ## I'm an end user looking for great bots, what do I need to do?
 
-Visit the Bot Directory to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
+Visit the [Bot Directory] (http://bots.botframework.com) to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
 
 ## Do the bots registered with the Bot Connector collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
@@ -203,12 +193,32 @@ At its core, a bot is simply a piece of code that exposes a REST endpoint that m
 
 ## When will you add more conversation experiences to Bot Connector?
 
-[answer]
+We plan on making continuous improvements to the Bot Framework, including additional channels for the Bot Connector but cannot provide a schedule at this time.
 
-## I have a conversation experience I'd like to have configurable on Bot Connector. Can I work with Microsoft to do that?
+## Why are Facebook Messenger and Google Hangouts missing as channels? Do you intend to support these channels in future?
 
-[answer]
+A variety of factors contribute to channel support, among them SDK availability, user demand and schedule. When there is an available SDK for these channels we intend to make them available in the framework.
 
-## I have a bot I wrote for Slack. Can I use the Bot Connector Service to make my bot available to the other conversation experiences you feature?
+## Are you going to add a Minecraft channel?
 
-[answer]
+We think a Minecraft channel would be a great addition to the framework and plan to add support in future. We do not have a schedule for additional channels at this time.
+
+## What is Tay?
+
+Tay is an artificially intelligent software program, or chatbot, designed to chat with 18 to 24 year olds in the U.S. Tay’s persona is that of a 19-year-old American female with a distinct personality “of the internet.”  Tay can recognize images, chat in real time, and play games with you and your friends. Trained by individuals within the target age demographic, and comedians, Tay recognizes and responds to slang and U.S. cultural references
+
+## How does the Bot Framework relate to Cognitive Services?
+
+Both the Bot Framework and Cognitive Services are new capabilities introduced at //Build 2016 that will also be integrated into Cortana Intelligence Suite at GA. Both these services are built from years of research and use in popular Microsoft products. These capabilities combined with ‘Cortana Intelligence’ enable every organization to take advantage of the power of data, the cloud and intelligence to build their own intelligent systems that unlock new opportunities, increase their speed of business and lead the industries in which they serve their customers.
+
+## What is Cortana Intelligence?
+
+Cortana Intelligence is a fully managed Big Data, Advanced Analytics and Intelligence suite that transforms your data into intelligent action.  
+It is a comprehensive suite that brings together technologies founded upon years of research and innovation throughout Microsoft (spanning advanced analytics, machine learning, big data storage and processing in the cloud) and
+* Allows you to collect, manage and store all your data that can seamlessly and cost effectively grow over time in a scalable and secure way.
+* Provides easy and actionable analytics powered by the cloud that allow you to predict, prescribe and automate decision making for the most demanding problems. 
+* Enables intelligent systems through cognitive services and agents that allow you to see, hear, interpret and understand the world around you in more contextual and natural ways.
+
+With Cortana Intelligence, we hope to help our enterprise customers unlock new opportunities, increase their speed of business and be leaders in their industries.
+
+
