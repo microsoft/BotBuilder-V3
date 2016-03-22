@@ -64,6 +64,8 @@ Example of setting the data on a reply message
 
 With the C# nuget library the message has methods to make it easy to deal with setting and getting the object back as a typed value.
 
+{% highlight C# %}
+
     /// Set BotUserData as a versioned record
     public static void SetBotUserData(this Message message, object data, string version = v1)
     
@@ -81,6 +83,8 @@ With the C# nuget library the message has methods to make it easy to deal with s
 
     /// Get BotPerUserInConversationData based on version
     public static TypeT GetBotPerUserInConversationData<TypeT>(this Message message, string version = v1)
+	
+{% endhighlight %}
 
 An example of using these helper extensions:
 
