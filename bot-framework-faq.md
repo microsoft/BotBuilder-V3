@@ -26,33 +26,37 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 ### Bot Builder SDK
 {:.no_toc}
 
-The Bot Builder SDK is an open source SDK hosted on GitHub that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
+The Bot Builder SDK is [an open source SDK hosted on GitHub] (https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
 
 ### Bot Directory
 {:.no_toc}
 
-The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the Bot Directory.
+The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the [Bot Directory] (http://bots.botframework.com).
+
+## Why should I write a bot?
+The Conversational User Interface or CUI, has arrived. 
+
+A plethora of chit-chat bots are offering to do things for us in our various communication channels like Skype and Twitter. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook “M” to name a few). 
+
+The primary interface for these experiences is email, text or voice. Conversation-driven UI now enables us to do everything from grabbing a taxi, to paying the electric bill or sending money to a friend. Offerings such as Siri, Google Now and Cortana demonstrate value to millions of people every day, particularly on mobile devices where the CUI is often superior to the GUI or complements it. 
+
+Bots and conversation agents are rapidly becoming an integral part of one’s digital experience – they are as vital a way for users to interact with a service or application as is a web site or a mobile experience. 
 
 ## Why did Microsoft develop the Bot Framework?
-The CUI, or conversational user interface, has perhaps finally arrived. 
 
-A plethora of chatty bots are offering to do things for us in our messaging experiences. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook "M" to name a few) – the commanding interface for these experiences is email, text or a voice. Conversation-driven UI now enables us to do everything from grabbing a taxi, to paying the electric bill or sending money to a friend. Offerings such as Siri, Google Now and Cortana demonstrate value to millions of people every day, particularly on mobile form factors, where the CUI is often superior to the GUI or complements it. 
-
-Bots and conversation agents are rapidly becoming an integral part of one's digital experience – they are as vital a way for users to interact with a service or application as a web site or mobile experience. Yet, at this point, few developers have the expertise and tools needed to create such experiences or enable them with quality for their existing services and applications. 
-
-We have created the Bot Framework to make it easier for developers to build and connect great bots to users, wherever they converse.
+While the “CUI is upon us,” at this point few developers have the expertise and tools needed to create new conversational experiences or enable existing applications and services with a conversational interface their users can enjoy. We have created the Bot Framework to make it easier for developers to build and connect great bots to users, wherever they converse.
 
 ## Who are the people behind the Bot Framework?
 
-The Bot Framework is a collaborative effort from Microsoft Research Fuse Labs and [list other teams, ideally Skype and Bing?] who worked together to [how we worked together].
+In the spirit of One Microsoft, the Bot Framework is a collaborative effort across many teams, including Microsoft Technology and Research, Microsoft’s Applications and Services Group and Microsoft’s Developer Experience teams.
 
 ## When did work begin on the Bot Framework?
 
-The core Bot Framework work has been underway since the summer of 2015. [confirm]
+The core Bot Framework work has been underway since the summer of 2015, primarily driven by Fuse Labs within Microsoft Technology and Research.
 
 ## Is the Bot Framework publicly available now?
 
-The Bot Framework will be released on March 30th, in conjunction with Microsoft's annual developer conference \\Build.
+The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [//Build] (http://build.microsoft.com/).
 
 ## Who are the target users for the Bot Framework? How will they benefit?
 
