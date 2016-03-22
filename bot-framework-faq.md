@@ -160,11 +160,11 @@ For now, presence in the featured list is determined by the Bot Framework team. 
 
 ## What is the roadmap for Bot Framework?
 
-[answer]
+We are excited to provide initial availability of the Bot Framework at //Build 2016 and plan to continuously improve the framework with additional tools, samples, and channels.  Bot Builder is an open source SDK hosted on GitHub and we look forward to the contributions of the community at large. [Feedback] (http://feedback.botframework.com) as to what you’d like to see is welcome.
 
 ## How does Microsoft Bot Framework compare with other bot development tools?
 
-[answer]
+There are lots of great tools out there to build bots. In fact, if you implement a simple REST endpoint for your bot, you can build your bot using any tool you like and still access services available in the framework. The Bot Framework provides not only a way to build a great bot, but also an easy way to seamlessly connect your bot to any conversation experience supported by Bot Connector. Additionally, the framework provides an embeddable web chat control, automatic translation for more than 30 languages, user and conversation state management, and debugging tools. Lastly, the framework includes the Bot Directory so your users have a way to discover your bot, say hello, and add it to any channels on which it is configured. Sweet!
 
 ## Where can I get more information and/or access the technology?
 
@@ -172,41 +172,34 @@ Simply visit www.botframework.com to learn more.
 
 ## I'm a developer, what do I need to get started?
 
-You can get started simply by visiting the Bot Framework site. The Bot Builder SDK is open source and available to all.
+You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK] (http://github/Microsoft/BotBuilder) is open source and available to all on Github.
 
-To register a bot in the Bot Connector service, you'll need a Microsoft account and [need to complete this answer].
 
 ## I'm an end user looking for great bots, what do I need to do?
 
-Visit the Bot Directory to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, Twitter and more.
-
-## Are there other related offerings from Microsoft I should know about that can help me build great bots?
-
-[cross link to Skype, Bing, Cortana Intelligence]
+Visit the Bot Directory to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
 
 ## Do the bots registered with the Bot Connector collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
-[answer]
+Each bot is its own service, and developers of these services are required to provide Terms of Service and Privacy Statements per their Developer Code of Conduct.  You can access this information from the bot’s card in the Bot Directory.
+
+In order to provide the I/O service, the Bot Connector collects and stores your ID from the service you used to contact the bot. In turn the Bot Connector may additionally store anonymized conversation content for service improvement purposes.
+
+## How do you ban or remove bots from the service?
+
+Users have a way to report a misbehaving bot via the bot’s contact card in the directory.
 
 ## Bot Connector sounds a little too good to be true. I've heard the promise of write once, run anywhere before. Does Bot Connector really just provide a lowest common denominator solution that won't be satisfying in the end?
 
-[answer]
+For the vast majority of bot interactions (text/sms, image, or card) Bot Connector provides high quality and broad reach to many of the world’s top conversation experiences while also providing a way to configure, manage and make your bot discoverable through the Bot Framework website and Bot Directory.
 
-## I heard there was a separate SDK to write Bots for Skype. How do I know what to use?
+## If I want to create a bot for Skype, what tools and services should I use?
 
-[answer]
-
-## When will I be able to create a bot for Skype for Business?
-
-[answer]
-
-## I want to create a bot for Bing [other Microsoft service]. How do I do that?
-
-[answer]
+Any bot with an internet-accessible REST endpoint can be connected to Skype via the Bot Framework Bot Connector. The Bot Framework provides SDKs designed to create text/sms, image and card-capable bots, which constitute the majority of bot interactions today across conversation experiences. The [Skype Bot SDK and APIs] (http://www.skype.com/en/developer/signup) enable those interactions plus bot interactions which are Skype-specific and tuned to leverage the unique capabilities found in Skype, among them rich audio and video experiences. 
 
 ## When will Bot Builder SDK provide support for other languages such as Python?
 
-[answer]
+At its core, a bot is simply a piece of code that exposes a REST endpoint that matches the API signature required by the Bot Framework Connector. We have two SDKs that make developing a bot easy, these support C\# and Node.JS (JavaScript). If your bot is capable of providing a REST endpoint that can be called by the Bot Connector then you can write without using these SDKs but we encourage you to check them out as the SDKs provide value in dialogs, common controls, and reach for your bot.
 
 ## When will you add more conversation experiences to Bot Connector?
 
