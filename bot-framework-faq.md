@@ -105,14 +105,14 @@ Connect your bot to the conversation channels of your choice using the channel c
 #### View in Bot Directory
 {:.no_toc}
 
-Bots registered through Bot Connector appear in the publicly accessible Bot Directory where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
+Bots registered through Bot Connector appear in the publicly accessible [Bot Directory] (http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
 
 [screenshots]
 
 #### Measure
 {:.no_toc}
 
-If you host your bot in Azure you can link to Azure Application Insights analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
+If you host your bot in Azure you can link to [Azure Application Insights] (https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
 [consider screenshot]
 
@@ -121,13 +121,19 @@ If you host your bot in Azure you can link to Azure Application Insights analyti
 
 Once registered and connected to channels you can manage your bot via the Bot Framework website.
 
-[consider screenshot]
-
-Bot Connector is the easiest way to achieve broad reach for your text, image or card-capable bot.
 
 ## What channels does the Bot Framework currently support?
 
-[list channels]
+Supported channels as of March 30, 2016 are:
+
+1. Text/sms
+2. Office 365 mail
+3. Skype
+4. Twitter (coming soon)
+5. Slack
+6. GroupMe
+7. Telegram
+8. Web (via the Bot Framework embeddable web chat control).
 
 ## What does the Bot Builder SDK provide to developers? How does it work?
 
