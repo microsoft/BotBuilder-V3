@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Getting Started with the Bot Builder SDK
-permalink: /bot-builder-sdk-getstarted/
+title: Overview
+permalink: /builder/csharp/overview/
 weight: 500
-parent1: Bot Builder SDK
+parent1: Bot Builder for C#
 ---
 The Bot Builder SDK is an open source SDK that provides everything you need to build a great bot using two popular languages: Node.js and C#. From simple command dialogs to simple to use yet sophisticated “FormFlow” dialogs – the SDK provides all the libraries, templates and samples you need to get you up and running.
 

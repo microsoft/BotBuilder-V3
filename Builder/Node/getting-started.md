@@ -1,12 +1,10 @@
 ---
 layout: page
-title: Getting Started with Bot Builder for Node.js
-permalink: /bot-builder-node-getstarted/
-weight: 270
-parent1: Bot Builder SDK
-parent2: Node.js
+title: Getting Started
+permalink: /builder/node/getstarted/
+weight: 601
+parent1: Bot Builder for Node.js
 ---
-
 
 * TOC
 {:toc}
