@@ -34,7 +34,7 @@ The Bot Builder SDK is [an open source SDK hosted on GitHub] (https://github/Mic
 The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the [Bot Directory] (http://bots.botframework.com).
 
 ## Why should I write a bot?
-The Conversational User Interface or CUI, has arrived. 
+The Conversational User Interface, or CUI, has arrived. 
 
 A plethora of chit-chat bots are offering to do things for us in our various communication channels like Skype and Twitter. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook “M” to name a few). 
 
@@ -58,25 +58,32 @@ The core Bot Framework work has been underway since the summer of 2015, primaril
 
 The Bot Framework will be released as a preview in conjunction with Microsoft’s annual developer conference [//Build] (http://build.microsoft.com/).
 
+## How long will the Bot Framework be in preview? Can I start building/shipping products based on a preview framework?
+
+The Bot Framework is currently in preview; expect to see it become generally available by the end of CY 16.
+
 ## Who are the target users for the Bot Framework? How will they benefit?
 
-The Bot Framework is targeted at developers who want to create a new service with a great bot interface or enable an existing service with one. 
+The Bot Framework is targeted at developers who want to create a new service with a great bot interface or enable an existing service with a great bot interface. 
 
-Developers writing a bot all face the same problems: bots require basic I/O, they must have language and dialog skills, and they must connect to users – preferably in any conversation experience the user chooses. The Bot Framework provides tools to easily solve these problems and more for developers while also providing a way to for users to discover, try and add bots to the conversation experiences they love.
+Developers writing a bot all face the same problems: bots require basic I/O, they must have language and dialog skills, and they must connect to users – preferably in any conversation experience and in any language the user chooses. The Bot Framework provides tools to address these problems while also providing a way for users to discover, try, and add bots to the conversation experiences they love via the Bot Directory. 
 
-## What does the Bot Connector Service provide to developers? How does it work?
+Additionally, as a participant in the Bot Framework, your bot will also be enabled with automatic translation, user and conversation state management, a web chat control, and debugging tools including the Bot Framework Emulator.
 
-Bot Connector enables access to many of the world's top conversation experiences with a minimum of effort on your part.
+## What does the Bot Connector provide to developers? How does it work?
+
+Bot Connector is the easiest way to achieve broad reach for your text/speech, image, and/or card-capable bot. In addition to enabling broad reach to the conversation experiences your users love, the Bot Connector also provides automatic translation to more than 30 languages, an embeddable web chat control, user and conversation state management, and debugging through the Bot Framework Emulator.
 
 #### How it works
 {:.no_toc}
 
-Bot Connector lets you connect your bot with many different communication experiences. If you write a bot – sometimes called a conversation agent – and expose a Bot Connector-compatible API on the internet (a REST api), Bot Connector will forward messages from your bot to a user, and will send their messages back. 
-To get started, you must have:
+Bot Connector lets you connect your bot with many different communication experiences. If you write a bot – sometimes called a conversation agent – and expose a Bot Connector-compatible API on the internet (a REST API), Bot Connector will forward messages to your bot from your user, and will send messages back to the user. 
+To connect your bot to your users you must have:
 
-* A bot (if you don't have one, check out the Bot Builder SDK)
-* A Microsoft Account, which you will use to register your bot in the developer portal
-* An Azure-accessible REST endpoint exposing the Bot Connector messages API
+
+* A bot (if you don’t have one, check out the [Bot Builder SDK] (http://github/Microsoft/BotBuilder) on Github
+* A Microsoft Account, which you will use to register and manage your bot in the Bot Framework
+* An internet-accessible REST endpoint exposing the Bot Connector messages API
 * Optionally, accounts on one or more communication services where your bot will converse.
 
 #### Register
