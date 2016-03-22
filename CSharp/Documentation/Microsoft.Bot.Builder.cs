@@ -30,10 +30,21 @@
 /// 
 /// There is not limit!
 /// 
-/// \page patterns Pattern Language
+/// \section patterns Pattern Language
 /// One of the keys to creating a Bot is being able to generate text that is clear and
 /// meaningful to the bot user.  To this end this framework supports a pattern language with  
-///elements that can be filled in at runtime.  Everything in a pattern that is not surrounded by
+/// elements that can be filled in at runtime.  Everything in a pattern that is not surrounded by curly braces
+/// is just passed straight through.  Anything in curly braces is substitued. Possible curly brace expressions include:
+/// 
+/// <list type="table">
+/// <listheader>
+/// <term>Pattern</term>
+/// <description>Description</description>
+/// </listheader>
+/// <item><term>{}</term><description>Value of the field currently being filled in.</description></item>
+/// <item><term>{&}</term><description>Name of field currently being filled in.</description></item>
+/// <item><term>{&lt;path&rt;</term>Value of a particular field in your form.</item>
+/// </list>
 ///
 /// \page usage Usage
 /// 
