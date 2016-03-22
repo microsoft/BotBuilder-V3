@@ -186,14 +186,15 @@ namespace Microsoft.Bot.Builder.Form
         public BoolDefault AllowNumbers { get; set; }
 
         /// <summary>
-        /// Control case when showing {&} field name references in a \ref patterns string.
+        /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
         /// </summary>
-        public CaseNormalization FieldCase { get; set; }
+        /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
+        public string ChoiceFormat { get; set; }
 
         /// <summary>
-        /// Control case when showing {} value references in a \ref patterns string.
+        /// How to display choices {||} when processed in a \ref patterns string.
         /// </summary>
-        public CaseNormalization ValueCase { get; set; }
+        public ChoiceStyleOptions ChoiceStyle { get; set; }
 
         /// <summary>
         /// Control what kind of feedback the user gets after each input.
@@ -201,12 +202,11 @@ namespace Microsoft.Bot.Builder.Form
         public FeedbackOptions Feedback { get; set; }
 
         /// <summary>
-        /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
+        /// Control case when showing {&} field name references in a \ref patterns string.
         /// </summary>
-        /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
-        public string ChoiceFormat { get; set; }
+        public CaseNormalization FieldCase { get; set; }
 
-        /// <summary>
+         /// <summary>
         /// When constructing lists using {[]} in a \ref patterns string, the string used before the last value in the list.
         /// </summary>
         public string LastSeparator { get; set; }
@@ -216,10 +216,10 @@ namespace Microsoft.Bot.Builder.Form
         /// </summary>
         public string Separator { get; set; }
 
-        /// <summary>
-        /// How to display choices {||} when processed in a \ref patterns string.
+       /// <summary>
+        /// Control case when showing {} value references in a \ref patterns string.
         /// </summary>
-        public ChoiceStyleOptions ChoiceStyle { get; set; }
+        public CaseNormalization ValueCase { get; set; }
 
         /// <summary>
         /// The pattern to use when generating a string using <see cref="Advanced.IPrompt{T}"/>.
