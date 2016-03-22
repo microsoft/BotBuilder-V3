@@ -1,8 +1,8 @@
 ---
 layout: page
 title:  Custom Channel Messages
-permalink: /connector/custom-channeldata
-weight: 280
+permalink: /connector/custom-channeldata/
+weight: 250
 parent1: Bot Connector SDK
 ---
 # Custom Channel Messages

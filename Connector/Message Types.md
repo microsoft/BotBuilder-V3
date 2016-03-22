@@ -2,17 +2,18 @@
 layout: page
 title: Message Types
 permalink: /connector/message-types/
-weight: 240
+weight: 245
 parent1: Bot Connector SDK
 ---
 
-# Message Types 
-
-There are other types of messages which are used to convey system operations or channel system operations
-to the bot.  They give the bot information about the state of the channel and the opportunity to respond
+Your bot's end point will recieve Message objects that are communication.
+There more than one type of message which are used to convey system operations or channel system operations
+to the bot.  They exist to give the bot information about the state of the channel and the opportunity to respond
 to them.
 
-| **MessageType**           | ** Description **                                                        
+This table gives you basic overview of the message types:
+
+| **MessageType**           | **Description**                                                        
 | --- ----------------------|---- ---------------------------------------------------------------------
 | **Message**                   | a simple communication between a user <-> bot                            
 | **Ping**                      | A system request to test system availability                              
@@ -57,7 +58,7 @@ In those cases an *BotAddedToConversation* message will be sent to the bot
 with the To address having the bot's address in that conversation space and the
 conversationId set to the conversation id for the conversation.
 
-The message From field will have an Adress of **$service$**
+The message From field will have an Address of **$service$**
 
 Responses should be inline with the same message type to signal that the bot has handled it.  If there 
 is text it will be forwarded on to the user. If there is no text then nothing will be presented to 

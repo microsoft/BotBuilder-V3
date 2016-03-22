@@ -47,6 +47,7 @@ When your bot sends a reply you  simply set your object in one of the BotData re
 played back to you on future messages. 
 
 Example of setting the data on a reply message
+
 {% highlight C# %}
 
     Message replyMessage = sourceMessage.CreateReplyMessage("my response);
@@ -56,6 +57,7 @@ Example of setting the data on a reply message
 {% endhighlight %}
 
 *When a new message comes from that user in that conversation the botPerUserConversationData will have your state*
+
 {% highlight C# %}
 
     var myState = replyMessage.BotPerUserConversationData;
@@ -64,37 +66,39 @@ Example of setting the data on a reply message
 
 With the C# nuget library the message has methods to make it easy to deal with setting and getting the object back as a typed value.
 
-{% highlight C# %}
+{% highlight Java %}
 
-    /// Set BotUserData as a versioned record
+    // Set BotUserData as a versioned record
     public static void SetBotUserData(this Message message, object data, string version = v1)
     
-    /// Set BotConversationData as a versioned record
+    // Set BotConversationData as a versioned record
     public static void SetBotConversationData(this Message message, object data, string version = v1)
     
-    /// Set BotPerUserInConversationData as a versioned record
+    // Set BotPerUserInConversationData as a versioned record
     public static void SetBotPerUserInConversationData(this Message message, object data, string version = v1)
 
-    /// Get BotUserData based on version
+    // Get BotUserData based on version
     public static TypeT GetBotUserData<TypeT>(this Message message, string version = v1)
 
-    /// Get BotConversationData based on version
+    // Get BotConversationData based on version
     public static TypeT GetBotConversationData<TypeT>(this Message message, string version = v1)
 
-    /// Get BotPerUserInConversationData based on version
+    // Get BotPerUserInConversationData based on version
     public static TypeT GetBotPerUserInConversationData<TypeT>(this Message message, string version = v1)
 	
 {% endhighlight %}
 
 An example of using these helper extensions:
 
-   
+{% highlight C# %}
+
     MyState myState = new MyState() { ... };
     replyMessage.SetBotConversationData(myState);
     return replyMessage;
     ...
     myState = futureMessage.GetBotConversationData<MyState>();
 
+{% endhighlight %}
 
 > NOTE: These properties are not concurrent under heavy load, but most bots don't have situations where they have lots
 > of overlapping messages with the same people in the same conversation.  If your bot is sensitive to this overlapping 

@@ -1,8 +1,8 @@
 ---
 layout: page
 title: Getting started
-permalink: /connector/getstarted
-weight: 210
+permalink: /connector/getstarted/
+weight: 205
 parent1: Bot Connector SDK
 ---
 

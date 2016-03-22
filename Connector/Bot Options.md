@@ -1,8 +1,8 @@
 ---
 layout: page
 title:  Bot Options
-permalink: /connector/bot-options
-weight: 210
+permalink: /connector/bot-options/
+weight: 280
 parent1: Bot Connector SDK
 ---
 

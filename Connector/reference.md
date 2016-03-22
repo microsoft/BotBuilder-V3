@@ -1,7 +1,7 @@
 ---
 layout: page
 title: REST API Reference
-permalink: /connector/reference
+permalink: /connector/reference/
 weight: 300
 parent1: Bot Connector SDK
 redirect: /sdkreference/restapi/

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Overview
-permalink: /connector/overview
+permalink: /connector/overview/
 weight: 200
 parent1: Bot Connector SDK
 ---

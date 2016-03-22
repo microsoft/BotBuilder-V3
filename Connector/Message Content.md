@@ -1,16 +1,18 @@
 ---
 layout: page
-title: Composing Messages
-permalink: /connector/composing-messages
-weight: 220
+title: Message Content
+permalink: /connector/message-content/
+weight: 240
 parent1: Bot Connector SDK
 ---
 
-# Composing Messages
-A message is the object that is used to communicate between a user and a bot.
+# Composing Message Content
+A message is the object that is used to communicate between a user and a bot.  When you send that message
+there are a number of properties that you can use to control your message and how it is presented to the
+user when they receive it.
 
 # Text and Language 
-Most of the time these are the only properties you need to worry about.  A person sent you some text, or your bot is sending some text back.
+Most of the time Text and Language are the only properties you need to worry about.  A person sent you some text, or your bot is sending some text back.
 
 | Property    | Description                               | Example   
 | ------------|-------- ----------------------------------| ----------
