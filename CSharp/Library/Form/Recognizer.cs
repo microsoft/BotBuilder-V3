@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// <summary>
     /// Recognizer for enumerated values.
     /// </summary>
-    public sealed class EnumeratedRecognizer<T> : IRecognizer<T>
+    public sealed class RecognizeEnumeration<T> : IRecognize<T>
         where T : class, new()
     {
         /// <summary>
@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Constructor based on <see cref="IField{T}"/>.
         /// </summary>
         /// <param name="field">Field with enumerated values.</param>
-        public EnumeratedRecognizer(IField<T> field)
+        public RecognizeEnumeration(IField<T> field)
         {
             var configuration = field.Form().Configuration();
             _form = field.Form();
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="helpFormat">Template for generating overall help.</param>
         /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
         /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
-        public EnumeratedRecognizer(IForm<T> form,
+        public RecognizeEnumeration(IForm<T> form,
             string description,
             IEnumerable<object> terms,
             IEnumerable<object> values,
@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Abstract class for constructing primitive value recognizers.
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
-    public abstract class PrimitiveRecognizer<T> : IRecognizer<T>
+    public abstract class RecognizePrimitive<T> : IRecognize<T>
         where T : class, new()
     {
 
@@ -348,7 +348,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Constructor using <see cref="IField{T}"/>.
         /// </summary>
         /// <param name="field">Field to build recognizer for.</param>
-        public PrimitiveRecognizer(IField<T> field)
+        public RecognizePrimitive(IField<T> field)
         {
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form().Configuration().CurrentChoice
@@ -444,10 +444,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected HashSet<string> _noPreference;
     }
 
-    public class BoolRecognizer<T> : PrimitiveRecognizer<T>
+    public class RecognizeBool<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public BoolRecognizer(IField<T> field)
+        public RecognizeBool(IField<T> field)
             : base(field)
         {
             if (field.Optional())
@@ -500,10 +500,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected HashSet<string> _no;
     }
 
-    public class StringRecognizer<T> : PrimitiveRecognizer<T>
+    public class RecognizeString<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public StringRecognizer(IField<T> field)
+        public RecognizeString(IField<T> field)
             : base(field)
         {
         }
@@ -540,10 +540,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public delegate string TypeValue(object value, CultureInfo culture);
     public delegate IEnumerable<TermMatch> Matcher(string input);
 
-    public class LongRecognizer<T> : PrimitiveRecognizer<T>
+    public class RecognizeLong<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public LongRecognizer(IField<T> field, CultureInfo culture)
+        public RecognizeLong(IField<T> field, CultureInfo culture)
             : base(field)
         {
             _culture = culture;
@@ -595,10 +595,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected CultureInfo _culture;
     }
 
-    public class DoubleRecognizer<T> : PrimitiveRecognizer<T>
+    public class RecognizeDouble<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public DoubleRecognizer(IField<T> field, CultureInfo culture)
+        public RecognizeDouble(IField<T> field, CultureInfo culture)
             : base(field)
         {
             _culture = culture;

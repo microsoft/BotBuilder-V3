@@ -490,33 +490,33 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             if (_prompt == null)
             {
                 var step = _path.LastOrDefault();
-                IRecognizer<T> recognizer = null;
+                IRecognize<T> recognizer = null;
                 if (_type == null || _type.IsEnum)
                 {
-                    recognizer = new EnumeratedRecognizer<T>(this);
+                    recognizer = new RecognizeEnumeration<T>(this);
                 }
                 else if (_type == typeof(bool))
                 {
-                    recognizer = new BoolRecognizer<T>(this);
+                    recognizer = new RecognizeBool<T>(this);
                 }
                 else if (_type == typeof(string))
                 {
-                    recognizer = new StringRecognizer<T>(this);
+                    recognizer = new RecognizeString<T>(this);
                 }
                 else if (_type.IsIntegral())
                 {
-                    recognizer = new LongRecognizer<T>(this, CultureInfo.CurrentCulture);
+                    recognizer = new RecognizeLong<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsDouble())
                 {
-                    recognizer = new DoubleRecognizer<T>(this, CultureInfo.CurrentCulture);
+                    recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsIEnumerable())
                 {
                     var elt = _type.GetGenericElementType();
                     if (elt.IsEnum)
                     {
-                        recognizer = new EnumeratedRecognizer<T>(this);
+                        recognizer = new RecognizeEnumeration<T>(this);
                     }
                 }
                 _prompt = new Prompter<T>(_promptDefinition, _form, recognizer);

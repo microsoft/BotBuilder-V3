@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Associated recognizer if any.
         /// </summary>
         /// <returns>Recognizer for matching user input.</returns>
-        IRecognizer<T> Recognizer();
+        IRecognize<T> Recognizer();
     }
 
     public sealed class Prompter<T> : IPrompt<T>
@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
         /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBase annotation, IForm<T> form, IRecognizer<T> recognizer)
+        public Prompter(TemplateBase annotation, IForm<T> form, IRecognize<T> recognizer)
         {
             annotation.ApplyDefaults(form.Configuration().DefaultPrompt);
             _annotation = annotation;
@@ -302,7 +302,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return field.Prompt().Recognizer().ValueDescription(value);
         }
 
-        public IRecognizer<T> Recognizer()
+        public IRecognize<T> Recognizer()
         {
             return _recognizer;
         }
@@ -334,6 +334,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private IForm<T> _form;
         private IFields<T> _fields;
         private TemplateBase _annotation;
-        private IRecognizer<T> _recognizer;
+        private IRecognize<T> _recognizer;
     }
 }

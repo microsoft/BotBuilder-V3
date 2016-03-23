@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Interface for recognizers that look for matches in user input.
     /// </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
-    public interface IRecognizer<T>
+    public interface IRecognize<T>
         where T : class, new()
     {
         /// <summary>

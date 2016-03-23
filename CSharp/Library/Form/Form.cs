@@ -1162,7 +1162,7 @@ namespace Microsoft.Bot.Builder.Form
                 return new string[0];
             }
 
-            private IPrompt<T> Template(TemplateUsage usage, IRecognizer<T> recognizer = null)
+            private IPrompt<T> Template(TemplateUsage usage, IRecognize<T> recognizer = null)
             {
                 var template = _field.Template(usage);
                 return new Prompter<T>(template, _form, recognizer == null ? _field.Prompt().Recognizer() : recognizer);
@@ -1206,7 +1206,7 @@ namespace Microsoft.Bot.Builder.Form
                 return value;
             }
 
-            private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognizer<T> recognizer, out Ambiguous clarify)
+            private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognize<T> recognizer, out Ambiguous clarify)
             {
                 IPrompt<T> prompter = null;
                 clarify = null;
@@ -1222,7 +1222,7 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     var template = Template(TemplateUsage.Clarify);
                     var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.False ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                    var choiceRecognizer = new EnumeratedRecognizer<T>(_form, "", null,
+                    var choiceRecognizer = new RecognizeEnumeration<T>(_form, "", null,
                         clarify.Values,
                         (value) => recognizer.ValueDescription(value),
                         (value) => recognizer.ValidInputs(value),
@@ -1356,7 +1356,7 @@ namespace Microsoft.Bot.Builder.Form
                 var field = _fields.Field(_name);
                 var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
                 var template = field.Template(TemplateUsage.Navigation);
-                var recognizer = new EnumeratedRecognizer<T>(_form, Name(), null,
+                var recognizer = new RecognizeEnumeration<T>(_form, Name(), null,
                     formState.Next.Names,
                     (value) => new Prompter<T>(fieldPrompt, _form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                     (value) => _fields.Field(value as string).Terms(),
@@ -1528,7 +1528,7 @@ namespace Microsoft.Bot.Builder.Form
                     terms.Add(field.Name(), fterms.ToArray());
                 }
             }
-            _commands = new EnumeratedRecognizer<T>(this, "Form commands", null,
+            _commands = new RecognizeEnumeration<T>(this, "Form commands", null,
                 values,
                     (value) => descriptions[value],
                     (value) => terms[value],
@@ -1540,7 +1540,7 @@ namespace Microsoft.Bot.Builder.Form
         private bool _ignoreAnnotations;
         private List<IStep> _steps = new List<IStep>();
         private Fields<T> _fields = new Fields<T>();
-        private IRecognizer<T> _commands;
+        private IRecognize<T> _commands;
         private CompletionDelegate<T> _completion = null;
         #endregion
 
