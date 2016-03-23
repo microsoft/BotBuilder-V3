@@ -120,7 +120,6 @@ namespace Microsoft.Bot.Builder.Form
 
         public IForm<T> Confirm(Prompt prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            var name = "confirm" + _steps.Count().ToString();
             if (condition == null) condition = (state) => true;
             if (dependencies == null)
             {
@@ -155,10 +154,10 @@ namespace Microsoft.Bot.Builder.Form
                 }
                 dependencies = fields;
             }
-            var confirmation = new Confirmation<T>(name, prompt, condition, dependencies);
+            var confirmation = new Confirmation<T>(prompt, condition, dependencies);
             confirmation.SetForm(this);
             _fields.Add(confirmation);
-            _steps.Add(new ConfirmStep(name, this));
+            _steps.Add(new ConfirmStep(confirmation));
             return this;
         }
 
@@ -1266,11 +1265,9 @@ namespace Microsoft.Bot.Builder.Form
 
         private class ConfirmStep : IStep
         {
-            public ConfirmStep(string name, IForm<T> form)
+            public ConfirmStep(IField<T> field)
             {
-                _name = name;
-                _form = form;
-                _field = form.Fields().Field(name);
+                _field = field;
             }
 
             public bool Back(ISession session, T state, FormState form)
@@ -1296,13 +1293,13 @@ namespace Microsoft.Bot.Builder.Form
 
             public string Name()
             {
-                return _name;
+                return _field.Name();
             }
 
             public string NotUnderstood(ISession session, T state, FormState form, string input)
             {
                 var template = _field.Template(TemplateUsage.NotUnderstood);
-                var prompter = new Prompter<T>(template, _form, null);
+                var prompter = new Prompter<T>(template, _field.Form(), null);
                 return prompter.Prompt(state, "", input);
             }
 
@@ -1321,14 +1318,14 @@ namespace Microsoft.Bot.Builder.Form
             public string Start(ISession session, T state, FormState form)
             {
                 form.SetPhase(StepPhase.Responding);
-                return _field.Prompt().Prompt(state, _name);
+                return _field.Prompt().Prompt(state, _field.Name());
             }
 
             public string Help(T state, FormState form, string commandHelp)
             {
                 var template = _field.Template(TemplateUsage.HelpConfirm);
-                var prompt = new Prompter<T>(template, _form, _field.Prompt().Recognizer());
-                return "* " + prompt.Prompt(state, _name, "* " + prompt.Recognizer().Help(state, null), commandHelp);
+                var prompt = new Prompter<T>(template, _field.Form(), _field.Prompt().Recognizer());
+                return "* " + prompt.Prompt(state, _field.Name(), "* " + prompt.Recognizer().Help(state, null), commandHelp);
             }
 
             public StepType Type()
@@ -1341,9 +1338,7 @@ namespace Microsoft.Bot.Builder.Form
                 return _field.Dependencies();
             }
 
-            private readonly string _name;
             private readonly IField<T> _field;
-            private readonly IForm<T> _form;
         }
 
         private class NavigationStep : IStep
