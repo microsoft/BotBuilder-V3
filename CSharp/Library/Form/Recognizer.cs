@@ -687,6 +687,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognize a date/time expression.
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
+    /// <remarks>
+    /// Expressions recognized are based on the C# nuget package Chronic.
+    /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
         where T : class, new()
     {

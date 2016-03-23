@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 var result = await taskResult as PizzaOrder;
                 if (result != null)
                 {
-                    return await session.CreateDialogResponse("Your Pizza Order: " + JsonConvert.SerializeObject(result));
+                    return await session.CreateDialogResponse("Your Pizza Order: " + result.ToString());
                 }
             }
 

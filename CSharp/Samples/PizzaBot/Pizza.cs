@@ -1,8 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Form;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Text;
 #pragma warning disable 649
 
 namespace Microsoft.Bot.Sample.PizzaBot
@@ -94,7 +93,36 @@ namespace Microsoft.Bot.Sample.PizzaBot
         public GourmetDeliteOptions GourmetDelite;
         public StuffedOptions Stuffed;
         public BYOPizza BYO;
+        public string DeliveryAddress;
         [Optional]
         public CouponOptions Coupon;
+
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            builder.AppendFormat("PizzaOrder({0}, ", Size);
+            switch (Kind)
+            {
+                case PizzaOptions.BYOPizza:
+                    builder.AppendFormat("{0}, {1}, {2}, [", Kind, BYO.Crust, BYO.Sauce);
+                    foreach (var topping in BYO.Toppings)
+                    {
+                        builder.AppendFormat("{0} ", topping);
+                    }
+                    builder.AppendFormat("]");
+                    break;
+                case PizzaOptions.GourmetDelitePizza:
+                    builder.AppendFormat("{0}, {1}", Kind, GourmetDelite);
+                    break;
+                case PizzaOptions.SignaturePizza:
+                    builder.AppendFormat("{0}, {1}", Kind, Signature);
+                    break;
+                case PizzaOptions.StuffedPizza:
+                    builder.AppendFormat("{0}, {1}", Kind, Stuffed);
+                    break;
+            }
+            builder.AppendFormat(", {0}, {1})", DeliveryAddress, Coupon);
+            return builder.ToString();
+        }
     };
 }

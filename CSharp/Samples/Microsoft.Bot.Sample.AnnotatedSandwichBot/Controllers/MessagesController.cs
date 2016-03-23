@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         private static IForm<SandwichOrder> sandwichForm = new Form<SandwichOrder>("SandwichForm")
             .Message("Welcome to the simple sandwich order bot!")
             .AddRemainingFields()
-            .Confirm("Do you want to change anything in your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]}?")
+            .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]}?")
             ;
 
         /// <summary>

@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
 
         // Full match if everything left is white space or punctuation
-        internal static bool IsFullMatch(string input, IEnumerable<TermMatch> matches)
+        internal static bool IsFullMatch(string input, IEnumerable<TermMatch> matches, double threshold = 1.0)
         {
             bool fullMatch = matches.Count() > 0;
             var sorted = from match in matches orderby match.Start ascending select match;
@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 fullMatch = IsIgnorable(input, current, input.Length);
             }
-            return fullMatch && minConfidence == 1.0;
+            return fullMatch && minConfidence >= threshold;
         }
 
         internal static IEnumerable<string> Unmatched(string input, IEnumerable<TermMatch> matches)

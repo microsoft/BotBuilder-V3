@@ -268,13 +268,17 @@ namespace Microsoft.Bot.Builder.Form
                         string feedback;
                         string prompt = step.Start(session, state, form);
                         var matches = MatchAnalyzer.Coalesce(step.Match(session, state, form, input, out prompt), input);
-                        if (MatchAnalyzer.IsFullMatch(input, matches))
+                        if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
                         {
                             // TODO: In the case of clarification I could
                             // 1) Go through them while supporting only quit or back and reset
                             // 2) Drop them
                             // 3) Just pick one (found in form.StepState, but that is opaque here)
                             step.Process(session, state, form, input, matches, out feedback, out prompt);
+                        }
+                        else
+                        {
+                            form.SetPhase(StepPhase.Ready);
                         }
                     }
                 }
