@@ -338,19 +338,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// For a value field this is the path in the form state that leads to the value being filled in.
         /// For a confirm field this is a randomly generated name.
         /// </remarks>
-        string Name();
+        string Name { get; }
 
         /// <summary>
-        /// Form that contains this field.
+        /// Form model that owns this field
         /// </summary>
-        /// <returns>Form that contains this field.</returns>
-        IForm<T> Form();
-
-        /// <summary>
-        /// Set the form this field belongs in.
-        /// </summary>
-        /// <param name="form">Form this field is in.</param>
-        void SetForm(IForm<T> form);
+        IFormModel<T> Model { get; }
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     class Program
     {
-        static void Interactive(IDialogCollection dialogs, IDialog form)
+        static void Interactive(IDialogNew form, params Fibers.Serialization.ISerializeAsReference[] singletons)
         {
             var message = new Message()
             {
@@ -26,9 +26,9 @@ namespace Microsoft.Bot.Builder.FormTest
             string prompt;
             do
             {
-                var task = ConsoleSession.MessageReceivedAsync(message, dialogs, form);
-                var reply = task.GetAwaiter().GetResult();
-                prompt = reply.Msg.Text;
+                var task = CompositionRoot.PostAsync(message, () => form, singletons);
+                message = task.GetAwaiter().GetResult();
+                prompt = message.Text;
                 if (prompt != null)
                 {
                     Console.WriteLine(prompt);
@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Builder.FormTest
             } while (prompt != null);
         }
 
-        static IForm<PizzaOrder> AddFields(IForm<PizzaOrder> form, bool noNumbers)
+        static IFormModel<PizzaOrder> AddFields(IFormModelBuilder<PizzaOrder> form, bool noNumbers)
         {
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
@@ -47,12 +47,12 @@ namespace Microsoft.Bot.Builder.FormTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
-                form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.False;
+                form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                form.Configuration.DefaultPrompt.AllowNumbers = BoolDefault.False;
             }
             else
             {
-                form.Configuration().DefaultPrompt.ChoiceFormat = "{0}. {1}";
+                form.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
             return form
                 .Message("Welcome to the pizza bot!!!")
@@ -88,39 +88,50 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
-                .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza));
-            ;
+                .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza))
+                .Build();
         }
 
         static void Main(string[] args)
         {
-            var dialogs = new DialogCollection();
-            var annotationsAndNumbers = AddFields(new Form<PizzaOrder>("AnnotationsAndNumbers"), false);
-            var annotationsAndWords = AddFields(new Form<PizzaOrder>("AnnotationsAndWords"), true);
-            var debugForm = new Form<Choices>("Choices").AddRemainingFields();
-            var callDebug = new CallDialog("Root", debugForm, async (session, taskResult) =>
+            var annotationsAndNumbersModel = AddFields(new FormModelBuilder<PizzaOrder>(), noNumbers: false);
+            var annotationsAndWordsModel = AddFields(new FormModelBuilder<PizzaOrder>(), noNumbers: true);
+
+            var choicesModel = FormModelBuilder<Choices>.Start().AddRemainingFields().Build();
+            var choiceForm = new Form<Choices>("Choices", choicesModel);
+            var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
-                if (taskResult.Status == TaskStatus.RanToCompletion)
+                Choices choices;
+                try
                 {
-                    var testResult = await taskResult as Choices;
-                    if (testResult != null)
-                    {
-                        switch (testResult.Choice)
+                    choices = await result;
+                }
+                catch (Exception error)
+                {
+                    await context.PostAsync(error.ToString());
+                    throw;
+                }
+                switch (choices.Choice)
+                {
+                    case DebugOptions.AnnotationsAndNumbers:
                         {
-                            case DebugOptions.AnnotationsAndNumbers: return await session.BeginDialogAsync(annotationsAndNumbers, Tasks.Null);
-                            case DebugOptions.AnnotationsAndNoNumbers: return await session.BeginDialogAsync(annotationsAndWords, Tasks.Null);
+                            var form = new Form<PizzaOrder>("AnnotationsAndNumbers", annotationsAndNumbersModel);
+                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
+                            return;
                         }
-                    }
+                    case DebugOptions.AnnotationsAndNoNumbers:
+                        {
+                            var form = new Form<PizzaOrder>("AnnotationsAndWords", annotationsAndWordsModel);
+                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
+                            return;
+                        }
                 }
-                else if (taskResult.Status == TaskStatus.Faulted)
-                {
-                    await session.CreateDialogResponse(taskResult.Exception.ToString());
-                }
-                return await session.EndDialogAsync(dialogs.Get("Root"), taskResult);
+
+                context.Done(result);
             });
-            dialogs.Add(annotationsAndNumbers).Add(annotationsAndWords).Add(callDebug).Add(debugForm);
-            ;
-            Interactive(dialogs, callDebug);
+
+            //Interactive(callDebug, annotationsAndNumbersModel, annotationsAndWordsModel, choicesModel);
+            Interactive(callDebug, annotationsAndNumbersModel, choicesModel);
             // Interactive(dialogs, annotationsAndWords);
             /*
             var dialogs = new DialogCollection().Add(debugForm);

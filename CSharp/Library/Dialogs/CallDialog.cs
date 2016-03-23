@@ -3,42 +3,34 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-    public delegate Task<Connector.Message> ResumeDelegate(ISession session, Task<object> taskResult);
+#pragma warning disable CS1998
 
-    public class CallDialog : IDialog
+    public class CallDialog<T> : IDialogNew
     {
-        public CallDialog(string id, IDialog child, ResumeDelegate resume)
+        public delegate Task Resume(CallDialog<T> dialog, IDialogContext context, IAwaitable<T> result);
+
+        private readonly IDialogNew child;
+        private readonly Resume resume;
+
+        public CallDialog(IDialogNew child, Resume resume)
         {
-            _id = id;
-            _child = child;
-            _resume = resume;
+            Field.SetNotNull(out this.child, nameof(child), child);
+            Field.SetNotNull(out this.resume, nameof(resume), resume);
         }
 
-        public string ID
+        async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
-            get
-            {
-                return _id;
-            }
+            await CallChild(context, arguments);
         }
 
-        public Task<Connector.Message> BeginAsync(ISession session, Task<object> taskArguments)
+        private async Task ChildDone(IDialogContext context, IAwaitable<T> result)
         {
-            return session.BeginDialogAsync(_child, taskArguments);
+            await resume(this, context, result);
         }
 
-        public async Task<Connector.Message> DialogResumedAsync(ISession session, Task<object> taskResult)
+        public async Task CallChild(IDialogContext context, IAwaitable<object> result)
         {
-            return await _resume(session, taskResult);
+            context.Call<IDialogNew, T>(this.child, ChildDone);
         }
-
-        public Task<Connector.Message> ReplyReceivedAsync(ISession session)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected readonly string _id;
-        protected readonly IDialog _child;
-        protected readonly ResumeDelegate _resume;
     }
 }

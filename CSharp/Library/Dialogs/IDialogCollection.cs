@@ -40,10 +40,11 @@ namespace Microsoft.Bot.Builder
 
         public DialogCollection(IEnumerable<IDialog> dialogs)
         {
-            this.dialogByID = new Dictionary<string, IDialog>()
-            {
-                { PromptDialog.Instance.ID, PromptDialog.Instance }
-            };
+            throw new NotImplementedException();
+            //this.dialogByID = new Dictionary<string, IDialog>()
+            //{
+            //    { PromptDialog.Instance.ID, PromptDialog.Instance }
+            //};
 
             foreach (var dialog in dialogs)
             {

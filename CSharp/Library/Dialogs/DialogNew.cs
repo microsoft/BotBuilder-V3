@@ -2,6 +2,7 @@
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Microsoft.Bot.Builder
 {
@@ -151,11 +153,11 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, IDialogNew root)
+        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialogNew> MakeRoot, params Serialization.ISerializeAsReference[] singletons)
         {
             try
             {
-                var toUser = await PostAsync(toBot, root);
+                var toUser = await PostAsync(toBot, MakeRoot, singletons);
 
                 return request.CreateResponse(toUser);
             }
@@ -165,12 +167,59 @@ namespace Microsoft.Bot.Builder
             }
         }
 
-        public static async Task<Message> PostAsync(Message toBot, IDialogNew root)
+        public static BinaryFormatter MakeBinaryFormatter(IServiceProvider provider)
+        {
+            var listener = new DefaultTraceListener();
+            var reference = new Serialization.LogSurrogate(new Serialization.ReferenceSurrogate(), listener);
+            var reflection = new Serialization.LogSurrogate(new Serialization.ReflectionSurrogate(), listener);
+            var selector = new Serialization.SurrogateSelector(reference, reflection);
+            var context = new StreamingContext(StreamingContextStates.All, provider);
+            var formatter = new BinaryFormatter(selector, context);
+            return formatter;
+        }
+
+        public sealed class SimpleServiceLocator : IServiceProvider, IEnumerable<object>
+        {
+            private readonly Dictionary<Type, object> instanceByType;
+
+            public SimpleServiceLocator(IEnumerable<object> instances = null)
+            {
+                instances = instances ?? Enumerable.Empty<object>();
+                this.instanceByType = instances.ToDictionary(o => o.GetType(), o => o);
+            }
+
+            public void Add(object instance)
+            {
+                var type = instance.GetType();
+                this.instanceByType.Add(type, instance);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.instanceByType.Values.GetEnumerator();
+            }
+
+            IEnumerator<object> IEnumerable<object>.GetEnumerator()
+            {
+                return this.instanceByType.Values.GetEnumerator();
+            }
+
+            object IServiceProvider.GetService(Type serviceType)
+            {
+                return this.instanceByType[serviceType];
+            }
+        }
+
+        public static async Task<Message> PostAsync(Message toBot, Func<IDialogNew> MakeRoot, params Serialization.ISerializeAsReference [] singletons)
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
             IBotData toBotData = new JObjectBotData(toBot);
-            var formatter = Serialization.MakeBinaryFormatter(waits, frames, toBotData);
+            var provider = new SimpleServiceLocator(singletons)
+            {
+                waits, frames, toBotData
+            };
+            var formatter = MakeBinaryFormatter(provider);
 
             DialogContext context;
 
@@ -187,6 +236,7 @@ namespace Microsoft.Bot.Builder
             {
                 IFiberLoop fiber = new Fiber(frames);
                 context = new DialogContext(toBotData, fiber);
+                var root = MakeRoot();
                 var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
                 fiber.Call(loop, null);
                 await fiber.PollAsync();

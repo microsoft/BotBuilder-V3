@@ -10,25 +10,28 @@ using System.Web;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=a19f7eee-0280-4a9a-b5e5-73c16b32c43d&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
-    public class PizzaOrderDialog : LuisDialog<string, object>
-    {
-        private readonly IForm<PizzaOrder> pizzaForm;
+#pragma warning disable CS1998
 
-        internal PizzaOrderDialog(IForm<PizzaOrder> pizzaForm)
+    [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=a19f7eee-0280-4a9a-b5e5-73c16b32c43d&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
+    public class PizzaOrderDialog : LuisDialog
+    {
+        private readonly Func<IForm<PizzaOrder>> MakePizzaForm;
+
+        internal PizzaOrderDialog(Func<IForm<PizzaOrder>> makePizzaForm)
         {
-            this.pizzaForm = pizzaForm;
+            this.MakePizzaForm = makePizzaForm;
         }
 
         [LuisIntent("")]
-        public async Task<Connector.Message> None(ISession session, LuisResult result)
+        public async Task None(IDialogContext context, LuisResult result)
         {
-            return await session.CreateDialogResponse("I'm sorry. I didn't understand you.");
+            await context.PostAsync("I'm sorry. I didn't understand you.");
+            context.Wait(MessageReceived);
         }
 
         [LuisIntent("OrderPizza")]
         [LuisIntent("UseCoupon")]
-        public async Task<Connector.Message> ProcessPizzaForm(ISession session, LuisResult result)
+        private async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
         {
             var initialState = new Form<PizzaOrder>.InitialState();
             var entities = new List<EntityRecommendation>(result.Entities);
@@ -55,43 +58,39 @@ namespace Microsoft.Bot.Sample.PizzaBot
             }
             initialState.Entities = entities.ToArray();
             initialState.State = null;
-            return await session.BeginDialogAsync(this.pizzaForm, Task.FromResult((object) initialState));
+
+            // TODO: pass initial state
+            var pizzaForm = this.MakePizzaForm();
+            context.Call<IForm<PizzaOrder>, PizzaOrder>(pizzaForm, PizzaFormComplete);
         }
 
-        [LuisIntent("OrderPizza", resumeHandler: true)]
-        [LuisIntent("UseCoupon", resumeHandler:true)]
-        public async Task<Connector.Message> PizzaFormComplete(ISession session, Task<object> taskResult)
+        private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)
         {
-            if (taskResult.Status == TaskStatus.RanToCompletion)
+            var order = await result;
+            if (order != null)
             {
-                var result = await taskResult as PizzaOrder;
-                if (result != null)
-                {
-                    return await session.CreateDialogResponse("Your Pizza Order: " + result.ToString());
-                }
+                await context.PostAsync("Your Pizza Order: " + result.ToString());
             }
-
-            return await session.CreateDialogResponse("Form returned empty response!");
+            else
+            {
+                await context.PostAsync("Form returned empty response!");
+            }
         }
 
         enum Days { Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday }; 
 
         [LuisIntent("StoreHours")]
-        public async Task<Connector.Message> ProcessStoreHours(ISession session, LuisResult result)
+        public async Task ProcessStoreHours(IDialogContext context, LuisResult result)
         {
-            return await Prompts.Choice(session, "Which day of the week?", Enum.GetValues(typeof(Days)).Cast<Days>().Select(s => s.ToString()).ToList());
+            var days = (IEnumerable<Days>)Enum.GetValues(typeof(Days));
+
+            Prompts.Choice(context, StoreHoursResult, days, "Which day of the week?");
         }
 
-        [LuisIntent("StoreHours", resumeHandler: true)]
-        public async Task<Connector.Message> StoreHoursResult(ISession session, Task<string> taskResult)
-        {
-            if (taskResult.Status == TaskStatus.RanToCompletion)
-            {
-                var response = await taskResult;
-                if (!string.IsNullOrEmpty(response))
+        private async Task StoreHoursResult(IDialogContext context, IAwaitable<Days> day)
                 {
                     var hours = string.Empty;
-                    switch ((Days)Enum.Parse(typeof(Days), response))
+            switch (await day)
                     {
                         case Days.Saturday:
                         case Days.Sunday:
@@ -102,11 +101,10 @@ namespace Microsoft.Bot.Sample.PizzaBot
                             break;
                     }
 
-                    return await session.CreateDialogResponse(string.Format("Store hours for {0} is {1}", response, hours));
-                }
-            }
+            var text = $"Store hours are {hours}";
+            await context.PostAsync(text);
 
-            return await session.CreateDialogResponse("I didn't get which day of the week you are referring to!");
+            context.Wait(MessageReceived);
         }
     }
 }

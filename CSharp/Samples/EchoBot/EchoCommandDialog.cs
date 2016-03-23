@@ -10,26 +10,24 @@ namespace Microsoft.Bot.Sample.EchoBot
 {
     public static class EchoCommandDialog
     {
-        public static readonly CommandDialog<string, bool> Instance =
-            new CommandDialog<string, bool>("echoCmd")
-                .On(new Regex("^reset$", RegexOptions.IgnoreCase | RegexOptions.Compiled), async (session) =>
+        public static readonly CommandDialog Instance =
+            new CommandDialog()
+                .On(new Regex("^reset$", RegexOptions.IgnoreCase | RegexOptions.Compiled), async (context) =>
                 {
-                    return await Prompts.Confirm(session, "Are you sure you want to reset the count?");
-                }, async (session, taskResult) =>
+                    return await Prompts.Confirm(context, "Are you sure you want to reset the count?");
+                }, async (context, response) =>
                 {
-                    if (taskResult.Status == TaskStatus.RanToCompletion)
+                    var confirmation = await response;
+                    if (confirmation)
                     {
-                        var response = await taskResult;
-                        if (response)
-                        {
-                            session.Stack.SetLocal("count", 0);
-                            return await session.CreateDialogResponse("Count reset!");
-                        }
+                        await context.PostMessageAsync("Count reset!");
                     }
-
-                    return await session.CreateDialogResponse("ok");
+                    else
+                    {
+                        await context.PostMessageAsync("ok");
+                    }
                 })
-                .OnDefault(async (session) =>
+                .OnDefault(async (context) =>
                 {
                     var count = Convert.ToInt32(session.Stack.GetLocal("count"));
                     session.Stack.SetLocal("count", count + 1);

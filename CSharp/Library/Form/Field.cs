@@ -10,28 +10,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public abstract class Field<T> : IField<T>
         where T : class, new()
     {
-        public Field(string name, FieldRole role)
+        public Field(string name, FieldRole role, IFormModel<T> model)
         {
             _name = name;
             _role = role;
-        }
+            _model = model;
 
-        #region IField
-
-        public string Name()
-        {
-            return _name;
-        }
-
-        public virtual IForm<T> Form()
-        {
-            return _form;
-        }
-
-        public virtual void SetForm(IForm<T> form)
-        {
-            _form = form;
-            foreach (var template in form.Configuration().Templates)
+            foreach (var template in model.Configuration.Templates)
             {
                 if (!_templates.ContainsKey(template.Usage))
                 {
@@ -44,6 +29,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 _help = new Prompt(template);
             }
         }
+
+        #region IField
+
+        public string Name { get { return _name; } }
+
+        public IFormModel<T> Model { get { return this._model; } }
 
         #region IFieldState
         public abstract object GetValue(T state);
@@ -133,7 +124,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _templates.TryGetValue(usage, out template);
             if (template != null)
             {
-                template.ApplyDefaults(_form.Configuration().DefaultPrompt);
+                template.ApplyDefaults(_model.Configuration.DefaultPrompt);
             }
             return template;
         }
@@ -147,7 +138,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public virtual IPrompt<T> Help()
         {
-            return new Prompter<T>(_help, _form, Prompt().Recognizer());
+            return new Prompter<T>(_help, _model, Prompt().Recognizer());
         }
 
         public virtual NextStep Next(object value, T state)
@@ -260,10 +251,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         #region Internals
         protected void UpdateAnnotations()
         {
-            if (_form != null)
-            {
-                throw new ArgumentException("Cannot modify field annotations once added to a form.");
-            }
         }
 
         protected void AddTemplate(Template template)
@@ -271,8 +258,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _templates[template.Usage] = template;
         }
 
+        protected IFormModel<T> _model;
         protected string _name;
-        protected IForm<T> _form;
         protected FieldRole _role;
         protected double _min, _max;
         protected bool _limited;
@@ -294,17 +281,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class FieldReflector<T> : Field<T>
         where T : class, new()
     {
-        public FieldReflector(string name, bool ignoreAnnotations = false)
-            : base(name, FieldRole.Value)
+        public FieldReflector(string name, IFormModel<T> model, bool ignoreAnnotations = false)
+            : base(name, FieldRole.Value, model)
         {
             _ignoreAnnotations = ignoreAnnotations;
             AddField(typeof(T), string.IsNullOrWhiteSpace(_name) ? new string[] { } : _name.Split('.'), 0);
-        }
 
-        #region IField
-        public override void SetForm(IForm<T> form)
-        {
-            base.SetForm(form);
             if (_promptDefinition == null)
             {
                 if (_type.IsEnum)
@@ -333,6 +315,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
             }
         }
+
+        #region IField
 
         #region IFieldState
         public override object GetValue(T state)
@@ -529,7 +513,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         recognizer = new RecognizeEnumeration<T>(this);
                     }
                 }
-                _prompt = new Prompter<T>(_promptDefinition, _form, recognizer);
+                _prompt = new Prompter<T>(_promptDefinition, _model, recognizer);
             }
             return _prompt;
         }
@@ -748,8 +732,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class Conditional<T> : FieldReflector<T>
         where T : class, new()
     {
-        public Conditional(string name, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, ignoreAnnotations)
+        public Conditional(string name, IFormModel<T> model, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
+            : base(name, model, ignoreAnnotations)
         {
             _condition = condition;
         }
@@ -774,7 +758,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public void Add(IField<T> field)
         {
-            _fields[field.Name()] = field;
+            _fields[field.Name] = field;
         }
 
         public IEnumerator<IField<T>> GetEnumerator()

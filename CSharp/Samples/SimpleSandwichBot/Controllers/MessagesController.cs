@@ -16,9 +16,15 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IForm<SandwichOrder> sandwichForm = new Form<SandwichOrder>("SandwichForm")
-            .Message("Welcome to the simple sandwich order bot!")
-            ;
+        public static IDialogNew MakeRoot()
+        {
+            var model = FormModelBuilder<SandwichOrder>
+                .Start()
+                .Message("Welcome to the simple sandwich order bot!")
+                .Build();
+
+            return new Form<SandwichOrder>("SandwichForm", model);
+        }
 
         /// <summary>
         /// POST: api/Messages
@@ -28,9 +34,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         {
             if (message.Type == "Message")
             {
-                // This adds the SandwichOrder form to the dialog and sets it up as the default dialog
-                var dialogs = new DialogCollection().Add(sandwichForm);
-                return await ConnectorSession.MessageReceivedAsync(Request, message, dialogs, sandwichForm);
+                return await CompositionRoot.PostAsync(this.Request, message, MakeRoot);
             }
             else
             {

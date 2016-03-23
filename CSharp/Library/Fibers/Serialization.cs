@@ -12,18 +12,6 @@ namespace Microsoft.Bot.Builder.Fibers
 {
     public static class Serialization
     {
-        // TODO: move to composition root
-        public static BinaryFormatter MakeBinaryFormatter(params object[] instances)
-        {
-            var listener = new DefaultTraceListener();
-            var reference = new LogSurrogate(new ReferenceSurrogate(), listener);
-            var reflection = new LogSurrogate(new ReflectionSurrogate(), listener);
-            var selector = new SurrogateSelector(reference, reflection);
-            var context = ObjectReference.MakeContext(instances);
-            var formatter = new BinaryFormatter(selector, context);
-            return formatter;
-        }
-
         [Serializable]
         public sealed class ObjectReference : IObjectReference
         {
@@ -31,13 +19,6 @@ namespace Microsoft.Bot.Builder.Fibers
             public ObjectReference(SerializationInfo info, StreamingContext context)
             {
                 Field.SetNotNullFrom(out this.type, nameof(type), info);
-            }
-
-            public static StreamingContext MakeContext(params object[] instances)
-            {
-                var additional = instances.ToDictionary(i => i.GetType(), i => i);
-                var context = new StreamingContext(StreamingContextStates.All, additional);
-                return context;
             }
 
             public static void GetObjectData(SerializationInfo info, Type type)
@@ -48,8 +29,8 @@ namespace Microsoft.Bot.Builder.Fibers
 
             object IObjectReference.GetRealObject(StreamingContext context)
             {
-                var instanceByType = (IDictionary<Type, object>)context.Context;
-                return instanceByType[this.type];
+                var provider = (IServiceProvider)context.Context;
+                return provider.GetService(this.type);
             }
         }
 

@@ -80,10 +80,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
+    <Compile Include="Dialogs\DialogNew.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogCollection.cs" />
+    <Compile Include="Dialogs\IDialogNew.cs" />
+    <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Fibers\Awaitable.cs" />
@@ -96,11 +100,18 @@
     <Compile Include="Form\Confirmation.cs" />
     <Compile Include="Form\Field.cs" />
     <Compile Include="Form\Form.cs" />
+    <Compile Include="Form\FormModelBuilder.cs" />
+    <Compile Include="Form\FormModel.cs" />
+    <Compile Include="Form\FormState.cs" />
     <Compile Include="Form\IField.cs" />
     <None Include="Form\ILocalizer.cs" />
+    <Compile Include="Form\IFormModelBuilder.cs" />
+    <Compile Include="Form\IFormModel.cs" />
+    <Compile Include="Form\IStep.cs" />
     <Compile Include="Form\Language.cs" />
     <Compile Include="Form\MatchAnalyzer.cs" />
     <Compile Include="Form\Recognizer.cs" />
+    <Compile Include="Form\Steps.cs" />
     <Compile Include="SessionStores\CookieHelper.cs" />
     <Compile Include="SessionStores\CookieStore.cs" />
     <Compile Include="Dialogs\Dialog.cs" />
@@ -111,7 +122,6 @@
     <Compile Include="Form\IRecognizer.cs" />
     <Compile Include="SessionStores\InMemoryStore.cs" />
     <Compile Include="SessionStores\ISessionStore.cs" />
-    <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Models\EntityRecommendation.cs" />
     <Compile Include="Models\IntentRecommendation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

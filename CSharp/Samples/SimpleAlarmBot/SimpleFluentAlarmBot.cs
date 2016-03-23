@@ -15,8 +15,8 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             return async (session, res) => await session.CreateDialogResponse(message);
         }
 
-        public static readonly LuisDialog<string, bool> Instance = 
-            new LuisDialog<string, bool>("SimpleAlarm", "fe054e042fd14754a83f0a205f6552a5", "c413b2ef-382c-45bd-8ff0-f76d60e2a821")
+        public static readonly LuisDialog Instance = 
+            new LuisDialog("SimpleAlarm", "fe054e042fd14754a83f0a205f6552a5", "c413b2ef-382c-45bd-8ff0-f76d60e2a821")
                     .OnDefault(WrapHandler("I'm sorry. I didn't understand you."))
                     .On("builtin.intent.alarm.alarm_other", WrapHandler("Alarm changed"))
                     .On("builtin.intent.alarm.delete_alarm", WrapHandler("Alarm deleted"))

@@ -8,202 +8,191 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-    public enum PromptType
+    public class Prompts
     {
-        Text,
-        Number,
-        Confirm,
-        Choice
-    }
-
-    public class PromptDialogArgs
-    {
-        public PromptType DataType { set; get; }
-        public int MaxRetries { set; get; }
-        public string Prompt { set; get; }
-        public string RetryPrompt { set; get; }
-        public IList<string> Choices { set; get; }
-    }
-
-    public class PromptDialog : Dialog<PromptDialogArgs, object>
-    {
-        public static readonly PromptDialog Instance = new PromptDialog();
-
-        private PromptDialog() :
-            base(id: "6FC08CE1D79B4A9CA61D61C13BDBA54A")
+        public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
+            var child = new PromptText(prompt, retry, attempts);
+            context.Call(child, resume);
         }
 
-        public override async Task<Connector.Message> BeginAsync(ISession session, Task<PromptDialogArgs> taskArguments)
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var arguments = await taskArguments;
-            SaveDialogState(session, arguments);
-            return await session.CreateDialogResponse(new Message() { Text = arguments.Prompt });
+            var child = new PromptConfirm(prompt, retry, attempts);
+            context.Call(child, resume);
         }
 
-        public override async Task<Connector.Message> ReplyReceivedAsync(ISession session)
+        public static void Number(IDialogContext context, ResumeAfter<int> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var state = LoadDialogState(session);
-            switch (state.DataType)
+            var child = new PromptInt32(prompt, retry, attempts);
+            context.Call(child, resume);
+        }
+
+        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
+        {
+            var child = new PromptChoice<T>(options, prompt, retry, attempts);
+            context.Call(child, resume);
+        }
+
+        private abstract class Prompt<T> : IDialogNew
+        {
+            protected readonly string prompt;
+            protected readonly string retry;
+            protected int attempts;
+
+            public Prompt(string prompt, string retry, int attempts)
             {
-                case PromptType.Text:
-                    if (!string.IsNullOrEmpty(session.Message.Text))
-                    {
-                        return await Succeeded(session, state, session.Message.Text);
-                    }
-                    else
-                    {
-                        return await Failed(session, state, state.RetryPrompt ??
-                                string.Format("{0}\n{1}", "I didn't understand. Say something in reply", state.Prompt));
-                    }
-                case PromptType.Number:
-                    var txt = session.Message.Text;
-                    double number;
-                    if (double.TryParse(txt, out number))
-                    {
-                        return await Succeeded(session, state, number);
-                    }
-                    else
-                    {
-                        return await Failed(session, state, state.RetryPrompt ??
-                                string.Format("{0}\n{1}", "I didn't understand. Say something in reply", state.Prompt));
-                    }
-                case PromptType.Confirm:
-                    switch (session.Message.Text.ToLower().Trim())
-                    {
-                        case "y":
-                        case "yes":
-                        case "ok":
-                            return await Succeeded(session, state, true);
-                        case "n":
-                        case "no":
-                            return await Succeeded(session, state, false);
-                        default:
-                            return await Failed(session, state, state.RetryPrompt == null ?
-                                string.Format("{0}\n{1}", "I didn't understand. Valid replies are yes or no.", state.Prompt)
-                                : state.RetryPrompt);
-                    }
-                case PromptType.Choice:
-                    var text = session.Message.Text.ToLower();
-                    var choice = state.Choices.Where(s => s.ToLower() == text).ToList();
-                    if (choice.Count > 0)
-                    {
-                        return await Succeeded(session, state, choice.First());
-                    }
-                    else
-                    {
-                        return await Failed(session, state, state.RetryPrompt == null ?
-                            string.Format("{0}\n{1}", "I didn't understand.", state.Prompt)
-                            : state.RetryPrompt);
-                    }
-                default:
-                    throw new DialogException(string.Format("Cannot handle this prompt type: {0}", state.DataType), this);
-            }   
-        }
-
-        private async Task<Connector.Message> Succeeded<T>(ISession session, PromptDialogArgs state, T response)
-        {
-            return await session.EndDialogAsync(this, response);
-        }
-
-        private async Task<Connector.Message> Failed(ISession session, PromptDialogArgs state, string retryPrompt)
-        {
-            if (state.MaxRetries > 0)
-            {
-                state.MaxRetries--;
-                SaveDialogState(session, state);
-                return await session.CreateDialogResponse(retryPrompt);
+                Field.SetNotNull(out this.prompt, nameof(prompt), prompt);
+                Field.SetNotNull(out this.retry, nameof(retry), retry ?? prompt);
+                this.attempts = attempts;
             }
-            else
-            {
-                return await session.EndDialogAsync(this, Tasks.Cancelled);
-            }
-        }
 
-        private PromptDialogArgs LoadDialogState(ISession session)
-        {
-            var state = new PromptDialogArgs();
-            foreach (PropertyInfo pi in state.GetType().GetProperties())
+            async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
             {
-                var value = session.Stack.GetLocal(pi.Name);
-                if (pi.PropertyType == typeof(PromptType))
+                await context.PostAsync(this.prompt);
+                context.Wait(MessageReceived);
+            }
+
+            private async Task MessageReceived(IDialogContext context, IAwaitable<Message> message)
+            {
+                T result;
+                if (this.TryParse(await message, out result))
                 {
-                    var dataType = Enum.Parse(typeof(PromptType), value.ToString());
-                    pi.SetValue(state, dataType);
-                }
-                else if (pi.PropertyType == typeof(int))
-                {
-                    pi.SetValue(state, Convert.ToInt32(value));
+                    context.Done(result);
                 }
                 else
                 {
-                    pi.SetValue(state, value);
+                    --this.attempts;
+                    if (this.attempts > 0)
+                    {
+                        var retry = this.retry ?? this.DefaultRetry;
+                        await context.PostAsync(retry);
+                        context.Wait(MessageReceived);
+                    }
+                    else
+                    {
+                        await context.PostAsync("too many attempts");
+                        throw new Exception();
+                    }
                 }
             }
-            return state;
-        }
 
-        private void SaveDialogState(ISession session, PromptDialogArgs args)
-        {
-            foreach (PropertyInfo pi in args.GetType().GetProperties())
+            protected abstract bool TryParse(Message message, out T result);
+
+            protected virtual string DefaultRetry
             {
-                session.Stack.SetLocal(pi.Name, pi.GetValue(args));
+                get
+                {
+                    return this.prompt;
+                }
             }
         }
 
-    }
-
-    public class Prompts
-    {
-        private static async Task<Connector.Message> BeginDialogAsync(ISession session, PromptDialogArgs arguments)
+        private sealed class PromptText : Prompt<string>
         {
-            var taskArguments = Task.FromResult((object) arguments);
-            return await session.BeginDialogAsync(PromptDialog.Instance, taskArguments);
+            public PromptText(string prompt, string retry, int attempts)
+                : base(prompt, retry, attempts)
+            {
+            }
+
+            protected override bool TryParse(Message message, out string result)
+            {
+                if (!string.IsNullOrWhiteSpace(message.Text))
+                {
+                    result = message.Text;
+                    return true;
+                }
+                else
+                {
+                    result = null;
+                    return false;
+                }
+            }
+
+            protected override string DefaultRetry
+            {
+                get
+                {
+                    return "I didn't understand. Say something in reply.\n" + this.prompt;
+                }
+            }
         }
 
-        public static async Task<Connector.Message> Text(ISession session, string prompt, string retryPrompt = null, int maxRetries = 3)
+        private sealed class PromptConfirm : Prompt<bool>
         {
-            return await BeginDialogAsync(session, new PromptDialogArgs()
+            public PromptConfirm(string prompt, string retry, int attempts)
+                : base(prompt, retry, attempts)
             {
-                DataType = PromptType.Text,
-                Prompt = prompt,
-                RetryPrompt = retryPrompt,
-                MaxRetries = maxRetries
-            });
+            }
+
+            protected override bool TryParse(Message message, out bool result)
+            {
+                switch (message.Text)
+                {
+                    case "y":
+                    case "yes":
+                    case "ok":
+                        result = true;
+                        return true;
+                    case "n":
+                    case "no":
+                        result = false;
+                        return true;
+                    default:
+                        result = false;
+                        return false;
+                }
+            }
+
+            protected override string DefaultRetry
+            {
+                get
+                {
+                    return "I didn't understand. Valid replies are yes or no.\n" + this.prompt;
+                }
+            }
         }
 
-        public static async Task<Connector.Message> Confirm(ISession session, string prompt, string retryPrompt = null, int maxRetries = 3)
+        private sealed class PromptInt32 : Prompt<Int32>
         {
-            return await BeginDialogAsync(session, new PromptDialogArgs()
+            public PromptInt32(string prompt, string retry, int attempts)
+                : base(prompt, retry, attempts)
             {
-                DataType = PromptType.Confirm,
-                Prompt = prompt,
-                RetryPrompt = retryPrompt,
-                MaxRetries = maxRetries
-            });
+            }
+
+            protected override bool TryParse(Message message, out Int32 result)
+            {
+                return Int32.TryParse(message.Text, out result);
+            }
         }
 
-        public static async Task<Connector.Message> Number(ISession session, string prompt, string retryPrompt = null, int maxRetries = 3)
+        private sealed class PromptChoice<T> : Prompt<T>
         {
-            return await BeginDialogAsync(session, new PromptDialogArgs()
-            {
-                DataType = PromptType.Number,
-                Prompt = prompt,
-                RetryPrompt = retryPrompt,
-                MaxRetries = maxRetries
-            });
-        }
+            private readonly IEnumerable<T> options;
 
-        public static async Task<Connector.Message> Choice(ISession session, string prompt, IList<string> choices, string retryPrompt = null, int maxRetries = 3)
-        {
-            return await BeginDialogAsync(session, new PromptDialogArgs()
+            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts)
+                : base(prompt, retry, attempts)
             {
-                DataType = PromptType.Choice,
-                Prompt = prompt,
-                RetryPrompt = retryPrompt,
-                MaxRetries = maxRetries,
-                Choices = choices
-            });
+                Field.SetNotNull(out this.options, nameof(options), options);
+            }
+
+            protected override bool TryParse(Message message, out T result)
+            {
+                if (!string.IsNullOrWhiteSpace(message.Text))
+                {
+                    var selected = this.options
+                        .Where(option => option.ToString().IndexOf(message.Text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                        .ToArray();
+                    if (selected.Length == 1)
+                    {
+                        result = selected[0];
+                        return true;
+                    }
+                }
+
+                result = default(T);
+                return false;
+            }
         }
     }
 }
