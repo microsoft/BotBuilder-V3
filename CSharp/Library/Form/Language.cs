@@ -88,17 +88,30 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return from word in words where !NoiseResponse(word) select word;
         }
 
+        /// <summary>
+        /// Regular expression to break a string into words.
+        /// </summary>
         public static Regex WordBreaker = new Regex(@"\w+", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Break input into words.
+        /// </summary>
+        /// <param name="input">String to be broken.</param>
+        /// <returns>Enumeration of words.</returns>
         public static IEnumerable<string> WordBreak(string input)
         {
-            foreach(Match match in WordBreaker.Matches(input))
+            foreach (Match match in WordBreaker.Matches(input))
             {
                 yield return match.Value;
             }
         }
 
-       public static string CamelCase(string original)
+        /// <summary>
+        /// Break a string into words based on _ and case changes.
+        /// </summary>
+        /// <param name="original">Original string.</param>
+        /// <returns>String with words on case change or _ boundaries.</returns>
+        public static string CamelCase(string original)
         {
             var builder = new StringBuilder();
             var name = original.Trim();
@@ -119,7 +132,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     var isLetter = Char.IsLetter(ch);
                     if ((!previousUpper && isUpper)
                         || (isLetter != previousLetter)
-                        || (!first && isUpper && (i + 1) < name.Length && Char.IsLower(name[i+1])))
+                        || (!first && isUpper && (i + 1) < name.Length && Char.IsLower(name[i + 1])))
                     {
                         // Break on lower to upper, number boundaries and Upper to lower
                         builder.Append(' ');
@@ -136,6 +149,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Make sure all words end with an optional s.
+        /// </summary>
+        /// <param name="words">Words to pluralize.</param>
+        /// <returns>Enumeration of plural word regex.</returns>
         public static IEnumerable<string> OptionalPlurals(IEnumerable<string> words)
         {
             foreach (var original in words)
@@ -150,6 +168,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
         }
 
+        /// <summary>
+        /// Generate regular expressions to match word sequences in original string.
+        /// </summary>
+        /// <param name="name">Original string which will be <see cref="CamelCase(string)"/> before processing.</param>
+        /// <param name="maxLength">Maximum phrase length to support.</param>
+        /// <returns>Array of regular expressions to match subsequences in input.</returns>
+        /// <remarks>
+        /// This function will call <see cref="CamelCase(string)"/> and then will generate sub-phrases up to maxLength.  
+        /// For example an enumeration of AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
+        /// You can call it directly, or it is used when <see cref="FieldReflector{T}"/> generates terms or when <see cref="Terms"/> is used with a <see cref="Terms.MaxPhrase"/> argument.
+        /// </remarks>
         public static string[] GenerateTerms(string name, int maxLength)
         {
             var phrase = CamelCase(name);
@@ -160,7 +189,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 for (var start = 0; start <= words.Length - length; ++start)
                 {
                     var ngram = new ArraySegment<string>(words, start, length);
-                    if (!ArticleOrNone(ngram.First()) && !ArticleOrNone(ngram.Last()))
+                    if (!NoiseResponse(ngram.First()) && !NoiseResponse(ngram.Last()))
                     {
                         terms.Add(string.Join(" ", OptionalPlurals(ngram)));
                     }
@@ -173,12 +202,21 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return terms.ToArray();
         }
 
-         private static Regex _aOrAn = new Regex(@"\b(a|an)(?:\s+)([aeiou])?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex _aOrAn = new Regex(@"\b(a|an)(?:\s+)([aeiou])?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Switch 'a' before consonants and 'an' before vowels.
+        /// </summary>
+        /// <param name="input">String to fix.</param>
+        /// <returns>String with 'a' and 'an' normalized.</returns>
+        /// <remarks>
+        /// This is not perfect because English is complex, but does a reasonable job.
+        /// </remarks>
         public static string ANormalization(string input)
         {
             var builder = new StringBuilder();
             var last = 0;
-            foreach(Match match in _aOrAn.Matches(input))
+            foreach (Match match in _aOrAn.Matches(input))
             {
                 var currentWord = match.Groups[1];
                 builder.Append(input.Substring(last, currentWord.Index - last));
@@ -196,6 +234,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Given a list of string values generate a proper English list.
+        /// </summary>
+        /// <param name="values">Value in list.</param>
+        /// <param name="separator">Separator between all elements except last.</param>
+        /// <param name="lastSeparator">Last element separator.</param>
+        /// <returns>Value in a proper English list.</returns>
         public static string BuildList(IEnumerable<string> values, string separator, string lastSeparator)
         {
             var builder = new StringBuilder();

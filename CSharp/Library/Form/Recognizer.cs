@@ -8,14 +8,29 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
     /// <summary>
-    /// Simple value table with explicitly added values.
+    /// Recognizer for enumerated values.
     /// </summary>
-    public class EnumeratedRecognizer<T> : IRecognizer<T>
+    public sealed class EnumeratedRecognizer<T> : IRecognizer<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Delegate for mapping from a C# value to it's description.
+        /// </summary>
+        /// <param name="value">C# value to get description for.</param>
+        /// <returns>Description of C# value.</returns>
         public delegate string DescriptionDelegate(object value);
+
+        /// <summary>
+        /// Delegate to return the terms to match on for a C# value.
+        /// </summary>
+        /// <param name="value">C# value to get terms for.</param>
+        /// <returns>Enumeration of regular expressions to match on for value.</returns>
         public delegate IEnumerable<string> TermsDelegate(object value);
 
+        /// <summary>
+        /// Constructor based on <see cref="IField{T}"/>.
+        /// </summary>
+        /// <param name="field">Field with enumerated values.</param>
         public EnumeratedRecognizer(IField<T> field)
         {
             var configuration = field.Form().Configuration();
@@ -35,6 +50,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             BuildPerValueMatcher(configuration.CurrentChoice);
         }
 
+        /// <summary>
+        /// Explicitly contructed recognizer.
+        /// </summary>
+        /// <param name="form">Form recognizer is being used in.</param>
+        /// <param name="description">Description of the field being asked for.</param>
+        /// <param name="terms">Regular expressions that when matched mean this field.</param>
+        /// <param name="values">Possible C# values for field.</param>
+        /// <param name="descriptionDelegate">Mapping from C# value to it's description.</param>
+        /// <param name="termsDelegate">Mapping from C# value to it's regular expressions for matching.</param>
+        /// <param name="allowNumbers">True to allow matching on numbers.</param>
+        /// <param name="helpFormat">Template for generating overall help.</param>
+        /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
+        /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
         public EnumeratedRecognizer(IForm<T> form,
             string description,
             IEnumerable<object> terms,
@@ -170,14 +198,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return builder.ToString();
         }
 
-        protected enum Special { CurrentChoice, NoPreference };
+        private enum Special { CurrentChoice, NoPreference };
 
         // Word character, any word character, any digit, any positive group over word characters
-        protected const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
-        protected static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
-        protected static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
+        private const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
+        private static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
+        private static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
 
-        protected void BuildPerValueMatcher(IEnumerable<string> currentChoice)
+        private void BuildPerValueMatcher(IEnumerable<string> currentChoice)
         {
             if (currentChoice != null)
             {
@@ -202,7 +230,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = n - 1;
         }
 
-        protected int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
+        private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             var word = new StringBuilder();
@@ -279,7 +307,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return n;
         }
 
-        protected class ValueAndExpression
+        private class ValueAndExpression
         {
             public ValueAndExpression(object value, Regex expression, string longest)
             {
@@ -293,24 +321,33 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             public readonly string Longest;
         }
 
-        protected readonly IForm<T> _form;
-        protected readonly string _description;
-        protected readonly IEnumerable<string> _noPreference;
-        protected readonly string _currentChoice;
-        protected readonly bool _allowNumbers;
-        protected readonly IEnumerable<string> _terms;
-        protected readonly IEnumerable<object> _values;
-        protected readonly IEnumerable<string> _valueDescriptions;
-        protected readonly DescriptionDelegate _descriptionDelegate;
-        protected readonly TermsDelegate _termsDelegate;
-        protected readonly Template _helpFormat;
-        protected int _max;
-        protected readonly List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
+        private readonly IForm<T> _form;
+        private readonly string _description;
+        private readonly IEnumerable<string> _noPreference;
+        private readonly string _currentChoice;
+        private readonly bool _allowNumbers;
+        private readonly IEnumerable<string> _terms;
+        private readonly IEnumerable<object> _values;
+        private readonly IEnumerable<string> _valueDescriptions;
+        private readonly DescriptionDelegate _descriptionDelegate;
+        private readonly TermsDelegate _termsDelegate;
+        private readonly Template _helpFormat;
+        private int _max;
+        private readonly List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }
 
+    /// <summary>
+    /// Abstract class for constructing primitive value recognizers.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
     public abstract class PrimitiveRecognizer<T> : IRecognizer<T>
         where T : class, new()
     {
+
+        /// <summary>
+        /// Constructor using <see cref="IField{T}"/>.
+        /// </summary>
+        /// <param name="field">Field to build recognizer for.</param>
         public PrimitiveRecognizer(IField<T> field)
         {
             _field = field;
@@ -330,8 +367,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
         }
 
+        /// <summary>
+        /// Abstract method for parsing input.
+        /// </summary>
+        /// <param name="input">Input to match.</param>
+        /// <returns>TermMatch if input is a match.</returns>
         public abstract TermMatch Parse(string input);
 
+        /// <summary>
+        /// Match input with optional default value.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue = null)
         {
             var matchValue = input.Trim().ToLower();

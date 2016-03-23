@@ -287,7 +287,7 @@ namespace Microsoft.Bot.Builder.Form
             FieldCase = CaseNormalization.Lower,
             Feedback = FeedbackOptions.Auto,
             ChoiceFormat = "{0}. {1}",
-            LastSeparator = " and ",
+            LastSeparator = ", and ",
             Separator = ", ",
             ValueCase = CaseNormalization.InitialUpper
         };
