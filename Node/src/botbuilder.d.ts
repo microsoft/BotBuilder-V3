@@ -427,7 +427,7 @@ export interface IBotErrorEvent {
     (err: Error, message): void;
 }
 
-/** Signature of message related events fired from BotConnetcorBot. */
+/** Signature of message related events fired from bots. */
 export interface IBotMessageEvent {
     (message): void;
 }
@@ -1501,7 +1501,7 @@ export class BotConnectorBot extends DialogCollection {
     /**
      * @param options Optional configuration settings for the bot.
      */
-    constructor(options?: ISkypeBotOptions);
+    constructor(options?: IBotConnectorOptions);
 
     /**
      * Registers an event listener to get notified of bot related events. 

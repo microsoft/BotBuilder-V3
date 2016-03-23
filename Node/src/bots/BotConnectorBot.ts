@@ -264,11 +264,11 @@ export class BotConnectorBot extends collection.DialogCollection {
         };
         if (settings.appId && settings.appSecret) {
             options.auth = {
-                username: 'Bot_' + settings.appId,
-                password: 'Bot_' + settings.appSecret
+                username: settings.appId,
+                password: settings.appSecret
             };
             options.headers = {
-                'Ocp-Apim-Subscription-Key': settings.subscriptionKey || settings.appSecret
+                'Ocp-Apim-Subscription-Key': settings.appSecret
             };
         }
         request.post(options, callback);
