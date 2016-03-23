@@ -505,7 +505,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else if (_type.IsIntegral())
                 {
-                    recognizer = new RecognizeLong<T>(this, CultureInfo.CurrentCulture);
+                    recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsDouble())
                 {

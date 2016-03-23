@@ -416,6 +416,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public abstract string Help(T state, object defaultValue);
 
+        /// <summary>
+        /// Return the help template args for current choice and no preference.
+        /// </summary>
+        /// <param name="state">Form state.</param>
+        /// <param name="defaultValue">Current value of field.</param>
+        /// <returns></returns>
         protected List<object> HelpArgs(T state, object defaultValue)
         {
             var args = new List<object>();
@@ -439,14 +445,26 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return args;
         }
 
+        /// <summary>
+        /// Field being filled information.
+        /// </summary>
         protected IField<T> _field;
-        protected HashSet<string> _currentChoices;
-        protected HashSet<string> _noPreference;
+
+        private HashSet<string> _currentChoices;
+        private HashSet<string> _noPreference;
     }
 
+    /// <summary>
+    /// Recognize a boolean value.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
     public class RecognizeBool<T> : RecognizePrimitive<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Construct a boolean recognizer for a field.
+        /// </summary>
+        /// <param name="field">Boolean field.</param>
         public RecognizeBool(IField<T> field)
             : base(field)
         {
@@ -496,13 +514,21 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 : _field.Form().Configuration().No).First();
         }
 
-        protected HashSet<string> _yes;
-        protected HashSet<string> _no;
+        private HashSet<string> _yes;
+        private HashSet<string> _no;
     }
 
+    /// <summary>
+    /// Recognize a string field.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
     public class RecognizeString<T> : RecognizePrimitive<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Construct a string recognizer for a field.
+        /// </summary>
+        /// <param name="field">String field.</param>
         public RecognizeString(IField<T> field)
             : base(field)
         {
@@ -537,13 +563,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
     }
 
-    public delegate string TypeValue(object value, CultureInfo culture);
-    public delegate IEnumerable<TermMatch> Matcher(string input);
-
-    public class RecognizeLong<T> : RecognizePrimitive<T>
+    /// <summary>
+    /// Recognize a numeric field.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public class RecognizeNumber<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public RecognizeLong(IField<T> field, CultureInfo culture)
+        /// <summary>
+        /// Construct a numeric recognizer for a field.
+        /// </summary>
+        /// <param name="field">Numeric field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
+        public RecognizeNumber(IField<T> field, CultureInfo culture)
             : base(field)
         {
             _culture = culture;
@@ -589,15 +621,25 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        protected long _min;
-        protected long _max;
-        protected bool _showLimits;
-        protected CultureInfo _culture;
+        private long _min;
+        private long _max;
+        private bool _showLimits;
+        private CultureInfo _culture;
     }
 
+    /// <summary>
+    /// Recognize a double or float field.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class RecognizeDouble<T> : RecognizePrimitive<T>
         where T : class, new()
     {
+
+        /// <summary>
+        /// Construct a double or float recognizer for a field.
+        /// </summary>
+        /// <param name="field">Float or double field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
         public RecognizeDouble(IField<T> field, CultureInfo culture)
             : base(field)
         {
@@ -641,97 +683,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        protected double _min;
-        protected double _max;
-        protected bool _showLimits;
-        protected CultureInfo _culture;
+        private double _min;
+        private double _max;
+        private bool _showLimits;
+        private CultureInfo _culture;
     }
-
-    /* TODO: Implement more recognizers.  May want to use built-in datetime parser.
-    /// <summary>
-    /// Regular expression recognizer.  For example if you had a DateTime field you would 
-    /// have this format the date for the culture and use regexs to recognize date/times.
-    /// </summary>
-    public abstract class RegexRecognizer<T> : IRecognizer<T>
-        where T : class, new()
-    {
-        public RegexRecognizer(IFieldDescription fieldDescription)
-        {
-            _fieldDescription = fieldDescription;
-        }
-
-        public abstract IEnumerable<string> ValueDescriptions();
-
-        public abstract string ValueDescription(object value);
-
-        public IEnumerable<object> Values()
-        {
-            return null;
-        }
-
-        public abstract IEnumerable<string> ValidInputs(object value);
-
-        public abstract string Help(T state, object defaultValue);
-
-        public abstract IEnumerable<TermMatch> Matches(string input, object defaultValue);
-
-        protected IFieldDescription _fieldDescription;
-    }
-
-    public class DateRecognizer : RegexRecognizer
-    {
-        private static Regex _regex = new Regex(@"(?:^|\s)(?<Month>\d{1,2})/(?<Day>\d{1,2})/(?<Year>(?:\d{4}|\d{2}))(?:\s|$)", RegexOptions.Compiled);
-
-        public DateRecognizer(IFieldDescription fieldDescription, string valueDescription)
-            : base(fieldDescription)
-        {
-            _valueDescription = valueDescription;
-        }
-
-        public override IEnumerable<string> ValidInputs(object value)
-        {
-            yield return ((DateTime)value).ToString(_fieldDescription.Culture().DateTimeFormat);
-        }
-
-        public override IEnumerable<string> ValueDescriptions()
-        {
-            yield return _valueDescription;
-        }
-
-        public override string ValueDescription(object value)
-        {
-            return ((DateTime)value).ToString(_fieldDescription.Culture().DateTimeFormat);
-        }
-
-        public override IEnumerable<TermMatch> Matches(string input, object defaultValue, bool allowNull)
-        {
-            foreach (Match match in _regex.Matches(input))
-            {
-                if (match.Success)
-                {
-                    var group = match.Groups[0];
-                    var month = int.Parse(match.Groups["Month"].Value);
-                    var day = int.Parse(match.Groups["Day"].Value);
-                    var year = int.Parse(match.Groups["Year"].Value);
-                    if (year < 100) year += 2000;
-                    var date = new DateTime();
-                    bool ok = false;
-                    try
-                    {
-                        date = new DateTime(year, month, day);
-                        ok = true;
-                    }
-                    catch (Exception)
-                    { }
-                    if (ok)
-                    {
-                        yield return new TermMatch(group.Index, group.Length, 1.0, date);
-                    }
-                }
-            }
-        }
-
-        private string _valueDescription;
-    }
-    */
 }
