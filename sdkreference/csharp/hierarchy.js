@@ -34,14 +34,12 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.CookieHelper", "da/d17/class_microsoft_1_1_bot_1_1_builder_1_1_cookie_helper.html", null ],
     [ "Microsoft.Bot.Builder.Extensions", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer< T >.ValueAndExpression", "de/d44/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer_1_1_value_and_expression.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.Extensions", "d4/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.IFieldDescription", "df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", [
         [ "Microsoft.Bot.Builder.Form.Advanced.Field< T >", "d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html", [
+          [ "Microsoft.Bot.Builder.Form.Advanced.Confirmation< T >", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html", null ],
           [ "Microsoft.Bot.Builder.Form.Advanced.FieldReflector< T >", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html", [
-            [ "Microsoft.Bot.Builder.Form.Advanced.Conditional< T >", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", null ],
-            [ "Microsoft.Bot.Builder.Form.Advanced.Confirmation< T >", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html", null ]
+            [ "Microsoft.Bot.Builder.Form.Advanced.Conditional< T >", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", null ]
           ] ]
         ] ]
       ] ]
@@ -52,35 +50,24 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Form.Advanced.IFieldState< T >", "da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.ILocalizer", "d5/d6a/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_localizer.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.ResourceLocalizer", "d6/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_resource_localizer.html", null ]
-    ] ],
     [ "Microsoft.Bot.Builder.Form.Advanced.IPrompt< T >", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.Prompter< T >", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IRecognizer< T >", "d6/db1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognizer.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.EnumeratedRecognizer< T >", "d0/de7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_enumerated_recognizer.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Advanced.PrimitiveRecognizer< T >", "d9/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_primitive_recognizer.html", [
-        [ "Microsoft.Bot.Builder.Form.Advanced.BoolRecognizer< T >", "db/d69/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_bool_recognizer.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.DoubleRecognizer< T >", "d6/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_double_recognizer.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.LongRecognizer< T >", "d3/d54/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_long_recognizer.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.StringRecognizer< T >", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_string_recognizer.html", null ]
+    [ "Microsoft.Bot.Builder.Form.Advanced.IRecognize< T >", "d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html", [
+      [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeEnumeration< T >", "db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html", null ],
+      [ "Microsoft.Bot.Builder.Form.Advanced.RecognizePrimitive< T >", "db/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_primitive.html", [
+        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeBool< T >", "d8/de8/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_bool.html", null ],
+        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeDateTime< T >", "d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html", null ],
+        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeDouble< T >", "da/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_double.html", null ],
+        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeNumber< T >", "d9/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_number.html", null ],
+        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeString< T >", "d9/df3/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_string.html", null ]
       ] ]
     ] ],
     [ "Microsoft.Bot.Builder.Form.Advanced.Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", null ],
     [ "Microsoft.Bot.Builder.Form.CommandDescription", "dc/ddd/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_command_description.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Form< T >.FieldStep.Ambiguous", "db/d13/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_ambiguous.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Form< T >.FieldStep.FieldStepState", "d0/d59/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step_1_1_field_step_state.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Form< T >.FormState", "dc/d71/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_form_state.html", null ],
     [ "Microsoft.Bot.Builder.Form.Form< T >.InitialState", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_initial_state.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Form< T >.IStep", "d0/dd5/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_i_step.html", [
-      [ "Microsoft.Bot.Builder.Form.Form< T >.ConfirmStep", "d0/d06/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_confirm_step.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Form< T >.FieldStep", "d0/de2/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_field_step.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Form< T >.MessageStep", "d1/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_message_step.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Form< T >.NavigationStep", "d6/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_1_1_navigation_step.html", null ]
-    ] ],
     [ "Microsoft.Bot.Builder.Form.FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", null ],
     [ "Microsoft.Bot.Builder.IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", [
       [ "Microsoft.Bot.Builder.CallDialog", "d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html", null ],

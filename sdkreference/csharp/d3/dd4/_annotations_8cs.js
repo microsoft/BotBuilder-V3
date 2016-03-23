@@ -9,8 +9,8 @@ var _annotations_8cs =
     [ "Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms" ],
     [ "BoolDefault", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67", null ],
-      [ "Yes", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a93cba07454f06a4a960172bbd6e2a435", null ],
-      [ "No", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8abafd7322c6e97d25b6299b5d6fe8920b", null ]
+      [ "True", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8af827cf462f62848df37c5e1e94a4da74", null ],
+      [ "False", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8af8320b26d30ab433c5a54546d21f414c", null ]
     ] ],
     [ "CaseNormalization", "d3/dd4/_annotations_8cs.html#a7ca4030616f52805bc16bba9c54d343c", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a7ca4030616f52805bc16bba9c54d343ca7a1920d61156abc05a60135aefe8bc67", null ],
