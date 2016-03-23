@@ -278,16 +278,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
             else
             {
-                if (allowNumbers)
+                if (n == 0)
                 {
-                    if (n == 0)
-                    {
-                        word.Append("|c");
-                    }
-                    else
-                    {
-                        word.AppendFormat(@"|{0}", n);
-                    }
+                    word.Append("|c");
+                }
+                else if (allowNumbers)
+                {
+                    word.AppendFormat(@"|{0}", n);
                 }
                 word.Append(@")\b)");
             }
@@ -468,10 +465,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public RecognizeBool(IField<T> field)
             : base(field)
         {
-            if (field.Optional())
-            {
-                throw new ArgumentException("A bool field cannot be optional use an optional enumeration instead.");
-            }
             _yes = new HashSet<string>(from term in field.Form().Configuration().Yes
                                        select term.Trim().ToLower());
             _no = new HashSet<string>(from term in field.Form().Configuration().No

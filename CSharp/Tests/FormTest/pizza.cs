@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.FormTest
     [Serializable]
     class PizzaOrder
     {
-        [Numeric(0, 10)]
+        [Numeric(1, 10)]
         public int NumberOfPizzas = 1;
         [Optional]
         public SizeOptions? Size;

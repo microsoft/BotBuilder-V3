@@ -189,7 +189,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 for (var start = 0; start <= words.Length - length; ++start)
                 {
                     var ngram = new ArraySegment<string>(words, start, length);
-                    if (!NoiseResponse(ngram.First()) && !NoiseResponse(ngram.Last()))
+                    if (!ArticleOrNone(ngram.First()) && !ArticleOrNone(ngram.Last()))
                     {
                         terms.Add(string.Join(" ", OptionalPlurals(ngram)));
                     }
