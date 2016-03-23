@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.FormTest
             if (noNumbers)
             {
                 form.Configuration().DefaultPrompt.ChoiceFormat = "{1}";
-                form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.No;
+                form.Configuration().DefaultPrompt.AllowNumbers = BoolDefault.False;
             }
             else
             {
@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.FormTest
                         return feedback;
                     })
                 .AddRemainingFields()
-                .Confirm("Would you like a {Size}, {[BYO.Crust BYO.Sauce BYO.Toppings]} pizza delivered to {DeliveryAddress}?", isBYO)
+                .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)

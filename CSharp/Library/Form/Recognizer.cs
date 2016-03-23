@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chronic;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,18 +9,34 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
     /// <summary>
-    /// Simple value table with explicitly added values.
+    /// Recognizer for enumerated values.
     /// </summary>
-    public class EnumeratedRecognizer<T> : IRecognizer<T>
+    public sealed class RecognizeEnumeration<T> : IRecognize<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Delegate for mapping from a C# value to it's description.
+        /// </summary>
+        /// <param name="value">C# value to get description for.</param>
+        /// <returns>Description of C# value.</returns>
         public delegate string DescriptionDelegate(object value);
+
+        /// <summary>
+        /// Delegate to return the terms to match on for a C# value.
+        /// </summary>
+        /// <param name="value">C# value to get terms for.</param>
+        /// <returns>Enumeration of regular expressions to match on for value.</returns>
         public delegate IEnumerable<string> TermsDelegate(object value);
 
-        public EnumeratedRecognizer(IField<T> field)
+        /// <summary>
+        /// Constructor based on <see cref="IField{T}"/>.
+        /// </summary>
+        /// <param name="field">Field with enumerated values.</param>
+        public RecognizeEnumeration(IField<T> field)
         {
             var configuration = field.Form().Configuration();
             _form = field.Form();
+            _allowNumbers = field.AllowNumbers();
             _description = field.Description();
             _terms = field.Terms();
             _values = field.Values();
@@ -31,10 +48,23 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 : (field.AllowsMultiple() ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional() ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(field.AllowNumbers(), configuration.CurrentChoice);
+            BuildPerValueMatcher(configuration.CurrentChoice);
         }
 
-        public EnumeratedRecognizer(IForm<T> form,
+        /// <summary>
+        /// Explicitly contructed recognizer.
+        /// </summary>
+        /// <param name="form">Form recognizer is being used in.</param>
+        /// <param name="description">Description of the field being asked for.</param>
+        /// <param name="terms">Regular expressions that when matched mean this field.</param>
+        /// <param name="values">Possible C# values for field.</param>
+        /// <param name="descriptionDelegate">Mapping from C# value to it's description.</param>
+        /// <param name="termsDelegate">Mapping from C# value to it's regular expressions for matching.</param>
+        /// <param name="allowNumbers">True to allow matching on numbers.</param>
+        /// <param name="helpFormat">Template for generating overall help.</param>
+        /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
+        /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
+        public RecognizeEnumeration(IForm<T> form,
             string description,
             IEnumerable<object> terms,
             IEnumerable<object> values,
@@ -45,6 +75,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             IEnumerable<string> noPreference = null,
             IEnumerable<string> currentChoice = null)
         {
+            _form = form;
+            _allowNumbers = allowNumbers;
             _values = values;
             _descriptionDelegate = descriptionDelegate;
             _termsDelegate = termsDelegate;
@@ -55,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 _currentChoice = currentChoice.FirstOrDefault();
             }
-            BuildPerValueMatcher(allowNumbers, currentChoice);
+            BuildPerValueMatcher(currentChoice);
         }
 
         public IEnumerable<object> Values()
@@ -94,8 +126,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 values = values.Union(new string[] { _currentChoice + " or 'c'" });
             }
-            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", 1, max,
-                Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
+            var args = new List<object>();
+            if (_allowNumbers)
+            {
+                args.Add(1);
+                args.Add(max);
+            }
+            else
+            {
+                args.Add(null);
+                args.Add(null);
+            }
+            args.Add(Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -156,29 +199,29 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return builder.ToString();
         }
 
-        protected enum Special { CurrentChoice, NoPreference };
+        private enum Special { CurrentChoice, NoPreference };
 
         // Word character, any word character, any digit, any positive group over word characters
-        protected const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
-        protected static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
-        protected static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
+        private const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
+        private static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
+        private static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
 
-        protected void BuildPerValueMatcher(bool allowNumbers, IEnumerable<string> currentChoice)
+        private void BuildPerValueMatcher(IEnumerable<string> currentChoice)
         {
             if (currentChoice != null)
             {
                 // 0 is reserved for current default if any
-                AddExpression(0, Special.CurrentChoice, currentChoice, allowNumbers);
+                AddExpression(0, Special.CurrentChoice, currentChoice, _allowNumbers);
             }
             var n = 1;
             foreach (var value in _values)
             {
-                n = AddExpression(n, value, _termsDelegate(value), allowNumbers);
+                n = AddExpression(n, value, _termsDelegate(value), _allowNumbers);
             }
             if (_noPreference != null)
             {
                 // Add recognizer for no preference
-                n = AddExpression(n, Special.NoPreference, _noPreference, allowNumbers);
+                n = AddExpression(n, Special.NoPreference, _noPreference, _allowNumbers);
             }
             if (_terms != null && _terms.Count() > 0)
             {
@@ -188,7 +231,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = n - 1;
         }
 
-        protected int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
+        private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             var word = new StringBuilder();
@@ -236,16 +279,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
             else
             {
-                if (allowNumbers)
+                if (n == 0)
                 {
-                    if (n == 0)
-                    {
-                        word.Append("|c");
-                    }
-                    else
-                    {
-                        word.AppendFormat(@"|{0}", n);
-                    }
+                    word.Append("|c");
+                }
+                else if (allowNumbers)
+                {
+                    word.AppendFormat(@"|{0}", n);
                 }
                 word.Append(@")\b)");
             }
@@ -265,7 +305,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return n;
         }
 
-        protected class ValueAndExpression
+        private class ValueAndExpression
         {
             public ValueAndExpression(object value, Regex expression, string longest)
             {
@@ -279,24 +319,34 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             public readonly string Longest;
         }
 
-        protected IForm<T> _form;
-        protected string _description;
-        protected IEnumerable<string> _noPreference;
-        protected string _currentChoice;
-        protected IEnumerable<string> _terms;
-        protected IEnumerable<object> _values;
-        protected IEnumerable<string> _valueDescriptions;
-        protected DescriptionDelegate _descriptionDelegate;
-        protected TermsDelegate _termsDelegate;
-        protected Template _helpFormat;
-        protected int _max;
-        protected List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
+        private readonly IForm<T> _form;
+        private readonly string _description;
+        private readonly IEnumerable<string> _noPreference;
+        private readonly string _currentChoice;
+        private readonly bool _allowNumbers;
+        private readonly IEnumerable<string> _terms;
+        private readonly IEnumerable<object> _values;
+        private readonly IEnumerable<string> _valueDescriptions;
+        private readonly DescriptionDelegate _descriptionDelegate;
+        private readonly TermsDelegate _termsDelegate;
+        private readonly Template _helpFormat;
+        private int _max;
+        private readonly List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }
 
-    public abstract class PrimitiveRecognizer<T> : IRecognizer<T>
+    /// <summary>
+    /// Abstract class for constructing primitive value recognizers.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public abstract class RecognizePrimitive<T> : IRecognize<T>
         where T : class, new()
     {
-        public PrimitiveRecognizer(IField<T> field)
+
+        /// <summary>
+        /// Constructor using <see cref="IField{T}"/>.
+        /// </summary>
+        /// <param name="field">Field to build recognizer for.</param>
+        public RecognizePrimitive(IField<T> field)
         {
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form().Configuration().CurrentChoice
@@ -315,8 +365,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
         }
 
+        /// <summary>
+        /// Abstract method for parsing input.
+        /// </summary>
+        /// <param name="input">Input to match.</param>
+        /// <returns>TermMatch if input is a match.</returns>
         public abstract TermMatch Parse(string input);
 
+        /// <summary>
+        /// Match input with optional default value.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
         public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue = null)
         {
             var matchValue = input.Trim().ToLower();
@@ -353,6 +414,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public abstract string Help(T state, object defaultValue);
 
+        /// <summary>
+        /// Return the help template args for current choice and no preference.
+        /// </summary>
+        /// <param name="state">Form state.</param>
+        /// <param name="defaultValue">Current value of field.</param>
+        /// <returns></returns>
         protected List<object> HelpArgs(T state, object defaultValue)
         {
             var args = new List<object>();
@@ -376,21 +443,29 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return args;
         }
 
+        /// <summary>
+        /// Field being filled information.
+        /// </summary>
         protected IField<T> _field;
-        protected HashSet<string> _currentChoices;
-        protected HashSet<string> _noPreference;
+
+        private HashSet<string> _currentChoices;
+        private HashSet<string> _noPreference;
     }
 
-    public class BoolRecognizer<T> : PrimitiveRecognizer<T>
+    /// <summary>
+    /// Recognize a boolean value.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public sealed class RecognizeBool<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public BoolRecognizer(IField<T> field)
+        /// <summary>
+        /// Construct a boolean recognizer for a field.
+        /// </summary>
+        /// <param name="field">Boolean field.</param>
+        public RecognizeBool(IField<T> field)
             : base(field)
         {
-            if (field.Optional())
-            {
-                throw new ArgumentException("A bool field cannot be optional use an optional enumeration instead.");
-            }
             _yes = new HashSet<string>(from term in field.Form().Configuration().Yes
                                        select term.Trim().ToLower());
             _no = new HashSet<string>(from term in field.Form().Configuration().No
@@ -433,14 +508,22 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 : _field.Form().Configuration().No).First();
         }
 
-        protected HashSet<string> _yes;
-        protected HashSet<string> _no;
+        private HashSet<string> _yes;
+        private HashSet<string> _no;
     }
 
-    public class StringRecognizer<T> : PrimitiveRecognizer<T>
+    /// <summary>
+    /// Recognize a string field.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public sealed class RecognizeString<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public StringRecognizer(IField<T> field)
+        /// <summary>
+        /// Construct a string recognizer for a field.
+        /// </summary>
+        /// <param name="field">String field.</param>
+        public RecognizeString(IField<T> field)
             : base(field)
         {
         }
@@ -474,13 +557,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
     }
 
-    public delegate string TypeValue(object value, CultureInfo culture);
-    public delegate IEnumerable<TermMatch> Matcher(string input);
-
-    public class LongRecognizer<T> : PrimitiveRecognizer<T>
+    /// <summary>
+    /// Recognize a numeric field.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public sealed class RecognizeNumber<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public LongRecognizer(IField<T> field, CultureInfo culture)
+        /// <summary>
+        /// Construct a numeric recognizer for a field.
+        /// </summary>
+        /// <param name="field">Numeric field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
+        public RecognizeNumber(IField<T> field, CultureInfo culture)
             : base(field)
         {
             _culture = culture;
@@ -526,16 +615,26 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        protected long _min;
-        protected long _max;
-        protected bool _showLimits;
-        protected CultureInfo _culture;
+        private long _min;
+        private long _max;
+        private bool _showLimits;
+        private CultureInfo _culture;
     }
 
-    public class DoubleRecognizer<T> : PrimitiveRecognizer<T>
+    /// <summary>
+    /// Recognize a double or float field.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public sealed class RecognizeDouble<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public DoubleRecognizer(IField<T> field, CultureInfo culture)
+
+        /// <summary>
+        /// Construct a double or float recognizer for a field.
+        /// </summary>
+        /// <param name="field">Float or double field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
+        public RecognizeDouble(IField<T> field, CultureInfo culture)
             : base(field)
         {
             _culture = culture;
@@ -578,97 +677,63 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        protected double _min;
-        protected double _max;
-        protected bool _showLimits;
-        protected CultureInfo _culture;
+        private double _min;
+        private double _max;
+        private bool _showLimits;
+        private CultureInfo _culture;
     }
 
-    /* TODO: Implement more recognizers.  May want to use built-in datetime parser.
     /// <summary>
-    /// Regular expression recognizer.  For example if you had a DateTime field you would 
-    /// have this format the date for the culture and use regexs to recognize date/times.
+    /// Recognize a date/time expression.
     /// </summary>
-    public abstract class RegexRecognizer<T> : IRecognizer<T>
+    /// <typeparam name="T">Form state.</typeparam>
+    /// <remarks>
+    /// Expressions recognized are based on the C# nuget package Chronic.
+    /// </remarks>
+    public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
         where T : class, new()
     {
-        public RegexRecognizer(IFieldDescription fieldDescription)
+        /// <summary>
+        /// Construct a date/time recognizer.
+        /// </summary>
+        /// <param name="field">DateTime field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
+        public RecognizeDateTime(IField<T> field, CultureInfo culture)
+            : base(field)
         {
-            _fieldDescription = fieldDescription;
+            _culture = culture;
+            _parser = new Chronic.Parser();
         }
 
-        public abstract IEnumerable<string> ValueDescriptions();
-
-        public abstract string ValueDescription(object value);
-
-        public IEnumerable<object> Values()
+        public override string Help(T state, object defaultValue)
         {
-            return null;
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
         }
 
-        public abstract IEnumerable<string> ValidInputs(object value);
-
-        public abstract string Help(T state, object defaultValue);
-
-        public abstract IEnumerable<TermMatch> Matches(string input, object defaultValue);
-
-        protected IFieldDescription _fieldDescription;
-    }
-
-    public class DateRecognizer : RegexRecognizer
-    {
-        private static Regex _regex = new Regex(@"(?:^|\s)(?<Month>\d{1,2})/(?<Day>\d{1,2})/(?<Year>(?:\d{4}|\d{2}))(?:\s|$)", RegexOptions.Compiled);
-
-        public DateRecognizer(IFieldDescription fieldDescription, string valueDescription)
-            : base(fieldDescription)
+        public override TermMatch Parse(string input)
         {
-            _valueDescription = valueDescription;
+            TermMatch match = null;
+            var parse = _parser.Parse(input);
+            if (parse != null && parse.Start.HasValue)
+            {
+                match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+            }
+            return match;
         }
 
         public override IEnumerable<string> ValidInputs(object value)
         {
-            yield return ((DateTime)value).ToString(_fieldDescription.Culture().DateTimeFormat);
-        }
-
-        public override IEnumerable<string> ValueDescriptions()
-        {
-            yield return _valueDescription;
+            yield return ValueDescription(value);
         }
 
         public override string ValueDescription(object value)
         {
-            return ((DateTime)value).ToString(_fieldDescription.Culture().DateTimeFormat);
+            return ((DateTime) value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
         }
 
-        public override IEnumerable<TermMatch> Matches(string input, object defaultValue, bool allowNull)
-        {
-            foreach (Match match in _regex.Matches(input))
-            {
-                if (match.Success)
-                {
-                    var group = match.Groups[0];
-                    var month = int.Parse(match.Groups["Month"].Value);
-                    var day = int.Parse(match.Groups["Day"].Value);
-                    var year = int.Parse(match.Groups["Year"].Value);
-                    if (year < 100) year += 2000;
-                    var date = new DateTime();
-                    bool ok = false;
-                    try
-                    {
-                        date = new DateTime(year, month, day);
-                        ok = true;
-                    }
-                    catch (Exception)
-                    { }
-                    if (ok)
-                    {
-                        yield return new TermMatch(group.Index, group.Length, 1.0, date);
-                    }
-                }
-            }
-        }
-
-        private string _valueDescription;
+        private CultureInfo _culture;
+        private Parser _parser;
     }
-    */
 }

@@ -217,7 +217,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public bool AllowDefault()
         {
-            return _promptDefinition.AllowDefault != BoolDefault.No;
+            return _promptDefinition.AllowDefault != BoolDefault.False;
         }
 
         public void SetLimits(double min, double max, bool limited)
@@ -233,7 +233,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <returns>True if numbers are allowed as input.</returns>
         public bool AllowNumbers()
         {
-            return _promptDefinition.AllowNumbers != BoolDefault.No;
+            return _promptDefinition.AllowNumbers != BoolDefault.False;
         }
 
         public Field<T> Prompt(Prompt prompt)
@@ -321,18 +321,16 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else if (_type == typeof(bool))
                 {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.No };
+                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.False };
                 }
                 else if (_type.IsDouble())
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.Double));
                 }
-                /*
                 else if (_type == typeof(DateTime))
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
                 }
-                */
             }
         }
 
@@ -457,6 +455,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     unknown = ((int)value == 0);
                 }
+                else if (ftype == typeof(DateTime))
+                {
+                    unknown = ((DateTime)value) == default(DateTime);
+                }
                 else if (ftype.IsIEnumerable())
                 {
                     unknown = !(value as System.Collections.IEnumerable).GetEnumerator().MoveNext();
@@ -475,6 +477,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 SetValue(state, 0);
             }
+            else if (ftype == typeof(DateTime))
+            {
+                SetValue(state, default(DateTime));
+            }
             else
             {
                 SetValue(state, null);
@@ -490,33 +496,37 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             if (_prompt == null)
             {
                 var step = _path.LastOrDefault();
-                IRecognizer<T> recognizer = null;
+                IRecognize<T> recognizer = null;
                 if (_type == null || _type.IsEnum)
                 {
-                    recognizer = new EnumeratedRecognizer<T>(this);
+                    recognizer = new RecognizeEnumeration<T>(this);
                 }
                 else if (_type == typeof(bool))
                 {
-                    recognizer = new BoolRecognizer<T>(this);
+                    recognizer = new RecognizeBool<T>(this);
                 }
                 else if (_type == typeof(string))
                 {
-                    recognizer = new StringRecognizer<T>(this);
+                    recognizer = new RecognizeString<T>(this);
                 }
                 else if (_type.IsIntegral())
                 {
-                    recognizer = new LongRecognizer<T>(this, CultureInfo.CurrentCulture);
+                    recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsDouble())
                 {
-                    recognizer = new DoubleRecognizer<T>(this, CultureInfo.CurrentCulture);
+                    recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type == typeof(DateTime))
+                {
+                    recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsIEnumerable())
                 {
                     var elt = _type.GetGenericElementType();
                     if (elt.IsEnum)
                     {
-                        recognizer = new EnumeratedRecognizer<T>(this);
+                        recognizer = new RecognizeEnumeration<T>(this);
                     }
                 }
                 _prompt = new Prompter<T>(_promptDefinition, _form, recognizer);
@@ -634,7 +644,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     else if (ftype == typeof(DateTime))
                     {
-                        // Datetime recognizer
+                        ProcessFieldAttributes(field);
                     }
                     _type = ftype;
                 }

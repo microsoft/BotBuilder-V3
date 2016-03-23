@@ -63,22 +63,9 @@ namespace Microsoft.Bot.Builder.Form
         /// with a maximum phrase size of <see cref="MaxPhrase"/>.
         /// </remarks>
         /// <param name="alternatives">Regular expressions or terms.</param>
-        public Terms(string[] alternatives)
+        public Terms(params string[] alternatives)
         {
             Alternatives = alternatives;
-        }
-
-        /// <summary>
-        /// Regular expression or terms to use when matching user input.
-        /// </summary>
-        /// <remarks>
-        /// If <see cref="MaxPhrase"/> is specified the supplied alternatives will be passed to <see cref="Advanced.Language.GenerateTerms(string, int)"/> to generate regular expressions
-        /// with a maximum phrase size of <see cref="MaxPhrase"/>.
-        /// </remarks>
-        /// <param name="root">A single regular expression or term.</param>
-        public Terms(string root)
-        {
-            Alternatives = new string[] { root };
         }
     }
 
@@ -140,6 +127,9 @@ namespace Microsoft.Bot.Builder.Form
     /// <summary>
     /// Three state boolean value.
     /// </summary>
+    /// <remarks>
+    /// This is necessary because C# attributes do not support nullable properties.
+    /// </remarks>
     public enum BoolDefault {
         /// <summary>
         /// Use the default from the <see cref="FormConfiguration.DefaultPrompt"/>.
@@ -149,12 +139,12 @@ namespace Microsoft.Bot.Builder.Form
         /// <summary>
         /// Boolean true.
         /// </summary>
-        Yes,
+        True,
 
         /// <summary>
         /// Boolean false.
         /// </summary>
-        No };
+        False };
 
     /// <summary>
     /// Control how the user gets feedback after each entry.
@@ -199,14 +189,15 @@ namespace Microsoft.Bot.Builder.Form
         public BoolDefault AllowNumbers { get; set; }
 
         /// <summary>
-        /// Control case when showing {&} field name references in a \ref patterns string.
+        /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
         /// </summary>
-        public CaseNormalization FieldCase { get; set; }
+        /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
+        public string ChoiceFormat { get; set; }
 
         /// <summary>
-        /// Control case when showing {} value references in a \ref patterns string.
+        /// How to display choices {||} when processed in a \ref patterns string.
         /// </summary>
-        public CaseNormalization ValueCase { get; set; }
+        public ChoiceStyleOptions ChoiceStyle { get; set; }
 
         /// <summary>
         /// Control what kind of feedback the user gets after each input.
@@ -214,12 +205,11 @@ namespace Microsoft.Bot.Builder.Form
         public FeedbackOptions Feedback { get; set; }
 
         /// <summary>
-        /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
+        /// Control case when showing {&} field name references in a \ref patterns string.
         /// </summary>
-        /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
-        public string ChoiceFormat { get; set; }
+        public CaseNormalization FieldCase { get; set; }
 
-        /// <summary>
+         /// <summary>
         /// When constructing lists using {[]} in a \ref patterns string, the string used before the last value in the list.
         /// </summary>
         public string LastSeparator { get; set; }
@@ -229,10 +219,10 @@ namespace Microsoft.Bot.Builder.Form
         /// </summary>
         public string Separator { get; set; }
 
-        /// <summary>
-        /// How to display choices {||} when processed in a \ref patterns string.
+       /// <summary>
+        /// Control case when showing {} value references in a \ref patterns string.
         /// </summary>
-        public ChoiceStyleOptions ChoiceStyle { get; set; }
+        public CaseNormalization ValueCase { get; set; }
 
         /// <summary>
         /// The pattern to use when generating a string using <see cref="Advanced.IPrompt{T}"/>.
@@ -379,6 +369,9 @@ namespace Microsoft.Bot.Builder.Form
         /// <summary>
         /// What you can enter when entering a bool.
         /// </summary>
+        /// <remarks>
+        /// Within this template {0} is the current choice if any and {1} is no preference if optional. 
+        /// </remarks>
         BoolHelp,
 
         /// <summary>
@@ -391,7 +384,8 @@ namespace Microsoft.Bot.Builder.Form
         /// Show the current choice.
         /// </summary>
         /// <remarks>
-        /// This is how the current choice is represented as an option.  If you change this, you should also change <see cref="FormConfiguration.CurrentChoice"/>
+        /// This is how the current choice is represented as an option.  
+        /// If you change this, you should also change <see cref="FormConfiguration.CurrentChoice"/>
         /// so that what people can type matches what you show.
         /// </remarks>
         CurrentChoice,
@@ -404,39 +398,66 @@ namespace Microsoft.Bot.Builder.Form
         /// <summary>
         /// What you can enter when entering a <see cref="DateTime"/>.
         /// </summary>
+        /// <remarks>
+        /// Within this template {0} is the current choice if any and {1} is no preference if optional. 
+        /// </remarks>
+        /// <remarks>
+        /// This template can use {0} to get the current choice or {1} for no preference if field is optional.
+        /// </remarks>
         DateTimeHelp,
 
         /// <summary>
         /// How to ask for a double.
         /// </summary>
+        /// <remarks>
+        /// Within this template if numerical limits are specified using <see cref="Numeric"/>, 
+        /// {0} is the minimum possible value and {1} is the maximum possible value.
+        /// </remarks>
         Double,
 
         /// <summary>
         /// What you can enter when entering a double.
         /// </summary>
         /// <remarks>
-        /// Within this template, {0} is current choice if any and {1} and {2} are min/max if specified.
+        /// Within this template {0} is the current choice if any and {1} is no preference if optional. 
+        /// If limits are specified through <see cref="Numeric"/>, then {2} will be the minimum possible value 
+        /// and {3} the maximum possible value.
+        /// </remarks>
+        /// <remarks>
+        /// Within this template, {0} is current choice if any, {1} is no preference for optional  and {1} and {2} are min/max if specified.
         /// </remarks>
         DoubleHelp,
 
         /// <summary>
         /// What you can enter when selecting a single value from a numbered enumeration.
         /// </summary>
+        /// <remarks>
+        /// Within this template, {0} is the minimum choice. {1} is the maximum choice and {2} is a description of all the possible words.
+        /// </remarks>
         EnumOneNumberHelp,
 
         /// <summary>
         ///  What you can enter when selecting multiple values from a numbered enumeration.
         /// </summary>
+        /// <remarks>
+        /// Within this template, {0} is the minimum choice. {1} is the maximum choice and {2} is a description of all the possible words.
+        /// </remarks>
         EnumManyNumberHelp,
 
         /// <summary>
         /// What you can enter when selecting one value from an enumeration.
         /// </summary>
+        /// <remarks>
+        /// Within this template, {2} is a list of the possible values.
+        /// </remarks>
         EnumOneWordHelp,
 
         /// <summary>
         /// What you can enter when selecting mutiple values from an enumeration.
         /// </summary>
+        /// <remarks>
+        /// Within this template, {2} is a list of the possible values.
+        /// </remarks>
         EnumManyWordHelp,
 
         /// <summary>
@@ -453,7 +474,7 @@ namespace Microsoft.Bot.Builder.Form
         /// How to show feedback after user input.
         /// </summary>
         /// <remarks>
-        /// Unmatched input is available through {0}, but it should be wrapped in an optional {?} in \ref patterns in case everything was matched. 
+        /// Within this template, unmatched input is available through {0}, but it should be wrapped in an optional {?} in \ref patterns in case everything was matched. 
         /// </remarks>
         Feedback,
 
@@ -474,7 +495,15 @@ namespace Microsoft.Bot.Builder.Form
         HelpClarify,
 
         /// <summary>
-        /// What to display when asked for help while navigating between fields. 
+        /// What to display when asked for help while in a confirmation.
+        /// </summary>
+        /// <remarks>
+        /// This template controls the overall help experience.  {0} will be recognizer specific help and {1} will be command help.
+        /// </remarks>
+        HelpConfirm,
+
+        /// <summary>
+        /// What to display when asked for help while navigating.
         /// </summary>
         /// <remarks>
         /// This template controls the overall help experience.  {0} will be recognizer specific help and {1} will be command help.
@@ -484,13 +513,18 @@ namespace Microsoft.Bot.Builder.Form
         /// <summary>
         /// How to ask for an integer.
         /// </summary>
+        /// <remarks>
+        /// Within this template if numerical limits are specified using <see cref="Numeric"/>, 
+        /// {0} is the minimum possible value and {1} is the maximum possible value.
+        /// </remarks>
         Integer,
 
         /// <summary>
         /// What you can enter while entering an integer.
         /// </summary>
+        /// </remarks>
         /// <remarks>
-        /// Within this template, {0} is current choice if any and {1} and {2} are min/max if specified.
+        /// Within this template, {0} is current choice if any, {1} is no preference for optional  and {1} and {2} are min/max if specified.
         /// </remarks>
         IntegerHelp,
 
@@ -500,12 +534,29 @@ namespace Microsoft.Bot.Builder.Form
         Navigation,
 
         /// <summary>
-        /// Navigation format for one line in navigation.
+        /// Help pattern for navigation commands. 
+        /// </summary>
+        /// <remarks>
+        /// Within this template, {0} has the list of possible field names.
+        /// </remarks>
+        NavigationCommandHelp,
+
+        /// <summary>
+        /// Navigation format for one line in navigation choices.
         /// </summary>
         NavigationFormat,
 
         /// <summary>
-        /// How to represent no value in an optional field. 
+        /// What you can enter when navigating.
+        /// </summary>
+        /// <remarks>
+        /// Within this template, if numeric choies are allowed {0} is the minimum possible choice 
+        /// and {1} the maximum possible choice. 
+        /// </remarks>
+        NavigationHelp,
+
+        /// <summary>
+        /// How to show no preference in an optional field.
         /// </summary>
         NoPreference,
 
@@ -513,7 +564,8 @@ namespace Microsoft.Bot.Builder.Form
         /// Response when an input is not understood.
         /// </summary>
         /// <remarks>
-        /// When no input is matched this template is used and gets {0} for what the user entered.</remarks>
+        /// When no input is matched this template is used and gets {0} for what the user entered.
+        /// </remarks>
         NotUnderstood,
 
         /// <summary>
@@ -530,6 +582,7 @@ namespace Microsoft.Bot.Builder.Form
         /// What to display when asked for help when entering a string. 
         /// </summary>
         /// <remarks>
+        /// Within this template {0} is the current choice if any and {1} is no preference if optional. 
         /// </remarks>
         StringHelp,
 

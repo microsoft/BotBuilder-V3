@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
-    public interface ILocalizer
+    internal interface ILocalizer
     {
         /// <summary>
         /// Return the localizer culture.
@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         ILocalizer Load(string culture, Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
     }
 
-    public class ResourceLocalizer : ILocalizer
+    internal class ResourceLocalizer : ILocalizer
     {
         public ResourceLocalizer(string culture)
         {
