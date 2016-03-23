@@ -86,6 +86,13 @@
     <Compile Include="Dialogs\IDialogCollection.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Fibers\Awaitable.cs" />
+    <Compile Include="Fibers\Exceptions.cs" />
+    <Compile Include="Fibers\Extensions.cs" />
+    <Compile Include="Fibers\Fiber.cs" />
+    <Compile Include="Fibers\Methods.cs" />
+    <Compile Include="Fibers\Serialization.cs" />
+    <Compile Include="Fibers\Wait.cs" />
     <Compile Include="Form\Confirmation.cs" />
     <Compile Include="Form\Field.cs" />
     <Compile Include="Form\Form.cs" />
