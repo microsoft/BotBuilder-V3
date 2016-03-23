@@ -94,7 +94,6 @@ namespace Microsoft.Bot.Builder.FormTest
 
         static void Main(string[] args)
         {
-            var terms = Language.GenerateTerms("AngusBeefAndGarlicPizza", 2);
             var dialogs = new DialogCollection();
             var annotationsAndNumbers = AddFields(new Form<PizzaOrder>("AnnotationsAndNumbers"), false);
             var annotationsAndWords = AddFields(new Form<PizzaOrder>("AnnotationsAndWords"), true);

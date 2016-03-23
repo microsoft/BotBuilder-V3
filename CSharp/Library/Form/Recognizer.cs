@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chronic;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -455,7 +456,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognize a boolean value.
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
-    public class RecognizeBool<T> : RecognizePrimitive<T>
+    public sealed class RecognizeBool<T> : RecognizePrimitive<T>
         where T : class, new()
     {
         /// <summary>
@@ -515,7 +516,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognize a string field.
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
-    public class RecognizeString<T> : RecognizePrimitive<T>
+    public sealed class RecognizeString<T> : RecognizePrimitive<T>
         where T : class, new()
     {
         /// <summary>
@@ -560,7 +561,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognize a numeric field.
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
-    public class RecognizeNumber<T> : RecognizePrimitive<T>
+    public sealed class RecognizeNumber<T> : RecognizePrimitive<T>
         where T : class, new()
     {
         /// <summary>
@@ -624,7 +625,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognize a double or float field.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RecognizeDouble<T> : RecognizePrimitive<T>
+    public sealed class RecognizeDouble<T> : RecognizePrimitive<T>
         where T : class, new()
     {
 
@@ -680,5 +681,56 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private double _max;
         private bool _showLimits;
         private CultureInfo _culture;
+    }
+
+    /// <summary>
+    /// Recognize a date/time expression.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
+        where T : class, new()
+    {
+        /// <summary>
+        /// Construct a date/time recognizer.
+        /// </summary>
+        /// <param name="field">DateTime field.</param>
+        /// <param name="culture">Culture to use for parsing.</param>
+        public RecognizeDateTime(IField<T> field, CultureInfo culture)
+            : base(field)
+        {
+            _culture = culture;
+            _parser = new Chronic.Parser();
+        }
+
+        public override string Help(T state, object defaultValue)
+        {
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form(), null);
+            var args = HelpArgs(state, defaultValue);
+            return prompt.Prompt(state, _field.Name(), args.ToArray());
+        }
+
+        public override TermMatch Parse(string input)
+        {
+            TermMatch match = null;
+            var parse = _parser.Parse(input);
+            if (parse != null && parse.Start.HasValue)
+            {
+                match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+            }
+            return match;
+        }
+
+        public override IEnumerable<string> ValidInputs(object value)
+        {
+            yield return ValueDescription(value);
+        }
+
+        public override string ValueDescription(object value)
+        {
+            return ((DateTime) value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
+        }
+
+        private CultureInfo _culture;
+        private Parser _parser;
     }
 }

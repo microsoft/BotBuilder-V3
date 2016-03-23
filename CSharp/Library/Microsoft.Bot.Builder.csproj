@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chronic, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Chronic.0.3.1\lib\net40\Chronic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Bot.Connector, Version=0.9.9.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bot.Connector.0.9.9.6-alpha\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>

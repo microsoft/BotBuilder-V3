@@ -553,12 +553,10 @@ namespace Microsoft.Bot.Builder.Form
             {
                 paths.Add(path);
             }
-            /* TODO: Add more recognizers
             else if (type == typeof(DateTime))
             {
                 paths.Add(path);
             }
-            */
         }
 
         private IStep Step(string name)

@@ -330,9 +330,9 @@ namespace Microsoft.Bot.Builder.Form
             new Template(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}"),
             new Template(TemplateUsage.CurrentChoice, "(current choice: {})"),
 
-            new Template(TemplateUsage.DateTime, "Please enter a date and time for {&}"),
+            new Template(TemplateUsage.DateTime, "Please enter a date and time for {&} {||}"),
             // {0} is current choice, {1} is no preference
-            new Template(TemplateUsage.DateTimeHelp, "Please enter a date and/or time{?, {0}}{?, {1}}."),
+            new Template(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
 
             new Template(TemplateUsage.Double, "Please enter a number for {&} {||}") { AllowNumbers = BoolDefault.False, ChoiceFormat = "{1}" },
 

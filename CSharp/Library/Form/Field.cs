@@ -327,12 +327,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.Double));
                 }
-                /*
                 else if (_type == typeof(DateTime))
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
                 }
-                */
             }
         }
 
@@ -457,6 +455,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     unknown = ((int)value == 0);
                 }
+                else if (ftype == typeof(DateTime))
+                {
+                    unknown = ((DateTime)value) == default(DateTime);
+                }
                 else if (ftype.IsIEnumerable())
                 {
                     unknown = !(value as System.Collections.IEnumerable).GetEnumerator().MoveNext();
@@ -474,6 +476,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             if (ftype.IsEnum)
             {
                 SetValue(state, 0);
+            }
+            else if (ftype == typeof(DateTime))
+            {
+                SetValue(state, default(DateTime));
             }
             else
             {
@@ -510,6 +516,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 else if (_type.IsDouble())
                 {
                     recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type == typeof(DateTime))
+                {
+                    recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
                 }
                 else if (_type.IsIEnumerable())
                 {
@@ -634,7 +644,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     else if (ftype == typeof(DateTime))
                     {
-                        // Datetime recognizer
+                        ProcessFieldAttributes(field);
                     }
                     _type = ftype;
                 }

@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.FormTest
         [Numeric(1, 5)]
         [Optional]
         public double? Rating;
-        // public DateTime Available;
+        public DateTime Available;
 
         public override string ToString()
         {
