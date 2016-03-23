@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         { "a", "an", "the" };
 
         /// <summary>
-        /// Test for not a word.
+        /// Test to see if word is all punctuation or white space.
         /// </summary>
         /// <param name="word">Word to check.</param>
         /// <returns>True if word is all punctuation or white space.</returns>
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Test to see if a word is all noise.
         /// </summary>
         /// <param name="word">Word to test.</param>
-        /// <returns>True if word is a number, a <see cref="NonWord(string)"/> or a noise word.</returns>
+        /// <returns>True if word is a number, a <see cref="NonWord(string)"/> or a <see cref="StopWords"/>.</returns>
         public static bool NoiseWord(string word)
         {
             double number;
@@ -57,10 +57,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         }
 
         /// <summary>
-        /// 
+        /// Test to see if a word can be ignored in a resposne.
         /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
+        /// <param name="word">Word to test.</param>
+        /// <returns>True if word is a <see cref="NonWord(string)"/> or a <see cref="StopWords"/>.</returns>
         public static bool NoiseResponse(string word)
         {
             bool noiseWord = NonWord(word);
@@ -68,16 +68,21 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return noiseWord;
         }
 
+        /// <summary>
+        /// Test a word for articles or noise.
+        /// </summary>
+        /// <param name="word">Word to test.</param>
+        /// <returns>True if word is <see cref="NonWord(string)"/> or <see cref="Articles"/>.</returns>
         public static bool ArticleOrNone(string word)
         {
             return NonWord(word) || Articles.Contains(word);
         }
 
-        public static bool Ignorable(IEnumerable<string> words)
-        {
-            return !words.Any((word) => !NoiseWord(word));
-        }
-
+        /// <summary>
+        /// Test words to see if they are all ignorable in a response.
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
         public static IEnumerable<string> NonNoiseWords(IEnumerable<string> words)
         {
             return from word in words where !NoiseResponse(word) select word;
