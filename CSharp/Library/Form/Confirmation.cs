@@ -73,7 +73,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override IPrompt<T> Prompt()
         {
-            return new Prompter<T>(_promptDefinition, _form, null);
+            if (_prompter == null)
+            {
+                _prompter = new Prompter<T>(_promptDefinition, _form, new RecognizeBool<T>(this));
+            }
+            return _prompter;
         }
         #endregion
 
@@ -81,6 +85,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private delegate NextStep NextDelegate(bool response, T state);
         private readonly ConditionalDelegate<T> _condition;
         private readonly string[] _dependencies;
+        private IPrompt<T> _prompter;
         private readonly NextDelegate _next;
         #endregion
     }
