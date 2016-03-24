@@ -20,21 +20,23 @@ Get the BotBuilder module using npm.
 ## Build a bot
 Say hello in a few lines of code.
  
-    var restify = require('restify');
-    var builder = require('botbuilder');
-    
-    var server = restify.createServer();
+{% highlight JavaScript %}
+var restify = require('restify');
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
-    helloBot.add('/', function (session) {
-        session.send('Hello World');
-    });
+var server = restify.createServer();
 
-    server.post('/v1/messages', helloBot.listen());
+var helloBot = new builder.TextBot();
+helloBot.add('/', function (session) {
+    session.send('Hello World');
+});
 
-    server.listen(8080, function () {
-        console.log('%s listening to %s', server.name, server.url); 
-    });
+server.post('/v1/messages', helloBot.listen());
+
+server.listen(8080, function () {
+    console.log('%s listening to %s', server.name, server.url); 
+});
+{% endhighlight %}
 
 ## Test your bot
 Use the Bot Framework Emulator to test your bot on localhost (Windows Only)

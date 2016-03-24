@@ -26,20 +26,24 @@ Examples can then be found under the “Node/examples” directory of the cloned
 ## Hello World
 Once the BotBuilder module is installed we can get things started by building our first “Hello World” bot called HelloBot. The first decision we need to make is what kind of bot do we want to build? Bot Builder lets you build bots for a variety of platforms but for our HelloBot we're just going to interact with it though the command line so we're going to create an instance of the frameworks TextBot class. 
 
-    var builder = require('botbuilder');
+{% highlight JavaScript %}
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
+var helloBot = new builder.TextBot();
+{% endhighlight %}
 
 We then need to add a dialog to our newly created bot object. Bot Builder breaks conversational applications up into components called dialogs. If you think about building a conversational application in the way you'd think about building a web application, each dialog can be thought of as route within the conversational application. As users send messages to your bot the framework tracks which dialog is currently active and will automatically route the incoming message to the active dialog. For our HelloBot we'll just add single root '/' dialog that responds to any message with “Hello World” and then we'll start the bot listening with a call listenStdin().
 
-    var builder = require('botbuilder');
+{% highlight JavaScript %}
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
-    helloBot.add('/', function (session) {
-        session.send('Hello World');
-    });
+var helloBot = new builder.TextBot();
+helloBot.add('/', function (session) {
+    session.send('Hello World');
+});
 
-    helloBot.listenStdin();
+helloBot.listenStdin();
+{% endhighlight %}
 
 We can now run our bot and interact with it from the command line. So run the bot and type 'hello':
 
@@ -50,27 +54,29 @@ We can now run our bot and interact with it from the command line. So run the bo
 ## Collecting Input
 It's likely that you're going to want your bot to be a little smarter than HelloBot currently is so let's give HelloBot the ability to ask the user their name and then provide them with a personalized greeting. First let's add a new route called '/profile' and for the handler we're going to use something called a waterfall to prompt the user for their name and then save their response:
 
-    var builder = require('botbuilder');
+{% highlight JavaScript %}
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
-    helloBot.add('/', function (session) {
-        if (!session.userData.name) {
-            session.beginDialog('/profile');
-        } else {
-            session.send('Hello %s!', session.userData.name);
-        }
-    });
-    helloBot.add('/profile',  [
-        function (session) {
-            builder.Prompts.text(session, 'Hi! What is your name?');
-        },
-        function (session, results) {
-            session.userData.name = results.response;
-            session.endDialog();
-        }
-    ]);
+var helloBot = new builder.TextBot();
+helloBot.add('/', function (session) {
+    if (!session.userData.name) {
+        session.beginDialog('/profile');
+    } else {
+        session.send('Hello %s!', session.userData.name);
+    }
+});
+helloBot.add('/profile',  [
+    function (session) {
+        builder.Prompts.text(session, 'Hi! What is your name?');
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        session.endDialog();
+    }
+]);
 
-    helloBot.listenStdin();
+helloBot.listenStdin();
+{% endhighlight %}
 
 By passing an array of functions for our dialog handler a waterfall is setup where the results of the first function are passed to input of the second function. We can chain together a series of these functions into steps that create waterfalls of any length. 
 
@@ -87,34 +93,36 @@ To make use of our new '/profile' dialog we also had to modify our root '/' dial
 ## Handling Commands
 So far we've shown the creation of dialogs based on closures but the framework comes with a number of classes that can be used to create more sophisticated dialogs. Let's use the CommandDialog class to add a couple of commands that make our bot a little more useful.  The CommandDialog lets you add a RegEx that when matched will invoke a Dialog Handler similar to the ones we've been creating so far. We'll add a command for changing the name set for our profile and then a second command to let us quit the conversation.
 
-    var builder = require('botbuilder');
+{% highlight JavaScript %}
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
-    helloBot.add('/', new builder.CommandDialog()
-        .matches('^set name', builder.DialogAction.beginDialog('/profile'))
-        .matches('^quit', builder.DialogAction.endDialog())
-        .onDefault(function (session) {
-            if (!session.userData.name) {
-                session.beginDialog('/profile');
-            } else {
-                session.send('Hello %s!', session.userData.name);
-            }
-        }));
-    helloBot.add('/profile',  [
-        function (session) {
-            if (session.userData.name) {
-                builder.Prompts.text(session, 'What would you like to change it to?');
-            } else {
-                builder.Prompts.text(session, 'Hi! What is your name?');
-            }
-        },
-        function (session, results) {
-            session.userData.name = results.response;
-            session.endDialog();
+var helloBot = new builder.TextBot();
+helloBot.add('/', new builder.CommandDialog()
+    .matches('^set name', builder.DialogAction.beginDialog('/profile'))
+    .matches('^quit', builder.DialogAction.endDialog())
+    .onDefault(function (session) {
+        if (!session.userData.name) {
+            session.beginDialog('/profile');
+        } else {
+            session.send('Hello %s!', session.userData.name);
         }
-    ]);
+    }));
+helloBot.add('/profile',  [
+    function (session) {
+        if (session.userData.name) {
+            builder.Prompts.text(session, 'What would you like to change it to?');
+        } else {
+            builder.Prompts.text(session, 'Hi! What is your name?');
+        }
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        session.endDialog();
+    }
+]);
 
-    helloBot.listenStdin();
+helloBot.listenStdin();
+{% endhighlight %}
 
 To add commands we changed our root '/' dialog to use an instance of a CommandDialog which you can see uses a fluent style interface to configure. We moved our existing dialog handler to become the onDefault() behavior of the dialog and we add our two commands. We're using DialogActions to implement the commands which are simple shortcuts that create a closure for a common action. The beginDialog() Dialog Action is going to begin the '/profile' dialog anytime the user says “set name” and the endDialog() action will exit the conversation when the user says “quit”. We also tweaked our '/profile' prompt to say something slightly different when changing the users name.  If we now run our updated HelloBot we get:
 
@@ -132,42 +140,44 @@ To add commands we changed our root '/' dialog to use an instance of a CommandDi
 ## Publishing to the Bot Connector Service
 Now that we have a fairly functional HelloBot (it does an excellent job of greeting users) we should publish it the Bot Connector Service so that we can talk to it from within various communication apps. Code wise we'll need to first switch to using a BotConnectorBot instead of a TextBot:
  
-    var restify = require('restify');
-    var builder = require('botbuilder');
-    
-    var server = restify.createServer();
+{% highlight JavaScript %}
+var restify = require('restify');
+var builder = require('botbuilder');
 
-    var helloBot = new builder.TextBot();
-    helloBot.add('/', new builder.CommandDialog()
-        .matches('^set name', builder.DialogAction.beginDialog('/profile'))
-        .matches('^quit', builder.DialogAction.endDialog())
-        .onDefault(function (session) {
-            if (!session.userData.name) {
-                session.beginDialog('/profile');
-            } else {
-                session.send('Hello %s!', session.userData.name);
-            }
-        }));
-    helloBot.add('/profile',  [
-        function (session) {
-            if (session.userData.name) {
-                builder.Prompts.text(session, 'What would you like to change it to?');
-            } else {
-                builder.Prompts.text(session, 'Hi! What is your name?');
-            }
-        },
-        function (session, results) {
-            session.userData.name = results.response;
-            session.endDialog();
+var server = restify.createServer();
+
+var helloBot = new builder.TextBot();
+helloBot.add('/', new builder.CommandDialog()
+    .matches('^set name', builder.DialogAction.beginDialog('/profile'))
+    .matches('^quit', builder.DialogAction.endDialog())
+    .onDefault(function (session) {
+        if (!session.userData.name) {
+            session.beginDialog('/profile');
+        } else {
+            session.send('Hello %s!', session.userData.name);
         }
-    ]);
+    }));
+helloBot.add('/profile',  [
+    function (session) {
+        if (session.userData.name) {
+            builder.Prompts.text(session, 'What would you like to change it to?');
+        } else {
+            builder.Prompts.text(session, 'Hi! What is your name?');
+        }
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        session.endDialog();
+    }
+]);
 
-    server.use(helloBot.verifyBotFramework({ appId: 'you id', appSecret: 'your secret' }));
-    server.post('/v1/messages', helloBot.listen());
+server.use(helloBot.verifyBotFramework({ appId: 'you id', appSecret: 'your secret' }));
+server.post('/v1/messages', helloBot.listen());
 
-    server.listen(8080, function () {
-        console.log('%s listening to %s', server.name, server.url); 
-    });
+server.listen(8080, function () {
+    console.log('%s listening to %s', server.name, server.url); 
+});
+{% endhighlight %}
 
 Our updated bot code now pulls in Restify which we'll use to setup the skeleton of HelloBots’ web service. We then created a new BotConnetcorBot instead of a TextBot and finally we wired up the bots listener() to a route off the server. For security reasons its recommended that you lock your server down to only receive requests from the Bot Connector Service so we can call verifyBotFramework() to install a piece of middleware that does that.
 
