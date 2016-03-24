@@ -66,25 +66,25 @@ Example of setting the data on a reply message
 
 With the C# nuget library the message has methods to make it easy to deal with setting and getting the object back as a typed value.
 
-{% highlight Java %}
+{% highlight C#  %}
 
     // Set BotUserData as a versioned record
-    public static void SetBotUserData(this Message message, object data, string version = v1)
+    public static void SetBotUserData(this Message message, object data, string property)
     
     // Set BotConversationData as a versioned record
-    public static void SetBotConversationData(this Message message, object data, string version = v1)
+    public static void SetBotConversationData(this Message message, object data, string property)
     
     // Set BotPerUserInConversationData as a versioned record
-    public static void SetBotPerUserInConversationData(this Message message, object data, string version = v1)
+    public static void SetBotPerUserInConversationData(this Message message, object data, string property)
 
     // Get BotUserData based on version
-    public static TypeT GetBotUserData<TypeT>(this Message message, string version = v1)
+    public static TypeT GetBotUserData<TypeT>(this Message message, string property)
 
     // Get BotConversationData based on version
-    public static TypeT GetBotConversationData<TypeT>(this Message message, string version = v1)
+    public static TypeT GetBotConversationData<TypeT>(this Message message, string property)
 
     // Get BotPerUserInConversationData based on version
-    public static TypeT GetBotPerUserInConversationData<TypeT>(this Message message, string version = v1)
+    public static TypeT GetBotPerUserInConversationData<TypeT>(this Message message, string property)
 	
 {% endhighlight %}
 
@@ -100,8 +100,35 @@ An example of using these helper extensions:
 
 {% endhighlight %}
 
-> NOTE: These properties are not concurrent under heavy load, but most bots don't have situations where they have lots
-> of overlapping messages with the same people in the same conversation.  If your bot is sensitive to this overlapping 
-> messages you should store the data in your own database where you can control the concurrency.
 
- 
+## Concurrency
+These state properties being set as part of a message response are not concurrent, aka they are the 
+same as setting an ETag of "*" on the records.   
+
+Many bots have simple sequential messages with the same people in the same conversation, and
+so the convenience of just storing your state inline is worth the possibility of stomping on a
+previous message.   
+
+On the other hand if your bot is sensitive to data getting stomped then you can use the  
+REST API to store data on these records using ETags to ensure consistency, or you can
+simply store your state in your own data store.
+
+Example of using the REST API client library:
+{% highlight C# %}
+    var client = new ConnectorClient();
+    try
+    {
+        // get the user data object
+        var userData = await client.Bots.GetBotUserData(botId: message.To.Id, userId: message.From.Id);
+        
+        // modify it...
+        userData.Data = ...modify...;
+        
+        // save it
+        await client.Bots.SetBotUserData(botId: message.To.Id, userId: message.From.Id, userData);
+    }
+    catch(HttpOperationException err)
+    {
+        // handle error
+    }
+{% endhighlight %}
