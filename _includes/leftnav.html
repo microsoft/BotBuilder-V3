@@ -14,13 +14,17 @@
 		</ul>
 	  {% endif %}
 	  {% if group1.name <> 'none' and group1.name <> '' %}
+   		<div class="level1 parent">{{group1.name}}</div>
+        <div class="navContainer" style="display: none;">
 		{% include _function_nav-section-block.html page = page group = group1 level = 'level1' %}
 		{% assign grouped_pages2 = (group1.items | group_by: 'parent2') %}
 		{% for group2 in grouped_pages2 %}
 			{% if group2.name <> '' %}
+   		        <div class="level2 parent">{{group2.name}}</div>
 				{% include _function_nav-section-block.html page = page group = group2 level = 'level2' %}
 			{% endif %}
 		{% endfor %}
+        </div>
 	  {% endif %}	
 	{% endfor %}
 

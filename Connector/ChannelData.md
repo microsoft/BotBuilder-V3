@@ -7,6 +7,9 @@ parent1: Bot Connector SDK
 parent2: Messages
 ---
 
+* TOC
+{:toc}
+
 ## Message.ChannelData Property
 The  default message with markdown gives you a pretty rich pallete to describe your response in way that allows your message to "just work" across
 a variety of channels.  Most of the heavy lifting is done by the channel adapter, adapating your message to the way it is expressed on that channel.

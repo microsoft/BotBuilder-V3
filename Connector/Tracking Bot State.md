@@ -7,6 +7,9 @@ parent1: Bot Connector SDK
 parent2: Messages
 ---
 
+* TOC
+{:toc}
+
 
 If a bot is implemented in a stateless way then it is very easy to scale your bot to handle load. 
 

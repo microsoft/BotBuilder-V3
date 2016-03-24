@@ -7,6 +7,10 @@ parent1: Bot Connector SDK
 parent2: Routing
 ---
 
+
+* TOC
+{:toc}
+
 When your bot receives a message it most likely will want to respond. The minimum amount of information that is needed
 to respond is to send back the text that you want to send back to the user as a reply.  
 

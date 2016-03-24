@@ -7,6 +7,9 @@ parent1: Bot Connector SDK
 parent2: Configuring your bot
 ---
 
+* TOC
+{:toc}
+
 Your bot's end point will recieve Message objects that are communication.
 There more than one type of message which are used to convey system operations or channel system operations
 to the bot.  They exist to give the bot information about the state of the channel and the opportunity to respond

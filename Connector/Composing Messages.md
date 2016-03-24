@@ -7,12 +7,14 @@ parent1: Bot Connector SDK
 parent2: Messages
 ---
 
-# Composing Message Content
+* TOC
+{:toc}
+
 A message is the object that is used to communicate between a user and a bot.  When you send that message
 there are a number of properties that you can use to control your message and how it is presented to the
 user when they receive it.
 
-# Text and Language 
+## Text and Language 
 Most of the time Text and Language are the only properties you need to worry about.  A person sent you some text, or your bot is sending some text back.
 
 | Property    | Description                               | Example   
@@ -66,7 +68,7 @@ example, bold will be represented in text messaging as \*bold\*
 > markdown, but because many channels (such as SMS) do not have a known display width and/or have variable width fonts it 
 > is not possible to render a table properly on all channels.      
 
-# Attachments
+## Attachments
 The Attachments property is an array of Attachment objects which allow you to send and receive images and other content.
 The primary fields for an Attachment object are:
 
@@ -88,7 +90,7 @@ Attachments data structure allows you to include "Card" metadata allowing a chan
 | **Text**         |Description of the card                    | Meet 17 of the Cutest Dogs in the World. These adorable puppies are from all over the world and while they pose no threat to you physically, they could threaten your wallet.
 | **ThumbnailUrl** | A small image to display on card          | http://i.ytimg.com/vi/dA1UlMVLhnU/mqdefault.jpg                                                                                                                              
 
-# ChannelData Property
+## ChannelData Property
 As you can see above the default message gives you a pretty rich pallete to describe your response in way that allows your message to "just work" across
 a variety of channels.  Most of the heavy lifting is done by the channel adapter, adapating your message to the way it is expressed on that channel.
 

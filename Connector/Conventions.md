@@ -7,6 +7,9 @@ parent1: Bot Connector SDK
 parent2: Configuring your bot
 ---
 
+* TOC
+{:toc}
+
 ## Serialization
 All of the objects described use lower-camel casing on the wire.  The C# nuget library uses
 strongly typed names that are pascal cased. Our documentation sometimes will use one or the

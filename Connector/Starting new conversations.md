@@ -7,6 +7,9 @@ parent1: Bot Connector SDK
 parent2: Routing
 ---
 
+* TOC
+{:toc}
+
 The thing that makes a message a "reply" message is when it contains the **ConversationId** property.  
 
 * If there is a ConversationId, the message will be routed to the conversation.
