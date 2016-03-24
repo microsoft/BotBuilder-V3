@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder
             return formatter;
         }
 
-        public static async Task<Message> PostAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot)
+        public static async Task<Message> PostAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Builder
             }
 
             IUserToBot userToBot = context;
-            var toUser = await userToBot.PostAsync(toBot, CancellationToken.None);
+            var toUser = await userToBot.PostAsync(toBot, token);
 
             // even with no bot response, try to save state
             if (toUser == null)
