@@ -8,19 +8,21 @@ parent1: none
 
 
 
-The Microsoft Bot Framework provides everything you need to build and connect your bots to your users wherever they converse – from sms to Office365 mail to Slack and more… It’s your bot, wherever your users are talking. 
+The Microsoft Bot Framework provides everything you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services. 
 
-If you already have a bot and would like to extend its reach to more users on more conversation channels use the Bot Connector Service and SDK. Simply register your bot using the Bot Framework Developer Portal, connect it to any or all of the nine available channels and (optionally) list it in the Bot Directory, a publicly accessible directory of all bots registered through the Bot Connector service. 
+Bots (or conversation agents) are rapidly becoming an integral part of one’s digital experience – they are as vital a way for users to interact with a service or application as is a web site or a mobile experience. Developers writing bots all face the same problems: bots require basic I/O; they must have language and dialog skills; and they must connect to users – preferably in any conversation experience and language the user chooses. The Bot Framework provides tools to easily solve these problems for developers e.g., automatic translation to more than 30 languages, user and conversation state management, debugging tools, an embeddable web chat control and a way for users to discover, try, and add bots to the conversation experiences they love. 
 
-If you are just getting started with bot development, the Bot Builder SDK provides everything you need to build a great bot – from prompt and simple command dialogs to simple to use yet sophisticated “FormFlow” dialogs – the SDK provides the libraries, samples and tools you need to get you up and running. When your bot is ready to meet the world, connect it to the channels of your choice via Bot Connector.
+The Bot Framework has a number of components including the Bot Connector, Bot Builder SDK, and the Bot Directory. 
 
-The Bot Directory is a publicly accessible directory of all bots registered through Bot Connector. Every bot can have a contact card in the directory which provides a description of the bot as well as the channels on which the bot is available. You and your users can even have a conversation with your bot while in the directory using a web chat control that makes it easy to take your bot for a test drive.
+**Bot Connector**
 
+The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 365 mail, Skype, Slack, and other services. 
 
-## What is the Bot Framework?
+**Bot Builder SDK**
 
+The Bot Builder SDK is an open source SDK hosted on GitHub that provides everything you need to build great dialogs within your Node.js- or C#-based bot.  
 
-## Types of bots we support
+**Bot Directory**
 
-## Why should I use the Bot Framework?
-If you have an existing bot use rest api or connector sdk, if you're creating a new bot use the bot builder SDK
+The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the Bot Directory. 
+

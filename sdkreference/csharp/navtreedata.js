@@ -1,7 +1,20 @@
 var NAVTREE =
 [
   [ "Bot Framework", "index.html", [
+    [ "Overview", "index.html#overview", null ],
+    [ "Table of Contents", "index.html#contents", null ],
+    [ "High Level Features", "index.html#features", null ],
     [ "README", "md_C:_code_BotBuilder_CSharp_Library_README.html", null ],
+    [ "Key Concepts", "key_concepts.html", [
+      [ "Dialogs", "key_concepts.html#dialogs", null ],
+      [ "Form Flow", "key_concepts.html#forms", null ],
+      [ "Pattern Language", "key_concepts.html#patterns", null ]
+    ] ],
+    [ "Usage", "usage.html", [
+      [ "Updates", "usage.html#Updates", null ],
+      [ "Running in Azure", "usage.html#running_in_azure", null ],
+      [ "Troubleshooting Q and A", "usage.html#troubleshooting_q_and_a", null ]
+    ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -23,11 +36,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ],
-      [ "File Members", "globals.html", [
-        [ "All", "globals.html", null ],
-        [ "Enumerations", "globals_enum.html", null ]
-      ] ]
+      [ "File List", "files.html", "files" ]
     ] ]
   ] ]
 ];
@@ -35,9 +44,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67",
-"d7/da6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_intent.html#a9ab8ffba54489dfcfc9dac6c57480474",
-"dc/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_entity_recommendation.html#af7d9d2ae648333e39f6cc3ff44c03fc8"
+"d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html",
+"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#aa6951a4693b0c3ce49044fbf15811026",
+"functions_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

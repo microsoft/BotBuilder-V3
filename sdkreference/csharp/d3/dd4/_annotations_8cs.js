@@ -9,8 +9,8 @@ var _annotations_8cs =
     [ "Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms" ],
     [ "BoolDefault", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a7a1920d61156abc05a60135aefe8bc67", null ],
-      [ "Yes", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8a93cba07454f06a4a960172bbd6e2a435", null ],
-      [ "No", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8abafd7322c6e97d25b6299b5d6fe8920b", null ]
+      [ "True", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8af827cf462f62848df37c5e1e94a4da74", null ],
+      [ "False", "d3/dd4/_annotations_8cs.html#a55d8462b67448ca4da5828d64c4a0db8af8320b26d30ab433c5a54546d21f414c", null ]
     ] ],
     [ "CaseNormalization", "d3/dd4/_annotations_8cs.html#a7ca4030616f52805bc16bba9c54d343c", [
       [ "Default", "d3/dd4/_annotations_8cs.html#a7ca4030616f52805bc16bba9c54d343ca7a1920d61156abc05a60135aefe8bc67", null ],
@@ -49,11 +49,14 @@ var _annotations_8cs =
       [ "Feedback", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56", null ],
       [ "Help", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a6a26f548831e6a8c26bfbbd9f6ec61e0", null ],
       [ "HelpClarify", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a4d5b98aef367e1b4a657988e2d9b96f3", null ],
+      [ "HelpConfirm", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a5e63af6f12533bcfdf29eff61a5425f8", null ],
       [ "HelpNavigation", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a3addee159385c2a7eb024f39140cf97e", null ],
       [ "Integer", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aa0faef0851b4294c06f2b94bb1cb2044", null ],
       [ "IntegerHelp", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a8f27b557e559162cce4ef9fbe194934a", null ],
       [ "Navigation", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a846495f9ceed11accf8879f555936a7d", null ],
+      [ "NavigationCommandHelp", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0ac12f806e41a8f6d6f5c943984ce674fc", null ],
       [ "NavigationFormat", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a7c8dd6406dc1d0801c780457f28722f7", null ],
+      [ "NavigationHelp", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aa8626ac7171b743ac8dc8519323e6826", null ],
       [ "NoPreference", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a9c66f2227b4dc7054e34ea7bb3d1e010", null ],
       [ "NotUnderstood", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0aca296fd71c8deadb1bccdad8e097bc50", null ],
       [ "StatusFormat", "d3/dd4/_annotations_8cs.html#a7b8f2b076508e4910408229d7fedc2a0a389e2ef204703b1ed06f56d36dc8f5ec", null ],

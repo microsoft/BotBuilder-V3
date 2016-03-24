@@ -1,8 +1,12 @@
 ---
 layout: page
-title:  Custom Channel Messages
+title:  ChannelData in Messages
 permalink: /connector/custom-channeldata/
+<<<<<<< HEAD:Connector/Composing custom channel messages.md
 weight: 207
+=======
+weight: 245
+>>>>>>> e1506a7aa770a9093eb4b388c6c05b0fff91b778:Connector/ChannelData.md
 parent1: Bot Connector SDK
 ---
 # Custom Channel Messages
@@ -34,7 +38,7 @@ When you reply to a message via the email channel you can specify the following 
 
 
 Example Message:
-
+{% highlight json %}
     {
         "type": "Message", 
         "language": "en", 
@@ -42,10 +46,11 @@ Example Message:
         "channelData": 
         {
             "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
-            "subject":"Awseome mesage subject",
+            "subject":"Super awesome mesage subject",
             "importance":"high"
         }
     }
+{% endhighlight %}
 
 -----
 
@@ -67,6 +72,7 @@ then it will merge in the values from the *channelData* property if they are pro
 
 Example Message:
 
+{% highlight json %}
     {
         "type": "Message", 
         "language": "en", 
@@ -107,6 +113,7 @@ Example Message:
         },
         ... 
     }
+{% endhighlight %}
 
 -----
 
@@ -123,6 +130,7 @@ then it will merge in the values from the *channelData* property if they are pro
 
 Example Message:
 
+{% highlight json %}
     {
         "type": "Message", 
         "language": "en", 
@@ -139,4 +147,5 @@ Example Message:
         },
         ... 
     }
+{% endhighlight %}
   

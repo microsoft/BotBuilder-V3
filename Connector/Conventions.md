@@ -2,7 +2,11 @@
 layout: page
 title:  Conventions
 permalink: /connector/doc-conventions/
+<<<<<<< HEAD:Connector/serialization.md
 weight: 210
+=======
+weight: 279
+>>>>>>> e1506a7aa770a9093eb4b388c6c05b0fff91b778:Connector/Conventions.md
 parent1: Bot Connector SDK
 ---
 

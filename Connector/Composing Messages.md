@@ -1,8 +1,12 @@
 ---
 layout: page
-title: Message Content
+title: Composing Messages
 permalink: /connector/message-content/
+<<<<<<< HEAD:Connector/Message Content.md
 weight: 205
+=======
+weight: 230
+>>>>>>> e1506a7aa770a9093eb4b388c6c05b0fff91b778:Connector/Composing Messages.md
 parent1: Bot Connector SDK
 ---
 
@@ -21,8 +25,8 @@ Most of the time Text and Language are the only properties you need to worry abo
 
 If all you do is give simple one line text responses you don't have to read any further.
 
-# The Text property is **Markdown**
-The text property is actually expressed in markdown. This allows each channel to render the markdown as appropriate.
+## The Text property is **Markdown**
+The text property is expressed in markdown. This allows each channel to render the markdown as appropriate.
 
 The markdown that is supported:
 
@@ -38,11 +42,31 @@ The markdown that is supported:
 |**Pre**            | \`text\`                                                               | Preformatted text (can be inline)                 | `text`                                                              
 |**Block quote**    | \> text                                                                | quote a section of text                 | > text                                                              
 |**link**           | \[bing](http://bing.com)                                               | create a hyperlink with title           | [bing](http://bing.com)                                             
-|**image link**     | \![duck]\(http://aka.ms/Fo983c) | link to an image                        | ![duck](http://aka.ms/Fo983c)
+|**image link**     | \![duck]\(http://aka.ms/Fo983c) | link to an image                     | ![duck](http://aka.ms/Fo983c)
 
-> Not all channels can represent all markdown fields.  As appropriate channels will fallback to a reasonable approximation.
-> If you are communicating with a channel which supports fixed width fonts or tables you can use standard table 
-> markdown, but because many channels (such as SMS) do not have a known display width and/or support fixed width fonts it 
+### Markdown Paragraphs
+As with most markdown systems, to represent a paragraph break you need to have a blank line.
+
+Markdown like this:
+
+    This is
+    paragraph one
+
+    This is 
+    paragraph two
+    
+Will be rendered as
+
+    This is paragraph one
+    This is paragraph two
+   
+### Markdown Fallback
+
+Not all channels can represent all markdown fields.  As appropriate channels will fallback to a reasonable approximation, for 
+example, bold will be represented in text messaging as \*bold\* 
+
+> Tables: If you are communicating with a channel which supports fixed width fonts or html you can use standard table 
+> markdown, but because many channels (such as SMS) do not have a known display width and/or have variable width fonts it 
 > is not possible to render a table properly on all channels.      
 
 # Attachments
@@ -75,5 +99,5 @@ If you want to be able to take advantage of special features or concepts for a c
 metadata to that channel giving you much deeper control over how your bot interacts on a channel.  The way you do this is to pass 
 extra properties via the *ChannelData* property. 
 
-Go to [Custom Channel Messages](/connector/custom-channeldata) for more detailed description of what each channel enables via the CustomData field.
+Go to [ChannelData in Messages](/connector/custom-channeldata) for more detailed description of what each channel enables via the CustomData field.
 

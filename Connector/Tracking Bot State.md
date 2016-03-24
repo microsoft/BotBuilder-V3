@@ -1,8 +1,13 @@
 ---
 layout: page
 title: Tracking Bot State
+<<<<<<< HEAD
 permalink: /connector/tracking-bot-state
 weight: 208
+=======
+permalink: /connector/tracking-bot-state/
+weight: 265
+>>>>>>> e1506a7aa770a9093eb4b388c6c05b0fff91b778
 parent1: Bot Connector SDK
 ---
 
