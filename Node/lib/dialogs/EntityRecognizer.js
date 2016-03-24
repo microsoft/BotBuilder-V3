@@ -27,6 +27,7 @@ var EntityRecognizer = (function () {
         return EntityRecognizer.resolveTime(entities);
     };
     EntityRecognizer.resolveTime = function (entities) {
+        var _this = this;
         var now = new Date();
         var resolvedDate;
         var date;
@@ -37,12 +38,18 @@ var EntityRecognizer = (function () {
                     case 'builtin.datetime.date':
                     case 'builtin.datetime.time':
                         var parts = (entity.resolution.date || entity.resolution.time).split('T');
-                        if (!date && parts[0]) {
+                        if (!date && _this.dateExp.test(parts[0])) {
                             date = parts[0];
                         }
                         if (!time && parts[1]) {
                             time = 'T' + parts[1];
-                            if (time.length == 3) {
+                            if (time == 'TMO') {
+                                time = 'T08:00:00';
+                            }
+                            else if (time == 'TNI') {
+                                time = 'T20:00:00';
+                            }
+                            else if (time.length == 3) {
                                 time = time + ':00:00';
                             }
                             else if (time.length == 6) {
@@ -188,6 +195,7 @@ var EntityRecognizer = (function () {
             return [choices.toString()];
         }
     };
+    EntityRecognizer.dateExp = /^\d{4}-\d{2}-\d{2}/i;
     EntityRecognizer.yesExp = /^(1|y|yes|yep|sure|ok|true)\z/i;
     EntityRecognizer.noExp = /^(0|n|no|nope|not|false)\z/i;
     EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
