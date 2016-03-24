@@ -184,11 +184,6 @@ namespace Microsoft.Bot.Builder.Form
         public BoolDefault AllowDefault { get; set; }
 
         /// <summary>
-        /// Allow matching on numbers.
-        /// </summary>
-        public BoolDefault AllowNumbers { get; set; }
-
-        /// <summary>
         /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
         /// </summary>
         /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
@@ -224,6 +219,15 @@ namespace Microsoft.Bot.Builder.Form
         /// </summary>
         public CaseNormalization ValueCase { get; set; }
 
+        internal bool AllowNumbers
+        {
+            get
+            {
+                // You can match on numbers only if they are included in Choices and choices are shown
+                return ChoiceFormat.Contains("{0}") && _patterns.Any((pattern) => pattern.Contains("{||}"));
+            }
+        }
+
         /// <summary>
         /// The pattern to use when generating a string using <see cref="Advanced.IPrompt{T}"/>.
         /// </summary>
@@ -255,7 +259,6 @@ namespace Microsoft.Bot.Builder.Form
         public void ApplyDefaults(TemplateBase defaultTemplate)
         {
             if (AllowDefault == BoolDefault.Default) AllowDefault = defaultTemplate.AllowDefault;
-            if (AllowNumbers == BoolDefault.Default) AllowNumbers = defaultTemplate.AllowNumbers;
             if (ChoiceStyle == ChoiceStyleOptions.Default) ChoiceStyle = defaultTemplate.ChoiceStyle;
             if (FieldCase == CaseNormalization.Default) FieldCase = defaultTemplate.FieldCase;
             if (Feedback == FeedbackOptions.Default) Feedback = defaultTemplate.Feedback;
@@ -293,7 +296,6 @@ namespace Microsoft.Bot.Builder.Form
         {
             _patterns = other._patterns;
             AllowDefault = other.AllowDefault;
-            AllowNumbers = other.AllowNumbers;
             ChoiceStyle = other.ChoiceStyle;
             FieldCase = other.FieldCase;
             Feedback = other.Feedback;
@@ -306,7 +308,6 @@ namespace Microsoft.Bot.Builder.Form
         private void Initialize()
         {
             AllowDefault = BoolDefault.Default;
-            AllowNumbers = BoolDefault.Default;
             ChoiceStyle = ChoiceStyleOptions.Default;
             FieldCase = CaseNormalization.Default;
             Feedback = FeedbackOptions.Default;

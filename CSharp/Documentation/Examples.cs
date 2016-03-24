@@ -249,6 +249,7 @@
     /// * Gives feedback on what is understood and what is not.  
     /// * Asks clarifying questions when needed.  
     /// * Allows navigating between the steps.  
+    /// 
     /// All of this is pretty amazing for not having to do any of the work!  However, not every interaction was as
     /// good as you might want it to be.  That is why there are easy ways to provide:
     /// * Messages during the process of filling in a form.  
@@ -260,6 +261,7 @@
     /// * Conditional fields.  
     /// * Value validation  
     /// * and much more...
+    /// 
     /// The next example shows how to improve the sandwich bot.
     ///
     /// \section annotatedSandwich Annotated Sandwich Bot
@@ -280,6 +282,104 @@
     /// Template | Define a template that is used to generate prompts or values in prompts.
     /// Terms | Define the input terms that match a field or value.
     /// 
+    /// Let's look at how these attributes can improve your Bot.  First off, we might want to change the the prompt for SandwichOrder.Sandwich from the
+    /// automatically generated "Please select a sandwich" to "What kind of sandwich would you like?". To do this we would use the Prompt attribute like this:
+    /// \dontinclude Microsoft.Bot.Sample.AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Prompt
+    /// \skip SandwichOptions
+    /// 
+    /// One thing you will notice is the the prompt contains the funny strings "{&}" and "{||}".  That is because prompt and message strings are actually \ref patterns where you can
+    /// have parts of the string that are filled in when the actual prompt or message is generated.  In this case "{&}" means fill in the description of the field and "{||}" means 
+    /// show the choices that are possible.  The description of a field is automatically generated from the field name, but you could also use a Describe attribute to override that.  
+    /// By adding this attribute, the prompt for SandwichOrder.Sandwich now looks like:
+    /// ~~~
+    /// What kind of sandwich would you like?
+    /// 1. BLT
+    /// 2. Black Forest Ham
+    /// 3. Buffalo Chicken
+    /// 4. Chicken And Bacon Ranch Melt
+    /// 5. Cold Cut Combo
+    /// 6. Meatball Marinara
+    /// 7. Over Roasted Chicken
+    /// 8. Roast Beef
+    /// 9. Rotisserie Style Chicken
+    /// 10. Spicy Italian
+    /// 11. Steak And Cheese
+    /// 12. Sweet Onion Teriyaki
+    /// 13. Tuna
+    /// 14. Turkey Breast
+    /// 15. Veggie
+    /// >
+    /// ~~~
+    /// 
+    /// There are lots of things you can control when specifiying a prompt.  For example with this prompt attribute:
+    /// ~~~
+    /// [Prompt("What kind of {&} would you like? {||}", ChoiceFormat="{1}")]
+    /// ~~~
+    /// The prompt would now no longer show numbers and the only accepted input would be words from the choices.
+    /// ~~~
+    /// What kind of sandwich would you like?
+    /// * BLT
+    /// * Black Forest Ham
+    /// * Buffalo Chicken
+    /// * Chicken And Bacon Ranch Melt
+    /// * Cold Cut Combo
+    /// * Meatball Marinara
+    /// * Over Roasted Chicken
+    /// * Roast Beef
+    /// * Rotisserie Style Chicken
+    /// * Spicy Italian
+    /// * Steak And Cheese
+    /// * Sweet Onion Teriyaki
+    /// * Tuna
+    /// * Turkey Breast
+    /// * Veggie
+    /// >
+    /// ~~~
+    /// 
+    /// Going a step further, you could decide not to show the choices at all like this:
+    /// ~~~
+    /// [Prompt("What kind of {&} would you like?")]
+    /// ~~~
+    /// The prompt then would not show the choices at all, but they would still be available in help.
+    /// ~~~
+    /// What kind of sandwich would you like?
+    /// > ?
+    /// * You are filling in the sandwich field.Possible responses:
+    /// * You can enter in any words from the descriptions. (BLT, Black Forest Ham, Buffalo Chicken, Chicken And Bacon Ranch Melt, Cold Cut Combo, Meatball Marinara, Over Roasted Chicken, Roast Beef, Rotisserie Style Chicken, Spicy Italian, Steak And Cheese, Sweet Onion Teriyaki, Tuna, Turkey Breast, and Veggie)
+    /// * Back: Go back to the previous question.
+    /// * Help: Show the kinds of responses you can enter.
+    /// * Quit: Quit the form without completing it.
+    /// * Reset: Start over filling in the form. (With defaults of your previous entries.)
+    /// * Status: Show your progress in filling in the form so far.
+    /// * You can switch to another field by entering its name. (Sandwich, Length, Bread, Cheese, Sauces, and Toppings).
+    /// ~~~
+    /// 
+    /// It was great if you wanted to replace just one prompt, but you can also replace
+    /// the templates that are used for autommatically generating your prompts.  Here we have redefined
+    /// the default template used when you want to select one results from a set of choices:
+    /// \dontinclude Microsoft.Bot.Sample.AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip EnumSelectOne
+    /// \until class
+
+    /// For example Replacing the single 
+    /// automatically generated prompt
+    /// to better suit the personality we want the bot to have.  To do this we could redefine the template used for automatically generating
+    /// prompt so that the pattern we use is "What kind of {&} 
+    /// First off, we might want to mark 
+    /// some fields as optional--which means that it is reasonable to not make a choice.  To do this you
+    /// use the Optional attribute.  Here we have marked the SandwichOrder.Cheese field as optional.
+    /// \dontinclude
+    /// \skip optional
+    /// \until Cheese
+    /// 
+    /// The interactions with an optional field change.  In the below interaction you can see that "no preference" is now an option.
+    /// ~~~
+    /// Please select a cheese (current choice: No Preference) (1. American, 2. Monterey Cheddar, 3. Pepperjack)
+    /// > 
+    /// ~~~
+    /// 
+    /// Since SandwichOrder.Cheese ws
     /// Here is the SandwichOrder with attributes added and some business logic.
     /// \include AnnotatedSandwichBot/sandwich.cs
     /// 

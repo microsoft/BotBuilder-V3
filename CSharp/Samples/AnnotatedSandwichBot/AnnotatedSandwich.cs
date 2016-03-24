@@ -29,10 +29,17 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar };
 
     [Serializable]
+    [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
     class SandwichOrder
     {
+        [Prompt("What kind of {&} would you like? {||}")]
+        // [Prompt("What kind of {&} would you like? {||}", ChoiceFormat ="{1}")]
+        // [Prompt("What kind of {&} would you like?")]
         public SandwichOptions? Sandwich;
+
+        [Prompt("What size of sandwich do you want?")]
         public LengthOptions? Length;
+
         public BreadOptions? Bread;
 
         // An optional annotation means that it is possible to not make a choice in the field.

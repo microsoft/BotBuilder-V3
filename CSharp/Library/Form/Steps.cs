@@ -346,12 +346,12 @@ namespace Microsoft.Bot.Builder.Form
             if (clarify != null)
             {
                 var template = Template(TemplateUsage.Clarify);
-                var helpTemplate = _field.Template(template.Annotation().AllowNumbers != BoolDefault.False ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
+                var helpTemplate = _field.Template(template.Annotation().AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
                 var choiceRecognizer = new RecognizeEnumeration<T>(_field.Model, "", null,
                     clarify.Values,
                     (value) => recognizer.ValueDescription(value),
                     (value) => recognizer.ValidInputs(value),
-                    template.Annotation().AllowNumbers != BoolDefault.False, helpTemplate);
+                    template.Annotation().AllowNumbers, helpTemplate);
                 prompter = Template(TemplateUsage.Clarify, choiceRecognizer);
             }
             return prompter;
@@ -491,7 +491,7 @@ namespace Microsoft.Bot.Builder.Form
                 formState.Next.Names,
                 (value) => new Prompter<T>(fieldPrompt, model, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                 (value) => _fields.Field(value as string).Terms(),
-                model.Configuration.DefaultPrompt.AllowNumbers != BoolDefault.False,
+                template.AllowNumbers,
                 field.Template(TemplateUsage.NavigationHelp));
             _prompt = new Prompter<T>(template, model, recognizer);
         }

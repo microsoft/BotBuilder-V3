@@ -166,7 +166,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                             foreach (var value in values)
                             {
                                 builder.Append("\n  ");
-                                if (_annotation.AllowNumbers != BoolDefault.True)
+                                if (!_annotation.AllowNumbers)
                                 {
                                     builder.Append("* ");
                                 }

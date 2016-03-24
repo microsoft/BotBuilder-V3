@@ -116,7 +116,7 @@ namespace Microsoft.Bot.Builder.Form
         IFormModelBuilder<T> IFormModelBuilder<T>.Confirm(string prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
         {
             IFormModelBuilder<T> builder = this;
-            return builder.Confirm(new Prompt(prompt) { AllowNumbers = BoolDefault.False, AllowDefault = BoolDefault.False }, condition, dependencies);
+            return builder.Confirm(new Prompt(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
         IFormModelBuilder<T> IFormModelBuilder<T>.Confirm(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)

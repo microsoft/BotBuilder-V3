@@ -224,7 +224,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <returns>True if numbers are allowed as input.</returns>
         public bool AllowNumbers()
         {
-            return _promptDefinition.AllowNumbers != BoolDefault.False;
+            _promptDefinition.ApplyDefaults(_model.Configuration.DefaultPrompt);
+            return _promptDefinition.AllowNumbers;
         }
 
         public Field<T> Prompt(Prompt prompt)
@@ -303,7 +304,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else if (_type == typeof(bool))
                 {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool)) { AllowNumbers = BoolDefault.False };
+                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
                 }
                 else if (_type.IsDouble())
                 {
