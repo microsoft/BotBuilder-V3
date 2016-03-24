@@ -2,7 +2,7 @@
 layout: page
 title: Tracking Bot State
 permalink: /connector/tracking-bot-state
-weight: 270
+weight: 208
 parent1: Bot Connector SDK
 ---
 

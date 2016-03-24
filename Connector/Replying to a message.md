@@ -2,7 +2,7 @@
 layout: page
 title: Replying to a message
 permalink: /connector/replying/
-weight: 210
+weight: 202
 parent1: Bot Connector SDK
 ---
 

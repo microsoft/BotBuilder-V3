@@ -2,7 +2,7 @@
 layout: page
 title: ChannelAccounts, Participants and Mentions
 permalink: /connector/channelaccounts/
-weight: 230
+weight: 204
 parent1: Bot Connector SDK
 ---
 

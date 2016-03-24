@@ -13,7 +13,7 @@ Bot Builder for Node.js is targeted at Node.js developers creating new bots from
 * [Bot Builder on GitHub](https://github.com/Microsoft/BotBuilder)
 
 ## Install
-Get the framework using npm.
+Get the BotBuilder module using npm.
 
     npm install --save botbuilder
 

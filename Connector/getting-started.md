@@ -2,7 +2,7 @@
 layout: page
 title: Getting started
 permalink: /connector/getstarted/
-weight: 205
+weight: 201
 parent1: Bot Connector SDK
 ---
 

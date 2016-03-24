@@ -2,7 +2,7 @@
 layout: page
 title:  Bot Options
 permalink: /connector/bot-options/
-weight: 280
+weight: 209
 parent1: Bot Connector SDK
 ---
 

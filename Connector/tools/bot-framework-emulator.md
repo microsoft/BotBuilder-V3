@@ -1,10 +1,10 @@
 ---
 layout: page
 title: Bot Framework Emulator
-permalink: /bot-framework-emulator/
-weight: 400
+permalink: /connector/tools/bot-framework-emulator/
+weight: 240
 parent1: Bot Connector SDK
-parent2: Bot Connector Tools
+parent2: Tools
 ---
 
 * TOC

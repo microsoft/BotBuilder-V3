@@ -2,7 +2,7 @@
 layout: page
 title: Message Content
 permalink: /connector/message-content/
-weight: 240
+weight: 205
 parent1: Bot Connector SDK
 ---
 
