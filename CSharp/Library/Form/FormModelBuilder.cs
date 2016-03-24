@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     builder.Field(new FieldReflector<T>(path, _model));
                 }
-                builder.Confirm("Is ths your selection?\n{*}");
+                builder.Confirm("Is this your selection?\n{*}");
             }
 
             return this._model;
