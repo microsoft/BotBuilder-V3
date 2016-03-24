@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form
 {
-    public abstract class IFormModel<T> : Builder.Fibers.Serialization.ISerializeAsReference
+    public abstract class IFormModel<T>
         where T : class, new()
     {
         internal abstract bool IgnoreAnnotations { get; }

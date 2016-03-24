@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.Form
             /// <summary>
             /// Default form state.
             /// </summary>
-            public T State;
+            public T State { get; set; }
 
             /// <summary>
             /// LUIS entities to put into state.
@@ -99,7 +99,12 @@ namespace Microsoft.Bot.Builder.Form
             /// <remarks>
             /// In order to set a field in the form state, the Entity must be named with the path to the field in the form state.
             /// </remarks>
-            public Models.EntityRecommendation[] Entities;
+            public Models.EntityRecommendation[] Entities { get; set; }
+
+            /// <summary>
+            /// Whether this form should prompt the user when started.
+            /// </summary>
+            public bool PromptInStart { get; set; }
         }
 
         async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
@@ -180,8 +185,14 @@ namespace Microsoft.Bot.Builder.Form
                     }
                 }
             }
-            context.Wait(MessageReceived);
-            //await MessageReceived(context, null);
+            if (initialState != null && initialState.PromptInStart)
+            {
+                await MessageReceived(context, null);
+            }
+            else
+            {
+                context.Wait(MessageReceived);
+            }
         }
 
         public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> toBot)

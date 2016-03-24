@@ -72,15 +72,25 @@ namespace Microsoft.Bot.Sample.PizzaBot
             }
             initialState.Entities = entities.ToArray();
             initialState.State = null;
+            initialState.PromptInStart = true;
 
-            // TODO: pass initial state
             var pizzaForm = this.MakePizzaForm();
-            context.Call<IForm<PizzaOrder>, PizzaOrder>(pizzaForm, PizzaFormComplete);
+            context.Call<IForm<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
         }
 
         private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)
         {
-            var order = await result;
+            PizzaOrder order = null;
+            try
+            {
+                order = await result;
+            }
+            catch (OperationCanceledException)
+            {
+                await context.PostAsync("You canceled the form!");
+                return;
+            }
+
             if (order != null)
             {
                 await context.PostAsync("Your Pizza Order: " + result.ToString());

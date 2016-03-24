@@ -55,15 +55,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 ;
         }
 
-        private static IForm<PizzaOrder> MakePizzaForm()
-        {
-            IForm<PizzaOrder> form = new Form<PizzaOrder>(MakeModel);
-            return form;
-        }
-
         public static IDialog MakeRoot()
         {
-            return new PizzaOrderDialog(MakePizzaForm);
+            return new PizzaOrderDialog(() => new Form<PizzaOrder>(MakeModel));
         }
 
         /// <summary>

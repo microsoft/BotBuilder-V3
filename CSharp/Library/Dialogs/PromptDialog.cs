@@ -34,6 +34,7 @@ namespace Microsoft.Bot.Builder
             context.Call(child, resume);
         }
 
+        [Serializable]
         private abstract class Prompt<T> : IDialog
         {
             protected readonly string prompt;
@@ -88,6 +89,7 @@ namespace Microsoft.Bot.Builder
             }
         }
 
+        [Serializable]
         private sealed class PromptText : Prompt<string>
         {
             public PromptText(string prompt, string retry, int attempts)
@@ -118,6 +120,7 @@ namespace Microsoft.Bot.Builder
             }
         }
 
+        [Serializable]
         private sealed class PromptConfirm : Prompt<bool>
         {
             public PromptConfirm(string prompt, string retry, int attempts)
@@ -153,6 +156,7 @@ namespace Microsoft.Bot.Builder
             }
         }
 
+        [Serializable]
         private sealed class PromptInt32 : Prompt<Int32>
         {
             public PromptInt32(string prompt, string retry, int attempts)
@@ -166,6 +170,7 @@ namespace Microsoft.Bot.Builder
             }
         }
 
+        [Serializable]
         private sealed class PromptChoice<T> : Prompt<T>
         {
             private readonly IEnumerable<T> options;

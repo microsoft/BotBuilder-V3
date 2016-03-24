@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Builder
 
         public async Task CallChild(IDialogContext context, IAwaitable<object> result)
         {
-            context.Call<IDialog, T>(this.child, ChildDone);
+            context.Call<IDialog, T>(this.child, null, ChildDone);
         }
     }
 }

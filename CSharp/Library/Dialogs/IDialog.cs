@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder
     public interface IDialogStack
     {
         void Wait(ResumeAfter<Message> resume);
-        void Call<T, R>(T child, ResumeAfter<R> resume) where T : class, IDialog;
+        void Call<T, R>(T child, object arguments, ResumeAfter<R> resume) where T : class, IDialog;
         void Done<R>(R value);
     }
 
@@ -40,9 +40,14 @@ namespace Microsoft.Bot.Builder
 
     public static partial class Extensions
     {
+        public static void Call<T, R>(this IDialogContext context, T child, ResumeAfter<R> resume) where T : class, IDialog
+        {
+            context.Call<T, R>(child, null, resume);
+        }
+
         public static void Call<T, R>(this IDialogContext context, ResumeAfter<R> resume) where T : class, IDialog, new()
         {
-            context.Call<T, R>(new T(), resume);
+            context.Call<T, R>(new T(), null, resume);
         }
     }
 }

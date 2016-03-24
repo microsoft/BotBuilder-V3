@@ -109,18 +109,21 @@ namespace Microsoft.Bot.Builder.FormTest
                     await context.PostAsync(error.ToString());
                     throw;
                 }
+
+                var initialState = new Form<PizzaOrder>.InitialState() { PromptInStart = true };
+
                 switch (choices.Choice)
                 {
                     case DebugOptions.AnnotationsAndNumbers:
                         {
                             var form = new Form<PizzaOrder>(() => MakeModel(noNumbers: false));
-                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
+                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
                             return;
                         }
                     case DebugOptions.AnnotationsAndNoNumbers:
                         {
                             var form = new Form<PizzaOrder>(() => MakeModel(noNumbers: true));
-                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
+                            context.Call<IForm<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
                             return;
                         }
                 }
