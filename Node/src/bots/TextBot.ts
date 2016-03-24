@@ -40,9 +40,9 @@ export class TextBot extends collection.DialogCollection {
             throw new Error('Invalid dialog passed to TextBot.beginDialog().');
         }
         // Dispatch message
-        var msg: IMessage = address || {};
-        var userId = msg.to ? msg.to.channelId : 'user';
-        this.dispatchMessage(userId, msg, null, dialogId, dialogArgs);
+        var message: IMessage = address || {};
+        var userId = message.to ? message.to.address : 'user';
+        this.dispatchMessage(userId, message, null, dialogId, dialogArgs, true);
     }
 
     public processMessage(message: IMessage, callback?: (err: Error, reply: IMessage) => void): void {
@@ -72,7 +72,7 @@ export class TextBot extends collection.DialogCollection {
         });
     }
 
-    private dispatchMessage(userId: string, message: IMessage, callback: (err: Error, reply: IMessage) => void, dialogId: string, dialogArgs: any): void {
+    private dispatchMessage(userId: string, message: IMessage, callback: (err: Error, reply: IMessage) => void, dialogId: string, dialogArgs: any, newSessionState = false): void {
         // Initialize session
         var ses = new session.Session({
             localizer: this.options.localizer,
@@ -114,7 +114,7 @@ export class TextBot extends collection.DialogCollection {
         // Dispatch message
         this.getData(userId, (err, userData, sessionState) => {
             ses.userData = userData || {};
-            ses.dispatch(sessionState, message);
+            ses.dispatch(newSessionState ? null : sessionState, message);
         });
     }
 

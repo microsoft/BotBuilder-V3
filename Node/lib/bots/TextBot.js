@@ -33,9 +33,9 @@ var TextBot = (function (_super) {
             throw new Error('Invalid dialog passed to TextBot.beginDialog().');
         }
         // Dispatch message
-        var msg = address || {};
-        var userId = msg.to ? msg.to.channelId : 'user';
-        this.dispatchMessage(userId, msg, null, dialogId, dialogArgs);
+        var message = address || {};
+        var userId = message.to ? message.to.address : 'user';
+        this.dispatchMessage(userId, message, null, dialogId, dialogArgs, true);
     };
     TextBot.prototype.processMessage = function (message, callback) {
         this.emit('message', message);
@@ -63,8 +63,9 @@ var TextBot = (function (_super) {
             _this.processMessage({ text: line || '' });
         });
     };
-    TextBot.prototype.dispatchMessage = function (userId, message, callback, dialogId, dialogArgs) {
+    TextBot.prototype.dispatchMessage = function (userId, message, callback, dialogId, dialogArgs, newSessionState) {
         var _this = this;
+        if (newSessionState === void 0) { newSessionState = false; }
         // Initialize session
         var ses = new session.Session({
             localizer: this.options.localizer,
@@ -108,7 +109,7 @@ var TextBot = (function (_super) {
         // Dispatch message
         this.getData(userId, function (err, userData, sessionState) {
             ses.userData = userData || {};
-            ses.dispatch(sessionState, message);
+            ses.dispatch(newSessionState ? null : sessionState, message);
         });
     };
     TextBot.prototype.getData = function (userId, callback) {
