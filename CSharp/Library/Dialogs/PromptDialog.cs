@@ -13,29 +13,29 @@ namespace Microsoft.Bot.Builder
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptText(prompt, retry, attempts);
-            context.Call(child, resume);
+            context.Call<PromptText, object, string>(child, resume);
         }
 
         public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptConfirm(prompt, retry, attempts);
-            context.Call(child, resume);
+            context.Call<PromptConfirm, object, bool>(child, resume);
         }
 
         public static void Number(IDialogContext context, ResumeAfter<int> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptInt32(prompt, retry, attempts);
-            context.Call(child, resume);
+            context.Call<PromptInt32, object, int>(child, resume);
         }
 
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptChoice<T>(options, prompt, retry, attempts);
-            context.Call(child, resume);
+            context.Call<PromptChoice<T>, object, T>(child, resume);
         }
 
         [Serializable]
-        private abstract class Prompt<T> : IDialog
+        private abstract class Prompt<T> : IDialog<object>
         {
             protected readonly string prompt;
             protected readonly string retry;
@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder
                 this.attempts = attempts;
             }
 
-            async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+            async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
             {
                 await context.PostAsync(this.prompt);
                 context.Wait(MessageReceived);

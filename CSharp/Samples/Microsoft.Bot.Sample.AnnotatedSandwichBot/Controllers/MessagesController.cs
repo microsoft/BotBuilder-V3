@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Build();
         }
 
-        public static IDialog MakeRoot()
+        internal static IFormDialog<SandwichOrder> MakeRoot()
         {
             return new FormDialog<SandwichOrder>(MakeModel);
         }

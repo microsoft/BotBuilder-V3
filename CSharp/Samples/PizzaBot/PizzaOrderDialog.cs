@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
         [LuisIntent("UseCoupon")]
         public async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
         {
-            var initialState = new FormDialog<PizzaOrder>.InitialState();
+            var initialState = new InitialState<PizzaOrder>();
             var entities = new List<EntityRecommendation>(result.Entities);
             if (!entities.Any((entity) => entity.Type == "Kind"))
             {
@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             initialState.PromptInStart = true;
 
             var pizzaForm = this.MakePizzaForm();
-            context.Call<IFormDialog<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
+            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
         }
 
         private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)

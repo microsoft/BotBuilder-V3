@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-    public interface IDialog
+    public interface IDialog<in T>
     {
-        Task StartAsync(IDialogContext context, IAwaitable<object> arguments);
+        Task StartAsync(IDialogContext context, IAwaitable<T> arguments);
     }
 
     public delegate Task ResumeAfter<in T>(IDialogContext context, IAwaitable<T> result);
@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder
     public interface IDialogStack
     {
         void Wait(ResumeAfter<Message> resume);
-        void Call<T, R>(T child, object arguments, ResumeAfter<R> resume) where T : class, IDialog;
+        void Call<C, T, R>(C child, T arguments, ResumeAfter<R> resume) where C : class, IDialog<T>;
         void Done<R>(R value);
     }
 
@@ -40,14 +40,14 @@ namespace Microsoft.Bot.Builder
 
     public static partial class Extensions
     {
-        public static void Call<T, R>(this IDialogContext context, T child, ResumeAfter<R> resume) where T : class, IDialog
+        public static void Call<C, T, R>(this IDialogContext context, C child, ResumeAfter<R> resume) where C : class, IDialog<T>
         {
-            context.Call<T, R>(child, null, resume);
+            context.Call<C, T, R>(child, default(T), resume);
         }
 
-        public static void Call<T, R>(this IDialogContext context, ResumeAfter<R> resume) where T : class, IDialog, new()
+        public static void Call<C, T, R>(this IDialogContext context, ResumeAfter<R> resume) where C : class, IDialog<T>, new()
         {
-            context.Call<T, R>(new T(), null, resume);
+            context.Call<C, T, R>(new C(), default(T), resume);
         }
     }
 }

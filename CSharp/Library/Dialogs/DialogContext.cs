@@ -93,11 +93,11 @@ namespace Microsoft.Bot.Builder
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<T, R>(T child, object arguments, ResumeAfter<R> resume)
+        void IDialogStack.Call<C, T, R>(C child, T arguments, ResumeAfter<R> resume)
         {
-            var callRest = ToRest<object>(child.StartAsync);
+            var callRest = ToRest<T>(child.StartAsync);
             var doneRest = ToRest(resume);
-            this.wait = this.fiber.Call<object, R>(callRest, arguments, doneRest);
+            this.wait = this.fiber.Call<T, R>(callRest, arguments, doneRest);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -156,7 +156,7 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialog> MakeRoot)
+        public static async Task<HttpResponseMessage> PostAsync<T>(HttpRequestMessage request, Message toBot, Func<IDialog<T>> MakeRoot)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace Microsoft.Bot.Builder
             return formatter;
         }
 
-        public static async Task<Message> PostAsync(Message toBot, Func<IDialog> MakeRoot)
+        public static async Task<Message> PostAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot)
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
@@ -209,8 +209,8 @@ namespace Microsoft.Bot.Builder
                 IFiberLoop fiber = new Fiber(frames);
                 context = new DialogContext(toBotData, fiber);
                 var root = MakeRoot();
-                var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
-                fiber.Call(loop, null);
+                var loop = Methods.Void(Methods.Loop(context.ToRest<T>(root.StartAsync), int.MaxValue));
+                fiber.Call(loop, default(T));
                 await fiber.PollAsync();
             }
 
