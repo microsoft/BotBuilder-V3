@@ -4,6 +4,7 @@ title: Replying to a message
 permalink: /connector/replying/
 weight: 202
 parent1: Bot Connector SDK
+parent2: Routing
 ---
 
 When your bot receives a message it most likely will want to respond. The minimum amount of information that is needed

@@ -4,6 +4,7 @@ title:  Securing your bot
 permalink: /connector/authorization/
 weight: 211
 parent1: Bot Connector SDK
+parent2: Configuring your bot
 ---
 
 Some developers want to ensure that their bot's endpoint can only be called by the Bot Connector.

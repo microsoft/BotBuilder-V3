@@ -78,6 +78,21 @@
 .svgicon-microsoft-color-logo {
   width: 4.6474609375em;
 }
+.svgicon-skype {
+  width: 2.2119140625em;
+}
+.svgicon-cognitive-service-logo {
+  width: 1.6669921875em;
+}
+.svgicon-bot-connector {
+  width: 0.9951171875em;
+}
+.svgicon-bot-builder {
+  width: 0.705078125em;
+}
+.svgicon-bot-directory {
+  width: 2.1875em;
+}
 @font-face {
   font-family: "Segoe UI";
   src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.eot");
@@ -89,6 +104,13 @@
   font-family: "Segoe UI Semilight";
   src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.eot");
   src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semilight/latest.svg#web") format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Segoe UI Semibold";
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.eot");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.svg#web") format("svg");
   font-style: normal;
   font-weight: normal;
 }
@@ -113,7 +135,9 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+p,
+th {
   font-family: "Segoe UI", sans-serif;
   font-weight: normal;
   margin: 0;
@@ -277,8 +301,10 @@ a.button {
   margin-left: 422px;
   min-width: initial;
 }
-.page-grid-left .grid-card.floatable {
+.page-grid-left .floatable {
   float: left;
+}
+.page-grid-left .floatable .grid-card {
   margin-left: 0;
 }
 .hidden {
@@ -662,6 +688,20 @@ ul.header-nav li a:visisted {
 .error-message {
   display: inline-block;
 }
+.site-status {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  padding: 0 2em;
+}
+.site-status .error-icon {
+  margin: 99px auto 57px auto;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
 .loading-animation {
   margin: 0 auto;
   visibility: hidden;
@@ -677,7 +717,6 @@ body {
 .outline {
   max-width: 1366px;
   min-width: 480px;
-  min-height: 100vh;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
@@ -699,30 +738,34 @@ dl {
   font: 15px "Segoe UI", sans-serif;
 }
 #side-nav {
-  width: 250px;
+  width: 270px;
   position: relative;
   float: left;
-  padding: 0 20px 30px 20px;
+  padding: 15px 20px;
+  background-color: #B3DBF2;
 }
 #side-nav ul {
   list-style-type: none;
   margin: 0;
 }
 #side-nav ul li {
-  padding: 1px 0;
+  padding: 4px 0;
+}
+#side-nav a {
+  color: #307AB3;
 }
 ul#markdown-toc {
-  padding: 0;
+  margin-left: 30px;
 }
 .navselected,
 .navselected:visited,
 .navselected:hover {
-  color: #000;
-  text-decoration: none;
+  color: #1E425C !important;
+  text-decoration: underline;
 }
 #doc-content {
   overflow: auto;
-  padding: 0 20px;
+  padding: 0 45px;
 }
 article:after {
   clear: both;
@@ -759,24 +802,30 @@ foobar {
 .parent {
   font-weight: bold;
   margin-top: 5px;
+  color: #1E425C;
 }
 a {
   text-decoration: none;
 }
 .post-header {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   background-color: transparent;
 }
 .trigger div,
 .trigger li {
-  font-size: 0.9em;
+  /* font-size: 0.9em; */
 }
 .post-content table {
   border-spacing: 0;
   border-collapse: collapse;
+  background-color: #fff;
+  margin: 25px 0;
+}
+.post-content table thead {
+  background-color: rgba(179, 219, 242, 0.5);
+  font-weight: bold;
 }
 .post-content table tr {
-  background-color: #fff;
   border-top: 1px solid #ccc;
 }
 .post-content table tr td {
@@ -787,11 +836,43 @@ a {
   padding: 6px 13px;
   border: 1px solid #ddd;
 }
+.post-content h2 {
+  margin: 20px 0 15px 0;
+}
+.post-content h3 {
+  font-size: 20px;
+  margin: 0 0 15px 0;
+}
+.post-content p {
+  margin: 0 0 10px 0;
+}
 .post {
   padding: 30px 0;
 }
 /** media break points based on card-width*/
-@media screen and (max-width: 843px) {
+@media screen and (max-width: 779px) {
+  .home-intro .intro-footer .intro-center {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+  .home-intro .intro-footer .intro-card {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+  .home-intro .intro-footer .intro-external {
+    width: 320px;
+    height: 160px;
+    padding-top: 48px;
+    margin: 0 auto 20px auto;
+  }
+  .home-intro .intro-footer p {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+}
+@media screen and (max-width: 867px) {
   #app-body,
   .fullWidth {
     width: 100%;
@@ -906,22 +987,23 @@ a {
     margin: 0 auto 20px auto;
     width: 100%;
   }
-  .page-grid .grid-card.floatable,
-  .page-grid-right .grid-card.floatable,
-  .page-grid-left .grid-card.floatable,
-  .page-grid .editor-card.floatable,
-  .page-grid-right .editor-card.floatable,
-  .page-grid-left .editor-card.floatable {
+  .page-grid .floatable,
+  .page-grid-right .floatable,
+  .page-grid-left .floatable {
     float: none;
   }
   .grid-card {
     min-width: 0;
   }
-  .grid-card h2 {
+  .bot-card h3 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .bot-card h4 {
     font-family: "Segoe UI", sans-serif;
     font-size: 18px;
     line-height: 24px;
-    margin-top: 0;
   }
   .agent-info .info-cell .title {
     font-size: 26px;
@@ -1024,8 +1106,53 @@ a {
   .no-bots-prompt .button:visited {
     color: white;
   }
+  iframe.bot-webChat {
+    min-height: 480px;
+  }
+  .home-intro {
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
+  .home-intro h1,
+  .home-intro h2 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .home-intro .intro-button {
+    font-size: 15px;
+  }
+  .home-intro .intro-footer > div {
+    width: 100%;
+  }
+  .home-intro .intro-content {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  .home-intro section.intro-hero .outline .intro-content {
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 100%;
+  }
+  .home-intro section.intro-hero .outline .intro-content:nth-child(2) {
+    display: none;
+  }
+  .home-intro svg {
+    max-width: calc(100% -  60px);
+  }
+  .home-intro .intro-bot-connector svg {
+    font-size: 256.8px;
+  }
+  .home-intro .intro-bot-builder svg {
+    font-size: 210px;
+    -webkit-transform: translate(40px, 0);
+            transform: translate(40px, 0);
+  }
+  .home-intro .intro-bot-directory svg {
+    font-size: 112.2px;
+  }
 }
-@media screen and (min-width: 844px) {
+@media screen and (min-width: 868px) {
   .page-grid {
     width: 824px;
     padding: 0;
@@ -1044,11 +1171,15 @@ a {
     margin-left: 0;
     margin-top: 25px;
   }
-  .grid-card h2 {
+  .bot-card h3 {
     font-family: "Segoe UI", sans-serif;
     font-size: 24px;
     line-height: 32px;
-    margin-top: 0;
+  }
+  .bot-card h4 {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 20px;
+    line-height: 27px;
   }
   .bot-page .bot-card .desc-cell {
     position: static;
@@ -1098,6 +1229,9 @@ a {
     position: absolute;
     top: 15px;
     right: 20px;
+  }
+  .inner-grid > .bot-card-hero {
+    margin-top: 20px;
   }
 }
 @media screen and (min-width: 1300px) {
@@ -1168,7 +1302,7 @@ a {
     min-width: 0;
   }
 }
-@media screen and (max-width: 1000px) and (min-width: 844px) {
+@media screen and (max-width: 1000px) and (min-width: 868px) {
   .page-grid-right .grid-card {
     margin-right: 360px;
   }
@@ -1177,7 +1311,7 @@ a {
     width: 340px;
   }
 }
-@media screen and (max-width: 843px) {
+@media screen and (max-width: 867px) {
   .outline {
     min-width: 0;
   }

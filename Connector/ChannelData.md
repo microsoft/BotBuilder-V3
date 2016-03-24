@@ -1,11 +1,11 @@
 ---
 layout: page
-title:  ChannelData in Messages
+title:  Custom messages for channels
 permalink: /connector/custom-channeldata/
 weight: 207
 parent1: Bot Connector SDK
+parent2: Messages
 ---
-# Custom Channel Messages
 
 ## Message.ChannelData Property
 The  default message with markdown gives you a pretty rich pallete to describe your response in way that allows your message to "just work" across
@@ -17,7 +17,6 @@ extra properties via the *ChannelData* property.
 
 >NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal message. 
 
------
 
 ## Custom Email Messages
 The Email channel optionally supports the ability to send custom properties to take advantage of what you can do with email.
@@ -48,7 +47,6 @@ Example Message:
     }
 {% endhighlight %}
 
------
 
 ## Custom Slack Messages
 Slack supports the ability to create full fidelity slack cards using their message attachments property.  The slack
@@ -111,7 +109,6 @@ Example Message:
     }
 {% endhighlight %}
 
------
 
 ## Custom Twitter Messages
 The Twitter channel optionally supports the ability to create custom [twitter cards](https://dev.twitter.com/cards/overview) via the channelData property.  

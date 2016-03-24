@@ -9,4 +9,10 @@ $( document ).ready(function() {
 			}, 1500);
 		}
 	}
+    /*
+    $( ".accordion" ).accordion({
+        collapsible: true,
+        heightStyle: "content"
+    });
+    */
 });

@@ -1,22 +1,23 @@
 ---
 layout: page
-title:  Conventions
+title:  Configuration conventions
 permalink: /connector/doc-conventions/
 weight: 210
 parent1: Bot Connector SDK
+parent2: Configuring your bot
 ---
 
-# serialization
+## Serialization
 All of the objects described use lower-camel casing on the wire.  The C# nuget library uses
 strongly typed names that are pascal cased. Our documentation sometimes will use one or the
 other but they are interchangable.
 
-| C# property | wire serialization | javascript name |
+| **C# property** | wire serialization | javascript name |
 | ----| ---- | ---- |
 | ConversationId | conversationId | conversationId|
 
 
-# example serialization
+## Example serialization
 {% highlight json %}
 
 {

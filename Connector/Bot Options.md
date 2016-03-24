@@ -4,32 +4,33 @@ title:  Bot Options
 permalink: /connector/bot-options/
 weight: 209
 parent1: Bot Connector SDK
+parent2: Configuring your bot
 ---
 
-# Bot options
-When you configure your bot there are several optionals features you can select which are described in more depth here.
+* TOC
+{:toc}
 
-----
+When you configure your bot there are several optional features you can select which are described in more depth here.
 
-## Listen to all messages
-* **Option is off** *(default)*-  when this is option is off, bots are in **Spoke Only When Spoken To** mode. 
+## Listening and speaking modes
+
+### Listen to all messages
+* **Option is off** *(default)*-  when this is option is off, bots are in **Group conversation mode**. 
 * **Option is on**-  the bot will receive ALL messages in the conversation.  It is up to the bot
  to make sure that it's interaction is appropriate for the conversation.
 
 
-### Spoke Only When Spoken To 
+### Group conversation mode 
 1. if bot is in a conversation which is only the user and the bot, all messages will be sent to the bot regardless of mentions.
 2. if in group conversation
-    
-    a. if a user mentions the bot then the message will be sent to the bot and the user and bot will be in an *Active Conversation*
-   
-    b. While in *Active Conversation* all future messages from that user will be sent to the bot regardless of mentions until
-    * the user says a goodbye statement (like 'see you later', or 'goodbye', etc.) 
-    * 5 minutes of inactivity pass
+    * if a user mentions the bot then the message will be sent to the bot and the user and bot will be in an *Active Conversation*
+    * While in *Active Conversation* all future messages from that user will be sent to the bot regardless of mentions until
+        * the user says a goodbye statement (like 'see you later', or 'goodbye', etc.) 
+        * 5 minutes of inactivity pass
  
-----
+## Translation
 
-## Translate channel messages
+### Translation options
 * **On** *(default)*-  when this is option is on machine translation is available for any user to use. 
 * **Off**-  the bot connector will do no translation.
 
@@ -70,13 +71,11 @@ When you receive a message that has been translated you will see the following c
 |*message.Language*      | The language for Text 
 |*message.Text*          | the translated text                 
 
-----
 
 ## Disable all logging
 * **Off** *(default)*- Microsoft will use anonymized conversation data to train future systems. [See privacy polcy](link) 
 * **On**- Microsoft will not log any of the conversation with your bot.
 
-----
 
 ## Publish in Bot directory
 * **Off** *(default)*- Your bot will only be visible to you or to someone you give the link to your contact card to. 

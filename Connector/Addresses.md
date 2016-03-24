@@ -1,10 +1,14 @@
 ---
 layout: page
-title: Addresses
+title: Addresses in messages
 permalink: /connector/channelaccounts/
 weight: 204
 parent1: Bot Connector SDK
+parent2: Routing
 ---
+
+* TOC
+{:toc}
 
 The Bot Connector uses ChannelAccount records to represent an contact address for a user or bot
 on a communication channel.  Numerous fields in the message have ChannelAccount 

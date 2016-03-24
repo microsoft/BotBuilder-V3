@@ -4,6 +4,7 @@ title: Message Types
 permalink: /connector/message-types/
 weight: 206
 parent1: Bot Connector SDK
+parent2: Configuring your bot
 ---
 
 Your bot's end point will recieve Message objects that are communication.

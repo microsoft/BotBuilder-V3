@@ -4,6 +4,7 @@ title: Starting a conversation
 permalink: /connector/new-conversations/
 weight: 203
 parent1: Bot Connector SDK
+parent2: Routing
 ---
 
 The thing that makes a message a "reply" message is when it contains the **ConversationId** property.  

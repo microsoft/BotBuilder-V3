@@ -4,9 +4,10 @@ title: Tracking Bot State
 permalink: /connector/tracking-bot-state
 weight: 208
 parent1: Bot Connector SDK
+parent2: Messages
 ---
 
-# Tracking Bot State
+
 If a bot is implemented in a stateless way then it is very easy to scale your bot to handle load. 
 
 Unfortunately a bot is all about conversations and as soon as you introduce conversation into a bot then

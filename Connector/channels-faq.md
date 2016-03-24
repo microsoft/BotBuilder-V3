@@ -4,6 +4,7 @@ title: Channel's FAQ
 permalink: /connector/portal/channel-faq/
 weight: 211
 parent1: Bot Connector SDK
+parent2: Channels
 ---
 
 * TOC
