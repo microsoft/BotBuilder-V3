@@ -2,7 +2,7 @@
 layout: page
 title: Samples and Techniques
 permalink: /builder/node/samples/
-weight: 610
+weight: 618
 parent1: Bot Builder for Node.js
 ---
 

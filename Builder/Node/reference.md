@@ -2,7 +2,7 @@
 layout: page
 title: Library Reference
 permalink: /builder/node/reference/
-weight: 620
+weight: 619
 parent1: Bot Builder for Node.js
 ---
 
