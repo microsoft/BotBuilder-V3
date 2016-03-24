@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder
 
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
-    public class LuisDialog : IDialogNew
+    public class LuisDialog : IDialog
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder
             return response;
         }
 
-        async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             context.Wait(MessageReceived);
         }

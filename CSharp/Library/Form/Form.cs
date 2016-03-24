@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Builder.Form
             public Models.EntityRecommendation[] Entities;
         }
 
-        async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             var initialState = await arguments as InitialState;
             BuildCommandRecognizer();

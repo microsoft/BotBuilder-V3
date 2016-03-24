@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     class Program
     {
-        static void Interactive(IDialogNew form, params Fibers.Serialization.ISerializeAsReference[] singletons)
+        static void Interactive(IDialog form, params Fibers.Serialization.ISerializeAsReference[] singletons)
         {
             var message = new Message()
             {

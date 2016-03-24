@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Builder
 {
 #pragma warning disable CS1998
 
-    public class CommandDialog : IDialogNew
+    public class CommandDialog : IDialog
     {
         public class Command
         {
@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Builder
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
 
-        async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             context.Wait(MessageReceived);
         }

@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Tests
             return Guid.NewGuid().ToString();
         }
 
-        public interface IPromptCaller<T> : IDialogNew
+        public interface IPromptCaller<T> : IDialog
         {
             Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<DialogContext> MakeContextAsync(IDialogNew root)
+        public static async Task<DialogContext> MakeContextAsync(IDialog root)
         {
             var data = new JObjectBotData(new Connector.Message());
 

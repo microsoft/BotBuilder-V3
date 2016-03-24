@@ -83,8 +83,8 @@
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
-    <Compile Include="Dialogs\DialogNew.cs" />
-    <Compile Include="Dialogs\IDialogNew.cs" />
+    <Compile Include="Dialogs\DialogContext.cs" />
+    <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />

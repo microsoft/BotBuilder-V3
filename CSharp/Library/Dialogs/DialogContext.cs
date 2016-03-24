@@ -92,17 +92,17 @@ namespace Microsoft.Bot.Builder
             return thunk.Rest;
         }
 
-        void IDialogStackNew.Call<T, R>(T child, ResumeAfter<R> resume)
+        void IDialogStack.Call<T, R>(T child, ResumeAfter<R> resume)
         {
             this.wait = this.fiber.Call<T, R>(ToRest<object>(child.StartAsync), null, ToRest(resume));
         }
 
-        void IDialogStackNew.Done<R>(R value)
+        void IDialogStack.Done<R>(R value)
         {
             this.wait = this.fiber.Done(value);
         }
 
-        void IDialogStackNew.Wait(ResumeAfter<Message> resume)
+        void IDialogStack.Wait(ResumeAfter<Message> resume)
         {
             this.wait = this.fiber.Wait<Message>(ToRest(resume));
         }
@@ -153,7 +153,7 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialogNew> MakeRoot, params Serialization.ISerializeAsReference[] singletons)
+        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialog> MakeRoot, params Serialization.ISerializeAsReference[] singletons)
         {
             try
             {
@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Builder
             }
         }
 
-        public static async Task<Message> PostAsync(Message toBot, Func<IDialogNew> MakeRoot, params Serialization.ISerializeAsReference [] singletons)
+        public static async Task<Message> PostAsync(Message toBot, Func<IDialog> MakeRoot, params Serialization.ISerializeAsReference [] singletons)
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
@@ -261,14 +261,6 @@ namespace Microsoft.Bot.Builder
             }
 
             return toUser;
-        }
-    }
-
-    public static partial class Extensions
-    {
-        public static void Call<T, R>(this IDialogContext context, ResumeAfter<R> resume) where T : class, IDialogNew, new()
-        {
-            context.Call<T, R>(new T(), resume);
         }
     }
 }

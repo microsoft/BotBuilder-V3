@@ -34,7 +34,7 @@ namespace Microsoft.Bot.Builder
             context.Call(child, resume);
         }
 
-        private abstract class Prompt<T> : IDialogNew
+        private abstract class Prompt<T> : IDialog
         {
             protected readonly string prompt;
             protected readonly string retry;
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder
                 this.attempts = attempts;
             }
 
-            async Task IDialogNew.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+            async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
             {
                 await context.PostAsync(this.prompt);
                 context.Wait(MessageReceived);

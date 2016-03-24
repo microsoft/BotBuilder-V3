@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             return form;
         }
 
-        public static IDialogNew MakeRoot()
+        public static IDialog MakeRoot()
         {
             return new PizzaOrderDialog(MakePizzaForm);
         }

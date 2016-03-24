@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        public static IDialogNew MakeRoot()
+        public static IDialog MakeRoot()
         {
             var model = FormModelBuilder<SandwichOrder>
                 .Start()
