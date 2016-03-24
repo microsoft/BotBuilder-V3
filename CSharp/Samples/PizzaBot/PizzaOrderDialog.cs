@@ -17,9 +17,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
-        private readonly Func<IForm<PizzaOrder>> MakePizzaForm;
+        private readonly Func<IFormDialog<PizzaOrder>> MakePizzaForm;
 
-        internal PizzaOrderDialog(Func<IForm<PizzaOrder>> makePizzaForm)
+        internal PizzaOrderDialog(Func<IFormDialog<PizzaOrder>> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
         }
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
         [LuisIntent("UseCoupon")]
         public async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
         {
-            var initialState = new Form<PizzaOrder>.InitialState();
+            var initialState = new FormDialog<PizzaOrder>.InitialState();
             var entities = new List<EntityRecommendation>(result.Entities);
             if (!entities.Any((entity) => entity.Type == "Kind"))
             {
@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             initialState.PromptInStart = true;
 
             var pizzaForm = this.MakePizzaForm();
-            context.Call<IForm<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
+            context.Call<IFormDialog<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
         }
 
         private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)

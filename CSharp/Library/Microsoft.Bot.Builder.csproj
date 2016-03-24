@@ -112,7 +112,7 @@
     <Compile Include="Form\Steps.cs" />
     <Compile Include="Form\Annotations.cs" />
     <Compile Include="Form\Extensions.cs" />
-    <Compile Include="Form\IForm.cs" />
+    <Compile Include="Form\IFormDialog.cs" />
     <Compile Include="Form\IPrompt.cs" />
     <Compile Include="Form\IRecognizer.cs" />
     <Compile Include="Models\EntityRecommendation.cs" />

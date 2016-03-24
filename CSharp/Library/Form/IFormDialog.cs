@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Form
     /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="Prompt"/> and <see cref="Confirm"/> calls.
     /// If you do not take explicit control, the steps will be executed in the order defined in the form state class with a final confirmation.
     /// </remarks>
-    public interface IForm<T> : IDialog
+    public interface IFormDialog<T> : IDialog
         where T : class, new()
     {
         /// <summary>

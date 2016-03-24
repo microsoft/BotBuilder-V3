@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Builder.Form
     /// * Start the form dialog.
     /// </remarks>
     [Serializable]
-    public sealed class Form<T> : IForm<T>, ISerializable
+    public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
          where T : class, new()
     {
         private readonly MakeModel _makeModel;
@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Builder.Form
         /// Construct a form.
         /// </summary>
         /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public Form(MakeModel makeModel)
+        public FormDialog(MakeModel makeModel)
         {
             _makeModel = makeModel;
             _model = _makeModel();
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Form
             this._commands = this._model.BuildCommandRecognizer();
         }
 
-        private Form(SerializationInfo info, StreamingContext context)
+        private FormDialog(SerializationInfo info, StreamingContext context)
         {
             Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._makeModel, nameof(this._makeModel), info);
             this._form = info.GetValue<FormState>(nameof(this._form));
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Form
 
         #region IForm<T> implementation
 
-        IFormModel<T> IForm<T>.Model { get { return this._model; } }
+        IFormModel<T> IFormDialog<T>.Model { get { return this._model; } }
 
         #endregion
 

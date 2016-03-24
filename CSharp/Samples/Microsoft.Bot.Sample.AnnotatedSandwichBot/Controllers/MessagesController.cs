@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IDialog MakeRoot()
         {
-            return new Form<SandwichOrder>(MakeModel);
+            return new FormDialog<SandwichOrder>(MakeModel);
         }
 
         /// <summary>

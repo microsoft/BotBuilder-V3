@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Form
                 }
             }
 #if DEBUG
-            if (Form<T>.DebugRecognizers)
+            if (FormDialog<T>.DebugRecognizers)
             {
                 MatchAnalyzer.PrintMatches(matches, 2);
             }
