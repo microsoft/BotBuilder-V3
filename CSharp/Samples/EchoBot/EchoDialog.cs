@@ -22,8 +22,6 @@ namespace Microsoft.Bot.Sample.EchoBot
 
         public async Task MessageReceived(IDialogContext context, IAwaitable<Message> arguments)
         {
-            ++this.count;
-
             var message = await arguments;
             if (message.Text == "reset")
             {
@@ -40,6 +38,8 @@ namespace Microsoft.Bot.Sample.EchoBot
 
                 context.Wait(MessageReceived);
             }
+
+            ++this.count;
         }
 
         public async Task AfterConfirmReset(IDialogContext context, IAwaitable<bool> arguments)
