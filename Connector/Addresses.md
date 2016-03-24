@@ -2,11 +2,7 @@
 layout: page
 title: Addresses
 permalink: /connector/channelaccounts/
-<<<<<<< HEAD:Connector/Mentions and participants.md
 weight: 204
-=======
-weight: 235
->>>>>>> e1506a7aa770a9093eb4b388c6c05b0fff91b778:Connector/Addresses.md
 parent1: Bot Connector SDK
 ---
 

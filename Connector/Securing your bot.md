@@ -2,7 +2,7 @@
 layout: page
 title:  Securing your bot
 permalink: /connector/authorization/
-weight: 270
+weight: 211
 parent1: Bot Connector SDK
 ---
 

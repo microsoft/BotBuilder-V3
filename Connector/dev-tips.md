@@ -2,7 +2,7 @@
 layout: page
 title: Developer tips
 permalink: /connector/developer-tips/
-weight: 212
+weight: 213
 parent1: Bot Connector SDK
 ---
 
