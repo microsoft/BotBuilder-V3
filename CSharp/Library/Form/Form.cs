@@ -1,13 +1,12 @@
-﻿using Microsoft.Bot.Builder.Form.Advanced;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
@@ -23,7 +22,7 @@ namespace Microsoft.Bot.Builder.Form
     /// * Start the form dialog.
     /// </remarks>
     [Serializable]
-    public sealed class Form<T> : IForm<T>, ISerializable
+    public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
          where T : class, new()
     {
         private readonly MakeModel _makeModel;
@@ -34,19 +33,24 @@ namespace Microsoft.Bot.Builder.Form
 
         public delegate IFormModel<T> MakeModel();
 
+        private static IFormModel<T> MakeDefaultModel()
+        {
+            return FormModelBuilder<T>.Start().AddRemainingFields().Build();
+        }
+
         /// <summary>
         /// Construct a form.
         /// </summary>
         /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public Form(MakeModel makeModel)
+        public FormDialog(MakeModel makeModel = null)
         {
-            _makeModel = makeModel;
+            _makeModel = makeModel ?? (MakeModel)MakeDefaultModel;
             _model = _makeModel();
 
             this._commands = this._model.BuildCommandRecognizer();
         }
 
-        private Form(SerializationInfo info, StreamingContext context)
+        private FormDialog(SerializationInfo info, StreamingContext context)
         {
             Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._makeModel, nameof(this._makeModel), info);
             this._form = info.GetValue<FormState>(nameof(this._form));
@@ -72,44 +76,15 @@ namespace Microsoft.Bot.Builder.Form
 
         #region IForm<T> implementation
 
-        IFormModel<T> IForm<T>.Model { get { return this._model; } }
+        IFormModel<T> IFormDialog<T>.Model { get { return this._model; } }
 
         #endregion
 
         #region IDialog implementation
 
-        /// <summary>
-        /// Initial state for a Microsoft.Bot.Builder.Form.Form.
-        /// </summary>
-        /// <remarks>
-        /// If a parent dialog wants to pass in the initial state of the form, you would use this structure.
-        /// It includes both the state and optionally initial entities from a LUIS dialog that will be used to 
-        /// initially populate the form state.
-        /// </remarks>
-        public class InitialState
+        async Task IDialog<InitialState<T>>.StartAsync(IDialogContext context, IAwaitable<InitialState<T>> arguments)
         {
-            /// <summary>
-            /// Default form state.
-            /// </summary>
-            public T State { get; set; }
-
-            /// <summary>
-            /// LUIS entities to put into state.
-            /// </summary>
-            /// <remarks>
-            /// In order to set a field in the form state, the Entity must be named with the path to the field in the form state.
-            /// </remarks>
-            public Models.EntityRecommendation[] Entities { get; set; }
-
-            /// <summary>
-            /// Whether this form should prompt the user when started.
-            /// </summary>
-            public bool PromptInStart { get; set; }
-        }
-
-        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
-        {
-            var initialState = await arguments as InitialState;
+            var initialState = await arguments;
             bool skipFields = false;
 
             if (initialState == null)

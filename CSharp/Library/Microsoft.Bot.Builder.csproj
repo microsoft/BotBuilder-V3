@@ -83,8 +83,11 @@
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
+    <Compile Include="Dialogs\CompositionRoot.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
+    <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
+    <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -105,6 +108,7 @@
     <None Include="Form\ILocalizer.cs" />
     <Compile Include="Form\IFormModelBuilder.cs" />
     <Compile Include="Form\IFormModel.cs" />
+    <Compile Include="Form\InitialState.cs" />
     <Compile Include="Form\IStep.cs" />
     <Compile Include="Form\Language.cs" />
     <Compile Include="Form\MatchAnalyzer.cs" />
@@ -112,13 +116,12 @@
     <Compile Include="Form\Steps.cs" />
     <Compile Include="Form\Annotations.cs" />
     <Compile Include="Form\Extensions.cs" />
-    <Compile Include="Form\IForm.cs" />
+    <Compile Include="Form\IFormDialog.cs" />
     <Compile Include="Form\IPrompt.cs" />
     <Compile Include="Form\IRecognizer.cs" />
     <Compile Include="Models\EntityRecommendation.cs" />
     <Compile Include="Models\IntentRecommendation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\WaitHandleEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

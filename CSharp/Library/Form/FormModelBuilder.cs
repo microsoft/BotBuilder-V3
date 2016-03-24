@@ -1,10 +1,9 @@
-﻿using Microsoft.Bot.Builder.Form.Advanced;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
@@ -38,7 +37,7 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     builder.Field(new FieldReflector<T>(path, _model));
                 }
-                builder.Confirm("Is ths your selection?\n{*}");
+                builder.Confirm("Is this your selection?\n{*}");
             }
 
             return this._model;

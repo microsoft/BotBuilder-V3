@@ -1,14 +1,14 @@
-﻿using Microsoft.Bot.Connector;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder
 {
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
-    public class LuisDialog : IDialog, ISerializable
+    public class LuisDialog : IDialog<object>, ISerializable
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder
             return response;
         }
 
-        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             context.Wait(MessageReceived);
         }

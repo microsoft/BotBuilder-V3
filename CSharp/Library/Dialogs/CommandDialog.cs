@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -10,7 +7,7 @@ namespace Microsoft.Bot.Builder
 {
 #pragma warning disable CS1998
 
-    public class CommandDialog : IDialog
+    public class CommandDialog : IDialog<object>
     {
         public class Command
         {
@@ -21,7 +18,7 @@ namespace Microsoft.Bot.Builder
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
 
-        async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             context.Wait(MessageReceived);
         }

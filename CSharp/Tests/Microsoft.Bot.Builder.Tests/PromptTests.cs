@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Microsoft.Bot.Builder.Fibers;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -19,7 +17,7 @@ namespace Microsoft.Bot.Builder.Tests
             return Guid.NewGuid().ToString();
         }
 
-        public interface IPromptCaller<T> : IDialog
+        public interface IPromptCaller<T> : IDialog<object>
         {
             Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
@@ -33,12 +31,12 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<DialogContext> MakeContextAsync(IDialog root)
+        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog<object> root)
         {
-            var data = new JObjectBotData(new Connector.Message());
+            var data = new Internals.JObjectBotData(new Connector.Message());
 
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var context = new DialogContext(data, fiber);
+            var context = new Internals.DialogContext(data, fiber);
             var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();

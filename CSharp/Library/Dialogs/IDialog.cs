@@ -1,53 +1,24 @@
-﻿using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-    public interface IDialog
+    // <summary>
+    /// A dialog is a suspendable conversational process.
+    /// </summary>
+    /// <remarks>
+    /// Dialogs can call child dialogs or send messages to a user.
+    /// Dialogs are suspended when waiting for a message from the user to the bot.
+    /// Dialogs are resumed when the bot receives a message from the user.
+    /// </remarks>
+    /// <typeparam name="T">The start arguments.</typeparam>
+    public interface IDialog<in T>
     {
-        Task StartAsync(IDialogContext context, IAwaitable<object> arguments);
-    }
-
-    public delegate Task ResumeAfter<in T>(IDialogContext context, IAwaitable<T> result);
-
-    public interface IDialogStack
-    {
-        void Wait(ResumeAfter<Message> resume);
-        void Call<T, R>(T child, object arguments, ResumeAfter<R> resume) where T : class, IDialog;
-        void Done<R>(R value);
-    }
-
-    public interface IBotToUser
-    {
-        Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
-    }
-
-    public interface IUserToBot
-    {
-        Task<Message> PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
-    }
-
-    public interface IDialogContext : IBotData, IDialogStack, IBotToUser
-    {
-        Task PostAsync(string text, CancellationToken cancellationToken = default(CancellationToken));
-    }
-
-    public static partial class Extensions
-    {
-        public static void Call<T, R>(this IDialogContext context, T child, ResumeAfter<R> resume) where T : class, IDialog
-        {
-            context.Call<T, R>(child, null, resume);
-        }
-
-        public static void Call<T, R>(this IDialogContext context, ResumeAfter<R> resume) where T : class, IDialog, new()
-        {
-            context.Call<T, R>(new T(), null, resume);
-        }
+        /// <summary>
+        /// The start of the code that represents the conversational dialog.
+        /// </summary>
+        /// <param name="context">The dialog context.</param>
+        /// <param name="arguments">Dialog start arguments.</param>
+        /// <returns>A task that represents the dialog start.</returns>
+        Task StartAsync(IDialogContext context, IAwaitable<T> arguments);
     }
 }
