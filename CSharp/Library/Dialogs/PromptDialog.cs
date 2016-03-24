@@ -27,6 +27,12 @@ namespace Microsoft.Bot.Builder
             context.Call<PromptInt32, object, int>(child, resume);
         }
 
+        public static void Number(IDialogContext context, ResumeAfter<float> resume, string prompt, string retry = null, int attempts = 3)
+        {
+            var child = new PromptFloat(prompt, retry, attempts);
+            context.Call<PromptFloat, object, float>(child, resume);
+        }
+
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptChoice<T>(options, prompt, retry, attempts);
@@ -170,7 +176,21 @@ namespace Microsoft.Bot.Builder
         }
 
         [Serializable]
-        private sealed class PromptChoice<T> : Prompt<T>
+        private sealed class PromptFloat : Prompt<float>
+        {
+            public PromptFloat(string prompt, string retry, int attempts)
+                : base(prompt, retry, attempts)
+            {
+            }
+
+            protected override bool TryParse(Message message, out float result)
+            {
+                return float.TryParse(message.Text, out result);
+            }
+        }
+
+        [Serializable]
+        private class PromptChoice<T> : Prompt<T>
         {
             private readonly IEnumerable<T> options;
 
@@ -180,12 +200,17 @@ namespace Microsoft.Bot.Builder
                 Field.SetNotNull(out this.options, nameof(options), options);
             }
 
+            public virtual bool IsMatch(T option, string text)
+            {
+                return option.ToString().IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0;
+            }
+
             protected override bool TryParse(Message message, out T result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
                     var selected = this.options
-                        .Where(option => option.ToString().IndexOf(message.Text, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                        .Where(option => IsMatch(option, message.Text))
                         .ToArray();
                     if (selected.Length == 1)
                     {

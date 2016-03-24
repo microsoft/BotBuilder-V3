@@ -97,9 +97,15 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task PromptSuccess_Number()
+        public async Task PromptSuccess_Number_Integer()
         {
             await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Number_Float()
+        {
+            await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42f);
         }
 
         [TestMethod]
