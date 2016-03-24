@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.Bot.Builder.Fibers;
-using System.IO;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Linq.Expressions;
-using System.Runtime.Serialization;
 
 namespace Microsoft.Bot.Builder.Tests
 {

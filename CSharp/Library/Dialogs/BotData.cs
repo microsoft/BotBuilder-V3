@@ -1,13 +1,9 @@
-﻿using Microsoft.Bot.Connector;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+
 using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Connector;
+
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Internals
 {

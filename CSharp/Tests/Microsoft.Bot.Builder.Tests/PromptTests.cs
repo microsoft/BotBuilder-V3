@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Microsoft.Bot.Builder.Fibers;
 
 namespace Microsoft.Bot.Builder.Tests
 {

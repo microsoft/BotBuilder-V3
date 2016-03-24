@@ -1,10 +1,11 @@
-﻿using Chronic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+
+using Chronic;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
