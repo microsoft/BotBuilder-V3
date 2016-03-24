@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections;
+using System.IO.Compression;
 
 namespace Microsoft.Bot.Builder
 {
@@ -153,11 +154,11 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialog> MakeRoot, params Serialization.ISerializeAsReference[] singletons)
+        public static async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, Message toBot, Func<IDialog> MakeRoot)
         {
             try
             {
-                var toUser = await PostAsync(toBot, MakeRoot, singletons);
+                var toUser = await PostAsync(toBot, MakeRoot);
 
                 return request.CreateResponse(toUser);
             }
@@ -171,55 +172,23 @@ namespace Microsoft.Bot.Builder
         {
             var listener = new DefaultTraceListener();
             var reference = new Serialization.LogSurrogate(new Serialization.ReferenceSurrogate(), listener);
-            var reflection = new Serialization.LogSurrogate(new Serialization.ReflectionSurrogate(), listener);
-            var selector = new Serialization.SurrogateSelector(reference, reflection);
+            //var reflection = new Serialization.LogSurrogate(new Serialization.ReflectionSurrogate(), listener);
+            var selector = new Serialization.SurrogateSelector(reference, reflection: null);
             var context = new StreamingContext(StreamingContextStates.All, provider);
             var formatter = new BinaryFormatter(selector, context);
             return formatter;
         }
 
-        public sealed class SimpleServiceLocator : IServiceProvider, IEnumerable<object>
-        {
-            private readonly Dictionary<Type, object> instanceByType;
-
-            public SimpleServiceLocator(IEnumerable<object> instances = null)
-            {
-                instances = instances ?? Enumerable.Empty<object>();
-                this.instanceByType = instances.ToDictionary(o => o.GetType(), o => o);
-            }
-
-            public void Add(object instance)
-            {
-                var type = instance.GetType();
-                this.instanceByType.Add(type, instance);
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.instanceByType.Values.GetEnumerator();
-            }
-
-            IEnumerator<object> IEnumerable<object>.GetEnumerator()
-            {
-                return this.instanceByType.Values.GetEnumerator();
-            }
-
-            object IServiceProvider.GetService(Type serviceType)
-            {
-                return this.instanceByType[serviceType];
-            }
-        }
-
-        public static async Task<Message> PostAsync(Message toBot, Func<IDialog> MakeRoot, params Serialization.ISerializeAsReference [] singletons)
+        public static async Task<Message> PostAsync(Message toBot, Func<IDialog> MakeRoot)
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
             IBotData toBotData = new JObjectBotData(toBot);
-            var provider = new SimpleServiceLocator(singletons)
+            var provider = new Serialization.SimpleServiceLocator()
             {
                 waits, frames, toBotData
             };
-            var formatter = MakeBinaryFormatter(provider);
+            var formatter = CompositionRoot.MakeBinaryFormatter(provider);
 
             DialogContext context;
 
@@ -228,8 +197,9 @@ namespace Microsoft.Bot.Builder
             if (found)
             {
                 using (var streamOld = new MemoryStream(blobOld))
+                using (var gzipOld = new GZipStream(streamOld, CompressionMode.Decompress))
                 {
-                    context = (DialogContext)formatter.Deserialize(streamOld);
+                    context = (DialogContext)formatter.Deserialize(gzipOld);
                 }
             }
             else
@@ -251,14 +221,18 @@ namespace Microsoft.Bot.Builder
                 toUser = DialogContext.ToUser(toBot, toUserText: null);
             }
 
+            byte[] blobNew;
             using (var streamNew = new MemoryStream())
+            using (var gzipNew = new GZipStream(streamNew, CompressionMode.Compress))
             {
-                formatter.Serialize(streamNew, context);
-                var blobNew = streamNew.ToArray();
-                IBotData toUserData = new JObjectBotData(toUser);
-
-                toUserData.PerUserInConversationData.SetValue(BlobKey, blobNew);
+                formatter.Serialize(gzipNew, context);
+                gzipNew.Close();
+                blobNew = streamNew.ToArray();
             }
+
+            IBotData toUserData = new JObjectBotData(toUser);
+
+            toUserData.PerUserInConversationData.SetValue(BlobKey, blobNew);
 
             return toUser;
         }

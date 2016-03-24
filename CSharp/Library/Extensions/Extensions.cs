@@ -28,10 +28,18 @@ namespace Microsoft.Bot.Builder
             Field.SetNotNull(out field, name, value);
         }
 
-        public static void SetFrom<T>(out T field, string name, SerializationInfo info) where T : struct
+        public static void SetFrom<T>(out T field, string name, SerializationInfo info)
         {
             var value = (T)info.GetValue(name, typeof(T));
             field = value;
+        }
+    }
+
+    public static partial class Extensions
+    {
+        public static T GetValue<T>(this SerializationInfo info, string name)
+        {
+            return (T)info.GetValue(name, typeof(T));
         }
     }
 }

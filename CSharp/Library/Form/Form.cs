@@ -22,34 +22,43 @@ namespace Microsoft.Bot.Builder.Form
     /// * Register with the global dialog collection.
     /// * Start the form dialog.
     /// </remarks>
+    [Serializable]
     public sealed class Form<T> : IForm<T>, ISerializable
          where T : class, new()
     {
+        private readonly MakeModel _makeModel;
         private readonly IFormModel<T> _model;
+        private FormState _form;
+        private T _state;
+        private IRecognize<T> _commands;
+
+        public delegate IFormModel<T> MakeModel();
 
         /// <summary>
         /// Construct a form.
         /// </summary>
         /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public Form(string id, IFormModel<T> model)
+        public Form(MakeModel makeModel)
         {
-            _id = id;
-            _model = model;
+            _makeModel = makeModel;
+            _model = _makeModel();
+
+            this._commands = this._model.BuildCommandRecognizer();
         }
 
         private Form(SerializationInfo info, StreamingContext context)
         {
-            Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._id, nameof(this._id), info);
-            Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._model, nameof(this._model), info);
+            Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._makeModel, nameof(this._makeModel), info);
+            this._form = info.GetValue<FormState>(nameof(this._form));
+            this._state = info.GetValue<T>(nameof(this._state));
 
-            this._form = (FormState)info.GetValue(nameof(this._form), typeof(FormState));
-            this._state = (T)info.GetValue(nameof(this._state), typeof(T));
+            _model = _makeModel();
+            this._commands = this._model.BuildCommandRecognizer();
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(this._id), this._id);
-            info.AddValue(nameof(this._model), this._model);
+            info.AddValue(nameof(this._makeModel), this._makeModel);
 
             info.AddValue(nameof(this._form), this._form);
             info.AddValue(nameof(this._state), this._state);
@@ -96,7 +105,6 @@ namespace Microsoft.Bot.Builder.Form
         async Task IDialog.StartAsync(IDialogContext context, IAwaitable<object> arguments)
         {
             var initialState = await arguments as InitialState;
-            BuildCommandRecognizer();
             bool skipFields = false;
 
             if (initialState == null)
@@ -173,10 +181,12 @@ namespace Microsoft.Bot.Builder.Form
                 }
             }
             context.Wait(MessageReceived);
+            //await MessageReceived(context, null);
         }
 
         public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> toBot)
         {
+            var toBotText = toBot != null ? (await toBot).Text : null;
             string message = null;
             string prompt = null;
             bool useLastPrompt = false;
@@ -200,7 +210,7 @@ namespace Microsoft.Bot.Builder.Form
                     }
                     else
                     {
-                        matches = step.Match(context, _state, _form, (await toBot).Text, out lastInput);
+                        matches = step.Match(context, _state, _form, toBotText, out lastInput);
                     }
                 }
                 else
@@ -223,7 +233,7 @@ namespace Microsoft.Bot.Builder.Form
                     }
                     else if (_form.Phase() == StepPhase.Responding)
                     {
-                        matches = step.Match(context, _state, _form, (await toBot).Text, out lastInput);
+                        matches = step.Match(context, _state, _form, toBotText, out lastInput);
                     }
                 }
                 if (matches != null)
@@ -330,14 +340,6 @@ namespace Microsoft.Bot.Builder.Form
 
                 await context.PostAsync(prompt);
                 context.Wait(MessageReceived);
-            }
-        }
-
-        public string ID
-        {
-            get
-            {
-                return _id;
             }
         }
 
@@ -557,41 +559,6 @@ namespace Microsoft.Bot.Builder.Form
             return next;
         }
 
-
-        private void BuildCommandRecognizer()
-        {
-            var values = new List<object>();
-            var descriptions = new Dictionary<object, string>();
-            var terms = new Dictionary<object, string[]>();
-            foreach (var entry in _model.Configuration.Commands)
-            {
-                values.Add(entry.Key);
-                descriptions[entry.Key] = entry.Value.Description;
-                terms[entry.Key] = entry.Value.Terms;
-            }
-            foreach (var field in _model.Fields)
-            {
-                var fterms = field.Terms();
-                if (fterms != null)
-                {
-                    values.Add(field.Name);
-                    descriptions.Add(field.Name, field.Description());
-                    terms.Add(field.Name, fterms.ToArray());
-                }
-            }
-            _commands = new RecognizeEnumeration<T>(this._model, "Form commands", null,
-                values,
-                    (value) => descriptions[value],
-                    (value) => terms[value],
-                    false, null);
-        }
-
-        private readonly string _id;
-
-        private FormState _form;
-        private T _state;
-
-        private IRecognize<T> _commands;
         #endregion
 
     }

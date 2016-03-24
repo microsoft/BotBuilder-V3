@@ -16,14 +16,17 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private static IFormModel<SandwichOrder> MakeModel()
+        {
+            return FormModelBuilder<SandwichOrder>
+                    .Start()
+                    .Message("Welcome to the simple sandwich order bot!")
+                    .Build();
+        }
+
         public static IDialog MakeRoot()
         {
-            var model = FormModelBuilder<SandwichOrder>
-                .Start()
-                .Message("Welcome to the simple sandwich order bot!")
-                .Build();
-
-            return new Form<SandwichOrder>("SandwichForm", model);
+            return new Form<SandwichOrder>(MakeModel);
         }
 
         /// <summary>

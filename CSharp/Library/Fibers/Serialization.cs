@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -122,8 +123,8 @@ namespace Microsoft.Bot.Builder.Fibers
             private readonly ISerializationSurrogate reflection;
             public SurrogateSelector(ISerializationSurrogate reference, ISerializationSurrogate reflection)
             {
-                Field.SetNotNull(out this.reference, nameof(reference), reference);
-                Field.SetNotNull(out this.reflection, nameof(reflection), reflection);
+                this.reference = reference;
+                this.reflection = reflection;
             }
 
             void ISurrogateSelector.ChainSelector(ISurrogateSelector selector)
@@ -138,13 +139,13 @@ namespace Microsoft.Bot.Builder.Fibers
 
             ISerializationSurrogate ISurrogateSelector.GetSurrogate(Type type, StreamingContext context, out ISurrogateSelector selector)
             {
-                if (typeof(ISerializeAsReference).IsAssignableFrom(type))
+                if (this.reference != null && typeof(ISerializeAsReference).IsAssignableFrom(type))
                 {
                     selector = this;
                     return this.reference;
                 }
 
-                if (!type.IsSerializable)
+                if (this.reflection != null && !type.IsSerializable)
                 {
                     selector = this;
                     return this.reflection;
@@ -152,6 +153,38 @@ namespace Microsoft.Bot.Builder.Fibers
 
                 selector = null;
                 return null;
+            }
+        }
+
+        public sealed class SimpleServiceLocator : IServiceProvider, IEnumerable<object>
+        {
+            private readonly Dictionary<Type, object> instanceByType;
+
+            public SimpleServiceLocator(IEnumerable<object> instances = null)
+            {
+                instances = instances ?? Enumerable.Empty<object>();
+                this.instanceByType = instances.ToDictionary(o => o.GetType(), o => o);
+            }
+
+            public void Add(object instance)
+            {
+                var type = instance.GetType();
+                this.instanceByType.Add(type, instance);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.instanceByType.Values.GetEnumerator();
+            }
+
+            IEnumerator<object> IEnumerable<object>.GetEnumerator()
+            {
+                return this.instanceByType.Values.GetEnumerator();
+            }
+
+            object IServiceProvider.GetService(Type serviceType)
+            {
+                return this.instanceByType[serviceType];
             }
         }
     }

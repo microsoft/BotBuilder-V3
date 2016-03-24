@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     class Program
     {
-        static void Interactive(IDialog form, params Fibers.Serialization.ISerializeAsReference[] singletons)
+        static void Interactive(IDialog form)
         {
             var message = new Message()
             {
@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Builder.FormTest
             string prompt;
             do
             {
-                var task = CompositionRoot.PostAsync(message, () => form, singletons);
+                var task = CompositionRoot.PostAsync(message, () => form);
                 message = task.GetAwaiter().GetResult();
                 prompt = message.Text;
                 if (prompt != null)
@@ -38,8 +38,10 @@ namespace Microsoft.Bot.Builder.FormTest
             } while (prompt != null);
         }
 
-        static IFormModel<PizzaOrder> AddFields(IFormModelBuilder<PizzaOrder> form, bool noNumbers)
+        private static IFormModel<PizzaOrder> MakeModel(bool noNumbers)
         {
+            var form = FormModelBuilder<PizzaOrder>.Start();
+
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
             ConditionalDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
@@ -94,11 +96,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
         static void Main(string[] args)
         {
-            var annotationsAndNumbersModel = AddFields(new FormModelBuilder<PizzaOrder>(), noNumbers: false);
-            var annotationsAndWordsModel = AddFields(new FormModelBuilder<PizzaOrder>(), noNumbers: true);
-
-            var choicesModel = FormModelBuilder<Choices>.Start().AddRemainingFields().Build();
-            var choiceForm = new Form<Choices>("Choices", choicesModel);
+            var choiceForm = new Form<Choices>(() => FormModelBuilder<Choices>.Start().AddRemainingFields().Build());
             var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
                 Choices choices;
@@ -115,13 +113,13 @@ namespace Microsoft.Bot.Builder.FormTest
                 {
                     case DebugOptions.AnnotationsAndNumbers:
                         {
-                            var form = new Form<PizzaOrder>("AnnotationsAndNumbers", annotationsAndNumbersModel);
+                            var form = new Form<PizzaOrder>(() => MakeModel(noNumbers: false));
                             context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
                             return;
                         }
                     case DebugOptions.AnnotationsAndNoNumbers:
                         {
-                            var form = new Form<PizzaOrder>("AnnotationsAndWords", annotationsAndWordsModel);
+                            var form = new Form<PizzaOrder>(() => MakeModel(noNumbers: true));
                             context.Call<IForm<PizzaOrder>, PizzaOrder>(form, root.CallChild);
                             return;
                         }
@@ -130,9 +128,7 @@ namespace Microsoft.Bot.Builder.FormTest
                 context.Done(result);
             });
 
-            //Interactive(callDebug, annotationsAndNumbersModel, annotationsAndWordsModel, choicesModel);
-            Interactive(callDebug, annotationsAndNumbersModel, choicesModel);
-            // Interactive(dialogs, annotationsAndWords);
+            Interactive(callDebug);
             /*
             var dialogs = new DialogCollection().Add(debugForm);
             var form = AddFields(new Form<PizzaOrder>("full"), noNumbers: true);

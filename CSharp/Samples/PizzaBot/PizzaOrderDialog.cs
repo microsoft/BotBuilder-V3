@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
 #pragma warning disable CS1998
 
     [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=a19f7eee-0280-4a9a-b5e5-73c16b32c43d&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
+    [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
         private readonly Func<IForm<PizzaOrder>> MakePizzaForm;
@@ -20,6 +22,18 @@ namespace Microsoft.Bot.Sample.PizzaBot
         internal PizzaOrderDialog(Func<IForm<PizzaOrder>> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
+        }
+
+        protected PizzaOrderDialog(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            Field.SetNotNullFrom(out this.MakePizzaForm, nameof(MakePizzaForm), info);
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue(nameof(this.MakePizzaForm), MakePizzaForm);
         }
 
         [LuisIntent("")]
@@ -31,7 +45,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
 
         [LuisIntent("OrderPizza")]
         [LuisIntent("UseCoupon")]
-        private async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
+        public async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
         {
             var initialState = new Form<PizzaOrder>.InitialState();
             var entities = new List<EntityRecommendation>(result.Entities);

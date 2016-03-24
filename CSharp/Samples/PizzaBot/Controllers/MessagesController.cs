@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IForm<PizzaOrder> MakePizzaForm()
+        private static IFormModel<PizzaOrder> MakeModel()
         {
             var builder = FormModelBuilder<PizzaOrder>.Start();
 
@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             ConditionalDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
             ConditionalDelegate<PizzaOrder> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
 
-            var model = builder
+            return builder
                 // .Field(nameof(PizzaOrder.Choice))
                 .Field(nameof(PizzaOrder.Size))
                 .Field(nameof(PizzaOrder.Kind))
@@ -53,8 +53,11 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza?", isStuffed)
                 .Build()
                 ;
+        }
 
-            IForm<PizzaOrder> form = new Form<PizzaOrder>("PizzaForm", model);
+        private static IForm<PizzaOrder> MakePizzaForm()
+        {
+            IForm<PizzaOrder> form = new Form<PizzaOrder>(MakeModel);
             return form;
         }
 

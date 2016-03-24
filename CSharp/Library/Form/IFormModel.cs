@@ -19,10 +19,10 @@ namespace Microsoft.Bot.Builder.Form
 
     public static partial class Extension
     {
-        internal static IStep<T> Step<T>(this IFormModel<T> spec, string name) where T : class, new()
+        internal static IStep<T> Step<T>(this IFormModel<T> model, string name) where T : class, new()
         {
             IStep<T> result = null;
-            foreach (var step in spec.Steps)
+            foreach (var step in model.Steps)
             {
                 if (step.Name == name)
                 {
@@ -33,12 +33,12 @@ namespace Microsoft.Bot.Builder.Form
             return result;
         }
 
-        internal static int StepIndex<T>(this IFormModel<T> spec, IStep<T> step) where T : class, new()
+        internal static int StepIndex<T>(this IFormModel<T> model, IStep<T> step) where T : class, new()
         {
             var index = -1;
-            for (var i = 0; i < spec.Steps.Count; ++i)
+            for (var i = 0; i < model.Steps.Count; ++i)
             {
-                if (spec.Steps[i] == step)
+                if (model.Steps[i] == step)
                 {
                     index = i;
                     break;
@@ -47,5 +47,34 @@ namespace Microsoft.Bot.Builder.Form
             return index;
         }
 
+        internal static IRecognize<T> BuildCommandRecognizer<T>(this IFormModel<T> model) where T : class, new()
+        {
+            var values = new List<object>();
+            var descriptions = new Dictionary<object, string>();
+            var terms = new Dictionary<object, string[]>();
+            foreach (var entry in model.Configuration.Commands)
+            {
+                values.Add(entry.Key);
+                descriptions[entry.Key] = entry.Value.Description;
+                terms[entry.Key] = entry.Value.Terms;
+            }
+            foreach (var field in model.Fields)
+            {
+                var fterms = field.Terms();
+                if (fterms != null)
+                {
+                    values.Add(field.Name);
+                    descriptions.Add(field.Name, field.Description());
+                    terms.Add(field.Name, fterms.ToArray());
+                }
+            }
+            var commands = new RecognizeEnumeration<T>(model, "Form commands", null,
+                values,
+                    (value) => descriptions[value],
+                    (value) => terms[value],
+                    false, null);
+
+            return commands;
+        }
     }
 }

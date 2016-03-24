@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,7 +45,8 @@ namespace Microsoft.Bot.Builder
 
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
-    public class LuisDialog : IDialog
+    [Serializable]
+    public class LuisDialog : IDialog, ISerializable
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
@@ -68,16 +71,32 @@ namespace Microsoft.Bot.Builder
             this.AddAttributeBasedHandlers();
         }
 
-        public LuisDialog(string dialogID, string subscriptionKey, string modelID)
+        public LuisDialog(string subscriptionKey, string modelID)
         {
             Field.SetNotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
             Field.SetNotNull(out this.modelID, nameof(modelID), modelID);
             this.luisUrl = string.Format("https://api.projectoxford.ai/luis/v1/application?id={0}&subscription-key={1}&q=", this.modelID, this.subscriptionKey);
         }
 
+        protected LuisDialog(SerializationInfo info, StreamingContext context)
+        {
+            Field.SetNotNullFrom(out this.luisUrl, nameof(this.luisUrl), info);
+            Field.SetFrom(out this.subscriptionKey, nameof(this.subscriptionKey), info);
+            Field.SetFrom(out this.modelID, nameof(this.modelID), info);
+
+            this.AddAttributeBasedHandlers();
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(this.subscriptionKey), this.subscriptionKey);
+            info.AddValue(nameof(this.luisUrl), this.luisUrl);
+            info.AddValue(nameof(this.modelID), this.modelID);
+        }
+
         private void AddAttributeBasedHandlers()
         {
-            var methods = from m in this.GetType().GetMethods()
+            var methods = from m in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                           let attr = m.GetCustomAttributes(typeof(LuisIntent), true)
                           where attr.Length > 0
                           select new { method = m, attributes = attr.Select(s => (LuisIntent)s).ToList() };
@@ -89,9 +108,12 @@ namespace Microsoft.Bot.Builder
             {
                 // TODO: use handler.method.CreateDelegate?
                 //var intentHandler = (IntentHandler) handler.method.CreateDelegate(typeof(IntentHandler));
+
+                // assign to local variable to capture less in closure below
+                var method = handler.method;
                 var intentHandler = new IntentHandler(async (context, result) =>
                 {
-                    var task = (Task)handler.method.Invoke(this, new object[] { context, result });
+                    var task = (Task)method.Invoke(this, new object[] { context, result });
                     await task;
                 });
 

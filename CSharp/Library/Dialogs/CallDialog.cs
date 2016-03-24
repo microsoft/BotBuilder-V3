@@ -5,6 +5,7 @@ namespace Microsoft.Bot.Builder
 {
 #pragma warning disable CS1998
 
+    [Serializable]
     public class CallDialog<T> : IDialog
     {
         public delegate Task Resume(CallDialog<T> dialog, IDialogContext context, IAwaitable<T> result);
