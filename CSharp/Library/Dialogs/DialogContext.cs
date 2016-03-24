@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.IO.Compression;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Internals
 {
 #pragma warning disable CS1998
 

@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder
             };
             var formatter = CompositionRoot.MakeBinaryFormatter(provider);
 
-            DialogContext context;
+            Internals.DialogContext context;
 
             byte[] blobOld;
             bool found = toBotData.PerUserInConversationData.TryGetValue(BlobKey, out blobOld);
@@ -64,13 +64,13 @@ namespace Microsoft.Bot.Builder
                 using (var streamOld = new MemoryStream(blobOld))
                 using (var gzipOld = new GZipStream(streamOld, CompressionMode.Decompress))
                 {
-                    context = (DialogContext)formatter.Deserialize(gzipOld);
+                    context = (Internals.DialogContext)formatter.Deserialize(gzipOld);
                 }
             }
             else
             {
                 IFiberLoop fiber = new Fiber(frames);
-                context = new DialogContext(toBotData, fiber);
+                context = new Internals.DialogContext(toBotData, fiber);
                 var root = MakeRoot();
                 var loop = Methods.Void(Methods.Loop(context.ToRest<T>(root.StartAsync), int.MaxValue));
                 fiber.Call(loop, default(T));
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder
             // even with no bot response, try to save state
             if (toUser == null)
             {
-                toUser = DialogContext.ToUser(toBot, toUserText: null);
+                toUser = Internals.DialogContext.ToUser(toBot, toUserText: null);
             }
 
             byte[] blobNew;

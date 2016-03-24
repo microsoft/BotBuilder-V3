@@ -33,12 +33,12 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<DialogContext> MakeContextAsync(IDialog<object> root)
+        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog<object> root)
         {
             var data = new Internals.JObjectBotData(new Connector.Message());
 
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var context = new DialogContext(data, fiber);
+            var context = new Internals.DialogContext(data, fiber);
             var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();
