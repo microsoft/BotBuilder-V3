@@ -69,6 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Samples\SimpleSandwichBot\Sandwich.cs">
+      <Link>Sandwich.cs</Link>
+    </Compile>
+    <Compile Include="AnnotatedSandwich.cs" />
     <Compile Include="pizza.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
