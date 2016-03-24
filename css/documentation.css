@@ -787,9 +787,10 @@ foobar {
 .level0 {
   padding-left: 0;
 }
+.level1.parent {
+  cursor: pointer;
+}
 .level1.parent:before {
-  -webkit-transition: all linear .2s;
-  transition: all linear .2s;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAHCAYAAAArkDztAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAElJREFUeNpiCAgISGDAApg1NDTOA7EDED+8cePGA5gEI1DHfySFC4C4ccOGDQ/QJUDgAxBPZGLAAVjQ+HCjYBIHoAIHYCoAAgwA+4sZshXM1Q0AAAAASUVORK5CYII=);
   background-repeat: no-repeat;
   content: "";

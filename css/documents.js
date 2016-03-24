@@ -22,5 +22,5 @@ $( document ).ready(function() {
 function toggleNav(parent, dur) {
     $content = parent.next();
     $content.slideToggle(dur);
-    parent.toggleClass("rotate");
+    parent.toggleClass("rotate", null, dur, null, null);
 }
