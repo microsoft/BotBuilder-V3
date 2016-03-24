@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleAlarmBot", "Samples\SimpleAlarmBot\Microsoft.Bot.Sample.SimpleAlarmBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,20 @@ Global
 		{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}.Scratch|Any CPU.Build.0 = Release|Any CPU
 		{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}.WestUS|Any CPU.ActiveCfg = Release|Any CPU
 		{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}.WestUS|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.EastUS|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.EastUS|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.PPE|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.PPE|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Scratch|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.Scratch|Any CPU.Build.0 = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.WestUS|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}.WestUS|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,5 +160,6 @@ Global
 		{D51F252D-4041-4440-A3F5-DA515E50B7D3} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{508661A7-F47A-4D60-8ED6-69E378ED0E74} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
 		{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 	EndGlobalSection
 EndGlobal
