@@ -34,13 +34,18 @@ namespace Microsoft.Bot.Builder.Form
 
         public delegate IFormModel<T> MakeModel();
 
+        private static IFormModel<T> MakeDefaultModel()
+        {
+            return FormModelBuilder<T>.Start().AddRemainingFields().Build();
+        }
+
         /// <summary>
         /// Construct a form.
         /// </summary>
         /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public FormDialog(MakeModel makeModel)
+        public FormDialog(MakeModel makeModel = null)
         {
-            _makeModel = makeModel;
+            _makeModel = makeModel ?? (MakeModel)MakeDefaultModel;
             _model = _makeModel();
 
             this._commands = this._model.BuildCommandRecognizer();

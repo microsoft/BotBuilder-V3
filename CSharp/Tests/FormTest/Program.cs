@@ -100,7 +100,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
         static void Main(string[] args)
         {
-            var choiceForm = new FormDialog<Choices>(() => FormModelBuilder<Choices>.Start().AddRemainingFields().Build());
+            var choiceForm = new FormDialog<Choices>();
             var callDebug = new CallDialog<InitialState<Choices>, Choices>(choiceForm, async (root, context, result) =>
             {
                 Choices choices;
