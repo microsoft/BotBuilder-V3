@@ -34,7 +34,7 @@ export abstract class IntentDialog extends dialog.Dialog {
     private groups: { [id: string]: IntentGroup; } = {};
     private beginDialog: IBeginDialogHandler;
     private captureIntent: ICaptureIntentHandler;
-    private intentThreshold = 0.3;
+    private intentThreshold = 0.1;
 
     public begin<T>(session: ISession, args: IntentGroup): void {
         if (this.beginDialog) {

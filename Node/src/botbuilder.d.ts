@@ -1171,7 +1171,7 @@ export abstract class IntentDialog extends Dialog {
     getThreshold(): number;
 
     /**
-     * Sets the minimum score needed for an intent to be triggered. The default value is 0.3.
+     * Sets the minimum score needed for an intent to be triggered. The default value is 0.1.
      * @param score Minimum score needed to trigger an intent.
      */
     setThreshold(score: number): IntentDialog;

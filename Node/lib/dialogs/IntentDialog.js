@@ -11,7 +11,7 @@ var IntentDialog = (function (_super) {
     function IntentDialog() {
         _super.apply(this, arguments);
         this.groups = {};
-        this.intentThreshold = 0.3;
+        this.intentThreshold = 0.1;
     }
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;
