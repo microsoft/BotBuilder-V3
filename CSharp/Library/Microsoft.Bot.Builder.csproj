@@ -87,6 +87,7 @@
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
+    <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />
