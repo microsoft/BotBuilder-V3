@@ -1284,10 +1284,9 @@ export class EntityRecognizer {
     /**
      * Calculates a Date from a set of datetime entities.
      * @param entities List of entities to extract date from.
-     * @param timezoneOffset Optional offset used to return dates adjusted to a specific timezone. If omitted the bots timezone will be used. 
      * @returns The successfully calculated Date or null if a date couldn't be determined. 
      */
-    static resolveTime(entities: IEntity[], timezoneOffset?: number): Date;
+    static resolveTime(entities: IEntity[]): Date;
 
     /**
      * Recognizes a time from a users uetterance.

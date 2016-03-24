@@ -60,21 +60,22 @@ export class EntityRecognizer {
         return EntityRecognizer.resolveTime(entities);
     }
 
-    static resolveTime(entities: IEntity[], timezoneOffset?: number): Date {
+    static resolveTime(entities: IEntity[]): Date {
         var now = new Date();
+        var resolvedDate: Date;
         var date: string;
         var time: string;
         entities.forEach((entity: ILuisDateTimeEntity) => {
             if (entity.resolution) {
                 switch (entity.resolution.resolution_type) {
                     case 'builtin.datetime.date':
-                        if (!date) {
-                            date = entity.resolution.date;
-                        }
-                        break;
                     case 'builtin.datetime.time':
-                        if (!time) {
-                            time = entity.resolution.time;
+                        var parts = (entity.resolution.date || entity.resolution.time).split('T');
+                        if (!date && parts[0]) {
+                            date = parts[0];
+                        }
+                        if (!time && parts[1]) {
+                            time = 'T' + parts[1];
                             if (time.length == 3) {
                                 time = time + ':00:00';
                             } else if (time.length == 6) {
@@ -86,25 +87,21 @@ export class EntityRecognizer {
                     case 'chrono.duration':
                         // Date is already calculated
                         var duration = <IChronoDuration>entity;
-                        return duration.resolution.start;
+                        resolvedDate = duration.resolution.start;
                 }
             }
         });
-        if (date || time) {
+        if (!resolvedDate && (date || time)) {
             // The user can just say "at 9am" so we'll use today if no date.
             if (!date) {
                 date = utils.toDate8601(now);
             }
             if (time) {
-                // Append time but adjust timezone. Default is to use bots timezone.
-                if (typeof timezoneOffset !== 'number') {
-                    timezoneOffset = now.getTimezoneOffset() / 60;
-                }
-                date = sprintf.sprintf('%s%s%s%02d:00', date, time, (timezoneOffset > 0 ? '-' : '+'), timezoneOffset);
+                date += time;
             }
-            return new Date(date);
+            resolvedDate = new Date(date);
         }
-        return null;
+        return resolvedDate;
     }
 
     static recognizeTime(utterance: string, refDate?: Date): IChronoDuration {

@@ -37,11 +37,12 @@ export class TextBot extends collection.DialogCollection {
     public beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): void {
         // Validate args
         if (!this.hasDialog(dialogId)) {
-            throw new Error('Invalid dialog passed to SkypeBot.beginDialog().');
+            throw new Error('Invalid dialog passed to TextBot.beginDialog().');
         }
-
         // Dispatch message
-        this.dispatchMessage(address || {}, null, dialogId, dialogArgs);
+        var msg: IMessage = address || {};
+        var userId = msg.to ? msg.to.channelId : 'user';
+        this.dispatchMessage(userId, msg, null, dialogId, dialogArgs);
     }
 
     public processMessage(message: IMessage, callback?: (err: Error, reply: IMessage) => void): void {
@@ -52,7 +53,7 @@ export class TextBot extends collection.DialogCollection {
         if (!message.from) {
             message.from = { channelId: 'text', address: 'user' };
         }
-        this.dispatchMessage(message, callback, this.options.defaultDialogId, this.options.defaultDialogArgs);
+        this.dispatchMessage(message.from.address, message, callback, this.options.defaultDialogId, this.options.defaultDialogArgs);
     }
 
     public listenStdin(): void {
@@ -71,7 +72,7 @@ export class TextBot extends collection.DialogCollection {
         });
     }
 
-    private dispatchMessage(message: IMessage, callback: (err: Error, reply: IMessage) => void, dialogId: string, dialogArgs: any): void {
+    private dispatchMessage(userId: string, message: IMessage, callback: (err: Error, reply: IMessage) => void, dialogId: string, dialogArgs: any): void {
         // Initialize session
         var ses = new session.Session({
             localizer: this.options.localizer,
@@ -80,7 +81,7 @@ export class TextBot extends collection.DialogCollection {
             dialogArgs: dialogArgs
         });
         ses.on('send', (reply: IMessage) => {
-            this.saveData(message.from.address, ses.userData, ses.sessionState, () => {
+            this.saveData(userId, ses.userData, ses.sessionState, () => {
                 // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     if (callback) {
@@ -111,7 +112,7 @@ export class TextBot extends collection.DialogCollection {
         });
 
         // Dispatch message
-        this.getData(message.from.address, (err, userData, sessionState) => {
+        this.getData(userId, (err, userData, sessionState) => {
             ses.userData = userData || {};
             ses.dispatch(sessionState, message);
         });

@@ -30,10 +30,12 @@ var TextBot = (function (_super) {
     TextBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
         // Validate args
         if (!this.hasDialog(dialogId)) {
-            throw new Error('Invalid dialog passed to SkypeBot.beginDialog().');
+            throw new Error('Invalid dialog passed to TextBot.beginDialog().');
         }
         // Dispatch message
-        this.dispatchMessage(address || {}, null, dialogId, dialogArgs);
+        var msg = address || {};
+        var userId = msg.to ? msg.to.channelId : 'user';
+        this.dispatchMessage(userId, msg, null, dialogId, dialogArgs);
     };
     TextBot.prototype.processMessage = function (message, callback) {
         this.emit('message', message);
@@ -43,7 +45,7 @@ var TextBot = (function (_super) {
         if (!message.from) {
             message.from = { channelId: 'text', address: 'user' };
         }
-        this.dispatchMessage(message, callback, this.options.defaultDialogId, this.options.defaultDialogArgs);
+        this.dispatchMessage(message.from.address, message, callback, this.options.defaultDialogId, this.options.defaultDialogArgs);
     };
     TextBot.prototype.listenStdin = function () {
         var _this = this;
@@ -61,7 +63,7 @@ var TextBot = (function (_super) {
             _this.processMessage({ text: line || '' });
         });
     };
-    TextBot.prototype.dispatchMessage = function (message, callback, dialogId, dialogArgs) {
+    TextBot.prototype.dispatchMessage = function (userId, message, callback, dialogId, dialogArgs) {
         var _this = this;
         // Initialize session
         var ses = new session.Session({
@@ -71,7 +73,7 @@ var TextBot = (function (_super) {
             dialogArgs: dialogArgs
         });
         ses.on('send', function (reply) {
-            _this.saveData(message.from.address, ses.userData, ses.sessionState, function () {
+            _this.saveData(userId, ses.userData, ses.sessionState, function () {
                 // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     if (callback) {
@@ -104,7 +106,7 @@ var TextBot = (function (_super) {
             _this.emit('quit', message);
         });
         // Dispatch message
-        this.getData(message.from.address, function (err, userData, sessionState) {
+        this.getData(userId, function (err, userData, sessionState) {
             ses.userData = userData || {};
             ses.dispatch(sessionState, message);
         });
