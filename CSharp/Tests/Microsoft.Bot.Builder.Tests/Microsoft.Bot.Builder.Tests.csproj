@@ -83,8 +83,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DialogFlowTests.cs" />
-    <Compile Include="FiberSample.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="PromptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

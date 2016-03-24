@@ -84,8 +84,6 @@
     <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
     <Compile Include="Dialogs\DialogNew.cs" />
-    <Compile Include="Dialogs\IDialog.cs" />
-    <Compile Include="Dialogs\IDialogCollection.cs" />
     <Compile Include="Dialogs\IDialogNew.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
@@ -112,33 +110,15 @@
     <Compile Include="Form\MatchAnalyzer.cs" />
     <Compile Include="Form\Recognizer.cs" />
     <Compile Include="Form\Steps.cs" />
-    <Compile Include="SessionStores\CookieHelper.cs" />
-    <Compile Include="SessionStores\CookieStore.cs" />
-    <Compile Include="Dialogs\Dialog.cs" />
     <Compile Include="Form\Annotations.cs" />
     <Compile Include="Form\Extensions.cs" />
     <Compile Include="Form\IForm.cs" />
     <Compile Include="Form\IPrompt.cs" />
     <Compile Include="Form\IRecognizer.cs" />
-    <Compile Include="SessionStores\InMemoryStore.cs" />
-    <Compile Include="SessionStores\ISessionStore.cs" />
     <Compile Include="Models\EntityRecommendation.cs" />
     <Compile Include="Models\IntentRecommendation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serializers\BinarySerializer.cs" />
-    <Compile Include="Serializers\CookieSerializer.cs" />
-    <Compile Include="Serializers\JsonSerializer.cs" />
-    <Compile Include="Sessions\DialogStack.cs" />
-    <Compile Include="Sessions\Exceptions.cs" />
-    <Compile Include="Sessions\IDialogStack.cs" />
-    <Compile Include="Sessions\ISessionData.cs" />
-    <Compile Include="Sessions\Session.cs" />
-    <Compile Include="SessionStores\MessageStore.cs" />
-    <Compile Include="Sessions\ConnectorSession.cs" />
-    <Compile Include="Sessions\ConsoleSession.cs" />
-    <Compile Include="Sessions\ISession.cs" />
     <Compile Include="Extensions\WaitHandleEx.cs" />
-    <Compile Include="Sessions\SessionData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
