@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static async Task<DialogContext> MakeContextAsync(IDialog<object> root)
         {
-            var data = new JObjectBotData(new Connector.Message());
+            var data = new Internals.JObjectBotData(new Connector.Message());
 
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
             var context = new DialogContext(data, fiber);

@@ -185,7 +185,7 @@ namespace Microsoft.Bot.Builder
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
-            IBotData toBotData = new JObjectBotData(toBot);
+            IBotData toBotData = new Internals.JObjectBotData(toBot);
             var provider = new Serialization.SimpleServiceLocator()
             {
                 waits, frames, toBotData
@@ -232,7 +232,7 @@ namespace Microsoft.Bot.Builder
                 blobNew = streamNew.ToArray();
             }
 
-            IBotData toUserData = new JObjectBotData(toUser);
+            IBotData toUserData = new Internals.JObjectBotData(toUser);
 
             toUserData.PerUserInConversationData.SetValue(BlobKey, blobNew);
 

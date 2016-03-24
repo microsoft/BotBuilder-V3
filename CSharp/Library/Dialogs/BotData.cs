@@ -9,7 +9,7 @@ using System.Collections;
 using System.Runtime.Serialization;
 using Microsoft.Bot.Builder.Fibers;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Internals
 {
     public abstract class BotDataBase<T> : IBotData, Serialization.ISerializeAsReference
     {
