@@ -69,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Samples\Microsoft.Bot.Sample.AnnotatedSandwichBot\AnnotatedSandwich.cs">
+    <Compile Include="..\..\Samples\AnnotatedSandwichBot\AnnotatedSandwich.cs">
       <Link>AnnotatedSandwich.cs</Link>
     </Compile>
     <Compile Include="..\..\Samples\SimpleSandwichBot\Sandwich.cs">
