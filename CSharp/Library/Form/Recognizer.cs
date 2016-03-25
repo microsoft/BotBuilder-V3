@@ -51,45 +51,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             BuildPerValueMatcher(configuration.CurrentChoice);
         }
 
-        /// <summary>
-        /// Explicitly contructed recognizer.
-        /// </summary>
-        /// <param name="form">Form recognizer is being used in.</param>
-        /// <param name="description">Description of the field being asked for.</param>
-        /// <param name="terms">Regular expressions that when matched mean this field.</param>
-        /// <param name="values">Possible C# values for field.</param>
-        /// <param name="descriptionDelegate">Mapping from C# value to it's description.</param>
-        /// <param name="termsDelegate">Mapping from C# value to it's regular expressions for matching.</param>
-        /// <param name="allowNumbers">True to allow matching on numbers.</param>
-        /// <param name="helpFormat">Template for generating overall help.</param>
-        /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
-        /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
-        public RecognizeEnumeration(IForm<T> form,
-            string description,
-            IEnumerable<object> terms,
-            IEnumerable<object> values,
-            DescriptionDelegate descriptionDelegate,
-            TermsDelegate termsDelegate,
-            bool allowNumbers,
-            Template helpFormat,
-            IEnumerable<string> noPreference = null,
-            IEnumerable<string> currentChoice = null)
-        {
-            _form = form;
-            _allowNumbers = allowNumbers;
-            _values = values.ToArray();
-            _descriptionDelegate = descriptionDelegate;
-            _termsDelegate = termsDelegate;
-            _valueDescriptions = (from value in values select _descriptionDelegate(value)).ToArray();
-            _helpFormat = helpFormat;
-            _noPreference = noPreference?.ToArray();
-            if (currentChoice != null)
-            {
-                _currentChoice = currentChoice.FirstOrDefault();
-            }
-            BuildPerValueMatcher(currentChoice);
-        }
-
         public IEnumerable<object> Values()
         {
             return _values;

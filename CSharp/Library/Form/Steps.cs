@@ -344,14 +344,21 @@ namespace Microsoft.Bot.Builder.Form
             }
             if (clarify != null)
             {
-                var template = Template(TemplateUsage.Clarify);
-                var helpTemplate = _field.Template(template.Annotation().AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                var choiceRecognizer = new RecognizeEnumeration<T>(_field.Form, "", null,
-                    clarify.Values,
-                    (value) => recognizer.ValueDescription(value),
-                    (value) => recognizer.ValidInputs(value),
-                    template.Annotation().AllowNumbers, helpTemplate);
-                prompter = Template(TemplateUsage.Clarify, choiceRecognizer);
+                var field = new Field<T>("__clarify__", FieldRole.Value, _field.Form);
+                var template = _field.Template(TemplateUsage.Clarify);
+                var helpTemplate = _field.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
+                field.Description("Clarification");
+                field.Terms(new string[0]);
+                field.Prompt(new Prompt(template));
+                field.Template(_field.Template(TemplateUsage.Clarify));
+                field.Template(helpTemplate);
+                foreach (var value in clarify.Values)
+                {
+                    field.AddDescription(value, recognizer.ValueDescription(value));
+                    field.AddTerms(value, recognizer.ValidInputs(value));
+                }
+                var choiceRecognizer = new RecognizeEnumeration<T>(field);
+                prompter = new Prompter<T>(template, _field.Form, choiceRecognizer);
             }
             return prompter;
         }
@@ -482,14 +489,20 @@ namespace Microsoft.Bot.Builder.Form
             _form = form;
             _fields = form.Fields;
             var field = _fields.Field(_name);
-            var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
+            var recField = new Field<T>("__navigate__", FieldRole.Value, form);
             var template = field.Template(TemplateUsage.Navigation);
-            var recognizer = new RecognizeEnumeration<T>(form, Name, null,
-                formState.Next.Names,
-                (value) => new Prompter<T>(fieldPrompt, form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
-                (value) => _fields.Field(value as string).Terms(),
-                template.AllowNumbers,
-                field.Template(TemplateUsage.NavigationHelp));
+            var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
+            recField.Prompt(new Prompt(template))
+                .Description("")
+                .Terms(new string[0]);
+            foreach (var value in formState.Next.Names)
+            {
+                var prompter = new Prompter<T>(fieldPrompt, form, _fields.Field(value as string).Prompt().Recognizer());
+                recField
+                    .AddDescription(value, prompter.Prompt(state, value as string))
+                    .AddTerms(value, _fields.Field(value as string).Terms());
+            }
+            var recognizer = new RecognizeEnumeration<T>(recField);
             _prompt = new Prompter<T>(template, form, recognizer);
         }
 

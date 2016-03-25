@@ -7,9 +7,15 @@ using System.Reflection;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
-    public abstract class Field<T> : IField<T>
+    /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
+    /// <typeparam name="T">Underlying form state.</typeparam>
+    public class Field<T> : IField<T>
         where T : class, new()
     {
+        /// <summary>   Construct field. </summary>
+        /// <param name="name"> Name of field. </param>
+        /// <param name="role"> Role field plays in form. </param>
+        /// <param name="form"> The form. </param>
         public Field(string name, FieldRole role, IForm<T> form)
         {
             _name = name;
@@ -37,13 +43,25 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public IForm<T> Form { get { return this._form; } }
 
         #region IFieldState
-        public abstract object GetValue(T state);
+        public virtual object GetValue(T state)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void SetValue(T state, object value);
+        public virtual void SetValue(T state, object value)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract bool IsUnknown(T state);
+        public virtual bool IsUnknown(T state)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract void SetUnknown(T state);
+        public virtual void SetUnknown(T state)
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual bool Optional()
         {
@@ -69,11 +87,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         #endregion
 
         #region IFieldDescription
-        public virtual bool AllowsMultiple()
-        {
-            return _allowsMultiple;
-        }
-
         public virtual FieldRole Role()
         {
             return _role;
@@ -109,6 +122,22 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return (from entry in _valueDescriptions select entry.Key);
         }
 
+        public virtual bool AllowsMultiple()
+        {
+            return _allowsMultiple;
+        }
+
+        public virtual bool AllowDefault()
+        {
+            return _promptDefinition.AllowDefault != BoolDefault.False;
+        }
+
+        public bool AllowNumbers()
+        {
+            _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
+            return _promptDefinition.AllowNumbers;
+        }
+
         #endregion
 
         #region IFieldPrompt
@@ -129,7 +158,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return template;
         }
 
-        public abstract IPrompt<T> Prompt();
+        public virtual IPrompt<T> Prompt()
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual string Validate(T state, object value)
         {
@@ -150,6 +182,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         #endregion
 
         #region Publics
+        /// <summary>Set the field description. </summary>
+        /// <param name="description">Field description. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Description(string description)
         {
             UpdateAnnotations();
@@ -157,13 +192,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
-        public Field<T> Help(string help)
-        {
-            UpdateAnnotations();
-            _help = new Prompt(help);
-            return this;
-        }
-
+        /// <summary>   Set the help associated with a field. </summary>
+        /// <param name="help"> Help string. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Help(Prompt help)
         {
             UpdateAnnotations();
@@ -171,6 +202,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Set the terms associated with the field. </summary>
+        /// <param name="terms">    The terms. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Terms(IEnumerable<string> terms)
         {
             UpdateAnnotations();
@@ -178,6 +212,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Adds a description for a value. </summary>
+        /// <param name="value">        The value. </param>
+        /// <param name="description">  Description of the value. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> AddDescription(object value, string description)
         {
             UpdateAnnotations();
@@ -185,6 +223,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Adds terms for a value. </summary>
+        /// <param name="value">    The value. </param>
+        /// <param name="terms">    The terms. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> AddTerms(object value, IEnumerable<string> terms)
         {
             UpdateAnnotations();
@@ -192,6 +234,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Set whether or not a field is optional. </summary>
+        /// <param name="optional"> True if field is optional. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Optional(bool optional = true)
         {
             UpdateAnnotations();
@@ -199,6 +244,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Set whether or not field is nullable. </summary>
+        /// <param name="nullable"> True if field is nullable. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> IsNullable(bool nullable = true)
         {
             UpdateAnnotations();
@@ -206,28 +254,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
-        public bool AllowDefault()
-        {
-            return _promptDefinition.AllowDefault != BoolDefault.False;
-        }
-
-        public void SetLimits(double min, double max, bool limited)
-        {
-            _min = min;
-            _max = max;
-            _limited = limited;
-        }
-
-        /// <summary>
-        /// Allow numbers to be matched.
-        /// </summary>
-        /// <returns>True if numbers are allowed as input.</returns>
-        public bool AllowNumbers()
-        {
-            _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
-            return _promptDefinition.AllowNumbers;
-        }
-
+        /// <summary>   Sets the field prompt. </summary>
+        /// <param name="prompt">   The prompt. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Prompt(Prompt prompt)
         {
             UpdateAnnotations();
@@ -235,6 +264,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Add a template to the field. </summary>
+        /// <param name="template"> The template. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Template(Template template)
         {
             UpdateAnnotations();
@@ -242,6 +274,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary>   Set the field validation. </summary>
+        /// <param name="validate"> The validator. </param>
+        /// <returns>   An IField&lt;T&gt; </returns>
         public virtual IField<T> Validate(ValidateDelegate<T> validate)
         {
             _validate = validate;
@@ -250,6 +285,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         #endregion
 
         #region Internals
+        protected void SetLimits(double min, double max, bool limited)
+        {
+            _min = min;
+            _max = max;
+            _limited = limited;
+        }
+
         protected void UpdateAnnotations()
         {
         }
@@ -324,7 +366,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             object current = state;
             bool isEnum = false;
-			foreach (var step in _path)
+            foreach (var step in _path)
             {
                 var field = step as FieldInfo;
                 var ftype = StepType(step);
@@ -674,7 +716,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else
                 {
-                    _terms = Language.GenerateTerms(name, 3);
+                    _terms = Language.GenerateTerms(Language.CamelCase(name), 3);
                 }
                 if (prompt != null)
                 {
@@ -717,7 +759,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     }
                     else
                     {
-                        _valueTerms.Add(enumValue, Language.GenerateTerms(enumValue.ToString(), 4));
+                        _valueTerms.Add(enumValue, Language.GenerateTerms(Language.CamelCase(enumValue.ToString()), 4));
                     }
                 }
             }

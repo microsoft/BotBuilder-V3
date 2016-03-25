@@ -46,31 +46,25 @@ namespace Microsoft.Bot.Builder.Form
 
         internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class, new()
         {
-            var values = new List<object>();
-            var descriptions = new Dictionary<object, string>();
-            var terms = new Dictionary<object, string[]>();
+            var field = new Field<T>("__commands__", FieldRole.Value, form);
+            field.Prompt(new Prompt(""));
+            field.Description("Commands");
+            field.Terms(new string[0]);
             foreach (var entry in form.Configuration.Commands)
             {
-                values.Add(entry.Key);
-                descriptions[entry.Key] = entry.Value.Description;
-                terms[entry.Key] = entry.Value.Terms;
+                field.AddDescription(entry.Key, entry.Value.Description);
+                field.AddTerms(entry.Key, entry.Value.Terms);
             }
-            foreach (var field in form.Fields)
+            foreach (var nav in form.Fields)
             {
-                var fterms = field.Terms();
+                var fterms = nav.Terms();
                 if (fterms != null)
                 {
-                    values.Add(field.Name);
-                    descriptions.Add(field.Name, field.Description());
-                    terms.Add(field.Name, fterms.ToArray());
+                    field.AddDescription(nav.Name, nav.Description());
+                    field.AddTerms(nav.Name, fterms.ToArray());
                 }
             }
-            var commands = new RecognizeEnumeration<T>(form, "Form commands", null,
-                values,
-                    (value) => descriptions[value],
-                    (value) => terms[value],
-                    false, null);
-
+            var commands = new RecognizeEnumeration<T>(field);
             return commands;
         }
     }
