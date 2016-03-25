@@ -840,8 +840,7 @@ table.doxtable caption {
 
 table.doxtable {
     border-collapse: collapse;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin: 20px 0;
 }
 
     table.doxtable td, table.doxtable th {
@@ -1505,6 +1504,14 @@ div#doc-content .header {
 
 div#content-container {
     padding-top: 25px;
+}
+
+div#doc-content p {
+    margin-bottom: 20px;
+}
+
+div#doc-content h1, h2, h3 {
+    margin-bottom: 10px;
 }
 
 /* Search overrides */
