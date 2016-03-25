@@ -342,7 +342,7 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     if (_form.Completion != null)
                     {
-                        _form.Completion(context, _state);
+                        await _form.Completion(context, _state);
                     }
                     context.Done(_state);
                 }
