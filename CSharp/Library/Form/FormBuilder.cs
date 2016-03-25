@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Builder.Form
 
         IFormBuilder<T> IFormBuilder<T>.Confirm(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
         {
-            if (condition == null) condition = (state) => true;
+            if (condition == null) condition = state => true;
             if (dependencies == null)
             {
                 // Default next steps go from previous field ignoring confirmations back to next confirmation
@@ -200,7 +200,7 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.OnCompletion(CompletionDelegate<T> callback)
+        IFormBuilder<T> IFormBuilder<T>.OnCompletionAsync(CompletionDelegate<T> callback)
         {
             _form._completion = callback;
             return this;

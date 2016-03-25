@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using Microsoft.Bot.Builder.Form.Advanced;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form
 {
@@ -53,7 +54,7 @@ namespace Microsoft.Bot.Builder.Form
     /// <param name="state">Form state to test.</param>
     /// <param name="value">Response value to validate.</param>
     /// <returns>Null if value is valid otherwise feedback on what is wrong.</returns>
-    public delegate string ValidateDelegate<T>(T state, object value);
+    public delegate Task<string> ValidateDelegate<T>(T state, object value);
 
     /// <summary>
     /// A delegate called when a form is completed.
@@ -66,7 +67,7 @@ namespace Microsoft.Bot.Builder.Form
     /// such as sending it to your service.  It cannot be used to create a new
     /// dialog or return a value to the parent dialog.
     /// </remarks>
-    public delegate void CompletionDelegate<T>(IDialogContext context, T state);
+    public delegate Task CompletionDelegate<T>(IDialogContext context, T state);
 
     /// <summary>
     /// Interface for controlling the form dialog created.

@@ -43,6 +43,8 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
+#pragma warning disable CS1998
+
     internal static class FormStatics
     {
         #region IForm<T> statics
@@ -175,7 +177,9 @@ namespace Microsoft.Bot.Builder.Form
                             // 1) Go through them while supporting only quit or back and reset
                             // 2) Drop them
                             // 3) Just pick one (found in form.StepState, but that is opaque here)
-                            step.Process(context, _state, _formState, input, matches, out feedback, out prompt);
+                            var result = await step.ProcessAsync(context, _state, _formState, input, matches);
+                            feedback = result.Feedback;
+                            prompt = result.Prompt;
                         }
                         else
                         {
@@ -269,7 +273,11 @@ namespace Microsoft.Bot.Builder.Form
                     matches = MatchAnalyzer.Coalesce(matches, lastInput).ToArray();
                     if (MatchAnalyzer.IsFullMatch(lastInput, matches))
                     {
-                        next = step.Process(context, _state, _formState, lastInput, matches, out feedback, out prompt);
+                        var result = await step.ProcessAsync(context, _state, _formState, lastInput, matches);
+                        next = result.Next;
+                        feedback = result.Feedback;
+                        prompt = result.Prompt;
+
                         // 1) Not completed, not valid -> Not require, last
                         // 2) Completed, feedback -> require, not last
                         requirePrompt = (_formState.Phase() == StepPhase.Completed);
@@ -304,7 +312,11 @@ namespace Microsoft.Bot.Builder.Form
                                 var bestMatch = MatchAnalyzer.BestMatches(matches, commands);
                                 if (bestMatch == 0)
                                 {
-                                    next = step.Process(context, _state, _formState, lastInput, matches, out feedback, out prompt);
+                                    var result = await step.ProcessAsync(context, _state, _formState, lastInput, matches);
+                                    next = result.Next;
+                                    feedback = result.Feedback;
+                                    prompt = result.Prompt;
+
                                     requirePrompt = (_formState.Phase() == StepPhase.Completed);
                                     useLastPrompt = !requirePrompt;
                                 }

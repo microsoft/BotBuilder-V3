@@ -185,6 +185,6 @@ namespace Microsoft.Bot.Builder.Form
         /// the form state results.  In any case the completed form state will be passed
         /// to the parent dialog.
         /// </remarks>
-        IFormBuilder<T> OnCompletion(CompletionDelegate<T> callback);
+        IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback);
     }
 }

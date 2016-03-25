@@ -37,9 +37,12 @@ using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Bot.Builder.Form.Advanced;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form
 {
+#pragma warning disable CS1998
+
     internal class FieldStep<T> : IStep<T>
     {
         public FieldStep(string name, IForm<T> form)
@@ -115,11 +118,12 @@ namespace Microsoft.Bot.Builder.Form
             return matches;
         }
 
-        public NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches,
-            out string feedback, out string prompt)
+
+
+        public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            feedback = null;
-            prompt = null;
+            string feedback = null;
+            string prompt = null;
             var iprompt = _field.Prompt();
             var fieldState = form.StepState as FieldStepState;
             object response = null;
@@ -129,7 +133,8 @@ namespace Microsoft.Bot.Builder.Form
                 var firstMatch = matches.FirstOrDefault();
                 if (matches.Count() == 1)
                 {
-                    response = SetValue(state, firstMatch.Value, form, out feedback);
+                    response = firstMatch.Value;
+                    feedback = await SetValueAsync(state, response, form);
                 }
                 else if (matches.Count() > 1)
                 {
@@ -187,12 +192,14 @@ namespace Microsoft.Bot.Builder.Form
                     {
                         if (_field.AllowsMultiple())
                         {
-                            response = SetValue(state, settled, form, out feedback);
+                            response = settled;
+                            feedback = await SetValueAsync(state, response, form);
                         }
                         else
                         {
                             Debug.Assert(settled.Count() == 1);
-                            response = SetValue(state, settled.First(), form, out feedback);
+                            response = settled.First();
+                            feedback = await SetValueAsync(state, response, form);
                         }
                     }
                 }
@@ -231,12 +238,14 @@ namespace Microsoft.Bot.Builder.Form
                         // No clarification left, so set the field
                         if (_field.AllowsMultiple())
                         {
-                            response = SetValue(state, fieldState.Settled, form, out feedback);
+                            response = fieldState.Settled;
+                            feedback = await SetValueAsync(state, response, form);
                         }
                         else
                         {
                             Debug.Assert(fieldState.Settled.Count() == 1);
-                            response = SetValue(state, fieldState.Settled.First(), form, out feedback);
+                            response = fieldState.Settled.First();
+                            feedback = await SetValueAsync(state, response, form);
                         }
                         form.SetPhase(StepPhase.Completed);
                     }
@@ -257,7 +266,8 @@ namespace Microsoft.Bot.Builder.Form
                     }
                 }
             }
-            return _field.Next(response, state);
+            var next = _field.Next(response, state);
+            return new StepResult(next, feedback, prompt);
         }
 
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
@@ -351,16 +361,16 @@ namespace Microsoft.Bot.Builder.Form
             return value;
         }
 
-        private object SetValue(T state, object value, FormState form, out string feedback)
+        private async Task<string> SetValueAsync(T state, object value, FormState form)
         {
             var desc = _field.Form.Fields.Field(_name);
-            feedback = desc.Validate(state, value);
+            var feedback = await desc.ValidateAsync(state, value);
             if (feedback == null)
             {
                 SetValue(state, value);
                 form.SetPhase(StepPhase.Completed);
             }
-            return value;
+            return feedback;
         }
 
         private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognize<T> recognizer, out Ambiguous clarify)
@@ -471,16 +481,13 @@ namespace Microsoft.Bot.Builder.Form
             return prompter.Prompt(state, "", input);
         }
 
-        public NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches,
-            out string feedback,
-            out string prompt)
+        public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            feedback = null;
-            prompt = null;
             var value = matches.First().Value;
             form.StepState = null;
             form.SetPhase((bool)value ? StepPhase.Completed : StepPhase.Ready);
-            return _field.Next(value, state);
+            var next = _field.Next(value, state);
+            return new StepResult(next, feedback: null, prompt: null);
         }
 
         public string Start(IDialogContext context, T state, FormState form)
@@ -575,14 +582,11 @@ namespace Microsoft.Bot.Builder.Form
             return new Prompter<T>(template, _form, null).Prompt(state, _name, input);
         }
 
-        public NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches,
-            out string feedback,
-            out string prompt)
+        public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            feedback = null;
-            prompt = null;
             form.Next = null;
-            return new NextStep(new string[] { matches.First().Value as string });
+            var next = new NextStep(new string[] { matches.First().Value as string });
+            return new StepResult(next, feedback: null, prompt: null);
         }
 
         public string Start(IDialogContext context, T state, FormState form)
@@ -671,7 +675,7 @@ namespace Microsoft.Bot.Builder.Form
             throw new NotImplementedException();
         }
 
-        public NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches, out string feedback, out string prompt)
+        public Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
             throw new NotImplementedException();
         }

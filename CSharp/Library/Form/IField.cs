@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
@@ -334,7 +335,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// One way to control this is to supply a <see cref="ValidationDelegate"/> to the 
         /// <see cref="IForm<T>.Field"/> or <see cref="IForm<T>.Confirm"/> steps.
         /// </remarks>
-        string Validate(T state, object value);
+        Task<string> ValidateAsync(T state, object value);
 
         /// <summary>
         /// Return the help description for this field.

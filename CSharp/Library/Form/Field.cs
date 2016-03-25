@@ -37,9 +37,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
+#pragma warning disable CS1998
+
     /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Field<T> : IField<T>
@@ -199,7 +202,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _prompt;
         }
 
-        public virtual string Validate(T state, object value)
+        public virtual Task<string> ValidateAsync(T state, object value)
         {
             return _validate(state, value);
         }
@@ -382,7 +385,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected bool _keepZero;
         protected string _description;
         protected Prompt _help;
-        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>((state, value) => null);
+        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => null);
         protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();

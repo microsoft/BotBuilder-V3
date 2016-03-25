@@ -43,6 +43,8 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 
 namespace Microsoft.Bot.Builder.FormTest
 {
+#pragma warning disable CS1998
+
     public enum DebugOptions
     {
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
@@ -114,7 +116,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
                 .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
                 .Field("DeliveryAddress", validate:
-                    (state, value) =>
+                    async (state, value) =>
                     {
                         string feedback = null;
                         var str = value as string;
@@ -129,7 +131,7 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
-                .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza))
+                .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
         }
 

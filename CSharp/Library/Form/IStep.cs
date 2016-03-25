@@ -32,6 +32,7 @@
 //
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Form.Advanced;
 
@@ -39,6 +40,21 @@ namespace Microsoft.Bot.Builder.Form
 {
     internal enum StepPhase { Ready, Responding, Completed };
     internal enum StepType { Field, Confirm, Navigation, Message };
+
+    internal struct StepResult
+    {
+        internal StepResult(NextStep next, string feedback, string prompt)
+        {
+            this.Next = next;
+            this.Feedback = feedback;
+            this.Prompt = prompt;
+        }
+
+        internal NextStep Next { get; set; }
+        internal string Feedback { get; set; }
+        internal string Prompt { get; set; }
+    }
+
     internal interface IStep<T>
     {
         string Name { get; }
@@ -53,8 +69,7 @@ namespace Microsoft.Bot.Builder.Form
 
         IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput);
 
-        NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches,
-            out string feedback, out string prompt);
+        Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches);
 
         string NotUnderstood(IDialogContext context, T state, FormState form, string input);
 
