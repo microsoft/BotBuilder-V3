@@ -20,10 +20,9 @@ namespace Microsoft.Bot.Sample.EchoBot
         /// POST: api/Messages
         /// receive a message from a user and reply to it
         /// </summary>
-        [ResponseType(typeof(Message))]
-        public async Task<HttpResponseMessage> Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
-            return await CompositionRoot.SendAsync(this.Request, message, () => new EchoDialog());
+            return await CompositionRoot.SendAsync(message, () => new EchoDialog());
         }
     }
 }

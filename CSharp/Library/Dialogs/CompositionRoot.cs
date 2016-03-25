@@ -17,20 +17,6 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> SendAsync<T>(HttpRequestMessage request, Message toBot, Func<IDialog<T>> MakeRoot)
-        {
-            try
-            {
-                var toUser = await SendAsync(toBot, MakeRoot);
-
-                return request.CreateResponse(toUser);
-            }
-            catch (Exception error)
-            {
-                return request.CreateResponse(error);
-            }
-        }
-
         public static BinaryFormatter MakeBinaryFormatter(IServiceProvider provider)
         {
             var listener = new DefaultTraceListener();

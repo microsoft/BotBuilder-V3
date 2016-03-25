@@ -33,16 +33,15 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         /// POST: api/Messages
         /// receive a message from a user and reply to it
         /// </summary>
-        public async Task<HttpResponseMessage> Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
             if (message.Type == "Message")
             {
-                return await CompositionRoot.SendAsync(this.Request, message, MakeRoot);
+                return await CompositionRoot.SendAsync(message, MakeRoot);
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.NoContent);
-                // return HandleSystemMessage(message);
+                return HandleSystemMessage(message);
             }
         }
 
