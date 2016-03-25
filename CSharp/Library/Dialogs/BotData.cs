@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Internals
 {
-    public abstract class BotDataBase<T> : IBotData, Serialization.ISerializeAsReference
+    public abstract class BotDataBase<T> : IBotData
     {
         protected readonly Message mesage;
 

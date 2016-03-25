@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.Fibers
     }
 
     [Serializable]
-    public sealed class FrameFactory : IFrameFactory, Serialization.ISerializeAsReference
+    public sealed class FrameFactory : IFrameFactory
     {
         private readonly IWaitFactory factory;
 

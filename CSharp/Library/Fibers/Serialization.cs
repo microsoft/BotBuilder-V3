@@ -110,10 +110,6 @@ namespace Microsoft.Bot.Builder.Fibers
             }
         }
 
-        public interface ISerializeAsReference
-        {
-        }
-
         public sealed class SurrogateSelector : ISurrogateSelector
         {
             private readonly ISerializationSurrogate reference;
@@ -136,10 +132,18 @@ namespace Microsoft.Bot.Builder.Fibers
 
             ISerializationSurrogate ISurrogateSelector.GetSurrogate(Type type, StreamingContext context, out ISurrogateSelector selector)
             {
-                if (this.reference != null && typeof(ISerializeAsReference).IsAssignableFrom(type))
+                if (this.reference != null)
                 {
-                    selector = this;
-                    return this.reference;
+                    var provider = context.Context as IServiceProvider;
+                    if (provider != null)
+                    {
+                        var instance = provider.GetService(type);
+                        if (instance != null)
+                        {
+                            selector = this;
+                            return this.reference;
+                        }
+                    }
                 }
 
                 if (this.reflection != null && !type.IsSerializable)
@@ -181,7 +185,9 @@ namespace Microsoft.Bot.Builder.Fibers
 
             object IServiceProvider.GetService(Type serviceType)
             {
-                return this.instanceByType[serviceType];
+                object service;
+                this.instanceByType.TryGetValue(serviceType, out service);
+                return service;
             }
         }
     }

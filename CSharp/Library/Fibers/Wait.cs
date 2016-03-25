@@ -308,7 +308,7 @@ namespace Microsoft.Bot.Builder.Fibers
     }
 
     [Serializable]
-    public sealed class WaitFactory : IWaitFactory, Serialization.ISerializeAsReference
+    public sealed class WaitFactory : IWaitFactory
     {
         IWait<T> IWaitFactory.Make<T>()
         {
