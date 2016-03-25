@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Form
 {
-    /// \page examples
+    /// \page Examples
     /// 
     /// \section simplesandwichbot Simple Sandwich Bot
     /// As an example of %Form Flow in action, this will outline a simple sandwich ordering form that we will elaborate
