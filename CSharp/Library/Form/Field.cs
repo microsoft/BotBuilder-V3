@@ -495,7 +495,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return isEnum ? ((int)current == 0 ? null : current) : current;
         }
 
-
         public override void SetValue(T state, object value)
         {
             object current = state;

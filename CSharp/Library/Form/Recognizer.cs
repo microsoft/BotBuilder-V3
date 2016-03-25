@@ -146,7 +146,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
             foreach (var expression in _expressions)
             {
-                double longest = expression.Longest.Length;
+                double maxWords = expression.MaxWords;
                 foreach (Match match in expression.Expression.Matches(input))
                 {
                     var group1 = match.Groups[1];
@@ -154,7 +154,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     if (group1.Success)
                     {
                         int n;
-                        var confidence = int.TryParse(group1.Value, out n) ? 1.0 : System.Math.Min(group1.Length / longest, 1.0);
+                        var words = group1.Value.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                        var confidence = int.TryParse(group1.Value, out n) ? 1.0 : System.Math.Min(words / maxWords, 1.0);
                         if (expression.Value is Special)
                         {
                             var special = (Special)expression.Value;
@@ -226,11 +227,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = n - 1;
         }
 
+        private int NumberOfWords(string regex)
+        {
+            return regex.Split(new string[] { @"\s", " " }, StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             if (orderedTerms.Length > 0)
             {
+                var maxWords = terms.Max((term) => NumberOfWords(term));
                 var word = new StringBuilder();
                 var nonWord = new StringBuilder();
                 var first = true;
@@ -298,23 +305,23 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 var expr = string.Format("{0}|{1}",
                     word.ToString(),
                     nonWord.ToString());
-                _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), orderedTerms.First()));
+                _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), maxWords));
             }
             return n;
         }
 
         private class ValueAndExpression
         {
-            public ValueAndExpression(object value, Regex expression, string longest)
+            public ValueAndExpression(object value, Regex expression, int maxWords)
             {
                 Value = value;
                 Expression = expression;
-                Longest = longest;
+                MaxWords = maxWords;
             }
 
             public readonly object Value;
             public readonly Regex Expression;
-            public readonly string Longest;
+            public readonly int MaxWords;
         }
 
         private readonly IForm<T> _form;

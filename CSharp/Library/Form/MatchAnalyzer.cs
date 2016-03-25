@@ -109,7 +109,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             TermMatch last = null;
             foreach (var match in sorted)
             {
-                if (last == null || !last.Same(match))
+                if (last == null || !last.Same(match) || last.Confidence == match.Confidence)
                 {
                     last = match;
                     yield return match;
