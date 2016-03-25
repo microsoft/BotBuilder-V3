@@ -30,7 +30,53 @@ namespace Microsoft.Bot.Builder
     /// </ul>
     /// 
     /// \section dialogs Dialogs
-    /// TBD
+    /// 
+    /// \subsection Overview
+    /// Dialogs model a conversational process, where the exchange of messages between bot and user
+    /// is the primary channel for interaction with the outside world.  Each dialog is an abstraction that encapsulates
+    /// its own state in a C# class that implements IDialog<T>.  Dialogs can be composed with other dialogs to maximize reuse,
+    /// and a dialog context maintains a stack of dialogs active in the conversation.  A conversation composed of dialogs is
+    /// portable across machines to make it possible to scale a bot implementation.  This conversation state (the stack of
+    /// active dialogs and each dialog's state) is stored in the messages exchanged with the %Bot Connector, making the bot
+    /// implementation stateless between requests (much like an web application that does not store session state in the
+    /// web server's memory).
+    /// 
+    /// \subsection Execution Flow
+    /// CompositionRoot.SendAsync is the top level method for the %Bot Builder SDK.  The composition root follows the dependency
+    /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle), and performs this work:
+    /// 
+    /// - instantiates the required components
+    /// - deserializes the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message
+    /// - resumes the conversation processes where the %Bot decided to suspend and wait for a message
+    /// - queues messages to be sent to the user
+    /// - serializes the updated dialog state in the messages to be sent to the user
+    /// 
+    /// CompositionRoot.SendAsync<T> takes as arguments
+    /// - the incoming Message from the user (as delivered by the %Bot Connector), and
+    /// - a factory method to create the root IDialog<T> dialog for your %Bot's implementation
+    /// 
+    /// and returns an inline Message to send back to the user through the %Bot Connector.  The factory method is invoked
+    /// for new conversations only, because existing conversations have the dialog stack and state serialized in the %Bot data.
+    /// 
+    /// \subsection IDialog<T>
+    /// The IDialog<T> interface provides a single IDialog<T>.StartAsync method that serves as the entry point to the dialog.
+    /// The StartAsync method takes an argument and the dialog context.  Your IDialog<T> implementation must be serializable if
+    /// you expect to suspend that dialog's execution to collect more Messages from the user.
+    /// 
+    /// \subsection IDialogContext<T>
+    /// The IDialogContext<T> interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
+    ///
+    /// IBotData represents access to the per user, conversation, and user in conversation state maintained
+    /// by the %Bot Connector.
+    /// 
+    /// IDialogStack provides methods to
+    /// - call children dialogs (and push the new child on the dialog stack),
+    /// - mark the current dialog as done to return a result to the calling dialog (and pop the current dialog from the dialog stack), and
+    /// - wait for a message from the user and suspend the conversation.
+    /// 
+    /// IBotToUser provides methods to post messages to be sent to the user, according to some policy.  Some of these messages may be sent
+    /// inline with the response to the web api method call, and some of these messages may be sent directly using the %Bot Connector client.
+    /// Sending and receiving messages through the dialog context ensures the IBotData state is passed through the %Bot Connector.
     /// 
     /// \section forms Form Flow
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
