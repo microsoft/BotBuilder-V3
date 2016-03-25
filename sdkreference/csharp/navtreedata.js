@@ -12,10 +12,10 @@ var NAVTREE =
     [ "Updates", "index.html#Updates", null ],
     [ "Running in Azure", "index.html#running_in_azure", null ],
     [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
-    [ "examples", "examples.html", [
-      [ "Simple Sandwich Bot", "examples.html#simplesandwichbot", null ],
-      [ "Annotated Sandwich Bot", "examples.html#annotatedSandwich", [
-        [ "Attributes", "examples.html#attributes", null ]
+    [ "Examples", "Examples.html", [
+      [ "Simple Sandwich Bot", "Examples.html#simplesandwichbot", null ],
+      [ "Annotated Sandwich Bot", "Examples.html#annotatedSandwich", [
+        [ "Attributes", "Examples.html#attributes", null ]
       ] ]
     ] ],
     [ "Namespaces", null, [
@@ -45,10 +45,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html",
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#ad74b00cebc2e55ceb7b6a65c916f44e0",
-"da/d91/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_null_wait.html",
-"functions_func_j.html"
+"Examples.html",
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a01693fa829580f84e74c1f7435008396",
+"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#abeb8c0fecfadffbc87ffee5663cba27a",
+"functions_func_i.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

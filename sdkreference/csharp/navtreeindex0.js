@@ -1,5 +1,9 @@
 var NAVTREEINDEX0 =
 {
+"Examples.html":[8],
+"Examples.html#annotatedSandwich":[8,1],
+"Examples.html#attributes":[8,1,0],
+"Examples.html#simplesandwichbot":[8,0],
 "annotated.html":[10,0],
 "classes.html":[10,1],
 "d0/d7a/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_wait.html":[10,0,0,0,0,0,15],
@@ -69,8 +73,8 @@ var NAVTREEINDEX0 =
 "d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#aafaf6f0380c17f23a0549a604e56bb77":[10,0,0,0,0,1,0,11,3],
 "d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#adfaef0d5d1d515665358bd5078b3a482":[10,0,0,0,0,1,0,11,1],
 "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html":[10,0,0,0,0,6],
-"d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html#a187e9fcccb1ad95f8ceb708c8f7df722":[10,0,0,0,0,6,2],
-"d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html#a6f215c8b40f528c7d1c58020eeec40fc":[10,0,0,0,0,6,1],
+"d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html#a6ed72c311cec9116869c6af605f6e8f7":[10,0,0,0,0,6,1],
+"d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html#ac1fcaa375b92bdb911aedfcb2e63e577":[10,0,0,0,0,6,2],
 "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html#aca39a80e66244643f4850af3c7dcfa58":[10,0,0,0,0,6,0],
 "d1/d7f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_invalid_wait_exception.html":[10,0,0,0,0,0,13],
 "d1/d7f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_invalid_wait_exception.html#a28402b0ec476d40c1d9aa017c836c673":[10,0,0,0,0,0,13,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX0 =
 "d4/d9c/_steps_8cs_source.html":[11,0,0,3,20],
 "d4/da8/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html":[10,0,0,0,0,0,21,4],
 "d4/da8/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html#a4128a54c4bd2b8bf9810582227134a4b":[10,0,0,0,0,0,21,4,0],
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html":[10,0,0,0,0,1,0,16],
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a01693fa829580f84e74c1f7435008396":[10,0,0,0,0,1,0,16,3],
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a3e8e4a94879930f87f2407e05f4e5da4":[10,0,0,0,0,1,0,16,0],
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a561019f3a619b2cf11c40e4ba941b5c2":[10,0,0,0,0,1,0,16,2],
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#abdac6be2f46266c9d711c0ae0881bb8f":[10,0,0,0,0,1,0,16,1]
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html":[10,0,0,0,0,1,0,16]
 };

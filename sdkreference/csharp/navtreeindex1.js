@@ -1,5 +1,9 @@
 var NAVTREEINDEX1 =
 {
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a01693fa829580f84e74c1f7435008396":[10,0,0,0,0,1,0,16,3],
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a3e8e4a94879930f87f2407e05f4e5da4":[10,0,0,0,0,1,0,16,0],
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a561019f3a619b2cf11c40e4ba941b5c2":[10,0,0,0,0,1,0,16,2],
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#abdac6be2f46266c9d711c0ae0881bb8f":[10,0,0,0,0,1,0,16,1],
 "d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#ad74b00cebc2e55ceb7b6a65c916f44e0":[10,0,0,0,0,1,0,16,4],
 "d4/dc4/_form_2_extensions_8cs.html":[11,0,0,3,2],
 "d4/dc4/_form_2_extensions_8cs_source.html":[11,0,0,3,2],
@@ -54,7 +58,7 @@ var NAVTREEINDEX1 =
 "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html#a6ea56b1c1b19b4dfbb8402be45e4595a":[10,0,0,0,0,1,0,5,0],
 "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html#aa1537910d91f8c39240fccafdaf80f58":[10,0,0,0,0,1,0,5,1],
 "d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html":[10,0,0,0,0,17],
-"d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html#aac78493a0cf05a17f5f8332fd674cda2":[10,0,0,0,0,17,0],
+"d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html#a0c482de345a1f7abb677373f2feceb82":[10,0,0,0,0,17,0],
 "d7/d1f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization.html":[10,0,0,0,0,0,21],
 "d7/d2f/_assembly_info_8cs.html":[11,0,0,5,0],
 "d7/d2f/_assembly_info_8cs_source.html":[11,0,0,5,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a7efbcf012a545913668e2f2172e6bc68":[10,0,0,0,0,1,0,12,8],
 "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a826e0a36cf1b066883ce19d6f6eabb58":[10,0,0,0,0,1,0,12,5],
 "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#aa6951a4693b0c3ce49044fbf15811026":[10,0,0,0,0,1,0,12,13],
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#abad0ef627b506932e0a19ea27d9b0c3f":[10,0,0,0,0,1,0,12,10],
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#abeb8c0fecfadffbc87ffee5663cba27a":[10,0,0,0,0,1,0,12,3],
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#ad81a185d95ba8c22c3c8e745d8045c18":[10,0,0,0,0,1,0,12,6],
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#af819bd45d0aa7ff5446616e0ff1d50cd":[10,0,0,0,0,1,0,12,12],
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#afaeba45d0ee95d5a049022af47c30262":[10,0,0,0,0,1,0,12,7]
+"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#abad0ef627b506932e0a19ea27d9b0c3f":[10,0,0,0,0,1,0,12,10]
 };
