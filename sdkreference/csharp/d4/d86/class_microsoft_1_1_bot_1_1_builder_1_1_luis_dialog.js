@@ -1,16 +1,16 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog =
 [
-    [ "LuisIntentHandler", "d2/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog_1_1_luis_intent_handler.html", "d2/dd6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog_1_1_luis_intent_handler" ],
-    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#add9e4e92dfc9e7c620f6548600a466b7", null ],
-    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a5e59f0247b050f91cf7170ea2274badb", null ],
-    [ "DialogResumedAsync", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#aa8a91a2c8ee6c6d7df23a8363c7d88f4", null ],
-    [ "GetLuisResult", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a17cdc7f03393c0a0f608f4016a471efe", null ],
-    [ "On", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a2eccd51798301b4707ba8424b6d710b7", null ],
-    [ "OnDefault", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ad1b56492fb6688b2bfe67edc3e24542d", null ],
-    [ "ReplyReceivedAsync", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a567e4a7adae77614fa64d2c51625a5ae", null ],
-    [ "_luisIntentHandler", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#abb4fab2067ee08ed008e07ae5231ab44", null ],
-    [ "DefaultIntentHandler", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ad5945278c27ae11f8f65c32215ec30e2", null ],
-    [ "luisUrl", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#addc44d35edbee879b261632bc7c4f714", null ],
-    [ "modelID", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#acbe79ba8712e5dfe8ebd7f3a11b08723", null ],
-    [ "subscriptionKey", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a9dcb9772bfb2348aa54931d21c74b030", null ]
+    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#adfecf04097cd434c95779da86b93c89f", null ],
+    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a6d09f7f8cabd9c475f41ad199e5e0f33", null ],
+    [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#afdf24ce07b8ced7276307a9e35047e1b", null ],
+    [ "GetLuisResult", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a9d6d17d2454da547a443771feaf665b1", null ],
+    [ "GetObjectData", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a52c07d6965ed2139cf1bb7d615bb9e23", null ],
+    [ "MessageReceived", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a4a8fcfadf2289fa4b691582cba30e93b", null ],
+    [ "On", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#adbb9c40443ce791b9fc85992b35e1078", null ],
+    [ "OnDefault", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a73e32a7325e83f6adae70567a44226b9", null ],
+    [ "DefaultIntentHandler", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#ad47db8f2add9b9b75aac06626e40f098", null ],
+    [ "handlerByIntent", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#abdb8858e95a00796b3c4c28e0b31f977", null ],
+    [ "luisUrl", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a691aa300673b64d708fc85f1fb0981e5", null ],
+    [ "modelID", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a0bf666dab6572c5cad4baafafa1a7726", null ],
+    [ "subscriptionKey", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html#a1d3dd511baf7e720b3041984a7dfc751", null ]
 ];

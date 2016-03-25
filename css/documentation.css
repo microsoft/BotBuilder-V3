@@ -195,6 +195,12 @@ input[type="button"].default-button:hover,
 button.default-button:hover {
   background-color: #307AB3;
 }
+input[type="submit"].default-button:disabled,
+input[type="button"].default-button:disabled,
+button.default-button:disabled {
+  color: #B8B7B7;
+  background-color: #EDE9E9;
+}
 button.danger {
   background-color: #E81022;
   color: white;
@@ -774,6 +780,9 @@ dl {
 }
 #side-nav a {
   color: #307AB3;
+}
+#nav-sync {
+  display: none;
 }
 .navselected,
 .navselected:visited,

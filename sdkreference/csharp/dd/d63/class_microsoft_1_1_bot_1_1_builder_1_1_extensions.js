@@ -1,7 +1,7 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_extensions =
 [
-    [ "CopyTo", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#a0f722e86a61fedba543c85b917e74156", null ],
-    [ "EndDialogAsync", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#ad3ded5bce574ede033276e49548e21da", null ],
-    [ "FromException< T >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#ac794c177166bcdca1db6a141158ed1a4", null ],
-    [ "GetOrAdd< K, V >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#a536129528d8c6f542af4a329d0f03392", null ]
+    [ "Call< C, T, R >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#ab843e682a5822de80e1b7d9c90b538b6", null ],
+    [ "Call< C, T, R >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#a914ae84ebaf5ceeb2200d02b9462e467", null ],
+    [ "Get< T >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#aefef25440237d1d908232e87f95b4c82", null ],
+    [ "GetValue< T >", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#a9ebfdb73e501ba087a9e29419573992c", null ]
 ];

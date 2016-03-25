@@ -1,19 +1,22 @@
 var NAVTREE =
 [
-  [ "Bot Framework", "index.html", [
+  [ "Bot Builder SDK C#", "index.html", [
     [ "Overview", "index.html#overview", null ],
     [ "Table of Contents", "index.html#contents", null ],
-    [ "High Level Features", "index.html#features", null ],
-    [ "README", "md_C:_code_BotBuilder_CSharp_Library_README.html", null ],
-    [ "Key Concepts", "key_concepts.html", [
-      [ "Dialogs", "key_concepts.html#dialogs", null ],
-      [ "Form Flow", "key_concepts.html#forms", null ],
-      [ "Pattern Language", "key_concepts.html#patterns", null ]
+    [ "Dialogs", "index.html#dialogs", null ],
+    [ "Form Flow", "index.html#forms", [
+      [ "Forms and Fields", "index.html#fields", null ],
+      [ "Pattern Language", "index.html#patterns", null ]
     ] ],
-    [ "Usage", "usage.html", [
-      [ "Updates", "usage.html#Updates", null ],
-      [ "Running in Azure", "usage.html#running_in_azure", null ],
-      [ "Troubleshooting Q and A", "usage.html#troubleshooting_q_and_a", null ]
+    [ "Usage", "index.html#usage", null ],
+    [ "Updates", "index.html#Updates", null ],
+    [ "Running in Azure", "index.html#running_in_azure", null ],
+    [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
+    [ "examples", "examples.html", [
+      [ "Simple Sandwich Bot", "examples.html#simplesandwichbot", null ],
+      [ "Annotated Sandwich Bot", "examples.html#annotatedSandwich", [
+        [ "Attributes", "examples.html#attributes", null ]
+      ] ]
     ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -31,7 +34,6 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
-        [ "Enumerations", "functions_enum.html", null ],
         [ "Properties", "functions_prop.html", null ]
       ] ]
     ] ],
@@ -44,9 +46,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html",
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#aa6951a4693b0c3ce49044fbf15811026",
-"functions_g.html"
+"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#ad74b00cebc2e55ceb7b6a65c916f44e0",
+"da/d91/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_null_wait.html",
+"functions_func_j.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

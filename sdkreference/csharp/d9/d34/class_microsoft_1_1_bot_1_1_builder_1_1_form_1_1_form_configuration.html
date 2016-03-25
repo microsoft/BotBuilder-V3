@@ -4,19 +4,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.11"/>
 <title>Microsoft.Bot.Builder.Form.FormConfiguration Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
-<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="../../resize.js"></script>
-<script type="text/javascript" src="../../navtreedata.js"></script>
-<script type="text/javascript" src="../../navtree.js"></script>
-<script type="text/javascript">
-  $(document).ready(initResizable);
-  $(window).load(resizeHeight);
-</script>
+<link href="navtree.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -69,12 +64,12 @@
 		</header>
 		<div class="brand-primary">
 			<div class="jumbo">
-				<div class="jumbo-header"><a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a></div>
-					<ul class="header-nav"><li><a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+				<div class="jumbo-header"><a href="https://www.botframework.com/">Bot Framework</a></div>
+					<ul class="header-nav"><li><a href="https://dev.botframework.com/#/bots">My bots</a>
 						</li><li>
-						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a></li><li class="active">
+						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a></li><li class="active">
 						<a href="/">Documentation</a></li><li>
-						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/" class="active">Bot Directory</a></li></ul>
+						<a href="https://bots.botframework.com/" class="active">Bot Directory</a></li></ul>
 				</div>
 			</div>
 		</div>
@@ -143,7 +138,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Default values for the form. </p>
 <p>These defaults can all be overriden when you create a form and before you add steps. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00272">272</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00130">130</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="afde7a4d717a96a007d13642d162adfae"></a>
 <div class="memitem">
@@ -176,7 +171,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Matching template.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00412">412</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00269">269</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -193,7 +188,7 @@ Public Attributes</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;FormCommand, CommandDescription&gt;()</div><div class="line">        {</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Backup, <span class="keyword">new</span> CommandDescription(<span class="stringliteral">&quot;Backup&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;backup&quot;</span>, <span class="stringliteral">&quot;go back&quot;</span>, <span class="stringliteral">&quot;back&quot;</span> },</div><div class="line">                <span class="stringliteral">&quot;Back: Go back to the previous question.&quot;</span>) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Help, <span class="keyword">new</span> CommandDescription(<span class="stringliteral">&quot;Help&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;help&quot;</span>, <span class="stringliteral">&quot;choices&quot;</span>, <span class="stringliteral">@&quot;\?&quot;</span> },</div><div class="line">                <span class="stringliteral">&quot;Help: Show the kinds of responses you can enter.&quot;</span>) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Quit, <span class="keyword">new</span> CommandDescription(<span class="stringliteral">&quot;Quit&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;quit&quot;</span>, <span class="stringliteral">&quot;stop&quot;</span>, <span class="stringliteral">&quot;finish&quot;</span>, <span class="stringliteral">&quot;goodbye&quot;</span>, <span class="stringliteral">&quot;good bye&quot;</span>},</div><div class="line">                <span class="stringliteral">&quot;Quit: Quit the form without completing it.&quot;</span>) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Reset, <span class="keyword">new</span> CommandDescription(<span class="stringliteral">&quot;Start over&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] { <span class="stringliteral">&quot;start over&quot;</span>, <span class="stringliteral">&quot;reset&quot;</span>, <span class="stringliteral">&quot;clear&quot;</span> },</div><div class="line">                <span class="stringliteral">&quot;Reset: Start over filling in the form.  (With defaults of your previous entries.)&quot;</span> ) },</div><div class="line">            {<a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a1c6898f469d423f820184dc631832da5">FormCommand</a>.Status, <span class="keyword">new</span> CommandDescription(<span class="stringliteral">&quot;status&quot;</span>, <span class="keyword">new</span> <span class="keywordtype">string</span>[] {<span class="stringliteral">&quot;status&quot;</span>, <span class="stringliteral">&quot;progress&quot;</span>, <span class="stringliteral">&quot;so far&quot;</span> },</div><div class="line">                <span class="stringliteral">&quot;Status: Show your progress in filling in the form so far.&quot;</span>) }</div><div class="line">        }</div></div><!-- fragment -->
 <p>Definitions of the built-in commands. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00393">393</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00250">250</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -210,7 +205,7 @@ Public Attributes</h2></td></tr>
 <p>Enumeration of strings for interpreting a user response as asking for the current value. </p>
 <p>The first value is also used to describe the option of keeping the current value. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00309">309</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00166">166</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -223,11 +218,11 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Prompt(<span class="stringliteral">&quot;&quot;</span>)</div><div class="line">        {</div><div class="line">            AllowDefault = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a55d8462b67448ca4da5828d64c4a0db8">BoolDefault</a>.True,</div><div class="line">            AllowNumbers = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a55d8462b67448ca4da5828d64c4a0db8">BoolDefault</a>.True,</div><div class="line">            ChoiceStyle = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a0c832390c34847a341399b408b1627c6">ChoiceStyleOptions</a>.Auto,</div><div class="line">            FieldCase = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7ca4030616f52805bc16bba9c54d343c">CaseNormalization</a>.Lower,</div><div class="line">            <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56">Feedback</a> = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#aea7fba55138daaa5828153e99614160d">FeedbackOptions</a>.Auto,</div><div class="line">            ChoiceFormat = <span class="stringliteral">&quot;{0}. {1}&quot;</span>,</div><div class="line">            LastSeparator = <span class="stringliteral">&quot;, and &quot;</span>,</div><div class="line">            Separator = <span class="stringliteral">&quot;, &quot;</span>,</div><div class="line">            ValueCase = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7ca4030616f52805bc16bba9c54d343c">CaseNormalization</a>.InitialUpper</div><div class="line">        }</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Prompt(<span class="stringliteral">&quot;&quot;</span>)</div><div class="line">        {</div><div class="line">            AllowDefault = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a55d8462b67448ca4da5828d64c4a0db8">BoolDefault</a>.True,</div><div class="line">            ChoiceStyle = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a0c832390c34847a341399b408b1627c6">ChoiceStyleOptions</a>.Auto,</div><div class="line">            FieldCase = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7ca4030616f52805bc16bba9c54d343c">CaseNormalization</a>.Lower,</div><div class="line">            <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7b8f2b076508e4910408229d7fedc2a0abea4c2c8eb82d05891ddd71584881b56">Feedback</a> = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#aea7fba55138daaa5828153e99614160d">FeedbackOptions</a>.Auto,</div><div class="line">            ChoiceFormat = <span class="stringliteral">&quot;{0}. {1}&quot;</span>,</div><div class="line">            LastSeparator = <span class="stringliteral">&quot;, and &quot;</span>,</div><div class="line">            Separator = <span class="stringliteral">&quot;, &quot;</span>,</div><div class="line">            ValueCase = <a class="code" href="../../dd/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_form.html#a7ca4030616f52805bc16bba9c54d343c">CaseNormalization</a>.InitialUpper</div><div class="line">        }</div></div><!-- fragment -->
 <p>Default prompt and template format settings. </p>
 <p>When you specify a <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html" title="Define the prompt template used when asking about a field. ">Prompt</a> or <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html" title="Define a template for generating strings. ">Template</a>, any format value you do not specify will come from this default. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00282">282</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00140">140</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -243,7 +238,7 @@ Public Attributes</h2></td></tr>
 
 <p>Enumeration of values for a "no" response for boolean fields or confirmations. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00319">319</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00176">176</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -260,7 +255,7 @@ Public Attributes</h2></td></tr>
 <p>Enumeration of strings for interpreting a user response as setting an optional field to be unspecified. </p>
 <p>The first string is also used to describe not having a preference for an optional field. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00301">301</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00158">158</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -276,7 +271,7 @@ Public Attributes</h2></td></tr>
 
 <p>Default templates to use if not override on the class or field level. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00324">324</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00181">181</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -292,12 +287,12 @@ Public Attributes</h2></td></tr>
 
 <p>Enumeration of values for a "yes" response for boolean fields or confirmations. </p>
 
-<p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00314">314</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00171">171</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/code/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Form/<a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -7,7 +7,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base =
     [ "Pattern", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a8cf82ef69d781426ebe67ac89087c7a3", null ],
     [ "Patterns", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a8fb60041c7af97065a52a4ae2375b056", null ],
     [ "AllowDefault", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a77b87019b747e8edfdb169f6524d5a46", null ],
-    [ "AllowNumbers", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#aaddcbc67468d718298d202fab2013b72", null ],
+    [ "AllowNumbers", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a2c0accdcc263affe6c0dcec51477c669", null ],
     [ "ChoiceFormat", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a6ae93daaa633a91a91db5e6ba09ac419", null ],
     [ "ChoiceStyle", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#afca1dda02d1a1c63f5469afad19f1415", null ],
     [ "Feedback", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#ab1b44f0a7ab10dbe1be5fc12b4721e57", null ],
