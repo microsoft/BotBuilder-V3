@@ -36,7 +36,6 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-#pragma warning disable CS1998
 
     [Serializable]
     public class CallDialog<T, R> : IDialog<T>

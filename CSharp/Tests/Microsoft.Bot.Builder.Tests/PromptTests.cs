@@ -42,8 +42,6 @@ using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-#pragma warning disable CS1998
-
     public abstract class PromptTests_Base
     {
         public static string NewID()

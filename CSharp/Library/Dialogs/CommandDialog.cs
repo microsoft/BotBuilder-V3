@@ -38,8 +38,6 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-#pragma warning disable CS1998
-
     public class CommandDialog : IDialog<object>
     {
         public class Command

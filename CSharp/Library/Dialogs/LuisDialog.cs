@@ -45,8 +45,6 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder
 {
-#pragma warning disable CS1998
-
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class LuisModel : Attribute
     {

@@ -43,8 +43,6 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
-#pragma warning disable CS1998
-
     internal static class FormStatics
     {
         #region IForm<T> statics

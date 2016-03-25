@@ -11,8 +11,6 @@ using System.Web;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-#pragma warning disable CS1998
-
     [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=a19f7eee-0280-4a9a-b5e5-73c16b32c43d&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
     [Serializable]
     public class PizzaOrderDialog : LuisDialog

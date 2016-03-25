@@ -41,8 +41,6 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Internals
 {
-#pragma warning disable CS1998
-
     [Serializable]
     public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable
     {

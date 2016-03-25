@@ -43,8 +43,6 @@ using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-#pragma warning disable CS1998
-
     [TestClass]
     public abstract class FiberTestBase
     {

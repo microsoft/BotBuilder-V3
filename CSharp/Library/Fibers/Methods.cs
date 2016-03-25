@@ -36,8 +36,6 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Fibers
 {
-#pragma warning disable CS1998
-
     public static class Methods
     {
         public static Rest<T> Identity<T>()

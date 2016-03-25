@@ -43,8 +43,6 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 
 namespace Microsoft.Bot.Builder.FormTest
 {
-#pragma warning disable CS1998
-
     public enum DebugOptions
     {
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,

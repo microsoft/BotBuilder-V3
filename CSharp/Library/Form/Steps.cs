@@ -41,8 +41,6 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form
 {
-#pragma warning disable CS1998
-
     internal class FieldStep<T> : IStep<T>
     {
         public FieldStep(string name, IForm<T> form)

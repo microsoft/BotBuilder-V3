@@ -8,8 +8,6 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
-#pragma warning disable CS1998
-
     [Serializable]
     public class EchoDialog : IDialog<object>
     {
