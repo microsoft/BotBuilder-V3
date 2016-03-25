@@ -120,7 +120,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     var group2 = match.Groups[2];
                     if (group1.Success)
                     {
-                        var confidence = System.Math.Min(group1.Length / longest, 1.0);
+                        int n;
+                        var confidence = int.TryParse(group1.Value, out n) ? 1.0 : System.Math.Min(group1.Length / longest, 1.0);
                         if (expression.Value is Special)
                         {
                             var special = (Special)expression.Value;
@@ -149,7 +150,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendFormat("EnumeratedRecognizer({0}", _description);
+            builder.AppendFormat("RecognizeEnumeration({0}", _description);
             builder.Append(" [");
             foreach (var description in _valueDescriptions)
             {
@@ -195,74 +196,77 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
-            var word = new StringBuilder();
-            var nonWord = new StringBuilder();
-            var first = true;
-            var firstNonWord = true;
-            foreach (var term in orderedTerms)
+            if (orderedTerms.Length > 0)
             {
-                var nterm = term.Trim().Replace(" ", @"\s+");
-                if (nterm == "") nterm = "qqqq";
-                if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
+                var word = new StringBuilder();
+                var nonWord = new StringBuilder();
+                var first = true;
+                var firstNonWord = true;
+                foreach (var term in orderedTerms)
                 {
-                    if (first)
+                    var nterm = term.Trim().Replace(" ", @"\s+");
+                    if (nterm == "") nterm = "qqqq";
+                    if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
                     {
-                        first = false;
-                        word.Append(@"(\b(?:");
+                        if (first)
+                        {
+                            first = false;
+                            word.Append(@"(\b(?:");
+                        }
+                        else
+                        {
+                            word.Append('|');
+                        }
+                        word.Append(@"(?:");
+                        word.Append(nterm);
+                        word.Append(')');
                     }
                     else
                     {
-                        word.Append('|');
+                        if (firstNonWord)
+                        {
+                            firstNonWord = false;
+                            nonWord.Append('(');
+                        }
+                        else
+                        {
+                            nonWord.Append('|');
+                        }
+                        nonWord.Append(@"(?:");
+                        nonWord.Append(nterm);
+                        nonWord.Append(')');
                     }
-                    word.Append(@"(?:");
-                    word.Append(nterm);
-                    word.Append(')');
+                }
+                if (first)
+                {
+                    word.Append("(qqqq)");
                 }
                 else
                 {
-                    if (firstNonWord)
+                    if (n == 0)
                     {
-                        firstNonWord = false;
-                        nonWord.Append('(');
+                        word.Append("|c");
                     }
-                    else
+                    else if (allowNumbers)
                     {
-                        nonWord.Append('|');
+                        word.AppendFormat(@"|{0}", n);
                     }
-                    nonWord.Append(@"(?:");
-                    nonWord.Append(nterm);
+                    word.Append(@")\b)");
+                }
+                if (firstNonWord)
+                {
+                    nonWord.Append("(qqqq)");
+                }
+                else
+                {
                     nonWord.Append(')');
                 }
+                ++n;
+                var expr = string.Format("{0}|{1}",
+                    word.ToString(),
+                    nonWord.ToString());
+                _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), orderedTerms.First()));
             }
-            if (first)
-            {
-                word.Append("(qqqq)");
-            }
-            else
-            {
-                if (n == 0)
-                {
-                    word.Append("|c");
-                }
-                else if (allowNumbers)
-                {
-                    word.AppendFormat(@"|{0}", n);
-                }
-                word.Append(@")\b)");
-            }
-            if (firstNonWord)
-            {
-                nonWord.Append("(qqqq)");
-            }
-            else
-            {
-                nonWord.Append(')');
-            }
-            ++n;
-            var expr = string.Format("{0}|{1}",
-                word.ToString(),
-                nonWord.ToString());
-            _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), orderedTerms.First()));
             return n;
         }
 

@@ -242,7 +242,7 @@
     ///
     /// > y
     /// ~~~
-    /// At this point, I've completed my form and will return to the parent dialog.  Throughout this interaction you can
+    /// At this point, the form is completed and will be returned to the parent dialog.  Throughout this interaction you can
     /// see that the automatically generated conversation:
     /// * Provided clear guidance and help  
     /// * Understands both numbers and textual entries  
@@ -250,7 +250,8 @@
     /// * Asks clarifying questions when needed.  
     /// * Allows navigating between the steps.  
     /// 
-    /// All of this is pretty amazing for not having to do any of the work!  However, not every interaction was as
+    /// All of this is pretty amazing for not having to do any of the work!  
+    /// However, not every interaction was as
     /// good as you might want it to be.  That is why there are easy ways to provide:
     /// * Messages during the process of filling in a form.  
     /// * Custom prompts per field.  
@@ -434,9 +435,11 @@
     /// So for example, the value AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
     /// The word "rotisserie" is one that is highly likely to be misspelled so here we have used a regular expression to make it more likely
     /// we will match what the user types.  Because we specify Terms.MaxPhrase, Language.GenerateTerms will also generate variations for us.
+    /// 
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip Terms
-    /// \until AllExcept
+    /// \until Rotisserie
+    /// 
     /// Given the terms now we can match input like this.
     /// ~~~{.txt}
     /// What kind of sandwich would you like?
@@ -459,8 +462,23 @@
     /// For sandwich I understood Rotisserie Style Chicken. "chechen" is not an option.
     /// ~~~
     /// 
+    /// \subsection logic Adding Business Logic
+    /// Sometimes there are complex interdependencies between fields or you need to 
+    /// add logic to setting or getting a value.  In this example we want to add support
+    /// for including all toppings except some of them.  To do this, we change toppings
+    /// from a property to a field and add some logic.
     /// 
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip List<ToppingOptions>
+    /// \until private
+    ///
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip ToppingOptions
+    /// \until AllExcept
+    ///
     /// Here is the SandwichOrder with attributes added and some business logic.
     /// \include AnnotatedSandwichBot/sandwich.cs
+    /// 
+    /// \subsection ControlFlow Controlling Flow
     /// 
 }

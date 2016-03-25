@@ -48,8 +48,6 @@ namespace Microsoft.Bot.Builder.Form
         {
             var field = new Field<T>("__commands__", FieldRole.Value, form);
             field.Prompt(new Prompt(""));
-            field.Description("Commands");
-            field.Terms(new string[0]);
             foreach (var entry in form.Configuration.Commands)
             {
                 field.AddDescription(entry.Key, entry.Value.Description);

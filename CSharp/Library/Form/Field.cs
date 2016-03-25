@@ -159,7 +159,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public virtual IPrompt<T> Prompt()
         {
-            throw new NotImplementedException();
+            if (_prompt == null)
+            {
+                _prompt = new Prompter<T>(_promptDefinition, _form, _recognizer);
+            }
+            return _prompt;
         }
 
         public virtual string Validate(T state, object value)
@@ -233,7 +237,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
-        /// <summary>   Set whether or not a field is optional. </summary>
+        /// <summary>   Removes the description and terms associated with a value. </summary>
+        /// <param name="value">    The value to remove. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
+        public Field<T> RemoveValue(object value)
+        {
+            UpdateAnnotations();
+            _valueDescriptions.Remove(value);
+            _valueTerms.Remove(value);
+            return this;
+        }
+
+		/// <summary>   Set whether or not a field is optional. </summary>
         /// <param name="optional"> True if field is optional. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Optional(bool optional = true)
@@ -263,6 +278,16 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
+        /// <summary> Sets the recognizer for the field. </summary>
+        /// <param name="recognizer">   The recognizer for the field. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
+        public Field<T> Recognizer(IRecognize<T> recognizer)
+        {
+            UpdateAnnotations();
+            _recognizer = recognizer;
+            return this;
+        }
+
         /// <summary>   Add a template to the field. </summary>
         /// <param name="template"> The template. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
@@ -276,9 +301,21 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the field validation. </summary>
         /// <param name="validate"> The validator. </param>
         /// <returns>   An IField&lt;T&gt; </returns>
-        public virtual IField<T> Validate(ValidateDelegate<T> validate)
+        public IField<T> Validate(ValidateDelegate<T> validate)
         {
+            UpdateAnnotations();
             _validate = validate;
+            return this;
+        }
+
+        /// <summary>   Set numeric limits. </summary>
+        /// <param name="min">  The minimum. </param>
+        /// <param name="max">  The maximum. </param>
+        /// <returns>   An IField&lt;T&gt; </returns>
+        public IField<T> Numeric(double min, double max)
+        {
+            UpdateAnnotations();
+            SetLimits(min, max, true);
             return this;
         }
         #endregion
@@ -293,6 +330,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         protected void UpdateAnnotations()
         {
+            _prompt = null;
         }
 
         protected void AddTemplate(Template template)
@@ -312,11 +350,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected string _description;
         protected Prompt _help;
         protected ValidateDelegate<T> _validate = new ValidateDelegate<T>((state, value) => null);
-        protected string[] _terms;
+        protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
         protected Dictionary<TemplateUsage, Template> _templates = new Dictionary<TemplateUsage, Template>();
         protected Prompt _promptDefinition;
+        protected IRecognize<T> _recognizer;
+        protected IPrompt<T> _prompt;
         #endregion
     }
 
@@ -354,6 +394,40 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 else if (_type == typeof(DateTime))
                 {
                     _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
+                }
+            }
+
+            var step = _path.LastOrDefault();
+            if (_type == null || _type.IsEnum)
+            {
+                _recognizer = new RecognizeEnumeration<T>(this);
+            }
+            else if (_type == typeof(bool))
+            {
+                _recognizer = new RecognizeBool<T>(this);
+            }
+            else if (_type == typeof(string))
+            {
+                _recognizer = new RecognizeString<T>(this);
+            }
+            else if (_type.IsIntegral())
+            {
+                _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+            }
+            else if (_type.IsDouble())
+            {
+                _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+            }
+            else if (_type == typeof(DateTime))
+            {
+                _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+            }
+            else if (_type.IsIEnumerable())
+            {
+                var elt = _type.GetGenericElementType();
+                if (elt.IsEnum)
+                {
+                    _recognizer = new RecognizeEnumeration<T>(this);
                 }
             }
         }
@@ -515,52 +589,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         #endregion
 
-        #region IFieldPrompt
-
-        public override IPrompt<T> Prompt()
-        {
-            if (_prompt == null)
-            {
-                var step = _path.LastOrDefault();
-                IRecognize<T> recognizer = null;
-                if (_type == null || _type.IsEnum)
-                {
-                    recognizer = new RecognizeEnumeration<T>(this);
-                }
-                else if (_type == typeof(bool))
-                {
-                    recognizer = new RecognizeBool<T>(this);
-                }
-                else if (_type == typeof(string))
-                {
-                    recognizer = new RecognizeString<T>(this);
-                }
-                else if (_type.IsIntegral())
-                {
-                    recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type.IsDouble())
-                {
-                    recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type == typeof(DateTime))
-                {
-                    recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type.IsIEnumerable())
-                {
-                    var elt = _type.GetGenericElementType();
-                    if (elt.IsEnum)
-                    {
-                        recognizer = new RecognizeEnumeration<T>(this);
-                    }
-                }
-                _prompt = new Prompter<T>(_promptDefinition, _form, recognizer);
-            }
-            return _prompt;
-        }
-
-        #endregion
         #endregion
 
         #region Internals
@@ -767,7 +795,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected bool _ignoreAnnotations;
         protected List<object> _path = new List<object>();
         protected Type _type;
-        protected IPrompt<T> _prompt;
         #endregion
     }
 

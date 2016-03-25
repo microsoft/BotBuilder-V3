@@ -23,7 +23,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public enum CheeseOptions { American, MontereyCheddar, Pepperjack};
     public enum ToppingOptions {
         [Terms("except", "but", "not", "no", "all", "everything")]
-        AllExcept, Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
+        AllExcept,
+        Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
         Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes};
     public enum SauceOptions { ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
         Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar };

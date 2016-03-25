@@ -347,8 +347,6 @@ namespace Microsoft.Bot.Builder.Form
                 var field = new Field<T>("__clarify__", FieldRole.Value, _field.Form);
                 var template = _field.Template(TemplateUsage.Clarify);
                 var helpTemplate = _field.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                field.Description("Clarification");
-                field.Terms(new string[0]);
                 field.Prompt(new Prompt(template));
                 field.Template(_field.Template(TemplateUsage.Clarify));
                 field.Template(helpTemplate);
@@ -489,12 +487,10 @@ namespace Microsoft.Bot.Builder.Form
             _form = form;
             _fields = form.Fields;
             var field = _fields.Field(_name);
-            var recField = new Field<T>("__navigate__", FieldRole.Value, form);
             var template = field.Template(TemplateUsage.Navigation);
+            var recField = new Field<T>("__navigate__", FieldRole.Value, form)
+                .Prompt(new Prompt(template));
             var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
-            recField.Prompt(new Prompt(template))
-                .Description("")
-                .Terms(new string[0]);
             foreach (var value in formState.Next.Names)
             {
                 var prompter = new Prompter<T>(fieldPrompt, form, _fields.Field(value as string).Prompt().Recognizer());
