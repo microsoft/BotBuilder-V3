@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder
             return response;
         }
 
-        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
         {
             context.Wait(MessageReceived);
         }

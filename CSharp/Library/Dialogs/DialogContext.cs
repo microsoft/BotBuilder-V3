@@ -85,11 +85,11 @@ namespace Microsoft.Bot.Builder.Internals
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<C, T, R>(C child, T arguments, ResumeAfter<R> resume)
+        void IDialogStack.Call<C, T, R>(C child, T argument, ResumeAfter<R> resume)
         {
             var callRest = ToRest<T>(child.StartAsync);
             var doneRest = ToRest(resume);
-            this.wait = this.fiber.Call<T, R>(callRest, arguments, doneRest);
+            this.wait = this.fiber.Call<T, R>(callRest, argument, doneRest);
         }
 
         void IDialogStack.Done<R>(R value)

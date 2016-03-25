@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Builder
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
 
-        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
         {
             context.Wait(MessageReceived);
         }

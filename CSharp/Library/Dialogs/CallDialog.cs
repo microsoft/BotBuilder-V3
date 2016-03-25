@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder
 
         private readonly IDialog<T> child;
         private readonly Resume resume;
-        private T arguments;
+        private T argument;
 
         public CallDialog(IDialog<T> child, Resume resume)
         {
@@ -20,9 +20,9 @@ namespace Microsoft.Bot.Builder
             Field.SetNotNull(out this.resume, nameof(resume), resume);
         }
 
-        async Task IDialog<T>.StartAsync(IDialogContext context, IAwaitable<T> arguments)
+        async Task IDialog<T>.StartAsync(IDialogContext context, IAwaitable<T> argument)
         {
-            this.arguments = await arguments;
+            this.argument = await argument;
             await CallChild(context, null);
         }
 
@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Builder
 
         public async Task CallChild(IDialogContext context, IAwaitable<object> ignored)
         {
-            context.Call<IDialog<T>, T, R>(this.child, this.arguments, ChildDone);
+            context.Call<IDialog<T>, T, R>(this.child, this.argument, ChildDone);
         }
     }
 }

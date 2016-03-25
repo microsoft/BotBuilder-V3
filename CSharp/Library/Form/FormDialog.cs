@@ -91,9 +91,9 @@ namespace Microsoft.Bot.Builder.Form
 
         #region IDialog implementation
 
-        async Task IDialog<InitialState<T>>.StartAsync(IDialogContext context, IAwaitable<InitialState<T>> arguments)
+        async Task IDialog<InitialState<T>>.StartAsync(IDialogContext context, IAwaitable<InitialState<T>> argument)
         {
-            var initialState = await arguments;
+            var initialState = await argument;
             bool skipFields = false;
 
             if (initialState == null)

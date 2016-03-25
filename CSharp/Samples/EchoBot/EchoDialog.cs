@@ -15,14 +15,14 @@ namespace Microsoft.Bot.Sample.EchoBot
     {
         private int count;
 
-        public async Task StartAsync(IDialogContext context, IAwaitable<object> arguments)
+        public async Task StartAsync(IDialogContext context, IAwaitable<object> argument)
         {
             context.Wait(MessageReceived);
         }
 
-        public async Task MessageReceived(IDialogContext context, IAwaitable<Message> arguments)
+        public async Task MessageReceived(IDialogContext context, IAwaitable<Message> argument)
         {
-            var message = await arguments;
+            var message = await argument;
             if (message.Text == "reset")
             {
                 Prompts.Confirm(
@@ -42,9 +42,9 @@ namespace Microsoft.Bot.Sample.EchoBot
             ++this.count;
         }
 
-        public async Task AfterConfirmReset(IDialogContext context, IAwaitable<bool> arguments)
+        public async Task AfterConfirmReset(IDialogContext context, IAwaitable<bool> argument)
         {
-            var confirm = await arguments;
+            var confirm = await argument;
             if (confirm)
             {
                 this.count = 0;

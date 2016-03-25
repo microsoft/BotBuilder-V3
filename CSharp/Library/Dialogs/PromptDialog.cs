@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder
                 this.attempts = attempts;
             }
 
-            async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
+            async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
             {
                 await context.PostAsync(this.prompt);
                 context.Wait(MessageReceived);
