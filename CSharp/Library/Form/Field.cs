@@ -10,7 +10,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Field<T> : IField<T>
-        where T : class, new()
     {
         /// <summary>   Construct field. </summary>
         /// <param name="name"> Name of field. </param>
