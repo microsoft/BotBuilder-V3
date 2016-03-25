@@ -1,15 +1,27 @@
+{% if jekyll.environment == "development" %}
+    {% assign bf-home = "https://intercom-devportal-scratch.azurewebsites.net/" %}
+    {% assign bf-mybots = "https://intercom-devportal-scratch.azurewebsites.net/#/bots" %}
+    {% assign bf-register = "https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" %}
+    {% assign bf-directory = "https://intercom-botdirectory-scratch.azurewebsites.net/" %}
+{% else %}
+    {% assign bf-home = "https://www.botframework.com/" %}
+    {% assign bf-mybots = "https://dev.botframework.com/#/bots" %}
+    {% assign bf-register = "https://dev.botframework.com/#/bots/new" %}
+    {% assign bf-directory = "https://bots.botframework.com/" %}
+{% endif %}
+
 <div class="jumbo">
 	<div class="jumbo-header">
-		<a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a>
+		<a href="{{bf-home}}">Bot Framework</a>
 	</div>
 	<ul class="header-nav"><li>
-			<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
+			<a href="{{bf-mybots}}">My bots</a>
 		</li><li>
-			<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a>
+			<a href="{{bf-register}}">Register a bot</a>
 		</li><li class="active">
 			<a href="/">Documentation</a>
 		</li><li>
-			<a href="https://intercom-botdirectory-scratch.azurewebsites.net/">Bot Directory</a>
+			<a href="{{bf-directory}}">Bot Directory</a>
 		</li></ul>
 	<!-- 
 	<div class="search-outter">

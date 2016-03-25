@@ -177,6 +177,7 @@ button {
   background-color: #E6E6E6;
   font-size: 15px;
   color: #2B2B2B;
+  border-radius: 0;
 }
 input[type="submit"]:hover,
 input[type="button"]:hover,
@@ -209,6 +210,12 @@ a.button {
   text-align: center;
   display: inline-block;
   padding-top: 13px;
+}
+input[type="text"],
+input[type="password"],
+textarea {
+  border-radius: 0;
+  -webkit-appearance: none;
 }
 .page-grid {
   padding: 0 20px;
@@ -303,6 +310,7 @@ a.button {
 }
 .page-grid-left .floatable {
   float: left;
+  margin-left: 0;
 }
 .page-grid-left .floatable .grid-card {
   margin-left: 0;
@@ -370,6 +378,19 @@ header {
   font-size: 20px;
   letter-spacing: 0.3px;
   color: white;
+  position: relative;
+}
+.jumbo .jumbo-header:after {
+  content: 'PREVIEW';
+  color: #2B2B2B;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-right: 31px;
+  margin-top: -25px;
+  font-family: "Segoe UI Semibold", sans-serif;
+  font-size: 11px;
+  line-height: 15px;
 }
 .jumbo .jumbo-header a {
   display: inline-block;
@@ -802,9 +823,8 @@ foobar {
   width: 6px;
 }
 .level1.parent.rotate:before {
-  transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
 }
 .level1.child {
   padding-left: 20px;
@@ -825,10 +845,6 @@ a {
 .post-header {
   margin-bottom: 25px;
   background-color: transparent;
-}
-.trigger div,
-.trigger li {
-  /* font-size: 0.9em; */
 }
 .post-content table {
   border-spacing: 0;
