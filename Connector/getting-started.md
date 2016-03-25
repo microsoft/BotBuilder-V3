@@ -25,7 +25,7 @@ To use the Microsoft Bot Framework Connector, you must have:
 	
 In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot. There are additionally different ways to go about building a Bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector .Net template which is what this QuickStart guide demonstrates.
 	
-## Getting started in C\#
+## Getting started in .Net    
 This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Connector SDK .Net template.
 
 1. Install prerequisite software
@@ -230,5 +230,3 @@ Now that you have a Bot up and running, you'll want to configure it for one or m
 3. Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".  
 
 That's the end of configuration - your Bot is ready for your users.  They will have their own steps to follow to give the Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the Bot Directory page for your Bot. The link to this is at the top of the Bot Details page in the dev portal. They also can find your Bot by searching by name in the Bot Directory.
-
-The next section will cover how your users can add the Bot to a conversation.
