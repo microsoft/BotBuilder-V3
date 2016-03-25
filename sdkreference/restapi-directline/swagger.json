@@ -1,0 +1,274 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "Bot Connector - Direct Line API - V1.0",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "Bot Connector Support",
+      "email": "botconnector@microsoft.com"
+    },
+    "license": {
+      "name": "Microsoft License",
+      "url": "http://botconnector.ai"
+    }
+  },
+  "host": "localhost:8011",
+  "schemes": [ "https" ],
+  "paths": {
+    "/api/conversations": {
+      "post": {
+        "tags": [ "Conversations" ],
+        "summary": "Start a new conversation",
+        "operationId": "Conversations_NewConversation",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Conversation" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/conversations/{conversationId}/messages": {
+      "get": {
+        "tags": [ "Conversations" ],
+        "summary": "Get messages in this conversation. This method is paged with the 'watermark' parameter.",
+        "operationId": "Conversations_GetMessages",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "watermark",
+            "in": "query",
+            "description": "(Optional) only returns messages newer than this watermark",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/MessageSet" }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [ "Conversations" ],
+        "summary": "Send a message",
+        "operationId": "Conversations_PostMessage",
+        "consumes": [ "application/json", "text/json", "text/html", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "Message to send",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Message" }
+          }
+        ],
+        "responses": { "204": { "description": "No Content" } },
+        "deprecated": false
+      }
+    },
+    "/api/conversations/{id}/messages/{messageId}/{kind}/{imageIndex}": {
+      "get": {
+        "tags": [ "Conversations" ],
+        "summary": "Get an image posted to a conversation",
+        "operationId": "Conversations_GetImage",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "kind",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "imageIndex",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Object" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/tokens/{conversationId}/renew": {
+      "get": {
+        "tags": [ "Tokens" ],
+        "summary": "Renew a token for a conversation",
+        "operationId": "Tokens_RenewToken",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "string" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/tokens/conversation": {
+      "post": {
+        "tags": [ "Tokens" ],
+        "summary": "Generate a token for a new conversation",
+        "operationId": "Tokens_GenerateTokenForNewConversation",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "string" }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Conversation": {
+      "description": "A conversation object returned by POST /api/conversations",
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "description": "ID for this conversation",
+          "type": "string"
+        },
+        "token": {
+          "description": "Token scoped to this conversation",
+          "type": "string"
+        },
+        "eTag": { "type": "string" }
+      }
+    },
+    "MessageSet": {
+      "description": "A collection of messages",
+      "type": "object",
+      "properties": {
+        "messages": {
+          "description": "Messages",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Message" }
+        },
+        "watermark": {
+          "description": "Maximum watermark included in this set of messages",
+          "type": "string"
+        },
+        "eTag": { "type": "string" }
+      }
+    },
+    "Message": {
+      "description": "A communication message sent to/from Bot Connector",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "ID for this message",
+          "type": "string"
+        },
+        "conversationId": {
+          "description": "Conversation ID for this message",
+          "type": "string"
+        },
+        "created": {
+          "format": "date-time",
+          "description": "UTC timestamp when this message was created",
+          "type": "string"
+        },
+        "from": {
+          "description": "Identity of the sender of this message",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text in this message",
+          "type": "string"
+        },
+        "channelData": {
+          "description": "Opaque block of data passed to/from bot via the ChannelData field",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of URLs for images included in this message",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "attachments": {
+          "description": "Array of non-image attachments included in this message",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Attachment" }
+        },
+        "eTag": { "type": "string" }
+      }
+    },
+    "Attachment": {
+      "description": "An attachment",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "URL for this attachment",
+          "type": "string"
+        },
+        "contentType": {
+          "description": "Content type for this attachment",
+          "type": "string"
+        }
+      }
+    },
+    "Object": {
+      "type": "object",
+      "properties": { }
+    }
+  },
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic",
+      "description": "Basic HTTP Authentication using BotConnector auth scheme and secret/token as password"
+    }
+  }
+}

@@ -2,7 +2,7 @@
 layout: page
 title:  REST API (auth)
 permalink: /connector/calling-api/
-weight: 231
+weight: 229
 parent1: Bot Connector
 parent2: Libraries
 ---
