@@ -77,6 +77,11 @@ namespace Microsoft.Bot.Builder.Form
             info.AddValue(nameof(this._state), this._state);
         }
 
+        public void Call(IDialogContext context, InitialState<T> initial, ResumeAfter<T> resume)
+        {
+            initial = initial ?? new InitialState<T>();
+            context.Call<IFormDialog<T>, InitialState<T>, T>(this, initial, resume);
+        }
 
         #region IForm<T> implementation
 

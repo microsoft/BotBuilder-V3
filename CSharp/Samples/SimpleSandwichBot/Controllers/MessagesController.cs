@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         {
             if (message.Type == "Message")
             {
-                return await CompositionRoot.PostAsync(this.Request, message, MakeRoot);
+                return await CompositionRoot.SendAsync(this.Request, message, MakeRoot);
             }
             else
             {

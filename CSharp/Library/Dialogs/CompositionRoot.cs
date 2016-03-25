@@ -17,11 +17,11 @@ namespace Microsoft.Bot.Builder
     {
         private const string BlobKey = "DialogState";
 
-        public static async Task<HttpResponseMessage> PostAsync<T>(HttpRequestMessage request, Message toBot, Func<IDialog<T>> MakeRoot)
+        public static async Task<HttpResponseMessage> SendAsync<T>(HttpRequestMessage request, Message toBot, Func<IDialog<T>> MakeRoot)
         {
             try
             {
-                var toUser = await PostAsync(toBot, MakeRoot);
+                var toUser = await SendAsync(toBot, MakeRoot);
 
                 return request.CreateResponse(toUser);
             }
@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder
             return formatter;
         }
 
-        public static async Task<Message> PostAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder
             }
 
             IUserToBot userToBot = context;
-            var toUser = await userToBot.PostAsync(toBot, token);
+            var toUser = await userToBot.SendAsync(toBot, token);
 
             // even with no bot response, try to save state
             if (toUser == null)

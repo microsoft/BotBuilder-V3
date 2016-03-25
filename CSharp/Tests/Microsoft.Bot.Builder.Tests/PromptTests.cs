@@ -67,13 +67,13 @@ namespace Microsoft.Bot.Builder.Tests
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(PromptText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID, Text = text };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.GetAwaiter().GetResult().Equals(expected))), Times.Once);
             }
         }
@@ -140,18 +140,18 @@ namespace Microsoft.Bot.Builder.Tests
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(PromptText, toUser.Text);
             }
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(RetryText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
 
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.ToTask().IsFaulted)), Times.Once);
             }

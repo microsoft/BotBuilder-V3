@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Sample.EchoBot
         [ResponseType(typeof(Message))]
         public async Task<HttpResponseMessage> Post([FromBody]Message message)
         {
-            return await CompositionRoot.PostAsync(this.Request, message, () => new EchoDialog());
+            return await CompositionRoot.SendAsync(this.Request, message, () => new EchoDialog());
         }
     }
 }

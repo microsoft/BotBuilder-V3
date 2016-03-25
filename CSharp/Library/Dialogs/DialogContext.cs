@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Internals
 
         private Message toBot;
 
-        async Task<Message> IUserToBot.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task<Message> IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
         {
             this.toBot = message;
             this.fiber.Post(message);

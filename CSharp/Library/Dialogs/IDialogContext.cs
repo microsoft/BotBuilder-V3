@@ -66,12 +66,12 @@ namespace Microsoft.Bot.Builder
     public interface IUserToBot
     {
         /// <summary>
-        /// Post a message to be sent to the bot.
+        /// Send a message to the bot with the option of an inline response.
         /// </summary>
         /// <param name="message">The message for the bot.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents an inline response message to send back to the user.</returns>
-        Task<Message> PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Message> SendAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>

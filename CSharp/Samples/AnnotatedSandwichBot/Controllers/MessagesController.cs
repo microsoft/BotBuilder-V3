@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         {
             if (message.Type == "Message")
             {
-                return await CompositionRoot.PostAsync(this.Request, message, MakeRoot);
+                return await CompositionRoot.SendAsync(this.Request, message, MakeRoot);
             }
             else
             {
