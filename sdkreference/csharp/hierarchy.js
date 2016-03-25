@@ -119,11 +119,6 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Fibers.Methods", "d1/da3/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_methods.html", null ],
     [ "Microsoft.Bot.Builder.Fibers.Serialization", "d7/d1f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization.html", null ],
-    [ "Microsoft.Bot.Builder.Fibers.Serialization.ISerializeAsReference", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_i_serialize_as_reference.html", [
-      [ "Microsoft.Bot.Builder.Fibers.FrameFactory", "d3/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame_factory.html", null ],
-      [ "Microsoft.Bot.Builder.Fibers.WaitFactory", "d5/d43/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait_factory.html", null ],
-      [ "Microsoft.Bot.Builder.Internals.BotDataBase< T >", "d5/d63/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_bot_data_base.html", null ]
-    ] ],
     [ "Microsoft.Bot.Builder.Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", null ],
     [ "Microsoft.Bot.Builder.Form.Advanced.IFieldDescription", "df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", [

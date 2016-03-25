@@ -8,10 +8,20 @@
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
+<link href="/js/doxygen/navtree.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/doxygen/resize.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtreedata.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtree.js"></script>
+    <!--
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+        -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -116,12 +126,9 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.TemplateBase:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aec28716c951faeeb79bce46ff4f5b330"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#aec28716c951faeeb79bce46ff4f5b330">TemplateBase</a> (string pattern)</td></tr>
-<tr class="memdesc:aec28716c951faeeb79bce46ff4f5b330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize with a single template.  <a href="#aec28716c951faeeb79bce46ff4f5b330">More...</a><br /></td></tr>
-<tr class="separator:aec28716c951faeeb79bce46ff4f5b330"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abee9c5595f6d58436e613fa06b13d822"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#abee9c5595f6d58436e613fa06b13d822">TemplateBase</a> (string[] patterns)</td></tr>
-<tr class="memdesc:abee9c5595f6d58436e613fa06b13d822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize with multiple patterns that will be chosen from randomly.  <a href="#abee9c5595f6d58436e613fa06b13d822">More...</a><br /></td></tr>
-<tr class="separator:abee9c5595f6d58436e613fa06b13d822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2117ad18b0760c917c3b31029d9a31ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#a2117ad18b0760c917c3b31029d9a31ce">TemplateBase</a> (params string[] patterns)</td></tr>
+<tr class="memdesc:a2117ad18b0760c917c3b31029d9a31ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize with multiple patterns that will be chosen from randomly.  <a href="#a2117ad18b0760c917c3b31029d9a31ce">More...</a><br /></td></tr>
+<tr class="separator:a2117ad18b0760c917c3b31029d9a31ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9916fa816d2c2135725394270350363"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html#ae9916fa816d2c2135725394270350363">TemplateBase</a> (<a class="el" href="../../da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html">TemplateBase</a> other)</td></tr>
 <tr class="memdesc:ae9916fa816d2c2135725394270350363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize from another template.  <a href="#ae9916fa816d2c2135725394270350363">More...</a><br /></td></tr>
 <tr class="separator:ae9916fa816d2c2135725394270350363"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,7 +172,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00176">176</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aec28716c951faeeb79bce46ff4f5b330"></a>
+<a class="anchor" id="a2117ad18b0760c917c3b31029d9a31ce"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -175,41 +182,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">Microsoft.Bot.Builder.Form.TemplateBase.TemplateBase </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>pattern</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Initialize with a single template. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pattern</td><td>Pattern to use.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00275">275</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abee9c5595f6d58436e613fa06b13d822"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Microsoft.Bot.Builder.Form.TemplateBase.TemplateBase </td>
-          <td>(</td>
-          <td class="paramtype">string[]&#160;</td>
+          <td class="paramtype">params string[]&#160;</td>
           <td class="paramname"><em>patterns</em></td><td>)</td>
           <td></td>
         </tr>
@@ -229,7 +202,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00285">285</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00275">275</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
 
 </div>
 </div>
@@ -263,7 +236,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00295">295</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/dd4/_annotations_8cs_source.html#l00285">285</a> of file <a class="el" href="../../d3/dd4/_annotations_8cs_source.html">Annotations.cs</a>.</p>
 
 </div>
 </div>

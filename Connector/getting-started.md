@@ -3,7 +3,7 @@ layout: page
 title: Getting started
 permalink: /connector/getstarted/
 weight: 201
-parent1: Bot Connector SDK
+parent1: Bot Connector
 ---
 
 
@@ -23,7 +23,7 @@ To use the Microsoft Bot Framework Connector, you must have:
 2. An Azure-accessible REST endpoint exposing a callback for the Connector service.
 3. Developer accounts on one or more communication services (such as Skype) where your Bot will communicate. 
 	
-In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot. There are additionally different ways to go about building a Bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector SDK .Net template which is what this QuickStart guide demonstrates.
+In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot. There are additionally different ways to go about building a Bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector .Net template which is what this QuickStart guide demonstrates.
 	
 ## Getting started in C\#
 This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Connector SDK .Net template.

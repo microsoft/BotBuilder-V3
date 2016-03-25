@@ -4,6 +4,7 @@ title: Understanding Natural Language
 permalink: /builder/node/understanding-natural-language/
 weight: 618
 parent1: Bot Builder for Node.js
+parent2: Guides
 ---
 
 * TOC

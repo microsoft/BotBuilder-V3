@@ -8,10 +8,20 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css" />
+<link href="/js/doxygen/navtree.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/doxygen/resize.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtreedata.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtree.js"></script>
+    <!--
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
 <script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+        -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -128,7 +138,7 @@ Table of Contents</h1>
 <li>
 <a class="el" href="index.html#forms">Form Flow</a>  </li>
 <li>
-examples </li>
+<a class="el" href="Examples.html">Examples</a> </li>
 <li>
 <a href="namespaces.html"><b>Namespaces</b></a> </li>
 <li>
@@ -153,7 +163,7 @@ Forms and Fields</h2>
 <li>Enum</li>
 <li>List of enum</li>
 </ul>
-<p>Any of the data types can also be nullable which is a good way to model that the field does not have a value. If a field is based on an enum and it is not nullable, then the 0 value in the enum is considered to be null and you should start your enumeration at 1. Any other fields, properties or methods are ignored by the form code. It is also possible to define a form directly by implementing Advanced.IField or using <a class="el" href="d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html">Form.Advanced.Field</a> and populating the dictionaries within it.</p>
+<p>Any of the data types can also be nullable which is a good way to model that the field does not have a value. If a field is based on an enum and it is not nullable, then the 0 value in the enum is considered to be null and you should start your enumeration at 1. Any other fields, properties or methods are ignored by the form code. It is also possible to define a form directly by implementing Advanced.IField or using <a class="el" href="d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html" title="Base class with declarative implementation of IField&lt;T&gt;. ">Form.Advanced.Field</a> and populating the dictionaries within it.</p>
 <h2><a class="anchor" id="patterns"></a>
 Pattern Language</h2>
 <p>One of the keys to creating a <a class="el" href="d5/d61/namespace_microsoft_1_1_bot.html">Bot</a> is being able to generate text that is clear and meaningful to the bot user. This framework supports a pattern language with elements that can be filled in at runtime. Everything in a pattern that is not surrounded by curly braces is just passed straight through. Anything in curly braces is substitued with values to make a string that can be shown to the user. Once substitution is done, some additional processing to remove double spaces and use the proper form of a/an is also done.</p>

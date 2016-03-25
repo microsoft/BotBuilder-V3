@@ -8,10 +8,20 @@
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
+<link href="/js/doxygen/navtree.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/doxygen/resize.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtreedata.js"></script>
+<script type="text/javascript" src="/js/doxygen/navtree.js"></script>
+    <!--
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+        -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -109,7 +119,7 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &g
   <img src="../../da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.png" usemap="#Microsoft.Bot.Builder.Form.Advanced.IFieldState_3C_20T_20_3E_map" alt=""/>
   <map id="Microsoft.Bot.Builder.Form.Advanced.IFieldState_3C_20T_20_3E_map" name="Microsoft.Bot.Builder.Form.Advanced.IFieldState&lt; T &gt;_map">
 <area href="../../d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html" title="Interface for all the information about a specific field. " alt="Microsoft.Bot.Builder.Form.Advanced.IField&lt; T &gt;" shape="rect" coords="175,56,515,80"/>
-<area href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html" alt="Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;" shape="rect" coords="175,112,515,136"/>
+<area href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html" title="Base class with declarative implementation of IField&lt;T&gt;. " alt="Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;" shape="rect" coords="175,112,515,136"/>
 <area href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html" title="Confirmation " alt="Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;" shape="rect" coords="0,168,340,192"/>
 <area href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html" alt="Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;" shape="rect" coords="350,168,690,192"/>
 <area href="../../d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html" alt="Microsoft.Bot.Builder.Form.Advanced.Conditional&lt; T &gt;" shape="rect" coords="350,224,690,248"/>
@@ -198,7 +208,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Current value found in state.</dd></dl>
 
-<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a614bb171dd46d40149626d6bb6318069">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#aa0644130389874813e8bb20a653538da">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a40fe229e2175d3f80f53e82486458a94">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a614bb171dd46d40149626d6bb6318069">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a35df13386125d02be19c7e186daea10a">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a40fe229e2175d3f80f53e82486458a94">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -246,7 +256,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True if value is unknown.</dd></dl>
 <p>For value types (numbers, bools, date time) a value is unknown only if the field is nullable and it is null. For enum based values (both simple and enumerated) they can also be nullable or the 0 enum value if not nullable. For non value types like string the test is to see if the field is actually null. </p>
 
-<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#addfe78a110032b95ffd21d6d6455d705">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a9ebf9536bb3aed1ea47353838784842b">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ad1c3e17bac297aa56bbe9288e236ce84">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#addfe78a110032b95ffd21d6d6455d705">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#a9ebf9536bb3aed1ea47353838784842b">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ace00a6d661361f382f126351aa6153d6">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -332,7 +342,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>For value types (numbers, bools, date time) the value is set to null if nullable. For enum types it is set to null if nullable or 0 if not. For non value types like string set the value to null. </p>
 
-<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a7a059020999b6e758f786ac5ed131304">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#aa7f47c94976aaeec8fb6e171e3e48fb5">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a211066b990c2beab4843bce3d785e858">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a7a059020999b6e758f786ac5ed131304">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#aa7f47c94976aaeec8fb6e171e3e48fb5">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ab8ef3241e76070f5f1d54463cf07348c">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -369,7 +379,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a36f154927e37f83676cd21703fe97419">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#afbbae072888beabe2848d681754ae8e2">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#ad66c9a8864d16a784ab3ba9c5ab6dfb5">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html#a36f154927e37f83676cd21703fe97419">Microsoft.Bot.Builder.Form.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html#afbbae072888beabe2848d681754ae8e2">Microsoft.Bot.Builder.Form.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html#a06a7aa49a39c608abef13fa6c7882565">Microsoft.Bot.Builder.Form.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>

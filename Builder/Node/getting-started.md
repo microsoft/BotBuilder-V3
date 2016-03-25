@@ -1,9 +1,10 @@
 ---
 layout: page
-title: Getting Started
+title: Core concepts
 permalink: /builder/node/getstarted/
 weight: 601
 parent1: Bot Builder for Node.js
+parent2: Guides
 ---
 
 * TOC

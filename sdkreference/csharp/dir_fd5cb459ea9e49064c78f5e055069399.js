@@ -20,10 +20,7 @@ var dir_fd5cb459ea9e49064c78f5e055069399 =
     ] ],
     [ "FormState.cs", "dd/dc1/_form_state_8cs.html", null ],
     [ "IField.cs", "de/d76/_i_field_8cs.html", "de/d76/_i_field_8cs" ],
-    [ "IForm.cs", "d8/dd7/_i_form_8cs.html", [
-      [ "Extension", "df/dbc/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_extension.html", null ],
-      [ "IForm", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form" ]
-    ] ],
+    [ "IForm.cs", "d8/dd7/_i_form_8cs.html", "d8/dd7/_i_form_8cs" ],
     [ "IFormBuilder.cs", "dc/dc2/_i_form_builder_8cs.html", [
       [ "IFormBuilder", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder" ]
     ] ],

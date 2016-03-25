@@ -3,8 +3,8 @@ layout: page
 title:  Bot Options
 permalink: /connector/bot-options/
 weight: 209
-parent1: Bot Connector SDK
-parent2: Configuring your bot
+parent1: Bot Connector
+parent2: Configure
 ---
 
 * TOC

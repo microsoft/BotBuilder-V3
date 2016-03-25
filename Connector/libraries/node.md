@@ -2,9 +2,9 @@
 layout: page
 title: Node.js
 permalink: /connector/libraries/node/
-weight: 232
-parent1: Bot Connector SDK
-parent2: Library Reference
+weight: 234
+parent1: Bot Connector
+parent2: Libraries
 ---
 
 ## Overview

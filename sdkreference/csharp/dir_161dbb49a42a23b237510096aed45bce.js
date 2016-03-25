@@ -29,7 +29,6 @@ var dir_161dbb49a42a23b237510096aed45bce =
     ] ],
     [ "Serialization.cs", "d8/d54/_serialization_8cs.html", [
       [ "Serialization", "d7/d1f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization.html", [
-        [ "ISerializeAsReference", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_i_serialize_as_reference.html", null ],
         [ "LogSurrogate", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate" ],
         [ "ObjectReference", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference.html", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference" ],
         [ "ReferenceSurrogate", "d4/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reference_surrogate.html", null ],
@@ -37,7 +36,6 @@ var dir_161dbb49a42a23b237510096aed45bce =
         [ "SimpleServiceLocator", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
         [ "SurrogateSelector", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
       ] ],
-      [ "ISerializeAsReference", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_i_serialize_as_reference.html", null ],
       [ "LogSurrogate", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate" ],
       [ "ObjectReference", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference.html", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference" ],
       [ "ReferenceSurrogate", "d4/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reference_surrogate.html", null ],

@@ -3,7 +3,7 @@ layout: page
 title: Channel's FAQ
 permalink: /connector/portal/channel-faq/
 weight: 211
-parent1: Bot Connector SDK
+parent1: Bot Connector
 parent2: Channels
 ---
 

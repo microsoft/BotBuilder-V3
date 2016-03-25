@@ -3,7 +3,7 @@ layout: page
 title: Starting a conversation
 permalink: /connector/new-conversations/
 weight: 203
-parent1: Bot Connector SDK
+parent1: Bot Connector
 parent2: Routing
 ---
 

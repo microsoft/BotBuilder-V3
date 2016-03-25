@@ -3,7 +3,7 @@ layout: page
 title: Addresses in messages
 permalink: /connector/channelaccounts/
 weight: 204
-parent1: Bot Connector SDK
+parent1: Bot Connector
 parent2: Routing
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Overview
+title: Getting started
 permalink: /builder/node/overview/
 weight: 600
 parent1: Bot Builder for Node.js

@@ -22,7 +22,6 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_fibers =
     [ "NullWait", "da/d91/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_null_wait.html", "da/d91/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_null_wait" ],
     [ "PostStruct", "d1/d86/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_post_struct.html", "d1/d86/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_post_struct" ],
     [ "Serialization", "d7/d1f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization.html", [
-      [ "ISerializeAsReference", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_i_serialize_as_reference.html", null ],
       [ "LogSurrogate", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate" ],
       [ "ObjectReference", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference.html", "d8/df0/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_object_reference" ],
       [ "ReferenceSurrogate", "d4/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reference_surrogate.html", null ],

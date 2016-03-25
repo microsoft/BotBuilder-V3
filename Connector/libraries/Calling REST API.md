@@ -3,8 +3,8 @@ layout: page
 title:  REST API (auth)
 permalink: /connector/calling-api/
 weight: 231
-parent1: Bot Connector SDK
-parent2: Library Reference
+parent1: Bot Connector
+parent2: Libraries
 ---
 
 Our API is a simple REST interface and is accessible from any language which can construct

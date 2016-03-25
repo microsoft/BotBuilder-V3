@@ -3,7 +3,7 @@ layout: page
 title:  Custom messages for channels
 permalink: /connector/custom-channeldata/
 weight: 207
-parent1: Bot Connector SDK
+parent1: Bot Connector
 parent2: Messages
 ---
 
