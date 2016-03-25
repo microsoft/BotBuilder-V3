@@ -159,7 +159,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         }
                         else
                         {
-                            // Seperate line choices
+                            // Separate line choices
                             var i = 1;
                             foreach (var value in values)
                             {
