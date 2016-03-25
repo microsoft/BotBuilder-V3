@@ -12,10 +12,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Sample.Tests
 {
     [TestClass]
-    public class EchoDialogTests
+    public class EchoBotTests
     {
         [TestMethod]
-        public async Task EchoFlow()
+        public async Task EchoDialogFlow()
         {
             // arrange
             var toBot = new Message()
