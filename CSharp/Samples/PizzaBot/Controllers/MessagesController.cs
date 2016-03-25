@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
     {
         private static IForm<PizzaOrder> MakeForm()
         {
-            var builder = FormBuilder<PizzaOrder>.Start();
+            var builder = new FormBuilder<PizzaOrder>();
 
             const bool NoNumbers = false;
             if (NoNumbers)

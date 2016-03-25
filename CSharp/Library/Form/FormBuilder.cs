@@ -54,12 +54,7 @@ namespace Microsoft.Bot.Builder.Form
             _form = new Form<T>(ignoreAnnotations);
         }
 
-        public static IFormBuilder<T> Start(bool ignoreAnnotations = false)
-        {
-            return new FormBuilder<T>(ignoreAnnotations);
-        }
-
-        IForm<T> IFormBuilder<T>.Build()
+        public IForm<T> Build()
         {
             if (!_form._steps.Any((step) => step.Type == StepType.Field))
             {
@@ -76,21 +71,21 @@ namespace Microsoft.Bot.Builder.Form
             return this._form;
         }
 
-        FormConfiguration IFormBuilder<T>.Configuration { get { return _form._configuration; } }
+        public FormConfiguration Configuration { get { return _form._configuration; } }
 
-        IFormBuilder<T> IFormBuilder<T>.Message(string message, ConditionalDelegate<T> condition)
+        public IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null)
         {
             _form._steps.Add(new MessageStep<T>(new Prompt(message), condition, _form));
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Message(Prompt prompt, ConditionalDelegate<T> condition)
+        public IFormBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null)
         {
             _form._steps.Add(new MessageStep<T>(prompt, condition, _form));
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Field(string name, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
@@ -100,7 +95,7 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Field(string name, string prompt, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
@@ -111,7 +106,7 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Field(string name, Prompt prompt, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
@@ -122,12 +117,12 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Field(IField<T> field)
+        public IFormBuilder<T> Field(IField<T> field)
         {
             return AddField(field);
         }
 
-        IFormBuilder<T> IFormBuilder<T>.AddRemainingFields(IEnumerable<string> exclude)
+        public IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
         {
             var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
             var paths = new List<string>();
@@ -146,13 +141,13 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Confirm(string prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+        public IFormBuilder<T> Confirm(string prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             IFormBuilder<T> builder = this;
             return builder.Confirm(new Prompt(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Confirm(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+        public IFormBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             if (dependencies == null)
@@ -194,13 +189,13 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.Confirm(IFieldPrompt<T> prompt)
+        public IFormBuilder<T> Confirm(IFieldPrompt<T> prompt)
         {
             // TODO: Need to fill this in
             return this;
         }
 
-        IFormBuilder<T> IFormBuilder<T>.OnCompletionAsync(CompletionDelegate<T> callback)
+        public IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback)
         {
             _form._completion = callback;
             return this;

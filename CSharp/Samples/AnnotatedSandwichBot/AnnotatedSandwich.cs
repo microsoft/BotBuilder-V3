@@ -107,8 +107,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<SandwichOrder> Form()
         {
-            return FormBuilder<SandwichOrder>
-                        .Start()
+            return new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the simple sandwich order bot!")
                         .Field(nameof(SandwichOrder.Sandwich))
                         .Field(nameof(SandwichOrder.Length))

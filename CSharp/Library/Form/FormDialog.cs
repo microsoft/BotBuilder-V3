@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder.Form
 
         private static IForm<T> MakeDefaultForm()
         {
-            return FormBuilder<T>.Start().AddRemainingFields().Build();
+            return new FormBuilder<T>().AddRemainingFields().Build();
         }
 
         /// <summary>

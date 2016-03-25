@@ -80,7 +80,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
         private static IForm<PizzaOrder> MakeForm(bool noNumbers, bool ignoreAnnotations = false)
         {
-            var form = FormBuilder<PizzaOrder>.Start(ignoreAnnotations);
+            var form = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
@@ -174,7 +174,7 @@ namespace Microsoft.Bot.Builder.FormTest
                         }
                 case DebugOptions.NoFieldOrder:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => FormBuilder<PizzaOrder>.Start().Build());
+                            var form = new FormDialog<PizzaOrder>(() => new FormBuilder<PizzaOrder>().Build());
                             var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
                             form.Call(context, initialState, root.CallChild);
                             return;

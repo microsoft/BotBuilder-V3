@@ -74,8 +74,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
 
         public static IForm<SandwichOrder> Form()
         {
-            return FormBuilder<SandwichOrder>
-                    .Start()
+            return new FormBuilder<SandwichOrder>()
                     .Message("Welcome to the simple sandwich order bot!")
                     .Build();
         }
