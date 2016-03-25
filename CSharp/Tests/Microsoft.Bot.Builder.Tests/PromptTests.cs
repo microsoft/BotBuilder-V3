@@ -34,6 +34,7 @@
 using System;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -66,10 +67,10 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static async Task<Internals.DialogContext> MakeContextAsync(IDialog<object> root)
         {
+            var client = new Mock<IConnectorClient>(MockBehavior.Strict);
             var data = new Internals.JObjectBotData(new Connector.Message());
-
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var context = new Internals.DialogContext(data, fiber);
+            var context = new Internals.DialogContext(client.Object, data, fiber);
             var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();

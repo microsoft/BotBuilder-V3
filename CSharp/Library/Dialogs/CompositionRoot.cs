@@ -66,9 +66,10 @@ namespace Microsoft.Bot.Builder
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
             IBotData toBotData = new Internals.JObjectBotData(toBot);
+            IConnectorClient client = new ConnectorClient();
             var provider = new Serialization.SimpleServiceLocator()
             {
-                waits, frames, toBotData
+                waits, frames, toBotData, client
             };
             var formatter = CompositionRoot.MakeBinaryFormatter(provider);
 
@@ -87,7 +88,7 @@ namespace Microsoft.Bot.Builder
             else
             {
                 IFiberLoop fiber = new Fiber(frames);
-                context = new Internals.DialogContext(toBotData, fiber);
+                context = new Internals.DialogContext(client, toBotData, fiber);
                 var root = MakeRoot();
                 var loop = Methods.Void(Methods.Loop(context.ToRest<T>(root.StartAsync), int.MaxValue));
                 fiber.Call(loop, default(T));
