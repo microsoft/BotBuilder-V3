@@ -11,5 +11,5 @@ The Bot Builder SDK is an open source SDK that provides everything you need to b
 The Bot Builder SDK is available for both C# and Node.js developers.  
 Follow the links below to review the SDK reference for your preferred language.
 
-* [Bot Builder for C# Reference](/sdkreference/csharp)
+* <a href="/sdkreference/csharp" target="_blank">Bot Builder for C# Reference</a>
 * [Bot Builder SDK on GithHub](/sdkreference/nodejs/modules/_botbuilder_d_.html)

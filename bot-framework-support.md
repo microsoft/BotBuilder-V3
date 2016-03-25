@@ -7,7 +7,10 @@ parent1: none
 ---
 
 
-1. For general site/BotFramework feedback: [botframework@microsoft.com](mailto:botframework@microsoft.com) alias
-2. For support using a bot – contact the bot's developer through their publisher e-mail (maybe call that Bot Support Email instead of Publisher Email?)
-3. For support building bots and connecting to the Bot Framework, use StackOverflow, with the hashtag #botframework
-4. And for issues with the Bot Framework SDK's, use the issues tab on our Git repo: [https://github.com/Microsoft/BotBuilder/](https://github.com/Microsoft/BotBuilder/)
+
+|**Support type**                    | **Contact**                                                
+|----------------------------|---------------------------------
+|**General site/BotFramework feedback**| <a href="http://feedback.botframework.com/" target="_blank">http://feedback.botframework.com/</a>
+|**Using a bot** | Contact the bot's developer through their publisher e-mail                 
+|**Building bots and connecting to the Bot Framework** | Use StackOverflow, with the hashtag #botframework  
+|**Issues with the Bot Framework SDK**| Use the issues tab on our <a href="https://github.com/Microsoft/BotBuilder/" target="_blank">Git repo</a> 
