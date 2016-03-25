@@ -171,7 +171,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>
         /// Generate regular expressions to match word sequences in original string.
         /// </summary>
-        /// <param name="name">Original string which will be <see cref="CamelCase(string)"/> before processing.</param>
+        /// <param name="phrase">Original string to be processed.</param>
         /// <param name="maxLength">Maximum phrase length to support.</param>
         /// <returns>Array of regular expressions to match subsequences in input.</returns>
         /// <remarks>
@@ -179,9 +179,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// For example an enumeration of AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
         /// You can call it directly, or it is used when <see cref="FieldReflector{T}"/> generates terms or when <see cref="Terms"/> is used with a <see cref="Terms.MaxPhrase"/> argument.
         /// </remarks>
-        public static string[] GenerateTerms(string name, int maxLength)
+        public static string[] GenerateTerms(string phrase, int maxLength)
         {
-            var phrase = CamelCase(name);
             var words = (from word in phrase.Split(' ') select word.ToLower()).ToArray();
             var terms = new List<string>();
             for (var length = 1; length <= Math.Min(words.Length, maxLength); ++length)

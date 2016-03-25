@@ -132,14 +132,14 @@ namespace Microsoft.Bot.Builder.FormTest
                             form.Call(context, initialState, root.CallChild);
                             return;
                         }
-                    case DebugOptions.NoAnnotations:
+                case DebugOptions.NoAnnotations:
                         {
                             var form = new FormDialog<PizzaOrder>(() => MakeForm(true, true));
                             var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
                             form.Call(context, initialState, root.CallChild);
                             return;
                         }
-                    case DebugOptions.NoFieldOrder:
+                case DebugOptions.NoFieldOrder:
                         {
                             var form = new FormDialog<PizzaOrder>(() => FormBuilder<PizzaOrder>.Start().Build());
                             var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };

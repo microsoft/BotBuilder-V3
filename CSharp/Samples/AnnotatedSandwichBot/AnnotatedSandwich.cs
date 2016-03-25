@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     {
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
         OverRoastedChicken, RoastBeef,
-        [Terms("rotis.* style chicken", MaxPhrase = 3)]
+        [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
         RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
         TurkeyBreast, Veggie
     };
@@ -30,6 +30,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
     [Serializable]
     [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
+    [Template(TemplateUsage.NotUnderstood, "I do not understand \"{0}\".", "Try again, I don't get \"{0}\".")]
     class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         // [Prompt("What kind of {&} would you like?")]
         public SandwichOptions? Sandwich;
 
-        [Prompt("What size of sandwich do you want?")]
+        [Prompt("What size of sandwich do you want? {||}")]
         public LengthOptions? Length;
 
         public BreadOptions? Bread;

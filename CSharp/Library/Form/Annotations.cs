@@ -269,20 +269,10 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         /// <summary>
-        /// Initialize with a single template.
-        /// </summary>
-        /// <param name="pattern">Pattern to use.</param>
-        public TemplateBase(string pattern)
-        {
-            _patterns = new string[] { pattern};
-            Initialize();
-        }
-
-        /// <summary>
         /// Initialize with multiple patterns that will be chosen from randomly.
         /// </summary>
         /// <param name="patterns">Possible patterns.</param>
-        public TemplateBase(string[] patterns)
+        public TemplateBase(params string[] patterns)
         {
             _patterns = patterns;
             Initialize();
@@ -337,10 +327,10 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         /// <summary>
-        /// Define a prompt with multiple templates that will be selected from randomly.
+        /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
-        /// <param name="patterns"></param>
-        public Prompt(string[] patterns)
+        /// <param name="patterns">Patterns to select from.</param>
+        public Prompt(params string[] patterns)
             : base(patterns)
         { }
 
@@ -610,22 +600,11 @@ namespace Microsoft.Bot.Builder.Form
         public readonly TemplateUsage Usage;
 
         /// <summary>
-        /// Specify a template for a particular usage.
-        /// </summary>
-        /// <param name="usage">How the template will be used.</param>
-        /// <param name="pattern">The text pattern for the template.</param>
-        public Template(TemplateUsage usage, string pattern)
-            : base(pattern)
-        {
-            Usage = usage;
-        }
-
-        /// <summary>
         /// Specify a set of templates to randomly choose between for a particular usage.
         /// </summary>
         /// <param name="usage">How the template will be used.</param>
         /// <param name="patterns">The set of \ref patterns to randomly choose from.</param>
-        public Template(TemplateUsage usage, string[] patterns)
+        public Template(TemplateUsage usage, params string[] patterns)
             : base(patterns)
         {
             Usage = usage;

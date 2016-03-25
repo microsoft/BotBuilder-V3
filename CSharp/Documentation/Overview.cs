@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Builder
     /// <ul style="list-style-type: none;">
     /// <li>\ref dialogs </li>
     /// <li>\ref forms </li>
-    /// <li>\ref examples</li>
+    /// <li>\ref Examples</li>
     /// <li><a href="namespaces.html"><b>Namespaces</b></a></li>
     /// <li><a href="annotated.html"><b>Classes</b></a></li>
     /// <li><a href="files.html"><b>Source Files</b></a></li>
