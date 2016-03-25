@@ -321,6 +321,34 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task Code_Call_Method_That_Posts_Invalid_Type_To_Code()
+        {
+            // arrange
+            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
+            var methodOne = MockMethod();
+            var methodTwo = MockMethod();
+            var value1 = 42;
+            var value2 = "hello world";
+            var value3 = Guid.NewGuid();
+            methodOne
+                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+            methodTwo
+                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                .Returns(async () => { return fiber.Done("not a guid"); });
+            methodOne
+                .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
+                .ReturnsAsync(NullWait.Instance);
+
+            // act
+            fiber.Call(methodOne.Object.CodeAsync, value1);
+            await PollAsync(fiber);
+
+            // assert
+            methodOne.VerifyAll();
+        }
+
+        [TestMethod]
         public async Task Code_Item_Variance()
         {
             // arrange

@@ -231,10 +231,13 @@ namespace Microsoft.Bot.Builder.Fibers
 
             if (post == null)
             {
-                throw new InvalidTypeException(this, typeof(D));
+                IWait wait = this;
+                wait.Fail(new InvalidTypeException(this, typeof(D)));
             }
-
-            post.Post(item);
+            else
+            {
+                post.Post(item);
+            }
         }
 
         void IWait.Fail(Exception fail)
