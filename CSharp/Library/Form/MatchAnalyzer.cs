@@ -95,7 +95,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         }
                     }
                 }
-                if (emit)
+                if (emit && !IsSpecial(current.Value))
                 {
                     sorted = (from match in sorted where !current.Covers(match) select match).ToList();
                     yield return current;
