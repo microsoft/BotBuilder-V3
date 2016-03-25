@@ -748,7 +748,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     }
 
     public class Fields<T> : IFields<T>
-        where T : class, new()
     {
         public IField<T> Field(string name)
         {

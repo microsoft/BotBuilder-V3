@@ -9,7 +9,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">The form state that is read or written to.</typeparam>
     public interface IFieldState<T>
-        where T : class, new()
     {
         /// <summary>
         /// Get this field value from form state.
@@ -268,7 +267,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state that is being completed.</typeparam>
     public interface IFieldPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Test to see if field is currently active based on the current state.
@@ -328,7 +326,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
     public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Name of this field.
@@ -351,7 +348,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IFields<T> : IEnumerable<IField<T>>
-        where T : class, new()
     {
         /// <summary>
         /// Return a specific field or null if not present.

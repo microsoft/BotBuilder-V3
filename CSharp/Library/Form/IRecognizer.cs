@@ -123,7 +123,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public interface IRecognize<T>
-        where T : class, new()
     {
         /// <summary>
         /// Return all possible values or null if a primitive type.

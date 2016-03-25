@@ -15,7 +15,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// This interface allows taking a \ref patterns expression and making it into a string with the template parts filled in.
     /// </remarks>
     public interface IPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Description of the prompt and how to generate it.
@@ -40,7 +39,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     }
 
     public sealed class Prompter<T> : IPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Construct a prompter.

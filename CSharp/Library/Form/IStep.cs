@@ -7,8 +7,6 @@ namespace Microsoft.Bot.Builder.Form
     internal enum StepPhase { Ready, Responding, Completed };
     internal enum StepType { Field, Confirm, Navigation, Message };
     internal interface IStep<T>
-        where T : class, new()
-
     {
         string Name { get; }
 

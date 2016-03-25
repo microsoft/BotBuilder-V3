@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder.Form.Advanced;
 namespace Microsoft.Bot.Builder.Form
 {
     public abstract class IForm<T>
-        where T : class, new()
     {
         internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }

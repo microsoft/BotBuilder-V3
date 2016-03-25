@@ -13,7 +13,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognizer for enumerated values.
     /// </summary>
     public sealed class RecognizeEnumeration<T> : IRecognize<T>
-        where T : class, new()
     {
         /// <summary>
         /// Delegate for mapping from a C# value to it's description.

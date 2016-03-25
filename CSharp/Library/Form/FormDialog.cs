@@ -10,6 +10,15 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
+    internal static class FormStatics
+    {
+        #region IForm<T> statics
+#if DEBUG
+        internal static bool DebugRecognizers = false;
+#endif
+        #endregion
+    }
+
     /// <summary>
     /// Form dialog manager for to fill in your state.
     /// </summary>
@@ -68,11 +77,6 @@ namespace Microsoft.Bot.Builder.Form
             info.AddValue(nameof(this._state), this._state);
         }
 
-        #region IForm<T> statics
-#if DEBUG
-        public static bool DebugRecognizers = false;
-#endif
-        #endregion
 
         #region IForm<T> implementation
 

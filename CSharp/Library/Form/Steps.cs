@@ -8,7 +8,6 @@ using Microsoft.Bot.Builder.Form.Advanced;
 namespace Microsoft.Bot.Builder.Form
 {
     internal class FieldStep<T> : IStep<T>
-        where T : class, new()
     {
         public FieldStep(string name, IForm<T> form)
         {
@@ -75,7 +74,7 @@ namespace Microsoft.Bot.Builder.Form
                 }
             }
 #if DEBUG
-            if (FormDialog<T>.DebugRecognizers)
+            if (FormStatics.DebugRecognizers)
             {
                 MatchAnalyzer.PrintMatches(matches, 2);
             }
@@ -389,7 +388,6 @@ namespace Microsoft.Bot.Builder.Form
     }
 
     internal class ConfirmStep<T> : IStep<T>
-        where T : class, new()
     {
         public ConfirmStep(IField<T> field)
         {
@@ -477,7 +475,6 @@ namespace Microsoft.Bot.Builder.Form
     }
 
     internal class NavigationStep<T> : IStep<T>
-        where T : class, new()
     {
         public NavigationStep(string name, IForm<T> form, T state, FormState formState)
         {
@@ -578,7 +575,6 @@ namespace Microsoft.Bot.Builder.Form
     }
 
     internal class MessageStep<T> : IStep<T>
-        where T : class, new()
     {
         public MessageStep(Prompt prompt, ConditionalDelegate<T> condition, IForm<T> form)
         {
