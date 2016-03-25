@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Tracking Bot State
-permalink: /connector/tracking-bot-state
+permalink: /connector/tracking-bot-state/
 weight: 208
 parent1: Bot Connector SDK
 parent2: Messages
