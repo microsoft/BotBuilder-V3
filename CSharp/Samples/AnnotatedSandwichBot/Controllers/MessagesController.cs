@@ -16,9 +16,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IFormModel<SandwichOrder> MakeModel()
+        private static IForm<SandwichOrder> MakeForm()
         {
-            return FormModelBuilder<SandwichOrder>
+            return FormBuilder<SandwichOrder>
                         .Start()
                         .Message("Welcome to the simple sandwich order bot!")
                         .AddRemainingFields()
@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         internal static IFormDialog<SandwichOrder> MakeRoot()
         {
-            return new FormDialog<SandwichOrder>(MakeModel);
+            return new FormDialog<SandwichOrder>(MakeForm);
         }
 
         /// <summary>

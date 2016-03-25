@@ -53,9 +53,9 @@ namespace Microsoft.Bot.Builder.Form
         where T : class, new()
     {
         /// <summary>
-        /// The model for the form.
+        /// The form specification.
         /// </summary>
-        IFormModel<T> Model { get; }
+        IForm<T> Form { get; }
     }
 
     /// <summary>

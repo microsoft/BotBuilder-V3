@@ -4,14 +4,14 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
-    public interface IFormModelBuilder<T>
+    public interface IFormBuilder<T>
          where T : class, new()
     {
         /// <summary>
         /// Build the form based on the methods called on the builder.
         /// </summary>
         /// <returns>The constructed form.</returns>
-        IFormModel<T> Build();
+        IForm<T> Build();
 
         /// <summary>
         /// The form configuration supplies default templates and settings.
@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <param name="message">A \ref patterns string to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
         /// <returns>This form.</returns>
-        IFormModelBuilder<T> Message(string message, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null);
 
         /// <summary>
         /// Show a message with more format control that does not require a response.
@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <param name="prompt">Message to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
         /// <returns>This form.</returns>
-        IFormModelBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.Form
         /// override.
         /// </remarks>
         /// <returns>This form.</returns>
-        IFormModelBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -64,7 +64,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <see cref="Numeric"/> and <see cref="Template"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormModelBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -80,7 +80,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <see cref="Numeric"/> and <see cref="Template"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormModelBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
         /// <summary>
         /// Derfine a field step by supplying your own field definition.
@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Form
         /// also make sense to derive from those classes and override the methods you need to 
         /// change.
         /// </remarks>
-        IFormModelBuilder<T> Field(IField<T> field);
+        IFormBuilder<T> Field(IField<T> field);
 
         /// <summary>
         /// Add all fields not already added to the form.
@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Form
         /// This will add all fields defined in your form state that have not already been
         /// added if the fields are supported.
         /// </remarks>
-        IFormModelBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
+        IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -118,7 +118,7 @@ namespace Microsoft.Bot.Builder.Form
         /// If prompt is not supplied the \ref patterns element {*} will be used to confirm.
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormModelBuilder<T> Confirm(string prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(string prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <remarks>
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormModelBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -140,7 +140,7 @@ namespace Microsoft.Bot.Builder.Form
         /// <remarks>
         /// This allows you to take full control of the behavior of this confirmation.
         /// </remarks>
-        IFormModelBuilder<T> Confirm(IFieldPrompt<T> field);
+        IFormBuilder<T> Confirm(IFieldPrompt<T> field);
 
         /// <summary>
         /// Delegate to call when form is completed.
@@ -152,6 +152,6 @@ namespace Microsoft.Bot.Builder.Form
         /// the form state results.  In any case the completed form state will be passed
         /// to the parent dialog.
         /// </remarks>
-        IFormModelBuilder<T> OnCompletion(CompletionDelegate<T> callback);
+        IFormBuilder<T> OnCompletion(CompletionDelegate<T> callback);
     }
 }

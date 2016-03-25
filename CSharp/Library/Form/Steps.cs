@@ -10,10 +10,10 @@ namespace Microsoft.Bot.Builder.Form
     internal class FieldStep<T> : IStep<T>
         where T : class, new()
     {
-        public FieldStep(string name, IFormModel<T> model)
+        public FieldStep(string name, IForm<T> form)
         {
             _name = name;
-            _field = model.Fields.Field(name);
+            _field = form.Fields.Field(name);
         }
 
         public string Name
@@ -217,11 +217,11 @@ namespace Microsoft.Bot.Builder.Form
                 {
                     if (fieldState.Unmatched != "")
                     {
-                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Model, null).Prompt(state, _name, fieldState.Unmatched);
+                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
                     }
                     else
                     {
-                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Model, null).Prompt(state, _name);
+                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
                     }
                 }
             }
@@ -250,7 +250,7 @@ namespace Microsoft.Bot.Builder.Form
             var fieldState = form.StepState as FieldStepState;
             if (fieldState.State == FieldStepStates.SentClarify)
             {
-                var desc = _field.Model.Fields.Field(_name);
+                var desc = _field.Form.Fields.Field(_name);
                 if (desc.AllowsMultiple())
                 {
                     desc.SetValue(state, fieldState.Settled);
@@ -290,12 +290,12 @@ namespace Microsoft.Bot.Builder.Form
         private IPrompt<T> Template(TemplateUsage usage, IRecognize<T> recognizer = null)
         {
             var template = _field.Template(usage);
-            return new Prompter<T>(template, _field.Model, recognizer == null ? _field.Prompt().Recognizer() : recognizer);
+            return new Prompter<T>(template, _field.Form, recognizer == null ? _field.Prompt().Recognizer() : recognizer);
         }
 
         private object SetValue(T state, object value)
         {
-            var desc = _field.Model.Fields.Field(_name);
+            var desc = _field.Form.Fields.Field(_name);
             if (value == null)
             {
                 desc.SetUnknown(state);
@@ -321,7 +321,7 @@ namespace Microsoft.Bot.Builder.Form
 
         private object SetValue(T state, object value, FormState form, out string feedback)
         {
-            var desc = _field.Model.Fields.Field(_name);
+            var desc = _field.Form.Fields.Field(_name);
             feedback = desc.Validate(state, value);
             if (feedback == null)
             {
@@ -347,7 +347,7 @@ namespace Microsoft.Bot.Builder.Form
             {
                 var template = Template(TemplateUsage.Clarify);
                 var helpTemplate = _field.Template(template.Annotation().AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                var choiceRecognizer = new RecognizeEnumeration<T>(_field.Model, "", null,
+                var choiceRecognizer = new RecognizeEnumeration<T>(_field.Form, "", null,
                     clarify.Values,
                     (value) => recognizer.ValueDescription(value),
                     (value) => recognizer.ValidInputs(value),
@@ -431,7 +431,7 @@ namespace Microsoft.Bot.Builder.Form
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
-            var prompter = new Prompter<T>(template, _field.Model, null);
+            var prompter = new Prompter<T>(template, _field.Form, null);
             return prompter.Prompt(state, "", input);
         }
 
@@ -456,7 +456,7 @@ namespace Microsoft.Bot.Builder.Form
         public string Help(T state, FormState form, string commandHelp)
         {
             var template = _field.Template(TemplateUsage.HelpConfirm);
-            var prompt = new Prompter<T>(template, _field.Model, _field.Prompt().Recognizer());
+            var prompt = new Prompter<T>(template, _field.Form, _field.Prompt().Recognizer());
             return "* " + prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer().Help(state, null), commandHelp);
         }
 
@@ -479,21 +479,21 @@ namespace Microsoft.Bot.Builder.Form
     internal class NavigationStep<T> : IStep<T>
         where T : class, new()
     {
-        public NavigationStep(string name, IFormModel<T> model, T state, FormState formState)
+        public NavigationStep(string name, IForm<T> form, T state, FormState formState)
         {
             _name = name;
-            _model = model;
-            _fields = model.Fields;
+            _form = form;
+            _fields = form.Fields;
             var field = _fields.Field(_name);
             var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
             var template = field.Template(TemplateUsage.Navigation);
-            var recognizer = new RecognizeEnumeration<T>(model, Name, null,
+            var recognizer = new RecognizeEnumeration<T>(form, Name, null,
                 formState.Next.Names,
-                (value) => new Prompter<T>(fieldPrompt, model, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
+                (value) => new Prompter<T>(fieldPrompt, form, _fields.Field(value as string).Prompt().Recognizer()).Prompt(state, value as string),
                 (value) => _fields.Field(value as string).Terms(),
                 template.AllowNumbers,
                 field.Template(TemplateUsage.NavigationHelp));
-            _prompt = new Prompter<T>(template, model, recognizer);
+            _prompt = new Prompter<T>(template, form, recognizer);
         }
 
         public bool Back(IDialogContext context, T state, FormState form)
@@ -533,7 +533,7 @@ namespace Microsoft.Bot.Builder.Form
         {
             var field = _fields.Field(_name);
             var template = field.Template(TemplateUsage.NotUnderstood);
-            return new Prompter<T>(template, _model, null).Prompt(state, _name, input);
+            return new Prompter<T>(template, _form, null).Prompt(state, _name, input);
         }
 
         public NextStep Process(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches,
@@ -562,7 +562,7 @@ namespace Microsoft.Bot.Builder.Form
         public string Help(T state, FormState form, string commandHelp)
         {
             var recognizer = _prompt.Recognizer();
-            var prompt = new Prompter<T>(Field.Template(TemplateUsage.HelpNavigation), _model, recognizer);
+            var prompt = new Prompter<T>(Field.Template(TemplateUsage.HelpNavigation), _form, recognizer);
             return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
         }
 
@@ -572,7 +572,7 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         private string _name;
-        private readonly IFormModel<T> _model;
+        private readonly IForm<T> _form;
         private readonly IFields<T> _fields;
         private readonly IPrompt<T> _prompt;
     }
@@ -580,10 +580,10 @@ namespace Microsoft.Bot.Builder.Form
     internal class MessageStep<T> : IStep<T>
         where T : class, new()
     {
-        public MessageStep(Prompt prompt, ConditionalDelegate<T> condition, IFormModel<T> model)
+        public MessageStep(Prompt prompt, ConditionalDelegate<T> condition, IForm<T> form)
         {
-            _name = "message" + model.Steps.Count.ToString();
-            _prompt = new Prompter<T>(prompt, model, null);
+            _name = "message" + form.Steps.Count.ToString();
+            _prompt = new Prompter<T>(prompt, form, null);
             _condition = (condition == null ? (state) => true : condition);
         }
 

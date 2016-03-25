@@ -18,9 +18,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="prompt">Confirmation prompt expressed using \ref patterns.</param>
         /// <param name="condition">Delegate for whether confirmation applies.</param>
         /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
-        /// <param name="model">The form model.</param>
-        public Confirmation(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IFormModel<T> model)
-            : base(Guid.NewGuid().ToString(), FieldRole.Confirm, model)
+        /// <param name="form">The form.</param>
+        public Confirmation(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+            : base(Guid.NewGuid().ToString(), FieldRole.Confirm, form)
         {
             this
                 .Description(_name)
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             if (_prompter == null)
             {
-                _prompter = new Prompter<T>(_promptDefinition, _model, new RecognizeBool<T>(this));
+                _prompter = new Prompter<T>(_promptDefinition, _form, new RecognizeBool<T>(this));
             }
             return _prompter;
         }

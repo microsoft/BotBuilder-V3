@@ -341,9 +341,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         string Name { get; }
 
         /// <summary>
-        /// Form model that owns this field
+        /// Form that owns this field
         /// </summary>
-        IFormModel<T> Model { get; }
+        IForm<T> Form { get; }
     }
 
     /// <summary>

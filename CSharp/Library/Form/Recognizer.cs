@@ -35,8 +35,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="field">Field with enumerated values.</param>
         public RecognizeEnumeration(IField<T> field)
         {
-            var configuration = field.Model.Configuration;
-            _model = field.Model;
+            var configuration = field.Form.Configuration;
+            _form = field.Form;
             _allowNumbers = field.AllowNumbers();
             _description = field.Description();
             _terms = field.Terms().ToArray();
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>
         /// Explicitly contructed recognizer.
         /// </summary>
-        /// <param name="model">Form model recognizer is being used in.</param>
+        /// <param name="form">Form recognizer is being used in.</param>
         /// <param name="description">Description of the field being asked for.</param>
         /// <param name="terms">Regular expressions that when matched mean this field.</param>
         /// <param name="values">Possible C# values for field.</param>
@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="helpFormat">Template for generating overall help.</param>
         /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
         /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
-        public RecognizeEnumeration(IFormModel<T> model,
+        public RecognizeEnumeration(IForm<T> form,
             string description,
             IEnumerable<object> terms,
             IEnumerable<object> values,
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             IEnumerable<string> noPreference = null,
             IEnumerable<string> currentChoice = null)
         {
-            _model = model;
+            _form = form;
             _allowNumbers = allowNumbers;
             _values = values.ToArray();
             _descriptionDelegate = descriptionDelegate;
@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 args.Add(null);
             }
             args.Add(Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
-            return new Prompter<T>(_helpFormat, _model, this).Prompt(state, "", args.ToArray());
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -320,7 +320,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             public readonly string Longest;
         }
 
-        private readonly IFormModel<T> _model;
+        private readonly IForm<T> _form;
         private readonly string _description;
         private readonly IEnumerable<string> _noPreference;
         private readonly string _currentChoice;
@@ -350,13 +350,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public RecognizePrimitive(IField<T> field)
         {
             _field = field;
-            _currentChoices = new HashSet<string>(from choice in field.Model.Configuration.CurrentChoice
+            _currentChoices = new HashSet<string>(from choice in field.Form.Configuration.CurrentChoice
                                                   select choice.Trim().ToLower());
             if (field.Optional())
             {
                 if (field.IsNullable())
                 {
-                    _noPreference = new HashSet<string>(from choice in field.Model.Configuration.NoPreference
+                    _noPreference = new HashSet<string>(from choice in field.Form.Configuration.NoPreference
                                                         select choice.Trim().ToLower());
                 }
                 else
@@ -426,10 +426,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             var args = new List<object>();
             if (defaultValue != null || _field.Optional())
             {
-                args.Add(_field.Model.Configuration.CurrentChoice.First() + " or 'c'");
+                args.Add(_field.Form.Configuration.CurrentChoice.First() + " or 'c'");
                 if (_field.Optional())
                 {
-                    args.Add(_field.Model.Configuration.NoPreference.First());
+                    args.Add(_field.Form.Configuration.NoPreference.First());
                 }
                 else
                 {
@@ -467,9 +467,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public RecognizeBool(IField<T> field)
             : base(field)
         {
-            _yes = new HashSet<string>(from term in field.Model.Configuration.Yes
+            _yes = new HashSet<string>(from term in field.Form.Configuration.Yes
                                        select term.Trim().ToLower());
-            _no = new HashSet<string>(from term in field.Model.Configuration.No
+            _no = new HashSet<string>(from term in field.Form.Configuration.No
                                       select term.Trim().ToLower());
         }
 
@@ -490,7 +490,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }
@@ -498,15 +498,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public override IEnumerable<string> ValidInputs(object value)
         {
             return (bool)value
-                ? _field.Model.Configuration.Yes
-                : _field.Model.Configuration.No;
+                ? _field.Form.Configuration.Yes
+                : _field.Form.Configuration.No;
         }
 
         public override string ValueDescription(object value)
         {
             return ((bool)value
-                ? _field.Model.Configuration.Yes
-                : _field.Model.Configuration.No).First();
+                ? _field.Form.Configuration.Yes
+                : _field.Form.Configuration.No).First();
         }
 
         private HashSet<string> _yes;
@@ -552,7 +552,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }
@@ -606,7 +606,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.IntegerHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.IntegerHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             if (_showLimits)
             {
@@ -668,7 +668,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DoubleHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DoubleHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             if (_showLimits)
             {
@@ -708,7 +708,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }

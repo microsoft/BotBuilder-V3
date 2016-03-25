@@ -17,9 +17,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IFormModel<PizzaOrder> MakeModel()
+        private static IForm<PizzaOrder> MakeForm()
         {
-            var builder = FormModelBuilder<PizzaOrder>.Start();
+            var builder = FormBuilder<PizzaOrder>.Start();
 
             const bool NoNumbers = false;
             if (NoNumbers)
@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
 
         internal static IDialog<object> MakeRoot()
         {
-            return new PizzaOrderDialog(() => new FormDialog<PizzaOrder>(MakeModel));
+            return new PizzaOrderDialog(() => new FormDialog<PizzaOrder>(MakeForm));
         }
 
         /// <summary>

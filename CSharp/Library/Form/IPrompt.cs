@@ -46,13 +46,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Construct a prompter.
         /// </summary>
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
-        /// <param name="model">Current form model.</param>
+        /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBase annotation, IFormModel<T> model, IRecognize<T> recognizer)
+        public Prompter(TemplateBase annotation, IForm<T> form, IRecognize<T> recognizer)
         {
-            annotation.ApplyDefaults(model.Configuration.DefaultPrompt);
+            annotation.ApplyDefaults(form.Configuration.DefaultPrompt);
             _annotation = annotation;
-            _model = model;
+            _form = form;
             _recognizer = recognizer;
         }
 
@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             string noValue = null;
             if (pathName != "")
             {
-                var field = _model.Fields.Field(pathName);
+                var field = _form.Fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional())
                 {
@@ -88,7 +88,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             int last = 0;
             int numeric;
             var response = new StringBuilder();
-            var field = _model.Fields.Field(pathName);
+            var field = _form.Fields.Field(pathName);
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
@@ -102,7 +102,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         // Use default pathname
                         name = pathName;
                     }
-                    var pathField = _model.Fields.Field(name);
+                    var pathField = _form.Fields.Field(name);
                     substitute = Normalize(pathField == null ? pathName : pathField.Description(), _annotation.FieldCase);
                 }
                 else if (expr == "||")
@@ -182,12 +182,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _model, null);
+                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
-                    foreach (var entry in (from step in _model.Fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
+                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
                     {
                         builder.Append("* ").AppendLine(format.Prompt(state, entry.Name));
                     }
@@ -205,7 +205,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                             throw new ArgumentException("Only {<field>} references are allowed in lists.");
                         }
                         var name = spec.Substring(1, spec.Length - 2).Trim();
-                        var eltDesc = _model.Fields.Field(name);
+                        var eltDesc = _form.Fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
                             var value = eltDesc.GetValue(state);
@@ -259,7 +259,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     var name = expr;
                     if (name == "") name = pathName;
-                    var pathDesc = _model.Fields.Field(name);
+                    var pathDesc = _form.Fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {
                         if (noValue == null)
@@ -323,14 +323,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private Template Template(IField<T> field, TemplateUsage usage)
         {
             return field == null
-                ? _model.Configuration.Template(usage)
+                ? _form.Configuration.Template(usage)
                 : field.Template(usage);
         }
 
         private static readonly Regex _args = new Regex(@"{((?>[^{}]+|{(?<number>)|}(?<-number>))*(?(number)(?!)))}", RegexOptions.Compiled);
         private static readonly Regex _spaces = new Regex(@"(\S)( {2,})", RegexOptions.Compiled);
         private static readonly Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
-        private IFormModel<T> _model;
+        private IForm<T> _form;
         private TemplateBase _annotation;
         private IRecognize<T> _recognizer;
     }
