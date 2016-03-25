@@ -22,8 +22,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public enum BreadOptions { NineGrainWheat, NineGrainHoneyOat, Italian, ItalianHerbsAndCheese, Flatbread };
     public enum CheeseOptions { American, MontereyCheddar, Pepperjack};
     public enum ToppingOptions {
+        // This starts at 1 because 0 is the "no value" value
         [Terms("except", "but", "not", "no", "all", "everything")]
-        AllExcept,
+        Everything = 1,
         Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
         Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes};
     public enum SauceOptions { ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
@@ -54,10 +55,10 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
             get { return _toppings; }
             set
             {
-                if (value.Contains(ToppingOptions.AllExcept))
+                if (value.Contains(ToppingOptions.Everything))
                 {
-                    _toppings = (from topping in value
-                                 where topping != ToppingOptions.AllExcept && !value.Contains(topping)
+                    _toppings = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
+                                 where topping != ToppingOptions.Everything && !value.Contains(topping)
                                  select topping).ToList();
                 }
                 else
@@ -70,5 +71,19 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         [Optional]
         public List<SauceOptions> Sauces;
+
+        public static IForm<SandwichOrder> Form()
+        {
+            return FormBuilder<SandwichOrder>
+                        .Start()
+                        .Message("Welcome to the simple sandwich order bot!")
+                        .Field(nameof(SandwichOrder.Sandwich))
+                        .Field(nameof(SandwichOrder.Length))
+                        .Field(nameof(SandwichOrder.Toppings))
+                        .Message("For sandwich toppings you have selected {Toppings}.")
+                        .AddRemainingFields()
+                        .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]}?")
+                        .Build();
+        }
     };
 }

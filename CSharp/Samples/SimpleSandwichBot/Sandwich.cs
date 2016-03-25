@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Bot.Builder.Form;
+using System;
 using System.Collections.Generic;
 #pragma warning disable 649
 
@@ -14,13 +15,19 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         OverRoastedChicken, RoastBeef, RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
         TurkeyBreast, Veggie
     };
-    public enum LengthOptions { SixInch, FootLong};
+    public enum LengthOptions { SixInch, FootLong };
     public enum BreadOptions { NineGrainWheat, NineGrainHoneyOat, Italian, ItalianHerbsAndCheese, Flatbread };
-    public enum CheeseOptions { American, MontereyCheddar, Pepperjack};
-    public enum ToppingOptions { Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
-        Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes};
-    public enum SauceOptions { ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
-        Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar };
+    public enum CheeseOptions { American, MontereyCheddar, Pepperjack };
+    public enum ToppingOptions
+    {
+        Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
+        Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes
+    };
+    public enum SauceOptions
+    {
+        ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
+        Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar
+    };
 
     [Serializable]
     class SandwichOrder
@@ -31,5 +38,13 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         public CheeseOptions? Cheese;
         public List<ToppingOptions> Toppings;
         public List<SauceOptions> Sauce;
+
+        public static IForm<SandwichOrder> Form()
+        {
+            return FormBuilder<SandwichOrder>
+                    .Start()
+                    .Message("Welcome to the simple sandwich order bot!")
+                    .Build();
+        }
     };
 }

@@ -148,14 +148,14 @@ namespace Microsoft.Bot.Builder.FormTest
                         }
                     case DebugOptions.SimpleSandwichBot:
                         {
-                            var form = new FormDialog<SimpleSandwichOrder>(() => FormBuilder<Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder>.Start().Build());
+                            var form = new FormDialog<SimpleSandwichOrder>(() => SimpleSandwichOrder.Form());
                             var initialState = new InitialState<SimpleSandwichOrder>() { PromptInStart = true };
                             form.Call(context, initialState, root.CallChild);
                             return;
                         }
                     case DebugOptions.AnnotatedSandwichBot:
                         {
-                            var form = new FormDialog<AnnotatedSandwichOrder>(() => FormBuilder<AnnotatedSandwichOrder>.Start().Build());
+                            var form = new FormDialog<AnnotatedSandwichOrder>(() => AnnotatedSandwichOrder.Form());
                             var initialState = new InitialState<AnnotatedSandwichOrder>() { PromptInStart = true };
                             form.Call(context, initialState, root.CallChild);
                             return;

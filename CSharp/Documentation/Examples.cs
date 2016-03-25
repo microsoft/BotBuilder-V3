@@ -466,16 +466,22 @@
     /// Sometimes there are complex interdependencies between fields or you need to 
     /// add logic to setting or getting a value.  In this example we want to add support
     /// for including all toppings except some of them.  To do this, we change toppings
-    /// from a property to a field and add some logic.
+    /// from a property to a field and add some logic to complement the selected toppings.
     /// 
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip List<ToppingOptions>
     /// \until private
     ///
+    /// In addition to the processing we also need to add some terms to match expressions like
+    /// "everything" and "not".  
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip ToppingOptions
     /// \until AllExcept
     ///
+    /// Here is what the interaction with toppings looks like:
+    /// ~~~{.txt}
+    /// ~~~
+    /// 
     /// Here is the SandwichOrder with attributes added and some business logic.
     /// \include AnnotatedSandwichBot/sandwich.cs
     /// 
