@@ -32,3 +32,5 @@ returned contains a watermark that can be sent on subsequent requests to skip ol
 
 The Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before
 they are deleted.
+
+See the Direct Line REST API reference [here](/sdkreference/restapi-directline/)
