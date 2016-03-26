@@ -125,6 +125,7 @@ namespace Microsoft.Bot.Builder.FormTest
                         return feedback;
                     })
                 .AddRemainingFields()
+                .Message("Rating = {Rating:F1} and [{Rating:F2}]")
                 .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)

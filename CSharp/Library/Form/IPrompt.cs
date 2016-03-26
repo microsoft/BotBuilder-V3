@@ -228,14 +228,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     // Generate a list from multiple fields
                     var paths = expr.Substring(1, expr.Length - 2).Split(' ');
-                    var values = new List<Tuple<IField<T>, object>>();
+                    var values = new List<Tuple<IField<T>, object, string>>();
                     foreach (var spec in paths)
                     {
                         if (!spec.StartsWith("{") || !spec.EndsWith("}"))
                         {
                             throw new ArgumentException("Only {<field>} references are allowed in lists.");
                         }
-                        var name = spec.Substring(1, spec.Length - 2).Trim();
+                        var formatArgs = spec.Substring(1, spec.Length - 2).Trim().Split(':');
+                        var name = formatArgs[0];
+                        if (name == "") name = pathName;
+                        var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
                         var eltDesc = _form.Fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
@@ -245,18 +248,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                                 var eltValues = (value as System.Collections.IEnumerable);
                                 foreach (var elt in eltValues)
                                 {
-                                    values.Add(Tuple.Create(eltDesc, elt));
+                                    values.Add(Tuple.Create(eltDesc, elt, format));
                                 }
                             }
                             else
                             {
-                                values.Add(Tuple.Create(eltDesc, eltDesc.GetValue(state)));
+                                values.Add(Tuple.Create(eltDesc, eltDesc.GetValue(state), format));
                             }
                         }
                     }
                     if (values.Count() > 0)
                     {
-                        var elements = (from elt in values select Normalize(ValueDescription(elt.Item1, elt.Item2), _annotation.ValueCase)).ToArray();
+                        var elements = (from elt in values
+                                        select Normalize(ValueDescription(elt.Item1, elt.Item2, elt.Item3), _annotation.ValueCase)).ToArray();
                         substitute = Language.BuildList(elements, _annotation.Separator, _annotation.LastSeparator);
                     }
                 }
@@ -288,7 +292,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else
                 {
-                    var name = expr;
+                    var formatArgs = expr.Split(':');
+                    var name = formatArgs[0];
                     if (name == "") name = pathName;
                     var pathDesc = _form.Fields.Field(name);
                     if (pathDesc.IsUnknown(state))
@@ -306,12 +311,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                         {
                             var values = (value as System.Collections.IEnumerable);
-                            substitute = Language.BuildList(from elt in values.Cast<object>() select Normalize(ValueDescription(pathDesc, elt), _annotation.ValueCase),
+                            substitute = Language.BuildList(from elt in values.Cast<object>()
+                                                            select Normalize(ValueDescription(pathDesc, elt, "0"), _annotation.ValueCase),
                                 _annotation.Separator, _annotation.LastSeparator);
                         }
                         else
                         {
-                            substitute = ValueDescription(pathDesc, value);
+                            var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
+                            substitute = ValueDescription(pathDesc, value, format);
                         }
                     }
                 }
@@ -327,9 +334,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return int.TryParse(args[0], out number);
         }
 
-        private string ValueDescription(IField<T> field, object value)
+        private string ValueDescription(IField<T> field, object value, string format)
         {
-            return field.Prompt().Recognizer().ValueDescription(value);
+            string result;
+            if (format != "0")
+            {
+                result = string.Format("{" + format + "}", value);
+            }
+            else
+            {
+                result = field.Prompt().Recognizer().ValueDescription(value);
+            }
+            return result;
         }
 
         public IRecognize<T> Recognizer()

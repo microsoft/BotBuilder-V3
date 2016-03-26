@@ -282,7 +282,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return this;
         }
 
-		/// <summary>   Set whether or not a field is optional. </summary>
+        /// <summary>   Set whether or not a field is optional. </summary>
         /// <param name="optional"> True if field is optional. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
         public Field<T> Optional(bool optional = true)
@@ -472,11 +472,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public override object GetValue(T state)
         {
             object current = state;
-            bool isEnum = false;
+            Type ftype = null;
             foreach (var step in _path)
             {
+                ftype = StepType(step);
                 var field = step as FieldInfo;
-                var ftype = StepType(step);
                 if (field != null)
                 {
                     current = field.GetValue(current);
@@ -490,9 +490,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     break;
                 }
-                isEnum = ftype.IsEnum;
             }
-            return isEnum ? ((int)current == 0 ? null : current) : current;
+            // Convert value types to null if appropriate
+            return (ftype.IsEnum
+                ? ((int)current == 0 ? null : current)
+                : (ftype == typeof(DateTime) && ((DateTime)current) == DateTime.MinValue)
+                    ? null
+                    : current);
         }
 
         public override void SetValue(T state, object value)
