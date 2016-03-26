@@ -7,9 +7,7 @@ parent1: Bot Creation Tools
 parent2: QnA Maker
 ---
 
-# QnA Maker - How to create your own QnA endpoint
-
-# Overview
+###Go To [http://qnamaker.botframework.com/](http://qnamaker.botframework.com/ "QnA Maker")
 
 The QnA Maker tool will attempt to extract questions and answers from a bunch of URLs and combine it with editorial content to create a knowledge base which can be published via an endpoint.
 
@@ -20,8 +18,6 @@ Currently the tool supports extraction from URLs which have explicit questions a
 -  [https://www.bankofamerica.com/credit-cards/account-access-faq.go](https://www.bankofamerica.com/credit-cards/account-access-faq.go)
 -  [https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions](https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions)
 -  [https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs](https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs)
-
-# Create your QnA endpoint
 
 ## Step 1
 
