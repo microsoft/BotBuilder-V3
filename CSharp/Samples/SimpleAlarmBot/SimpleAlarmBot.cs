@@ -34,62 +34,60 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         }
 
         [LuisIntent("builtin.intent.alarm.alarm_other")]
-        [LuisIntent("builtin.intent.alarm.delete_alarm")]
-        [LuisIntent("builtin.intent.alarm.find_alarm")]
-        [LuisIntent("builtin.intent.alarm.set_alarm")]
-        [LuisIntent("builtin.intent.alarm.snooze")]
-        [LuisIntent("builtin.intent.alarm.time_remaining")]
-        [LuisIntent("builtin.intent.alarm.turn_off_alarm")]
-        public async Task AlarmOperation(IDialogContext context, LuisResult result)
+        public async Task AlarmOther(IDialogContext context, LuisResult result)
         {
-            var entities = string.Join(",", result.Entities.Select( s => s.Entity).ToArray());
-            bool sendEntities = true;
-
-            string reply;
-
-            switch (result.Intents.FirstOrDefault()?.Intent)
-            {
-                case "builtin.intent.alarm.alarm_other":
-                    reply = "alarm changed!";
-                    break;
-                case "builtin.intent.alarm.delete_alarm":
-                    reply = "alarm deleted!";
-                    break;
-                case "builtin.intent.alarm.set_alarm":
-                    reply = "alarm created!";
-                    break;
-                case "builtin.intent.alarm.find_alarm":
-                    reply = "alarm found!";
-                    break;
-                case "builtin.intent.alarm.snooze":
-                    reply = "alarm snoozed! ";
-                    break;
-                case "builtin.intent.alarm.time_remaining":
-                    reply = "There are 5 minutes remaining.";
-                    break;
-                case "builtin.intent.alarm.turn_off_alarm":
-                    Prompts.Confirm(context, AlarmDialogResumeHandler, "Are you sure?");
-                    reply = null;
-                    sendEntities = false; 
-                    break;
-                default:
-                    reply = "Couldn't understand the command!";
-                    break;
-            }
-
-            if (reply != null)
-            {
-                if (sendEntities)
-                {
-                    reply += $"\nentities: {entities}";
-                }
-
-                await context.PostAsync(reply);
-                context.Wait(MessageReceived);
-            }
+            string reply = "alarm changed!";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
         }
 
-        public async Task AlarmDialogResumeHandler(IDialogContext context, IAwaitable<bool> confirmation)
+        [LuisIntent("builtin.intent.alarm.delete_alarm")]
+        public async Task DeleteAlarm(IDialogContext context, LuisResult result)
+        {
+            string reply = "alarm deleted!";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("builtin.intent.alarm.find_alarm")]
+        public async Task FindAlarm(IDialogContext context, LuisResult result)
+        {
+            string reply = "alarm found!";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("builtin.intent.alarm.set_alarm")]
+        public async Task SetAlarm(IDialogContext context, LuisResult result)
+        {
+            string reply = "alarm created!";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("builtin.intent.alarm.snooze")]
+        public async Task AlarmSnooze(IDialogContext context, LuisResult result)
+        {
+            string reply = "alarm snoozed!";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("builtin.intent.alarm.time_remaining")]
+        public async Task TimeRemaining(IDialogContext context, LuisResult result)
+        {
+            string reply = "There are 5 minutes remaining.";
+            await context.PostAsync(reply);
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("builtin.intent.alarm.turn_off_alarm")]
+        public async Task TurnOffAlarm(IDialogContext context, LuisResult result)
+        {
+            Prompts.Confirm(context, AfterConfirming_TurnOffAlarm, "Are you sure?");
+        }
+
+        public async Task AfterConfirming_TurnOffAlarm(IDialogContext context, IAwaitable<bool> confirmation)
         {
             if (await confirmation)
             {
