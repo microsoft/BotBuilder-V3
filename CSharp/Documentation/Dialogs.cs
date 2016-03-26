@@ -1,0 +1,114 @@
+﻿namespace Microsoft.Bot.Builder
+{
+    /// \page Dialogs 
+    /// \tableofcontents
+    ///
+    /// \section dialogs Dialogs
+    /// 
+    /// \subsection Overview
+    /// Dialogs model a conversational process, where the exchange of messages between bot and user
+    /// is the primary channel for interaction with the outside world.  Each dialog is an abstraction that encapsulates
+    /// its own state in a C# class that implements IDialog.  Dialogs can be composed with other dialogs to maximize reuse,
+    /// and a dialog context maintains a stack of dialogs active in the conversation.  A conversation composed of dialogs is
+    /// portable across machines to make it possible to scale a bot implementation.  This conversation state (the stack of
+    /// active dialogs and each dialog's state) is stored in the messages exchanged with the %Bot Connector, making the bot
+    /// implementation stateless between requests. (Much like a web application that does not store session state in the
+    /// web server's memory.)
+    /// 
+    /// The best way to understand this is to work through some examples.  The first example changes the code in the 
+    /// Bot Framework template to use dialogs from the Bot Builder.  The second example, \ref echoBot builds on that to
+    /// add some simple state.  The final example \ref alarmBot uses the <a href="http://luis.a">LUIS</a> natural language framework and some of the built-in system 
+    /// prompts.
+    /// 
+    /// \subsection simpleEcho Simple Echo Bot
+    /// This example starts with the bot you get by starting your Bot the Bot Framework template which includes code to 
+    /// echo back what the user says.  
+    /// In order to change the echo example to use the Bot Builder, we need to add a C# class to represent our conversation and its state.  
+    /// You can do this by adding this class to your MessagesController.cs file:
+    /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
+    /// \skip Serializable
+    /// \until }
+    /// \until }
+    /// \until }
+    /// 
+    /// Next we need to wire this class into your Post method like this:
+    /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
+    /// \skip Post(
+    /// \until }
+    /// \until }
+    /// 
+    /// The method is marked async because the Bot Framework makes use of the C# facilities for handling asynchronous communication. 
+    /// It returns a Task<Message> which is the reply to the passed in Message.  
+    /// If there is an exception, the Task will contain the exception information. Within the Post method we call
+    /// Conversation.SendAsync which is the root method for the Bot Builder SDK.  It follows the dependency
+    /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle) and does the following steps:
+    /// - Instantiate the required components.  
+    /// - Deserialize the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message.
+    /// - Resume the conversation processes where the %Bot decided to suspend and wait for a message.
+    /// - Queues messages to be sent to the user.
+    /// - Serializes the updated dialog state in messages sent back to the user.
+    /// 
+    /// When your conversation first starts, there is no dialog state in the message so the delegate passed to Conversation.SendAsync
+    /// will be used to construct an EchoDialog and it's StartAsync method will be called.  In this case, StartAsync  calls
+    /// IDialogContext.Wait with the continuation delegate (our MessageReceivedAsync method) to call when there is a new message.  
+    /// In the initial case there is an immediate message available (the one that launched the dialog) and it is immediately 
+    /// passed To MessageReceivedAsync.  
+    /// 
+    /// Within MessageReceivedAsync we wait for the message to come in and then post our response and wait for the next message. 
+    /// In this simple case the next message would again be processed by MessageReceivedAsync. 
+    /// Every time we call IDialogContext.Wait our bot is suspended and can be restarted on any machine that receives the message.  
+    /// 
+    /// If you run and test this bot, it will behave exactly like the original one from the Bot Framework template.  Looking at the
+    /// code this doesn't look like progress--we have added more lines to achieve exactly the same effect.  We are doing this to lay 
+    /// a foundation for handling richer conversations. One of the challenges of handling more complex conversations is in managing the
+    /// state of the conversation and the transitions between different phases.  The Bot Builder makes this easier by using dialogs as a unit
+    /// of state, isolation and composability.  By introducing the EchoDialog class we have a place to record the state of the dialog. 
+    /// This state is then included with every message passed off to the Bot Framework Service.  (Which is why the class is marked as serializable.)  
+    /// By making our Bot stateless then a conversation can be moved between machines because of machine crashes or to improve scalability 
+    /// without affecting the conversation.  
+    /// 
+    /// when writing anything that involves a richer conversation This definitely
+    /// looks
+    ///
+    /// \subsection Execution Flow
+    /// Conversation.SendAsync is the top level method for the %Bot Builder SDK.  This composition root follows the dependency
+    /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle), and performs this work:
+    /// 
+    /// - instantiates the required components
+    /// - deserializes the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message
+    /// - resumes the conversation processes where the %Bot decided to suspend and wait for a message
+    /// - queues messages to be sent to the user
+    /// - serializes the updated dialog state in the messages to be sent to the user
+    /// 
+    /// CompositionRoot.SendAsync<T> takes as arguments
+    /// - the incoming Message from the user (as delivered by the %Bot Connector), and
+    /// - a factory method to create the root IDialog<T> dialog for your %Bot's implementation
+    /// 
+    /// and returns an inline Message to send back to the user through the %Bot Connector.  The factory method is invoked
+    /// for new conversations only, because existing conversations have the dialog stack and state serialized in the %Bot data.
+    /// 
+    /// \subsection echoBot Echo Bot
+    /// 
+    /// \subsection alarmBot Alarm Bot
+    /// 
+    /// \subsection IDialog
+    /// The IDialog<T> interface provides a single IDialog<T>.StartAsync method that serves as the entry point to the dialog.
+    /// The StartAsync method takes an argument and the dialog context.  Your IDialog<T> implementation must be serializable if
+    /// you expect to suspend that dialog's execution to collect more Messages from the user.
+    /// 
+    /// \subsection IDialogContext
+    /// The IDialogContext interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
+    ///
+    /// IBotData represents access to the per user, conversation, and user in conversation state maintained
+    /// by the %Bot Connector.
+    /// 
+    /// IDialogStack provides methods to
+    /// - call children dialogs (and push the new child on the dialog stack),
+    /// - mark the current dialog as done to return a result to the calling dialog (and pop the current dialog from the dialog stack), and
+    /// - wait for a message from the user and suspend the conversation.
+    /// 
+    /// IBotToUser provides methods to post messages to be sent to the user, according to some policy.  Some of these messages may be sent
+    /// inline with the response to the web api method call, and some of these messages may be sent directly using the %Bot Connector client.
+    /// Sending and receiving messages through the dialog context ensures the IBotData state is passed through the %Bot Connector.
+    /// 
+}

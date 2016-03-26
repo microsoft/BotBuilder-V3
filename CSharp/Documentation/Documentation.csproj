@@ -85,7 +85,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples.cs" />
+    <Compile Include="Dialogs.cs" />
+    <Compile Include="Forms.cs" />
   </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="@(DirsToClean)" />
