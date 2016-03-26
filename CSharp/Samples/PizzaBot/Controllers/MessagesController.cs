@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            return await CompositionRoot.SendAsync(message, MakeRoot);
+            return await Conversation.SendAsync(message, MakeRoot);
         }
     }
 }

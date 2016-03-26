@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder
     /// web server's memory).
     /// 
     /// \subsection Execution Flow
-    /// CompositionRoot.SendAsync is the top level method for the %Bot Builder SDK.  The composition root follows the dependency
+    /// Conversation.SendAsync is the top level method for the %Bot Builder SDK.  This composition root follows the dependency
     /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle), and performs this work:
     /// 
     /// - instantiates the required components

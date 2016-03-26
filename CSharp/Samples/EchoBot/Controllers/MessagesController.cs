@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Sample.EchoBot
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            return await CompositionRoot.SendAsync(message, () => new EchoDialog());
+            return await Conversation.SendAsync(message, () => new EchoDialog());
         }
     }
 }

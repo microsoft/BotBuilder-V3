@@ -100,7 +100,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static void AssertSerializable<T>(ref T item, params object[] instances) where T : class
         {
-            var formatter = CompositionRoot.MakeBinaryFormatter(new Serialization.SimpleServiceLocator(instances));
+            var formatter = Conversation.MakeBinaryFormatter(new Serialization.SimpleServiceLocator(instances));
 
             //var surrogate = new Surrogate();
             //var selector = new SurrogateSelector();

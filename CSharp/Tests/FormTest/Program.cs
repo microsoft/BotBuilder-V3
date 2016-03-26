@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.FormTest
             string prompt;
             do
             {
-                var task = CompositionRoot.SendAsync(message, () => form);
+                var task = Conversation.SendAsync(message, () => form);
                 message = task.GetAwaiter().GetResult();
                 prompt = message.Text;
                 if (prompt != null)

@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Sample.Tests
             Func<IDialog> MakeRoot = () => new EchoDialog();
 
             // act: sending the message
-            var toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);
+            var toUser = await Conversation.SendAsync(toBot, MakeRoot);
 
             // assert: check if the dialog returned the right response
             Assert.IsTrue(toUser.Text.StartsWith("0"));
@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Sample.Tests
                 toBot = toUser;
 
                 // post the message
-                toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);
+                toUser = await Conversation.SendAsync(toBot, MakeRoot);
             }
 
             // assert: check the counter at the end
@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Sample.Tests
             // act: send the reset
             toBot = toUser;
             toBot.Text = "reset";
-            toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);
+            toUser = await Conversation.SendAsync(toBot, MakeRoot);
 
             // assert: verify confirmation
             Assert.IsTrue(toUser.Text.ToLower().Contains("are you sure"));
@@ -90,13 +90,13 @@ namespace Microsoft.Bot.Sample.Tests
             //send yes as reply
             toBot = toUser;
             toBot.Text = "yes";
-            toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);
+            toUser = await Conversation.SendAsync(toBot, MakeRoot);
             Assert.IsTrue(toUser.Text.ToLower().Contains("count reset"));
 
             //send a random message and check count
             toBot = toUser;
             toBot.Text = "test";
-            toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);
+            toUser = await Conversation.SendAsync(toBot, MakeRoot);
             Assert.IsTrue(toUser.Text.StartsWith("0"));
         }
     }

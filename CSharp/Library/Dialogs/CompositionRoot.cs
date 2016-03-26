@@ -46,7 +46,10 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder
 {
-    public static partial class CompositionRoot
+    /// <summary>
+    /// The top level composition root for the SDK.
+    /// </summary>
+    public static partial class Conversation
     {
         private const string BlobKey = "DialogState";
 
@@ -71,7 +74,7 @@ namespace Microsoft.Bot.Builder
             {
                 waits, frames, toBotData, client
             };
-            var formatter = CompositionRoot.MakeBinaryFormatter(provider);
+            var formatter = Conversation.MakeBinaryFormatter(provider);
 
             Internals.DialogContext context;
 
