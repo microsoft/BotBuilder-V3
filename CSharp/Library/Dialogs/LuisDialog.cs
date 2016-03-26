@@ -125,6 +125,47 @@ namespace Microsoft.Bot.Builder
             info.AddValue(nameof(this.modelID), this.modelID);
         }
 
+        public virtual async Task StartAsync(IDialogContext context, IAwaitable<object> argument)
+        {
+            context.Wait(MessageReceived);
+        }
+
+        protected virtual async Task<LuisResult> GetLuisResult(string luisUrl, string text)
+        {
+            var url = luisUrl + Uri.EscapeDataString(text);
+            string json;
+            using (HttpClient client = new HttpClient())
+            {
+                json = await client.GetStringAsync(url);
+            }
+
+            Debug.WriteLine(json);
+            var response = JsonConvert.DeserializeObject<LuisResult>(json);
+            return response;
+        }
+
+        protected async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
+        {
+            var message = await item;
+            var luisRes = await GetLuisResult(this.luisUrl, message.Text);
+            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
+            IntentHandler handler;
+            if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
+            {
+                handler = this.handlerByIntent[DefaultIntentHandler];
+            }
+
+            if (handler != null)
+            {
+                await handler(context, luisRes);
+            }
+            else
+            {
+                var text = $"LuisModel[{this.modelID}] no default intent handler.";
+                throw new Exception(text);
+            }
+        }
+
         private void AddAttributeBasedHandlers()
         {
             var methods = from m in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
@@ -155,58 +196,5 @@ namespace Microsoft.Bot.Builder
                 }
             }
         }
-
-        protected virtual async Task<LuisResult> GetLuisResult(string luisUrl, string text)
-        {
-            var url = luisUrl + Uri.EscapeDataString(text);
-            string json;
-            using (HttpClient client = new HttpClient())
-            {
-                json = await client.GetStringAsync(url);
-            }
-
-            Debug.WriteLine(json);
-            var response = JsonConvert.DeserializeObject<LuisResult>(json);
-            return response;
-        }
-
-        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
-        {
-            context.Wait(MessageReceived);
-        }
-
-        protected async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
-        {
-            var message = await item;
-            var luisRes = await GetLuisResult(this.luisUrl, message.Text);
-            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
-            IntentHandler handler;
-            if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
-            {
-                handler = this.handlerByIntent[DefaultIntentHandler];
-            }
-
-            if (handler != null)
-            {
-                await handler(context, luisRes);
-            }
-            else
-            {
-                var text = $"LuisModel[{this.modelID}] no default intent handler.";
-                throw new Exception(text);
-            }
-        }
-
-        public LuisDialog On(string intent, IntentHandler intentHandler)
-        {
-            this.handlerByIntent.Add(intent, intentHandler);
-            return this;
-        }
-
-        public LuisDialog OnDefault(IntentHandler intentHandler)
-        {
-            return this.On(DefaultIntentHandler, intentHandler);
-        }
     }
-
 }
