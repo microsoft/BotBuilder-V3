@@ -38,7 +38,7 @@ using Microsoft.Bot.Builder.Form.Advanced;
 namespace Microsoft.Bot.Builder.Form
 {
     internal sealed class Form<T> : IForm<T>
-        where T : class, new()
+        where T : class
     {
         internal readonly bool _ignoreAnnotations;
         internal readonly FormConfiguration _configuration;

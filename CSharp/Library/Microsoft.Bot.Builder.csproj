@@ -110,7 +110,6 @@
     <None Include="Form\ILocalizer.cs" />
     <Compile Include="Form\IFormBuilder.cs" />
     <Compile Include="Form\IForm.cs" />
-    <Compile Include="Form\InitialState.cs" />
     <Compile Include="Form\IStep.cs" />
     <Compile Include="Form\Language.cs" />
     <Compile Include="Form\MatchAnalyzer.cs" />
@@ -141,7 +140,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

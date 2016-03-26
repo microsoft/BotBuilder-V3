@@ -41,7 +41,7 @@ using Microsoft.Bot.Builder.Form.Advanced;
 namespace Microsoft.Bot.Builder.Form
 {
     public sealed class FormBuilder<T> : IFormBuilder<T>
-         where T : class, new()
+        where T : class
     {
         private readonly Form<T> _form;
 

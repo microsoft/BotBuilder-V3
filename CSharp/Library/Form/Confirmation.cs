@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public class Confirmation<T> : Field<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a confirmation.

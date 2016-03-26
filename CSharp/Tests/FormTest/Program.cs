@@ -133,16 +133,15 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Build();
         }
 
-        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, FormDialog<T>.MakeForm makeForm) where T : class, new()
+        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, MakeForm<T> makeForm) where T : class, new()
         {
-            var initialState = new InitialState<T>() { PromptInStart = true };
-            var form = new FormDialog<T>(makeForm, initialState);
+            var form = new FormDialog<T>(new T(), makeForm, options: FormOptions.PromptInStart);
             context.Call<T>(form, root.CallChild);
         }
 
         static void Main(string[] args)
         {
-            var choiceForm = new FormDialog<Choices>();
+            var choiceForm = FormDialog.FromType<Choices>();
             var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
                 Choices choices;

@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Form
 
     public static partial class Extension
     {
-        internal static IStep<T> Step<T>(this IForm<T> form, string name) where T : class, new()
+        internal static IStep<T> Step<T>(this IForm<T> form, string name) where T : class
         {
             IStep<T> result = null;
             foreach (var step in form.Steps)
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Form
             return result;
         }
 
-        internal static int StepIndex<T>(this IForm<T> form, IStep<T> step) where T : class, new()
+        internal static int StepIndex<T>(this IForm<T> form, IStep<T> step) where T : class
         {
             var index = -1;
             for (var i = 0; i < form.Steps.Count; ++i)
@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder.Form
             return index;
         }
 
-        internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class, new()
+        internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
         {
             var field = new Field<T>("__commands__", FieldRole.Value, form);
             field.Prompt(new Prompt(""));

@@ -43,14 +43,30 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
-    internal static class FormStatics
+    public static class FormDialog
     {
+        public static IFormDialog<T> FromType<T>() where T : class, new()
+        {
+            return new FormDialog<T>(new T());
+        }
+
+        public static IFormDialog<T> FromForm<T>(MakeForm<T> makeForm) where T : class, new()
+        {
+            return new FormDialog<T>(new T(), makeForm);
+        }
+
+
         #region IForm<T> statics
 #if DEBUG
         internal static bool DebugRecognizers = false;
 #endif
         #endregion
     }
+
+    [Flags]
+    public enum FormOptions { None, PromptInStart };
+
+    public delegate IForm<T> MakeForm<T>();
 
     /// <summary>
     /// Form dialog manager for to fill in your state.
@@ -65,51 +81,75 @@ namespace Microsoft.Bot.Builder.Form
     /// </remarks>
     [Serializable]
     public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
-         where T : class, new()
+        where T : class
     {
-        private readonly InitialState<T> _initialState;
-        private readonly MakeForm _makeForm;
-        private readonly IForm<T> _form;
-        private FormState _formState;
-        private T _state;
-        private IRecognize<T> _commands;
+        // constructor arguments
+        private readonly T _state;
+        private readonly MakeForm<T> _makeForm;
+        private readonly IEnumerable<Models.EntityRecommendation> _entities;
+        private readonly FormOptions _options;
 
-        public delegate IForm<T> MakeForm();
+        // instantiated in constructor, saved when serialized
+        private readonly FormState _formState;
+
+        // instantiated in constructor, re-instantiated when deserialized
+        private readonly IForm<T> _form;
+        private readonly IRecognize<T> _commands;
 
         private static IForm<T> MakeDefaultForm()
         {
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
 
-        /// <summary>
-        /// Construct a form.
-        /// </summary>
-        /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public FormDialog(MakeForm makeForm = null, InitialState<T> initialState = null)
+        public FormDialog(T state, MakeForm<T> makeForm = null, FormOptions options = FormOptions.None, IEnumerable < Models.EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
-            _initialState = initialState;
-            _makeForm = makeForm ?? (MakeForm)MakeDefaultForm;
-            _form = _makeForm();
+            makeForm = makeForm ?? MakeDefaultForm;
+            entities = entities ?? Enumerable.Empty<Models.EntityRecommendation>();
+            cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
 
+            // constructor arguments
+            Field.SetNotNull(out this._state, nameof(state), state);
+            Field.SetNotNull(out this._makeForm, nameof(makeForm), makeForm);
+            Field.SetNotNull(out this._entities, nameof(entities), entities);
+            this._options = options;
+
+            // make our form
+            var form = _makeForm();
+
+            // instantiated in constructor, saved when serialized
+            this._formState = new FormState(form.Steps.Count, cultureInfo);
+
+            // instantiated in constructor, re-instantiated when deserialized
+            this._form = form;
             this._commands = this._form.BuildCommandRecognizer();
         }
 
         private FormDialog(SerializationInfo info, StreamingContext context)
         {
-            Microsoft.Bot.Builder.Field.SetNotNullFrom(out this._makeForm, nameof(this._makeForm), info);
-            this._formState = info.GetValue<FormState>(nameof(this._formState));
-            this._state = info.GetValue<T>(nameof(this._state));
+            // constructor arguments
+            Field.SetNotNullFrom(out this._state, nameof(this._state), info);
+            Field.SetNotNullFrom(out this._makeForm, nameof(this._makeForm), info);
+            Field.SetNotNullFrom(out this._entities, nameof(this._entities), info);
+            this._options = info.GetValue<FormOptions>(nameof(this._options));
 
-            _form = _makeForm();
+            // instantiated in constructor, saved when serialized
+            Field.SetNotNullFrom(out this._formState, nameof(this._formState), info);
+
+            // instantiated in constructor, re-instantiated when deserialized
+            this._form = _makeForm();
             this._commands = this._form.BuildCommandRecognizer();
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(this._makeForm), this._makeForm);
-
-            info.AddValue(nameof(this._formState), this._formState);
+            // constructor arguments
             info.AddValue(nameof(this._state), this._state);
+            info.AddValue(nameof(this._makeForm), this._makeForm);
+            info.AddValue(nameof(this._entities), this._entities);
+            info.AddValue(nameof(this._options), this._options);
+
+            // instantiated in constructor, saved when serialized
+            info.AddValue(nameof(this._formState), this._formState);
         }
 
         #region IForm<T> implementation
@@ -122,84 +162,44 @@ namespace Microsoft.Bot.Builder.Form
 
         async Task IDialog.StartAsync(IDialogContext context)
         {
-            bool skipFields = false;
-
-            if (this._initialState == null)
+            var entityGroups = (from entity in this._entities group entity by entity.Type);
+            foreach (var entityGroup in entityGroups)
             {
-                if (context.UserData.TryGetValue(typeof(T).Name, out _state))
+                var step = _form.Step(entityGroup.Key);
+                if (step != null)
                 {
-                    skipFields = true;
-                }
-                else
-                {
-                    _state = new T();
-                }
-            }
-            else
-            {
-                _state = this._initialState.State;
-                if (_state == null) _state = new T();
-                skipFields = true;
-            }
-            // TODO: Hook up culture state in form
-
-            _formState = new FormState(_form.Steps.Count, CultureInfo.InvariantCulture);
-            if (this._initialState != null && this._initialState.Entities != null)
-            {
-                var entities = (from entity in this._initialState.Entities group entity by entity.Type);
-                foreach (var entityGroup in entities)
-                {
-                    var step = _form.Step(entityGroup.Key);
-                    if (step != null)
+                    _formState.Step = _form.StepIndex(step);
+                    _formState.StepState = null;
+                    var builder = new StringBuilder();
+                    foreach (var entity in entityGroup)
                     {
-                        _formState.Step = _form.StepIndex(step);
-                        _formState.StepState = null;
-                        var builder = new StringBuilder();
-                        foreach (var entity in entityGroup)
-                        {
-                            builder.Append(entity.Entity);
-                            builder.Append(' ');
-                        }
-                        var input = builder.ToString();
-                        string feedback;
-                        string prompt = step.Start(context, _state, _formState);
-                        var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input, out prompt), input);
-                        if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
-                        {
-                            // TODO: In the case of clarification I could
-                            // 1) Go through them while supporting only quit or back and reset
-                            // 2) Drop them
-                            // 3) Just pick one (found in form.StepState, but that is opaque here)
-                            var result = await step.ProcessAsync(context, _state, _formState, input, matches);
-                            feedback = result.Feedback;
-                            prompt = result.Prompt;
-                        }
-                        else
-                        {
-                            _formState.SetPhase(StepPhase.Ready);
-                        }
+                        builder.Append(entity.Entity);
+                        builder.Append(' ');
                     }
-                }
-                _formState.Step = 0;
-                _formState.StepState = null;
-            }
-
-            if (skipFields)
-            {
-                // Mark all fields with values as completed.
-                for (var i = 0; i < _form.Steps.Count; ++i)
-                {
-                    var step = _form.Steps[i];
-                    if (step.Type == StepType.Field)
+                    var input = builder.ToString();
+                    string feedback;
+                    string prompt = step.Start(context, _state, _formState);
+                    var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input, out prompt), input);
+                    if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
                     {
-                        if (!step.Field.IsUnknown(_state))
-                        {
-                            _formState.Phases[i] = StepPhase.Completed;
-                        }
+                        // TODO: In the case of clarification I could
+                        // 1) Go through them while supporting only quit or back and reset
+                        // 2) Drop them
+                        // 3) Just pick one (found in form.StepState, but that is opaque here)
+                        var result = await step.ProcessAsync(context, _state, _formState, input, matches);
+                        feedback = result.Feedback;
+                        prompt = result.Prompt;
+                    }
+                    else
+                    {
+                        _formState.SetPhase(StepPhase.Ready);
                     }
                 }
             }
-            if (this._initialState != null && this._initialState.PromptInStart)
+            _formState.Step = 0;
+            _formState.StepState = null;
+
+            if (this._options.HasFlag(FormOptions.PromptInStart))
             {
                 await MessageReceived(context, null);
             }
@@ -594,5 +594,18 @@ namespace Microsoft.Bot.Builder.Form
 
         #endregion
 
+    }
+}
+
+namespace Microsoft.Bot.Builder.Models
+{
+    [Serializable]
+    public partial class EntityRecommendation
+    {
+    }
+
+    [Serializable]
+    public partial class IntentRecommendation
+    {
     }
 }

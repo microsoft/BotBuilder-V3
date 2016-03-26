@@ -84,7 +84,6 @@ namespace Microsoft.Bot.Builder.Form
     /// If you do not take explicit control, the steps will be executed in the order defined in the form state class with a final confirmation.
     /// </remarks>
     public interface IFormDialog<T> : IDialog
-        where T : class, new()
     {
         /// <summary>
         /// The form specification.

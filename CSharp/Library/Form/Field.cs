@@ -395,7 +395,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     }
 
     public class FieldReflector<T> : Field<T>
-        where T : class, new()
+        where T : class
     {
         public FieldReflector(string name, IForm<T> form, bool ignoreAnnotations = false)
             : base(name, FieldRole.Value, form)
@@ -832,7 +832,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     }
 
     public class Conditional<T> : FieldReflector<T>
-        where T : class, new()
+        where T : class
     {
         public Conditional(string name, IForm<T> form, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
             : base(name, form, ignoreAnnotations)

@@ -344,7 +344,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public abstract class RecognizePrimitive<T> : IRecognize<T>
-        where T : class, new()
+        where T : class
     {
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeBool<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a boolean recognizer for a field.
@@ -522,7 +522,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeString<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a string recognizer for a field.
@@ -567,7 +567,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeNumber<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a numeric recognizer for a field.
@@ -631,7 +631,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public sealed class RecognizeDouble<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
 
         /// <summary>
@@ -696,7 +696,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Expressions recognized are based on the C# nuget package Chronic.
     /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a date/time recognizer.

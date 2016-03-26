@@ -38,7 +38,6 @@ using Microsoft.Bot.Builder.Form.Advanced;
 namespace Microsoft.Bot.Builder.Form
 {
     public interface IFormBuilder<T>
-         where T : class, new()
     {
         /// <summary>
         /// Build the form based on the methods called on the builder.
