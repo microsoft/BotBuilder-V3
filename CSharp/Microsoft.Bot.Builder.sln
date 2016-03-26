@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Tests", "Tests\Microsoft.Bot.Sample.Tests\Microsoft.Bot.Sample.Tests.csproj", "{04DD63E9-0323-41B1-9949-EA6ABF005E86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot", "Samples\SimpleEchoBot\Microsoft.Bot.Sample.SimpleEchoBot.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,12 @@ Global
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,5 +119,6 @@ Global
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{D2253234-1279-486E-8A63-D8C3424E0525} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 	EndGlobalSection
 EndGlobal

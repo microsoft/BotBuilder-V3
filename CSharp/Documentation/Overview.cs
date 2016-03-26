@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Builder
     /// <li><a href="files.html"><b>Source Files</b></a></li>
     /// </ul>    
     /// 
-    /// /section overview Overview
+    /// \section overview Overview
     /// 
     /// %Microsoft Bot Builder is a powerful framework for constructing bots that can handle
     /// both freeform interactions and more guided ones where the possibilities are explicitly 
@@ -30,21 +30,51 @@ namespace Microsoft.Bot.Builder
     /// * Built-in dialogs for simple things like Yes/No, strings, numbers, enumerations.  
     /// * Built-in dialogs that utilize powerful AI frameworks like <a href="http://luis.ai">LUIS</a>.  
     /// * Bots are stateless which helps them scale.  
-    /// * Form Flow for automatically generating a Bot from a C# class that supports help, navigation, clarification and confirmation.
+    /// * Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
     /// 
     /// \section install Install
     /// 
-    /// In order to use the Microsoft Bot Builder you should first follow the steps in the 
-    /// <a href="http://aka.ms/getting-started-in-c"/> page to setup your bot.  In order to use the framework you need to:
+    /// In order to use the Microsoft Bot Builder you should first follow the install steps in the 
+    /// <a href="http://aka.ms/bf-getting-started-in-c">Getting Started with Bot Connector</a> page to setup your bot.  
+    /// In order to use the framework you need to:
     /// 1. Right-click on your project and select "Manage NuGet Packages".  
     /// 2. In the "Browse" tab, type "Microsoft.Bot.Builder".  
     /// 3. Click the "Install" button and accept the changes.  
-    /// At this point your project has the builder installed and ready to use.
     /// 
-    /// 4. In your MessagesContoller.cs file add a reference 
-
-    /// ownload the Microsoft.Bot.Builder nuget package from <a href="http://nuget.org">Nuget.org</a>
-    /// in order to set yourself up to talk to the Microsoft Bot Framework.  
+    /// At this point your project has the builder installed and is ready to use it.  In order to change the echo example
+    /// to use the Bot Builder, we need to add a C# class to represent our conversation and its state.  
+    /// You can do this by adding this class to your MessagesController.cs file:
+    /// \dontinclude SimpleEchoBot/SimpleEchoBot.cs
+    /// \skip Serializable
+    /// \until }
+    /// \until }
+    /// \until }
+    /// 
+    /// Next we need to wire this class into your Post method like this:
+    ///  \dontinclude SimpleEchoBot/SimpleEchoBot.cs
+    /// \skip Post(
+    /// \until }
+    /// \until }
+    /// 
+    /// The method is marked async because the Bot Framework makes use of the C# facilities for handling asynchronous communication. 
+    /// When a message comes in, CompositionRoot.SendAsync is given the message and a delegate for constructing an EchoDialog instance to handle
+    /// the message.  CompositionRoot will start the EchoDialog by calling StartAsync which then immediately waits for the next message.  The
+    /// IDialogContext.Wait call is given the delegate name to call on the next 
+    /// by calling StartAsync where it immediately waits for a message.  to our new dialog.  
+    /// 
+    /// If you run and test this bot, it will behave exactly like the original one from the Bot Framework template.  Looking at the
+    /// code this doesn't look like progress--we have added more lines to achieve exactly the same effect.  We are doing this to lay 
+    /// a foundation for handling richer conversations. One of the challenges of handling more complex conversations is in managing the
+    /// state of the conversation and the transitions between different phases.  The Bot Builder makes this easier by using dialogs as a unit
+    /// of state, isolation and composability.  By introducing the EchoDialog class we have a place to record the state of the dialog. 
+    /// This state is then included with every message passed off to the Bot Framework Service.  (Which is why the class is marked as serializable.)  
+    /// By making our Bot stateless then a conversation can be moved between machines because of machine crashes or to improve scalability 
+    /// without affecting the conversation.  
+    /// 
+    /// 
+    /// 
+    /// when writing anything that involves a richer conversation This definitely
+    /// looks
     /// 
     /// \section dialogs Dialogs
     /// 
