@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
             if (message.Type == "Message")
             {
                 // return our reply to the user
-                return await CompositionRoot.SendAsync(message, () => new EchoDialog());
+                return await Conversation.SendAsync(message, () => new EchoDialog());
             }
             else
             {
