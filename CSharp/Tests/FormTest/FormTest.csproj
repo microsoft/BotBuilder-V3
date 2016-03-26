@@ -35,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CS1998</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bot.Connector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

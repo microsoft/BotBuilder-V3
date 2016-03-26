@@ -21,16 +21,6 @@ namespace Microsoft.Bot.Sample.PizzaBot
         {
             var builder = new FormBuilder<PizzaOrder>();
 
-            const bool NoNumbers = false;
-            if (NoNumbers)
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
-            }
-            else
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
-            }
-
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
             ConditionalDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;

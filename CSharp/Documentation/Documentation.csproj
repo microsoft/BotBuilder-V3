@@ -23,6 +23,8 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <ProjectGuid>{72C60ACB-4804-4584-AD49-00289A89F227}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Documentation'">
     <RunDoxygen>True</RunDoxygen>
@@ -51,12 +53,15 @@
     <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { &amp;'$(CreateDirLinkPs1)' -ParentUncPath '$(TargetParent)' -ParentLocalPath '$(DocsParentShareLocalPath)' -TargetFolderName '$(TargetFolderName)'} &quot;" />
   </Target>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Doxyfile" />
     <None Include="Doxyfile.TfsBuild.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="doxygen.bat" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="botframework.css">
