@@ -3,14 +3,16 @@
   "info": {
     "version": "v1",
     "title": "Bot Connector - Direct Line API - V1.0",
-    "termsOfService": "Terms of service",
+    "description": "Direct Line\r\n===========\r\n\r\n\r\nThe Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers\r\nwriting their own client applications, web chat controls, or mobile apps that will talk to their bot.\r\n\r\nCredentials for the Direct Line API may be obtained from the Bot Framework developer portal, and will only allow the\r\ncaller to connect to the bot they were generated for. The you are writing a server-to-server application,\r\nthe Direct Line secret may be used directly against the API. If instead you are writing an application where a client\r\nconnects directly (and possibly insecurely) to the Direct Line API, you may exchange the secret for a token that will\r\nwork only for a single conversation and only for a limited amount of time. Tokens expire by default after 30 minutes\r\nalthough they may be renewed up until their expiration.\r\n\r\nThe secret or token (depending on the authorization model) are supplied as basic auth with the \"BotConnector\" scheme\r\nand no further encoding.\r\n\r\nEach conversation on the Direct Line channel must be explicitly started using a POST to the /api/conversations endpoint.\r\nIf the call was authorized with a token, the conversation ID is the conversation ID in the scoped token. If a\r\nsecret was used to start the conversation, the conversation will be started with a new, random ID.\r\n\r\nThe client may send messages to the bot by calling POST on /api/messages/conversationId.\r\n\r\nThe client may retrieve messages sent by the bot by calling GET on /api/messages/conversationId. The JSON structure\r\nreturned contains a watermark that can be sent on subsequent requests to skip old messages.\r\n\r\nThe Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before\r\nthey are deleted.",
+    "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
-      "name": "Bot Connector Support",
-      "email": "botconnector@microsoft.com"
+      "name": "Bot Framework",
+      "url": "https://botframework.com",
+      "email": "botframework@microsoft.com"
     },
     "license": {
-      "name": "Microsoft License",
-      "url": "http://botconnector.ai"
+      "name": "The MIT License (MIT)",
+      "url": "https://opensource.org/licenses/MIT"
     }
   },
   "host": "localhost:8011",
@@ -25,9 +27,13 @@
         "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A conversation object is returned\r\n",
             "schema": { "$ref": "#/definitions/Conversation" }
-          }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" },
+          "409": { "description": "You are trying to create an object that already exists." }
         },
         "deprecated": false
       }
@@ -57,9 +63,12 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A set of messages is returned",
             "schema": { "$ref": "#/definitions/MessageSet" }
-          }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
         },
         "deprecated": false
       },
@@ -85,48 +94,36 @@
             "schema": { "$ref": "#/definitions/Message" }
           }
         ],
-        "responses": { "204": { "description": "No Content" } },
+        "responses": {
+          "204": { "description": "Success - no content" },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
+        },
         "deprecated": false
       }
     },
-    "/api/conversations/{id}/messages/{messageId}/{kind}/{imageIndex}": {
-      "get": {
+    "/api/conversations/{conversationId}/upload": {
+      "post": {
         "tags": [ "Conversations" ],
-        "summary": "Get an image posted to a conversation",
-        "operationId": "Conversations_GetImage",
+        "summary": "Upload file(s) and send as attachment(s)",
+        "operationId": "Conversations_Upload",
         "consumes": [ ],
-        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "produces": [ ],
         "parameters": [
           {
-            "name": "id",
+            "name": "conversationId",
             "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "messageId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "kind",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "imageIndex",
-            "in": "path",
+            "description": "",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "schema": { "$ref": "#/definitions/Object" }
-          }
+          "204": { "description": "Success - no content" },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
         },
         "deprecated": false
       }
@@ -148,9 +145,12 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A string is returned\r\n",
             "schema": { "type": "string" }
-          }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
         },
         "deprecated": false
       }
@@ -164,9 +164,12 @@
         "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A string is returned\r\n",
             "schema": { "type": "string" }
-          }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
         },
         "deprecated": false
       }
@@ -259,10 +262,6 @@
           "type": "string"
         }
       }
-    },
-    "Object": {
-      "type": "object",
-      "properties": { }
     }
   },
   "securityDefinitions": {
