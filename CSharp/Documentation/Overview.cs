@@ -58,13 +58,13 @@ namespace Microsoft.Bot.Builder
     /// and returns an inline Message to send back to the user through the %Bot Connector.  The factory method is invoked
     /// for new conversations only, because existing conversations have the dialog stack and state serialized in the %Bot data.
     /// 
-    /// \subsection IDialog<T>
+    /// \subsection IDialog
     /// The IDialog<T> interface provides a single IDialog<T>.StartAsync method that serves as the entry point to the dialog.
     /// The StartAsync method takes an argument and the dialog context.  Your IDialog<T> implementation must be serializable if
     /// you expect to suspend that dialog's execution to collect more Messages from the user.
     /// 
-    /// \subsection IDialogContext<T>
-    /// The IDialogContext<T> interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
+    /// \subsection IDialogContext
+    /// The IDialogContext interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
     ///
     /// IBotData represents access to the per user, conversation, and user in conversation state maintained
     /// by the %Bot Connector.
