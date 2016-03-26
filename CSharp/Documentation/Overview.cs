@@ -4,7 +4,21 @@ namespace Microsoft.Bot.Builder
     ///
     /// \mainpage 
     ///
-    /// \section overview Overview
+    /// \section getting_started Getting Started
+    /// 
+    /// \subsection contents Table of Contents
+    /// <ul style="list-style-type: none;">
+    /// <li>\ref overview </li>
+    /// <li>\ref install </li>
+    /// <li>\ref dialogs </li>
+    /// <li>\ref forms </li>
+    /// <li>\ref Examples</li>
+    /// <li><a href="namespaces.html"><b>Namespaces</b></a></li>
+    /// <li><a href="annotated.html"><b>Classes</b></a></li>
+    /// <li><a href="files.html"><b>Source Files</b></a></li>
+    /// </ul>    
+    /// 
+    /// /section overview Overview
     /// 
     /// %Microsoft Bot Builder is a powerful framework for constructing bots that can handle
     /// both freeform interactions and more guided ones where the possibilities are explicitly 
@@ -18,16 +32,19 @@ namespace Microsoft.Bot.Builder
     /// * Bots are stateless which helps them scale.  
     /// * Form Flow for automatically generating a Bot from a C# class that supports help, navigation, clarification and confirmation.
     /// 
-    /// \section contents Table of Contents
+    /// \section install Install
     /// 
-    /// <ul style="list-style-type: none;">
-    /// <li>\ref dialogs </li>
-    /// <li>\ref forms </li>
-    /// <li>\ref Examples</li>
-    /// <li><a href="namespaces.html"><b>Namespaces</b></a></li>
-    /// <li><a href="annotated.html"><b>Classes</b></a></li>
-    /// <li><a href="files.html"><b>Source Files</b></a></li>
-    /// </ul>
+    /// In order to use the Microsoft Bot Builder you should first follow the steps in the 
+    /// <a href="http://aka.ms/getting-started-in-c"/> page to setup your bot.  In order to use the framework you need to:
+    /// 1. Right-click on your project and select "Manage NuGet Packages".  
+    /// 2. In the "Browse" tab, type "Microsoft.Bot.Builder".  
+    /// 3. Click the "Install" button and accept the changes.  
+    /// At this point your project has the builder installed and ready to use.
+    /// 
+    /// 4. In your MessagesContoller.cs file add a reference 
+
+    /// ownload the Microsoft.Bot.Builder nuget package from <a href="http://nuget.org">Nuget.org</a>
+    /// in order to set yourself up to talk to the Microsoft Bot Framework.  
     /// 
     /// \section dialogs Dialogs
     /// 
