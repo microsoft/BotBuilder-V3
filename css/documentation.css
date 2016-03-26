@@ -93,6 +93,9 @@
 .svgicon-bot-directory {
   width: 2.1875em;
 }
+.svgicon-meet-the-bots {
+  width: 4.8447265625em;
+}
 @font-face {
   font-family: "Segoe UI";
   src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Normal/latest.eot");
@@ -388,7 +391,7 @@ header {
 }
 .jumbo .jumbo-header:after {
   content: 'PREVIEW';
-  color: #2B2B2B;
+  color: rgba(255, 255, 255, 0.6);
   position: absolute;
   right: 0;
   top: 100%;
@@ -890,28 +893,6 @@ a {
   padding: 30px 0;
 }
 /** media break points based on card-width*/
-@media screen and (max-width: 779px) {
-  .home-intro .intro-footer .intro-center {
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
-  }
-  .home-intro .intro-footer .intro-card {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-  .home-intro .intro-footer .intro-external {
-    width: 320px;
-    height: 160px;
-    padding-top: 48px;
-    margin: 0 auto 20px auto;
-  }
-  .home-intro .intro-footer p {
-    padding-left: 2em;
-    padding-right: 2em;
-  }
-}
 @media screen and (max-width: 867px) {
   #app-body,
   .fullWidth {
@@ -1084,19 +1065,6 @@ a {
     margin-top: 12px;
   }
   .maximize {
-    display: none;
-  }
-  .bot-card.channels .channel-info {
-    float: none;
-    padding-right: 20px;
-  }
-  .bot-card.channels .channel-info:nth-child(2n+1) {
-    margin-right: 0;
-  }
-  .bot-card.channels .channel-info .channel {
-    width: 100%;
-  }
-  .bot-card.channels .channel-info .channel .cell:nth-child(2) {
     display: none;
   }
   .button-panel {
@@ -1340,15 +1308,6 @@ a {
   }
   .searchBox > form button {
     min-width: 0;
-  }
-}
-@media screen and (max-width: 1000px) and (min-width: 868px) {
-  .page-grid-right .grid-card {
-    margin-right: 360px;
-  }
-  .page-grid-right .grid-card.floatable {
-    min-width: 0;
-    width: 340px;
   }
 }
 @media screen and (max-width: 867px) {
