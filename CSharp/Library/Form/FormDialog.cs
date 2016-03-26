@@ -67,6 +67,7 @@ namespace Microsoft.Bot.Builder.Form
     public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
          where T : class, new()
     {
+        private readonly InitialState<T> _initialState;
         private readonly MakeForm _makeForm;
         private readonly IForm<T> _form;
         private FormState _formState;
@@ -84,8 +85,9 @@ namespace Microsoft.Bot.Builder.Form
         /// Construct a form.
         /// </summary>
         /// <param name="id">Unique dialog id to register with dialog system.</param>
-        public FormDialog(MakeForm makeForm = null)
+        public FormDialog(MakeForm makeForm = null, InitialState<T> initialState = null)
         {
+            _initialState = initialState;
             _makeForm = makeForm ?? (MakeForm)MakeDefaultForm;
             _form = _makeForm();
 
@@ -110,12 +112,6 @@ namespace Microsoft.Bot.Builder.Form
             info.AddValue(nameof(this._state), this._state);
         }
 
-        public void Call(IDialogContext context, InitialState<T> initial, ResumeAfter<T> resume)
-        {
-            initial = initial ?? new InitialState<T>();
-            context.Call<IFormDialog<T>, InitialState<T>, T>(this, initial, resume);
-        }
-
         #region IForm<T> implementation
 
         IForm<T> IFormDialog<T>.Form { get { return this._form; } }
@@ -124,12 +120,11 @@ namespace Microsoft.Bot.Builder.Form
 
         #region IDialog implementation
 
-        async Task IDialog<InitialState<T>>.StartAsync(IDialogContext context, IAwaitable<InitialState<T>> argument)
+        async Task IDialog.StartAsync(IDialogContext context)
         {
-            var initialState = await argument;
             bool skipFields = false;
 
-            if (initialState == null)
+            if (this._initialState == null)
             {
                 if (context.UserData.TryGetValue(typeof(T).Name, out _state))
                 {
@@ -142,16 +137,16 @@ namespace Microsoft.Bot.Builder.Form
             }
             else
             {
-                _state = initialState.State;
+                _state = this._initialState.State;
                 if (_state == null) _state = new T();
                 skipFields = true;
             }
             // TODO: Hook up culture state in form
 
             _formState = new FormState(_form.Steps.Count, CultureInfo.InvariantCulture);
-            if (initialState != null && initialState.Entities != null)
+            if (this._initialState != null && this._initialState.Entities != null)
             {
-                var entities = (from entity in initialState.Entities group entity by entity.Type);
+                var entities = (from entity in this._initialState.Entities group entity by entity.Type);
                 foreach (var entityGroup in entities)
                 {
                     var step = _form.Step(entityGroup.Key);
@@ -204,7 +199,7 @@ namespace Microsoft.Bot.Builder.Form
                     }
                 }
             }
-            if (initialState != null && initialState.PromptInStart)
+            if (this._initialState != null && this._initialState.PromptInStart)
             {
                 await MessageReceived(context, null);
             }

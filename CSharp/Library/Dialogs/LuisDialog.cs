@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
-    public class LuisDialog : IDialog<object>, ISerializable
+    public class LuisDialog : IDialog, ISerializable
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
@@ -125,7 +125,7 @@ namespace Microsoft.Bot.Builder
             info.AddValue(nameof(this.modelID), this.modelID);
         }
 
-        public virtual async Task StartAsync(IDialogContext context, IAwaitable<object> argument)
+        public virtual async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }

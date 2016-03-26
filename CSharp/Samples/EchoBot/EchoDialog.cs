@@ -9,11 +9,11 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Sample.EchoBot
 {
     [Serializable]
-    public class EchoDialog : IDialog<object>
+    public class EchoDialog : IDialog
     {
         private int count;
 
-        public async Task StartAsync(IDialogContext context, IAwaitable<object> argument)
+        public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }

@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Tests
             return Guid.NewGuid().ToString();
         }
 
-        public interface IPromptCaller<T> : IDialog<object>
+        public interface IPromptCaller<T> : IDialog
         {
             Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
@@ -63,13 +63,13 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog<object> root)
+        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog root)
         {
             var client = new Mock<IConnectorClient>(MockBehavior.Strict);
             var data = new Internals.JObjectBotData(new Connector.Message());
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
             var context = new Internals.DialogContext(client.Object, data, fiber);
-            var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
+            var loop = Methods.Void(Methods.Loop(context.ToRest(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();
             return context;
@@ -87,8 +87,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog<T>();
 
             dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<object>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { c.Wait(dialogRoot.Object.FirstMessage); });
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
             dialogRoot
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
@@ -160,8 +160,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog<T>();
 
             dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<object>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { c.Wait(dialogRoot.Object.FirstMessage); });
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
             dialogRoot
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });

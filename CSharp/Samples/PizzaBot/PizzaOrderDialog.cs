@@ -15,9 +15,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
-        private readonly Func<IFormDialog<PizzaOrder>> MakePizzaForm;
+        private readonly Func<InitialState<PizzaOrder>, IFormDialog<PizzaOrder>> MakePizzaForm;
 
-        internal PizzaOrderDialog(Func<IFormDialog<PizzaOrder>> makePizzaForm)
+        internal PizzaOrderDialog(Func<InitialState<PizzaOrder>, IFormDialog<PizzaOrder>> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
         }
@@ -72,8 +72,8 @@ namespace Microsoft.Bot.Sample.PizzaBot
             initialState.State = null;
             initialState.PromptInStart = true;
 
-            var pizzaForm = this.MakePizzaForm();
-            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
+            var pizzaForm = this.MakePizzaForm(initialState);
+            context.Call<PizzaOrder>(pizzaForm, PizzaFormComplete);
         }
 
         private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)

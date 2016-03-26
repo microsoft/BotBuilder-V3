@@ -43,15 +43,13 @@ namespace Microsoft.Bot.Builder
     /// Dialogs are suspended when waiting for a message from the user to the bot.
     /// Dialogs are resumed when the bot receives a message from the user.
     /// </remarks>
-    /// <typeparam name="T">The type of the start argument.</typeparam>
-    public interface IDialog<in T>
+    public interface IDialog
     {
         /// <summary>
         /// The start of the code that represents the conversational dialog.
         /// </summary>
         /// <param name="context">The dialog context.</param>
-        /// <param name="argument">Dialog start argument.</param>
         /// <returns>A task that represents the dialog start.</returns>
-        Task StartAsync(IDialogContext context, IAwaitable<T> argument);
+        Task StartAsync(IDialogContext context);
     }
 }

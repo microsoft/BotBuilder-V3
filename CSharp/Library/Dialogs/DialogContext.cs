@@ -96,12 +96,37 @@ namespace Microsoft.Bot.Builder.Internals
         private IWait wait;
 
         [Serializable]
-        private sealed class Thunk<T>
+        private sealed class ThunkStart
+        {
+            private DialogContext context;
+            private StartAsync start;
+
+            public ThunkStart(DialogContext context, StartAsync start)
+            {
+                Field.SetNotNull(out this.context, nameof(context), context);
+                Field.SetNotNull(out this.start, nameof(start), start);
+            }
+
+            public async Task<IWait> Rest(IFiber fiber, IItem<object> item)
+            {
+                var result = await item;
+                if (result != null)
+                {
+                    throw new ArgumentException(nameof(item));
+                }
+
+                await this.start(this.context);
+                return this.context.wait;
+            }
+        }
+
+        [Serializable]
+        private sealed class ThunkResume<T>
         {
             private DialogContext context;
             private ResumeAfter<T> resume;
 
-            public Thunk(DialogContext context, ResumeAfter<T> resume)
+            public ThunkResume(DialogContext context, ResumeAfter<T> resume)
             {
                 Field.SetNotNull(out this.context, nameof(context), context);
                 Field.SetNotNull(out this.resume, nameof(resume), resume);
@@ -114,17 +139,23 @@ namespace Microsoft.Bot.Builder.Internals
             }
         }
 
-        public Rest<T> ToRest<T>(ResumeAfter<T> resume)
+        internal Rest<object> ToRest(StartAsync start)
         {
-            var thunk = new Thunk<T>(this, resume);
+            var thunk = new ThunkStart(this, start);
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<C, T, R>(C child, T argument, ResumeAfter<R> resume)
+        internal Rest<T> ToRest<T>(ResumeAfter<T> resume)
         {
-            var callRest = ToRest<T>(child.StartAsync);
+            var thunk = new ThunkResume<T>(this, resume);
+            return thunk.Rest;
+        }
+
+        void IDialogStack.Call<R>(IDialog child, ResumeAfter<R> resume)
+        {
+            var callRest = ToRest(child.StartAsync);
             var doneRest = ToRest(resume);
-            this.wait = this.fiber.Call<T, R>(callRest, argument, doneRest);
+            this.wait = this.fiber.Call<object, R>(callRest, null, doneRest);
         }
 
         void IDialogStack.Done<R>(R value)

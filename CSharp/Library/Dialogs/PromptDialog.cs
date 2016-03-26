@@ -45,35 +45,35 @@ namespace Microsoft.Bot.Builder
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptText(prompt, retry, attempts);
-            context.Call<PromptText, object, string>(child, resume);
+            context.Call<string>(child, resume);
         }
 
         public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptConfirm(prompt, retry, attempts);
-            context.Call<PromptConfirm, object, bool>(child, resume);
+            context.Call<bool>(child, resume);
         }
 
         public static void Number(IDialogContext context, ResumeAfter<int> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptInt32(prompt, retry, attempts);
-            context.Call<PromptInt32, object, int>(child, resume);
+            context.Call<int>(child, resume);
         }
 
         public static void Number(IDialogContext context, ResumeAfter<float> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptFloat(prompt, retry, attempts);
-            context.Call<PromptFloat, object, float>(child, resume);
+            context.Call<float>(child, resume);
         }
 
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptChoice<T>(options, prompt, retry, attempts);
-            context.Call<PromptChoice<T>, object, T>(child, resume);
+            context.Call<T>(child, resume);
         }
 
         [Serializable]
-        private abstract class Prompt<T> : IDialog<object>
+        private abstract class Prompt<T> : IDialog
         {
             protected readonly string prompt;
             protected readonly string retry;
@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Builder
                 this.attempts = attempts;
             }
 
-            async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
+            async Task IDialog.StartAsync(IDialogContext context)
             {
                 await context.PostAsync(this.prompt);
                 context.Wait(MessageReceived);

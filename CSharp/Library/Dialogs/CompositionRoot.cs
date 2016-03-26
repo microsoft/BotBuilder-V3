@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder
             return formatter;
         }
 
-        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task<Message> SendAsync(Message toBot, Func<IDialog> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var waits = new WaitFactory();
             var frames = new FrameFactory(waits);
@@ -90,8 +90,8 @@ namespace Microsoft.Bot.Builder
                 IFiberLoop fiber = new Fiber(frames);
                 context = new Internals.DialogContext(client, toBotData, fiber);
                 var root = MakeRoot();
-                var loop = Methods.Void(Methods.Loop(context.ToRest<T>(root.StartAsync), int.MaxValue));
-                fiber.Call(loop, default(T));
+                var loop = Methods.Void(Methods.Loop(context.ToRest(root.StartAsync), int.MaxValue));
+                fiber.Call(loop, null);
                 await fiber.PollAsync();
             }
 

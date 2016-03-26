@@ -38,7 +38,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-    public class CommandDialog : IDialog<object>
+    public class CommandDialog : IDialog
     {
         public class Command
         {
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
 
-        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> argument)
+        async Task IDialog.StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }

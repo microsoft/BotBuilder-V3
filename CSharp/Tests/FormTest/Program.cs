@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     class Program
     {
-        static void Interactive<T>(IDialog<T> form)
+        static void Interactive(IDialog form)
         {
             var message = new Message()
             {
@@ -133,10 +133,17 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Build();
         }
 
+        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, FormDialog<T>.MakeForm makeForm) where T : class, new()
+        {
+            var initialState = new InitialState<T>() { PromptInStart = true };
+            var form = new FormDialog<T>(makeForm, initialState);
+            context.Call<T>(form, root.CallChild);
+        }
+
         static void Main(string[] args)
         {
             var choiceForm = new FormDialog<Choices>();
-            var callDebug = new CallDialog<InitialState<Choices>, Choices>(choiceForm, async (root, context, result) =>
+            var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
                 Choices choices;
                 try
@@ -153,44 +160,32 @@ namespace Microsoft.Bot.Builder.FormTest
                 {
                     case DebugOptions.AnnotationsAndNumbers:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeForm(noNumbers: false));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: false));
                             return;
                         }
                     case DebugOptions.AnnotationsAndNoNumbers:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeForm(noNumbers: true));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: true));
                             return;
                         }
                 case DebugOptions.NoAnnotations:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeForm(true, true));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: true, ignoreAnnotations: true));
                             return;
                         }
                 case DebugOptions.NoFieldOrder:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => new FormBuilder<PizzaOrder>().Build());
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<PizzaOrder>().Build());
                             return;
                         }
                     case DebugOptions.SimpleSandwichBot:
                         {
-                            var form = new FormDialog<SimpleSandwichOrder>(() => SimpleSandwichOrder.Form());
-                            var initialState = new InitialState<SimpleSandwichOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<SimpleSandwichOrder>().Build());
                             return;
                         }
                     case DebugOptions.AnnotatedSandwichBot:
                         {
-                            var form = new FormDialog<AnnotatedSandwichOrder>(() => AnnotatedSandwichOrder.Form());
-                            var initialState = new InitialState<AnnotatedSandwichOrder>() { PromptInStart = true };
-                            form.Call(context, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<AnnotatedSandwichOrder>().Build());
                             return;
                         }
                 }

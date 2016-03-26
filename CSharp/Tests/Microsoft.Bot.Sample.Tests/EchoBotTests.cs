@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Sample.Tests
                 Text = "Test"
             };
 
-            Func<IDialog<object>> MakeRoot = () => new EchoDialog();
+            Func<IDialog> MakeRoot = () => new EchoDialog();
 
             // act: sending the message
             var toUser = await CompositionRoot.SendAsync(toBot, MakeRoot);

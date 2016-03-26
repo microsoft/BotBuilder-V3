@@ -38,34 +38,32 @@ namespace Microsoft.Bot.Builder
 {
 
     [Serializable]
-    public class CallDialog<T, R> : IDialog<T>
+    public class CallDialog<R> : IDialog
     {
-        public delegate Task Resume(CallDialog<T, R> dialog, IDialogContext context, IAwaitable<R> result);
+        public delegate Task Resume(CallDialog<R> dialog, IDialogContext context, IAwaitable<R> result);
 
-        private readonly IDialog<T> child;
+        private readonly IDialog child;
         private readonly Resume resume;
-        private T argument;
 
-        public CallDialog(IDialog<T> child, Resume resume)
+        public CallDialog(IDialog child, Resume resume)
         {
             Field.SetNotNull(out this.child, nameof(child), child);
             Field.SetNotNull(out this.resume, nameof(resume), resume);
         }
 
-        async Task IDialog<T>.StartAsync(IDialogContext context, IAwaitable<T> argument)
+        async Task IDialog.StartAsync(IDialogContext context)
         {
-            this.argument = await argument;
-            await CallChild(context, null);
+            await CallChild(context, ignored: null);
         }
 
-        private async Task ChildDone(IDialogContext context, IAwaitable<R> result)
+        public async Task ChildDone(IDialogContext context, IAwaitable<R> result)
         {
             await resume(this, context, result);
         }
 
         public async Task CallChild(IDialogContext context, IAwaitable<object> ignored)
         {
-            context.Call<IDialog<T>, T, R>(this.child, this.argument, ChildDone);
+            context.Call<R>(this.child, ChildDone);
         }
     }
 }
