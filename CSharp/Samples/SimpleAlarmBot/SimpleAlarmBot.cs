@@ -12,9 +12,9 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
     [LuisModel("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "fe054e042fd14754a83f0a205f6552a5")]
     [Serializable]
-    public class SimpleAlarmBot : LuisDialog, ISerializable
+    public class SimpleAlarmBot : LuisDialog
     {
-        private readonly List<Alarm> alarms = new List<Alarm>();
+        private readonly Dictionary<string, Alarm> alarmByWhat = new Dictionary<string, Alarm>();
 
         public const string DefaultAlarmWhat = "default";
 
@@ -34,13 +34,12 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
                 what = DefaultAlarmWhat;
             }
 
-            alarm = this.alarms.FirstOrDefault(a => a.What == what);
-            return alarm != null;
+            return this.alarmByWhat.TryGetValue(what, out alarm);
         }
 
-        private const string Entity_Alarm_Title = "builtin.alarm.title";
-        private const string Entity_Alarm_Start_Time = "builtin.alarm.start_time";
-        private const string Entity_Alarm_Start_Date = "builtin.alarm.start_date";
+        public const string Entity_Alarm_Title = "builtin.alarm.title";
+        public const string Entity_Alarm_Start_Time = "builtin.alarm.start_time";
+        public const string Entity_Alarm_Start_Date = "builtin.alarm.start_date";
 
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
@@ -56,7 +55,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             Alarm alarm;
             if (TryFindAlarm(result, out alarm))
             {
-                this.alarms.Remove(alarm);
+                this.alarmByWhat.Remove(alarm.What);
                 await context.PostAsync($"alarm {alarm} deleted");
             }
             else
@@ -111,7 +110,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             {
                 var when = span.Start ?? span.End;
                 var alarm = new Alarm() { What = title.Entity, When = when.Value };
-                this.alarms.Add(alarm);
+                this.alarmByWhat[alarm.What] = alarm;
 
                 string reply = $"alarm {alarm} created";
                 await context.PostAsync(reply);
@@ -186,7 +185,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         {
             if (await confirmation)
             {
-                this.alarms.Remove(this.turnOff);
+                this.alarmByWhat.Remove(this.turnOff.What);
                 await context.PostAsync($"Ok, alarm {this.turnOff} disabled.");
             }
             else
@@ -204,21 +203,9 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             context.Wait(MessageReceived);
         }
 
-        public SimpleAlarmBot()
+        public SimpleAlarmBot(ILuisService service = null)
+            : base(service)
         {
-        }
-
-        protected SimpleAlarmBot(SerializationInfo info, StreamingContext context)
-        {
-            var json = info.GetValue<string>(nameof(this.alarms));
-            this.alarms = JArray.Parse(json).ToObject<List<Alarm>>();
-            this.turnOff = info.GetValue<Alarm>(nameof(this.turnOff));
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(this.alarms), JArray.FromObject(this.alarms).ToString());
-            info.AddValue(nameof(this.turnOff), turnOff);
         }
 
         [Serializable]
