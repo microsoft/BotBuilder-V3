@@ -31,8 +31,10 @@ ul, ol, dl, figure,
  * Images
  */
 img {
-    max-width: 100%;
-    vertical-align: middle;
+    max-width: 70%;
+    display: block;
+    margin: 20px auto 20px auto;
+    border: 1px solid lightgrey;
 }
 
 
