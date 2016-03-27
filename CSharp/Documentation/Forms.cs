@@ -532,19 +532,22 @@
     /// 
     /// Possible curly brace pattern elements are outline in the table below.  Within a pattern element, "<field>" refers to the  path within your form class to get
     /// to the field value.  So if I had a class with a field named "Size" you would refer to the size value with the pattern element {Size}.  
-    /// "..." within a pattern element means multiple elements are allowed.
+    /// "..." within a pattern element means multiple elements are allowed.  "<format>" within a pattern element means that you
+    /// can optionally specify a regular C# format specifier, i.e. if "Rating" were a double field I could show it with
+    /// two digits of precision by using the pattern element "{Rating:F2}".  "<n>" shows where you can specify a reference to the nth
+    /// argument of a template.  (See TemplateUsage to see what arguments each template can use.)
     /// 
     /// Pattern Element | Description
     /// --------------- | -----------
-    /// {} | Value of the current field.
+    /// {<format>} | Value of the current field.
     /// {&} | Description of the current field.
-    /// {<field>} | Value of a particular field. 
+    /// {<field><format>} | Value of a particular field. 
     /// {&<field>} | Description of a particular field.
     /// {\|\|} | Show the current choices for enumerated fields.
-    /// {[<field> ...]} | Create a list with all field values together utilizing Form.TemplateBase.Separator and Form.TemplateBase.LastSeparator to separate the individual values.
+    /// {[{<field><format>} ...]} | Create a list with all field values together utilizing Form.TemplateBase.Separator and Form.TemplateBase.LastSeparator to separate the individual values.
     /// {*} | Show one line for each active field with the description and current value.
     /// {*filled} | Show one line for each active field that has an actual value with the description and current value.
-    /// {<format>} | A regular C# format specifier that refers to the nth arg.  See Form.TemplateUsage to see what args are available.
+    /// {<nth><format>} | A regular C# format specifier that refers to the nth arg.  See Form.TemplateUsage to see what args are available.
     /// {?<textOrPatternElement>...} | Conditional substitution.  If all referred to pattern elements have values, the values are substituted and the whole expression is used.
     ///
     /// Patterns are used in Form.Prompt and Form.Template annotations.  

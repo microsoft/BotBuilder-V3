@@ -11,49 +11,44 @@ namespace Microsoft.Bot.Sample.EchoBot
     [Serializable]
     public class EchoDialog : IDialog
     {
-        private int count;
+        private int count = 1;
 
         public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceivedAsync);
         }
 
-        public async Task MessageReceived(IDialogContext context, IAwaitable<Message> argument)
+        public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
         {
             var message = await argument;
             if (message.Text == "reset")
             {
                 Prompts.Confirm(
                     context,
-                    AfterConfirmReset,
+                    AfterResetAsync,
                     "Are you sure you want to reset the count?",
                     "Didn't get that!");
             }
             else
             {
-                var text = string.Format("{0}: I heard {1}", this.count, message.Text);
-                await context.PostAsync(text);
-
-                context.Wait(MessageReceived);
+                await context.PostAsync(string.Format("{0}: You said {1}", this.count++, message.Text));
+                context.Wait(MessageReceivedAsync);
             }
-
-            ++this.count;
         }
 
-        public async Task AfterConfirmReset(IDialogContext context, IAwaitable<bool> argument)
+        public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
         {
             var confirm = await argument;
             if (confirm)
             {
-                this.count = 0;
-                await context.PostAsync("count reset.");
+                this.count = 1;
+                await context.PostAsync("Reset count.");
             }
             else
             {
-                await context.PostAsync("did not reset count.");
+                await context.PostAsync("Did not reset count.");
             }
-
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceivedAsync);
         }
     }
 }

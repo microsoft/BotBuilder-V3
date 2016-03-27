@@ -58,36 +58,30 @@
     /// In this simple case the next message would again be processed by MessageReceivedAsync. 
     /// Every time we call IDialogContext.Wait our bot is suspended and can be restarted on any machine that receives the message.  
     /// 
-    /// If you run and test this bot, it will behave exactly like the original one from the Bot Framework template.  Looking at the
-    /// code this doesn't look like progress--we have added more lines to achieve exactly the same effect.  We are doing this to lay 
-    /// a foundation for handling richer conversations. One of the challenges of handling more complex conversations is in managing the
-    /// state of the conversation and the transitions between different phases.  The Bot Builder makes this easier by using dialogs as a unit
-    /// of state, isolation and composability.  By introducing the EchoDialog class we have a place to record the state of the dialog. 
-    /// This state is then included with every message passed off to the Bot Framework Service.  (Which is why the class is marked as serializable.)  
-    /// By making our Bot stateless then a conversation can be moved between machines because of machine crashes or to improve scalability 
-    /// without affecting the conversation.  
-    /// 
-    /// when writing anything that involves a richer conversation This definitely
-    /// looks
-    ///
-    /// \subsection Execution Flow
-    /// Conversation.SendAsync is the top level method for the %Bot Builder SDK.  This composition root follows the dependency
-    /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle), and performs this work:
-    /// 
-    /// - instantiates the required components
-    /// - deserializes the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message
-    /// - resumes the conversation processes where the %Bot decided to suspend and wait for a message
-    /// - queues messages to be sent to the user
-    /// - serializes the updated dialog state in the messages to be sent to the user
-    /// 
-    /// CompositionRoot.SendAsync<T> takes as arguments
-    /// - the incoming Message from the user (as delivered by the %Bot Connector), and
-    /// - a factory method to create the root IDialog<T> dialog for your %Bot's implementation
-    /// 
-    /// and returns an inline Message to send back to the user through the %Bot Connector.  The factory method is invoked
-    /// for new conversations only, because existing conversations have the dialog stack and state serialized in the %Bot data.
+    /// If you run and test this bot, it will behave exactly like the original one from the Bot Framework template.  It is a
+    /// little more complicated, but it allows you to compose together multiple dialogs into complex conversations without
+    /// having to explicitly manage state.   
     /// 
     /// \subsection echoBot Echo Bot
+    /// Now that we have an example of the Bot Builder framework we are going to build on it to add some dialog state and 
+    /// some commands to control that state. We are going to number the responses and allow the command "reset" to reset the
+    /// count.  All we need to do is to replace our EchoDialog with the one below. 
+    /// \dontinclude EchoBot/EchoDialog.cs
+    /// \skip Serializable
+    /// \until AfterResetAsync(
+    /// \until context.Wait
+    /// \until }
+    /// \until }
+    /// 
+    /// The first change you will notice is the addition of `private int count = 1;`.  This is the state we are persisting
+    /// with this dialog on each message.  
+    /// 
+    /// In MessageReceivedAsync we have added check to see if the input was "reset" and if that is true we use the built-in
+    /// Prompts.Confirm dialog to spawn a sub-dialog that asks the user if they are sure about resetting the count. The sub-dialog has its
+    /// own private state and does not need to worry about interfering with the parent dialog.  When the sub dialog
+    /// is done, it's result is then passed onto the AfterResetAync method.  In AfterResetAsync we check on the 
+    /// response and perform the action including sending a message back to the user.  The final step is to do IDialogContext.Wait 
+    /// with a continuation back to MessageReceivedAsync on the next message.
     /// 
     /// \subsection alarmBot Alarm Bot
     /// 
