@@ -59,8 +59,7 @@ var hierarchy =
     [ "ISerializable", null, [
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ],
       [ "Microsoft.Bot.Builder.Form.FormDialog< T >", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html", null ],
-      [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ],
-      [ "Microsoft.Bot.Builder.LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html", null ]
+      [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ]
     ] ],
     [ "ISerializationSurrogate", null, [
       [ "Microsoft.Bot.Builder.Fibers.Serialization.LogSurrogate", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", null ],

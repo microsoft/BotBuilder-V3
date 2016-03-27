@@ -8,11 +8,12 @@
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--
 <link href="/js/doxygen/navtree.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/js/doxygen/resize.js"></script>
 <script type="text/javascript" src="/js/doxygen/navtreedata.js"></script>
 <script type="text/javascript" src="/js/doxygen/navtree.js"></script>
-    <!--
+        -->
 <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../resize.js"></script>
 <script type="text/javascript" src="../../navtreedata.js"></script>
@@ -21,7 +22,6 @@
   $(document).ready(initResizable);
   $(window).load(resizeHeight);
 </script>
-        -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -123,6 +123,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aefef25440237d1d908232e87f95b4c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ebfdb73e501ba087a9e29419573992c"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#a9ebfdb73e501ba087a9e29419573992c">GetValue&lt; T &gt;</a> (this SerializationInfo info, string name)</td></tr>
 <tr class="separator:a9ebfdb73e501ba087a9e29419573992c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa69b07d497f11b6602582b3c0916f838"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html#aa69b07d497f11b6602582b3c0916f838">TryFindEntity</a> (this <a class="el" href="../../de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html">LuisResult</a> result, string type, out <a class="el" href="../../dc/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_entity_recommendation.html">Models.EntityRecommendation</a> entity)</td></tr>
+<tr class="separator:aa69b07d497f11b6602582b3c0916f838"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper methods. </p>
@@ -275,9 +277,52 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa69b07d497f11b6602582b3c0916f838"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool Microsoft.Bot.Builder.Extensions.TryFindEntity </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html">LuisResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out <a class="el" href="../../dc/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_entity_recommendation.html">Models.EntityRecommendation</a>&#160;</td>
+          <td class="paramname"><em>entity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00079">79</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/code/BotBuilder/CSharp/Library/Dialogs/<a class="el" href="../../d2/d58/_i_bot_data_8cs_source.html">IBotData.cs</a></li>
 <li>C:/code/BotBuilder/CSharp/Library/Dialogs/<a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Dialogs/<a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a></li>
 <li>C:/code/BotBuilder/CSharp/Library/Extensions/<a class="el" href="../../d8/dfb/_extensions_2_extensions_8cs_source.html">Extensions.cs</a></li>
 </ul>
 </div><!-- contents -->
