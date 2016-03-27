@@ -6,27 +6,28 @@ var NAVTREE =
     ] ],
     [ "Overview", "index.html#overview", null ],
     [ "Install", "index.html#install", null ],
-    [ "Dialogs", "index.html#dialogs", [
-      [ "Overview", "index.html#Overview", null ],
-      [ "Flow", "index.html#Execution", null ],
-      [ "IDialog", "index.html#IDialog", null ],
-      [ "IDialogContext", "index.html#IDialogContext", null ]
-    ] ],
-    [ "Form Flow", "index.html#forms", [
-      [ "Forms and Fields", "index.html#fields", null ],
-      [ "Pattern Language", "index.html#patterns", null ]
-    ] ],
-    [ "Usage", "index.html#usage", null ],
-    [ "Updates", "index.html#Updates", null ],
-    [ "Running in Azure", "index.html#running_in_azure", null ],
     [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
-    [ "Examples", "Examples.html", [
-      [ "Simple Sandwich Bot", "Examples.html#simplesandwichbot", null ],
-      [ "Annotated Sandwich Bot", "Examples.html#annotatedSandwich", [
-        [ "Attributes", "Examples.html#attributes", null ],
-        [ "Adding Business Logic", "Examples.html#logic", null ],
-        [ "Controlling Flow", "Examples.html#ControlFlow", null ]
+    [ "Dialogs", "Dialogs.html", [
+      [ "Dialogs", "Dialogs.html#dialogs", [
+        [ "Overview", "Dialogs.html#Overview", null ],
+        [ "Simple Echo Bot", "Dialogs.html#simpleEcho", null ],
+        [ "Echo Bot", "Dialogs.html#echoBot", null ],
+        [ "Alarm Bot", "Dialogs.html#alarmBot", null ],
+        [ "IDialog", "Dialogs.html#IDialog", null ],
+        [ "IDialogContext", "Dialogs.html#IDialogContext", null ]
       ] ]
+    ] ],
+    [ "Forms", "Forms.html", [
+      [ "Form Flow", "Forms.html#forms", [
+        [ "Forms and Fields", "Forms.html#fields", null ]
+      ] ],
+      [ "Simple Sandwich Bot", "Forms.html#simplesandwichbot", null ],
+      [ "Annotated Sandwich Bot", "Forms.html#annotatedSandwich", [
+        [ "Attributes", "Forms.html#attributes", null ],
+        [ "Adding Business Logic", "Forms.html#logic", null ],
+        [ "Controlling Flow", "Forms.html#ControlFlow", null ]
+      ] ],
+      [ "Pattern Language", "Forms.html#patterns", null ]
     ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -55,10 +56,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Examples.html",
-"d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html",
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a0aa7c632f28bd5f547179c30caa7a6c7",
-"functions_func_g.html"
+"Dialogs.html",
+"d4/dc4/_form_2_extensions_8cs.html",
+"da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#a8ba787bbe1e15a5b53b7a148e131b79b",
+"functions_c.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
