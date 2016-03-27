@@ -247,25 +247,31 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Arguments passed to the system prompts beginDialog() call. */
-export interface IPromptArgs {
+/** Options passed to  */
+export interface IPromptOptions {
+    /** Optional retry prompt to send if the users response isn't understood. Default is to just reprompt with "I Didn't understand." plus the original prompt. */
+    retryPrompt?: string;
+
+    /** Optional maximum number of times to reprompt the user. Default value is 2. */
+    maxRetries?: number;
+
+    /** Optional reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
+    refDate?: number;
+
+    /** Optional type of list to render for PromptType.choice. Default value is ListStyle.list. */
+    listStyle?: ListStyle;
+}
+
+/** Arguments passed to the built-in prompts beginDialog() call. */
+export interface IPromptArgs extends IPromptOptions {
     /** Type of prompt invoked. */
     promptType: PromptType;
 
     /** Initial message to send to user. */
     prompt: string;
-    
-    /** Optional retry prompt to send if the users response isn't understood. */
-    retryPrompt?: string;
 
     /** Enum values for a choice prompt. */
     enumsValues?: string[];
-
-    /** Optional reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
-    refDate?: number;
-
-    /** Maximum number of times to reprompt. */
-    maxRetries?: number;
 }
 
 /** Dialog result returned by a system prompt. */
@@ -644,6 +650,18 @@ export enum PromptType {
     time
 }
 
+/** Type of list to render for PromptType.choice prompt. */
+export enum ListStyle { 
+    /** No list is rendered. This is used when the list is included as part of the prompt. */
+    none, 
+    
+    /** Choices are rendered as an inline list of the form "1. red, 2. green, or 3. blue". */
+    inline, 
+    
+    /** Choices are rendered as a numbered list. */
+    list 
+}
+
 //=============================================================================
 //
 // CLASSES
@@ -913,6 +931,7 @@ export class DialogCollection {
     use(middleware: (session: Session, next: Function) => void): void;
 }
 
+/** Dialog actions offer shortcuts to implementing common actions. */
 export class DialogAction {
     /**
      * Returns a closure that will send a simple text message to the user. 
@@ -946,7 +965,7 @@ export class DialogAction {
      * - ResumeReason.back: returns to the previous function in the waterfall.
      * - ResumeReason.canceled: ends the waterfall all together.
      * 
-     * Calling other dialog like system prompts can influence the flow as well. If a child dialog
+     * Calling other dialog like built-in prompts can influence the flow as well. If a child dialog
      * returns either ResumeReason.forward or ResumeReason.back it will automatically be handled.
      * If ResumeReason.canceled is returnd it will be handed to the step for processing which can
      * then decide to cancel the action or not.
@@ -956,7 +975,7 @@ export class DialogAction {
 }
 
 /**
- * Built in system prompts that can be called from any dialog. 
+ * Built in built-in prompts that can be called from any dialog. 
  */
 export class Prompts extends Dialog {
     /**
@@ -979,111 +998,57 @@ export class Prompts extends Dialog {
     static text(session: Session, prompt: string): void;
 
     /**
-     * Manually calls the current text prompt recognizer. Useful when needing to manually parse
-     * entity values or user utterances. 
-     * @param language Language of the text if known.
-     * @param text Text to recognize.
-     * @param callback Function to call with the recognition results.
-     */
-    static recognizeText(language: string, text: string, callback: (result: IPromptResult<string>) => void): void;
-
-    /**
      * Prompts the user to enter a number.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static number(session: Session, prompt: string, retryPrompt?: string, maxRetries?: number): void;
-
-    /**
-     * Manually calls the current number prompt recognizer. Useful when needing to manually parse
-     * entity values or user utterances. 
-     * @param language Language of the text if known.
-     * @param text Text to recognize.
-     * @param callback Function to call with the recognition results.
-     */
-    static recognizeNumber(language: string, text: string, callback: (result: IPromptResult<number>) => void): void;
+    static number(session: Session, prompt: string, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to confirm an action with a yes/no response.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static confirm(session: Session, prompt: string, retryPrompt?: string, maxRetries?: number): void;
-
-    /**
-     * Manually calls the current confirm prompt recognizer. Useful when needing to manually parse
-     * entity values or user utterances. 
-     * @param language Language of the text if known.
-     * @param text Text to recognize.
-     * @param callback Function to call with the recognition results.
-     */
-    static recognizeConfirm(language: string, text: string, callback: (result: IPromptResult<boolean>) => void): void;
+    static confirm(session: Session, prompt: string, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to chose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices as a pipe ('|') delimted string.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string, choices: string, retryPrompt?: string, maxRetries?: number): void;
+    static choice(session: Session, prompt: string, choices: string, options?: IPromptOptions): void;
     /**
      * Prompts the user to chose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices expressed as an Object map. The objects field names will be used to build the list of values.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string, choices: Object, retryPrompt?: string, maxRetries?: number): void;
+    static choice(session: Session, prompt: string, choices: Object, options?: IPromptOptions): void;
     /**
      * Prompts the user to chose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices as an array of strings.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string, choices: string[], retryPrompt?: string, maxRetries?: number): void;
-
-    /**
-     * Manually calls the current choice prompt recognizer. Useful when needing to manually parse
-     * entity values or user utterances. 
-     * @param language Language of the text if known.
-     * @param text Text to recognize.
-     * @param enumValues List of possible choices.
-     * @param callback Function to call with the recognition results.
-     */
-    static recognizeChoice(language: string, text: string, enumValues: string[], callback: (result: IPromptResult<string>) => void): void;
+    static choice(session: Session, prompt: string, choices: string[], options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a time.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param refDate Optional date to use as reference date when recognizing the users response.
-     * @param retryPrompt Message to send should the user send the wrong value.
-     * @param maxRetries Maximum number of times to reprompt the user. Pass 0 to end the dialog immediately on failed input.
+     * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static time(session: Session, prompt: string, refDate?: Date, retryPrompt?: string, maxRetries?: number): void;
-
-    /**
-     * Manually calls the current time prompt recognizer. Useful when needing to manually parse
-     * entity values or user utterances. 
-     * @param language Language of the text if known.
-     * @param text Text to recognize.
-     * @param refDate Optional date (can be null) to use as reference date when recognizing the users response.
-     * @param callback Function to call with the recognition results.
-     */
-    static recognizeTime(language: string, text: string, refDate: Date, callback: (result: IPromptResult<IEntity>) => void): void;
+    static time(session: Session, prompt: string, options?: IPromptOptions): void;
 }
 
 /**
- * Implements a simple pattern based recognizer for parsing the system prompts. Derived classes can 
+ * Implements a simple pattern based recognizer for parsing the built-in prompts. Derived classes can 
  * inherit from SimplePromptRecognizer and override the recognize() method to change the recognition
  * of one or more prompt types. 
  */

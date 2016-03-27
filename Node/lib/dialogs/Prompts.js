@@ -157,47 +157,17 @@ var Prompts = (function (_super) {
             prompt: prompt
         });
     };
-    Prompts.recognizeText = function (language, text, callback) {
-        Prompts.options.recognizer.recognize({
-            promptType: PromptType.text,
-            language: language,
-            utterance: text,
-            compareConfidence: function (language, utterance, score, callback) {
-                callback(false);
-            }
-        }, callback);
-    };
     Prompts.number = function (ses, prompt, options) {
         var args = options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
         beginPrompt(ses, args);
     };
-    Prompts.recognizeNumber = function (language, text, callback) {
-        Prompts.options.recognizer.recognize({
-            promptType: PromptType.number,
-            language: language,
-            utterance: text,
-            compareConfidence: function (language, utterance, score, callback) {
-                callback(false);
-            }
-        }, callback);
-    };
     Prompts.confirm = function (ses, prompt, options) {
         var args = options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
         beginPrompt(ses, args);
-    };
-    Prompts.recognizeConfirm = function (language, text, callback) {
-        Prompts.options.recognizer.recognize({
-            promptType: PromptType.confirm,
-            language: language,
-            utterance: text,
-            compareConfidence: function (language, utterance, score, callback) {
-                callback(false);
-            }
-        }, callback);
     };
     Prompts.choice = function (ses, prompt, choices, options) {
         var args = options || {};
@@ -232,33 +202,11 @@ var Prompts = (function (_super) {
         }
         beginPrompt(ses, args);
     };
-    Prompts.recognizeChoice = function (language, text, enumValues, callback) {
-        Prompts.options.recognizer.recognize({
-            promptType: PromptType.choice,
-            language: language,
-            utterance: text,
-            enumValues: enumValues,
-            compareConfidence: function (language, utterance, score, callback) {
-                callback(false);
-            }
-        }, callback);
-    };
     Prompts.time = function (ses, prompt, options) {
         var args = options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
         beginPrompt(ses, args);
-    };
-    Prompts.recognizeTime = function (language, text, refDate, callback) {
-        Prompts.options.recognizer.recognize({
-            promptType: PromptType.time,
-            language: language,
-            utterance: text,
-            refDate: (refDate || new Date()).getTime(),
-            compareConfidence: function (language, utterance, score, callback) {
-                callback(false);
-            }
-        }, callback);
     };
     Prompts.options = {
         recognizer: new SimplePromptRecognizer()

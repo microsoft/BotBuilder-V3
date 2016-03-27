@@ -191,18 +191,6 @@ export class Prompts extends dialog.Dialog {
         });
     }
 
-    static recognizeText(language: string, text: string, callback: (result: IPromptResult<string>) => void): void {
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: PromptType.text,
-                language: language,
-                utterance: text,
-                compareConfidence: (language, utterance, score, callback) => {
-                    callback(false);
-                }
-            }, callback);
-    }
-
     static number(ses: session.Session, prompt: string, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.number;
@@ -210,35 +198,11 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(ses, args);
     }
 
-    static recognizeNumber(language: string, text: string, callback: (result: IPromptResult<number>) => void): void {
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: PromptType.number,
-                language: language,
-                utterance: text,
-                compareConfidence: (language, utterance, score, callback) => {
-                    callback(false);
-                }
-            }, callback);
-    }
-
     static confirm(ses: session.Session, prompt: string, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
         beginPrompt(ses, args);
-    }
-
-    static recognizeConfirm(language: string, text: string, callback: (result: IPromptResult<boolean>) => void): void {
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: PromptType.confirm,
-                language: language,
-                utterance: text,
-                compareConfidence: (language, utterance, score, callback) => {
-                    callback(false);
-                }
-            }, callback);
     }
 
     static choice(ses: session.Session, prompt: string, choices: string, options?: IPromptOptions): void;
@@ -278,37 +242,11 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(ses, args);
     }
 
-    static recognizeChoice(language: string, text: string, enumValues: string[], callback: (result: IPromptResult<string>) => void): void {
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: PromptType.choice,
-                language: language,
-                utterance: text,
-                enumValues: enumValues,
-                compareConfidence: (language, utterance, score, callback) => {
-                    callback(false);
-                }
-            }, callback);
-    }
-
     static time(ses: session.Session, prompt: string, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
         beginPrompt(ses, args);
-    }
-
-    static recognizeTime(language: string, text: string, refDate: Date, callback: (result: IPromptResult<IEntity>) => void): void {
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: PromptType.time,
-                language: language,
-                utterance: text,
-                refDate: (refDate || new Date()).getTime(),
-                compareConfidence: (language, utterance, score, callback) => {
-                    callback(false);
-                }
-            }, callback);
     }
 }
 
