@@ -1014,7 +1014,7 @@ export class Prompts extends Dialog {
     static confirm(session: Session, prompt: string, options?: IPromptOptions): void;
 
     /**
-     * Prompts the user to chose from a list of options.
+     * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices as a pipe ('|') delimted string.
@@ -1022,7 +1022,7 @@ export class Prompts extends Dialog {
      */
     static choice(session: Session, prompt: string, choices: string, options?: IPromptOptions): void;
     /**
-     * Prompts the user to chose from a list of options.
+     * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices expressed as an Object map. The objects field names will be used to build the list of values.
@@ -1030,7 +1030,7 @@ export class Prompts extends Dialog {
      */
     static choice(session: Session, prompt: string, choices: Object, options?: IPromptOptions): void;
     /**
-     * Prompts the user to chose from a list of options.
+     * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
      * @param choices List of choices as an array of strings.
