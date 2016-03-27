@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Node.js
-permalink: /builder/node/libraries/reference/
+title: BotBuilder v0.6
+permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
 parent2: Libraries
@@ -14,6 +14,9 @@ Bot Builder for Node.js is targeted at Node.js developers creating new bots from
 * [Bot Builder on GitHub](https://github.com/Microsoft/BotBuilder)
 
 ## Install
-Get the BotBuilder module using npm.
+Get the latest version of BotBuilder using npm.
 
     npm install --save botbuilder
+
+## Release Notes
+Version 0.6 is the initial public release of Bot Builder for Node.js. Developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
