@@ -125,9 +125,9 @@ Inheritance diagram for Microsoft.Bot.Builder.IDialogStack:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aee4fa00b53874d4ab6f3b084befb802d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html#aee4fa00b53874d4ab6f3b084befb802d">Call&lt; C, T, R &gt;</a> (C child, T argument, ResumeAfter&lt; R &gt; resume)</td></tr>
-<tr class="memdesc:aee4fa00b53874d4ab6f3b084befb802d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a child dialog and add it to the top of the stack.  <a href="#aee4fa00b53874d4ab6f3b084befb802d">More...</a><br /></td></tr>
-<tr class="separator:aee4fa00b53874d4ab6f3b084befb802d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6da8135dd39ae5a07e06b6beec5fbc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html#ac6da8135dd39ae5a07e06b6beec5fbc4">Call&lt; R &gt;</a> (<a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">IDialog</a> child, ResumeAfter&lt; R &gt; resume)</td></tr>
+<tr class="memdesc:ac6da8135dd39ae5a07e06b6beec5fbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a child dialog and add it to the top of the stack.  <a href="#ac6da8135dd39ae5a07e06b6beec5fbc4">More...</a><br /></td></tr>
+<tr class="separator:ac6da8135dd39ae5a07e06b6beec5fbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06ab10a31bea8017f9065d6f4613db48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html#a06ab10a31bea8017f9065d6f4613db48">Done&lt; R &gt;</a> (R value)</td></tr>
 <tr class="memdesc:a06ab10a31bea8017f9065d6f4613db48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Complete the current dialog and return a result to the parent dialog.  <a href="#a06ab10a31bea8017f9065d6f4613db48">More...</a><br /></td></tr>
 <tr class="separator:a06ab10a31bea8017f9065d6f4613db48"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,23 +138,17 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The stack of dialogs in the conversational process. </p>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00022">22</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00029">29</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aee4fa00b53874d4ab6f3b084befb802d"></a>
+<a class="anchor" id="ac6da8135dd39ae5a07e06b6beec5fbc4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Microsoft.Bot.Builder.IDialogStack.Call&lt; C, T, R &gt; </td>
+          <td class="memname">void Microsoft.Bot.Builder.IDialogStack.Call&lt; R &gt; </td>
           <td>(</td>
-          <td class="paramtype">C&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">IDialog</a>&#160;</td>
           <td class="paramname"><em>child</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>argument</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -173,8 +167,6 @@ Public Member Functions</h2></td></tr>
 <p>Call a child dialog and add it to the top of the stack. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">C</td><td>The type of the child dialog.</td></tr>
-    <tr><td class="paramname">T</td><td>The type of the child dialog's argument.</td></tr>
     <tr><td class="paramname">R</td><td>The type of result expected from the child dialog.</td></tr>
   </table>
   </dd>
@@ -182,20 +174,10 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">child</td><td>The child dialog.</td></tr>
-    <tr><td class="paramname">argument</td><td>The child dialog's argument.</td></tr>
     <tr><td class="paramname">resume</td><td>The method to resume when the child dialog has completed.</td></tr>
   </table>
   </dd>
 </dl>
-<div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>C</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>C</em></td><td>&#160;:</td><td valign="top"><em>IDialog&lt;T&gt;</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
 
 </div>
 </div>

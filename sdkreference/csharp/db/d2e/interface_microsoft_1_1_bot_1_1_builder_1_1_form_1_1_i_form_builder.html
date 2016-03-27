@@ -155,9 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a05d46f7d737133f33ecc57bc0fb8bb2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">IFormBuilder</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html#a05d46f7d737133f33ecc57bc0fb8bb2d">Message</a> (<a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html">Prompt</a> prompt, ConditionalDelegate&lt; T &gt; condition=null)</td></tr>
 <tr class="memdesc:a05d46f7d737133f33ecc57bc0fb8bb2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show a message with more format control that does not require a response.  <a href="#a05d46f7d737133f33ecc57bc0fb8bb2d">More...</a><br /></td></tr>
 <tr class="separator:a05d46f7d737133f33ecc57bc0fb8bb2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac397e01cca3849a4cd0712224144f24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">IFormBuilder</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html#aac397e01cca3849a4cd0712224144f24">OnCompletion</a> (CompletionDelegate&lt; T &gt; callback)</td></tr>
-<tr class="memdesc:aac397e01cca3849a4cd0712224144f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegate to call when form is completed.  <a href="#aac397e01cca3849a4cd0712224144f24">More...</a><br /></td></tr>
-<tr class="separator:aac397e01cca3849a4cd0712224144f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ada69a1d59b0ab268daa73483ca0cd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">IFormBuilder</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html#a5ada69a1d59b0ab268daa73483ca0cd9">OnCompletionAsync</a> (CompletionDelegate&lt; T &gt; callback)</td></tr>
+<tr class="memdesc:a5ada69a1d59b0ab268daa73483ca0cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegate to call when form is completed.  <a href="#a5ada69a1d59b0ab268daa73483ca0cd9">More...</a><br /></td></tr>
+<tr class="separator:a5ada69a1d59b0ab268daa73483ca0cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -166,17 +166,8 @@ Properties</h2></td></tr>
 <tr class="separator:a494a1d884964390f8e07fcc518ab02ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
-
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00007">7</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<div class="textblock">
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00040">40</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="afb75bcf41734a92bfff8ebe93e7741f1"></a>
 <div class="memitem">
@@ -202,6 +193,8 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>This will add all fields defined in your form state that have not already been added if the fields are supported. </p>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a2e032d54fdb4edb08add3acedcb5f726">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a2ade5db6442e4e3898334b5a28c03a8f"></a>
@@ -219,6 +212,8 @@ Properties</h2></td></tr>
 
 <p>Build the form based on the methods called on the builder. </p>
 <dl class="section return"><dt>Returns</dt><dd>The constructed form.</dd></dl>
+
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#ae44df3f385bb9887946c95033b5d6304">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -264,6 +259,8 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>If prompt is not supplied the <a class="el" href="../../index.html#patterns">Pattern Language</a> element {*} will be used to confirm. Dependencies will by default be all active steps defined before this confirmation. </p>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a4f930f9b95856b911aa0a8e9dffd6969">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a5546e2ee6be2117a68c3ae77c224a694"></a>
@@ -308,6 +305,8 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>Dependencies will by default be all active steps defined before this confirmation. </p>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a41797d50d752127f03cfd4dcabaabbb4">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a1099eb78235fa048738312e3fdb4fadf"></a>
@@ -333,6 +332,8 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>This allows you to take full control of the behavior of this confirmation. </p>
+
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#afb34a07af94fec45648269d3df8b79ae">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -377,6 +378,8 @@ Properties</h2></td></tr>
 </dl>
 <p>This step will use reflection to construct everything needed for a dialog from a combination of the <a class="el" href="../../dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html" title="Attribute to override the default description of a field, property or enum value. ...">Describe</a>, <a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html" title="Attribute to override the default terms used to match a field, property or enum value to user input...">Terms</a>, <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html" title="Define the prompt template used when asking about a field. ">Prompt</a>, <a class="el" href="../../d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html" title="Define a field or property as optional. ">Optional</a> <a class="el" href="../../d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html" title="Provide limits on the possible values in a numeric field or property. ">Numeric</a> and <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html" title="Define a template for generating strings. ">Template</a> annotations that are supplied by default or you override. </p>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
+
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#ae9d9c546829fbeff3edc97f1fb1ddc88">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -429,6 +432,8 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>This step will use reflection to construct everything needed for a dialog from a combination of the <a class="el" href="../../dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html" title="Attribute to override the default description of a field, property or enum value. ...">Describe</a>, <a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html" title="Attribute to override the default terms used to match a field, property or enum value to user input...">Terms</a>, <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html" title="Define the prompt template used when asking about a field. ">Prompt</a>, <a class="el" href="../../d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html" title="Define a field or property as optional. ">Optional</a> <a class="el" href="../../d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html" title="Provide limits on the possible values in a numeric field or property. ">Numeric</a> and <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html" title="Define a template for generating strings. ">Template</a> annotations that are supplied by default or you override. </p>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a50af09841e4a162e4712abafd5d99565">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a23729fefd96584ffeb1dcf8eda31eec6"></a>
@@ -480,6 +485,8 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>This step will use reflection to construct everything needed for a dialog from a combination of the <a class="el" href="../../dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html" title="Attribute to override the default description of a field, property or enum value. ...">Describe</a>, <a class="el" href="../../d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html" title="Attribute to override the default terms used to match a field, property or enum value to user input...">Terms</a>, <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html" title="Define the prompt template used when asking about a field. ">Prompt</a>, <a class="el" href="../../d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html" title="Define a field or property as optional. ">Optional</a> <a class="el" href="../../d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html" title="Provide limits on the possible values in a numeric field or property. ">Numeric</a> and <a class="el" href="../../d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html" title="Define a template for generating strings. ">Template</a> annotations that are supplied by default or you override. </p>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a4479bfa5c193317e2c32213b0f203652">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="acddc4e09534565639b7d8260f7fedb7e"></a>
@@ -505,6 +512,8 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>You can provide your own implementation of IField&lt;T&gt; or you can use the <a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html#a94e310f92d2b567962d93ea6c2ac1d14" title="Define a step for filling in a particular value in the form state. ">Field&lt;T&gt;</a> class to provide fluent values or the FieldReflector&lt;T&gt; to use reflection to provide a base set of values that can be override. It might also make sense to derive from those classes and override the methods you need to change. </p>
+
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#aad818dac47db4346587ace2fe87ec202">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -542,6 +551,8 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#ac872f4aa381e17456b7c3bda3990fda5">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a05d46f7d737133f33ecc57bc0fb8bb2d"></a>
@@ -578,14 +589,16 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#ac1d7b69253bc7c58efb05e630be445e2">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="aac397e01cca3849a4cd0712224144f24"></a>
+<a class="anchor" id="a5ada69a1d59b0ab268daa73483ca0cd9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">IFormBuilder</a>&lt;T&gt; <a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">Microsoft.Bot.Builder.Form.IFormBuilder</a>&lt; T &gt;.OnCompletion </td>
+          <td class="memname"><a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">IFormBuilder</a>&lt;T&gt; <a class="el" href="../../db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html">Microsoft.Bot.Builder.Form.IFormBuilder</a>&lt; T &gt;.OnCompletionAsync </td>
           <td>(</td>
           <td class="paramtype">CompletionDelegate&lt; T &gt;&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
@@ -603,6 +616,8 @@ Properties</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>This form.</dd></dl>
 <p>This should only be used for side effects such as calling your service with the form state results. In any case the completed form state will be passed to the parent dialog. </p>
+
+<p>Implemented in <a class="el" href="../../d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html#a92cfa9bca776d7fa40ef0897a9731ceb">Microsoft.Bot.Builder.Form.FormBuilder&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -628,7 +643,7 @@ Properties</h2></td></tr>
 <p>The form configuration supplies default templates and settings. </p>
 <dl class="section return"><dt>Returns</dt><dd>The current form configuration.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00020">20</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00052">52</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>

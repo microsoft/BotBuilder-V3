@@ -118,6 +118,7 @@ Inheritance diagram for Microsoft.Bot.Builder.Form.IFormDialog&lt; T &gt;:</div>
  <div class="center">
   <img src="../../d7/d7b/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_dialog.png" usemap="#Microsoft.Bot.Builder.Form.IFormDialog_3C_20T_20_3E_map" alt=""/>
   <map id="Microsoft.Bot.Builder.Form.IFormDialog_3C_20T_20_3E_map" name="Microsoft.Bot.Builder.Form.IFormDialog&lt; T &gt;_map">
+<area href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html" alt="Microsoft.Bot.Builder.IDialog" shape="rect" coords="0,0,267,24"/>
 <area href="../../de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html" title="Form dialog manager for to fill in your state. " alt="Microsoft.Bot.Builder.Form.FormDialog&lt; T &gt;" shape="rect" coords="0,112,267,136"/>
 </map>
  </div></div>
@@ -127,6 +128,13 @@ Properties</h2></td></tr>
 <tr class="memitem:a88d33e9e7e77156f21948e2636a05ffb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html">IForm</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7b/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_dialog.html#a88d33e9e7e77156f21948e2636a05ffb">Form</a><code> [get]</code></td></tr>
 <tr class="memdesc:a88d33e9e7e77156f21948e2636a05ffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The form specification.  <a href="#a88d33e9e7e77156f21948e2636a05ffb">More...</a><br /></td></tr>
 <tr class="separator:a88d33e9e7e77156f21948e2636a05ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html">Microsoft.Bot.Builder.IDialog</a></td></tr>
+<tr class="memitem:aa5d12e93e41084e58ffbe74b22fe4cbe inherit pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html#aa5d12e93e41084e58ffbe74b22fe4cbe">StartAsync</a> (<a class="el" href="../../d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html">IDialogContext</a> context)</td></tr>
+<tr class="memdesc:aa5d12e93e41084e58ffbe74b22fe4cbe inherit pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td class="mdescLeft">&#160;</td><td class="mdescRight">The start of the code that represents the conversational dialog.  <a href="#aa5d12e93e41084e58ffbe74b22fe4cbe">More...</a><br /></td></tr>
+<tr class="separator:aa5d12e93e41084e58ffbe74b22fe4cbe inherit pub_methods_interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface for controlling the form dialog created. </p>
@@ -145,17 +153,8 @@ A prompt sent to the user where the response is to fill in a form state value. <
 A confirmation of the current state with the user. </li>
 </ul>
 <p>By default the steps are executed in the order of the Message, <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html" title="Define the prompt template used when asking about a field. ">Prompt</a> and Confirm calls. If you do not take explicit control, the steps will be executed in the order defined in the form state class with a final confirmation. </p>
-<div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>new()</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
 
-<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00052">52</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00086">86</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 </div><h2 class="groupheader">Property Documentation</h2>
 <a class="anchor" id="a88d33e9e7e77156f21948e2636a05ffb"></a>
 <div class="memitem">
@@ -177,7 +176,7 @@ A confirmation of the current state with the user. </li>
 
 <p>The form specification. </p>
 
-<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00058">58</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html#l00091">91</a> of file <a class="el" href="../../d0/df6/_i_form_dialog_8cs_source.html">IFormDialog.cs</a>.</p>
 
 </div>
 </div>

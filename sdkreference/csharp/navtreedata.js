@@ -1,9 +1,17 @@
 var NAVTREE =
 [
-  [ "Bot Builder SDK C#", "index.html", [
+  [ "Bot Builder for C#", "index.html", [
+    [ "Getting Started", "index.html#getting_started", [
+      [ "Table of Contents", "index.html#contents", null ]
+    ] ],
     [ "Overview", "index.html#overview", null ],
-    [ "Table of Contents", "index.html#contents", null ],
-    [ "Dialogs", "index.html#dialogs", null ],
+    [ "Install", "index.html#install", null ],
+    [ "Dialogs", "index.html#dialogs", [
+      [ "Overview", "index.html#Overview", null ],
+      [ "Flow", "index.html#Execution", null ],
+      [ "IDialog", "index.html#IDialog", null ],
+      [ "IDialogContext", "index.html#IDialogContext", null ]
+    ] ],
     [ "Form Flow", "index.html#forms", [
       [ "Forms and Fields", "index.html#fields", null ],
       [ "Pattern Language", "index.html#patterns", null ]
@@ -15,7 +23,9 @@ var NAVTREE =
     [ "Examples", "Examples.html", [
       [ "Simple Sandwich Bot", "Examples.html#simplesandwichbot", null ],
       [ "Annotated Sandwich Bot", "Examples.html#annotatedSandwich", [
-        [ "Attributes", "Examples.html#attributes", null ]
+        [ "Attributes", "Examples.html#attributes", null ],
+        [ "Adding Business Logic", "Examples.html#logic", null ],
+        [ "Controlling Flow", "Examples.html#ControlFlow", null ]
       ] ]
     ] ],
     [ "Namespaces", null, [
@@ -38,11 +48,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ],
-      [ "File Members", "globals.html", [
-        [ "All", "globals.html", null ],
-        [ "Variables", "globals_vars.html", null ]
-      ] ]
+      [ "File List", "files.html", "files" ]
     ] ]
   ] ]
 ];
@@ -50,9 +56,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Examples.html",
-"d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html#a3e8e4a94879930f87f2407e05f4e5da4",
-"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#ad81a185d95ba8c22c3c8e745d8045c18",
-"functions_func_n.html"
+"d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html",
+"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#a0aa7c632f28bd5f547179c30caa7a6c7",
+"functions_func_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

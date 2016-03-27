@@ -13,7 +13,7 @@ var dir_2c2aa9166a6a18ba06a304997637550e =
       [ "Command", "d3/da2/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog_1_1_command.html", "d3/da2/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog_1_1_command" ]
     ] ],
     [ "CompositionRoot.cs", "db/dc9/_composition_root_8cs.html", [
-      [ "CompositionRoot", "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html", "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root" ]
+      [ "Conversation", "df/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_conversation.html", "df/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_conversation" ]
     ] ],
     [ "DialogContext.cs", "de/d3d/_dialog_context_8cs.html", [
       [ "DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context" ]

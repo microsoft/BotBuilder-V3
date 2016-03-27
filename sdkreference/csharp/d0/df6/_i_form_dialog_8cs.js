@@ -10,7 +10,7 @@ var _i_form_dialog_8cs =
       [ "Reset", "d0/df6/_i_form_dialog_8cs.html#a1c6898f469d423f820184dc631832da5a526d688f37a86d3c3f27d0c5016eb71d", null ],
       [ "Status", "d0/df6/_i_form_dialog_8cs.html#a1c6898f469d423f820184dc631832da5aec53a8c4f07baed5d8825072c89799be", null ]
     ] ],
-    [ "CompletionDelegate< T >", "d0/df6/_i_form_dialog_8cs.html#a6f0c3ed1c8437ac3837550dce592884d", null ],
+    [ "CompletionDelegate< T >", "d0/df6/_i_form_dialog_8cs.html#aac957fe0f9a5406324ab304afc637e14", null ],
     [ "ConditionalDelegate< T >", "d0/df6/_i_form_dialog_8cs.html#a188cc0052e7c54f46ee8723103ae34a4", null ],
-    [ "ValidateDelegate< T >", "d0/df6/_i_form_dialog_8cs.html#af055f1be181162ea2388157aa3c7e1e7", null ]
+    [ "ValidateDelegate< T >", "d0/df6/_i_form_dialog_8cs.html#a4d7f42e95a1bf5c6d8936204ab45be5b", null ]
 ];

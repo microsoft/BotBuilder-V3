@@ -15,20 +15,18 @@ var dir_fd5cb459ea9e49064c78f5e055069399 =
     [ "FormBuilder.cs", "d3/df3/_form_builder_8cs.html", [
       [ "FormBuilder", "d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html", "d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder" ]
     ] ],
-    [ "FormDialog.cs", "d5/def/_form_dialog_8cs.html", [
-      [ "FormDialog", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog" ]
-    ] ],
+    [ "FormDialog.cs", "d5/def/_form_dialog_8cs.html", "d5/def/_form_dialog_8cs" ],
     [ "FormState.cs", "dd/dc1/_form_state_8cs.html", null ],
     [ "IField.cs", "de/d76/_i_field_8cs.html", "de/d76/_i_field_8cs" ],
-    [ "IForm.cs", "d8/dd7/_i_form_8cs.html", "d8/dd7/_i_form_8cs" ],
+    [ "IForm.cs", "d8/dd7/_i_form_8cs.html", [
+      [ "Extension", "df/dbc/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_extension.html", null ],
+      [ "IForm", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form" ]
+    ] ],
     [ "IFormBuilder.cs", "dc/dc2/_i_form_builder_8cs.html", [
       [ "IFormBuilder", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder" ]
     ] ],
     [ "IFormDialog.cs", "d0/df6/_i_form_dialog_8cs.html", "d0/df6/_i_form_dialog_8cs" ],
     [ "ILocalizer.cs", "db/da8/_i_localizer_8cs.html", null ],
-    [ "InitialState.cs", "d2/dc9/_initial_state_8cs.html", [
-      [ "InitialState", "d0/ded/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_initial_state.html", "d0/ded/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_initial_state" ]
-    ] ],
     [ "IPrompt.cs", "d9/db9/_i_prompt_8cs.html", [
       [ "IPrompt", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt" ],
       [ "Prompter", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter" ]

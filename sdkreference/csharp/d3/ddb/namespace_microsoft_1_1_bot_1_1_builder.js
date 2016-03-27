@@ -6,7 +6,7 @@ var namespace_microsoft_1_1_bot_1_1_builder =
     [ "Models", "d2/dd9/namespace_microsoft_1_1_bot_1_1_builder_1_1_models.html", "d2/dd9/namespace_microsoft_1_1_bot_1_1_builder_1_1_models" ],
     [ "CallDialog", "d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html", "d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog" ],
     [ "CommandDialog", "d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html", "d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog" ],
-    [ "CompositionRoot", "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root.html", "d1/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_composition_root" ],
+    [ "Conversation", "df/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_conversation.html", "df/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_conversation" ],
     [ "Extensions", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions" ],
     [ "Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field" ],
     [ "IAwaitable", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable.html", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable" ],
