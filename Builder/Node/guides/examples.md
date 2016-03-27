@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Samples and Techniques
-permalink: /builder/node/samples/
-weight: 620
+title: Examples
+permalink: /builder/node/guides/examples/
+weight: 612
 parent1: Bot Builder for Node.js
 parent2: Guides
 ---

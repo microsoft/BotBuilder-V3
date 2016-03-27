@@ -1,8 +1,8 @@
 ---
 layout: page
 title: Node.js
-permalink: /builder/node/reference/
-weight: 630
+permalink: /builder/node/libraries/reference/
+weight: 690
 parent1: Bot Builder for Node.js
 parent2: Libraries
 ---

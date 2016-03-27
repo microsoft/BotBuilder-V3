@@ -31,22 +31,22 @@
 		<div class="brand-primary">
 			<div class="jumbo">
 				<div class="jumbo-header">
-					<a href="https://www.botframework.com/">Bot Framework</a>
+					<a href="https://intercom-devportal-scratch.azurewebsites.net/">Bot Framework</a>
 				</div>
 				<ul class="header-nav"><li>
-						<a href="https://dev.botframework.com/#/bots">My bots</a>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots">My bots</a>
 						</li><li>
-						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a>
+						<a href="https://intercom-devportal-scratch.azurewebsites.net/#/bots/new">Register a bot</a>
 						</li><li class="active">
 						<a href="/">Documentation</a>
 						</li><li>
-						<a href="https://bots.botframework.com/">Bot Directory</a>
+						<a href="https://intercom-botdirectory-scratch.azurewebsites.net/">Bot Directory</a>
 				</li></ul>
 				<!--
 		<div class="search-outter">
 			<div class="open-search"></div>
 			<div class="searchBox">
-				<form method="GET" action="https://dev.botframework.com/#/search">
+				<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
 					<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…"/>
 						<button type="submit" class="icon-search">
 							<span>Search</span>
@@ -120,7 +120,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Arguments passed to the system prompts beginDialog() call.</p>
+									<p>Arguments passed to the built-in prompts beginDialog() call.</p>
 								</div>
 							</div>
 						</section>
@@ -128,7 +128,12 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">IPromptArgs</span>
+									<a href="_botbuilder_d_.ipromptoptions.html" class="tsd-signature-type">IPromptOptions</a>
+									<ul class="tsd-hierarchy">
+										<li>
+											<span class="target">IPromptArgs</span>
+										</li>
+									</ul>
 								</li>
 							</ul>
 						</section>
@@ -140,11 +145,12 @@
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#enumsvalues" class="tsd-kind-icon">enums<wbr>Values</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#prompt" class="tsd-kind-icon">prompt</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#prompttype" class="tsd-kind-icon">prompt<wbr>Type</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a></li>
 										</ul>
 									</section>
 								</div>
@@ -158,7 +164,7 @@
 								<div class="tsd-signature tsd-kind-icon">enums<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L262">botbuilder.d.ts:262</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L274">botbuilder.d.ts:274</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -167,18 +173,35 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="maxretries" class="tsd-anchor"></a>
-								<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Retries</h3>
-								<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="liststyle" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> list<wbr>Style</h3>
+								<div class="tsd-signature tsd-kind-icon">list<wbr>Style<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.liststyle.html" class="tsd-signature-type">ListStyle</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#liststyle">listStyle</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L268">botbuilder.d.ts:268</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L262">botbuilder.d.ts:262</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Maximum number of times to reprompt.</p>
+										<p>Optional type of list to render for PromptType.choice. Default value is ListStyle.list.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="maxretries" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Retries</h3>
+								<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#maxretries">maxRetries</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L256">botbuilder.d.ts:256</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional maximum number of times to reprompt the user. Default value is 2.</p>
 									</div>
 								</div>
 							</section>
@@ -188,7 +211,7 @@
 								<div class="tsd-signature tsd-kind-icon">prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L256">botbuilder.d.ts:256</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L271">botbuilder.d.ts:271</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -203,7 +226,7 @@
 								<div class="tsd-signature tsd-kind-icon">prompt<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.prompttype.html" class="tsd-signature-type">PromptType</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L253">botbuilder.d.ts:253</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L268">botbuilder.d.ts:268</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -212,13 +235,14 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a name="refdate" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagOptional">Optional</span> ref<wbr>Date</h3>
 								<div class="tsd-signature tsd-kind-icon">ref<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#refdate">refDate</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L265">botbuilder.d.ts:265</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L259">botbuilder.d.ts:259</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -227,18 +251,19 @@
 									</div>
 								</div>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a name="retryprompt" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Prompt</h3>
 								<div class="tsd-signature tsd-kind-icon">retry<wbr>Prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryprompt">retryPrompt</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L259">botbuilder.d.ts:259</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L253">botbuilder.d.ts:253</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Optional retry prompt to send if the users response isn&#39;t understood.</p>
+										<p>Optional retry prompt to send if the users response isn&#39;t understood. Default is to just reprompt with &quot;I Didn&#39;t understand.&quot; plus the original prompt.</p>
 									</div>
 								</div>
 							</section>
@@ -265,7 +290,10 @@
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
 											<a href="_botbuilder_d_.ipromptargs.html#enumsvalues" class="tsd-kind-icon">enums<wbr>Values</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+											<a href="_botbuilder_d_.ipromptargs.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 											<a href="_botbuilder_d_.ipromptargs.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -274,10 +302,10 @@
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
 											<a href="_botbuilder_d_.ipromptargs.html#prompttype" class="tsd-kind-icon">prompt<wbr>Type</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 											<a href="_botbuilder_d_.ipromptargs.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a>
 										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 											<a href="_botbuilder_d_.ipromptargs.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a>
 										</li>
 									</ul>
