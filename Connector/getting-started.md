@@ -37,8 +37,7 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 		Tools->Extensions and Updates->Updates
 
 2. Download and install the Bot Application template
-	* From the MSDN Visual Studio Gallery:  [INSERT DOWNLOAD LINK HERE]()
-	* Download the file from the direct download link here: [INSERT DOWNLOAD LINK HERE]()
+	* Download the file from the direct download link [here](http://aka.ms/bf-bc-vstemplate):
 	* Unpack the downloaded file into a folder
 	* If Visual Studio is installed in the default path, Double-click install.cmd, which copies the ZIP file to your VS templates directory
 		* If not, copy to "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
@@ -54,29 +53,9 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 	* The AppId and AppSecret from the Bot Framework registration page have to be recorded in the project's web.config
 	* The project needs to be published to the web
 
-## Registering your Bot with the Microsoft Bot Framework 
+## Building your Bot
 
-Registering your Bot tells the Connector how to call your Bot's web service. Note that the AppId and AppSecret are generated when your Bot is registered with the Microsoft Bot Framework Connector, the AppId and AppSecret are used to authenticate the conversation, and allows the developer to configure their Bot with the Channels they'd like to be visible on.
-
-1. Go to the Microsoft Bot Framework portal at [https://www.botframework.com](https://www.botframework.com) and sign in with your Microsoft Account.
-	
-2. Register an agent
-	
-3. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. Use a dummy endpoint for now. Save your changes by hitting "Create" at the bottom of the form, and don't worry about the other settings for now.
-
-![Register a bot](/images/connector-getstarted-register-agent.png)
-
-4. Once your registration is created, Microsoft Bot Framework will have generated your AppId and AppSecrets. These are used to authenticate your Bot with the Microsoft Bot Framework, and will be used in the next step.
-
-![Microsoft Bot Framework will have generated your AppId and Subscription Keys](/images/connector-getstarted-subscription-keys.png)
-
-## Compiling the Bot and publishing the Bot to Microsoft Azure
-
-Now that the Bot is configured, you need to update the keys in the web.config file in your Visual Studio project. Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build. You need only the primary AppSecret, the secondary is used when you wish to regenerate your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the regenerate link if you ever need to change your AppSecret.
-
-![Update the keys in the web.config file in your Visual Studio project](/images/connector-getstarted-configure-vs-keys.png)
-
-The core functionality of the EchoBot is all in the Post function within Controllers\MessagesController.cs. In this case the code takes the message text for the user, increments a counter that it pulled from the Message, and then creates replyMessage using the CreateReplyMessage function. It wraps up by saving the counter in the PerUserInConversationData block, and returns the replyMessage.
+The core functionality of the Bot Template is all in the Post function within Controllers\MessagesController.cs. In this case the code takes the message text for the user, increments a counter that it pulled from the Message, and then creates replyMessage using the CreateReplyMessage function. It wraps up by saving the counter in the PerUserInConversationData block, and returns the replyMessage.
 
 {% highlight cs %}
 
@@ -113,7 +92,7 @@ The core functionality of the EchoBot is all in the Post function within Control
             
 ##Use the Bot Framework Emulator to test your Bot application
 
-The Bot Framework provides an emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from <//TODO: Insert install path for Bot Framework Emulator here>.
+The Bot Framework provides an emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from here [https://aka.ms/bf-bc-emulator](https://aka.ms/bf-bc-emulator).
 
 One installed, you're ready to test. First, start your Bot in Visual Studio using a browser as the application host. The image below uses Microsoft Edge.
 
@@ -205,9 +184,25 @@ You will see a number of messages displayed in the Visual Studio 2015 "Output" w
 
 ![Voila, your Bot has been publisehd and is running.](/images/connector-getstarted-publish-output.png)
 
-Finally, go back to the Bot Framework Portal, and update the Endpoint with the URL of your Bot that you copied earlier. Don't forget, for the Bot Application template you'll need to extend the URL you pasted in with the path to the endpoint at /API/Messages as shown below. 
+## Registering your Bot with the Microsoft Bot Framework 
 
-![Go back to the dev portal, and update the Endpoint with the URL of your Bot](/images/connector-getstarted-portal-endpoint.png)
+Registering your Bot tells the Connector how to call your Bot's web service. Note that the AppId and AppSecret are generated when your Bot is registered with the Microsoft Bot Framework Connector, the AppId and AppSecret are used to authenticate the conversation, and allows the developer to configure their Bot with the Channels they'd like to be visible on.
+
+1. Go to the Microsoft Bot Framework portal at [https://www.botframework.com](https://www.botframework.com) and sign in with your Microsoft Account.
+	
+2. Register an agent
+	
+3. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at /API/Messages. Save your changes by hitting "Create" at the bottom of the form.
+
+![Register a bot](/images/connector-getstarted-register-agent.png)
+
+4. Once your registration is created, Microsoft Bot Framework will have generated your AppId and AppSecrets. These are used to authenticate your Bot with the Microsoft Bot Framework.
+
+![Microsoft Bot Framework will have generated your AppId and Subscription Keys](/images/connector-getstarted-subscription-keys.png)
+
+Now that the Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build. You need only the primary AppSecret, the secondary is used when you wish to regenerate your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the regenerate link if you ever need to change your AppSecret. Update your web.config, and re-publish your bot to Azure.
+
+![Update the keys in the web.config file in your Visual Studio project](/images/connector-getstarted-configure-vs-keys.png)
 
 ## Testing the connection to your bot
 
@@ -229,4 +224,4 @@ Now that you have a Bot up and running, you'll want to configure it for one or m
 
 3. Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".  
 
-That's the end of configuration - your Bot is ready for your users.  They will have their own steps to follow to give the Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the Bot Directory page for your Bot. The link to this is at the top of the Bot Details page in the dev portal. They also can find your Bot by searching by name in the Bot Directory.
+That's the end of configuration - your Bot is ready for your users.  They will have their own steps to follow to give the Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the Bot Directory page for your Bot. The link to this is at the top of the Bot Details page in the dev portal. 
