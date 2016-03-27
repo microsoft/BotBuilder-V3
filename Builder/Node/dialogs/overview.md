@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Dialogs
+title: Overview
 permalink: /builder/node/dialogs/overview/
 weight: 630
 parent1: Bot Builder for Node.js
@@ -10,7 +10,7 @@ parent2: Dialogs
 * TOC
 {:toc}
 
-## Overview
+## Dialogs
 Bot Builder uses dialogs to manage a bots conversations with a user. To understand dialogs its easiest to think of them as the equivalent of routes for a website. All bots will have at least one root ‘/’ dialog just like all websites typically have at least one root ‘/’ route. When the framework receives a message from the user it will be routed to this root ‘/’ dialog for processing. For many bots this single root ‘/’ dialog is all that’s needed but just like websites often have multiple routes, bots will often have multiple dialogs.
 
 {% highlight JavaScript %}
