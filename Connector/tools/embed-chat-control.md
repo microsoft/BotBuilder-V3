@@ -1,15 +1,15 @@
 ---
 layout: page
 title: Embed the Chat Control
-permalink: /qnamaker/embed-chat-control/
-weight: 1250
-parent1: Bot Creation Tools
-parent2: QnA Maker
+permalink: /connector/embed-chat-control/
+weight: 250
+parent1: Bot Connector
+parent2: Tools
 ---
 
 ## Overview
 
-Microsoft’s chat widget is a messaging application that allows you to chat with the bot built using Microsoft BotFramework. Each bot created using the BotFramework has this chat widget in it's Bot page. The chat widget can be embedded in any website, allowing you to have your bot available on anywhere.
+Microsoft's chat widget is a messaging application that allows you to chat with the bot built using Microsoft BotFramework. Each bot created using the BotFramework has this chat widget in it's Bot page. The chat widget can be embedded in any website, allowing you to have your bot available on anywhere.
 
 The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown).
 
@@ -27,7 +27,7 @@ Click on Edit for Web chat and press Generate Web Chat Secret
 
 ![Chat widget Token](/images/chatwidget-token.PNG)
 
-Copy the generated secret and embed tag and press “I’m done configuring Web Chat”
+Copy the generated secret and embed tag and press “I'm done configuring Web Chat”
 
 ## Step 2 : Embed the chat widget in your website
 
