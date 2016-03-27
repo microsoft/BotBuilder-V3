@@ -105,4 +105,8 @@
     /// inline with the response to the web api method call, and some of these messages may be sent directly using the %Bot Connector client.
     /// Sending and receiving messages through the dialog context ensures the IBotData state is passed through the %Bot Connector.
     /// 
+    /// TODO:
+    /// * Need to describe limitations on context in messages  
+    /// * Need to describe the stores off of IDialog  
+    /// * Link up to reference docs  
 }

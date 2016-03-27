@@ -571,4 +571,8 @@
     /// Form.TemplateBase.Separator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
     /// Form.TemplateBase.ValueCase | Controls case normalization when displaying a field value.
     /// 
+    /// TODO:
+    /// * Constructing a form (two parts -- initial and full)
+    /// * Multiple forms?  
+    /// * LUIS integration?
 }
