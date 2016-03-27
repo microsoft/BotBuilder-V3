@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
-    [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
+    [LuisModel("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "fe054e042fd14754a83f0a205f6552a5")]
     [Serializable]
     public class SimpleAlarmBot : LuisDialog, ISerializable
     {
