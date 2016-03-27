@@ -22,18 +22,6 @@ namespace Microsoft.Bot.Sample.PizzaBot
             this.MakePizzaForm = makePizzaForm;
         }
 
-        protected PizzaOrderDialog(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            Field.SetNotNullFrom(out this.MakePizzaForm, nameof(MakePizzaForm), info);
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(this.MakePizzaForm), MakePizzaForm);
-        }
-
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {

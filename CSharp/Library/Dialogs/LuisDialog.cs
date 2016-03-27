@@ -74,17 +74,26 @@ namespace Microsoft.Bot.Builder
         public Models.EntityRecommendation[] Entities { get; set; }
     }
 
+    public static partial class Extensions
+    {
+        public static bool TryFindEntity(this LuisResult result, string type, out Models.EntityRecommendation entity)
+        {
+            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
+            return entity != null;
+        }
+    }
+
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
-    public class LuisDialog : IDialog, ISerializable
+    public class LuisDialog : IDialog
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
         public readonly string luisUrl;
 
-        protected readonly Dictionary<string, IntentHandler> handlerByIntent = new Dictionary<string, IntentHandler>();
-        protected const string DefaultIntentHandler = "87DBD4FD7736";
+        [NonSerialized]
+        protected Dictionary<string, IntentHandler> handlerByIntent;
 
         public LuisDialog()
         {
@@ -107,22 +116,6 @@ namespace Microsoft.Bot.Builder
             Field.SetNotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
             Field.SetNotNull(out this.modelID, nameof(modelID), modelID);
             this.luisUrl = string.Format("https://api.projectoxford.ai/luis/v1/application?id={0}&subscription-key={1}&q=", this.modelID, this.subscriptionKey);
-        }
-
-        protected LuisDialog(SerializationInfo info, StreamingContext context)
-        {
-            Field.SetNotNullFrom(out this.luisUrl, nameof(this.luisUrl), info);
-            Field.SetFrom(out this.subscriptionKey, nameof(this.subscriptionKey), info);
-            Field.SetFrom(out this.modelID, nameof(this.modelID), info);
-
-            this.AddAttributeBasedHandlers();
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(this.subscriptionKey), this.subscriptionKey);
-            info.AddValue(nameof(this.luisUrl), this.luisUrl);
-            info.AddValue(nameof(this.modelID), this.modelID);
         }
 
         public virtual async Task StartAsync(IDialogContext context)
@@ -149,10 +142,16 @@ namespace Microsoft.Bot.Builder
             var message = await item;
             var luisRes = await GetLuisResult(this.luisUrl, message.Text);
             var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
+
+            if (this.handlerByIntent == null)
+            {
+                this.AddAttributeBasedHandlers();
+            }
+
             IntentHandler handler;
             if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
             {
-                handler = this.handlerByIntent[DefaultIntentHandler];
+                handler = this.handlerByIntent[string.Empty];
             }
 
             if (handler != null)
@@ -168,6 +167,13 @@ namespace Microsoft.Bot.Builder
 
         private void AddAttributeBasedHandlers()
         {
+            if (this.handlerByIntent != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.handlerByIntent = new Dictionary<string, IntentHandler>();
+
             var methods = from m in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                           let attr = m.GetCustomAttributes(typeof(LuisIntent), true)
                           where attr.Length > 0
@@ -191,7 +197,7 @@ namespace Microsoft.Bot.Builder
 
                 foreach (var intent in handler.intents)
                 {
-                    var key = string.IsNullOrEmpty(intent) ? DefaultIntentHandler : intent;
+                    var key = string.IsNullOrWhiteSpace(intent) ? string.Empty : intent;
                     this.handlerByIntent.Add(key, intentHandler);
                 }
             }
