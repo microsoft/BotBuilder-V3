@@ -48,32 +48,36 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Construct field. </summary>
         /// <param name="name"> Name of field. </param>
         /// <param name="role"> Role field plays in form. </param>
-        /// <param name="form"> The form. </param>
-        public Field(string name, FieldRole role, IForm<T> form)
+        public Field(string name, FieldRole role)
         {
             _name = name;
             _role = role;
-            _form = form;
-
-            foreach (var template in form.Configuration.Templates)
-            {
-                if (!_templates.ContainsKey(template.Usage))
-                {
-                    AddTemplate(template);
-                }
-            }
-            if (_help == null)
-            {
-                var template = Template(TemplateUsage.Help);
-                _help = new Prompt(template);
-            }
         }
 
         #region IField
 
         public string Name { get { return _name; } }
 
-        public IForm<T> Form { get { return this._form; } }
+        public virtual IForm<T> Form
+        {
+            get { return this._form; }
+            set
+            {
+                _form = value;
+                foreach (var template in _form.Configuration.Templates)
+                {
+                    if (!_templates.ContainsKey(template.Usage))
+                    {
+                        AddTemplate(template);
+                    }
+                }
+                if (_help == null)
+                {
+                    var template = Template(TemplateUsage.Help);
+                    _help = new Prompt(template);
+                }
+            }
+        }
 
         #region IFieldState
         public virtual object GetValue(T state)
@@ -424,77 +428,20 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected IPrompt<T> _prompt;
         #endregion
     }
-
+    #region Documentation
+    /// <summary>   Fill in field information through reflection.</summary>
+    /// <remarks>   The resulting information can be overriden through the fluent interface
+    ///             </remarks>
+    /// <typeparam name="T">    form state. </typeparam>
+    #endregion
     public class FieldReflector<T> : Field<T>
         where T : class
     {
-        public FieldReflector(string name, IForm<T> form, bool ignoreAnnotations = false)
-            : base(name, FieldRole.Value, form)
+        public FieldReflector(string name, bool ignoreAnnotations = false)
+            : base(name, FieldRole.Value)
         {
             _ignoreAnnotations = ignoreAnnotations;
-            AddField(typeof(T), string.IsNullOrWhiteSpace(_name) ? new string[] { } : _name.Split('.'), 0);
-
-            if (_promptDefinition == null)
-            {
-                if (_type.IsEnum)
-                {
-                    _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
-                }
-                else if (_type == typeof(string))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.String));
-                }
-                else if (_type.IsIntegral())
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
-                }
-                else if (_type == typeof(bool))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
-                }
-                else if (_type.IsDouble())
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Double));
-                }
-                else if (_type == typeof(DateTime))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
-                }
-            }
-
-            var step = _path.LastOrDefault();
-            if (_type == null || _type.IsEnum)
-            {
-                _recognizer = new RecognizeEnumeration<T>(this);
-            }
-            else if (_type == typeof(bool))
-            {
-                _recognizer = new RecognizeBool<T>(this);
-            }
-            else if (_type == typeof(string))
-            {
-                _recognizer = new RecognizeString<T>(this);
-            }
-            else if (_type.IsIntegral())
-            {
-                _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type.IsDouble())
-            {
-                _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type == typeof(DateTime))
-            {
-                _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type.IsIEnumerable())
-            {
-                var elt = _type.GetGenericElementType();
-                if (elt.IsEnum)
-                {
-                    _recognizer = new RecognizeEnumeration<T>(this);
-                }
-            }
+            AddField(typeof(T), _name.Split('.'), 0);
         }
 
         #region IField
@@ -657,6 +604,74 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         #endregion
 
+        public override IForm<T> Form
+        {
+            set
+            {
+                base.Form = value;
+                if (_promptDefinition == null)
+                {
+                    if (_type.IsEnum)
+                    {
+                        _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
+                    }
+                    else if (_type == typeof(string))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.String));
+                    }
+                    else if (_type.IsIntegral())
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
+                    }
+                    else if (_type == typeof(bool))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
+                    }
+                    else if (_type.IsDouble())
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Double));
+                    }
+                    else if (_type == typeof(DateTime))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
+                    }
+                }
+
+                var step = _path.LastOrDefault();
+                if (_type == null || _type.IsEnum)
+                {
+                    _recognizer = new RecognizeEnumeration<T>(this);
+                }
+                else if (_type == typeof(bool))
+                {
+                    _recognizer = new RecognizeBool<T>(this);
+                }
+                else if (_type == typeof(string))
+                {
+                    _recognizer = new RecognizeString<T>(this);
+                }
+                else if (_type.IsIntegral())
+                {
+                    _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type.IsDouble())
+                {
+                    _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type == typeof(DateTime))
+                {
+                    _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type.IsIEnumerable())
+                {
+                    var elt = _type.GetGenericElementType();
+                    if (elt.IsEnum)
+                    {
+                        _recognizer = new RecognizeEnumeration<T>(this);
+                    }
+                }
+            }
+        }
         #endregion
 
         #region Internals
@@ -869,8 +884,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class Conditional<T> : FieldReflector<T>
         where T : class
     {
-        public Conditional(string name, IForm<T> form, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, form, ignoreAnnotations)
+        public Conditional(string name, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
+            : base(name, ignoreAnnotations)
         {
             _condition = condition;
         }

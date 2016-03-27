@@ -79,7 +79,8 @@ namespace Microsoft.Bot.Builder.Form
 
         internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
         {
-            var field = new Field<T>("__commands__", FieldRole.Value, form);
+            var field = new Field<T>("__commands__", FieldRole.Value);
+            field.Form = form;
             field.SetPrompt(new Prompt(""));
             foreach (var entry in form.Configuration.Commands)
             {

@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.FormTest
                     .Build();
                 Debug.Fail("Validation failed");
             }
-            catch (ArgumentException )
+            catch (ArgumentException)
             {
             }
             try
@@ -160,7 +160,7 @@ namespace Microsoft.Bot.Builder.FormTest
                     .Build();
                 Debug.Fail("Validation failed");
             }
-            catch (ArgumentException )
+            catch (ArgumentException)
             {
             }
             try
@@ -170,27 +170,25 @@ namespace Microsoft.Bot.Builder.FormTest
                     .Build();
                 Debug.Fail("Validation failed");
             }
-            catch (ArgumentException )
+            catch (ArgumentException)
             {
             }
-            /*
             try
             {
-                var form = new FormBuilder<PizzaOrder>();
+                var form = new FormBuilder<PizzaOrder>()
                     .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Size))
-                        .ReplaceTemplate(new Template(TemplateUsage.Double, "{Notfield}"))
+                        .ReplaceTemplate(new Template(TemplateUsage.Double, "{Notfield}")))
                         .Build();
                 Debug.Fail("Validation failed");
             }
             catch (ArgumentException exception)
             {
             }
-            */
         }
 
         static void Main(string[] args)
         {
-            // TestValidate();
+            TestValidate();
             var choiceForm = FormDialog.FromType<Choices>();
             var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {

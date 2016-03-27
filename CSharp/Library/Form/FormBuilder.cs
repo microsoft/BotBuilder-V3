@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Form
                 IFormBuilder<T> builder = this;
                 foreach (var path in paths)
                 {
-                    builder.Field(new FieldReflector<T>(path, _form));
+                    builder.Field(new FieldReflector<T>(path));
                 }
                 builder.Confirm("Is this your selection?\n{*}");
             }
@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form
 
         public IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
+            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
             if (validate != null)
             {
                 field.SetValidation(validate);
@@ -97,7 +97,7 @@ namespace Microsoft.Bot.Builder.Form
 
         public IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
+            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
             if (validate != null)
             {
                 field.SetValidation(validate);
@@ -108,7 +108,7 @@ namespace Microsoft.Bot.Builder.Form
 
         public IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
+            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
             if (validate != null)
             {
                 field.SetValidation(validate);
@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Form
                     IField<T> field = _form._fields.Field(path);
                     if (field == null)
                     {
-                        AddField(new FieldReflector<T>(path, _form));
+                        AddField(new FieldReflector<T>(path));
                     }
                 }
             }
@@ -183,7 +183,8 @@ namespace Microsoft.Bot.Builder.Form
                 }
                 dependencies = fields;
             }
-            var confirmation = new Confirmation<T>(prompt, condition, dependencies, _form);
+            var confirmation = new Confirmation<T>(prompt, condition, dependencies);
+            confirmation.Form = _form;
             _form._fields.Add(confirmation);
             _form._steps.Add(new ConfirmStep<T>(confirmation));
             return this;
@@ -203,6 +204,7 @@ namespace Microsoft.Bot.Builder.Form
 
         private IFormBuilder<T> AddField(IField<T> field)
         {
+            field.Form = _form;
             _form._fields.Add(field);
             var step = new FieldStep<T>(field.Name, _form);
             var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);

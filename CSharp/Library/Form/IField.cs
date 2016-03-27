@@ -374,7 +374,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>
         /// Form that owns this field
         /// </summary>
-        IForm<T> Form { get; }
+        IForm<T> Form { get; set; }
     }
 
     /// <summary>
