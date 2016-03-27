@@ -8,8 +8,8 @@ h1.groupheader {
 
 .title {
     font: 400 14px/28px 'Segoe UI', sans-serif;
-    font-size: 150%;
-    font-weight: bold;
+    font-size: 34px;
+    font-weight: normal;
     margin: 10px 2px;
 }
 
@@ -169,7 +169,7 @@ pre.fragment {
 }
 
 div.fragment {
-    padding: 4px 6px;
+    padding: 25px 25px;
     margin: 4px 8px 4px 2px;
     background-color: #FBFCFD;
     border: 1px solid #C4CFE5;
@@ -839,19 +839,20 @@ table.doxtable caption {
 }
 
 table.doxtable {
+    border-spacing: 0;
     border-collapse: collapse;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin: 30px 0;
+    background-color: #fff;
 }
 
     table.doxtable td, table.doxtable th {
-        border: 1px solid #2D4068;
+        border: 1px solid #ddd;
         padding: 3px 7px 2px;
     }
 
     table.doxtable th {
-        background-color: #374F7F;
-        color: #FFFFFF;
+        background-color: rgba(179, 219, 242, 0.5);
+        color: #2B2B2B;
         font-size: 110%;
         padding-bottom: 4px;
         padding-top: 5px;
@@ -1477,6 +1478,7 @@ tr.heading h2 {
 #side-nav {
     position: relative;
     float:left;
+    background-color: transparent !important;
 }
 
 #nav-path {
@@ -1504,7 +1506,15 @@ div#doc-content .header {
 }
 
 div#content-container {
-    padding-top: 10px;
+    padding-top: 25px;
+}
+
+div#doc-content p {
+    margin-bottom: 20px;
+}
+
+div#doc-content h1, h2, h3 {
+    margin-bottom: 10px;
 }
 
 /* Search overrides */

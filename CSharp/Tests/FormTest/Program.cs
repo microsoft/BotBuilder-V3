@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Form;
@@ -10,8 +43,11 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 
 namespace Microsoft.Bot.Builder.FormTest
 {
-    public enum DebugOptions { None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
-        SimpleSandwichBot, AnnotatedSandwichBot };
+    public enum DebugOptions
+    {
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
+        SimpleSandwichBot, AnnotatedSandwichBot
+    };
     [Serializable]
     public class Choices
     {
@@ -20,7 +56,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
     class Program
     {
-        static void Interactive<T>(IDialog<T> form)
+        static void Interactive(IDialog form)
         {
             var message = new Message()
             {
@@ -30,7 +66,7 @@ namespace Microsoft.Bot.Builder.FormTest
             string prompt;
             do
             {
-                var task = CompositionRoot.PostAsync(message, () => form);
+                var task = Conversation.SendAsync(message, () => form);
                 message = task.GetAwaiter().GetResult();
                 prompt = message.Text;
                 if (prompt != null)
@@ -42,9 +78,9 @@ namespace Microsoft.Bot.Builder.FormTest
             } while (prompt != null);
         }
 
-        private static IFormModel<PizzaOrder> MakeModel(bool noNumbers, bool ignoreAnnotations = false)
+        private static IForm<PizzaOrder> MakeForm(bool noNumbers, bool ignoreAnnotations = false)
         {
-            var form = FormModelBuilder<PizzaOrder>.Start(ignoreAnnotations);
+            var form = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
@@ -54,7 +90,6 @@ namespace Microsoft.Bot.Builder.FormTest
             if (noNumbers)
             {
                 form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
-                form.Configuration.DefaultPrompt.AllowNumbers = BoolDefault.False;
             }
             else
             {
@@ -79,7 +114,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
                 .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
                 .Field("DeliveryAddress", validate:
-                    (state, value) =>
+                    async (state, value) =>
                     {
                         string feedback = null;
                         var str = value as string;
@@ -90,18 +125,25 @@ namespace Microsoft.Bot.Builder.FormTest
                         return feedback;
                     })
                 .AddRemainingFields()
+                .Message("Rating = {Rating:F1} and [{Rating:F2}]")
                 .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
-                .OnCompletion((session, pizza) => Console.WriteLine("{0}", pizza))
+                .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
+        }
+
+        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, MakeForm<T> makeForm) where T : class, new()
+        {
+            var form = new FormDialog<T>(new T(), makeForm, options: FormOptions.PromptInStart);
+            context.Call<T>(form, root.CallChild);
         }
 
         static void Main(string[] args)
         {
-            var choiceForm = new FormDialog<Choices>();
-            var callDebug = new CallDialog<InitialState<Choices>, Choices>(choiceForm, async (root, context, result) =>
+            var choiceForm = FormDialog.FromType<Choices>();
+            var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
                 Choices choices;
                 try
@@ -118,44 +160,32 @@ namespace Microsoft.Bot.Builder.FormTest
                 {
                     case DebugOptions.AnnotationsAndNumbers:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeModel(noNumbers: false));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: false));
                             return;
                         }
                     case DebugOptions.AnnotationsAndNoNumbers:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeModel(noNumbers: true));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: true));
                             return;
                         }
                 case DebugOptions.NoAnnotations:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => MakeModel(true, true));
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => MakeForm(noNumbers: true, ignoreAnnotations: true));
                             return;
                         }
                 case DebugOptions.NoFieldOrder:
                         {
-                            var form = new FormDialog<PizzaOrder>(() => FormModelBuilder<PizzaOrder>.Start().Build());
-                            var initialState = new InitialState<PizzaOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<PizzaOrder>().Build());
                             return;
                         }
                     case DebugOptions.SimpleSandwichBot:
                         {
-                            var form = new FormDialog<SimpleSandwichOrder>(() => FormModelBuilder<Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder>.Start().Build());
-                            var initialState = new InitialState<SimpleSandwichOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<SimpleSandwichOrder>, InitialState<SimpleSandwichOrder>, SimpleSandwichOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<SimpleSandwichOrder>().Build());
                             return;
                         }
                     case DebugOptions.AnnotatedSandwichBot:
                         {
-                            var form = new FormDialog<AnnotatedSandwichOrder>(() => FormModelBuilder<AnnotatedSandwichOrder>.Start().Build());
-                            var initialState = new InitialState<AnnotatedSandwichOrder>() { PromptInStart = true };
-                            context.Call<IFormDialog<AnnotatedSandwichOrder>, InitialState<AnnotatedSandwichOrder>, AnnotatedSandwichOrder>(form, initialState, root.CallChild);
+                            Call(context, root, () => new FormBuilder<AnnotatedSandwichOrder>().Build());
                             return;
                         }
                 }

@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.IO;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,8 +43,6 @@ using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-#pragma warning disable CS1998
-
     [TestClass]
     public abstract class FiberTestBase
     {
@@ -69,7 +100,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static void AssertSerializable<T>(ref T item, params object[] instances) where T : class
         {
-            var formatter = CompositionRoot.MakeBinaryFormatter(new Serialization.SimpleServiceLocator(instances));
+            var formatter = Conversation.MakeBinaryFormatter(new Serialization.SimpleServiceLocator(instances));
 
             //var surrogate = new Surrogate();
             //var selector = new SurrogateSelector();
@@ -310,6 +341,34 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(async () => { throw new CodeException(); });
             methodOne
                 .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, CodeException>())))
+                .ReturnsAsync(NullWait.Instance);
+
+            // act
+            fiber.Call(methodOne.Object.CodeAsync, value1);
+            await PollAsync(fiber);
+
+            // assert
+            methodOne.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task Code_Call_Method_That_Posts_Invalid_Type_To_Code()
+        {
+            // arrange
+            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
+            var methodOne = MockMethod();
+            var methodTwo = MockMethod();
+            var value1 = 42;
+            var value2 = "hello world";
+            var value3 = Guid.NewGuid();
+            methodOne
+                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+            methodTwo
+                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                .Returns(async () => { return fiber.Done("not a guid"); });
+            methodOne
+                .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
                 .ReturnsAsync(NullWait.Instance);
 
             // act

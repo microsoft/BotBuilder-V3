@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,59 +40,54 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
-    public sealed class FormModelBuilder<T> : IFormModelBuilder<T>
-         where T : class, new()
+    public sealed class FormBuilder<T> : IFormBuilder<T>
+        where T : class
     {
-        private readonly FormModel<T> _model;
+        private readonly Form<T> _form;
 
         /// <summary>
-        /// Construct the form model builder.
+        /// Construct the form builder.
         /// </summary>
         /// <param name="ignoreAnnotations">True if you want to ignore any annotations on classes when doing reflection.</param>
-        public FormModelBuilder(bool ignoreAnnotations = false)
+        public FormBuilder(bool ignoreAnnotations = false)
         {
-            _model = new FormModel<T>(ignoreAnnotations);
+            _form = new Form<T>(ignoreAnnotations);
         }
 
-        public static IFormModelBuilder<T> Start(bool ignoreAnnotations = false)
+        public IForm<T> Build()
         {
-            return new FormModelBuilder<T>(ignoreAnnotations);
-        }
-
-        IFormModel<T> IFormModelBuilder<T>.Build()
-        {
-            if (!_model._steps.Any((step) => step.Type == StepType.Field))
+            if (!_form._steps.Any((step) => step.Type == StepType.Field))
             {
                 var paths = new List<string>(); 
-                FormModelBuilder<T>.FieldPaths(typeof(T), "", paths);
-                IFormModelBuilder<T> builder = this;
+                FormBuilder<T>.FieldPaths(typeof(T), "", paths);
+                IFormBuilder<T> builder = this;
                 foreach (var path in paths)
                 {
-                    builder.Field(new FieldReflector<T>(path, _model));
+                    builder.Field(new FieldReflector<T>(path, _form));
                 }
                 builder.Confirm("Is this your selection?\n{*}");
             }
 
-            return this._model;
+            return this._form;
         }
 
-        FormConfiguration IFormModelBuilder<T>.Configuration { get { return _model._configuration; } }
+        public FormConfiguration Configuration { get { return _form._configuration; } }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Message(string message, ConditionalDelegate<T> condition)
+        public IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null)
         {
-            _model._steps.Add(new MessageStep<T>(new Prompt(message), condition, _model));
+            _form._steps.Add(new MessageStep<T>(new Prompt(message), condition, _form));
             return this;
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Message(Prompt prompt, ConditionalDelegate<T> condition)
+        public IFormBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null)
         {
-            _model._steps.Add(new MessageStep<T>(prompt, condition, _model));
+            _form._steps.Add(new MessageStep<T>(prompt, condition, _form));
             return this;
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Field(string name, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _model) : new Conditional<T>(name, _model, condition));
+            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
                 field.Validate(validate);
@@ -67,9 +95,9 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Field(string name, string prompt, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _model) : new Conditional<T>(name, _model, condition));
+            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
                 field.Validate(validate);
@@ -78,9 +106,9 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Field(string name, Prompt prompt, ConditionalDelegate<T> condition, ValidateDelegate<T> validate)
+        public IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
-            var field = (condition == null ? new FieldReflector<T>(name, _model) : new Conditional<T>(name, _model, condition));
+            var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
                 field.Validate(validate);
@@ -89,12 +117,12 @@ namespace Microsoft.Bot.Builder.Form
             return AddField(field);
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Field(IField<T> field)
+        public IFormBuilder<T> Field(IField<T> field)
         {
             return AddField(field);
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.AddRemainingFields(IEnumerable<string> exclude)
+        public IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
         {
             var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
             var paths = new List<string>();
@@ -103,33 +131,33 @@ namespace Microsoft.Bot.Builder.Form
             {
                 if (!exclusions.Contains(path))
                 {
-                    IField<T> field = _model._fields.Field(path);
+                    IField<T> field = _form._fields.Field(path);
                     if (field == null)
                     {
-                        AddField(new FieldReflector<T>(path, _model));
+                        AddField(new FieldReflector<T>(path, _form));
                     }
                 }
             }
             return this;
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Confirm(string prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+        public IFormBuilder<T> Confirm(string prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            IFormModelBuilder<T> builder = this;
-            return builder.Confirm(new Prompt(prompt) { AllowNumbers = BoolDefault.False, AllowDefault = BoolDefault.False }, condition, dependencies);
+            IFormBuilder<T> builder = this;
+            return builder.Confirm(new Prompt(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Confirm(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+        public IFormBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            if (condition == null) condition = (state) => true;
+            if (condition == null) condition = state => true;
             if (dependencies == null)
             {
                 // Default next steps go from previous field ignoring confirmations back to next confirmation
                 // Last field before confirmation
-                var end = _model._steps.Count();
+                var end = _form._steps.Count();
                 while (end > 0)
                 {
-                    if (_model._steps[end - 1].Type == StepType.Field)
+                    if (_form._steps[end - 1].Type == StepType.Field)
                     {
                         break;
                     }
@@ -139,7 +167,7 @@ namespace Microsoft.Bot.Builder.Form
                 var start = end;
                 while (start > 0)
                 {
-                    if (_model._steps[start - 1].Type == StepType.Confirm)
+                    if (_form._steps[start - 1].Type == StepType.Confirm)
                     {
                         break;
                     }
@@ -148,43 +176,43 @@ namespace Microsoft.Bot.Builder.Form
                 var fields = new List<string>();
                 for (var i = start; i < end; ++i)
                 {
-                    if (_model._steps[i].Type == StepType.Field)
+                    if (_form._steps[i].Type == StepType.Field)
                     {
-                        fields.Add(_model._steps[i].Name);
+                        fields.Add(_form._steps[i].Name);
                     }
                 }
                 dependencies = fields;
             }
-            var confirmation = new Confirmation<T>(prompt, condition, dependencies, _model);
-            _model._fields.Add(confirmation);
-            _model._steps.Add(new ConfirmStep<T>(confirmation));
+            var confirmation = new Confirmation<T>(prompt, condition, dependencies, _form);
+            _form._fields.Add(confirmation);
+            _form._steps.Add(new ConfirmStep<T>(confirmation));
             return this;
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.Confirm(IFieldPrompt<T> prompt)
+        public IFormBuilder<T> Confirm(IFieldPrompt<T> prompt)
         {
             // TODO: Need to fill this in
             return this;
         }
 
-        IFormModelBuilder<T> IFormModelBuilder<T>.OnCompletion(CompletionDelegate<T> callback)
+        public IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback)
         {
-            _model._completion = callback;
+            _form._completion = callback;
             return this;
         }
 
-        private IFormModelBuilder<T> AddField(IField<T> field)
+        private IFormBuilder<T> AddField(IField<T> field)
         {
-            _model._fields.Add(field);
-            var step = new FieldStep<T>(field.Name, _model);
-            var stepIndex = this._model._steps.FindIndex(s => s.Name == field.Name);
+            _form._fields.Add(field);
+            var step = new FieldStep<T>(field.Name, _form);
+            var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);
             if (stepIndex >= 0)
             {
-                _model._steps[stepIndex] = step;
+                _form._steps[stepIndex] = step;
             }
             else
             {
-                _model._steps.Add(step);
+                _form._steps.Add(step);
             }
             return this;
         }

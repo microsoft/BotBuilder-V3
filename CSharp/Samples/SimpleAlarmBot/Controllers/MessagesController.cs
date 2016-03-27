@@ -20,10 +20,9 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         /// POST: api/Messages
         /// receive a message from a user and reply to it
         /// </summary>
-        [ResponseType(typeof(Message))]
-        public async Task<HttpResponseMessage> Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
-            return await CompositionRoot.PostAsync(this.Request, message, () => new SimpleAlarmBot());
+            return await Conversation.SendAsync(message, () => new SimpleAlarmBot());
         }
 
         // ------  to send a message 

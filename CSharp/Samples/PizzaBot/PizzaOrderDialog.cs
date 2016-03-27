@@ -11,29 +11,15 @@ using System.Web;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-#pragma warning disable CS1998
-
     [LuisModel("https://api.projectoxford.ai/luis/v1/application?id=a19f7eee-0280-4a9a-b5e5-73c16b32c43d&subscription-key=fe054e042fd14754a83f0a205f6552a5&q=")]
     [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
-        private readonly Func<IFormDialog<PizzaOrder>> MakePizzaForm;
+        private readonly MakeForm<PizzaOrder> MakePizzaForm;
 
-        internal PizzaOrderDialog(Func<IFormDialog<PizzaOrder>> makePizzaForm)
+        internal PizzaOrderDialog(MakeForm<PizzaOrder> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
-        }
-
-        protected PizzaOrderDialog(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            Field.SetNotNullFrom(out this.MakePizzaForm, nameof(MakePizzaForm), info);
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(this.MakePizzaForm), MakePizzaForm);
         }
 
         [LuisIntent("")]
@@ -47,7 +33,6 @@ namespace Microsoft.Bot.Sample.PizzaBot
         [LuisIntent("UseCoupon")]
         public async Task ProcessPizzaForm(IDialogContext context, LuisResult result)
         {
-            var initialState = new InitialState<PizzaOrder>();
             var entities = new List<EntityRecommendation>(result.Entities);
             if (!entities.Any((entity) => entity.Type == "Kind"))
             {
@@ -70,12 +55,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
                     }
                 }
             }
-            initialState.Entities = entities.ToArray();
-            initialState.State = null;
-            initialState.PromptInStart = true;
 
-            var pizzaForm = this.MakePizzaForm();
-            context.Call<IFormDialog<PizzaOrder>, InitialState<PizzaOrder>, PizzaOrder>(pizzaForm, initialState, PizzaFormComplete);
+            var pizzaForm = new FormDialog<PizzaOrder>(new PizzaOrder(), this.MakePizzaForm, FormOptions.PromptInStart, entities);
+            context.Call<PizzaOrder>(pizzaForm, PizzaFormComplete);
         }
 
         private async Task PizzaFormComplete(IDialogContext context, IAwaitable<PizzaOrder> result)

@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Linq;
 
 namespace Microsoft.Bot.Builder.Form
@@ -184,11 +217,6 @@ namespace Microsoft.Bot.Builder.Form
         public BoolDefault AllowDefault { get; set; }
 
         /// <summary>
-        /// Allow matching on numbers.
-        /// </summary>
-        public BoolDefault AllowNumbers { get; set; }
-
-        /// <summary>
         /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
         /// </summary>
         /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
@@ -224,6 +252,15 @@ namespace Microsoft.Bot.Builder.Form
         /// </summary>
         public CaseNormalization ValueCase { get; set; }
 
+        internal bool AllowNumbers
+        {
+            get
+            {
+                // You can match on numbers only if they are included in Choices and choices are shown
+                return ChoiceFormat.Contains("{0}") && _patterns.Any((pattern) => pattern.Contains("{||}"));
+            }
+        }
+
         /// <summary>
         /// The pattern to use when generating a string using <see cref="Advanced.IPrompt{T}"/>.
         /// </summary>
@@ -255,7 +292,6 @@ namespace Microsoft.Bot.Builder.Form
         public void ApplyDefaults(TemplateBase defaultTemplate)
         {
             if (AllowDefault == BoolDefault.Default) AllowDefault = defaultTemplate.AllowDefault;
-            if (AllowNumbers == BoolDefault.Default) AllowNumbers = defaultTemplate.AllowNumbers;
             if (ChoiceStyle == ChoiceStyleOptions.Default) ChoiceStyle = defaultTemplate.ChoiceStyle;
             if (FieldCase == CaseNormalization.Default) FieldCase = defaultTemplate.FieldCase;
             if (Feedback == FeedbackOptions.Default) Feedback = defaultTemplate.Feedback;
@@ -266,20 +302,10 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         /// <summary>
-        /// Initialize with a single template.
-        /// </summary>
-        /// <param name="pattern">Pattern to use.</param>
-        public TemplateBase(string pattern)
-        {
-            _patterns = new string[] { pattern};
-            Initialize();
-        }
-
-        /// <summary>
         /// Initialize with multiple patterns that will be chosen from randomly.
         /// </summary>
         /// <param name="patterns">Possible patterns.</param>
-        public TemplateBase(string[] patterns)
+        public TemplateBase(params string[] patterns)
         {
             _patterns = patterns;
             Initialize();
@@ -293,7 +319,6 @@ namespace Microsoft.Bot.Builder.Form
         {
             _patterns = other._patterns;
             AllowDefault = other.AllowDefault;
-            AllowNumbers = other.AllowNumbers;
             ChoiceStyle = other.ChoiceStyle;
             FieldCase = other.FieldCase;
             Feedback = other.Feedback;
@@ -306,7 +331,6 @@ namespace Microsoft.Bot.Builder.Form
         private void Initialize()
         {
             AllowDefault = BoolDefault.Default;
-            AllowNumbers = BoolDefault.Default;
             ChoiceStyle = ChoiceStyleOptions.Default;
             FieldCase = CaseNormalization.Default;
             Feedback = FeedbackOptions.Default;
@@ -336,10 +360,10 @@ namespace Microsoft.Bot.Builder.Form
         }
 
         /// <summary>
-        /// Define a prompt with multiple templates that will be selected from randomly.
+        /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
-        /// <param name="patterns"></param>
-        public Prompt(string[] patterns)
+        /// <param name="patterns">Patterns to select from.</param>
+        public Prompt(params string[] patterns)
             : base(patterns)
         { }
 
@@ -609,22 +633,11 @@ namespace Microsoft.Bot.Builder.Form
         public readonly TemplateUsage Usage;
 
         /// <summary>
-        /// Specify a template for a particular usage.
-        /// </summary>
-        /// <param name="usage">How the template will be used.</param>
-        /// <param name="pattern">The text pattern for the template.</param>
-        public Template(TemplateUsage usage, string pattern)
-            : base(pattern)
-        {
-            Usage = usage;
-        }
-
-        /// <summary>
         /// Specify a set of templates to randomly choose between for a particular usage.
         /// </summary>
         /// <param name="usage">How the template will be used.</param>
         /// <param name="patterns">The set of \ref patterns to randomly choose from.</param>
-        public Template(TemplateUsage usage, string[] patterns)
+        public Template(TemplateUsage usage, params string[] patterns)
             : base(patterns)
         {
             Usage = usage;

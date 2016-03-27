@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -13,7 +46,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Recognizer for enumerated values.
     /// </summary>
     public sealed class RecognizeEnumeration<T> : IRecognize<T>
-        where T : class, new()
     {
         /// <summary>
         /// Delegate for mapping from a C# value to it's description.
@@ -35,8 +67,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="field">Field with enumerated values.</param>
         public RecognizeEnumeration(IField<T> field)
         {
-            var configuration = field.Model.Configuration;
-            _model = field.Model;
+            var configuration = field.Form.Configuration;
+            _form = field.Form;
             _allowNumbers = field.AllowNumbers();
             _description = field.Description();
             _terms = field.Terms().ToArray();
@@ -50,45 +82,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _noPreference = field.Optional() ? configuration.NoPreference.ToArray() : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
             BuildPerValueMatcher(configuration.CurrentChoice);
-        }
-
-        /// <summary>
-        /// Explicitly contructed recognizer.
-        /// </summary>
-        /// <param name="model">Form model recognizer is being used in.</param>
-        /// <param name="description">Description of the field being asked for.</param>
-        /// <param name="terms">Regular expressions that when matched mean this field.</param>
-        /// <param name="values">Possible C# values for field.</param>
-        /// <param name="descriptionDelegate">Mapping from C# value to it's description.</param>
-        /// <param name="termsDelegate">Mapping from C# value to it's regular expressions for matching.</param>
-        /// <param name="allowNumbers">True to allow matching on numbers.</param>
-        /// <param name="helpFormat">Template for generating overall help.</param>
-        /// <param name="noPreference">Regular expressions for identifying no preference as choice.</param>
-        /// <param name="currentChoice">Regular expressions for identifying the current choice.</param>
-        public RecognizeEnumeration(IFormModel<T> model,
-            string description,
-            IEnumerable<object> terms,
-            IEnumerable<object> values,
-            DescriptionDelegate descriptionDelegate,
-            TermsDelegate termsDelegate,
-            bool allowNumbers,
-            Template helpFormat,
-            IEnumerable<string> noPreference = null,
-            IEnumerable<string> currentChoice = null)
-        {
-            _model = model;
-            _allowNumbers = allowNumbers;
-            _values = values.ToArray();
-            _descriptionDelegate = descriptionDelegate;
-            _termsDelegate = termsDelegate;
-            _valueDescriptions = (from value in values select _descriptionDelegate(value)).ToArray();
-            _helpFormat = helpFormat;
-            _noPreference = noPreference?.ToArray();
-            if (currentChoice != null)
-            {
-                _currentChoice = currentChoice.FirstOrDefault();
-            }
-            BuildPerValueMatcher(currentChoice);
         }
 
         public IEnumerable<object> Values()
@@ -139,7 +132,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 args.Add(null);
             }
             args.Add(Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
-            return new Prompter<T>(_helpFormat, _model, this).Prompt(state, "", args.ToArray());
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -153,14 +146,16 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
             foreach (var expression in _expressions)
             {
-                double longest = expression.Longest.Length;
+                double maxWords = expression.MaxWords;
                 foreach (Match match in expression.Expression.Matches(input))
                 {
                     var group1 = match.Groups[1];
                     var group2 = match.Groups[2];
                     if (group1.Success)
                     {
-                        var confidence = System.Math.Min(group1.Length / longest, 1.0);
+                        int n;
+                        var words = group1.Value.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                        var confidence = int.TryParse(group1.Value, out n) ? 1.0 : System.Math.Min(words / maxWords, 1.0);
                         if (expression.Value is Special)
                         {
                             var special = (Special)expression.Value;
@@ -189,7 +184,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public override string ToString()
         {
             var builder = new StringBuilder();
-            builder.AppendFormat("EnumeratedRecognizer({0}", _description);
+            builder.AppendFormat("RecognizeEnumeration({0}", _description);
             builder.Append(" [");
             foreach (var description in _valueDescriptions)
             {
@@ -232,95 +227,104 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = n - 1;
         }
 
+        private int NumberOfWords(string regex)
+        {
+            return regex.Split(new string[] { @"\s", " " }, StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
-            var word = new StringBuilder();
-            var nonWord = new StringBuilder();
-            var first = true;
-            var firstNonWord = true;
-            foreach (var term in orderedTerms)
+            if (orderedTerms.Length > 0)
             {
-                var nterm = term.Trim().Replace(" ", @"\s+");
-                if (nterm == "") nterm = "qqqq";
-                if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
+                var maxWords = terms.Max((term) => NumberOfWords(term));
+                var word = new StringBuilder();
+                var nonWord = new StringBuilder();
+                var first = true;
+                var firstNonWord = true;
+                foreach (var term in orderedTerms)
                 {
-                    if (first)
+                    var nterm = term.Trim().Replace(" ", @"\s+");
+                    if (nterm == "") nterm = "qqqq";
+                    if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
                     {
-                        first = false;
-                        word.Append(@"(\b(?:");
+                        if (first)
+                        {
+                            first = false;
+                            word.Append(@"(\b(?:");
+                        }
+                        else
+                        {
+                            word.Append('|');
+                        }
+                        word.Append(@"(?:");
+                        word.Append(nterm);
+                        word.Append(')');
                     }
                     else
                     {
-                        word.Append('|');
+                        if (firstNonWord)
+                        {
+                            firstNonWord = false;
+                            nonWord.Append('(');
+                        }
+                        else
+                        {
+                            nonWord.Append('|');
+                        }
+                        nonWord.Append(@"(?:");
+                        nonWord.Append(nterm);
+                        nonWord.Append(')');
                     }
-                    word.Append(@"(?:");
-                    word.Append(nterm);
-                    word.Append(')');
+                }
+                if (first)
+                {
+                    word.Append("(qqqq)");
                 }
                 else
                 {
-                    if (firstNonWord)
+                    if (n == 0)
                     {
-                        firstNonWord = false;
-                        nonWord.Append('(');
+                        word.Append("|c");
                     }
-                    else
+                    else if (allowNumbers)
                     {
-                        nonWord.Append('|');
+                        word.AppendFormat(@"|{0}", n);
                     }
-                    nonWord.Append(@"(?:");
-                    nonWord.Append(nterm);
+                    word.Append(@")\b)");
+                }
+                if (firstNonWord)
+                {
+                    nonWord.Append("(qqqq)");
+                }
+                else
+                {
                     nonWord.Append(')');
                 }
+                ++n;
+                var expr = string.Format("{0}|{1}",
+                    word.ToString(),
+                    nonWord.ToString());
+                _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), maxWords));
             }
-            if (first)
-            {
-                word.Append("(qqqq)");
-            }
-            else
-            {
-                if (n == 0)
-                {
-                    word.Append("|c");
-                }
-                else if (allowNumbers)
-                {
-                    word.AppendFormat(@"|{0}", n);
-                }
-                word.Append(@")\b)");
-            }
-            if (firstNonWord)
-            {
-                nonWord.Append("(qqqq)");
-            }
-            else
-            {
-                nonWord.Append(')');
-            }
-            ++n;
-            var expr = string.Format("{0}|{1}",
-                word.ToString(),
-                nonWord.ToString());
-            _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), orderedTerms.First()));
             return n;
         }
 
         private class ValueAndExpression
         {
-            public ValueAndExpression(object value, Regex expression, string longest)
+            public ValueAndExpression(object value, Regex expression, int maxWords)
             {
                 Value = value;
                 Expression = expression;
-                Longest = longest;
+                MaxWords = maxWords;
             }
 
             public readonly object Value;
             public readonly Regex Expression;
-            public readonly string Longest;
+            public readonly int MaxWords;
         }
 
-        private readonly IFormModel<T> _model;
+        private readonly IForm<T> _form;
         private readonly string _description;
         private readonly IEnumerable<string> _noPreference;
         private readonly string _currentChoice;
@@ -340,7 +344,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public abstract class RecognizePrimitive<T> : IRecognize<T>
-        where T : class, new()
+        where T : class
     {
 
         /// <summary>
@@ -350,13 +354,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public RecognizePrimitive(IField<T> field)
         {
             _field = field;
-            _currentChoices = new HashSet<string>(from choice in field.Model.Configuration.CurrentChoice
+            _currentChoices = new HashSet<string>(from choice in field.Form.Configuration.CurrentChoice
                                                   select choice.Trim().ToLower());
             if (field.Optional())
             {
                 if (field.IsNullable())
                 {
-                    _noPreference = new HashSet<string>(from choice in field.Model.Configuration.NoPreference
+                    _noPreference = new HashSet<string>(from choice in field.Form.Configuration.NoPreference
                                                         select choice.Trim().ToLower());
                 }
                 else
@@ -426,10 +430,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             var args = new List<object>();
             if (defaultValue != null || _field.Optional())
             {
-                args.Add(_field.Model.Configuration.CurrentChoice.First() + " or 'c'");
+                args.Add(_field.Form.Configuration.CurrentChoice.First() + " or 'c'");
                 if (_field.Optional())
                 {
-                    args.Add(_field.Model.Configuration.NoPreference.First());
+                    args.Add(_field.Form.Configuration.NoPreference.First());
                 }
                 else
                 {
@@ -458,7 +462,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeBool<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a boolean recognizer for a field.
@@ -467,9 +471,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public RecognizeBool(IField<T> field)
             : base(field)
         {
-            _yes = new HashSet<string>(from term in field.Model.Configuration.Yes
+            _yes = new HashSet<string>(from term in field.Form.Configuration.Yes
                                        select term.Trim().ToLower());
-            _no = new HashSet<string>(from term in field.Model.Configuration.No
+            _no = new HashSet<string>(from term in field.Form.Configuration.No
                                       select term.Trim().ToLower());
         }
 
@@ -490,7 +494,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }
@@ -498,15 +502,15 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         public override IEnumerable<string> ValidInputs(object value)
         {
             return (bool)value
-                ? _field.Model.Configuration.Yes
-                : _field.Model.Configuration.No;
+                ? _field.Form.Configuration.Yes
+                : _field.Form.Configuration.No;
         }
 
         public override string ValueDescription(object value)
         {
             return ((bool)value
-                ? _field.Model.Configuration.Yes
-                : _field.Model.Configuration.No).First();
+                ? _field.Form.Configuration.Yes
+                : _field.Form.Configuration.No).First();
         }
 
         private HashSet<string> _yes;
@@ -518,7 +522,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeString<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a string recognizer for a field.
@@ -552,7 +556,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }
@@ -563,7 +567,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     public sealed class RecognizeNumber<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a numeric recognizer for a field.
@@ -606,7 +610,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.IntegerHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.IntegerHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             if (_showLimits)
             {
@@ -627,7 +631,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public sealed class RecognizeDouble<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
 
         /// <summary>
@@ -668,7 +672,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DoubleHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DoubleHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             if (_showLimits)
             {
@@ -692,7 +696,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// Expressions recognized are based on the C# nuget package Chronic.
     /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
-        where T : class, new()
+        where T : class
     {
         /// <summary>
         /// Construct a date/time recognizer.
@@ -708,7 +712,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         public override string Help(T state, object defaultValue)
         {
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Model, null);
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
             return prompt.Prompt(state, _field.Name, args.ToArray());
         }

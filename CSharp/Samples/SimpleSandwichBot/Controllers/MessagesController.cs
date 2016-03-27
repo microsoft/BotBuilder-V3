@@ -16,33 +16,24 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IFormModel<SandwichOrder> MakeModel()
-        {
-            return FormModelBuilder<SandwichOrder>
-                    .Start()
-                    .Message("Welcome to the simple sandwich order bot!")
-                    .Build();
-        }
-
         internal static IFormDialog<SandwichOrder> MakeRoot()
         {
-            return new FormDialog<SandwichOrder>(MakeModel);
+            return FormDialog.FromForm(SandwichOrder.Form);
         }
 
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and reply to it
         /// </summary>
-        public async Task<HttpResponseMessage> Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
             if (message.Type == "Message")
             {
-                return await CompositionRoot.PostAsync(this.Request, message, MakeRoot);
+                return await Conversation.SendAsync(message, MakeRoot);
             }
             else
             {
-                return Request.CreateResponse(HttpStatusCode.NoContent);
-                // return HandleSystemMessage(message);
+                return HandleSystemMessage(message);
             }
         }
 

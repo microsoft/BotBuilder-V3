@@ -1,6 +1,40 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,8 +42,6 @@ using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-#pragma warning disable CS1998
-
     public abstract class PromptTests_Base
     {
         public static string NewID()
@@ -17,7 +49,7 @@ namespace Microsoft.Bot.Builder.Tests
             return Guid.NewGuid().ToString();
         }
 
-        public interface IPromptCaller<T> : IDialog<object>
+        public interface IPromptCaller<T> : IDialog
         {
             Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
@@ -31,13 +63,13 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog<object> root)
+        public static async Task<Internals.DialogContext> MakeContextAsync(IDialog root)
         {
+            var client = new Mock<IConnectorClient>(MockBehavior.Strict);
             var data = new Internals.JObjectBotData(new Connector.Message());
-
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var context = new Internals.DialogContext(data, fiber);
-            var loop = Methods.Void(Methods.Loop(context.ToRest<object>(root.StartAsync), int.MaxValue));
+            var context = new Internals.DialogContext(client.Object, data, fiber);
+            var loop = Methods.Void(Methods.Loop(context.ToRest(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();
             return context;
@@ -55,8 +87,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog<T>();
 
             dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<object>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { c.Wait(dialogRoot.Object.FirstMessage); });
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
             dialogRoot
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
@@ -67,13 +99,13 @@ namespace Microsoft.Bot.Builder.Tests
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(PromptText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID, Text = text };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.GetAwaiter().GetResult().Equals(expected))), Times.Once);
             }
         }
@@ -97,9 +129,15 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task PromptSuccess_Number()
+        public async Task PromptSuccess_Number_Integer()
         {
             await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Number_Float()
+        {
+            await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42f);
         }
 
         [TestMethod]
@@ -122,8 +160,8 @@ namespace Microsoft.Bot.Builder.Tests
             var dialogRoot = MockDialog<T>();
 
             dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<object>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { c.Wait(dialogRoot.Object.FirstMessage); });
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
             dialogRoot
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
@@ -134,18 +172,18 @@ namespace Microsoft.Bot.Builder.Tests
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(PromptText, toUser.Text);
             }
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
                 Assert.AreEqual(RetryText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.PostAsync(toBot);
+                var toUser = await userToBot.SendAsync(toBot);
 
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.ToTask().IsFaulted)), Times.Once);
             }

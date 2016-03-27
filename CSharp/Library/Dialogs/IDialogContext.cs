@@ -17,6 +17,13 @@ namespace Microsoft.Bot.Builder
     public delegate Task ResumeAfter<in T>(IDialogContext context, IAwaitable<T> result);
 
     /// <summary>
+    /// Encapsulate a method that represents the code to start a dialog.
+    /// </summary>
+    /// <param name="context">The dialog context.</param>
+    /// <returns>A task that represents the start code for a dialog.</returns>
+    public delegate Task StartAsync(IDialogContext context);
+
+    /// <summary>
     /// The stack of dialogs in the conversational process.
     /// </summary>
     public interface IDialogStack
@@ -30,13 +37,10 @@ namespace Microsoft.Bot.Builder
         /// <summary>
         /// Call a child dialog and add it to the top of the stack.
         /// </summary>
-        /// <typeparam name="C">The type of the child dialog.</typeparam>
-        /// <typeparam name="T">The type of the child dialog's argument.</typeparam>
         /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
         /// <param name="child">The child dialog.</param>
-        /// <param name="argument">The child dialog's argument.</param>
         /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        void Call<C, T, R>(C child, T argument, ResumeAfter<R> resume) where C : class, IDialog<T>;
+        void Call<R>(IDialog child, ResumeAfter<R> resume);
 
         /// <summary>
         /// Complete the current dialog and return a result to the parent dialog.
@@ -66,12 +70,12 @@ namespace Microsoft.Bot.Builder
     public interface IUserToBot
     {
         /// <summary>
-        /// Post a message to be sent to the bot.
+        /// Send a message to the bot with the option of an inline response.
         /// </summary>
         /// <param name="message">The message for the bot.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents an inline response message to send back to the user.</returns>
-        Task<Message> PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Message> SendAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
@@ -96,28 +100,13 @@ namespace Microsoft.Bot.Builder
         /// <summary>
         /// Call a child dialog and add it to the top of the stack.
         /// </summary>
-        /// <typeparam name="C">The type of the child dialog.</typeparam>
-        /// <typeparam name="T">The type of the child dialog's argument.</typeparam>
         /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
         /// <param name="context">The dialog context.</param>
         /// <param name="child">The child dialog.</param>
         /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        public static void Call<C, T, R>(this IDialogContext context, C child, ResumeAfter<R> resume) where C : class, IDialog<T>
+        public static void Call<R>(this IDialogContext context, IDialog child, ResumeAfter<R> resume)
         {
-            context.Call<C, T, R>(child, default(T), resume);
-        }
-
-        /// <summary>
-        /// Call a child dialog and add it to the top of the stack.
-        /// </summary>
-        /// <typeparam name="C">The type of the child dialog.  The child dialog must have a default constructor.</typeparam>
-        /// <typeparam name="T">The type of the child dialog's argument.</typeparam>
-        /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
-        /// <param name="context">The dialog context.</param>
-        /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        public static void Call<C, T, R>(this IDialogContext context, ResumeAfter<R> resume) where C : class, IDialog<T>, new()
-        {
-            context.Call<C, T, R>(new C(), default(T), resume);
+            context.Call<R>(child, resume);
         }
     }
 }

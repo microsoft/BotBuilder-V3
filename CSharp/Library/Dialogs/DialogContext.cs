@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,28 +41,30 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Internals
 {
-#pragma warning disable CS1998
-
     [Serializable]
     public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable
     {
+        private readonly IConnectorClient client;
         private readonly IBotData data;
         private readonly IFiberLoop fiber;
 
-        public DialogContext(IBotData data, IFiberLoop fiber)
+        public DialogContext(IConnectorClient client, IBotData data, IFiberLoop fiber)
         {
+            Field.SetNotNull(out this.client, nameof(client), client);
             Field.SetNotNull(out this.data, nameof(data), data);
             Field.SetNotNull(out this.fiber, nameof(fiber), fiber);
         }
 
         public DialogContext(SerializationInfo info, StreamingContext context)
         {
+            Field.SetNotNullFrom(out this.client, nameof(client), info);
             Field.SetNotNullFrom(out this.data, nameof(data), info);
             Field.SetNotNullFrom(out this.fiber, nameof(fiber), info);
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue(nameof(this.client), this.client);
             info.AddValue(nameof(this.data), this.data);
             info.AddValue(nameof(this.fiber), this.fiber);
         }
@@ -61,12 +96,37 @@ namespace Microsoft.Bot.Builder.Internals
         private IWait wait;
 
         [Serializable]
-        private sealed class Thunk<T>
+        private sealed class ThunkStart
+        {
+            private DialogContext context;
+            private StartAsync start;
+
+            public ThunkStart(DialogContext context, StartAsync start)
+            {
+                Field.SetNotNull(out this.context, nameof(context), context);
+                Field.SetNotNull(out this.start, nameof(start), start);
+            }
+
+            public async Task<IWait> Rest(IFiber fiber, IItem<object> item)
+            {
+                var result = await item;
+                if (result != null)
+                {
+                    throw new ArgumentException(nameof(item));
+                }
+
+                await this.start(this.context);
+                return this.context.wait;
+            }
+        }
+
+        [Serializable]
+        private sealed class ThunkResume<T>
         {
             private DialogContext context;
             private ResumeAfter<T> resume;
 
-            public Thunk(DialogContext context, ResumeAfter<T> resume)
+            public ThunkResume(DialogContext context, ResumeAfter<T> resume)
             {
                 Field.SetNotNull(out this.context, nameof(context), context);
                 Field.SetNotNull(out this.resume, nameof(resume), resume);
@@ -79,17 +139,23 @@ namespace Microsoft.Bot.Builder.Internals
             }
         }
 
-        public Rest<T> ToRest<T>(ResumeAfter<T> resume)
+        internal Rest<object> ToRest(StartAsync start)
         {
-            var thunk = new Thunk<T>(this, resume);
+            var thunk = new ThunkStart(this, start);
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<C, T, R>(C child, T arguments, ResumeAfter<R> resume)
+        internal Rest<T> ToRest<T>(ResumeAfter<T> resume)
         {
-            var callRest = ToRest<T>(child.StartAsync);
+            var thunk = new ThunkResume<T>(this, resume);
+            return thunk.Rest;
+        }
+
+        void IDialogStack.Call<R>(IDialog child, ResumeAfter<R> resume)
+        {
+            var callRest = ToRest(child.StartAsync);
             var doneRest = ToRest(resume);
-            this.wait = this.fiber.Call<T, R>(callRest, arguments, doneRest);
+            this.wait = this.fiber.Call<object, R>(callRest, null, doneRest);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -106,16 +172,24 @@ namespace Microsoft.Bot.Builder.Internals
 
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
         {
+            if (this.toUser != null)
+            {
+                await this.client.Messages.SendMessageAsync(this.toUser, cancellationToken);
+                this.toUser = null;
+            }
+
             Field.SetNotNull(out this.toUser, nameof(message), message);
         }
 
         private Message toBot;
 
-        async Task<Message> IUserToBot.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task<Message> IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
         {
             this.toBot = message;
             this.fiber.Post(message);
             await this.fiber.PollAsync();
+            var toUser = this.toUser;
+            this.toUser = null;
             return toUser;
         }
 

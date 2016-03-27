@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CS1998</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,18 +33,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CS1998</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Chronic, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Chronic.0.3.1\lib\net40\Chronic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=0.9.9.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Connector.0.9.9.6-alpha\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Connector.1.0.0.0\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bot.Connector.Utilities, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Connector.0.9.9.6-alpha\lib\net45\Microsoft.Bot.Connector.Utilities.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bot.Connector.1.0.0.0\lib\net45\Microsoft.Bot.Connector.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -100,15 +102,14 @@
     <Compile Include="Fibers\Wait.cs" />
     <Compile Include="Form\Confirmation.cs" />
     <Compile Include="Form\Field.cs" />
+    <Compile Include="Form\FormDialog.cs" />
+    <Compile Include="Form\FormBuilder.cs" />
     <Compile Include="Form\Form.cs" />
-    <Compile Include="Form\FormModelBuilder.cs" />
-    <Compile Include="Form\FormModel.cs" />
     <Compile Include="Form\FormState.cs" />
     <Compile Include="Form\IField.cs" />
     <None Include="Form\ILocalizer.cs" />
-    <Compile Include="Form\IFormModelBuilder.cs" />
-    <Compile Include="Form\IFormModel.cs" />
-    <Compile Include="Form\InitialState.cs" />
+    <Compile Include="Form\IFormBuilder.cs" />
+    <Compile Include="Form\IForm.cs" />
     <Compile Include="Form\IStep.cs" />
     <Compile Include="Form\Language.cs" />
     <Compile Include="Form\MatchAnalyzer.cs" />
@@ -139,7 +140,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

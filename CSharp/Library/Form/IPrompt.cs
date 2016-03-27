@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +48,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// This interface allows taking a \ref patterns expression and making it into a string with the template parts filled in.
     /// </remarks>
     public interface IPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Description of the prompt and how to generate it.
@@ -40,19 +72,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     }
 
     public sealed class Prompter<T> : IPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Construct a prompter.
         /// </summary>
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
-        /// <param name="model">Current form model.</param>
+        /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBase annotation, IFormModel<T> model, IRecognize<T> recognizer)
+        public Prompter(TemplateBase annotation, IForm<T> form, IRecognize<T> recognizer)
         {
-            annotation.ApplyDefaults(model.Configuration.DefaultPrompt);
+            annotation.ApplyDefaults(form.Configuration.DefaultPrompt);
             _annotation = annotation;
-            _model = model;
+            _form = form;
             _recognizer = recognizer;
         }
 
@@ -67,7 +98,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             string noValue = null;
             if (pathName != "")
             {
-                var field = _model.Fields.Field(pathName);
+                var field = _form.Fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional())
                 {
@@ -88,7 +119,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             int last = 0;
             int numeric;
             var response = new StringBuilder();
-            var field = _model.Fields.Field(pathName);
+            var field = _form.Fields.Field(pathName);
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
@@ -102,7 +133,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         // Use default pathname
                         name = pathName;
                     }
-                    var pathField = _model.Fields.Field(name);
+                    var pathField = _form.Fields.Field(name);
                     substitute = Normalize(pathField == null ? pathName : pathField.Description(), _annotation.FieldCase);
                 }
                 else if (expr == "||")
@@ -161,12 +192,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         }
                         else
                         {
-                            // Seperate line choices
+                            // Separate line choices
                             var i = 1;
                             foreach (var value in values)
                             {
                                 builder.Append("\n  ");
-                                if (_annotation.AllowNumbers != BoolDefault.True)
+                                if (!_annotation.AllowNumbers)
                                 {
                                     builder.Append("* ");
                                 }
@@ -182,12 +213,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _model, null);
+                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
-                    foreach (var entry in (from step in _model.Fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
+                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
                     {
                         builder.Append("* ").AppendLine(format.Prompt(state, entry.Name));
                     }
@@ -197,15 +228,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 {
                     // Generate a list from multiple fields
                     var paths = expr.Substring(1, expr.Length - 2).Split(' ');
-                    var values = new List<Tuple<IField<T>, object>>();
+                    var values = new List<Tuple<IField<T>, object, string>>();
                     foreach (var spec in paths)
                     {
                         if (!spec.StartsWith("{") || !spec.EndsWith("}"))
                         {
                             throw new ArgumentException("Only {<field>} references are allowed in lists.");
                         }
-                        var name = spec.Substring(1, spec.Length - 2).Trim();
-                        var eltDesc = _model.Fields.Field(name);
+                        var formatArgs = spec.Substring(1, spec.Length - 2).Trim().Split(':');
+                        var name = formatArgs[0];
+                        if (name == "") name = pathName;
+                        var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
+                        var eltDesc = _form.Fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
                             var value = eltDesc.GetValue(state);
@@ -214,18 +248,19 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                                 var eltValues = (value as System.Collections.IEnumerable);
                                 foreach (var elt in eltValues)
                                 {
-                                    values.Add(Tuple.Create(eltDesc, elt));
+                                    values.Add(Tuple.Create(eltDesc, elt, format));
                                 }
                             }
                             else
                             {
-                                values.Add(Tuple.Create(eltDesc, eltDesc.GetValue(state)));
+                                values.Add(Tuple.Create(eltDesc, eltDesc.GetValue(state), format));
                             }
                         }
                     }
                     if (values.Count() > 0)
                     {
-                        var elements = (from elt in values select Normalize(ValueDescription(elt.Item1, elt.Item2), _annotation.ValueCase)).ToArray();
+                        var elements = (from elt in values
+                                        select Normalize(ValueDescription(elt.Item1, elt.Item2, elt.Item3), _annotation.ValueCase)).ToArray();
                         substitute = Language.BuildList(elements, _annotation.Separator, _annotation.LastSeparator);
                     }
                 }
@@ -257,9 +292,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 }
                 else
                 {
-                    var name = expr;
+                    var formatArgs = expr.Split(':');
+                    var name = formatArgs[0];
                     if (name == "") name = pathName;
-                    var pathDesc = _model.Fields.Field(name);
+                    var pathDesc = _form.Fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {
                         if (noValue == null)
@@ -275,12 +311,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                         if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                         {
                             var values = (value as System.Collections.IEnumerable);
-                            substitute = Language.BuildList(from elt in values.Cast<object>() select Normalize(ValueDescription(pathDesc, elt), _annotation.ValueCase),
+                            substitute = Language.BuildList(from elt in values.Cast<object>()
+                                                            select Normalize(ValueDescription(pathDesc, elt, "0"), _annotation.ValueCase),
                                 _annotation.Separator, _annotation.LastSeparator);
                         }
                         else
                         {
-                            substitute = ValueDescription(pathDesc, value);
+                            var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
+                            substitute = ValueDescription(pathDesc, value, format);
                         }
                     }
                 }
@@ -296,9 +334,18 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return int.TryParse(args[0], out number);
         }
 
-        private string ValueDescription(IField<T> field, object value)
+        private string ValueDescription(IField<T> field, object value, string format)
         {
-            return field.Prompt().Recognizer().ValueDescription(value);
+            string result;
+            if (format != "0")
+            {
+                result = string.Format("{" + format + "}", value);
+            }
+            else
+            {
+                result = field.Prompt().Recognizer().ValueDescription(value);
+            }
+            return result;
         }
 
         public IRecognize<T> Recognizer()
@@ -323,14 +370,14 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         private Template Template(IField<T> field, TemplateUsage usage)
         {
             return field == null
-                ? _model.Configuration.Template(usage)
+                ? _form.Configuration.Template(usage)
                 : field.Template(usage);
         }
 
         private static readonly Regex _args = new Regex(@"{((?>[^{}]+|{(?<number>)|}(?<-number>))*(?(number)(?!)))}", RegexOptions.Compiled);
         private static readonly Regex _spaces = new Regex(@"(\S)( {2,})", RegexOptions.Compiled);
         private static readonly Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
-        private IFormModel<T> _model;
+        private IForm<T> _form;
         private TemplateBase _annotation;
         private IRecognize<T> _recognizer;
     }

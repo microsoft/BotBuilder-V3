@@ -1,6 +1,40 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
@@ -9,7 +43,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">The form state that is read or written to.</typeparam>
     public interface IFieldState<T>
-        where T : class, new()
     {
         /// <summary>
         /// Get this field value from form state.
@@ -268,7 +301,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state that is being completed.</typeparam>
     public interface IFieldPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Test to see if field is currently active based on the current state.
@@ -303,7 +335,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// One way to control this is to supply a <see cref="ValidationDelegate"/> to the 
         /// <see cref="IForm<T>.Field"/> or <see cref="IForm<T>.Confirm"/> steps.
         /// </remarks>
-        string Validate(T state, object value);
+        Task<string> ValidateAsync(T state, object value);
 
         /// <summary>
         /// Return the help description for this field.
@@ -328,7 +360,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
     public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>
-        where T : class, new()
     {
         /// <summary>
         /// Name of this field.
@@ -341,9 +372,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         string Name { get; }
 
         /// <summary>
-        /// Form model that owns this field
+        /// Form that owns this field
         /// </summary>
-        IFormModel<T> Model { get; }
+        IForm<T> Form { get; }
     }
 
     /// <summary>
@@ -351,7 +382,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IFields<T> : IEnumerable<IField<T>>
-        where T : class, new()
     {
         /// <summary>
         /// Return a specific field or null if not present.

@@ -1,4 +1,37 @@
-﻿using System;
+﻿// 
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license.
+// 
+// Microsoft Bot Framework: http://botframework.com
+// 
+// Bot Builder SDK Github:
+// https://github.com/Microsoft/BotBuilder
+// 
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+// 
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,8 +45,6 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder
 {
-#pragma warning disable CS1998
-
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class LuisModel : Attribute
     {
@@ -43,17 +74,26 @@ namespace Microsoft.Bot.Builder
         public Models.EntityRecommendation[] Entities { get; set; }
     }
 
+    public static partial class Extensions
+    {
+        public static bool TryFindEntity(this LuisResult result, string type, out Models.EntityRecommendation entity)
+        {
+            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
+            return entity != null;
+        }
+    }
+
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
-    public class LuisDialog : IDialog<object>, ISerializable
+    public class LuisDialog : IDialog
     {
         public readonly string subscriptionKey;
         public readonly string modelID;
         public readonly string luisUrl;
 
-        protected readonly Dictionary<string, IntentHandler> handlerByIntent = new Dictionary<string, IntentHandler>();
-        protected const string DefaultIntentHandler = "87DBD4FD7736";
+        [NonSerialized]
+        protected Dictionary<string, IntentHandler> handlerByIntent;
 
         public LuisDialog()
         {
@@ -78,24 +118,62 @@ namespace Microsoft.Bot.Builder
             this.luisUrl = string.Format("https://api.projectoxford.ai/luis/v1/application?id={0}&subscription-key={1}&q=", this.modelID, this.subscriptionKey);
         }
 
-        protected LuisDialog(SerializationInfo info, StreamingContext context)
+        public virtual async Task StartAsync(IDialogContext context)
         {
-            Field.SetNotNullFrom(out this.luisUrl, nameof(this.luisUrl), info);
-            Field.SetFrom(out this.subscriptionKey, nameof(this.subscriptionKey), info);
-            Field.SetFrom(out this.modelID, nameof(this.modelID), info);
-
-            this.AddAttributeBasedHandlers();
+            context.Wait(MessageReceived);
         }
 
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        protected virtual async Task<LuisResult> GetLuisResult(string luisUrl, string text)
         {
-            info.AddValue(nameof(this.subscriptionKey), this.subscriptionKey);
-            info.AddValue(nameof(this.luisUrl), this.luisUrl);
-            info.AddValue(nameof(this.modelID), this.modelID);
+            var url = luisUrl + Uri.EscapeDataString(text);
+            string json;
+            using (HttpClient client = new HttpClient())
+            {
+                json = await client.GetStringAsync(url);
+            }
+
+            Debug.WriteLine(json);
+            var response = JsonConvert.DeserializeObject<LuisResult>(json);
+            return response;
+        }
+
+        protected async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
+        {
+            var message = await item;
+            var luisRes = await GetLuisResult(this.luisUrl, message.Text);
+            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
+
+            if (this.handlerByIntent == null)
+            {
+                this.AddAttributeBasedHandlers();
+            }
+
+            IntentHandler handler;
+            if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
+            {
+                handler = this.handlerByIntent[string.Empty];
+            }
+
+            if (handler != null)
+            {
+                await handler(context, luisRes);
+            }
+            else
+            {
+                var text = $"LuisModel[{this.modelID}] no default intent handler.";
+                throw new Exception(text);
+            }
         }
 
         private void AddAttributeBasedHandlers()
         {
+            if (this.handlerByIntent != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.handlerByIntent = new Dictionary<string, IntentHandler>();
+
             var methods = from m in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                           let attr = m.GetCustomAttributes(typeof(LuisIntent), true)
                           where attr.Length > 0
@@ -119,63 +197,10 @@ namespace Microsoft.Bot.Builder
 
                 foreach (var intent in handler.intents)
                 {
-                    var key = string.IsNullOrEmpty(intent) ? DefaultIntentHandler : intent;
+                    var key = string.IsNullOrWhiteSpace(intent) ? string.Empty : intent;
                     this.handlerByIntent.Add(key, intentHandler);
                 }
             }
         }
-
-        protected virtual async Task<LuisResult> GetLuisResult(string luisUrl, string text)
-        {
-            var url = luisUrl + Uri.EscapeDataString(text);
-            string json;
-            using (HttpClient client = new HttpClient())
-            {
-                json = await client.GetStringAsync(url);
-            }
-
-            Debug.WriteLine(json);
-            var response = JsonConvert.DeserializeObject<LuisResult>(json);
-            return response;
-        }
-
-        async Task IDialog<object>.StartAsync(IDialogContext context, IAwaitable<object> arguments)
-        {
-            context.Wait(MessageReceived);
-        }
-
-        protected async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
-        {
-            var message = await item;
-            var luisRes = await GetLuisResult(this.luisUrl, message.Text);
-            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
-            IntentHandler handler;
-            if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
-            {
-                handler = this.handlerByIntent[DefaultIntentHandler];
-            }
-
-            if (handler != null)
-            {
-                await handler(context, luisRes);
-            }
-            else
-            {
-                var text = $"LuisModel[{this.modelID}] no default intent handler.";
-                throw new Exception(text);
-            }
-        }
-
-        public LuisDialog On(string intent, IntentHandler intentHandler)
-        {
-            this.handlerByIntent.Add(intent, intentHandler);
-            return this;
-        }
-
-        public LuisDialog OnDefault(IntentHandler intentHandler)
-        {
-            return this.On(DefaultIntentHandler, intentHandler);
-        }
     }
-
 }

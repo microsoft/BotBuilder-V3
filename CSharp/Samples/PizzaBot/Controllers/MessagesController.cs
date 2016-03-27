@@ -17,19 +17,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        private static IFormModel<PizzaOrder> MakeModel()
+        private static IForm<PizzaOrder> MakeForm()
         {
-            var builder = FormModelBuilder<PizzaOrder>.Start();
-
-            const bool NoNumbers = false;
-            if (NoNumbers)
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
-            }
-            else
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
-            }
+            var builder = new FormBuilder<PizzaOrder>();
 
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
@@ -55,19 +45,18 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 ;
         }
 
-        internal static IDialog<object> MakeRoot()
+        internal static IDialog MakeRoot()
         {
-            return new PizzaOrderDialog(() => new FormDialog<PizzaOrder>(MakeModel));
+            return new PizzaOrderDialog(MakeForm);
         }
 
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and reply to it
         /// </summary>
-        [ResponseType(typeof(Message))]
-        public async Task<HttpResponseMessage> Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
-            return await CompositionRoot.PostAsync(this.Request, message, MakeRoot);
+            return await Conversation.SendAsync(message, MakeRoot);
         }
     }
 }
