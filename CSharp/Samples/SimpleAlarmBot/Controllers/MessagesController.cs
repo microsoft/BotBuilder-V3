@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            return await Conversation.SendAsync(message, () => new SimpleAlarmBot());
+            return await Conversation.SendAsync(message, () => new SimpleAlarmDialog());
         }
 
         // ------  to send a message 

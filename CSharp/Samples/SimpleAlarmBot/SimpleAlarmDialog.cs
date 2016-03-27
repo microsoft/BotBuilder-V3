@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
     [LuisModel("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "fe054e042fd14754a83f0a205f6552a5")]
     [Serializable]
-    public class SimpleAlarmBot : LuisDialog
+    public class SimpleAlarmDialog : LuisDialog
     {
         private readonly Dictionary<string, Alarm> alarmByWhat = new Dictionary<string, Alarm>();
 
@@ -203,7 +203,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             context.Wait(MessageReceived);
         }
 
-        public SimpleAlarmBot(ILuisService service = null)
+        public SimpleAlarmDialog(ILuisService service = null)
             : base(service)
         {
         }
