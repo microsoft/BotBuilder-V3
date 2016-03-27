@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Builder.Form
         {
             if (!_form._steps.Any((step) => step.Type == StepType.Field))
             {
-                var paths = new List<string>(); 
+                var paths = new List<string>();
                 FormBuilder<T>.FieldPaths(typeof(T), "", paths);
                 IFormBuilder<T> builder = this;
                 foreach (var path in paths)
@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.Form
                 }
                 builder.Confirm("Is this your selection?\n{*}");
             }
-
+            Validate();
             return this._form;
         }
 
@@ -90,7 +90,7 @@ namespace Microsoft.Bot.Builder.Form
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
-                field.Validate(validate);
+                field.SetValidation(validate);
             }
             return AddField(field);
         }
@@ -100,9 +100,9 @@ namespace Microsoft.Bot.Builder.Form
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
-                field.Validate(validate);
+                field.SetValidation(validate);
             }
-            field.Prompt(new Prompt(prompt));
+            field.SetPrompt(new Prompt(prompt));
             return AddField(field);
         }
 
@@ -111,9 +111,9 @@ namespace Microsoft.Bot.Builder.Form
             var field = (condition == null ? new FieldReflector<T>(name, _form) : new Conditional<T>(name, _form, condition));
             if (validate != null)
             {
-                field.Validate(validate);
+                field.SetValidation(validate);
             }
-            field.Prompt(prompt);
+            field.SetPrompt(prompt);
             return AddField(field);
         }
 
@@ -217,6 +217,83 @@ namespace Microsoft.Bot.Builder.Form
             return this;
         }
 
+        private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
+        {
+            {TemplateUsage.Bool, 0 },
+            { TemplateUsage.BoolHelp, 1},
+            { TemplateUsage.Clarify, 1},
+            { TemplateUsage.CurrentChoice, 0},
+            { TemplateUsage.DateTime, 0},
+            { TemplateUsage.DateTimeHelp, 2},
+            { TemplateUsage.Double, 2},
+            { TemplateUsage.DoubleHelp, 4},
+            { TemplateUsage.EnumManyNumberHelp, 3},
+            { TemplateUsage.EnumOneNumberHelp, 3},
+            { TemplateUsage.EnumManyWordHelp, 3},
+            { TemplateUsage.EnumOneWordHelp, 3},
+            { TemplateUsage.EnumSelectOne, 0},
+            { TemplateUsage.EnumSelectMany, 0},
+            { TemplateUsage.Feedback, 1},
+            { TemplateUsage.Help, 2},
+            { TemplateUsage.HelpClarify, 2},
+            { TemplateUsage.HelpConfirm, 2},
+            { TemplateUsage.HelpNavigation, 2},
+            { TemplateUsage.Integer, 2},
+            { TemplateUsage.IntegerHelp, 4},
+            { TemplateUsage.Navigation, 0},
+            { TemplateUsage.NavigationCommandHelp, 1},
+            { TemplateUsage.NavigationFormat, 0},
+            { TemplateUsage.NavigationHelp, 2},
+            { TemplateUsage.NoPreference, 0},
+            { TemplateUsage.NotUnderstood, 1},
+            { TemplateUsage.StatusFormat, 0},
+            { TemplateUsage.String, 0},
+            { TemplateUsage.StringHelp, 2},
+            { TemplateUsage.Unspecified, 0},
+        };
+
+        private int TemplateArgs(TemplateUsage usage)
+        {
+            int args;
+            if (!_templateArgs.TryGetValue(usage, out args))
+            {
+                throw new ArgumentException("Missing template usage for validation");
+            }
+            return args;
+        }
+
+        private void Validate()
+        {
+            foreach (var step in _form._steps)
+            {
+                // Validate prompt
+                var annotation = step.Annotation;
+                var name = step.Type == StepType.Field ? step.Name : "";
+                foreach (var pattern in annotation.Patterns)
+                {
+                    ValidatePattern(pattern, name, 5);
+                }
+                if (step.Type != StepType.Message)
+                {
+                    foreach (TemplateUsage usage in Enum.GetValues(typeof(TemplateUsage)))
+                    {
+                        foreach (var pattern in step.Field.Template(usage).Patterns)
+                        {
+                            ValidatePattern(pattern, name, TemplateArgs(usage));
+                        }
+                    }
+                }
+            }
+            ValidatePattern(_form.Configuration.DefaultPrompt.ChoiceFormat, "", 2);
+        }
+
+        private void ValidatePattern(string pattern, string pathName, int maxArgs)
+        {
+            if (!Prompter<T>.ValidatePattern(_form, pattern, pathName, maxArgs))
+            {
+                throw new ArgumentException(string.Format("Illegal pattern: \"{0}\"", pattern));
+            }
+        }
 
         internal static void FieldPaths(Type type, string path, List<string> paths)
         {

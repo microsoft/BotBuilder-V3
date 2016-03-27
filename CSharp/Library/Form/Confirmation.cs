@@ -56,8 +56,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             : base(Guid.NewGuid().ToString(), FieldRole.Confirm, form)
         {
             this
-                .Description(_name)
-                .Prompt(prompt)
+                .SetFieldDescription(_name)
+                .SetPrompt(prompt)
                 .AddDescription(true, "Yes")
                 .AddTerms(true, new string[] { "yes", "y", "sure", "ok" })
                 .AddDescription(false, "No")
@@ -74,9 +74,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return null;
         }
 
-        public override IEnumerable<string> Dependencies()
+        public override IEnumerable<string> Dependencies
         {
-            return _dependencies;
+            get
+            {
+                return _dependencies;
+            }
         }
 
         #region IFieldPrompt

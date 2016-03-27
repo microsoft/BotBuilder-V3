@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Description of the prompt and how to generate it.
         /// </summary>
         /// <returns>Attribute describing how to generate prompt.</returns>
-        TemplateBase Annotation();
+        TemplateBase Annotation { get; }
 
         /// <summary>
         /// Return string to send to user.
@@ -87,9 +87,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _recognizer = recognizer;
         }
 
-        public TemplateBase Annotation()
+        public TemplateBase Annotation
         {
-            return _annotation;
+            get
+            {
+                return _annotation;
+            }
         }
 
         public string Prompt(T state, string pathName, params object[] args)
@@ -100,7 +103,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 var field = _form.Fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
-                if (field.Optional())
+                if (field.Optional)
                 {
                     noValue = field.Template(TemplateUsage.NoPreference).Pattern();
                 }
@@ -111,6 +114,62 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
             var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args);
             return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
+        }
+
+        public static bool ValidatePattern(IForm<T> form, string pattern, string pathName, int argLimit = 0)
+        {
+            bool ok = true;
+            var fields = form.Fields;
+            foreach (Match match in _args.Matches(pattern))
+            {
+                var expr = match.Groups[1].Value.Trim();
+                int numeric;
+                if (expr == "||")
+                {
+                    ok = true;
+                }
+                else if (expr.StartsWith("&"))
+                {
+                    var name = expr.Substring(1);
+                    if (name == "") name = pathName;
+                    ok = (name == "" || fields.Field(name) != null);
+                }
+                else if (expr.StartsWith("?"))
+                {
+                    ok = ValidatePattern(form, expr.Substring(1), pathName, argLimit);
+                }
+                else if (expr.StartsWith("["))
+                {
+                    if (expr.EndsWith("]"))
+                    {
+                        ok = ValidatePattern(form, expr.Substring(1, expr.Length - 2), pathName, argLimit);
+                    }
+                    else
+                    {
+                        ok = false;
+                    }
+                }
+                else if (expr.StartsWith("*"))
+                {
+                    ok = (expr == "*" || expr == "*filled");
+                }
+                else if (TryParseFormat(expr, out numeric))
+                {
+                    ok = numeric <= argLimit - 1;
+                }
+                else
+                {
+                    var formatArgs = expr.Split(':');
+                    var name = formatArgs[0];
+                    if (name == "") name = pathName;
+                    ok = (name == "" || fields.Field(name) != null);
+                }
+                if (!ok)
+                {
+                    break;
+                }
+            }
+            return ok;
         }
 
         private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args)
@@ -126,15 +185,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                 var substitute = "";
                 if (expr.StartsWith("&"))
                 {
-                    var spec = expr.Substring(1).Split(':');
-                    var name = spec[0];
-                    if (name == "")
-                    {
-                        // Use default pathname
-                        name = pathName;
-                    }
+                    var name = expr.Substring(1);
+                    if (name == "") name = pathName;
                     var pathField = _form.Fields.Field(name);
-                    substitute = Normalize(pathField == null ? pathName : pathField.Description(), _annotation.FieldCase);
+                    substitute = Normalize(pathField == null ? pathName : pathField.FieldDescription, _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {
@@ -143,7 +197,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     var values = _recognizer.ValueDescriptions();
                     if (_annotation.AllowDefault != BoolDefault.False)
                     {
-                        if (!field.Optional())
+                        if (!field.Optional)
                         {
                             if (!field.IsUnknown(state))
                             {
@@ -218,7 +272,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
                     {
                         builder.Append("\n");
                     }
-                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role() == FieldRole.Value && step.Active(state) select step))
+                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role== FieldRole.Value && step.Active(state) select step))
                     {
                         builder.Append("* ").AppendLine(format.Prompt(state, entry.Name));
                     }
@@ -328,7 +382,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return (foundUnspecified ? null : response.Append(template.Substring(last, template.Length - last)).ToString());
         }
 
-        private bool TryParseFormat(string format, out int number)
+        private static bool TryParseFormat(string format, out int number)
         {
             var args = format.Split(':');
             return int.TryParse(args[0], out number);

@@ -85,13 +85,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Test to see if field is optional which means that an unknown value is legal.
         /// </summary>
         /// <returns>True if field is optional.</returns>
-        bool Optional();
+        bool Optional { get; }
 
         /// <summary>
         /// Test to see if field is nullable. 
         /// </summary>
         /// <returns>True if field is nullable.</returns>
-        bool IsNullable();
+        bool IsNullable { get; }
 
         /// <summary>
         /// Limits of numeric values.
@@ -108,7 +108,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// </summary>
         /// <returns>List of field names this one depends on.</returns>
         /// <remarks>This is mainly useful for <see cref="Confirmation"/> fields.</remarks>
-        IEnumerable<string> Dependencies();
+        IEnumerable<string> Dependencies { get; }
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Role field plays in a form.
         /// </summary>
         /// <returns>Role field plays in form.</returns>
-        FieldRole Role();
+        FieldRole Role { get; }
 
         /// <summary>
         /// Decription of the field itself.
@@ -155,13 +155,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <remarks>
         /// This is the value that will be generated in \ref patterns by {&amp;} or choices. {||}.
         /// </remarks>
-        string Description();
+        string FieldDescription { get; }
 
         /// <summary>
         /// Terms for matching this field.
         /// </summary>
         /// <returns>List of term regex for matching the field name.</returns>
-        IEnumerable<string> Terms();
+        IEnumerable<string> FieldTerms { get; }
 
         /// <summary>
         /// Return the string describing a specific value.
@@ -174,7 +174,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// Return all possible value descriptions in order to support enumeration.
         /// </summary>
         /// <returns>All possible value descriptions.</returns>
-        IEnumerable<string> ValueDescriptions();
+        IEnumerable<string> ValueDescriptions { get; }
 
         /// <summary>
         /// Given a value return terms that can be used in a dialog to match the object.
@@ -187,26 +187,26 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// All possible values or null if it is a data type like number.
         /// </summary>
         /// <returns>All possible values.</returns>
-        IEnumerable<object> Values();
+        IEnumerable<object> Values { get; }
 
         /// <summary>
         /// Are multiple matches allowed.
         /// </summary>
         /// <returns>True if more than one value is allowed.</returns>
         /// <remarks>This is true is you have a list of enumerated values.</remarks>
-        bool AllowsMultiple();
+        bool AllowsMultiple { get; }
 
         /// <summary>
         /// Allow the default value as an option.
         /// </summary>
         /// <returns>True if default values are allowed.</returns>
-        bool AllowDefault();
+        bool AllowDefault { get; }
 
         /// <summary>
         /// Allow user input to match numbers shown with enumerated choices. 
         /// </summary>
         /// <returns>True if numbers are allowed as input.</returns>
-        bool AllowNumbers();
+        bool AllowNumbers { get; }
     }
 
     /// <summary>

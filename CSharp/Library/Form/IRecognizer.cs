@@ -157,6 +157,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     /// <typeparam name="T">Underlying form state.</typeparam>
     public interface IRecognize<T>
     {
+        #region Documentation
+        /// <summary>   Return the arguments to pass to the prompt. </summary>
+        ///<remarks>For example a numeric recognizer might pass min and max values.</remarks>
+        /// <returns>   An array of arguments.</returns>
+        #endregion
+        object[] PromptArgs();
+
         /// <summary>
         /// Return all possible values or null if a primitive type.
         /// </summary>

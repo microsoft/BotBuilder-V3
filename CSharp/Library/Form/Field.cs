@@ -96,14 +96,20 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             throw new NotImplementedException();
         }
 
-        public virtual bool Optional()
+        public virtual bool Optional
         {
-            return _optional;
+            get
+            {
+                return _optional;
+            }
         }
 
-        public virtual bool IsNullable()
+        public virtual bool IsNullable
         {
-            return _isNullable;
+            get
+            {
+                return _isNullable;
+            }
         }
 
         public virtual bool Limits(out double min, out double max)
@@ -113,26 +119,36 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _limited;
         }
 
-        public virtual IEnumerable<string> Dependencies()
+        public virtual IEnumerable<string> Dependencies
         {
-            return new string[0];
-        }
-        #endregion
-
-        #region IFieldDescription
-        public virtual FieldRole Role()
-        {
-            return _role;
+            get
+            {
+                return new string[0];
+            }
         }
 
-        public virtual string Description()
+        public virtual FieldRole Role
         {
-            return _description;
+            get
+            {
+                return _role;
+            }
         }
 
-        public virtual IEnumerable<string> Terms()
+        public virtual string FieldDescription
         {
-            return _terms;
+            get
+            {
+                return _description;
+            }
+        }
+
+        public virtual IEnumerable<string> FieldTerms
+        {
+            get
+            {
+                return _terms;
+            }
         }
 
         public virtual IEnumerable<string> Terms(object value)
@@ -145,30 +161,45 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _valueDescriptions[value];
         }
 
-        public virtual IEnumerable<string> ValueDescriptions()
+        public virtual IEnumerable<string> ValueDescriptions
         {
-            return (from entry in _valueDescriptions select entry.Value);
+            get
+            {
+                return (from entry in _valueDescriptions select entry.Value);
+            }
         }
 
-        public virtual IEnumerable<object> Values()
+        public virtual IEnumerable<object> Values
         {
-            return (from entry in _valueDescriptions select entry.Key);
+            get
+            {
+                return (from entry in _valueDescriptions select entry.Key);
+            }
         }
 
-        public virtual bool AllowsMultiple()
+        public virtual bool AllowsMultiple
         {
-            return _allowsMultiple;
+            get
+            {
+                return _allowsMultiple;
+            }
         }
 
-        public virtual bool AllowDefault()
+        public virtual bool AllowDefault
         {
-            return _promptDefinition.AllowDefault != BoolDefault.False;
+            get
+            {
+                return _promptDefinition.AllowDefault != BoolDefault.False;
+            }
         }
 
-        public bool AllowNumbers()
+        public bool AllowNumbers
         {
-            _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
-            return _promptDefinition.AllowNumbers;
+            get
+            {
+                _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
+                return _promptDefinition.AllowNumbers;
+            }
         }
 
         #endregion
@@ -222,7 +253,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>Set the field description. </summary>
         /// <param name="description">Field description. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Description(string description)
+        public Field<T> SetFieldDescription(string description)
         {
             UpdateAnnotations();
             _description = description;
@@ -232,7 +263,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the help associated with a field. </summary>
         /// <param name="help"> Help string. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Help(Prompt help)
+        public Field<T> SetHelp(Prompt help)
         {
             UpdateAnnotations();
             _help = help;
@@ -242,7 +273,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the terms associated with the field. </summary>
         /// <param name="terms">    The terms. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Terms(IEnumerable<string> terms)
+        public Field<T> SetFieldTerms(IEnumerable<string> terms)
         {
             UpdateAnnotations();
             _terms = terms.ToArray();
@@ -285,7 +316,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set whether or not a field is optional. </summary>
         /// <param name="optional"> True if field is optional. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Optional(bool optional = true)
+        public Field<T> SetOptional(bool optional = true)
         {
             UpdateAnnotations();
             _optional = optional;
@@ -295,7 +326,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set whether or not field is nullable. </summary>
         /// <param name="nullable"> True if field is nullable. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> IsNullable(bool nullable = true)
+        public Field<T> SetIsNullable(bool nullable = true)
         {
             UpdateAnnotations();
             _isNullable = nullable;
@@ -305,7 +336,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Sets the field prompt. </summary>
         /// <param name="prompt">   The prompt. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Prompt(Prompt prompt)
+        public Field<T> SetPrompt(Prompt prompt)
         {
             UpdateAnnotations();
             _promptDefinition = prompt;
@@ -315,17 +346,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary> Sets the recognizer for the field. </summary>
         /// <param name="recognizer">   The recognizer for the field. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Recognizer(IRecognize<T> recognizer)
+        public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             UpdateAnnotations();
             _recognizer = recognizer;
             return this;
         }
 
-        /// <summary>   Add a template to the field. </summary>
+        /// <summary>   Replace a template in the field. </summary>
         /// <param name="template"> The template. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Template(Template template)
+        public Field<T> ReplaceTemplate(Template template)
         {
             UpdateAnnotations();
             AddTemplate(template);
@@ -335,7 +366,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the field validation. </summary>
         /// <param name="validate"> The validator. </param>
         /// <returns>   An IField&lt;T&gt; </returns>
-        public IField<T> Validate(ValidateDelegate<T> validate)
+        public IField<T> SetValidation(ValidateDelegate<T> validate)
         {
             UpdateAnnotations();
             _validate = validate;
@@ -346,7 +377,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="min">  The minimum. </param>
         /// <param name="max">  The maximum. </param>
         /// <returns>   An IField&lt;T&gt; </returns>
-        public IField<T> Numeric(double min, double max)
+        public IField<T> SetLimits(double min, double max)
         {
             UpdateAnnotations();
             SetLimits(min, max, true);

@@ -65,6 +65,11 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
+        public TemplateBase Annotation
+        {
+            get { return _field.Prompt().Annotation; }
+        }
+
         public IField<T> Field
         {
             get
@@ -82,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form
         {
             form.SetPhase(StepPhase.Responding);
             form.StepState = new FieldStepState(FieldStepStates.SentPrompt);
-            return _field.Prompt().Prompt(state, _name);
+            return _field.Prompt().Prompt(state, _name, _field.Prompt().Recognizer().PromptArgs());
         }
 
         public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput)
@@ -142,7 +147,7 @@ namespace Microsoft.Bot.Builder.Form
                     // 2) Could be overlapping matches like "onion".
                     // 3) Could be multiple matches where only one is expected.
 
-                    if (!_field.AllowsMultiple())
+                    if (!_field.AllowsMultiple)
                     {
                         // Create a single group of all possibilities if only want one value
                         var mergedGroup = groups.SelectMany((group) => group).ToList();
@@ -188,7 +193,7 @@ namespace Microsoft.Bot.Builder.Form
                     }
                     else
                     {
-                        if (_field.AllowsMultiple())
+                        if (_field.AllowsMultiple)
                         {
                             response = settled;
                             feedback = await SetValueAsync(state, response, form);
@@ -205,11 +210,11 @@ namespace Microsoft.Bot.Builder.Form
                 var unmatchedWords = string.Join(" ", unmatched);
                 var nonNoise = Language.NonNoiseWords(Language.WordBreak(unmatchedWords)).ToArray();
                 fieldState.Unmatched = null;
-                if (_field.Prompt().Annotation().Feedback == FeedbackOptions.Always)
+                if (_field.Prompt().Annotation.Feedback == FeedbackOptions.Always)
                 {
                     fieldState.Unmatched = string.Join(" ", nonNoise);
                 }
-                else if (_field.Prompt().Annotation().Feedback == FeedbackOptions.Auto
+                else if (_field.Prompt().Annotation.Feedback == FeedbackOptions.Auto
                         && nonNoise.Length > 0
                         && unmatched.Count() > 0)
                 {
@@ -234,7 +239,7 @@ namespace Microsoft.Bot.Builder.Form
                     else
                     {
                         // No clarification left, so set the field
-                        if (_field.AllowsMultiple())
+                        if (_field.AllowsMultiple)
                         {
                             response = fieldState.Settled;
                             feedback = await SetValueAsync(state, response, form);
@@ -291,7 +296,7 @@ namespace Microsoft.Bot.Builder.Form
             if (fieldState.State == FieldStepStates.SentClarify)
             {
                 var desc = _field.Form.Fields.Field(_name);
-                if (desc.AllowsMultiple())
+                if (desc.AllowsMultiple)
                 {
                     desc.SetValue(state, fieldState.Settled);
                 }
@@ -322,9 +327,12 @@ namespace Microsoft.Bot.Builder.Form
             return "* " + template.Prompt(state, _name, "* " + template.Recognizer().Help(state, _field.GetValue(state)), commandHelp);
         }
 
-        public IEnumerable<string> Dependencies()
+        public IEnumerable<string> Dependencies
         {
-            return new string[0];
+            get
+            {
+                return new string[0];
+            }
         }
 
         private IPrompt<T> Template(TemplateUsage usage, IRecognize<T> recognizer = null)
@@ -340,7 +348,7 @@ namespace Microsoft.Bot.Builder.Form
             {
                 desc.SetUnknown(state);
             }
-            else if (desc.AllowsMultiple())
+            else if (desc.AllowsMultiple)
             {
                 if (value is System.Collections.IEnumerable)
                 {
@@ -388,9 +396,9 @@ namespace Microsoft.Bot.Builder.Form
                 var field = new Field<T>("__clarify__", FieldRole.Value, _field.Form);
                 var template = _field.Template(TemplateUsage.Clarify);
                 var helpTemplate = _field.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                field.Prompt(new Prompt(template));
-                field.Template(_field.Template(TemplateUsage.Clarify));
-                field.Template(helpTemplate);
+                field.SetPrompt(new Prompt(template));
+                field.ReplaceTemplate(_field.Template(TemplateUsage.Clarify));
+                field.ReplaceTemplate(helpTemplate);
                 foreach (var value in clarify.Values)
                 {
                     field.AddDescription(value, recognizer.ValueDescription(value));
@@ -472,6 +480,11 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
+        public TemplateBase Annotation
+        {
+            get { return _field.Prompt().Annotation; }
+        }
+
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
@@ -509,9 +522,12 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
-        public IEnumerable<string> Dependencies()
+        public IEnumerable<string> Dependencies
         {
-            return _field.Dependencies();
+            get
+            {
+                return _field.Dependencies;
+            }
         }
 
         private readonly IField<T> _field;
@@ -527,14 +543,14 @@ namespace Microsoft.Bot.Builder.Form
             var field = _fields.Field(_name);
             var template = field.Template(TemplateUsage.Navigation);
             var recField = new Field<T>("__navigate__", FieldRole.Value, form)
-                .Prompt(new Prompt(template));
+                .SetPrompt(new Prompt(template));
             var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
             foreach (var value in formState.Next.Names)
             {
                 var prompter = new Prompter<T>(fieldPrompt, form, _fields.Field(value as string).Prompt().Recognizer());
                 recField
                     .AddDescription(value, prompter.Prompt(state, value as string))
-                    .AddTerms(value, _fields.Field(value as string).Terms());
+                    .AddTerms(value, _fields.Field(value as string).FieldTerms);
             }
             var recognizer = new RecognizeEnumeration<T>(recField);
             _prompt = new Prompter<T>(template, form, recognizer);
@@ -573,6 +589,14 @@ namespace Microsoft.Bot.Builder.Form
             }
         }
 
+        public TemplateBase Annotation
+        {
+            get
+            {
+                return _prompt.Annotation;
+            }
+        }
+
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var field = _fields.Field(_name);
@@ -607,9 +631,12 @@ namespace Microsoft.Bot.Builder.Form
             return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
         }
 
-        public IEnumerable<string> Dependencies()
+        public IEnumerable<string> Dependencies
         {
-            return new string[0];
+            get
+            {
+                return new string[0];
+            }
         }
 
         private string _name;
@@ -642,9 +669,12 @@ namespace Microsoft.Bot.Builder.Form
             return null;
         }
 
-        public IEnumerable<string> Dependencies()
+        public IEnumerable<string> Dependencies
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public IField<T> Field
@@ -666,6 +696,11 @@ namespace Microsoft.Bot.Builder.Form
             {
                 return _name;
             }
+        }
+
+        public TemplateBase Annotation
+        {
+            get { return _prompt.Annotation; }
         }
 
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)

@@ -280,9 +280,12 @@ namespace Microsoft.Bot.Builder.Form
         /// All possible templates.
         /// </summary>
         /// <returns>The possible templates.</returns>
-        public string[] Patterns()
+        public string[] Patterns
         {
-            return _patterns;
+            get
+            {
+                return _patterns;
+            }
         }
 
         /// <summary>

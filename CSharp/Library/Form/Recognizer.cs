@@ -69,19 +69,23 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             var configuration = field.Form.Configuration;
             _form = field.Form;
-            _allowNumbers = field.AllowNumbers();
-            _description = field.Description();
-            _terms = field.Terms().ToArray();
-            _values = field.Values().ToArray();
-            _valueDescriptions = field.ValueDescriptions().ToArray();
+            _allowNumbers = field.AllowNumbers;
+            _description = field.FieldDescription;
+            _terms = field.FieldTerms.ToArray();
+            _values = field.Values.ToArray();
+            _valueDescriptions = field.ValueDescriptions.ToArray();
             _descriptionDelegate = (value) => field.ValueDescription(value);
             _termsDelegate = (value) => field.Terms(value);
-            _helpFormat = field.Template(field.AllowNumbers()
-                ? (field.AllowsMultiple() ? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
-                : (field.AllowsMultiple() ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
-            _noPreference = field.Optional() ? configuration.NoPreference.ToArray() : null;
+            _helpFormat = field.Template(field.AllowNumbers                ? (field.AllowsMultiple? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
+                : (field.AllowsMultiple? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
+            _noPreference = field.Optional? configuration.NoPreference.ToArray() : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
             BuildPerValueMatcher(configuration.CurrentChoice);
+        }
+
+        public object[] PromptArgs()
+        {
+            return new object[0];
         }
 
         public IEnumerable<object> Values()
@@ -356,9 +360,9 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form.Configuration.CurrentChoice
                                                   select choice.Trim().ToLower());
-            if (field.Optional())
+            if (field.Optional)
             {
-                if (field.IsNullable())
+                if (field.IsNullable)
                 {
                     _noPreference = new HashSet<string>(from choice in field.Form.Configuration.NoPreference
                                                         select choice.Trim().ToLower());
@@ -370,6 +374,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             }
         }
 
+        public virtual object[] PromptArgs()
+        {
+            return new object[0];
+        }
+
         /// <summary>
         /// Abstract method for parsing input.
         /// </summary>
@@ -377,12 +386,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <returns>TermMatch if input is a match.</returns>
         public abstract TermMatch Parse(string input);
 
-        /// <summary>
-        /// Match input with optional default value.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         public virtual IEnumerable<TermMatch> Matches(string input, object defaultValue = null)
         {
             var matchValue = input.Trim().ToLower();
@@ -428,10 +431,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected List<object> HelpArgs(T state, object defaultValue)
         {
             var args = new List<object>();
-            if (defaultValue != null || _field.Optional())
+            if (defaultValue != null || _field.Optional)
             {
                 args.Add(_field.Form.Configuration.CurrentChoice.First() + " or 'c'");
-                if (_field.Optional())
+                if (_field.Optional)
                 {
                     args.Add(_field.Form.Configuration.NoPreference.First());
                 }
@@ -584,6 +587,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             _max = (long)max;
         }
 
+        public override object[] PromptArgs()
+        {
+            return _showLimits ? new object[] { _min, _max } : new object[] { null, null };
+        }
+
         public override string ValueDescription(object value)
         {
             return ((long)Convert.ChangeType(value, typeof(long))).ToString(_culture.NumberFormat);
@@ -644,6 +652,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             _culture = culture;
             _showLimits = field.Limits(out _min, out _max);
+        }
+
+        public override object[] PromptArgs()
+        {
+            return _showLimits ? new object[] { _min, _max } : new object[] { null, null };
         }
 
         public override string ValueDescription(object value)

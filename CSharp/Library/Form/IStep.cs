@@ -61,6 +61,8 @@ namespace Microsoft.Bot.Builder.Form
 
         StepType Type { get; }
 
+        TemplateBase Annotation { get; }
+
         IField<T> Field { get; }
 
         bool Active(T state);
@@ -77,7 +79,7 @@ namespace Microsoft.Bot.Builder.Form
 
         bool Back(IDialogContext context, T state, FormState form);
 
-        IEnumerable<string> Dependencies();
+        IEnumerable<string> Dependencies { get; }
     }
 
 }

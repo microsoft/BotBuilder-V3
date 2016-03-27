@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Form;
@@ -140,8 +141,56 @@ namespace Microsoft.Bot.Builder.FormTest
             context.Call<T>(form, root.CallChild);
         }
 
+        public static void TestValidate()
+        {
+            try
+            {
+                var form = new FormBuilder<PizzaOrder>()
+                    .Message("{NotField}")
+                    .Build();
+                Debug.Fail("Validation failed");
+            }
+            catch (ArgumentException )
+            {
+            }
+            try
+            {
+                var form = new FormBuilder<PizzaOrder>()
+                    .Message("[{NotField}]")
+                    .Build();
+                Debug.Fail("Validation failed");
+            }
+            catch (ArgumentException )
+            {
+            }
+            try
+            {
+                var form = new FormBuilder<PizzaOrder>()
+                    .Message("{? {[{NotField}]}")
+                    .Build();
+                Debug.Fail("Validation failed");
+            }
+            catch (ArgumentException )
+            {
+            }
+            /*
+            try
+            {
+                var form = new FormBuilder<PizzaOrder>();
+                    .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Size))
+                        .ReplaceTemplate(new Template(TemplateUsage.Double, "{Notfield}"))
+                        .Build();
+                Debug.Fail("Validation failed");
+            }
+            catch (ArgumentException exception)
+            {
+            }
+            */
+        }
+
         static void Main(string[] args)
         {
+            // TestValidate();
             var choiceForm = FormDialog.FromType<Choices>();
             var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
@@ -168,12 +217,12 @@ namespace Microsoft.Bot.Builder.FormTest
                             Call(context, root, () => MakeForm(noNumbers: true));
                             return;
                         }
-                case DebugOptions.NoAnnotations:
+                    case DebugOptions.NoAnnotations:
                         {
                             Call(context, root, () => MakeForm(noNumbers: true, ignoreAnnotations: true));
                             return;
                         }
-                case DebugOptions.NoFieldOrder:
+                    case DebugOptions.NoFieldOrder:
                         {
                             Call(context, root, () => new FormBuilder<PizzaOrder>().Build());
                             return;
