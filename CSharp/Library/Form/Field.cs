@@ -437,6 +437,11 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class FieldReflector<T> : Field<T>
         where T : class
     {
+        #region Documentation
+        /// <summary>   Construct an <see cref="IField{T}"/> through reflection. </summary>
+        /// <param name="name">                 Path to the field in your form state. </param>
+        /// <param name="ignoreAnnotations">    True to ignore annotations. </param>
+        #endregion
         public FieldReflector(string name, bool ignoreAnnotations = false)
             : base(name, FieldRole.Value)
         {

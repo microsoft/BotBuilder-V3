@@ -38,6 +38,17 @@ using Microsoft.Bot.Builder.Form.Advanced;
 
 namespace Microsoft.Bot.Builder.Form
 {
+    #region Documentation
+    /// <summary>   Interface for building a form. </summary>
+    /// <remarks>   
+    /// This interface allows you to flently build a form by composing together fields,
+    /// messages and confirmation.  The fluent building blocks provide common patterns
+    /// like fields being based on your state class, but you can also build up your
+    /// own definition of a form by using <see cref="Field{T}"/>, <see cref="FieldReflector{T}"/>
+    /// or your own implementation of <see cref="IField{T}"/>.
+    /// </remarks>
+    /// <typeparam name="T">    Form state. </typeparam>
+    #endregion
     public interface IFormBuilder<T>
     {
         /// <summary>
