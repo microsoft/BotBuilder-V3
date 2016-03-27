@@ -16,7 +16,7 @@ The Microsoft Bot Framework provides everything you need to build and connect in
 
 ![Bot Framework Diagram](/images/bot_framework_wht_bkgrnd.png)
 
-Bots (or conversation agents) are rapidly becoming an integral part of one’s digital experience – they are as vital a way for users to interact with a service or application as is a web site or a mobile experience. Developers writing bots all face the same problems: bots require basic I/O; they must have language and dialog skills; and they must connect to users – preferably in any conversation experience and language the user chooses. The Bot Framework provides tools to easily solve these problems for developers e.g., automatic translation to more than 30 languages, user and conversation state management, debugging tools, an embeddable web chat control and a way for users to discover, try, and add bots to the conversation experiences they love.
+Bots (or conversation agents) are rapidly becoming an integral part of one’s digital experience – they are as vital a way for users to interact with a service or application as is a web site or a mobile experience. Developers writing bots all face the same problems: bots require basic I/O; they must have language and dialog skills; and they must connect to users – preferably in any conversation experience and language the user chooses. The Bot Framework provides tools to easily solve these problems and more for developers e.g., automatic translation to more than 30 languages, user and conversation state management, debugging tools, an embeddable web chat control and a way for users to discover, try, and add bots to the conversation experiences they love.
 
 The Bot Framework has a number of components including the Bot Connector, Bot Builder SDK, and the Bot Directory.
 
@@ -24,6 +24,8 @@ The Bot Framework has a number of components including the Bot Connector, Bot Bu
 {:.no_toc}
 
 The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 365 mail, Skype, Slack, and other services. Simply register your bot, configure desired channels and publish in the Bot Directory. 
+
+![Bot Connector Diagram](/images/bot_connector_diagram.png)
 
 ### Bot Builder SDK
 {:.no_toc}
@@ -33,7 +35,9 @@ The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Micr
 ### Bot Directory
 {:.no_toc}
 
-The Bot Directory is a public directory of all the bots registered through the Bot Connector. Users can discover, try, and add bots to their favorite conversation experiences from the [Bot Directory](http://bots.botframework.com).
+The Bot Directory is a public directory of all approved bots registered through the Bot Connector. Users will be able to discover, try, and add bots to their favorite conversation experiences from the Bot Directory. Initially the Bot Directory will feature bots demonstrated at [Microsoft Build 2016](http://build.microsoft.com/).
+
+![Bot Directory (coming soon)](/images/bot_directory_mock_comingsoon.png)
 
 ## Why should I write a bot?
 The Conversational User Interface, or CUI, has arrived. 
@@ -76,6 +80,8 @@ Additionally, as a participant in the Bot Framework, your bot will also be enabl
 
 Bot Connector is the easiest way to achieve broad reach for your text/speech, image, and/or card-capable bot. In addition to enabling broad reach to the conversation experiences your users love, the Bot Connector also provides automatic translation to more than 30 languages, an embeddable web chat control, user and conversation state management, and debugging through the Bot Framework Emulator.
 
+![Bot Details - Develop0er Portal)](/images/connector_channel_config_skype.png)
+
 #### How it works
 {:.no_toc}
 
@@ -100,10 +106,10 @@ Once registered, use the dashboard to test your bot to ensure it is talking to t
 
 Connect your bot to the conversation channels of your choice using the channel configuration page and your developer credentials associated with that channel.
 
-#### View in Bot Directory
+#### View in Bot Directory (comming soon)
 {:.no_toc}
 
-Bots registered through Bot Connector appear in the publicly accessible [Bot Directory](http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time.
+Bots registered through Bot Connector and approved for publishing will appear in the [Bot Directory](http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time. 
 
 #### Measure
 {:.no_toc}
@@ -130,7 +136,7 @@ Supported channels as of March 30, 2016 are:
 
 ## I have a communication channel I’d like to be configurable on Bot Connector. Can I work with Microsoft to do that?
 
-We have not provided a mechanism for developers to add new channels to the Bot Connector, but if you are a developer of a communication channel and would like to work with us to enable your channel in the Bot Connector [we’d love to hear from you](http://feedback.botframework.com).
+We have not provided a general mechanism for developers to add new channels to the Bot Connector, but you can connect your bot to your app via the [Direct Line API](http://docs.botframework.com). If you are a developer of a communication channel and would like to work with us to enable your channel in the Bot Connector [we’d love to hear from you](http://feedback.botframework.com).
 
 ## What does the Bot Builder SDK provide to developers? How does it work?
 
@@ -142,13 +148,11 @@ At this point, we do not have plans to enable a private instance of the Bot Dire
 
 ## What does the Bot Directory provide to developers? How does it work?
 
-The [Bot Directory](http://bots.botframework.com) is a publicly accessible list of all the bots registered with Bot Connector. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
-
+The [Bot Directory](http://bots.botframework.com) (coming soon) is a publicly accessible list of all the bots registered with Bot Connector that have been approved to appear in the directory. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
 The Bot Directory includes featured bots and is searchable to aid discovery. Developers can choose whether or not to list their bot in the directory during bot registration.
 
-## How do I get my bot in the featured list in the Bot Directory?
-
-For now, presence in the featured list is determined by the Bot Framework team. If you think your bot should be featured feel free to provide that [feedback](http://feedback.botframework.com).
+## You state that the Bot Directory is “coming soon” – when will it be available?
+Effective immediately, developers can elect to make their bots public and submit them for approval during bot registration. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
 
 
 ## What is the roadmap for Bot Framework?
@@ -157,19 +161,15 @@ We are excited to provide initial availability of the Bot Framework at [/build 2
 
 ## How does Microsoft Bot Framework compare with other bot development tools?
 
-There are lots of great tools out there to build bots. In fact, if you implement a simple REST endpoint for your bot, you can build your bot using any tool you like and still access services available in the framework. The Bot Framework provides not only a way to build a great bot, but also an easy way to seamlessly connect your bot to any conversation experience supported by Bot Connector. Additionally, the framework provides an embeddable web chat control, automatic translation for more than 30 languages, user and conversation state management, and debugging tools. Lastly, the framework includes the Bot Directory so your users have a way to discover your bot, say hello, and add it to any channels on which it is configured. Sweet!
+There are lots of great tools out there to build bots. In fact, if you implement a simple REST endpoint for your bot, you can build your bot using any tool you like and still access services available in the framework. The Bot Framework provides not only a way to build a great bot, but also an easy way to seamlessly connect your bot to any conversation experience supported by Bot Connector. Additionally, the framework provides an embeddable web chat control, automatic translation for more than 30 languages, user and conversation state management, and debugging tools. Lastly, the framework includes the Bot Directory (coming soon) so your users have a way to discover your bot, say hello, and add it to any channels on which it is configured. Sweet!
 
 ## Where can I get more information and/or access the technology?
 
-Simply visit www.botframework.com to learn more.
+Simply visit [www.botframework.com](http://botframework.com) to learn more.
 
 ## I'm a developer, what do I need to get started?
 
 You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK](http://github/Microsoft/BotBuilder) is open source and available to all on Github.
-
-## I'm an end user looking for great bots, what do I need to do?
-
-Visit the [Bot Directory](http://bots.botframework.com) to find bots for the conversations experiences you love – from sms to Office 365 mail to Skype, Slack, and other services.
 
 ## Do the bots registered with the Bot Connector collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
@@ -179,11 +179,11 @@ In order to provide the I/O service, the Bot Connector collects and stores your 
 
 ## How do you ban or remove bots from the service?
 
-Users have a way to report a misbehaving bot via the bot’s contact card in the directory.
+Users have a way to report a misbehaving bot via the bot’s contact card in the directory. Developers must abide by Microsoft terms of service to participate in the service.
 
 ## Bot Connector sounds a little too good to be true. I've heard the promise of write once, run anywhere before. Does Bot Connector really just provide a lowest common denominator solution that won't be satisfying in the end?
 
-For the vast majority of bot interactions (text/sms, image, or card) Bot Connector provides high quality and broad reach to many of the world’s top conversation experiences while also providing a way to configure, manage and make your bot discoverable through the Bot Framework website and Bot Directory.
+For the vast majority of bot interactions (text/sms, image, or card) Bot Connector provides high quality and broad reach to many of the world’s top conversation experiences while also providing a way to configure, manage and make your bot discoverable through the Bot Framework website and Bot Directory. Additionally, by participating in the framework your bot is enabled with additional capabilities via other Microsoft services, such as translation.
 
 ## If I want to create a bot for Skype, what tools and services should I use?
 
@@ -205,13 +205,9 @@ A variety of factors contribute to channel support, among them SDK availability,
 
 We think a Minecraft channel would be a great addition to the framework and plan to add support in future. We do not have a schedule for additional channels at this time.
 
-## What is Tay?
-
-Tay is an artificially intelligent software program, or chatbot, designed to chat with 18 to 24 year olds in the U.S. Tay’s persona is that of a 19-year-old American female with a distinct personality “of the internet.”  Tay can recognize images, chat in real time, and play games with you and your friends. Trained by individuals within the target age demographic, and comedians, Tay recognizes and responds to slang and U.S. cultural references
-
 ## How does the Bot Framework relate to Cognitive Services?
 
-Both the Bot Framework and Cognitive Services are new capabilities introduced at //Build 2016 that will also be integrated into Cortana Intelligence Suite at GA. Both these services are built from years of research and use in popular Microsoft products. These capabilities combined with ‘Cortana Intelligence’ enable every organization to take advantage of the power of data, the cloud and intelligence to build their own intelligent systems that unlock new opportunities, increase their speed of business and lead the industries in which they serve their customers.
+Both the Bot Framework and [Cognitive Services](http://www.microsoft.com/cognitive) are new capabilities introduced at [//Build 2016](http://build.microsoft.com) that will also be integrated into Cortana Intelligence Suite at GA. Both these services are built from years of research and use in popular Microsoft products. These capabilities combined with ‘Cortana Intelligence’ enable every organization to take advantage of the power of data, the cloud and intelligence to build their own intelligent systems that unlock new opportunities, increase their speed of business and lead the industries in which they serve their customers.
 
 ## What is Cortana Intelligence?
 
