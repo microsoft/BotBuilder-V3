@@ -52,10 +52,22 @@ namespace Microsoft.Bot.Builder.Fibers
                 Field.SetNotNullFrom(out this.type, nameof(type), info);
             }
 
+            public static Type MapMockedType(Type type)
+            {
+                // special case for Moq
+                if (type.Assembly.IsDynamic)
+                {
+                    var info = type.GetTypeInfo();
+                    return info.ImplementedInterfaces.First();
+                }
+
+                return type;
+            }
+
             public static void GetObjectData(SerializationInfo info, Type type)
             {
                 info.SetType(typeof(ObjectReference));
-                info.AddValue(nameof(type), type);
+                info.AddValue(nameof(type), MapMockedType(type));
             }
 
             object IObjectReference.GetRealObject(StreamingContext context)
@@ -219,8 +231,24 @@ namespace Microsoft.Bot.Builder.Fibers
             object IServiceProvider.GetService(Type serviceType)
             {
                 object service;
-                this.instanceByType.TryGetValue(serviceType, out service);
-                return service;
+                if (this.instanceByType.TryGetValue(serviceType, out service))
+                {
+                    return service;
+                }
+                else
+                {
+                    // special case for Moq
+                    foreach (var instance in this.instanceByType.Values)
+                    {
+                        var type = instance.GetType();
+                        if (serviceType.IsAssignableFrom(type))
+                        {
+                            return instance;
+                        }
+                    }
+                }
+
+                return null;
             }
         }
     }
