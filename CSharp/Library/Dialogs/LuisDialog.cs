@@ -63,20 +63,20 @@ namespace Microsoft.Bot.Builder
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
 
-        public LuisDialog()
+        public LuisDialog(ILuisService service = null)
         {
-            var type = this.GetType();
-            var luisModel = type.GetCustomAttribute<LuisModel>(inherit: true);
-            if (luisModel == null)
+            if (service == null)
             {
-                throw new Exception("Luis model attribute is not set for the class");
+                var type = this.GetType();
+                var luisModel = type.GetCustomAttribute<LuisModel>(inherit: true);
+                if (luisModel == null)
+                {
+                    throw new Exception("Luis model attribute is not set for the class");
+                }
+
+                service = new LuisService(luisModel);
             }
 
-            this.service = new LuisService(luisModel);
-        }
-
-        public LuisDialog(ILuisService service)
-        {
             Field.SetNotNull(out this.service, nameof(service), service);
         }
 
