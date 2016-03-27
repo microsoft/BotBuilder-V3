@@ -3,7 +3,7 @@ layout: page
 title: QnA Maker Overview
 permalink: /qnamaker/
 weight: 1100
-parent1: Bot Creation Tools
+parent1: Sandbox
 parent2: QnA Maker
 ---
 ###Go To [http://qnamaker.botframework.com/](http://qnamaker.botframework.com/ "QnA Maker")
