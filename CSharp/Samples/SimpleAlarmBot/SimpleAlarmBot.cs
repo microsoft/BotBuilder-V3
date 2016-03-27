@@ -178,6 +178,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             else
             {
                 await context.PostAsync("did not find alarm");
+                context.Wait(MessageReceived);
             }
         }
 
