@@ -31,8 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Dialogs;
-
 namespace Microsoft.Bot.Builder.Internals
 {
     /// <summary>

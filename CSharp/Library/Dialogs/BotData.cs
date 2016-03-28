@@ -37,7 +37,6 @@ using Newtonsoft.Json.Linq;
 
 using Microsoft.Bot.Builder.Fibers;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Internals
 {

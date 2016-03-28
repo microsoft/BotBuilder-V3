@@ -33,7 +33,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Bot.Builder.Dialogs
+namespace Microsoft.Bot.Builder
 {
     /// <summary>
     /// A property bag of bot data.
