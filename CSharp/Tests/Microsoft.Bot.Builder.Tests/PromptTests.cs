@@ -130,15 +130,15 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task PromptSuccess_Number_Integer()
+        public async Task PromptSuccess_Number_Long()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42L);
         }
 
         [TestMethod]
-        public async Task PromptSuccess_Number_Float()
+        public async Task PromptSuccess_Number_Double()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42f);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42d);
         }
 
         [TestMethod]
@@ -193,7 +193,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task PromptFailure_Number()
         {
-            await PromptFailureAsync<int>((context, resume) => PromptDialog.Number(context, resume, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<long>((context, resume) => PromptDialog.Number(context, resume, PromptText, RetryText, MaximumAttempts));
         }
 
         [TestMethod]

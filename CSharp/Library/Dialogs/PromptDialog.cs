@@ -41,32 +41,64 @@ using Microsoft.Bot.Builder.Fibers;
 
 namespace Microsoft.Bot.Builder
 {
+    /// <summary>   Dialog factory for simple prompts. </summary>
     public class PromptDialog
     {
+        /// <summary>   Prompt for a string. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptText(prompt, retry, attempts);
             context.Call<string>(child, resume);
         }
 
+        /// <summary>   Ask a yes/no question. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
         public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptConfirm(prompt, retry, attempts);
             context.Call<bool>(child, resume);
         }
 
-        public static void Number(IDialogContext context, ResumeAfter<int> resume, string prompt, string retry = null, int attempts = 3)
+        /// <summary>   Prompt for a long. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
+        public static void Number(IDialogContext context, ResumeAfter<long> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var child = new PromptInt32(prompt, retry, attempts);
-            context.Call<int>(child, resume);
+            var child = new PromptInt64(prompt, retry, attempts);
+            context.Call<long>(child, resume);
         }
 
-        public static void Number(IDialogContext context, ResumeAfter<float> resume, string prompt, string retry = null, int attempts = 3)
+        /// <summary>   Prompt for a double. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
+        public static void Number(IDialogContext context, ResumeAfter<double> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var child = new PromptFloat(prompt, retry, attempts);
-            context.Call<float>(child, resume);
+            var child = new PromptDouble(prompt, retry, attempts);
+            context.Call<double>(child, resume);
         }
 
+        /// <summary>   Prompt for one of a set of choices. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="options">  The possible options all of which must be convertible to a string.</param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
         {
             var child = new PromptChoice<T>(options, prompt, retry, attempts);
@@ -196,30 +228,30 @@ namespace Microsoft.Bot.Builder
         }
 
         [Serializable]
-        private sealed class PromptInt32 : Prompt<Int32>
+        private sealed class PromptInt64 : Prompt<Int64>
         {
-            public PromptInt32(string prompt, string retry, int attempts)
+            public PromptInt64(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
             }
 
-            protected override bool TryParse(Message message, out Int32 result)
+            protected override bool TryParse(Message message, out Int64 result)
             {
-                return Int32.TryParse(message.Text, out result);
+                return Int64.TryParse(message.Text, out result);
             }
         }
 
         [Serializable]
-        private sealed class PromptFloat : Prompt<float>
+        private sealed class PromptDouble: Prompt<double>
         {
-            public PromptFloat(string prompt, string retry, int attempts)
+            public PromptDouble(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
             }
 
-            protected override bool TryParse(Message message, out float result)
+            protected override bool TryParse(Message message, out double result)
             {
-                return float.TryParse(message.Text, out result);
+                return double.TryParse(message.Text, out result);
             }
         }
 
