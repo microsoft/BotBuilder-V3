@@ -50,16 +50,16 @@ namespace Microsoft.Bot.Builder.Internals
 
         public DialogContext(IConnectorClient client, IBotData data, IFiberLoop fiber)
         {
-            SetField.SetNotNull(out this.client, nameof(client), client);
-            SetField.SetNotNull(out this.data, nameof(data), data);
-            SetField.SetNotNull(out this.fiber, nameof(fiber), fiber);
+            SetField.NotNull(out this.client, nameof(client), client);
+            SetField.NotNull(out this.data, nameof(data), data);
+            SetField.NotNull(out this.fiber, nameof(fiber), fiber);
         }
 
         public DialogContext(SerializationInfo info, StreamingContext context)
         {
-            SetField.SetNotNullFrom(out this.client, nameof(client), info);
-            SetField.SetNotNullFrom(out this.data, nameof(data), info);
-            SetField.SetNotNullFrom(out this.fiber, nameof(fiber), info);
+            SetField.NotNullFrom(out this.client, nameof(client), info);
+            SetField.NotNullFrom(out this.data, nameof(data), info);
+            SetField.NotNullFrom(out this.fiber, nameof(fiber), info);
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
@@ -103,8 +103,8 @@ namespace Microsoft.Bot.Builder.Internals
 
             public ThunkStart(DialogContext context, StartAsync start)
             {
-                SetField.SetNotNull(out this.context, nameof(context), context);
-                SetField.SetNotNull(out this.start, nameof(start), start);
+                SetField.NotNull(out this.context, nameof(context), context);
+                SetField.NotNull(out this.start, nameof(start), start);
             }
 
             public async Task<IWait> Rest(IFiber fiber, IItem<object> item)
@@ -128,8 +128,8 @@ namespace Microsoft.Bot.Builder.Internals
 
             public ThunkResume(DialogContext context, ResumeAfter<T> resume)
             {
-                SetField.SetNotNull(out this.context, nameof(context), context);
-                SetField.SetNotNull(out this.resume, nameof(resume), resume);
+                SetField.NotNull(out this.context, nameof(context), context);
+                SetField.NotNull(out this.resume, nameof(resume), resume);
             }
 
             public async Task<IWait> Rest(IFiber fiber, IItem<T> item)
@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Builder.Internals
                 this.toUser = null;
             }
 
-            SetField.SetNotNull(out this.toUser, nameof(message), message);
+            SetField.NotNull(out this.toUser, nameof(message), message);
         }
 
         private Message toBot;

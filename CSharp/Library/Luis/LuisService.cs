@@ -69,8 +69,8 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
         public LuisModel(string modelID, string subscriptionKey)
         {
-            SetField.SetNotNull(out this.ModelID, nameof(modelID), modelID);
-            SetField.SetNotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
+            SetField.NotNull(out this.ModelID, nameof(modelID), modelID);
+            SetField.NotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
         }
     }
 
@@ -88,7 +88,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="model">The LUIS model information.</param>
         public LuisService(LuisModel model)
         {
-            SetField.SetNotNull(out this.model, nameof(model), model);
+            SetField.NotNull(out this.model, nameof(model), model);
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="intentName">The LUIS intent name.</param>
         public LuisIntent(string intentName)
         {
-            SetField.SetNotNull(out this.intentName, nameof(intentName), intentName);
+            SetField.NotNull(out this.intentName, nameof(intentName), intentName);
         }
     }
 
@@ -100,7 +100,7 @@ namespace Microsoft.Bot.Builder.Luis
                 service = new LuisService(luisModel);
             }
 
-            SetField.SetNotNull(out this.service, nameof(service), service);
+            SetField.NotNull(out this.service, nameof(service), service);
         }
 
         public virtual async Task StartAsync(IDialogContext context)

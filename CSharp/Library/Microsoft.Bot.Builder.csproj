@@ -88,7 +88,7 @@
     <Compile Include="Dialogs\Conversations.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
-    <Compile Include="Fibers\Field.cs" />
+    <Compile Include="Fibers\SetField.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />

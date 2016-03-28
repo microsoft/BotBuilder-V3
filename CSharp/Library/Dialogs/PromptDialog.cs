@@ -82,8 +82,8 @@ namespace Microsoft.Bot.Builder
 
             public Prompt(string prompt, string retry, int attempts)
             {
-                SetField.SetNotNull(out this.prompt, nameof(prompt), prompt);
-                SetField.SetNotNull(out this.retry, nameof(retry), retry ?? prompt);
+                SetField.NotNull(out this.prompt, nameof(prompt), prompt);
+                SetField.NotNull(out this.retry, nameof(retry), retry ?? prompt);
                 this.attempts = attempts;
             }
 
@@ -231,7 +231,7 @@ namespace Microsoft.Bot.Builder
             public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
-                SetField.SetNotNull(out this.options, nameof(options), options);
+                SetField.NotNull(out this.options, nameof(options), options);
             }
 
             public virtual bool IsMatch(T option, string text)
