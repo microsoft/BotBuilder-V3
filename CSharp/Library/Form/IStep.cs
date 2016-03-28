@@ -34,9 +34,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Form.Advanced;
-
-namespace Microsoft.Bot.Builder.Form
+namespace Microsoft.Bot.Builder.Form.Advanced
 {
     internal enum StepPhase { Ready, Responding, Completed };
     internal enum StepType { Field, Confirm, Navigation, Message };

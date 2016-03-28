@@ -35,11 +35,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
-using Microsoft.Bot.Builder.Form.Advanced;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Form
+namespace Microsoft.Bot.Builder.Form.Advanced
 {
     internal class FieldStep<T> : IStep<T>
     {

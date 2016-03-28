@@ -117,7 +117,7 @@
     <Compile Include="Form\MatchAnalyzer.cs" />
     <Compile Include="Form\Recognizer.cs" />
     <Compile Include="Form\Steps.cs" />
-    <Compile Include="Form\Annotations.cs" />
+    <Compile Include="Form\Attributes.cs" />
     <Compile Include="Form\Extensions.cs" />
     <Compile Include="Form\IFormDialog.cs" />
     <Compile Include="Form\IPrompt.cs" />

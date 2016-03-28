@@ -37,8 +37,59 @@ using System.Linq;
 
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
-    internal static class Extensions
+    public static partial class Extensions
     {
+        internal static IStep<T> Step<T>(this IForm<T> form, string name) where T : class
+        {
+            IStep<T> result = null;
+            foreach (var step in form.Steps)
+            {
+                if (step.Name == name)
+                {
+                    result = step;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        internal static int StepIndex<T>(this IForm<T> form, IStep<T> step) where T : class
+        {
+            var index = -1;
+            for (var i = 0; i < form.Steps.Count; ++i)
+            {
+                if (form.Steps[i] == step)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
+        internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
+        {
+            var field = new Field<T>("__commands__", FieldRole.Value);
+            field.Form = form;
+            field.SetPrompt(new Prompt(""));
+            foreach (var entry in form.Configuration.Commands)
+            {
+                field.AddDescription(entry.Key, entry.Value.Description);
+                field.AddTerms(entry.Key, entry.Value.Terms);
+            }
+            foreach (var nav in form.Fields)
+            {
+                var fterms = nav.FieldTerms;
+                if (fterms != null)
+                {
+                    field.AddDescription(nav.Name, nav.FieldDescription);
+                    field.AddTerms(nav.Name, fterms.ToArray());
+                }
+            }
+            var commands = new RecognizeEnumeration<T>(field);
+            return commands;
+        }
+
         internal static bool IsICollection(this Type type)
         {
             return Array.Exists(type.GetInterfaces(), IsGenericCollectionType);
