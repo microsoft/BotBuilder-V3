@@ -50,14 +50,25 @@ namespace Microsoft.Bot.Builder.Form
     /// </summary>
     public static class FormDialog
     {
+        /// <summary>
+        /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildForm{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The form type.</typeparam>
+        /// <returns>The form dialog.</returns>
         public static IFormDialog<T> FromType<T>() where T : class, new()
         {
             return new FormDialog<T>(new T());
         }
 
-        public static IFormDialog<T> FromForm<T>(BuildForm<T> makeForm) where T : class, new()
+        /// <summary>
+        /// Create an <see cref="IFormDialog{T}"/> using the <see cref="BuildForm{T}"/> parameter.
+        /// </summary>
+        /// <typeparam name="T">The form type.</typeparam>
+        /// <param name="buildForm">The delegate to build the form.</param>
+        /// <returns>The form dialog.</returns>
+        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm) where T : class, new()
         {
-            return new FormDialog<T>(new T(), makeForm);
+            return new FormDialog<T>(new T(), buildForm);
         }
 
 
