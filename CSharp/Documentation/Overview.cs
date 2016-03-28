@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder
     /// 
     /// \section overview Overview
     /// 
-    /// %Microsoft Bot Builder is a powerful framework for constructing bots that can handle
+    /// %Microsoft %Bot %Builder is a powerful framework for constructing bots that can handle
     /// both freeform interactions and more guided ones where the possibilities are explicitly 
     /// shown to the user.  It is easy to use and leverages C# to provide a natural way to 
     /// write Bots.

@@ -1,9 +1,10 @@
 ﻿namespace Microsoft.Bot.Builder.Form
 {
-    /// \page Forms 
+    /// \page forms Forms 
     /// \tableofcontents
-    /// 
-    /// \section forms Form Flow
+    /// [LUIS]: http://luis.ai "LUIS"
+    ///
+    /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
     /// can require a lot of effort.  At each point in the dialog, there are many possibilities for what happens
     /// next.  You may need to clarify an ambiguity, provide help, go back or show progress so far.  
@@ -19,7 +20,7 @@
     /// navigation without any more effort.  Once you have that dialog you can make use of simple annotations
     /// to improve your bot in a straightforward way.  
     /// 
-    /// \subsection fields Forms and Fields
+    /// \section fields Forms and Fields
     /// A form is made up of fields that you want to fill in through a conversation with the user.  
     /// The simplest way to describe a form is through a C# class.  
     /// Within a class, a "field" is any public field or property with one of the following types:
@@ -651,8 +652,13 @@
     /// Thanks for ordering a sandwich!
     /// ~~~
     /// 
-    /// \section initialState Passing in Form State and Entities
-    /// TODO: Describe how to pass in partial form and LUIS entities.
+    /// \section initialState Passing in Initial Form State and Entities
+    /// When you launch a FormDialog, you can optionally pass in an instance of your state.
+    /// If you do that, any step for filling a field is skipped if that field has a value.
+    /// You can also pass in [LUIS] entities to bind to the state.  If the Microsoft.Bot.Builder.Models.EntityRecommendation.Type
+    /// is a path to a field in your C# class then the Microsoft.Bot.Builder.Models.EntityRecommendation.Entity will be 
+    /// passed through the recognizer to bind to your field.  Just like initial state any step for 
+    /// filling in that field will be skipped.
     /// 
     /// \section patterns Pattern Language
     /// One of the keys to creating a bot is being able to generate text that is clear and
@@ -694,7 +700,6 @@
     /// Usage | Description
     /// ------|------------
     ///TemplateBase.AllowDefault | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    ///TemplateBase.AllowNumbers | When processing choices using {\|\|} controls whether or not you can enter numbers for choices. If set to false, you should also set TemplateBase.ChoiceFormat.
     ///TemplateBase.ChoiceFormat | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
     ///TemplateBase.ChoiceStyle | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
     ///TemplateBase.Feedback | For Prompt only controls feedback after user entry.
@@ -703,7 +708,4 @@
     ///TemplateBase.Separator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
     ///TemplateBase.ValueCase | Controls case normalization when displaying a field value.
     /// 
-    /// TODO:
-    /// * Constructing a form (two parts -- initial and full)
-    /// * Multiple forms?     
 }

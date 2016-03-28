@@ -1,11 +1,11 @@
 ﻿namespace Microsoft.Bot.Builder
 {
-    /// \page Dialogs 
+    /// \page dialogs Dialogs
     /// \tableofcontents
-    ///
-    /// \section dialogs Dialogs
+    /// [LUIS]: http://luis.ai "LUIS"
+    /// [LUIS setup]: http://aka.ms/bf-node-nl "How to Setup LUIS"
     /// 
-    /// \subsection Overview
+    /// \section Overview
     /// Dialogs model a conversational process, where the exchange of messages between bot and user
     /// is the primary channel for interaction with the outside world.  Each dialog is an abstraction that encapsulates
     /// its own state in a C# class that implements IDialog.  Dialogs can be composed with other dialogs to maximize reuse,
@@ -17,10 +17,10 @@
     /// 
     /// The best way to understand this is to work through some examples.  The first example changes the code in the 
     /// Bot Framework template to use dialogs from the Bot Builder.  The second example, \ref echoBot builds on that to
-    /// add some simple state.  The final example \ref alarmBot uses the <a href="http://luis.a">LUIS</a> natural language framework and some of the built-in system 
+    /// add some simple state.  The final example \ref alarmBot uses the [LUIS] natural language framework and some of the built-in system 
     /// prompts.
     /// 
-    /// \subsection simpleEcho Simple Echo Bot
+    /// \section simpleEcho Simple Echo Bot
     /// This example starts with the bot you get by starting your Bot the Bot Framework template which includes code to 
     /// echo back what the user says.  
     /// In order to change the echo example to use the Bot Builder, we need to add a C# class to represent our conversation and its state.  
@@ -62,7 +62,7 @@
     /// little more complicated, but it allows you to compose together multiple dialogs into complex conversations without
     /// having to explicitly manage state.   
     /// 
-    /// \subsection echoBot Echo Bot
+    /// \section echoBot Echo Bot
     /// Now that we have an example of the Bot Builder framework we are going to build on it to add some dialog state and 
     /// some commands to control that state. We are going to number the responses and allow the command "reset" to reset the
     /// count.  All we need to do is to replace our EchoDialog with the one below. 
@@ -83,31 +83,48 @@
     /// response and perform the action including sending a message back to the user.  The final step is to do IDialogContext.Wait 
     /// with a continuation back to MessageReceivedAsync on the next message.
     /// 
-    /// \subsection alarmBot Alarm Bot
-    /// <a href="http://aka.ms/bf-node-nl">How to use LUIS</a>
+    /// \section alarmBot Alarm Bot
+    /// This example is more complex and shows how to integrate [LUIS] together with system prompts to create an alarm 
+    /// system you can interact with through natural language.  The first step is to set up your [LUIS] account
+    /// as described in [LUIS Setup] and create an alarm endpoint you can use to support a conversation with natural language.
     /// 
-    /// \subsection IDialog
-    /// The IDialog<T> interface provides a single IDialog<T>.StartAsync method that serves as the entry point to the dialog.
-    /// The StartAsync method takes an argument and the dialog context.  Your IDialog<T> implementation must be serializable if
-    /// you expect to suspend that dialog's execution to collect more Messages from the user.
+    /// In order to create a dialog that uses [LUIS] you need to create a class that derives from
+    /// LuisDialog like this:
+    /// \notinclude SimpleAlarmBot/SimpleAlarmDialog.cs
+    /// \skip LuisModel
+    /// \until {
     /// 
-    /// \subsection IDialogContext
-    /// The IDialogContext interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
+    /// Within this class any method with the name of the [LUIS] intent or marked with the LuisIntent attribute
+    /// is called when that intent is matched.  For example here is the handler for turning off an
+    /// alarm, i.e. the intent "builtin.intent.alarm.turn_off_alarm":
+    /// \notinclude SimpleAlarmBot/SimpleAlarmDialog.cs
+    /// \skip builtin.intent.alarm.turn_off_alarm
+    /// \until context.Wait
+    /// \until }
+    /// \until }
+    /// Within the handler you can see the confirmation done using the built-in Prompt.Confirm dialog.  
+    /// The confirm dialog will spawn a sub-dialog for verifying the alarm deletion. Here is the full
+    /// example:
+    /// \include SimpleAlarmBot/SimpleAlarmDialog.cs
+    /// 
+    /// \section IDialogContext
+    /// All of the dialogs take in an IDialogContext, an interface that provides the services
+    /// needed to save state and comunicate.  
+    /// The interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
     ///
     /// IBotData represents access to the per user, conversation, and user in conversation state maintained
-    /// by the %Bot Connector.
-    /// 
-    /// IDialogStack provides methods to
-    /// - call children dialogs (and push the new child on the dialog stack),
-    /// - mark the current dialog as done to return a result to the calling dialog (and pop the current dialog from the dialog stack), and
-    /// - wait for a message from the user and suspend the conversation.
+    /// by the %Bot Connector.  The per user state is useful for storing things about the user that cross
+    /// conversations--for example the last sandwich order so that you can use that as the default 
+    /// when ordering a sandwich. It is also possible to store such state in your own store
+    /// and use the Message.From.Id as a key.  
     /// 
     /// IBotToUser provides methods to post messages to be sent to the user, according to some policy.  Some of these messages may be sent
     /// inline with the response to the web api method call, and some of these messages may be sent directly using the %Bot Connector client.
     /// Sending and receiving messages through the dialog context ensures the IBotData state is passed through the %Bot Connector.
     /// 
-    /// TODO:
-    /// * Need to describe limitations on context in messages  
-    /// * Need to describe the stores off of IDialog  
-    /// * Link up to reference docs  
+    /// IDialogStack provides methods to:
+    /// - Call children dialogs and push the new child on the dialog stack.
+    /// - Mark the current dialog as done and return a result to the calling dialog and pop the current dialog from the dialog stack.
+    /// - Wait for a message from the user and suspend the conversation until the message arrives.
+    /// The stack is usually automatically managed for you.
 }
