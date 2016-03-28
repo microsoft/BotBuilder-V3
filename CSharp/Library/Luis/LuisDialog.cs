@@ -42,19 +42,38 @@ using Microsoft.Bot.Builder.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
 {
+    /// <summary>
+    /// Associate a LUIS intent with a dialog method.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class LuisIntent : Attribute
     {
+        /// <summary>
+        /// The LUIS intent name.
+        /// </summary>
         public readonly string intentName;
 
+        /// <summary>
+        /// Construct the association between the LUIS intent and a dialog method.
+        /// </summary>
+        /// <param name="intentName">The LUIS intent name.</param>
         public LuisIntent(string intentName)
         {
             SetField.SetNotNull(out this.intentName, nameof(intentName), intentName);
         }
     }
 
+    /// <summary>
+    /// The handler for a LUIS intent.
+    /// </summary>
+    /// <param name="context">The dialog context.</param>
+    /// <param name="luisResult">The LUIS result.</param>
+    /// <returns>A task representing the completion of the intent processing.</returns>
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
+    /// <summary>
+    /// A dialog specialized to handle intents and entities from LUIS.
+    /// </summary>
     [Serializable]
     public class LuisDialog : IDialog
     {
@@ -63,6 +82,10 @@ namespace Microsoft.Bot.Builder.Luis
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
 
+        /// <summary>
+        /// Construct the LUIS dialog.
+        /// </summary>
+        /// <param name="service">The LUIS service.</param>
         public LuisDialog(ILuisService service = null)
         {
             if (service == null)
@@ -115,6 +138,11 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
 
+        /// <summary>
+        /// Enumerate the handlers based on the attributes on the dialog instance.
+        /// </summary>
+        /// <param name="dialog">The dialog.</param>
+        /// <returns>An enumeration of handlers.</returns>
         public static IEnumerable<KeyValuePair<string, IntentHandler>> AttributeBasedHandlers(object dialog)
         {
             var type = dialog.GetType();
