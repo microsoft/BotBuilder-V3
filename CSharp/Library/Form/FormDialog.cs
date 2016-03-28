@@ -79,8 +79,22 @@ namespace Microsoft.Bot.Builder.Form
         #endregion
     }
 
+    /// <summary>
+    /// Options for form execution.
+    /// </summary>
     [Flags]
-    public enum FormOptions { None, PromptInStart };
+    public enum FormOptions
+    {
+        /// <summary>
+        /// No options.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Prompt when the dialog starts.
+        /// </summary>
+        PromptInStart
+    };
 
     public delegate IForm<T> BuildForm<T>();
 
