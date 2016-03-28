@@ -137,6 +137,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa13a4eefb1253c05654bbebd586a7d6e"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; <a class="el" href="../../d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html">TermMatch</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html#aa13a4eefb1253c05654bbebd586a7d6e">Matches</a> (string input, object defaultValue)</td></tr>
 <tr class="memdesc:aa13a4eefb1253c05654bbebd586a7d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the matches found in the input.  <a href="#aa13a4eefb1253c05654bbebd586a7d6e">More...</a><br /></td></tr>
 <tr class="separator:aa13a4eefb1253c05654bbebd586a7d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f289bc26a04615bad5e0f3ad98d14e9"><td class="memItemLeft" align="right" valign="top">object[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html#a4f289bc26a04615bad5e0f3ad98d14e9">PromptArgs</a> ()</td></tr>
+<tr class="memdesc:a4f289bc26a04615bad5e0f3ad98d14e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the arguments to pass to the prompt.  <a href="#a4f289bc26a04615bad5e0f3ad98d14e9">More...</a><br /></td></tr>
+<tr class="separator:a4f289bc26a04615bad5e0f3ad98d14e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a255089e3d6f96e9c94838caaa982da6d"><td class="memItemLeft" align="right" valign="top">delegate IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html#a255089e3d6f96e9c94838caaa982da6d">TermsDelegate</a> (object value)</td></tr>
 <tr class="memdesc:a255089e3d6f96e9c94838caaa982da6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegate to return the terms to match on for a C# value.  <a href="#a255089e3d6f96e9c94838caaa982da6d">More...</a><br /></td></tr>
 <tr class="separator:a255089e3d6f96e9c94838caaa982da6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -257,7 +260,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#a34393baca7f79643503b6dd0b1a13920">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00107">107</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00111">111</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -305,7 +308,38 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#adfaef0d5d1d515665358bd5078b3a482">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00138">138</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00142">142</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4f289bc26a04615bad5e0f3ad98d14e9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">object [] <a class="el" href="../../db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html">Microsoft.Bot.Builder.Form.Advanced.RecognizeEnumeration</a>&lt; T &gt;.PromptArgs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the arguments to pass to the prompt. </p>
+<p>remarks&gt;For example a numeric recognizer might pass min and max values.</p>
+<dl class="section return"><dt>Returns</dt><dd>An array of arguments.</dd></dl>
+
+<p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#ada536dd4c78319cbcc3571462575ef3a">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
+
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00086">86</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -355,7 +389,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00184">184</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00188">188</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -392,7 +426,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#a5af658259856fab1e903bdb8f727d3a7">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00102">102</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00106">106</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -429,7 +463,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#aafaf6f0380c17f23a0549a604e56bb77">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00097">97</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00101">101</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -459,7 +493,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#a9fb2e30f493df877ddcf7323cc92d60d">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00092">92</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00096">96</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>
@@ -489,7 +523,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html#a47b0eeba1462acbae5b1c2698e031ba7">Microsoft.Bot.Builder.Form.Advanced.IRecognize&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00087">87</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/da1/_recognizer_8cs_source.html#l00091">91</a> of file <a class="el" href="../../de/da1/_recognizer_8cs_source.html">Recognizer.cs</a>.</p>
 
 </div>
 </div>

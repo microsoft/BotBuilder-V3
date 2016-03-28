@@ -23,6 +23,7 @@ var dir_fd5cb459ea9e49064c78f5e055069399 =
       [ "IForm", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form" ]
     ] ],
     [ "IFormBuilder.cs", "dc/dc2/_i_form_builder_8cs.html", [
+      [ "FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration" ],
       [ "IFormBuilder", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder" ]
     ] ],
     [ "IFormDialog.cs", "d0/df6/_i_form_dialog_8cs.html", "d0/df6/_i_form_dialog_8cs" ],

@@ -7,27 +7,23 @@ var NAVTREE =
     [ "Overview", "index.html#overview", null ],
     [ "Install", "index.html#install", null ],
     [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
-    [ "Dialogs", "Dialogs.html", [
-      [ "Dialogs", "Dialogs.html#dialogs", [
-        [ "Overview", "Dialogs.html#Overview", null ],
-        [ "Simple Echo Bot", "Dialogs.html#simpleEcho", null ],
-        [ "Echo Bot", "Dialogs.html#echoBot", null ],
-        [ "Alarm Bot", "Dialogs.html#alarmBot", null ],
-        [ "IDialog", "Dialogs.html#IDialog", null ],
-        [ "IDialogContext", "Dialogs.html#IDialogContext", null ]
-      ] ]
+    [ "Dialogs", "dialogs.html", [
+      [ "Overview", "dialogs.html#Overview", null ],
+      [ "Simple Echo Bot", "dialogs.html#simpleEcho", null ],
+      [ "Echo Bot", "dialogs.html#echoBot", null ],
+      [ "Alarm Bot", "dialogs.html#alarmBot", null ],
+      [ "IDialogContext", "dialogs.html#IDialogContext", null ]
     ] ],
-    [ "Forms", "Forms.html", [
-      [ "Form Flow", "Forms.html#forms", [
-        [ "Forms and Fields", "Forms.html#fields", null ]
+    [ "Forms", "forms.html", [
+      [ "Forms and Fields", "forms.html#fields", null ],
+      [ "Simple Sandwich Bot", "forms.html#simpleSandwichBot", null ],
+      [ "Annotated Sandwich Bot", "forms.html#annotatedSandwich", [
+        [ "Attributes", "forms.html#attributes", null ],
+        [ "Adding Business Logic", "forms.html#logic", null ],
+        [ "Using the Form Builder", "forms.html#ControlFlow", null ]
       ] ],
-      [ "Simple Sandwich Bot", "Forms.html#simplesandwichbot", null ],
-      [ "Annotated Sandwich Bot", "Forms.html#annotatedSandwich", [
-        [ "Attributes", "Forms.html#attributes", null ],
-        [ "Adding Business Logic", "Forms.html#logic", null ],
-        [ "Controlling Flow", "Forms.html#ControlFlow", null ]
-      ] ],
-      [ "Pattern Language", "Forms.html#patterns", null ]
+      [ "Passing in Initial Form State and Entities", "forms.html#initialState", null ],
+      [ "Pattern Language", "forms.html#patterns", null ]
     ] ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
@@ -56,10 +52,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Dialogs.html",
-"d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html#ac61541b3390cf31b3f06da0038c92a58",
-"da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html#acf34ecd05b0340954e86e6c277668072",
-"dir_fd5cb459ea9e49064c78f5e055069399.html"
+"annotated.html",
+"d5/d63/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_bot_data_base.html#a3774018baebb0ef0db294154718af989",
+"da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html#abeb8c0fecfadffbc87ffee5663cba27a",
+"forms.html#annotatedSandwich"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

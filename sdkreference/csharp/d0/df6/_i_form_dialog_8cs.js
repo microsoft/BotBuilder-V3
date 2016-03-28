@@ -1,7 +1,6 @@
 var _i_form_dialog_8cs =
 [
     [ "CommandDescription", "dc/ddd/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_command_description.html", "dc/ddd/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_command_description" ],
-    [ "FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration" ],
     [ "IFormDialog", "d7/d7b/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_dialog.html", "d7/d7b/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_dialog" ],
     [ "FormCommand", "d0/df6/_i_form_dialog_8cs.html#a1c6898f469d423f820184dc631832da5", [
       [ "Backup", "d0/df6/_i_form_dialog_8cs.html#a1c6898f469d423f820184dc631832da5a3500ba09d0538297440ca620c9dd46bf", null ],

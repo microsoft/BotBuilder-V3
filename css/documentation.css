@@ -729,7 +729,7 @@ ul.header-nav li a:visisted {
   font-size: 24px;
   line-height: 32px;
   text-align: center;
-  padding: 0 2em;
+  padding: 0 2em 6em 2em;
 }
 .site-status .error-icon {
   margin: 99px auto 57px auto;
@@ -737,6 +737,9 @@ ul.header-nav li a:visisted {
   width: 100px;
   height: 100px;
   border-radius: 50px;
+}
+.site-status .registration-action button {
+  margin-top: 4em;
 }
 .loading-animation {
   margin: 0 auto;
