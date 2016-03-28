@@ -1080,10 +1080,10 @@ export abstract class IntentDialog extends Dialog {
     addGroup(group: IntentGroup): IntentDialog;
 
     /**
-     * The handler will be called anytime the dialog is started for a session.
+     * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
      * @param fn Handler to invoke when the dialog is started.
      */
-    onBegin(fn: (session: Session, args: any, next: (handled: boolean) => void) => void): IntentDialog;
+    onBegin(fn: (session: Session, args: any, next: () => void) => void): IntentDialog;
 
     /**
      * Executes a block of code when the given intent is recognized. Use DialogAction.send() or
@@ -1196,7 +1196,7 @@ export class IntentGroup {
 
 /**
  * Routes incoming messages to a Luis app hosted on http://luis.ai for intent recognition.
- * Once a messages intent has been recognized it will reouted to a registered intent handler, along
+ * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
  * with any entities, for further processing. 
  */
 export class LuisDialog extends IntentDialog {
@@ -1358,10 +1358,10 @@ export class CommandDialog extends Dialog {
     replyReceived(session: Session): void;
 
     /**
-     * The handler will be called anytime the dialog is started for a session.
+     * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
      * @param fn Handler to invoke when the dialog is started.
      */
-    onBegin(fn: (session: Session, args: any, next: (handled: boolean) => void) => void): CommandDialog;
+    onBegin(fn: (session: Session, args: any, next: () => void) => void): CommandDialog;
 
     /**
      * Triggers the handler when the pattern is matched. Use DialogAction.send() or
@@ -1435,7 +1435,7 @@ export class CommandDialog extends Dialog {
 }
 
 /** Default in memory storage implementation for storing user & session state data. */
-export class MemmoryStorage implements IStorage {
+export class MemoryStorage implements IStorage {
     /**
       * Loads a value from storage.
       * @param id ID of the value being loaded.

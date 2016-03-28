@@ -16,10 +16,9 @@ var CommandDialog = (function (_super) {
     CommandDialog.prototype.begin = function (session, args) {
         var _this = this;
         if (this.beginDialog) {
-            this.beginDialog(session, args, function (handled) {
-                if (!handled) {
-                    _super.prototype.begin.call(_this, session, args);
-                }
+            session.dialogData[consts.Data.Handler] = -1;
+            this.beginDialog(session, args, function () {
+                _super.prototype.begin.call(_this, session, args);
             });
         }
         else {
@@ -56,7 +55,7 @@ var CommandDialog = (function (_super) {
         if (!matched && this.default) {
             expression = null;
             matched = this.default;
-            session.dialogData[consts.Data.Handler] = -1;
+            session.dialogData[consts.Data.Handler] = this.commands.length;
         }
         if (matched) {
             session.compareConfidence(session.message.language, text, score, function (handled) {
@@ -75,7 +74,7 @@ var CommandDialog = (function (_super) {
         if (handler >= 0 && handler < this.commands.length) {
             cur = this.commands[handler];
         }
-        else if (this.default) {
+        else if (handler > this.commands.length && this.default) {
             cur = this.default;
         }
         if (cur) {

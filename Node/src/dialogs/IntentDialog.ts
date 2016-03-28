@@ -38,10 +38,8 @@ export abstract class IntentDialog extends dialog.Dialog {
 
     public begin<T>(session: ISession, args: IntentGroup): void {
         if (this.beginDialog) {
-            this.beginDialog(session, args, (handled) => {
-                if (!handled) {
-                    super.begin(session, args);
-                }
+            this.beginDialog(session, args, () => {
+                super.begin(session, args);
             });
         } else {
             super.begin(session, args);

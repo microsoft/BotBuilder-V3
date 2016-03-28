@@ -157,7 +157,7 @@ var EntityRecognizer = (function () {
                 score = utterance.length / value.length;
             }
             else if (utterance.indexOf(value) >= 0) {
-                score = value.length / utterance.length;
+                score = Math.min(0.5 + (value.length / utterance.length), 0.9);
             }
             else {
                 var matched = '';

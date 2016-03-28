@@ -16,10 +16,8 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;
         if (this.beginDialog) {
-            this.beginDialog(session, args, function (handled) {
-                if (!handled) {
-                    _super.prototype.begin.call(_this, session, args);
-                }
+            this.beginDialog(session, args, function () {
+                _super.prototype.begin.call(_this, session, args);
             });
         }
         else {

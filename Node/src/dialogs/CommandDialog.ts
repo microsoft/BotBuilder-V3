@@ -21,10 +21,9 @@ export class CommandDialog extends dialog.Dialog {
 
     public begin<T>(session: ISession, args: T): void {
         if (this.beginDialog) {
-            this.beginDialog(session, args, (handled) => {
-                if (!handled) {
-                    super.begin(session, args);
-                }
+            session.dialogData[consts.Data.Handler] = -1;
+            this.beginDialog(session, args, () => {
+                super.begin(session, args);
             });
         } else {
             super.begin(session, args);
@@ -60,7 +59,7 @@ export class CommandDialog extends dialog.Dialog {
         if (!matched && this.default) {
             expression = null;
             matched = this.default;
-            session.dialogData[consts.Data.Handler] = -1;
+            session.dialogData[consts.Data.Handler] = this.commands.length;
         }
         if (matched) {
             session.compareConfidence(session.message.language, text, score, (handled) => {
@@ -78,7 +77,7 @@ export class CommandDialog extends dialog.Dialog {
         var handler = session.dialogData[consts.Data.Handler];
         if (handler >= 0 && handler < this.commands.length) {
             cur = this.commands[handler];
-        } else if (this.default) {
+        } else if (handler > this.commands.length && this.default) {
             cur = this.default;
         }
         if (cur) {
