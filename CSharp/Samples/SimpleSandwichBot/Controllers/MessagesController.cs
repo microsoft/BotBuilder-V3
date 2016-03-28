@@ -16,9 +16,9 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        internal static IFormDialog<SandwichOrder> MakeRoot()
+        internal static IFormDialog<SandwichOrder> MakeRootDialog()
         {
-            return FormDialog.FromForm(SandwichOrder.Form);
+            return FormDialog.FromForm(SandwichOrder.BuildForm);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         {
             if (message.Type == "Message")
             {
-                return await Conversation.SendAsync(message, MakeRoot);
+                return await Conversation.SendAsync(message, MakeRootDialog);
             }
             else
             {

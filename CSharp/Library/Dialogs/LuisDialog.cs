@@ -33,29 +33,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class LuisModel : Attribute
-    {
-        public readonly string luisModelUrl;
-
-        public LuisModel(string luisModelUrl)
-        {
-            Field.SetNotNull(out this.luisModelUrl, nameof(luisModelUrl), luisModelUrl);
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class LuisIntent : Attribute
     {
@@ -67,55 +52,32 @@ namespace Microsoft.Bot.Builder
         }
     }
 
-    public class LuisResult
-    {
-        public Models.IntentRecommendation[] Intents { get; set; }
-
-        public Models.EntityRecommendation[] Entities { get; set; }
-    }
-
-    public static partial class Extensions
-    {
-        public static bool TryFindEntity(this LuisResult result, string type, out Models.EntityRecommendation entity)
-        {
-            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
-            return entity != null;
-        }
-    }
 
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
     public class LuisDialog : IDialog
     {
-        public readonly string subscriptionKey;
-        public readonly string modelID;
-        public readonly string luisUrl;
+        private readonly ILuisService service;
 
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
 
-        public LuisDialog()
+        public LuisDialog(ILuisService service = null)
         {
-            var luisModel = ((LuisModel)this.GetType().GetCustomAttributes(typeof(LuisModel), true).FirstOrDefault())?.luisModelUrl;
-
-            if (!string.IsNullOrEmpty(luisModel))
+            if (service == null)
             {
-                this.luisUrl = luisModel;
-            }
-            else
-            {
-                throw new Exception("Luis model attribute is not set for the class");
+                var type = this.GetType();
+                var luisModel = type.GetCustomAttribute<LuisModel>(inherit: true);
+                if (luisModel == null)
+                {
+                    throw new Exception("Luis model attribute is not set for the class");
+                }
+
+                service = new LuisService(luisModel);
             }
 
-            this.AddAttributeBasedHandlers();
-        }
-
-        public LuisDialog(string subscriptionKey, string modelID)
-        {
-            Field.SetNotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
-            Field.SetNotNull(out this.modelID, nameof(modelID), modelID);
-            this.luisUrl = string.Format("https://api.projectoxford.ai/luis/v1/application?id={0}&subscription-key={1}&q=", this.modelID, this.subscriptionKey);
+            Field.SetNotNull(out this.service, nameof(service), service);
         }
 
         public virtual async Task StartAsync(IDialogContext context)
@@ -123,30 +85,18 @@ namespace Microsoft.Bot.Builder
             context.Wait(MessageReceived);
         }
 
-        protected virtual async Task<LuisResult> GetLuisResult(string luisUrl, string text)
-        {
-            var url = luisUrl + Uri.EscapeDataString(text);
-            string json;
-            using (HttpClient client = new HttpClient())
-            {
-                json = await client.GetStringAsync(url);
-            }
-
-            Debug.WriteLine(json);
-            var response = JsonConvert.DeserializeObject<LuisResult>(json);
-            return response;
-        }
-
         protected async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
         {
-            var message = await item;
-            var luisRes = await GetLuisResult(this.luisUrl, message.Text);
-            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == luisRes.Intents.Select(t => t.Score).Max());
-
             if (this.handlerByIntent == null)
             {
                 this.AddAttributeBasedHandlers();
             }
+
+            var message = await item;
+            var luisRes = await this.service.QueryAsync(message.Text);
+
+            var maximum = luisRes.Intents.Max(t => t.Score);
+            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == maximum);
 
             IntentHandler handler;
             if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
@@ -160,7 +110,7 @@ namespace Microsoft.Bot.Builder
             }
             else
             {
-                var text = $"LuisModel[{this.modelID}] no default intent handler.";
+                var text = $"No default intent handler found.";
                 throw new Exception(text);
             }
         }

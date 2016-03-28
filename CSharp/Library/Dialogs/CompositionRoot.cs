@@ -64,13 +64,13 @@ namespace Microsoft.Bot.Builder
             return formatter;
         }
 
-        public static async Task<Message> SendAsync(Message toBot, Func<IDialog> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task<Message> SendAsync(Message toBot, Func<IDialog> MakeRoot, CancellationToken token = default(CancellationToken), params object[] singletons)
         {
-            var waits = new WaitFactory();
-            var frames = new FrameFactory(waits);
+            IWaitFactory waits = new WaitFactory();
+            IFrameFactory frames = new FrameFactory(waits);
             IBotData toBotData = new Internals.JObjectBotData(toBot);
             IConnectorClient client = new ConnectorClient();
-            var provider = new Serialization.SimpleServiceLocator()
+            var provider = new Serialization.SimpleServiceLocator(singletons)
             {
                 waits, frames, toBotData, client
             };

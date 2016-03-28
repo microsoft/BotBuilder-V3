@@ -79,8 +79,9 @@ namespace Microsoft.Bot.Builder.Form
 
         internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
         {
-            var field = new Field<T>("__commands__", FieldRole.Value, form);
-            field.Prompt(new Prompt(""));
+            var field = new Field<T>("__commands__", FieldRole.Value);
+            field.Form = form;
+            field.SetPrompt(new Prompt(""));
             foreach (var entry in form.Configuration.Commands)
             {
                 field.AddDescription(entry.Key, entry.Value.Description);
@@ -88,10 +89,10 @@ namespace Microsoft.Bot.Builder.Form
             }
             foreach (var nav in form.Fields)
             {
-                var fterms = nav.Terms();
+                var fterms = nav.FieldTerms;
                 if (fterms != null)
                 {
-                    field.AddDescription(nav.Name, nav.Description());
+                    field.AddDescription(nav.Name, nav.FieldDescription);
                     field.AddTerms(nav.Name, fterms.ToArray());
                 }
             }

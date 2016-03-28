@@ -333,6 +333,10 @@ namespace Microsoft.Bot.Builder.Form
             {
                 if (next.Direction == StepDirection.Complete)
                 {
+                    if (message != null)
+                    {
+                        await context.PostAsync(message);
+                    }
                     if (_form.Completion != null)
                     {
                         await _form.Completion(context, _state);
@@ -474,7 +478,7 @@ namespace Microsoft.Bot.Builder.Form
                             if (step.Type == StepType.Confirm)
                             {
                                 // Ensure all dependencies have values
-                                foreach (var dependency in step.Dependencies())
+                                foreach (var dependency in step.Dependencies)
                                 {
                                     var dstep = _form.Step(dependency);
                                     var dstepi = _form.StepIndex(dstep);
@@ -563,8 +567,8 @@ namespace Microsoft.Bot.Builder.Form
                             var navigation = new Prompter<T>(field.Template(TemplateUsage.NavigationCommandHelp), _form, null);
                             var active = (from istep in _form.Steps
                                           where istep.Type == StepType.Field && istep.Active(state)
-                                          select istep.Field.Description());
-                            var activeList = Language.BuildList(active, navigation.Annotation().Separator, navigation.Annotation().LastSeparator);
+                                          select istep.Field.FieldDescription);
+                            var activeList = Language.BuildList(active, navigation.Annotation.Separator, navigation.Annotation.LastSeparator);
                             builder.Append("* ");
                             builder.Append(navigation.Prompt(state, "", activeList));
                             feedback = step.Help(state, form, builder.ToString());

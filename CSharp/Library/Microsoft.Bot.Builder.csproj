@@ -91,6 +91,7 @@
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
+    <Compile Include="Dialogs\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Fibers\Awaitable.cs" />
@@ -140,7 +141,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

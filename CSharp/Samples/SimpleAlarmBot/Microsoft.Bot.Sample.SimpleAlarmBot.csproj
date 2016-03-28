@@ -119,7 +119,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleAlarmBot.cs" />
+    <Compile Include="SimpleAlarmDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

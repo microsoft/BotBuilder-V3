@@ -1,37 +1,4 @@
-﻿// 
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license.
-// 
-// Microsoft Bot Framework: http://botframework.com
-// 
-// Bot Builder SDK Github:
-// https://github.com/Microsoft/BotBuilder
-// 
-// Copyright (c) Microsoft Corporation
-// All rights reserved.
-// 
-// MIT License:
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-
-using Microsoft.Bot.Builder.Form;
+﻿using Microsoft.Bot.Builder.Form;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,21 +18,26 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
         TurkeyBreast, Veggie
     };
-    public enum LengthOptions { SixInch, FootLong};
+    public enum LengthOptions { SixInch, FootLong };
     public enum BreadOptions { NineGrainWheat, NineGrainHoneyOat, Italian, ItalianHerbsAndCheese, Flatbread };
-    public enum CheeseOptions { American, MontereyCheddar, Pepperjack};
-    public enum ToppingOptions {
+    public enum CheeseOptions { American, MontereyCheddar, Pepperjack };
+    public enum ToppingOptions
+    {
         // This starts at 1 because 0 is the "no value" value
         [Terms("except", "but", "not", "no", "all", "everything")]
         Everything = 1,
         Avocado, BananaPeppers, Cucumbers, GreenBellPeppers, Jalapenos,
-        Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes};
-    public enum SauceOptions { ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
-        Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar };
+        Lettuce, Olives, Pickles, RedOnion, Spinach, Tomatoes
+    };
+    public enum SauceOptions
+    {
+        ChipotleSouthwest, HoneyMustard, LightMayonnaise, RegularMayonnaise,
+        Mustard, Oil, Pepper, Ranch, SweetOnion, Vinegar
+    };
 
     [Serializable]
-    [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
     [Template(TemplateUsage.NotUnderstood, "I do not understand \"{0}\".", "Try again, I don't get \"{0}\".")]
+    [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
     class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
@@ -105,16 +77,42 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Optional]
         public List<SauceOptions> Sauces;
 
-        public static IForm<SandwichOrder> Form()
+        public string DeliveryAddress;
+
+        [Optional]
+        public DateTime? DeliveryTime;
+
+        [Numeric(1, 5)]
+        [Optional]
+        [Describe("your experience today")]
+        public double? Rating;
+
+        public static IForm<SandwichOrder> BuildForm()
         {
             return new FormBuilder<SandwichOrder>()
-                        .Message("Welcome to the simple sandwich order bot!")
+                        .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(SandwichOrder.Sandwich))
                         .Field(nameof(SandwichOrder.Length))
+                        .Field(nameof(SandwichOrder.Bread))
+                        .Field(nameof(SandwichOrder.Cheese))
                         .Field(nameof(SandwichOrder.Toppings))
                         .Message("For sandwich toppings you have selected {Toppings}.")
+                        .Field(nameof(SandwichOrder.Sauces))
+                        .Field(nameof(SandwichOrder.DeliveryAddress),
+                            validate: async (state, response) =>
+                            {
+                                string message = null;
+                                var address = (response as string).Trim();
+                                if (address.Length > 0 && address[0] < '0' || address[0] > '9')
+                                {
+                                    message = "Address must start with a number.";
+                                }
+                                return message;
+                            })
+                        .Field(nameof(SandwichOrder.DeliveryTime), "What time do you want your sandwich delivered? {||}")
+                        .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
                         .AddRemainingFields()
-                        .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]}?")
+                        .Message("Thanks for ordering a sandwich!")
                         .Build();
         }
     };

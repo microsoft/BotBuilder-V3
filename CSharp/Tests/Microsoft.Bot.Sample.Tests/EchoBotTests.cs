@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Sample.Tests
             var toUser = await Conversation.SendAsync(toBot, MakeRoot);
 
             // assert: check if the dialog returned the right response
-            Assert.IsTrue(toUser.Text.StartsWith("0"));
+            Assert.IsTrue(toUser.Text.StartsWith("1"));
             Assert.IsTrue(toUser.Text.Contains("Test"));
 
             // act: send the message 10 times
@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Sample.Tests
             }
 
             // assert: check the counter at the end
-            Assert.IsTrue(toUser.Text.StartsWith("10"));
+            Assert.IsTrue(toUser.Text.StartsWith("11"));
 
             // act: send the reset
             toBot = toUser;
@@ -91,13 +91,13 @@ namespace Microsoft.Bot.Sample.Tests
             toBot = toUser;
             toBot.Text = "yes";
             toUser = await Conversation.SendAsync(toBot, MakeRoot);
-            Assert.IsTrue(toUser.Text.ToLower().Contains("count reset"));
+            Assert.IsTrue(toUser.Text.ToLower().Contains("reset count"));
 
             //send a random message and check count
             toBot = toUser;
             toBot.Text = "test";
             toUser = await Conversation.SendAsync(toBot, MakeRoot);
-            Assert.IsTrue(toUser.Text.StartsWith("0"));
+            Assert.IsTrue(toUser.Text.StartsWith("1"));
         }
     }
 }

@@ -47,22 +47,13 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>
         /// Construct a confirmation.
         /// </summary>
-        /// <param name="name">Name of this </param>
         /// <param name="prompt">Confirmation prompt expressed using \ref patterns.</param>
         /// <param name="condition">Delegate for whether confirmation applies.</param>
         /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
-        /// <param name="form">The form.</param>
-        public Confirmation(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
-            : base(Guid.NewGuid().ToString(), FieldRole.Confirm, form)
+        public Confirmation(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+            : base(Guid.NewGuid().ToString(), FieldRole.Confirm)
         {
-            this
-                .Description(_name)
-                .Prompt(prompt)
-                .AddDescription(true, "Yes")
-                .AddTerms(true, new string[] { "yes", "y", "sure", "ok" })
-                .AddDescription(false, "No")
-                .AddTerms(false, new string[] { "no", "n" })
-                ;
+            SetPrompt(prompt);
             _condition = condition;
             _dependencies = dependencies.ToArray();
             var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
@@ -74,9 +65,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return null;
         }
 
-        public override IEnumerable<string> Dependencies()
+        public override IEnumerable<string> Dependencies
         {
-            return _dependencies;
+            get
+            {
+                return _dependencies;
+            }
         }
 
         #region IFieldPrompt

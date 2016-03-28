@@ -48,32 +48,36 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Construct field. </summary>
         /// <param name="name"> Name of field. </param>
         /// <param name="role"> Role field plays in form. </param>
-        /// <param name="form"> The form. </param>
-        public Field(string name, FieldRole role, IForm<T> form)
+        public Field(string name, FieldRole role)
         {
             _name = name;
             _role = role;
-            _form = form;
-
-            foreach (var template in form.Configuration.Templates)
-            {
-                if (!_templates.ContainsKey(template.Usage))
-                {
-                    AddTemplate(template);
-                }
-            }
-            if (_help == null)
-            {
-                var template = Template(TemplateUsage.Help);
-                _help = new Prompt(template);
-            }
         }
 
         #region IField
 
         public string Name { get { return _name; } }
 
-        public IForm<T> Form { get { return this._form; } }
+        public virtual IForm<T> Form
+        {
+            get { return this._form; }
+            set
+            {
+                _form = value;
+                foreach (var template in _form.Configuration.Templates)
+                {
+                    if (!_templates.ContainsKey(template.Usage))
+                    {
+                        AddTemplate(template);
+                    }
+                }
+                if (_help == null)
+                {
+                    var template = Template(TemplateUsage.Help);
+                    _help = new Prompt(template);
+                }
+            }
+        }
 
         #region IFieldState
         public virtual object GetValue(T state)
@@ -96,14 +100,20 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             throw new NotImplementedException();
         }
 
-        public virtual bool Optional()
+        public virtual bool Optional
         {
-            return _optional;
+            get
+            {
+                return _optional;
+            }
         }
 
-        public virtual bool IsNullable()
+        public virtual bool IsNullable
         {
-            return _isNullable;
+            get
+            {
+                return _isNullable;
+            }
         }
 
         public virtual bool Limits(out double min, out double max)
@@ -113,26 +123,36 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _limited;
         }
 
-        public virtual IEnumerable<string> Dependencies()
+        public virtual IEnumerable<string> Dependencies
         {
-            return new string[0];
-        }
-        #endregion
-
-        #region IFieldDescription
-        public virtual FieldRole Role()
-        {
-            return _role;
+            get
+            {
+                return new string[0];
+            }
         }
 
-        public virtual string Description()
+        public virtual FieldRole Role
         {
-            return _description;
+            get
+            {
+                return _role;
+            }
         }
 
-        public virtual IEnumerable<string> Terms()
+        public virtual string FieldDescription
         {
-            return _terms;
+            get
+            {
+                return _description;
+            }
+        }
+
+        public virtual IEnumerable<string> FieldTerms
+        {
+            get
+            {
+                return _terms;
+            }
         }
 
         public virtual IEnumerable<string> Terms(object value)
@@ -145,30 +165,45 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _valueDescriptions[value];
         }
 
-        public virtual IEnumerable<string> ValueDescriptions()
+        public virtual IEnumerable<string> ValueDescriptions
         {
-            return (from entry in _valueDescriptions select entry.Value);
+            get
+            {
+                return (from entry in _valueDescriptions select entry.Value);
+            }
         }
 
-        public virtual IEnumerable<object> Values()
+        public virtual IEnumerable<object> Values
         {
-            return (from entry in _valueDescriptions select entry.Key);
+            get
+            {
+                return (from entry in _valueDescriptions select entry.Key);
+            }
         }
 
-        public virtual bool AllowsMultiple()
+        public virtual bool AllowsMultiple
         {
-            return _allowsMultiple;
+            get
+            {
+                return _allowsMultiple;
+            }
         }
 
-        public virtual bool AllowDefault()
+        public virtual bool AllowDefault
         {
-            return _promptDefinition.AllowDefault != BoolDefault.False;
+            get
+            {
+                return _promptDefinition.AllowDefault != BoolDefault.False;
+            }
         }
 
-        public bool AllowNumbers()
+        public bool AllowNumbers
         {
-            _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
-            return _promptDefinition.AllowNumbers;
+            get
+            {
+                _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
+                return _promptDefinition.AllowNumbers;
+            }
         }
 
         #endregion
@@ -222,7 +257,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>Set the field description. </summary>
         /// <param name="description">Field description. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Description(string description)
+        public Field<T> SetFieldDescription(string description)
         {
             UpdateAnnotations();
             _description = description;
@@ -232,7 +267,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the help associated with a field. </summary>
         /// <param name="help"> Help string. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Help(Prompt help)
+        public Field<T> SetHelp(Prompt help)
         {
             UpdateAnnotations();
             _help = help;
@@ -242,7 +277,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the terms associated with the field. </summary>
         /// <param name="terms">    The terms. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Terms(IEnumerable<string> terms)
+        public Field<T> SetFieldTerms(IEnumerable<string> terms)
         {
             UpdateAnnotations();
             _terms = terms.ToArray();
@@ -285,7 +320,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set whether or not a field is optional. </summary>
         /// <param name="optional"> True if field is optional. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Optional(bool optional = true)
+        public Field<T> SetOptional(bool optional = true)
         {
             UpdateAnnotations();
             _optional = optional;
@@ -295,7 +330,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set whether or not field is nullable. </summary>
         /// <param name="nullable"> True if field is nullable. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> IsNullable(bool nullable = true)
+        public Field<T> SetIsNullable(bool nullable = true)
         {
             UpdateAnnotations();
             _isNullable = nullable;
@@ -305,7 +340,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Sets the field prompt. </summary>
         /// <param name="prompt">   The prompt. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Prompt(Prompt prompt)
+        public Field<T> SetPrompt(Prompt prompt)
         {
             UpdateAnnotations();
             _promptDefinition = prompt;
@@ -315,17 +350,17 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary> Sets the recognizer for the field. </summary>
         /// <param name="recognizer">   The recognizer for the field. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Recognizer(IRecognize<T> recognizer)
+        public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             UpdateAnnotations();
             _recognizer = recognizer;
             return this;
         }
 
-        /// <summary>   Add a template to the field. </summary>
+        /// <summary>   Replace a template in the field. </summary>
         /// <param name="template"> The template. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> Template(Template template)
+        public Field<T> ReplaceTemplate(Template template)
         {
             UpdateAnnotations();
             AddTemplate(template);
@@ -335,7 +370,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <summary>   Set the field validation. </summary>
         /// <param name="validate"> The validator. </param>
         /// <returns>   An IField&lt;T&gt; </returns>
-        public IField<T> Validate(ValidateDelegate<T> validate)
+        public IField<T> SetValidation(ValidateDelegate<T> validate)
         {
             UpdateAnnotations();
             _validate = validate;
@@ -346,7 +381,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// <param name="min">  The minimum. </param>
         /// <param name="max">  The maximum. </param>
         /// <returns>   An IField&lt;T&gt; </returns>
-        public IField<T> Numeric(double min, double max)
+        public IField<T> SetLimits(double min, double max)
         {
             UpdateAnnotations();
             SetLimits(min, max, true);
@@ -393,77 +428,25 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected IPrompt<T> _prompt;
         #endregion
     }
-
+    #region Documentation
+    /// <summary>   Fill in field information through reflection.</summary>
+    /// <remarks>   The resulting information can be overriden through the fluent interface
+    ///             </remarks>
+    /// <typeparam name="T">    form state. </typeparam>
+    #endregion
     public class FieldReflector<T> : Field<T>
         where T : class
     {
-        public FieldReflector(string name, IForm<T> form, bool ignoreAnnotations = false)
-            : base(name, FieldRole.Value, form)
+        #region Documentation
+        /// <summary>   Construct an <see cref="IField{T}"/> through reflection. </summary>
+        /// <param name="name">                 Path to the field in your form state. </param>
+        /// <param name="ignoreAnnotations">    True to ignore annotations. </param>
+        #endregion
+        public FieldReflector(string name, bool ignoreAnnotations = false)
+            : base(name, FieldRole.Value)
         {
             _ignoreAnnotations = ignoreAnnotations;
-            AddField(typeof(T), string.IsNullOrWhiteSpace(_name) ? new string[] { } : _name.Split('.'), 0);
-
-            if (_promptDefinition == null)
-            {
-                if (_type.IsEnum)
-                {
-                    _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
-                }
-                else if (_type == typeof(string))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.String));
-                }
-                else if (_type.IsIntegral())
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
-                }
-                else if (_type == typeof(bool))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
-                }
-                else if (_type.IsDouble())
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.Double));
-                }
-                else if (_type == typeof(DateTime))
-                {
-                    _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
-                }
-            }
-
-            var step = _path.LastOrDefault();
-            if (_type == null || _type.IsEnum)
-            {
-                _recognizer = new RecognizeEnumeration<T>(this);
-            }
-            else if (_type == typeof(bool))
-            {
-                _recognizer = new RecognizeBool<T>(this);
-            }
-            else if (_type == typeof(string))
-            {
-                _recognizer = new RecognizeString<T>(this);
-            }
-            else if (_type.IsIntegral())
-            {
-                _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type.IsDouble())
-            {
-                _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type == typeof(DateTime))
-            {
-                _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
-            }
-            else if (_type.IsIEnumerable())
-            {
-                var elt = _type.GetGenericElementType();
-                if (elt.IsEnum)
-                {
-                    _recognizer = new RecognizeEnumeration<T>(this);
-                }
-            }
+            AddField(typeof(T), _name.Split('.'), 0);
         }
 
         #region IField
@@ -626,6 +609,74 @@ namespace Microsoft.Bot.Builder.Form.Advanced
 
         #endregion
 
+        public override IForm<T> Form
+        {
+            set
+            {
+                base.Form = value;
+                if (_promptDefinition == null)
+                {
+                    if (_type.IsEnum)
+                    {
+                        _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
+                    }
+                    else if (_type == typeof(string))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.String));
+                    }
+                    else if (_type.IsIntegral())
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
+                    }
+                    else if (_type == typeof(bool))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
+                    }
+                    else if (_type.IsDouble())
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.Double));
+                    }
+                    else if (_type == typeof(DateTime))
+                    {
+                        _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
+                    }
+                }
+
+                var step = _path.LastOrDefault();
+                if (_type == null || _type.IsEnum)
+                {
+                    _recognizer = new RecognizeEnumeration<T>(this);
+                }
+                else if (_type == typeof(bool))
+                {
+                    _recognizer = new RecognizeBool<T>(this);
+                }
+                else if (_type == typeof(string))
+                {
+                    _recognizer = new RecognizeString<T>(this);
+                }
+                else if (_type.IsIntegral())
+                {
+                    _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type.IsDouble())
+                {
+                    _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type == typeof(DateTime))
+                {
+                    _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+                }
+                else if (_type.IsIEnumerable())
+                {
+                    var elt = _type.GetGenericElementType();
+                    if (elt.IsEnum)
+                    {
+                        _recognizer = new RecognizeEnumeration<T>(this);
+                    }
+                }
+            }
+        }
         #endregion
 
         #region Internals
@@ -838,8 +889,8 @@ namespace Microsoft.Bot.Builder.Form.Advanced
     public class Conditional<T> : FieldReflector<T>
         where T : class
     {
-        public Conditional(string name, IForm<T> form, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, form, ignoreAnnotations)
+        public Conditional(string name, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
+            : base(name, ignoreAnnotations)
         {
             _condition = condition;
         }
