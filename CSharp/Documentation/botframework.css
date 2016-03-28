@@ -139,7 +139,7 @@ a.qindexHL {
     color: #ffffff;
 }
 
-a.el {
+a.el, .contents a {
     font-weight: bold;
 }
 
