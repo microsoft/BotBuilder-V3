@@ -33,10 +33,11 @@
 
 using System.Collections.Generic;
 
+using Newtonsoft.Json.Linq;
+
 using Microsoft.Bot.Builder.Fibers;
 using Microsoft.Bot.Connector;
-
-using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Internals
 {
