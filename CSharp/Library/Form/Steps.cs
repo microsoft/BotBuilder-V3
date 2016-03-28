@@ -373,6 +373,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             {
                 SetValue(state, value);
                 form.SetPhase(StepPhase.Completed);
+            } 
+            else if (feedback.Feedback == null)
+            {
+                feedback.Feedback = "";
             }
             return feedback.Feedback;
         }

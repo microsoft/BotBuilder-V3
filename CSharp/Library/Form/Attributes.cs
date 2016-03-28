@@ -215,15 +215,6 @@ namespace Microsoft.Bot.Builder.Form
     public class Prompt : TemplateBase
     {
         /// <summary>
-        /// Define prompt from a single template.
-        /// </summary>
-        /// <param name="pattern">Template to use.</param>
-        public Prompt(string pattern)
-            : base(pattern)
-        {
-        }
-
-        /// <summary>
         /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
         /// <param name="patterns">Patterns to select from.</param>

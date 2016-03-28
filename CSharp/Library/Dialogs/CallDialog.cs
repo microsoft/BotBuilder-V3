@@ -37,10 +37,17 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder
 {
-
+    /// <summary>   Simple way to call a sub-dialog with a resume handler for the result. </summary>
+    /// <typeparam name="R">    Type of result expected from sub-dialog. </typeparam>
     [Serializable]
     public class CallDialog<R> : IDialog
     {
+        /// <summary>   Resume handler when sub-dialog returns. </summary>
+        /// <param name="dialog">   The dialog. </param>
+        /// <param name="context">  The context. </param>
+        /// <param name="result">   The result. </param>
+        /// <returns>   A Task. </returns>
+
         public delegate Task Resume(CallDialog<R> dialog, IDialogContext context, IAwaitable<R> result);
 
         private readonly IDialog child;
