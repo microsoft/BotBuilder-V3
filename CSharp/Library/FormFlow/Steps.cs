@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public TemplateBase Annotation
+        public TemplateBaseAttribute Annotation
         {
             get { return _field.Prompt().Annotation; }
         }
@@ -401,7 +401,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 field.Form = _field.Form;
                 var template = _field.Template(TemplateUsage.Clarify);
                 var helpTemplate = _field.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                field.SetPrompt(new Prompt(template));
+                field.SetPrompt(new PromptAttribute(template));
                 field.ReplaceTemplate(_field.Template(TemplateUsage.Clarify));
                 field.ReplaceTemplate(helpTemplate);
                 foreach (var value in clarify.Values)
@@ -485,7 +485,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public TemplateBase Annotation
+        public TemplateBaseAttribute Annotation
         {
             get { return _field.Prompt().Annotation; }
         }
@@ -548,7 +548,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var field = _fields.Field(_name);
             var template = field.Template(TemplateUsage.Navigation);
             var recField = new Field<T>("__navigate__", FieldRole.Value)
-                .SetPrompt(new Prompt(template));
+                .SetPrompt(new PromptAttribute(template));
             recField.Form = form;
             var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
             foreach (var value in formState.Next.Names)
@@ -595,7 +595,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public TemplateBase Annotation
+        public TemplateBaseAttribute Annotation
         {
             get
             {
@@ -653,7 +653,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     internal class MessageStep<T> : IStep<T>
     {
-        public MessageStep(Prompt prompt, ConditionalDelegate<T> condition, IForm<T> form)
+        public MessageStep(PromptAttribute prompt, ConditionalDelegate<T> condition, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
             _prompt = new Prompter<T>(prompt, form, null);
@@ -704,7 +704,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public TemplateBase Annotation
+        public TemplateBaseAttribute Annotation
         {
             get { return _prompt.Annotation; }
         }

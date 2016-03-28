@@ -181,7 +181,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             {
                 var form = new FormBuilder<PizzaOrder>()
                     .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Size))
-                        .ReplaceTemplate(new Template(TemplateUsage.Double, "{Notfield}")))
+                        .ReplaceTemplate(new TemplateAttribute(TemplateUsage.Double, "{Notfield}")))
                         .Build();
                 Debug.Fail("Validation failed");
             }

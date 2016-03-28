@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Message to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -87,8 +87,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="validate">Delegate to validate the field value.</param>
         /// <remarks>
         /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="Describe"/>, <see cref="Terms"/>, <see cref="Prompt"/>, <see cref="Optional"/>
-        /// <see cref="Numeric"/> and <see cref="Template"/> annotations that are supplied by default or you
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
         /// <returns>This form.</returns>
@@ -104,8 +104,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <returns>This form.</returns>
         /// <remarks>
         /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="Describe"/>, <see cref="Terms"/>, <see cref="Prompt"/>, <see cref="Optional"/>
-        /// <see cref="Numeric"/> and <see cref="Template"/> annotations that are supplied by default or you
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
         IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
@@ -120,11 +120,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <returns>This form.</returns>
         /// <remarks>
         /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="Describe"/>, <see cref="Terms"/>, <see cref="Prompt"/>, <see cref="Optional"/>
-        /// <see cref="Numeric"/> and <see cref="Template"/> annotations that are supplied by default or you
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, PromptAttribute prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
 
         /// <summary>
         /// Derfine a field step by supplying your own field definition.
@@ -174,7 +174,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -212,10 +212,10 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Default prompt and template format settings.
         /// </summary>
         /// <remarks>
-        /// When you specify a <see cref="Prompt"/> or <see cref="Template"/>, any format 
+        /// When you specify a <see cref="PromptAttribute"/> or <see cref="Template"/>, any format 
         /// value you do not specify will come from this default.
         /// </remarks>
-        public Prompt DefaultPrompt = new Prompt("")
+        public PromptAttribute DefaultPrompt = new PromptAttribute("")
         {
             AllowDefault = BoolDefault.True,
             ChoiceStyle = ChoiceStyleOptions.Auto,
@@ -256,73 +256,73 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Default templates to use if not override on the class or field level.
         /// </summary>
-        public List<Template> Templates = new List<Template>
+        public List<TemplateAttribute> Templates = new List<TemplateAttribute>
         {
-            new Template(TemplateUsage.Bool, "Would you like a {&}? {||}"),
-            new Template(TemplateUsage.BoolHelp, "Please enter 'yes' or 'no'{?, {0}}."),
+            new TemplateAttribute(TemplateUsage.Bool, "Would you like a {&}? {||}"),
+            new TemplateAttribute(TemplateUsage.BoolHelp, "Please enter 'yes' or 'no'{?, {0}}."),
 
             // {0} is term being clarified
-            new Template(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}"),
+            new TemplateAttribute(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}"),
 
-            new Template(TemplateUsage.CurrentChoice, "(current choice: {})"),
+            new TemplateAttribute(TemplateUsage.CurrentChoice, "(current choice: {})"),
 
-            new Template(TemplateUsage.DateTime, "Please enter a date and time for {&} {||}"),
+            new TemplateAttribute(TemplateUsage.DateTime, "Please enter a date and time for {&} {||}"),
             // {0} is current choice, {1} is no preference
-            new Template(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
 
             // {0} is min and {1} is max.
-            new Template(TemplateUsage.Double, "Please enter a number {?between {0:F1} and {1:F1}} for {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.Double, "Please enter a number {?between {0:F1} and {1:F1}} for {&} {||}") { ChoiceFormat = "{1}" },
 
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
-            new Template(TemplateUsage.DoubleHelp, "Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.DoubleHelp, "Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}."),
 
             // {0} is min, {1} is max and {2} are enumerated descriptions
-            new Template(TemplateUsage.EnumManyNumberHelp, "You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})"),
-            new Template(TemplateUsage.EnumOneNumberHelp, "You can enter a number {0}-{1} or words from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumManyNumberHelp, "You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumOneNumberHelp, "You can enter a number {0}-{1} or words from the descriptions. ({2})"),
 
             // {2} are the words people can type
-            new Template(TemplateUsage.EnumManyWordHelp, "You can enter in one or more selections from the descriptions. ({2})"),
-            new Template(TemplateUsage.EnumOneWordHelp, "You can enter in any words from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumManyWordHelp, "You can enter in one or more selections from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumOneWordHelp, "You can enter in any words from the descriptions. ({2})"),
 
-            new Template(TemplateUsage.EnumSelectOne, "Please select a {&} {||}"),
-            new Template(TemplateUsage.EnumSelectMany, "Please select one or more {&} {||}"),
+            new TemplateAttribute(TemplateUsage.EnumSelectOne, "Please select a {&} {||}"),
+            new TemplateAttribute(TemplateUsage.EnumSelectMany, "Please select one or more {&} {||}"),
 
             // {0} is the not understood term
-            new Template(TemplateUsage.Feedback, "For {&} I understood {}. {?\"{0}\" is not an option.}"),
+            new TemplateAttribute(TemplateUsage.Feedback, "For {&} I understood {}. {?\"{0}\" is not an option.}"),
 
             // For {0} is recognizer help and {1} is command help.
-            new Template(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}"),
-            new Template(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}"),
-            new Template(TemplateUsage.HelpConfirm, "Please answer the question.  Possible responses:\n{0}\n{1}"),
-            new Template(TemplateUsage.HelpNavigation, "Choose what field to change.  Possible responses:\n{0}\n{1}"),
+            new TemplateAttribute(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}"),
+            new TemplateAttribute(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}"),
+            new TemplateAttribute(TemplateUsage.HelpConfirm, "Please answer the question.  Possible responses:\n{0}\n{1}"),
+            new TemplateAttribute(TemplateUsage.HelpNavigation, "Choose what field to change.  Possible responses:\n{0}\n{1}"),
 
             // {0} is min and {1} is max if present
-            new Template(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { ChoiceFormat = "{1}" },
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
-            new Template(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
 
-            new Template(TemplateUsage.Navigation, "What do you want to change? {||}") { FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.Navigation, "What do you want to change? {||}") { FieldCase = CaseNormalization.None },
             // {0} is list of field names.
-            new Template(TemplateUsage.NavigationCommandHelp, "You can switch to another field by entering its name. ({0})."),
-            new Template(TemplateUsage.NavigationFormat, "{&}({})") {FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.NavigationCommandHelp, "You can switch to another field by entering its name. ({0})."),
+            new TemplateAttribute(TemplateUsage.NavigationFormat, "{&}({})") {FieldCase = CaseNormalization.None },
             // {0} is min, {1} is max
-            new Template(TemplateUsage.NavigationHelp, "Choose {?a number from {0}-{1}, or} a field name."),
+            new TemplateAttribute(TemplateUsage.NavigationHelp, "Choose {?a number from {0}-{1}, or} a field name."),
 
-            new Template(TemplateUsage.NoPreference, "No Preference"),
+            new TemplateAttribute(TemplateUsage.NoPreference, "No Preference"),
 
             // {0} is the term that is not understood
-            new Template(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option."),
+            new TemplateAttribute(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option."),
 
-            new Template(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
 
-            new Template(TemplateUsage.String, "Please enter {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.String, "Please enter {&} {||}") { ChoiceFormat = "{1}" },
  
             // {0} is current choice, {1} is no preference
-			new Template(TemplateUsage.StringHelp, "You can enter anything{?, {0}}{?, {1}}."),
+			new TemplateAttribute(TemplateUsage.StringHelp, "You can enter anything{?, {0}}{?, {1}}."),
 
-            new Template(TemplateUsage.Unspecified, "Unspecified")
+            new TemplateAttribute(TemplateUsage.Unspecified, "Unspecified")
         };
 
         /// <summary>
@@ -347,9 +347,9 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="usage">Desired template.</param>
         /// <returns>Matching template.</returns>
-        public Template Template(TemplateUsage usage)
+        public TemplateAttribute Template(TemplateUsage usage)
         {
-            Template result = null;
+            TemplateAttribute result = null;
             foreach (var template in Templates)
             {
                 if (template.Usage == usage)

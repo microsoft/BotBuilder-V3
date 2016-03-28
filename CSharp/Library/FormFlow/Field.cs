@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 if (_help == null)
                 {
                     var template = Template(TemplateUsage.Help);
-                    _help = new Prompt(template);
+                    _help = new PromptAttribute(template);
                 }
             }
         }
@@ -215,9 +215,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return true;
         }
 
-        public virtual Template Template(TemplateUsage usage)
+        public virtual TemplateAttribute Template(TemplateUsage usage)
         {
-            Template template;
+            TemplateAttribute template;
             _templates.TryGetValue(usage, out template);
             if (template != null)
             {
@@ -330,7 +330,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Sets the field prompt. </summary>
         /// <param name="prompt">   The prompt. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> SetPrompt(Prompt prompt)
+        public Field<T> SetPrompt(PromptAttribute prompt)
         {
             UpdateAnnotations();
             _promptDefinition = prompt;
@@ -350,7 +350,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Replace a template in the field. </summary>
         /// <param name="template"> The template. </param>
         /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> ReplaceTemplate(Template template)
+        public Field<T> ReplaceTemplate(TemplateAttribute template)
         {
             UpdateAnnotations();
             AddTemplate(template);
@@ -392,7 +392,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _prompt = null;
         }
 
-        protected void AddTemplate(Template template)
+        protected void AddTemplate(TemplateAttribute template)
         {
             _templates[template.Usage] = template;
         }
@@ -407,13 +407,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected bool _isNullable;
         protected bool _keepZero;
         protected string _description;
-        protected Prompt _help;
+        protected PromptAttribute _help;
         protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true } );
         protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
-        protected Dictionary<TemplateUsage, Template> _templates = new Dictionary<TemplateUsage, Template>();
-        protected Prompt _promptDefinition;
+        protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
+        protected PromptAttribute _promptDefinition;
         protected IRecognize<T> _recognizer;
         protected IPrompt<T> _prompt;
         #endregion
@@ -608,27 +608,27 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     if (_type.IsEnum)
                     {
-                        _promptDefinition = new Prompt(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
+                        _promptDefinition = new PromptAttribute(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
                     }
                     else if (_type == typeof(string))
                     {
-                        _promptDefinition = new Prompt(Template(TemplateUsage.String));
+                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.String));
                     }
                     else if (_type.IsIntegral())
                     {
-                        _promptDefinition = new Prompt(Template(TemplateUsage.Integer));
+                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Integer));
                     }
                     else if (_type == typeof(bool))
                     {
-                        _promptDefinition = new Prompt(Template(TemplateUsage.Bool));
+                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Bool));
                     }
                     else if (_type.IsDouble())
                     {
-                        _promptDefinition = new Prompt(Template(TemplateUsage.Double));
+                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Double));
                     }
                     else if (_type == typeof(DateTime))
                     {
-                        _promptDefinition = new Prompt(Template(TemplateUsage.DateTime));
+                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.DateTime));
                     }
                 }
 
@@ -787,9 +787,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             if (!_ignoreAnnotations)
             {
-                foreach (var attribute in type.GetCustomAttributes(typeof(Template)))
+                foreach (var attribute in type.GetCustomAttributes(typeof(TemplateAttribute)))
                 {
-                    AddTemplate(attribute as Template);
+                    AddTemplate(attribute as TemplateAttribute);
                 }
             }
         }
@@ -802,11 +802,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var field = step as FieldInfo;
                 var prop = step as PropertyInfo;
                 var name = (field == null ? prop.Name : field.Name);
-                var describe = (field == null ? prop.GetCustomAttribute<Describe>() : field.GetCustomAttribute<Describe>());
-                var terms = (field == null ? prop.GetCustomAttribute<Terms>() : field.GetCustomAttribute<Terms>());
-                var prompt = (field == null ? prop.GetCustomAttribute<Prompt>() : field.GetCustomAttribute<Prompt>());
-                var optional = (field == null ? prop.GetCustomAttribute<Optional>() : field.GetCustomAttribute<Optional>());
-                var numeric = (field == null ? prop.GetCustomAttribute<Numeric>() : field.GetCustomAttribute<Numeric>());
+                var describe = (field == null ? prop.GetCustomAttribute<DescribeAttribute>() : field.GetCustomAttribute<DescribeAttribute>());
+                var terms = (field == null ? prop.GetCustomAttribute<TermsAttribute>() : field.GetCustomAttribute<TermsAttribute>());
+                var prompt = (field == null ? prop.GetCustomAttribute<PromptAttribute>() : field.GetCustomAttribute<PromptAttribute>());
+                var optional = (field == null ? prop.GetCustomAttribute<OptionalAttribute>() : field.GetCustomAttribute<OptionalAttribute>());
+                var numeric = (field == null ? prop.GetCustomAttribute<NumericAttribute>() : field.GetCustomAttribute<NumericAttribute>());
                 if (describe != null)
                 {
                     _description = describe.Description;
@@ -834,9 +834,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     SetLimits(numeric.Min, numeric.Max, numeric.Min != oldMin || numeric.Max != oldMax);
                 }
                 _optional = (optional != null);
-                foreach (var attribute in (field == null ? prop.GetCustomAttributes<Template>() : field.GetCustomAttributes<Template>()))
+                foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
                 {
-                    AddTemplate(attribute as Template);
+                    AddTemplate(attribute as TemplateAttribute);
                 }
             }
         }
@@ -848,8 +848,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var enumValue = enumField.GetValue(null);
                 if (_keepZero || (int)enumValue > 0)
                 {
-                    var describe = enumField.GetCustomAttribute<Describe>();
-                    var terms = enumField.GetCustomAttribute<Terms>();
+                    var describe = enumField.GetCustomAttribute<DescribeAttribute>();
+                    var terms = enumField.GetCustomAttribute<TermsAttribute>();
                     if (describe != null && !_ignoreAnnotations)
                     {
                         _valueDescriptions.Add(enumValue, describe.Description);

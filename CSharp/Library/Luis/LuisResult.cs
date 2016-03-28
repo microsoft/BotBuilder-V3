@@ -31,55 +31,46 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Dialogs;
-
-namespace Microsoft.Bot.Builder.FormFlow.Advanced
+namespace Microsoft.Bot.Builder.Luis
 {
-    internal enum StepPhase { Ready, Responding, Completed };
-    internal enum StepType { Field, Confirm, Navigation, Message };
-
-    internal struct StepResult
+    /// <summary>
+    /// The result of a LUIS query.
+    /// </summary>
+    public class LuisResult
     {
-        internal StepResult(NextStep next, string feedback, string prompt)
+        /// <summary>
+        /// The intents found in the query text.
+        /// </summary>
+        public IntentRecommendation[] Intents { get; set; }
+
+        /// <summary>
+        /// The entities found in the query text.
+        /// </summary>
+        public EntityRecommendation[] Entities { get; set; }
+    }
+
+    /// <summary>
+    /// LUIS extension methods.
+    /// </summary>
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// Try to find an entity within the result.
+        /// </summary>
+        /// <param name="result">The LUIS result.</param>
+        /// <param name="type">The entity type.</param>
+        /// <param name="entity">The found entity.</param>
+        /// <returns>True if the entity was found, false otherwise.</returns>
+        public static bool TryFindEntity(this LuisResult result, string type, out EntityRecommendation entity)
         {
-            this.Next = next;
-            this.Feedback = feedback;
-            this.Prompt = prompt;
+            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
+            return entity != null;
         }
-
-        internal NextStep Next { get; set; }
-        internal string Feedback { get; set; }
-        internal string Prompt { get; set; }
     }
-
-    internal interface IStep<T>
-    {
-        string Name { get; }
-
-        StepType Type { get; }
-
-        TemplateBaseAttribute Annotation { get; }
-
-        IField<T> Field { get; }
-
-        bool Active(T state);
-
-        string Start(IDialogContext context, T state, FormState form);
-
-        IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput);
-
-        Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches);
-
-        string NotUnderstood(IDialogContext context, T state, FormState form, string input);
-
-        string Help(T state, FormState form, string commandHelp);
-
-        bool Back(IDialogContext context, T state, FormState form);
-
-        IEnumerable<string> Dependencies { get; }
-    }
-
 }

@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var field = new Field<T>("__commands__", FieldRole.Value);
             field.Form = form;
-            field.SetPrompt(new Prompt(""));
+            field.SetPrompt(new PromptAttribute(""));
             foreach (var entry in form.Configuration.Commands)
             {
                 field.AddDescription(entry.Key, entry.Value.Description);

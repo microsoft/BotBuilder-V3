@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <item>A prompt sent to the user where the response is to fill in a form state value.</item>
     /// <item>A confirmation of the current state with the user.</item>
     /// </list>
-    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="Prompt"/> and <see cref="Confirm"/> calls.
+    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="PromptAttribute"/> and <see cref="Confirm"/> calls.
     /// If you do not take explicit control, the steps will be executed in the order defined in the form state class with a final confirmation.
     /// </remarks>
     public interface IFormDialog<T> : IDialog

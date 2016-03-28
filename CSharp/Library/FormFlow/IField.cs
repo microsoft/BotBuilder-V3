@@ -100,7 +100,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="max">Maximum possible value.</param>
         /// <returns>True if limits limit the underlying data type.</returns>
         /// <remarks>
-        /// This reflects the result of setting <see cref="Numeric" limits on the possible values./></remarks>
+        /// This reflects the result of setting <see cref="NumericAttribute" limits on the possible values./></remarks>
         bool Limits(out double min, out double max);
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// whereas "terms" tell what people can type to match the field or terms in it.
     /// When generating terms it is a good idea to include anything that might be reasonable
     /// for someone to type.  The form dialog itself will help clarify any ambiguity.  One
-    /// way to do this is to use <see cref="Terms.MatchPhrase"/> which ensures that <see cref="Language.GenerateTerms"/>
+    /// way to do this is to use <see cref="TermsAttribute.MatchPhrase"/> which ensures that <see cref="Language.GenerateTerms"/>
     /// is called on your base terms.
     /// </remarks>
     public interface IFieldDescription
@@ -317,7 +317,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="usage">Kind of template we are looking for.</param>
         /// <returns>NULL if no template, otherwise a template annotation.</returns>
-        Template Template(TemplateUsage usage);
+        TemplateAttribute Template(TemplateUsage usage);
 
         /// <summary>
         /// Return the prompt associated with a field.

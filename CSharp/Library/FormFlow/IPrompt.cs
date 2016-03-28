@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Description of the prompt and how to generate it.
         /// </summary>
         /// <returns>Attribute describing how to generate prompt.</returns>
-        TemplateBase Annotation { get; }
+        TemplateBaseAttribute Annotation { get; }
 
         /// <summary>
         /// Return string to send to user.
@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
         /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBase annotation, IForm<T> form, IRecognize<T> recognizer)
+        public Prompter(TemplateBaseAttribute annotation, IForm<T> form, IRecognize<T> recognizer)
         {
             annotation.ApplyDefaults(form.Configuration.DefaultPrompt);
             _annotation = annotation;
@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _recognizer = recognizer;
         }
 
-        public TemplateBase Annotation
+        public TemplateBaseAttribute Annotation
         {
             get
             {
@@ -421,7 +421,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return value;
         }
 
-        private Template Template(IField<T> field, TemplateUsage usage)
+        private TemplateAttribute Template(IField<T> field, TemplateUsage usage)
         {
             return field == null
                 ? _form.Configuration.Template(usage)
@@ -432,7 +432,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private static readonly Regex _spaces = new Regex(@"(\S)( {2,})", RegexOptions.Compiled);
         private static readonly Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
         private IForm<T> _form;
-        private TemplateBase _annotation;
+        private TemplateBaseAttribute _annotation;
         private IRecognize<T> _recognizer;
     }
 }

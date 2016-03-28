@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// Attribute to override the default description of a field, property or enum value.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum | AttributeTargets.Property)]
-    public class Describe : Attribute
+    public class DescribeAttribute : Attribute
     {
         public readonly string Description;
 
@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Description for field, property or enum value.
         /// </summary>
         /// <param name="description"></param>
-        public Describe(string description)
+        public DescribeAttribute(string description)
         {
             Description = description;
         }
@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// maximum phrase length you specify.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class Terms : Attribute
+    public class TermsAttribute : Attribute
     {
         /// <summary>
         /// Regular expressions for matching user input.
@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// with a maximum phrase size of <see cref="MaxPhrase"/>.
         /// </remarks>
         /// <param name="alternatives">Regular expressions or terms.</param>
-        public Terms(params string[] alternatives)
+        public TermsAttribute(params string[] alternatives)
         {
             Alternatives = alternatives;
         }
@@ -212,21 +212,21 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// Prompts use \ref Templates to provide control over what goes into a prompt.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class Prompt : TemplateBase
+    public class PromptAttribute : TemplateBaseAttribute
     {
         /// <summary>
         /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
         /// <param name="patterns">Patterns to select from.</param>
-        public Prompt(params string[] patterns)
+        public PromptAttribute(params string[] patterns)
             : base(patterns)
         { }
 
         /// <summary>
-        /// Define a prompt based on a <see cref="Template"/>.
+        /// Define a prompt based on a <see cref="TemplateAttribute"/>.
         /// </summary>
         /// <param name="pattern">Template to use.</param>
-        public Prompt(Template pattern)
+        public PromptAttribute(TemplateAttribute pattern)
             : base(pattern)
         {
         }
@@ -289,7 +289,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// How to ask for a double.
         /// </summary>
         /// <remarks>
-        /// Within this template if numerical limits are specified using <see cref="Numeric"/>, 
+        /// Within this template if numerical limits are specified using <see cref="NumericAttribute"/>, 
         /// {0} is the minimum possible value and {1} is the maximum possible value.
         /// </remarks>
         Double,
@@ -299,7 +299,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <remarks>
         /// Within this template {0} is the current choice if any and {1} is no preference if optional. 
-        /// If limits are specified through <see cref="Numeric"/>, then {2} will be the minimum possible value 
+        /// If limits are specified through <see cref="NumericAttribute"/>, then {2} will be the minimum possible value 
         /// and {3} the maximum possible value.
         /// </remarks>
         /// <remarks>
@@ -393,7 +393,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// How to ask for an integer.
         /// </summary>
         /// <remarks>
-        /// Within this template if numerical limits are specified using <see cref="Numeric"/>, 
+        /// Within this template if numerical limits are specified using <see cref="NumericAttribute"/>, 
         /// {0} is the minimum possible value and {1} is the maximum possible value.
         /// </remarks>
         Integer,
@@ -480,7 +480,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// They also support randomly selecting between templates which is a good way to introduce some variation in your responses.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true)]
-    public class Template : TemplateBase
+    public class TemplateAttribute : TemplateBaseAttribute
     {
         /// <summary>
         /// What kind of template this is.
@@ -492,7 +492,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="usage">How the template will be used.</param>
         /// <param name="patterns">The set of \ref patterns to randomly choose from.</param>
-        public Template(TemplateUsage usage, params string[] patterns)
+        public TemplateAttribute(TemplateUsage usage, params string[] patterns)
             : base(patterns)
         {
             Usage = usage;
@@ -506,12 +506,12 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// An optional field is one where having no value is an acceptable response.  By default every field is considered required and must be filled in to complete the form.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class Optional : Attribute
+    public class OptionalAttribute : Attribute
     {
         /// <summary>
         /// Mark a field or property as optional.
         /// </summary>
-        public Optional()
+        public OptionalAttribute()
         { }
     }
 
@@ -522,7 +522,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// By default the limits are the min and max of the underlying field type.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class Numeric : Attribute
+    public class NumericAttribute : Attribute
     {
         /// <summary>
         /// Min possible value.
@@ -539,7 +539,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="min">Min value allowed.</param>
         /// <param name="max">Max value allowed.</param>
-        public Numeric(double min, double max)
+        public NumericAttribute(double min, double max)
         {
             Min = min;
             Max = max;
@@ -552,7 +552,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <summary>
     /// Abstract base class used by all attributes that use \ref patterns.
     /// </summary>
-    public abstract class TemplateBase : Attribute
+    public abstract class TemplateBaseAttribute : Attribute
     {
         private readonly string[] _patterns;
         private static Random _generator = new Random();
@@ -641,7 +641,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Any default values in this template will be overridden by the supplied <see cref="defaultTemplate"/>.
         /// </summary>
         /// <param name="defaultTemplate">Default template to use to override default values.</param>
-        public void ApplyDefaults(TemplateBase defaultTemplate)
+        public void ApplyDefaults(TemplateBaseAttribute defaultTemplate)
         {
             if (AllowDefault == BoolDefault.Default) AllowDefault = defaultTemplate.AllowDefault;
             if (ChoiceStyle == ChoiceStyleOptions.Default) ChoiceStyle = defaultTemplate.ChoiceStyle;
@@ -657,7 +657,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Initialize with multiple patterns that will be chosen from randomly.
         /// </summary>
         /// <param name="patterns">Possible patterns.</param>
-        public TemplateBase(params string[] patterns)
+        public TemplateBaseAttribute(params string[] patterns)
         {
             _patterns = patterns;
             Initialize();
@@ -667,7 +667,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Initialize from another template.
         /// </summary>
         /// <param name="other">The template to copy from.</param>
-        public TemplateBase(TemplateBase other)
+        public TemplateBaseAttribute(TemplateBaseAttribute other)
         {
             _patterns = other._patterns;
             AllowDefault = other.AllowDefault;

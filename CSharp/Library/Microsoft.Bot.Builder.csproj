@@ -93,6 +93,8 @@
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
+    <Compile Include="Luis\LuisModel.cs" />
+    <Compile Include="Luis\LuisResult.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />

@@ -31,55 +31,41 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Fibers;
 
-using Microsoft.Bot.Builder.Dialogs;
-
-namespace Microsoft.Bot.Builder.FormFlow.Advanced
+namespace Microsoft.Bot.Builder.Luis
 {
-    internal enum StepPhase { Ready, Responding, Completed };
-    internal enum StepType { Field, Confirm, Navigation, Message };
-
-    internal struct StepResult
+    /// <summary>
+    /// The LUIS model information.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [Serializable]
+    public class LuisModel : Attribute
     {
-        internal StepResult(NextStep next, string feedback, string prompt)
+        /// <summary>
+        /// The LUIS model ID.
+        /// </summary>
+        public readonly string ModelID;
+
+        /// <summary>
+        /// The LUIS subscription key.
+        /// </summary>
+        public readonly string SubscriptionKey;
+
+        /// <summary>
+        /// Construct the LUIS model information.
+        /// </summary>
+        /// <param name="modelID">The LUIS model ID.</param>
+        /// <param name="subscriptionKey">The LUIS subscription key.</param>
+        public LuisModel(string modelID, string subscriptionKey)
         {
-            this.Next = next;
-            this.Feedback = feedback;
-            this.Prompt = prompt;
+            SetField.NotNull(out this.ModelID, nameof(modelID), modelID);
+            SetField.NotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
         }
-
-        internal NextStep Next { get; set; }
-        internal string Feedback { get; set; }
-        internal string Prompt { get; set; }
     }
-
-    internal interface IStep<T>
-    {
-        string Name { get; }
-
-        StepType Type { get; }
-
-        TemplateBaseAttribute Annotation { get; }
-
-        IField<T> Field { get; }
-
-        bool Active(T state);
-
-        string Start(IDialogContext context, T state, FormState form);
-
-        IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput);
-
-        Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches);
-
-        string NotUnderstood(IDialogContext context, T state, FormState form, string input);
-
-        string Help(T state, FormState form, string commandHelp);
-
-        bool Back(IDialogContext context, T state, FormState form);
-
-        IEnumerable<string> Dependencies { get; }
-    }
-
 }

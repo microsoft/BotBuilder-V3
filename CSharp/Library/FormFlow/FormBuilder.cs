@@ -75,11 +75,11 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null)
         {
-            _form._steps.Add(new MessageStep<T>(new Prompt(message), condition, _form));
+            _form._steps.Add(new MessageStep<T>(new PromptAttribute(message), condition, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(Prompt prompt, ConditionalDelegate<T> condition = null)
+        public IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null)
         {
             _form._steps.Add(new MessageStep<T>(prompt, condition, _form));
             return this;
@@ -102,11 +102,11 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 field.SetValidation(validate);
             }
-            field.SetPrompt(new Prompt(prompt));
+            field.SetPrompt(new PromptAttribute(prompt));
             return AddField(field);
         }
 
-        public IFormBuilder<T> Field(string name, Prompt prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
+        public IFormBuilder<T> Field(string name, PromptAttribute prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null)
         {
             var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
             if (validate != null)
@@ -144,10 +144,10 @@ namespace Microsoft.Bot.Builder.FormFlow
         public IFormBuilder<T> Confirm(string prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             IFormBuilder<T> builder = this;
-            return builder.Confirm(new Prompt(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
+            return builder.Confirm(new PromptAttribute(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
-        public IFormBuilder<T> Confirm(Prompt prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             if (dependencies == null)
