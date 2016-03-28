@@ -4,6 +4,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_fibers =
     [ "Fiber", "d3/d67/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_fiber.html", "d3/d67/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_fiber" ],
     [ "Frame", "d5/d34/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame.html", "d5/d34/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame" ],
     [ "FrameFactory", "d3/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame_factory.html", "d3/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame_factory" ],
+    [ "IAwaiter", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter.html", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter" ],
     [ "IFiber", "d6/d52/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber.html", "d6/d52/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber" ],
     [ "IFiberLoop", "d4/d1a/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber_loop.html", "d4/d1a/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber_loop" ],
     [ "IFrame", "da/d54/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame.html", null ],
@@ -29,6 +30,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_fibers =
       [ "SimpleServiceLocator", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
       [ "SurrogateSelector", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
     ] ],
+    [ "SetField", "d2/d51/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_set_field.html", "d2/d51/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_set_field" ],
     [ "Wait", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait" ],
     [ "WaitFactory", "d5/d43/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait_factory.html", null ]
 ];

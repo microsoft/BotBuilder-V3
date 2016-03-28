@@ -1,35 +1,35 @@
 var hierarchy =
 [
     [ "Attribute", null, [
-      [ "Microsoft.Bot.Builder.Form.Describe", "dc/ddf/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_describe.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Numeric", "d1/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_numeric.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Optional", "d4/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_optional.html", null ],
-      [ "Microsoft.Bot.Builder.Form.TemplateBase", "da/dc7/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template_base.html", [
-        [ "Microsoft.Bot.Builder.Form.Prompt", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_prompt.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Template", "d1/db4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_template.html", null ]
+      [ "Microsoft.Bot.Builder.Dialogs.LuisIntent", "db/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBase", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.Prompt", "d7/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.Template", "d1/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template.html", null ]
       ] ],
-      [ "Microsoft.Bot.Builder.Form.Terms", "d2/da6/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_terms.html", null ],
-      [ "Microsoft.Bot.Builder.LuisIntent", "d7/da6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_intent.html", null ],
-      [ "Microsoft.Bot.Builder.LuisModel", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model.html", null ]
+      [ "Microsoft.Bot.Builder.FormFlow.Describe", "d9/d9f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.Numeric", "d1/d81/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.Optional", "df/d14/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.Terms", "de/db7/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms.html", null ],
+      [ "Microsoft.Bot.Builder.Luis.LuisModel", "df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html", null ]
     ] ],
     [ "BotDataBase< Dictionary< string, object >>", null, [
-      [ "Microsoft.Bot.Builder.Internals.DictionaryBotData", "d8/d47/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dictionary_bot_data.html", null ]
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DictionaryBotData", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Internals.BotDataBase< JObject >", "d5/d63/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_bot_data_base.html", [
-      [ "Microsoft.Bot.Builder.Internals.JObjectBotData", "d3/da3/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_j_object_bot_data.html", null ]
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataBase< JObject >", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.JObjectBotData", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.IAwaitable< T >", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable.html", [
+    [ "Microsoft.Bot.Builder.Dialogs.IAwaitable< T >", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", [
       [ "Microsoft.Bot.Builder.Fibers.IItem< out out T >", "d3/dc9/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_item.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.IAwaiter< T >", "db/d62/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaiter.html", [
+    [ "Microsoft.Bot.Builder.Fibers.IAwaiter< T >", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter.html", [
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ]
     ] ],
     [ "IEnumerable", null, [
       [ "Microsoft.Bot.Builder.Fibers.Serialization.SimpleServiceLocator", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", null ]
     ] ],
     [ "IEnumerable< IField< T >>", null, [
-      [ "Microsoft.Bot.Builder.Form.Advanced.IFields< T >", "d5/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_fields.html", [
-        [ "Microsoft.Bot.Builder.Form.Advanced.Fields< T >", "d1/d35/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_fields.html", null ]
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFields< T >", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.Fields< T >", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", null ]
       ] ]
     ] ],
     [ "IEquatable< Wait< T >>", null, [
@@ -39,7 +39,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ]
     ] ],
     [ "INotifyCompletion", null, [
-      [ "Microsoft.Bot.Builder.IAwaiter< out out T >", "db/d62/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaiter.html", null ]
+      [ "Microsoft.Bot.Builder.Fibers.IAwaiter< out out T >", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter.html", null ]
     ] ],
     [ "InvalidOperationException", null, [
       [ "Microsoft.Bot.Builder.Fibers.InvalidWaitException", "d1/d7f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_invalid_wait_exception.html", [
@@ -57,9 +57,9 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ]
     ] ],
     [ "ISerializable", null, [
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogContext", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html", null ],
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ],
-      [ "Microsoft.Bot.Builder.Form.FormDialog< T >", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html", null ],
-      [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ]
+      [ "Microsoft.Bot.Builder.FormFlow.FormDialog< T >", "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html", null ]
     ] ],
     [ "ISerializationSurrogate", null, [
       [ "Microsoft.Bot.Builder.Fibers.Serialization.LogSurrogate", "d4/d1e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", null ],
@@ -75,9 +75,36 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Fibers.IWait< T >", "d0/d7a/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_wait.html", [
       [ "Microsoft.Bot.Builder.Fibers.Wait< T >", "d9/d17/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_wait.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.CommandDialog.Command", "d3/da2/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog_1_1_command.html", null ],
-    [ "Microsoft.Bot.Builder.Conversation", "df/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_conversation.html", null ],
-    [ "Microsoft.Bot.Builder.Extensions", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.CommandDialog.Command", "db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.Conversation", "d9/de8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.Extensions", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.IAwaitable< out out T >", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.IBotDataBag", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.CallDialog< R >", "d6/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_call_dialog.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.CommandDialog", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.LuisDialog", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.IFormDialog< T >", "dc/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_dialog.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.FormDialog< T >", "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html", null ]
+      ] ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotData", "db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", [
+        [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogContext", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html", null ]
+      ] ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataBase< T >", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotToUser", "d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack", "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IUserToBot", "db/d40/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_user_to_bot.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogContext", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Fibers.Extensions", "d5/d96/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Fibers.IFrameFactory", "d3/d58/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame_factory.html", [
       [ "Microsoft.Bot.Builder.Fibers.FrameFactory", "d3/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame_factory.html", null ]
@@ -106,77 +133,53 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Fibers.Methods", "d1/da3/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_methods.html", null ],
     [ "Microsoft.Bot.Builder.Fibers.Serialization", "d7/d1f/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization.html", null ],
-    [ "Microsoft.Bot.Builder.Field", "d8/dd9/class_microsoft_1_1_bot_1_1_builder_1_1_field.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IFieldDescription", "df/ddf/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_description.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", [
-        [ "Microsoft.Bot.Builder.Form.Advanced.Field< T >", "d9/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field.html", [
-          [ "Microsoft.Bot.Builder.Form.Advanced.Confirmation< T >", "d3/d18/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_confirmation.html", null ],
-          [ "Microsoft.Bot.Builder.Form.Advanced.FieldReflector< T >", "d0/d7d/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_field_reflector.html", [
-            [ "Microsoft.Bot.Builder.Form.Advanced.Conditional< T >", "d5/d08/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_conditional.html", null ]
+    [ "Microsoft.Bot.Builder.Fibers.SetField", "d2/d51/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_set_field.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.IField< T >", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.Field< T >", "d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html", [
+          [ "Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation< T >", "db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html", null ],
+          [ "Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector< T >", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", [
+            [ "Microsoft.Bot.Builder.FormFlow.Advanced.Conditional< T >", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html", null ]
           ] ]
         ] ]
       ] ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IFieldPrompt< T >", "db/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_prompt.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldPrompt< T >", "d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.IField< T >", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IFieldState< T >", "da/d7d/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field_state.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.IField< T >", "d6/dc1/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_field.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldState< T >", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.IField< T >", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IPrompt< T >", "d3/d7c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_prompt.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.Prompter< T >", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_prompter.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.IPrompt< T >", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.Prompter< T >", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.IRecognize< T >", "d1/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_i_recognize.html", [
-      [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeEnumeration< T >", "db/d7c/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_enumeration.html", null ],
-      [ "Microsoft.Bot.Builder.Form.Advanced.RecognizePrimitive< T >", "db/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_primitive.html", [
-        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeBool< T >", "d8/de8/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_bool.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeDateTime< T >", "d4/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_date_time.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeDouble< T >", "da/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_double.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeNumber< T >", "d9/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_number.html", null ],
-        [ "Microsoft.Bot.Builder.Form.Advanced.RecognizeString< T >", "d9/df3/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_recognize_string.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.IRecognize< T >", "d3/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_recognize.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeEnumeration< T >", "d4/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_enumeration.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizePrimitive< T >", "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeBool< T >", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeDateTime< T >", "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeDouble< T >", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeNumber< T >", "d8/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_number.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.Advanced.RecognizeString< T >", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html", null ]
       ] ]
     ] ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.Language", "da/d89/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_language.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.NextStep", "d0/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_next_step.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Advanced.TermMatch", "d4/d53/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_advanced_1_1_term_match.html", null ],
-    [ "Microsoft.Bot.Builder.Form.CommandDescription", "dc/ddd/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_command_description.html", null ],
-    [ "Microsoft.Bot.Builder.Form.Extension", "df/dbc/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_extension.html", null ],
-    [ "Microsoft.Bot.Builder.Form.FormConfiguration", "d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_configuration.html", null ],
-    [ "Microsoft.Bot.Builder.Form.FormDialog", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html", null ],
-    [ "Microsoft.Bot.Builder.Form.IForm< T >", "d7/d62/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form.html", null ],
-    [ "Microsoft.Bot.Builder.Form.IFormBuilder< T >", "db/d2e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_builder.html", [
-      [ "Microsoft.Bot.Builder.Form.FormBuilder< T >", "d9/d22/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_builder.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.Language", "d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.NextStep", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Advanced.TermMatch", "d3/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_term_match.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.CommandDescription", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.FormConfiguration", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.FormDialog", "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.IForm< T >", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.IFormBuilder< T >", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.FormBuilder< T >", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.IAwaitable< out out T >", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable.html", null ],
-    [ "Microsoft.Bot.Builder.IBotData", "d6/dc0/interface_microsoft_1_1_bot_1_1_builder_1_1_i_bot_data.html", [
-      [ "Microsoft.Bot.Builder.IDialogContext", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html", [
-        [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ]
-      ] ],
-      [ "Microsoft.Bot.Builder.Internals.BotDataBase< T >", "d5/d63/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_bot_data_base.html", null ]
+    [ "Microsoft.Bot.Builder.FormFlow.ValidateResult", "d5/d28/struct_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.EntityRecommendation", "d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.ILuisService", "d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html", [
+      [ "Microsoft.Bot.Builder.Luis.LuisService", "d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.IBotDataBag", "da/db5/interface_microsoft_1_1_bot_1_1_builder_1_1_i_bot_data_bag.html", null ],
-    [ "Microsoft.Bot.Builder.IBotToUser", "dc/dcc/interface_microsoft_1_1_bot_1_1_builder_1_1_i_bot_to_user.html", [
-      [ "Microsoft.Bot.Builder.IDialogContext", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html", null ]
-    ] ],
-    [ "Microsoft.Bot.Builder.IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", [
-      [ "Microsoft.Bot.Builder.CallDialog< R >", "d0/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_call_dialog.html", null ],
-      [ "Microsoft.Bot.Builder.CommandDialog", "d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_command_dialog.html", null ],
-      [ "Microsoft.Bot.Builder.Form.IFormDialog< T >", "d7/d7b/interface_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_i_form_dialog.html", [
-        [ "Microsoft.Bot.Builder.Form.FormDialog< T >", "de/d49/class_microsoft_1_1_bot_1_1_builder_1_1_form_1_1_form_dialog.html", null ]
-      ] ],
-      [ "Microsoft.Bot.Builder.LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html", null ]
-    ] ],
-    [ "Microsoft.Bot.Builder.IDialogStack", "d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html", [
-      [ "Microsoft.Bot.Builder.IDialogContext", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html", null ]
-    ] ],
-    [ "Microsoft.Bot.Builder.ILuisService", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service.html", [
-      [ "Microsoft.Bot.Builder.LuisService", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service.html", null ]
-    ] ],
-    [ "Microsoft.Bot.Builder.IUserToBot", "d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html", [
-      [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ]
-    ] ],
-    [ "Microsoft.Bot.Builder.LuisResult", "de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html", null ],
-    [ "Microsoft.Bot.Builder.Models.EntityRecommendation", "dc/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_entity_recommendation.html", null ],
-    [ "Microsoft.Bot.Builder.Models.IntentRecommendation", "de/d41/class_microsoft_1_1_bot_1_1_builder_1_1_models_1_1_intent_recommendation.html", null ],
-    [ "Microsoft.Bot.Builder.Prompts", "de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts.html", null ]
+    [ "Microsoft.Bot.Builder.Luis.IntentRecommendation", "d7/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_intent_recommendation.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.LuisResult", "d5/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_result.html", null ]
 ];

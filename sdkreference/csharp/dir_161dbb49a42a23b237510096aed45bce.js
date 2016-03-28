@@ -1,8 +1,8 @@
 var dir_161dbb49a42a23b237510096aed45bce =
 [
     [ "Awaitable.cs", "df/df4/_awaitable_8cs.html", [
-      [ "IAwaitable", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable.html", "d0/def/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaitable" ],
-      [ "IAwaiter", "db/d62/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaiter.html", "db/d62/interface_microsoft_1_1_bot_1_1_builder_1_1_i_awaiter" ]
+      [ "IAwaitable", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable" ],
+      [ "IAwaiter", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter.html", "d6/d99/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_awaiter" ]
     ] ],
     [ "Exceptions.cs", "d9/dac/_exceptions_8cs.html", [
       [ "InvalidNeedException", "dd/d31/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_invalid_need_exception.html", "dd/d31/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_invalid_need_exception" ],
@@ -42,6 +42,9 @@ var dir_161dbb49a42a23b237510096aed45bce =
       [ "ReflectionSurrogate", "d4/da8/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html", "d4/da8/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reflection_surrogate" ],
       [ "SimpleServiceLocator", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d3/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
       [ "SurrogateSelector", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "db/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
+    ] ],
+    [ "SetField.cs", "d9/df9/_set_field_8cs.html", [
+      [ "SetField", "d2/d51/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_set_field.html", "d2/d51/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_set_field" ]
     ] ],
     [ "Wait.cs", "dc/dfe/_wait_8cs.html", "dc/dfe/_wait_8cs" ]
 ];

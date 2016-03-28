@@ -1,0 +1,28 @@
+var namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced =
+[
+    [ "Conditional", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional" ],
+    [ "Confirmation", "db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html", "db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation" ],
+    [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
+    [ "Field", "d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html", "d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field" ],
+    [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ],
+    [ "Fields", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields" ],
+    [ "IField", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field" ],
+    [ "IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description" ],
+    [ "IFieldPrompt", "d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt.html", "d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt" ],
+    [ "IFields", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields.html", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields" ],
+    [ "IFieldState", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state" ],
+    [ "IPrompt", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt" ],
+    [ "IRecognize", "d3/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_recognize.html", "d3/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_recognize" ],
+    [ "Language", "d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html", "d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language" ],
+    [ "NextStep", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step" ],
+    [ "Prompter", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter" ],
+    [ "RecognizeBool", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool" ],
+    [ "RecognizeDateTime", "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html", "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time" ],
+    [ "RecognizeDouble", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double" ],
+    [ "RecognizeEnumeration", "d4/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_enumeration.html", "d4/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_enumeration" ],
+    [ "RecognizeNumber", "d8/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_number.html", "d8/dad/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_number" ],
+    [ "RecognizePrimitive", "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html", "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive" ],
+    [ "RecognizeString", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string" ],
+    [ "TemplateBase", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base.html", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base" ],
+    [ "TermMatch", "d3/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_term_match.html", "d3/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_term_match" ]
+];

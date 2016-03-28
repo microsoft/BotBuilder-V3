@@ -134,8 +134,9 @@ a.qindexHL {
     color: #ffffff;
 }
 
-a.el {
+a.el, .contents a {
     font-weight: bold;
+    color: #4665A2;
 }
 
 a.elRef {
@@ -1488,6 +1489,10 @@ tr.heading h2 {
 #nav-tree {
     background-image: none;
     background-color: transparent;
+}
+
+#nav-tree img {
+    width: auto;
 }
 
 .ui-resizable-e {
