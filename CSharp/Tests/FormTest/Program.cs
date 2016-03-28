@@ -181,7 +181,7 @@ namespace Microsoft.Bot.Builder.FormTest
                         .Build();
                 Debug.Fail("Validation failed");
             }
-            catch (ArgumentException exception)
+            catch (ArgumentException )
             {
             }
         }
