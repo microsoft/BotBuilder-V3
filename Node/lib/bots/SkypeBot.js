@@ -21,6 +21,7 @@ var SkypeBot = (function (_super) {
         events.forEach(function (value) {
             botService.on(value, function (bot, data) {
                 _this.emit(value, bot, data);
+                _this.handleEvent(value, bot, data);
             });
         });
     }

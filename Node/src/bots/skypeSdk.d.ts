@@ -1,5 +1,5 @@
 ﻿
-declare module 'skype-botkit' {
+declare module skypeSdk {
     export function messagingHandler(botService: BotService): (req: any, res: any) => void;
     function ensureHttps(redirect: any, errorStatus: any): (req: any, res: any, next: Function) => void;
     function verifySkypeCert(options: any): (req: any, res: any, next: Function) => void; 

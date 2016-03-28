@@ -1,7 +1,6 @@
 ﻿import collection = require('../dialogs/DialogCollection');
 import session = require('../Session');
 import storage = require('../storage/Storage');
-import botkit = require('skype-botkit');
 
 export interface ISkypeBotOptions {
     userStore?: storage.IStorage;
@@ -23,13 +22,14 @@ export class SkypeBot extends collection.DialogCollection {
         defaultDialogId: '/'
     };
 
-    constructor(protected botService: botkit.BotService, options?: ISkypeBotOptions) {
+    constructor(protected botService: skypeSdk.BotService, options?: ISkypeBotOptions) {
         super();
         this.configure(options);
         var events = 'message|personalMessage|groupMessage|attachment|threadBotAdded|threadAddMember|threadBotRemoved|threadRemoveMember|contactAdded|threadTopicUpdated|threadHistoryDisclosedUpdate'.split('|');
         events.forEach((value) => {
-            botService.on(value, (bot: botkit.Bot, data: botkit.IMessage) => {
+            botService.on(value, (bot: skypeSdk.Bot, data: skypeSdk.IMessage) => {
                 this.emit(value, bot, data);
+                this.handleEvent(value, bot, data);
             });
         });
     }
@@ -57,7 +57,7 @@ export class SkypeBot extends collection.DialogCollection {
         this.dispatchMessage(null, this.toSkypeMessage(address), dialogId, dialogArgs);
     }
 
-    private handleEvent(event: string, bot: botkit.Bot, data: any) {
+    private handleEvent(event: string, bot: skypeSdk.Bot, data: any) {
         var onError = (err: Error) => {
             this.emit('error', err, data);
         };
@@ -94,7 +94,7 @@ export class SkypeBot extends collection.DialogCollection {
         }
     }
 
-    private dispatchMessage(bot: botkit.Bot, data: botkit.IMessage, dialogId: string, dialogArgs: any) {
+    private dispatchMessage(bot: skypeSdk.Bot, data: skypeSdk.IMessage, dialogId: string, dialogArgs: any) {
         var onError = (err: Error) => {
             this.emit('error', err, data);
         };
@@ -195,7 +195,7 @@ export class SkypeBot extends collection.DialogCollection {
         this.options.sessionStore.save(userId, sessionState, onComplete);
     }
 
-    private fromSkypeMessage(msg: botkit.IMessage): IMessage {
+    private fromSkypeMessage(msg: skypeSdk.IMessage): IMessage {
         return {
             type: msg.type,
             id: msg.messageId.toString(),
@@ -212,7 +212,7 @@ export class SkypeBot extends collection.DialogCollection {
         };
     }
 
-    private toSkypeMessage(msg: IMessage): botkit.IMessage {
+    private toSkypeMessage(msg: IMessage): skypeSdk.IMessage {
         return {
             type: msg.type,
             from: msg.from ? msg.from.address : '',
