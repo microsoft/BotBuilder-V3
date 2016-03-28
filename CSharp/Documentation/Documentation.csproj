@@ -55,9 +55,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Doxyfile" />
-    <None Include="Doxyfile.TfsBuild.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="doxygen.bat" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
