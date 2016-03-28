@@ -33,7 +33,7 @@
 
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
     /// A dialog is a suspendable conversational process.

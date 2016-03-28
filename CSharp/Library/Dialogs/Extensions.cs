@@ -34,7 +34,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Bot.Builder.Internals
+namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public static partial class Extensions
     {

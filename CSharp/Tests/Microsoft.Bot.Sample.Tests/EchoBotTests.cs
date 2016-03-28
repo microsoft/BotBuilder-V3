@@ -36,11 +36,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Connector;
 
-using Microsoft.Bot.Sample.EchoBot;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Sample.EchoBot;
 
 namespace Microsoft.Bot.Sample.Tests
 {

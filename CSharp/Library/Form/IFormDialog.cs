@@ -36,6 +36,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Form.Advanced;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Form
 {

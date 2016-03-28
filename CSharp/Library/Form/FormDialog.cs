@@ -39,7 +39,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Internals;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Form.Advanced;
 using Microsoft.Bot.Builder.Luis;
 

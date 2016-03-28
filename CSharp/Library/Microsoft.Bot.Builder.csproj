@@ -88,11 +88,11 @@
     <Compile Include="Dialogs\Conversations.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
+    <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Fibers\SetField.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
-    <Compile Include="Luis\LuisDialog.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />

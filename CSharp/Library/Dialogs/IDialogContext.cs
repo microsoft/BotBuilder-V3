@@ -35,9 +35,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Internals;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
     /// Encapsulates a method that represents the code to execute after a result is available.
@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder
     }
 }
 
-namespace Microsoft.Bot.Builder.Internals
+namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
     /// The stack of dialogs in the conversational process.

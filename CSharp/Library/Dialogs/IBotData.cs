@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-namespace Microsoft.Bot.Builder.Internals
+namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
     /// Private bot data.

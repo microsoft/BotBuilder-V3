@@ -40,6 +40,7 @@ using Microsoft.Bot.Builder.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Tests
 {

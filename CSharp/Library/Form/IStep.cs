@@ -34,6 +34,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Dialogs;
+
 namespace Microsoft.Bot.Builder.Form.Advanced
 {
     internal enum StepPhase { Ready, Responding, Completed };

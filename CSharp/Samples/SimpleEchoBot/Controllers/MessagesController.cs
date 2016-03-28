@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
-using Microsoft.Bot.Builder;
+
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Utilities;
-using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Sample.SimpleEchoBot
 {

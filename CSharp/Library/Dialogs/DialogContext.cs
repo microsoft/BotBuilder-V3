@@ -39,7 +39,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Fibers;
 using Microsoft.Bot.Connector;
 
-namespace Microsoft.Bot.Builder.Internals
+namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     [Serializable]
     public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable

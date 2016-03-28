@@ -44,7 +44,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Sample.Tests

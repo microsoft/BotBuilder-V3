@@ -33,11 +33,10 @@
 
 using System;
 using System.Diagnostics;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Form;
 using Microsoft.Bot.Builder.Form.Advanced;
-using System.Threading.Tasks;
 
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;

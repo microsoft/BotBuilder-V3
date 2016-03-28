@@ -37,6 +37,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Dialogs;
+
 namespace Microsoft.Bot.Builder.Fibers
 {
     public interface IItem<out T> : IAwaitable<T>

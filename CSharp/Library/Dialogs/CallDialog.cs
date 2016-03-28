@@ -35,7 +35,7 @@ using Microsoft.Bot.Builder.Fibers;
 using System;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>   Simple way to call a sub-dialog with a resume handler for the result. </summary>
     /// <typeparam name="R">    Type of result expected from sub-dialog. </typeparam>

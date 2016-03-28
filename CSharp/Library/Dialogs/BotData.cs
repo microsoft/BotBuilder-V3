@@ -38,7 +38,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Bot.Builder.Fibers;
 using Microsoft.Bot.Connector;
 
-namespace Microsoft.Bot.Builder.Internals
+namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public abstract class BotDataBase<T> : IBotData
     {

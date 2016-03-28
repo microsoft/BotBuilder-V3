@@ -35,17 +35,16 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Fibers;
-using Microsoft.Bot.Builder.Internals;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
     /// The top level composition root for the SDK.
@@ -69,7 +68,7 @@ namespace Microsoft.Bot.Builder
         {
             IWaitFactory waits = new WaitFactory();
             IFrameFactory frames = new FrameFactory(waits);
-            IBotData toBotData = new Internals.JObjectBotData(toBot);
+            IBotData toBotData = new JObjectBotData(toBot);
             IConnectorClient client = new ConnectorClient();
             var provider = new Serialization.SimpleServiceLocator(singletons)
             {

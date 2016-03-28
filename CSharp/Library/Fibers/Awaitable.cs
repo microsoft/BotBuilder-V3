@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Fibers
     }
 }
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
     /// Explicit interface to support the compiling of async/await.
