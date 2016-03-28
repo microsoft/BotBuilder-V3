@@ -14,9 +14,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
-        private readonly MakeForm<PizzaOrder> MakePizzaForm;
+        private readonly BuildForm<PizzaOrder> MakePizzaForm;
 
-        internal PizzaOrderDialog(MakeForm<PizzaOrder> makePizzaForm)
+        internal PizzaOrderDialog(BuildForm<PizzaOrder> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
         }

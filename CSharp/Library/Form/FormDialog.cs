@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Form
             return new FormDialog<T>(new T());
         }
 
-        public static IFormDialog<T> FromForm<T>(MakeForm<T> makeForm) where T : class, new()
+        public static IFormDialog<T> FromForm<T>(BuildForm<T> makeForm) where T : class, new()
         {
             return new FormDialog<T>(new T(), makeForm);
         }
@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Builder.Form
     [Flags]
     public enum FormOptions { None, PromptInStart };
 
-    public delegate IForm<T> MakeForm<T>();
+    public delegate IForm<T> BuildForm<T>();
 
     /// <summary>
     /// Form dialog manager for to fill in your state.
@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.Form
     {
         // constructor arguments
         private readonly T _state;
-        private readonly MakeForm<T> _makeForm;
+        private readonly BuildForm<T> _buildForm;
         private readonly IEnumerable<EntityRecommendation> _entities;
         private readonly FormOptions _options;
 
@@ -98,25 +98,25 @@ namespace Microsoft.Bot.Builder.Form
         private readonly IForm<T> _form;
         private readonly IRecognize<T> _commands;
 
-        private static IForm<T> MakeDefaultForm()
+        private static IForm<T> BuildDefaultForm()
         {
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
 
-        public FormDialog(T state, MakeForm<T> makeForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
+        public FormDialog(T state, BuildForm<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
-            makeForm = makeForm ?? MakeDefaultForm;
+            buildForm = buildForm ?? BuildDefaultForm;
             entities = entities ?? Enumerable.Empty<EntityRecommendation>();
             cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
 
             // constructor arguments
             Fibers.Field.SetNotNull(out this._state, nameof(state), state);
-            Fibers.Field.SetNotNull(out this._makeForm, nameof(makeForm), makeForm);
+            Fibers.Field.SetNotNull(out this._buildForm, nameof(buildForm), buildForm);
             Fibers.Field.SetNotNull(out this._entities, nameof(entities), entities);
             this._options = options;
 
             // make our form
-            var form = _makeForm();
+            var form = _buildForm();
 
             // instantiated in constructor, saved when serialized
             this._formState = new FormState(form.Steps.Count, cultureInfo);
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Form
         {
             // constructor arguments
             Fibers.Field.SetNotNullFrom(out this._state, nameof(this._state), info);
-            Fibers.Field.SetNotNullFrom(out this._makeForm, nameof(this._makeForm), info);
+            Fibers.Field.SetNotNullFrom(out this._buildForm, nameof(this._buildForm), info);
             Fibers.Field.SetNotNullFrom(out this._entities, nameof(this._entities), info);
             this._options = info.GetValue<FormOptions>(nameof(this._options));
 
@@ -138,7 +138,7 @@ namespace Microsoft.Bot.Builder.Form
             Fibers.Field.SetNotNullFrom(out this._formState, nameof(this._formState), info);
 
             // instantiated in constructor, re-instantiated when deserialized
-            this._form = _makeForm();
+            this._form = _buildForm();
             this._commands = this._form.BuildCommandRecognizer();
         }
 
@@ -146,7 +146,7 @@ namespace Microsoft.Bot.Builder.Form
         {
             // constructor arguments
             info.AddValue(nameof(this._state), this._state);
-            info.AddValue(nameof(this._makeForm), this._makeForm);
+            info.AddValue(nameof(this._buildForm), this._buildForm);
             info.AddValue(nameof(this._entities), this._entities);
             info.AddValue(nameof(this._options), this._options);
 

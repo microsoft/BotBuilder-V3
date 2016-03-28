@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Builder.FormTest
             } while (prompt != null);
         }
 
-        private static IForm<PizzaOrder> MakeForm(bool noNumbers, bool ignoreAnnotations = false)
+        private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false)
         {
             var form = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
@@ -135,9 +135,9 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Build();
         }
 
-        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, MakeForm<T> makeForm) where T : class, new()
+        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, BuildForm<T> buildForm) where T : class, new()
         {
-            var form = new FormDialog<T>(new T(), makeForm, options: FormOptions.PromptInStart);
+            var form = new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
             context.Call<T>(form, root.CallChild);
         }
 
@@ -207,17 +207,17 @@ namespace Microsoft.Bot.Builder.FormTest
                 {
                     case DebugOptions.AnnotationsAndNumbers:
                         {
-                            Call(context, root, () => MakeForm(noNumbers: false));
+                            Call(context, root, () => BuildForm(noNumbers: false));
                             return;
                         }
                     case DebugOptions.AnnotationsAndNoNumbers:
                         {
-                            Call(context, root, () => MakeForm(noNumbers: true));
+                            Call(context, root, () => BuildForm(noNumbers: true));
                             return;
                         }
                     case DebugOptions.NoAnnotations:
                         {
-                            Call(context, root, () => MakeForm(noNumbers: true, ignoreAnnotations: true));
+                            Call(context, root, () => BuildForm(noNumbers: true, ignoreAnnotations: true));
                             return;
                         }
                     case DebugOptions.NoFieldOrder:
