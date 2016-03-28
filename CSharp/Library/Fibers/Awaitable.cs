@@ -45,8 +45,16 @@ namespace Microsoft.Bot.Builder.Fibers.Internals
 
 namespace Microsoft.Bot.Builder
 {
+    /// <summary>
+    /// Explicit interface to support the compiling of async/await.
+    /// </summary>
+    /// <typeparam name="T">The type of the contained value.</typeparam>
     public interface IAwaitable<out T>
     {
+        /// <summary>
+        /// Get the awaiter for this awaitable item.
+        /// </summary>
+        /// <returns>The awaiter.</returns>
         Fibers.Internals.IAwaiter<T> GetAwaiter();
     }
 }
