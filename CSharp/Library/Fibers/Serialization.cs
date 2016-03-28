@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Fibers
             private readonly Type type;
             public ObjectReference(SerializationInfo info, StreamingContext context)
             {
-                Field.SetNotNullFrom(out this.type, nameof(type), info);
+                SetField.SetNotNullFrom(out this.type, nameof(type), info);
             }
 
             public static Type MapMockedType(Type type)
@@ -128,8 +128,8 @@ namespace Microsoft.Bot.Builder.Fibers
 
             public LogSurrogate(ISerializationSurrogate inner, TraceListener trace)
             {
-                Field.SetNotNull(out this.inner, nameof(inner), inner);
-                Field.SetNotNull(out this.trace, nameof(trace), trace);
+                SetField.SetNotNull(out this.inner, nameof(inner), inner);
+                SetField.SetNotNull(out this.trace, nameof(trace), trace);
             }
 
             void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)

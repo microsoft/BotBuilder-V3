@@ -31,8 +31,8 @@ namespace Microsoft.Bot.Builder.Luis
 
         public LuisModel(string modelID, string subscriptionKey)
         {
-            Field.SetNotNull(out this.ModelID, nameof(modelID), modelID);
-            Field.SetNotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
+            SetField.SetNotNull(out this.ModelID, nameof(modelID), modelID);
+            SetField.SetNotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
         }
     }
 
@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Luis
 
         public LuisService(LuisModel model)
         {
-            Field.SetNotNull(out this.model, nameof(model), model);
+            SetField.SetNotNull(out this.model, nameof(model), model);
         }
 
         public static readonly Uri UriBase = new Uri("https://api.projectoxford.ai/luis/v1/application");

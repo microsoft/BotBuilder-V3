@@ -369,12 +369,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             var desc = _field.Form.Fields.Field(_name);
             var feedback = await desc.ValidateAsync(state, value);
-            if (feedback == null)
+            if (feedback.IsValid)
             {
                 SetValue(state, value);
                 form.SetPhase(StepPhase.Completed);
             }
-            return feedback;
+            return feedback.Feedback;
         }
 
         private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognize<T> recognizer, out Ambiguous clarify)

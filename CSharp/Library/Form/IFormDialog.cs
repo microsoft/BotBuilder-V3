@@ -47,6 +47,16 @@ namespace Microsoft.Bot.Builder.Form
     /// <returns>True if step is active given the current form state.</returns>
     public delegate bool ConditionalDelegate<T>(T state);
 
+    /// <summary>   Encapsulates the result of a <see cref="ValidateDelegate{T}"/> </summary>
+    public struct ValidateResult
+    {
+        /// <summary>   Feedback to provide back to the user on the input. </summary>
+        public string Feedback;
+
+        /// <summary>   True if value is a valid response. </summary>
+        public bool IsValid;
+    }
+
     /// <summary>
     /// A delegate for validating a particular response to a prompt.
     /// </summary>
@@ -54,7 +64,7 @@ namespace Microsoft.Bot.Builder.Form
     /// <param name="state">Form state to test.</param>
     /// <param name="value">Response value to validate.</param>
     /// <returns>Null if value is valid otherwise feedback on what is wrong.</returns>
-    public delegate Task<string> ValidateDelegate<T>(T state, object value);
+    public delegate Task<ValidateResult> ValidateDelegate<T>(T state, object value);
 
     /// <summary>
     /// A delegate called when a form is completed.

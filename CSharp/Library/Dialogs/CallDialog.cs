@@ -48,8 +48,8 @@ namespace Microsoft.Bot.Builder
 
         public CallDialog(IDialog child, Resume resume)
         {
-            Field.SetNotNull(out this.child, nameof(child), child);
-            Field.SetNotNull(out this.resume, nameof(resume), resume);
+            SetField.SetNotNull(out this.child, nameof(child), child);
+            SetField.SetNotNull(out this.resume, nameof(resume), resume);
         }
 
         async Task IDialog.StartAsync(IDialogContext context)

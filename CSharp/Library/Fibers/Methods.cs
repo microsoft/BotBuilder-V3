@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Builder.Fibers
 
             public LoopMethod(Rest<T> rest, int count)
             {
-                Field.SetNotNull(out this.rest, nameof(rest), rest);
+                SetField.SetNotNull(out this.rest, nameof(rest), rest);
                 this.count = count;
             }
 
@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Fibers
 
             public VoidMethod(Rest<T> rest)
             {
-                Field.SetNotNull(out this.rest, nameof(rest), rest);
+                SetField.SetNotNull(out this.rest, nameof(rest), rest);
             }
 
             public async Task<IWait> RootAsync(IFiber fiber, IItem<T> item)

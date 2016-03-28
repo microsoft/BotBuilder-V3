@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Fibers
 
         public Frame(IWaitFactory factory)
         {
-            Field.SetNotNull(out this.factory, nameof(factory), factory);
+            SetField.SetNotNull(out this.factory, nameof(factory), factory);
             this.wait = NullWait.Instance;
         }
 
@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Builder.Fibers
 
         public FrameFactory(IWaitFactory factory)
         {
-            Field.SetNotNull(out this.factory, nameof(factory), factory);
+            SetField.SetNotNull(out this.factory, nameof(factory), factory);
         }
 
         IFrame IFrameFactory.Make()
@@ -143,7 +143,7 @@ namespace Microsoft.Bot.Builder.Fibers
 
         public Fiber(IFrameFactory factory)
         {
-            Field.SetNotNull(out this.factory, nameof(factory), factory);
+            SetField.SetNotNull(out this.factory, nameof(factory), factory);
         }
 
         public IFrameFactory Factory

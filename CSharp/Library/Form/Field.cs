@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             return _prompt;
         }
 
-        public virtual Task<string> ValidateAsync(T state, object value)
+        public virtual Task<ValidateResult> ValidateAsync(T state, object value)
         {
             return _validate(state, value);
         }
@@ -261,16 +261,6 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         {
             UpdateAnnotations();
             _description = description;
-            return this;
-        }
-
-        /// <summary>   Set the help associated with a field. </summary>
-        /// <param name="help"> Help string. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
-        public Field<T> SetHelp(Prompt help)
-        {
-            UpdateAnnotations();
-            _help = help;
             return this;
         }
 
@@ -418,7 +408,7 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         protected bool _keepZero;
         protected string _description;
         protected Prompt _help;
-        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => null);
+        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true } );
         protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();

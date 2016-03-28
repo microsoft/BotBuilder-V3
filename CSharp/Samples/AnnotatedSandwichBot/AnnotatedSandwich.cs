@@ -101,13 +101,14 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
                             {
-                                string message = null;
+                                var result = new ValidateResult { IsValid = true };
                                 var address = (response as string).Trim();
                                 if (address.Length > 0 && address[0] < '0' || address[0] > '9')
                                 {
-                                    message = "Address must start with a number.";
+                                    result.Feedback = "Address must start with a number.";
+                                    result.IsValid = false;
                                 }
-                                return message;
+                                return result;
                             })
                         .Field(nameof(SandwichOrder.DeliveryTime), "What time do you want your sandwich delivered? {||}")
                         .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")

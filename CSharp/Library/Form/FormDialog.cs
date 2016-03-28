@@ -113,9 +113,9 @@ namespace Microsoft.Bot.Builder.Form
             cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
 
             // constructor arguments
-            Fibers.Field.SetNotNull(out this._state, nameof(state), state);
-            Fibers.Field.SetNotNull(out this._buildForm, nameof(buildForm), buildForm);
-            Fibers.Field.SetNotNull(out this._entities, nameof(entities), entities);
+            Fibers.SetField.SetNotNull(out this._state, nameof(state), state);
+            Fibers.SetField.SetNotNull(out this._buildForm, nameof(buildForm), buildForm);
+            Fibers.SetField.SetNotNull(out this._entities, nameof(entities), entities);
             this._options = options;
 
             // make our form
@@ -132,13 +132,13 @@ namespace Microsoft.Bot.Builder.Form
         private FormDialog(SerializationInfo info, StreamingContext context)
         {
             // constructor arguments
-            Fibers.Field.SetNotNullFrom(out this._state, nameof(this._state), info);
-            Fibers.Field.SetNotNullFrom(out this._buildForm, nameof(this._buildForm), info);
-            Fibers.Field.SetNotNullFrom(out this._entities, nameof(this._entities), info);
+            Fibers.SetField.SetNotNullFrom(out this._state, nameof(this._state), info);
+            Fibers.SetField.SetNotNullFrom(out this._buildForm, nameof(this._buildForm), info);
+            Fibers.SetField.SetNotNullFrom(out this._entities, nameof(this._entities), info);
             this._options = info.GetValue<FormOptions>(nameof(this._options));
 
             // instantiated in constructor, saved when serialized
-            Fibers.Field.SetNotNullFrom(out this._formState, nameof(this._formState), info);
+            Fibers.SetField.SetNotNullFrom(out this._formState, nameof(this._formState), info);
 
             // instantiated in constructor, re-instantiated when deserialized
             this._form = _buildForm();

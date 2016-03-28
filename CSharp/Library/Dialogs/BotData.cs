@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Internals
 
         public BotDataBase(Message message)
         {
-            Field.SetNotNull(out this.mesage, nameof(mesage), message);
+            SetField.SetNotNull(out this.mesage, nameof(mesage), message);
         }
 
         protected abstract T MakeData();
@@ -116,7 +116,7 @@ namespace Microsoft.Bot.Builder.Internals
             private readonly Dictionary<string, object> bag;
             public Bag(Dictionary<string, object> bag)
             {
-                Field.SetNotNull(out this.bag, nameof(bag), bag);
+                SetField.SetNotNull(out this.bag, nameof(bag), bag);
             }
 
             int IBotDataBag.Count { get { return this.bag.Count; } }
@@ -166,7 +166,7 @@ namespace Microsoft.Bot.Builder.Internals
             private readonly JObject bag;
             public Bag(JObject bag)
             {
-                Field.SetNotNull(out this.bag, nameof(bag), bag);
+                SetField.SetNotNull(out this.bag, nameof(bag), bag);
             }
 
             int IBotDataBag.Count { get { return this.bag.Count; } }

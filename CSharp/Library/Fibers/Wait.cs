@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Fibers
         private readonly IPost<object> postBoxed;
         public PostStruct(IPost<object> postBoxed)
         {
-            Field.SetNotNull(out this.postBoxed, nameof(postBoxed), postBoxed);
+            SetField.SetNotNull(out this.postBoxed, nameof(postBoxed), postBoxed);
         }
         void IPost<T>.Post(T item)
         {
@@ -150,8 +150,8 @@ namespace Microsoft.Bot.Builder.Fibers
 
         private Wait(SerializationInfo info, StreamingContext context)
         {
-            Field.SetNotNullFrom(out this.rest, nameof(rest), info);
-            Field.SetFrom(out this.need, nameof(need), info);
+            SetField.SetNotNullFrom(out this.rest, nameof(rest), info);
+            SetField.SetFrom(out this.need, nameof(need), info);
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
@@ -295,7 +295,7 @@ namespace Microsoft.Bot.Builder.Fibers
         {
             this.ValidateNeed(Need.None);
 
-            Field.SetNotNull(out this.rest, nameof(rest), rest);
+            SetField.SetNotNull(out this.rest, nameof(rest), rest);
             this.need = Need.Wait;
         }
 

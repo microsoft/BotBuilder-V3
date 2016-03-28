@@ -117,13 +117,18 @@ namespace Microsoft.Bot.Builder.FormTest
                 .Field("DeliveryAddress", validate:
                     async (state, value) =>
                     {
-                        string feedback = null;
+                        var result = new ValidateResult { IsValid = true };
                         var str = value as string;
                         if (str.Length == 0 || str[0] < '1' || str[0] > '9')
                         {
-                            feedback = "Address must start with number.";
+                            result.Feedback = "Address must start with number.";
+                            result.IsValid = false;
                         }
-                        return feedback;
+                        else
+                        {
+                            result.Feedback = "Your address is fine.";
+                        }
+                        return result;
                     })
                 .AddRemainingFields()
                 .Message("Rating = {Rating:F1} and [{Rating:F2}]")

@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Fibers
 {
-    public static partial class Field
+    public static partial class SetField
     {
         public static void SetNotNull<T>(out T field, string name, T value) where T : class
         {
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Fibers
         public static void SetNotNullFrom<T>(out T field, string name, SerializationInfo info) where T : class
         {
             var value = (T)info.GetValue(name, typeof(T));
-            Field.SetNotNull(out field, name, value);
+            SetField.SetNotNull(out field, name, value);
         }
 
         public static void SetFrom<T>(out T field, string name, SerializationInfo info)

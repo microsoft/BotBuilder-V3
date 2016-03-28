@@ -46,12 +46,12 @@ namespace Microsoft.Bot.Builder.Fibers
         protected InvalidWaitException(string message, IWait wait)
             : base(message)
         {
-            Field.SetNotNull(out this.wait, nameof(wait), wait);
+            SetField.SetNotNull(out this.wait, nameof(wait), wait);
         }
         protected InvalidWaitException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Field.SetNotNullFrom(out this.wait, nameof(this.wait), info);
+            SetField.SetNotNullFrom(out this.wait, nameof(this.wait), info);
         }
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -91,12 +91,12 @@ namespace Microsoft.Bot.Builder.Fibers
         public InvalidTypeException(IWait wait, Type type)
             : base($"invalid type: expected {wait.ItemType}, have {type.Name}", wait)
         {
-            Field.SetNotNull(out this.type, nameof(type), type);
+            SetField.SetNotNull(out this.type, nameof(type), type);
         }
         private InvalidTypeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Field.SetNotNullFrom(out this.type, nameof(this.type), info);
+            SetField.SetNotNullFrom(out this.type, nameof(this.type), info);
         }
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

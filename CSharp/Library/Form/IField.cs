@@ -330,12 +330,12 @@ namespace Microsoft.Bot.Builder.Form.Advanced
         /// </summary>
         /// <param name="state">State before setting value.</param>
         /// <param name="value">Value to be set in field.</param>
-        /// <returns>Null if OK, otherwise feedback on what should change.</returns>
+        /// <returns>Result including feedback and if valid.</returns>
         /// <remarks>
         /// One way to control this is to supply a <see cref="ValidationDelegate"/> to the 
         /// <see cref="IForm<T>.Field"/> or <see cref="IForm<T>.Confirm"/> steps.
         /// </remarks>
-        Task<string> ValidateAsync(T state, object value);
+        Task<ValidateResult> ValidateAsync(T state, object value);
 
         /// <summary>
         /// Return the help description for this field.
