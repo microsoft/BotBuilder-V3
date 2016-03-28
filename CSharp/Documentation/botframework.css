@@ -6,6 +6,11 @@ h1.groupheader {
     font-size: 150%;
 }
 
+
+*, *:before, *:after {
+    box-sizing: inherit !important;
+}
+
 .title {
     font: 400 14px/28px 'Segoe UI', sans-serif;
     font-size: 34px;
