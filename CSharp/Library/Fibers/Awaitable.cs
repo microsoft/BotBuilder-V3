@@ -33,7 +33,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Bot.Builder.Fibers.Internals
+namespace Microsoft.Bot.Builder.Fibers
 {
     public interface IAwaiter<out T> : INotifyCompletion
     {
@@ -55,6 +55,6 @@ namespace Microsoft.Bot.Builder
         /// Get the awaiter for this awaitable item.
         /// </summary>
         /// <returns>The awaiter.</returns>
-        Fibers.Internals.IAwaiter<T> GetAwaiter();
+        Fibers.IAwaiter<T> GetAwaiter();
     }
 }
