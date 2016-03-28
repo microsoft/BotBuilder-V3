@@ -135,24 +135,30 @@ namespace Microsoft.Bot.Builder.Tests
             Assert.IsTrue(object.ReferenceEquals(previous.Factory, fiber.Factory));
         }
 
+        [Serializable]
+        private sealed class SerializableMethod : IMethod
+        {
+            async Task<IWait> IMethod.CodeAsync<T>(IFiber fiber, IAwaitable<T> item)
+            {
+                return NullWait.Instance;
+            }
+        }
+
         [TestMethod]
         public async Task Fiber_With_Wait_Is_Serializable()
         {
             // arrange
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = 42;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .ReturnsAsync(NullWait.Instance);
+            IMethod method = new SerializableMethod();
 
             // act
-            fiber.Call(method.Object.CodeAsync, value);
+            var value = 42;
+            fiber.Call(method.CodeAsync, value);
 
             // assert
             AssertSerializable(ref fiber);
             var next = await fiber.PollAsync();
-            Assert.AreEqual(Need.None, next.Need);
+            Assert.AreEqual(Need.Done, next.Need);
         }
 
 
