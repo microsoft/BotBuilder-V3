@@ -12,7 +12,7 @@ The Direct Line API is a simple REST API for connecting directly to a single bot
 writing their own client applications, web chat controls, or mobile apps that will talk to their bot.
 
 Credentials for the Direct Line API may be obtained from the Bot Framework developer portal, and will only allow the
-caller to connect to the bot they were generated for. The you are writing a server-to-server application,
+caller to connect to the bot for which they were generated. If you are writing a server-to-server application,
 the Direct Line secret may be used directly against the API. If instead you are writing an application where a client
 connects directly (and possibly insecurely) to the Direct Line API, you may exchange the secret for a token that will
 work only for a single conversation and only for a limited amount of time. Tokens expire by default after 30 minutes
@@ -33,4 +33,4 @@ returned contains a watermark that can be sent on subsequent requests to skip ol
 The Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before
 they are deleted.
 
-See the Direct Line REST API reference [here](/sdkreference/restapi-directline/)
+See the [Direct Line REST API reference](/sdkreference/restapi-directline/).
