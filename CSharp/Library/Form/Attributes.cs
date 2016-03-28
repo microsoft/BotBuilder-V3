@@ -626,7 +626,10 @@ namespace Microsoft.Bot.Builder.Form.Advanced
             var choice = 0;
             if (_patterns.Length > 1)
             {
-                choice = _generator.Next(_patterns.Length);
+                lock (_generator)
+                {
+                    choice = _generator.Next(_patterns.Length);
+                }
             }
             return _patterns[choice];
         }
