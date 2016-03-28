@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <summary>
         /// The LUIS intent name.
         /// </summary>
-        public readonly string intentName;
+        public readonly string IntentName;
 
         /// <summary>
         /// Construct the association between the LUIS intent and a dialog method.
@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="intentName">The LUIS intent name.</param>
         public LuisIntent(string intentName)
         {
-            SetField.NotNull(out this.intentName, nameof(intentName), intentName);
+            SetField.NotNull(out this.IntentName, nameof(intentName), intentName);
         }
     }
 
@@ -112,7 +112,7 @@ namespace Microsoft.Bot.Builder.Luis
         {
             if (this.handlerByIntent == null)
             {
-                this.handlerByIntent = AttributeBasedHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
+                this.handlerByIntent = EnumerateHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
             }
 
             var message = await item;
@@ -143,35 +143,23 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         /// <param name="dialog">The dialog.</param>
         /// <returns>An enumeration of handlers.</returns>
-        public static IEnumerable<KeyValuePair<string, IntentHandler>> AttributeBasedHandlers(object dialog)
+        public static IEnumerable<KeyValuePair<string, IntentHandler>> EnumerateHandlers(object dialog)
         {
             var type = dialog.GetType();
-
-            var methods = from m in type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                          let attr = m.GetCustomAttributes(typeof(LuisIntent), true)
-                          where attr.Length > 0
-                          select new { method = m, attributes = attr.Select(s => (LuisIntent)s).ToList() };
-
-            var intentHandlers = from m in methods
-                                 select new { method = m.method, intents = m.attributes.Select(i => i.intentName) };
-
-            foreach (var handler in intentHandlers)
+            var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            foreach (var method in methods)
             {
-                // TODO: use handler.method.CreateDelegate?
-                //var intentHandler = (IntentHandler) handler.method.CreateDelegate(typeof(IntentHandler));
-
-                // assign to local variable to capture less in closure below
-                var method = handler.method;
-                var intentHandler = new IntentHandler(async (context, result) =>
+                var intentHandler = (IntentHandler)Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
+                if (intentHandler != null)
                 {
-                    var task = (Task)method.Invoke(dialog, new object[] { context, result });
-                    await task;
-                });
+                    var intents = method.GetCustomAttributes<LuisIntent>(inherit: true);
+                    var intentNames = intents.Select(i => i.IntentName).DefaultIfEmpty(method.Name);
 
-                foreach (var intent in handler.intents)
-                {
-                    var key = string.IsNullOrWhiteSpace(intent) ? string.Empty : intent;
-                    yield return new KeyValuePair<string, IntentHandler>(key, intentHandler);
+                    foreach (var intentName in intentNames)
+                    {
+                        var key = string.IsNullOrWhiteSpace(intentName) ? string.Empty : intentName;
+                        yield return new KeyValuePair<string, IntentHandler>(intentName, intentHandler);
+                    }
                 }
             }
         }

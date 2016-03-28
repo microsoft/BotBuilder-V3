@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Sample.Tests
         {
             var body = (MethodCallExpression)expression.Body;
             var attribute = body.Method.GetCustomAttribute<LuisIntent>();
-            var name = attribute.intentName;
+            var name = attribute.IntentName;
             var intent = new IntentRecommendation(name);
             return new[] { intent };
         }
