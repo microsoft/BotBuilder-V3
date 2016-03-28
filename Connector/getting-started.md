@@ -148,7 +148,7 @@ In this tutorial, we use Microsoft Azure to host the Bot application. To publish
 
 Make what changes you like to the project, and now you're ready to publish. Right click on the project and choose "Publish", and then your appropriate Azure subscription information. By default, the bot should be published as an Microsoft Azure App Service. When publishing, keep track of the URL you chose because we'll need it to update the Bot Framework registration endpoint. The first time you publish there are a few extra steps; but you only have to do them once.
 
-In Visual Studio, right clicking on the project in Solution Explorer and select "Publish" - or alternately selecting "Build | Publish" displays the following dialog:
+In Visual Studio, right clicking on the project in Solution Explorer and select "Publish" - or alternately selecting "Build \| Publish" displays the following dialog:
 
 ![Right click on the project and choose "Publish" to start the Azure publish wizard](/images/connector-getstarted-publish-dialog.png)
 
