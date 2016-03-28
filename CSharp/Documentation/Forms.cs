@@ -1,18 +1,35 @@
 ﻿namespace Microsoft.Bot.Builder.FormFlow
 {
-    /// \page forms FormFlow 
+    /// \page forms %FormFlow 
     /// \tableofcontents
     /// [LUIS]: http://luis.ai "LUIS"
-    ///
+    /// [Describe]: @ref DescribeAttribute "Describe"
+    /// [Numeric]: @ref NumericAttribute "Numeric"
+    /// [Optional]: @ref OptionalAttribute "Optional"
+    /// [Prompt]: @ref PromptAttribute "Prompt"
+    /// [Template]: @ref TemplateAttribute "Template"
+    /// [Terms]: @ref TermsAttribute "Terms"
+    /// [EntityType]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Type "EntityRecommendation.Type"
+    /// [Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity "EntityRecommendation.Entity"
+    /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog "LuisDialog"
+    /// [AllowDefault] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.AllowDefault "AllowDefault"
+    /// [ChoiceFormat] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ChoiceFormat "ChoiceFormat"
+    /// [ChoiceStyle] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ChoiceStyle "ChoiceStyle"
+    /// [Feedback] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.Feedback "Feedback"
+    /// [FieldCase] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.FieldCase "FieldCase"
+    /// [LastSeparator] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.LastSeparator "LastSeparator"
+    /// [Separator] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.Separator "Separator"
+    /// [ValueCase] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ValueCase "ValueCase"
+    /// 
     /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
     /// can require a lot of effort.  At each point in the dialog, there are many possibilities for what happens
     /// next.  You may need to clarify an ambiguity, provide help, go back or show progress so far.  
     /// In order to simplify building guided conversations the framework provides a powerful 
-    /// dialog building block known as FormFlow.  FormFlow sacrifices some of the flexibility provided by dialogs, 
-    /// but in a way that requires much less effort.  Even better, you can combine FormFlow and other kinds of dialogs
-    /// like a Microsoft.Bot.Builder.Dialogs.LuisDialog to get the best of both worlds.  
-    /// A FormFlow dialog guides the user through filling in the form while provding help and guidance along the way.
+    /// dialog building block known as %FormFlow.  %FormFlow sacrifices some of the flexibility provided by dialogs, 
+    /// but in a way that requires much less effort.  Even better, you can combine %FormFlow generate dialogs and other kinds of dialogs
+    /// like a [LuisDialog] to get the best of both worlds.  
+    /// A %FormFlow dialog guides the user through filling in the form while provding help and guidance along the way.
     /// 
     /// The clearest way to understand this is to take a look at the \ref simpleSandwichBot sample. 
     /// In that sample you define the form you want using C# classes, fields and properties. 
@@ -21,7 +38,7 @@
     /// to improve your bot in a straightforward way.  
     /// 
     /// \section fields Forms and Fields
-    /// FormFlow starts with the idea of a form--a collection of fields that you want to fill in through a conversation with the user.  
+    /// %FormFlow starts with the idea of a form--a collection of fields that you want to fill in through a conversation with the user.  
     /// The simplest way to describe a form is through a C# class.  
     /// Within a class, a "field" is any public field or property with one of the following types:
     /// * Integral -- sbyte, byte, short, ushort, int, uint, long, ulong
@@ -39,8 +56,8 @@
     /// everything is automatically generated and \ref annotatedSandwich where the form is extensively customized.
     /// 
     /// \section simpleSandwichBot Simple Sandwich Bot
-    /// As an example of FormFlow in action, this will outline a simple sandwich ordering form that we will elaborate in \ref annotatedSandwichBot
-    /// to show various features.  To start with FormFlow you need to create a C# class to define the form you want to fill in. 
+    /// As an example of %FormFlow in action, this will outline a simple sandwich ordering form that we will elaborate in \ref annotatedSandwichBot
+    /// to show various features.  To start with %FormFlow you need to create a C# class to define the form you want to fill in. 
     /// Like this:
     /// \include SimpleSandwichBot/sandwich.cs
     /// Included in the class is a static method BuildForm that uses a FormBuilder to build your form.  There
@@ -53,8 +70,8 @@
     /// \until }
     /// 
     /// The combination of your C# class and connecting it to the %Bot Framework is enough to automatically create a conversation.  
-    /// Here is an example interaction that demonstrates some of the features offered by FormFlow.  A __>__ symbol shows 
-    /// When a response is expected from the user.
+    /// Here is an example interaction that demonstrates some of the features offered by %FormFlow.  A <b>&gt;</b> symbol shows 
+    /// where a response is expected from the user and any input that was entered at that point in the dialog.
     /// ~~~{.txt}
     ///  Please select a sandwich
     ///  1. BLT
@@ -313,20 +330,20 @@
     /// * Adding messages, flow control and confirmations.  
     /// 
     /// \subsection attributes Attributes
-    /// FormFlow includes some C# attributes you can add to your class to better control the dialog.  
+    /// %FormFlow includes some C# attributes you can add to your class to better control the dialog.  
     /// Here are the attributes:
     /// 
     /// Attribute | Purpose
     /// ----------| -------
-    /// Describe | Change how a field or a value is shown in text.
-    /// Numeric | Provide limits on the values accepted in a numeric field.
-    /// Optional | Mark a field as optional which means that one choice is not to supply a value.
-    /// Prompt | Define a prompt to use when asking for a field.
-    /// Template | Define a template that is used to generate prompts or values in prompts.
-    /// Terms | Define the input terms that match a field or value.
+    /// [Describe] | Change how a field or a value is shown in text.
+    /// [Numeric] | Provide limits on the values accepted in a numeric field.
+    /// [Optional]| Mark a field as optional which means that one choice is not to supply a value.
+    /// [Prompt]| Define a prompt to use when asking for a field.
+    /// [Template] | Define a template that is used to generate prompts or values in prompts.
+    /// [Terms] | Define the input terms that match a field or value.
     /// 
     /// Let's look at how these attributes can improve your bot.  First off, we might want to change the the prompt for SandwichOrder.Sandwich from the
-    /// automatically generated "Please select a sandwich" to "What kind of sandwich would you like?". To do this we would use the Prompt attribute like this:
+    /// automatically generated "Please select a sandwich" to "What kind of sandwich would you like?". To do this we would use the [Prompt] attribute like this:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip Prompt
     /// \until ]
@@ -429,7 +446,7 @@
     /// 
     /// Now, there is still a problem with the SandwichOrder.Cheese field--how does someone indicate that they do not want cheese at all?
     /// One option would be to add an explicit NoCheese value to your enumeration, but a second option is to mark the field as optional using the
-    /// Optional attribute.  An optional field has a "special" no preference value.  Below is an example of the Optional attribute.
+    /// [Optional] attribute.  An optional field has a "special" no preference value.  Below is an example of the [Optional] attribute.
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip Optional
     /// \until CheeseOptions
@@ -654,9 +671,9 @@
     /// \section initialState Passing in Initial Form State and Entities
     /// When you launch a FormDialog, you can optionally pass in an instance of your state.
     /// If you do that, any step for filling a field is skipped if that field has a value.
-    /// You can also pass in [LUIS] entities to bind to the state.  If the Microsoft.Bot.Builder.Models.EntityRecommendation.Type
-    /// is a path to a field in your C# class then the Microsoft.Bot.Builder.Models.EntityRecommendation.Entity will be 
-    /// passed through the recognizer to bind to your field.  Just like initial state any step for 
+    /// You can also pass in [LUIS] entities to bind to the state.  If the [EntityType]
+    /// is a path to a field in your C# class then the [Entity] will be 
+    /// passed through the recognizer to bind to your field.  Just like initial state, any step for 
     /// filling in that field will be skipped.
     /// 
     /// \section patterns Pattern Language
@@ -681,30 +698,30 @@
     /// {<field><format>} | Value of a particular field. 
     /// {&<field>} | Description of a particular field.
     /// {\|\|} | Show the current choices for enumerated fields.
-    /// {[{<field><format>} ...]} | Create a list with all field values together utilizing TemplateBase.Separator and TemplateBase.LastSeparator to separate the individual values.
+    /// {[{<field><format>} ...]} | Create a list with all field values together utilizing [Separator] and [LastSeparator] to separate the individual values.
     /// {*} | Show one line for each active field with the description and current value.
     /// {*filled} | Show one line for each active field that has an actual value with the description and current value.
     /// {<nth><format>} | A regular C# format specifier that refers to the nth arg.  See TemplateUsage to see what args are available.
     /// {?<textOrPatternElement>...} | Conditional substitution.  If all referred to pattern elements have values, the values are substituted and the whole expression is used.
     ///
-    /// Patterns are used in Prompt and Template annotations.  
-    /// Prompt defines a prompt to the user for a particular field or confirmation.  
-    /// Template is used to automatically construct prompts and other things like help.
+    /// Patterns are used in [Prompt] and [Template] annotations.  
+    /// [Prompt] defines a prompt to the user for a particular field or confirmation.  
+    /// [Template] is used to automatically construct prompts and other things like help.
     /// There is a built-in set of templates defined in FormConfiguration.Templates.
     /// A good way to see examples of the pattern language is to look at the templates defined there.
-    /// A Prompt can be specified by annotating a particular field or property or implicitly defined through IField<T>.Field.
-    /// A default Template can be overridden on a class or field basis.  
+    /// A [Prompt] can be specified by annotating a particular field or property or implicitly defined through IField<T>.Field.
+    /// A default [Template] can be overridden on a class or field basis.  
     /// Both prompts and templates support the formatting parameters outlined below.
     /// 
     /// Usage | Description
     /// ------|------------
-    ///TemplateBase.AllowDefault | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    ///TemplateBase.ChoiceFormat | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
-    ///TemplateBase.ChoiceStyle | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
-    ///TemplateBase.Feedback | For Prompt only controls feedback after user entry.
-    ///TemplateBase.FieldCase | Controls case normalization when displaying a field description.
-    ///TemplateBase.LastSeparator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
-    ///TemplateBase.Separator | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
-    ///TemplateBase.ValueCase | Controls case normalization when displaying a field value.
+    /// [AllowDefault] | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
+    ///[ChoiceFormat] | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    ///[ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
+    ///[Feedback] | For [Prompt] only controls feedback after user entry.
+    ///[FieldCase] | Controls case normalization when displaying a field description.
+    ///[LastSeparator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
+    ///[Separator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
+    ///[ValueCase] | Controls case normalization when displaying a field value.
     /// 
 }

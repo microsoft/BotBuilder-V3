@@ -1,14 +1,14 @@
 ﻿namespace Microsoft.Bot.Builder.Dialogs
 {
-    /// \page dialogs Dialogs
+    /// \page dialogs %Dialogs
     /// \tableofcontents
     /// [LUIS]: http://luis.ai "LUIS"
     /// [LUIS setup]: http://aka.ms/bf-node-nl "How to Setup LUIS"
     /// 
     /// \section Overview
-    /// Dialogs model a conversational process, where the exchange of messages between bot and user
+    /// %Dialogs model a conversational process, where the exchange of messages between bot and user
     /// is the primary channel for interaction with the outside world.  Each dialog is an abstraction that encapsulates
-    /// its own state in a C# class that implements IDialog.  Dialogs can be composed with other dialogs to maximize reuse,
+    /// its own state in a C# class that implements IDialog.  %Dialogs can be composed with other dialogs to maximize reuse,
     /// and a dialog context maintains a stack of dialogs active in the conversation.  A conversation composed of dialogs is
     /// portable across machines to make it possible to scale a bot implementation.  This conversation state (the stack of
     /// active dialogs and each dialog's state) is stored in the messages exchanged with the %Bot Connector, making the bot
@@ -37,7 +37,7 @@
     /// \until }
     /// \until }
     /// 
-    /// The method is marked async because the %Bot Builder makes use of the C# facilities for handling asynchronous communication. 
+    /// The method is marked async because the %Bot %Builder makes use of the C# facilities for handling asynchronous communication. 
     /// It returns a Task<Message> which is the reply to the passed in Message.  
     /// If there is an exception, the Task will contain the exception information. Within the Post method we call
     /// Conversation.SendAsync which is the root method for the %Bot %Builder SDK.  It follows the dependency
@@ -112,21 +112,26 @@
     /// \section IDialogContext
     /// All of the dialogs take in an IDialogContext, an interface that provides the services
     /// needed to save state and comunicate.  
-    /// The interface is composed of three interfaces: IBotData, IDialogStack, and IBotToUser.
+    /// The interface is composed of three interfaces: Internals.IBotData, Internals.IDialogStack, and Internals.IBotToUser.
     ///
-    /// IBotData represents access to the per user, conversation, and user in conversation state maintained
+    /// Internals.IBotData represents access to the per user, conversation, and user in conversation state maintained
     /// by the %Bot Connector.  The per user state is useful for storing things about the user that cross
     /// conversations--for example the last sandwich order so that you can use that as the default 
     /// when ordering a sandwich. It is also possible to store such state in your own store
     /// and use the Message.From.Id as a key.  
     /// 
-    /// IBotToUser provides methods to post messages to be sent to the user, according to some policy.  Some of these messages may be sent
+    /// Internals.IBotToUser provides methods to post messages to be sent to the user, according to some policy.  Some of these messages may be sent
     /// inline with the response to the web api method call, and some of these messages may be sent directly using the %Bot Connector client.
-    /// Sending and receiving messages through the dialog context ensures the IBotData state is passed through the %Bot Connector.
+    /// Sending and receiving messages through the dialog context ensures the Internals.IBotData state is passed through the %Bot Connector.
     /// 
-    /// IDialogStack provides methods to:
+    /// Internals.IDialogStack provides methods to:
     /// - Call children dialogs and push the new child on the dialog stack.
     /// - Mark the current dialog as done and return a result to the calling dialog and pop the current dialog from the dialog stack.
     /// - Wait for a message from the user and suspend the conversation until the message arrives.
     /// The stack is usually automatically managed for you.
+    /// 
+    /// \section Conclusion
+    /// Through this description we have seen how you can easily create stateless bots that can reuse dialog building blocks
+    /// ranging from simple prompts to advanced natural language.  As a next stpe, you should explore \ref forms which 
+    /// describes how the %Bot Builder framework can automatically build dialogs from a C# class you want the user to fill in.
 }
