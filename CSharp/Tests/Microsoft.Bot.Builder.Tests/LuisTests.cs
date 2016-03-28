@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Tests
 {

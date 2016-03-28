@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Models;
-using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
@@ -172,7 +170,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         {
             if (TryFindAlarm(result, out this.turnOff))
             {
-                Prompts.Confirm(context, AfterConfirming_TurnOffAlarm, "Are you sure?");
+                PromptDialog.Confirm(context, AfterConfirming_TurnOffAlarm, "Are you sure?");
             }
             else
             {

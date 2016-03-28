@@ -1,13 +1,12 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Form;
-using Microsoft.Bot.Builder.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Web;
+
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Form;
+using Microsoft.Bot.Builder.Luis;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
@@ -90,7 +89,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
         {
             var days = (IEnumerable<Days>)Enum.GetValues(typeof(Days));
 
-            Prompts.Choice(context, StoreHoursResult, days, "Which day of the week?");
+            PromptDialog.Choice(context, StoreHoursResult, days, "Which day of the week?");
         }
 
         private async Task StoreHoursResult(IDialogContext context, IAwaitable<Days> day)

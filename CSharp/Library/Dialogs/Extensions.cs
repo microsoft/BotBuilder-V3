@@ -31,22 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Runtime.CompilerServices;
+using System;
+using System.Runtime.Serialization;
 
-namespace Microsoft.Bot.Builder.Fibers.Internals
+namespace Microsoft.Bot.Builder.Internals
 {
-    public interface IAwaiter<out T> : INotifyCompletion
+    public static partial class Extensions
     {
-        bool IsCompleted { get; }
-
-        T GetResult();
-    }
-}
-
-namespace Microsoft.Bot.Builder
-{
-    public interface IAwaitable<out T>
-    {
-        Fibers.Internals.IAwaiter<T> GetAwaiter();
+        public static T GetValue<T>(this SerializationInfo info, string name)
+        {
+            return (T)info.GetValue(name, typeof(T));
+        }
     }
 }

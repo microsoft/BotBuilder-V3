@@ -38,8 +38,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Fibers;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Luis
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class LuisIntent : Attribute
@@ -97,7 +98,7 @@ namespace Microsoft.Bot.Builder
             var maximum = luisRes.Intents.Max(t => t.Score);
             var intent = luisRes.Intents.FirstOrDefault(i => i.Score == maximum);
 
-            IntentHandler handler;
+            IntentHandler handler = null;
             if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
             {
                 handler = this.handlerByIntent[string.Empty];

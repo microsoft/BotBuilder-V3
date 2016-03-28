@@ -45,8 +45,7 @@ using Moq;
 
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Models;
-using Microsoft.Bot.Sample.SimpleAlarmBot;
+using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Sample.Tests
 {

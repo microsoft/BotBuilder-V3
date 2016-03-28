@@ -137,7 +137,7 @@ namespace Microsoft.Bot.Builder.Fibers
     }
 
     [Serializable]
-    public sealed class Wait<T> : IItem<T>, IWait<T>, IPost<T>, IAwaiter<T>, IEquatable<Wait<T>>, ISerializable
+    public sealed class Wait<T> : IItem<T>, IWait<T>, IPost<T>, Internals.IAwaiter<T>, IEquatable<Wait<T>>, ISerializable
     {
         private Rest<T> rest;
         private Need need;
@@ -299,12 +299,12 @@ namespace Microsoft.Bot.Builder.Fibers
             this.need = Need.Wait;
         }
 
-        IAwaiter<T> IAwaitable<T>.GetAwaiter()
+        Internals.IAwaiter<T> IAwaitable<T>.GetAwaiter()
         {
             return this;
         }
 
-        bool IAwaiter<T>.IsCompleted
+        bool Internals.IAwaiter<T>.IsCompleted
         {
             get
             {
@@ -312,7 +312,7 @@ namespace Microsoft.Bot.Builder.Fibers
             }
         }
 
-        T IAwaiter<T>.GetResult()
+        T Internals.IAwaiter<T>.GetResult()
         {
             if (this.fail != null)
             {

@@ -5,14 +5,15 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Fibers;
 
-namespace Microsoft.Bot.Builder
+namespace Microsoft.Bot.Builder.Luis
 {
     public class LuisResult
     {
-        public Models.IntentRecommendation[] Intents { get; set; }
+        public IntentRecommendation[] Intents { get; set; }
 
-        public Models.EntityRecommendation[] Entities { get; set; }
+        public EntityRecommendation[] Entities { get; set; }
     }
 
     public interface ILuisService
@@ -80,7 +81,7 @@ namespace Microsoft.Bot.Builder
             return await service.QueryAsync(uri);
         }
 
-        public static bool TryFindEntity(this LuisResult result, string type, out Models.EntityRecommendation entity)
+        public static bool TryFindEntity(this LuisResult result, string type, out EntityRecommendation entity)
         {
             entity = result.Entities?.FirstOrDefault(e => e.Type == type);
             return entity != null;

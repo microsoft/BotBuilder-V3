@@ -113,38 +113,38 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task PromptSuccess_Text()
         {
-            await PromptSuccessAsync((context, resume) => Prompts.Text(context, resume, PromptText), "lol wut", "lol wut");
+            await PromptSuccessAsync((context, resume) => PromptDialog.Text(context, resume, PromptText), "lol wut", "lol wut");
         }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_Yes()
         {
-            await PromptSuccessAsync((context, resume) => Prompts.Confirm(context, resume, PromptText), "yes", true);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "yes", true);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_No()
         {
-            await PromptSuccessAsync((context, resume) => Prompts.Confirm(context, resume, PromptText), "no", false);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "no", false);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Number_Integer()
         {
-            await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Number_Float()
         {
-            await PromptSuccessAsync((context, resume) => Prompts.Number(context, resume, PromptText), "42", 42f);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42f);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Choice()
         {
             var choices = new[] { "one", "two", "three" };
-            await PromptSuccessAsync((context, resume) => Prompts.Choice(context, resume, choices, PromptText), "two", "two");
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "two", "two");
         }
     }
 
@@ -192,20 +192,20 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task PromptFailure_Number()
         {
-            await PromptFailureAsync<int>((context, resume) => Prompts.Number(context, resume, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<int>((context, resume) => PromptDialog.Number(context, resume, PromptText, RetryText, MaximumAttempts));
         }
 
         [TestMethod]
         public async Task PromptFailure_Choice()
         {
             var choices = new[] { "one", "two", "three" };
-            await PromptFailureAsync<string>((context, resume) => Prompts.Choice(context, resume, choices, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<string>((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, RetryText, MaximumAttempts));
         }
 
         [TestMethod]
         public async Task PromptFailure_Confirm()
         {
-            await PromptFailureAsync<bool>((context, resume) => Prompts.Confirm(context, resume, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<bool>((context, resume) => PromptDialog.Confirm(context, resume, PromptText, RetryText, MaximumAttempts));
         }
     }
 }

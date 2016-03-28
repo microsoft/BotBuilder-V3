@@ -39,7 +39,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Internals;
 using Microsoft.Bot.Builder.Form.Advanced;
+using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Form
 {
@@ -86,7 +88,7 @@ namespace Microsoft.Bot.Builder.Form
         // constructor arguments
         private readonly T _state;
         private readonly MakeForm<T> _makeForm;
-        private readonly IEnumerable<Models.EntityRecommendation> _entities;
+        private readonly IEnumerable<EntityRecommendation> _entities;
         private readonly FormOptions _options;
 
         // instantiated in constructor, saved when serialized
@@ -101,16 +103,16 @@ namespace Microsoft.Bot.Builder.Form
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
 
-        public FormDialog(T state, MakeForm<T> makeForm = null, FormOptions options = FormOptions.None, IEnumerable < Models.EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
+        public FormDialog(T state, MakeForm<T> makeForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
             makeForm = makeForm ?? MakeDefaultForm;
-            entities = entities ?? Enumerable.Empty<Models.EntityRecommendation>();
+            entities = entities ?? Enumerable.Empty<EntityRecommendation>();
             cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
 
             // constructor arguments
-            Field.SetNotNull(out this._state, nameof(state), state);
-            Field.SetNotNull(out this._makeForm, nameof(makeForm), makeForm);
-            Field.SetNotNull(out this._entities, nameof(entities), entities);
+            Fibers.Field.SetNotNull(out this._state, nameof(state), state);
+            Fibers.Field.SetNotNull(out this._makeForm, nameof(makeForm), makeForm);
+            Fibers.Field.SetNotNull(out this._entities, nameof(entities), entities);
             this._options = options;
 
             // make our form
@@ -127,13 +129,13 @@ namespace Microsoft.Bot.Builder.Form
         private FormDialog(SerializationInfo info, StreamingContext context)
         {
             // constructor arguments
-            Field.SetNotNullFrom(out this._state, nameof(this._state), info);
-            Field.SetNotNullFrom(out this._makeForm, nameof(this._makeForm), info);
-            Field.SetNotNullFrom(out this._entities, nameof(this._entities), info);
+            Fibers.Field.SetNotNullFrom(out this._state, nameof(this._state), info);
+            Fibers.Field.SetNotNullFrom(out this._makeForm, nameof(this._makeForm), info);
+            Fibers.Field.SetNotNullFrom(out this._entities, nameof(this._entities), info);
             this._options = info.GetValue<FormOptions>(nameof(this._options));
 
             // instantiated in constructor, saved when serialized
-            Field.SetNotNullFrom(out this._formState, nameof(this._formState), info);
+            Fibers.Field.SetNotNullFrom(out this._formState, nameof(this._formState), info);
 
             // instantiated in constructor, re-instantiated when deserialized
             this._form = _makeForm();
@@ -601,7 +603,7 @@ namespace Microsoft.Bot.Builder.Form
     }
 }
 
-namespace Microsoft.Bot.Builder.Models
+namespace Microsoft.Bot.Builder.Luis
 {
     [Serializable]
     public partial class EntityRecommendation

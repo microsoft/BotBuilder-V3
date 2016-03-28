@@ -37,10 +37,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Fibers;
 
 namespace Microsoft.Bot.Builder
 {
-    public class Prompts
+    public class PromptDialog
     {
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {

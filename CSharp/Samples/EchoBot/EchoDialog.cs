@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Sample.EchoBot
             var message = await argument;
             if (message.Text == "reset")
             {
-                Prompts.Confirm(
+                PromptDialog.Confirm(
                     context,
                     AfterResetAsync,
                     "Are you sure you want to reset the count?",

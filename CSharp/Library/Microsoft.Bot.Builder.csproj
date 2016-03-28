@@ -85,15 +85,16 @@
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
-    <Compile Include="Dialogs\CompositionRoot.cs" />
+    <Compile Include="Dialogs\Conversations.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
+    <Compile Include="Fibers\Field.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
-    <Compile Include="Dialogs\LuisDialog.cs" />
-    <Compile Include="Dialogs\LuisService.cs" />
+    <Compile Include="Luis\LuisDialog.cs" />
+    <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Dialogs\Extensions.cs" />
     <Compile Include="Fibers\Awaitable.cs" />
     <Compile Include="Fibers\Exceptions.cs" />
     <Compile Include="Fibers\Extensions.cs" />
@@ -121,8 +122,8 @@
     <Compile Include="Form\IFormDialog.cs" />
     <Compile Include="Form\IPrompt.cs" />
     <Compile Include="Form\IRecognizer.cs" />
-    <Compile Include="Models\EntityRecommendation.cs" />
-    <Compile Include="Models\IntentRecommendation.cs" />
+    <Compile Include="Luis\EntityRecommendation.cs" />
+    <Compile Include="Luis\IntentRecommendation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Bot.Builder.Models
+namespace Microsoft.Bot.Builder.Luis
 {
     public partial class IntentRecommendation
     {
