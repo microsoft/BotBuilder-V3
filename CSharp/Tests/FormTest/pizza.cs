@@ -36,10 +36,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Form;
+using Microsoft.Bot.Builder.FormFlow;
 #pragma warning disable 649
 
-namespace Microsoft.Bot.Builder.FormTest
+namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum SizeOptions
     {

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Builder.Form
+﻿namespace Microsoft.Bot.Builder.FormFlow
 {
     /// \page forms Forms 
     /// \tableofcontents

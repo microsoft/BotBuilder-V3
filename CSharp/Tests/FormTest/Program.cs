@@ -35,13 +35,13 @@ using System;
 using System.Diagnostics;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Form;
-using Microsoft.Bot.Builder.Form.Advanced;
+using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
 
-namespace Microsoft.Bot.Builder.FormTest
+namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Utilities;
-using Microsoft.Bot.Builder.Form;
+using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Sample.PizzaBot

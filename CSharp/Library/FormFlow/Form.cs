@@ -33,9 +33,9 @@
 
 using System.Collections.Generic;
 
-using Microsoft.Bot.Builder.Form.Advanced;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 
-namespace Microsoft.Bot.Builder.Form
+namespace Microsoft.Bot.Builder.FormFlow
 {
     internal sealed class Form<T> : IForm<T>
         where T : class

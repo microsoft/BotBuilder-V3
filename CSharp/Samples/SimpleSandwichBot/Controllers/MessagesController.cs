@@ -6,7 +6,7 @@ using System.Web.Http;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Utilities;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Form;
+using Microsoft.Bot.Builder.FormFlow;
 
 namespace Microsoft.Bot.Sample.SimpleSandwichBot
 {

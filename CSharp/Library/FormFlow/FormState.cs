@@ -35,9 +35,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-using Microsoft.Bot.Builder.Form.Advanced;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 
-namespace Microsoft.Bot.Builder.Form
+namespace Microsoft.Bot.Builder.FormFlow
 {
     [Serializable]
     internal class FormState
