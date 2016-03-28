@@ -52,7 +52,6 @@ namespace Microsoft.Bot.Builder
         }
     }
 
-
     public delegate Task IntentHandler(IDialogContext context, LuisResult luisResult);
 
     [Serializable]
@@ -89,7 +88,7 @@ namespace Microsoft.Bot.Builder
         {
             if (this.handlerByIntent == null)
             {
-                this.AddAttributeBasedHandlers();
+                this.handlerByIntent = AttributeBasedHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
             }
 
             var message = await item;
@@ -115,16 +114,11 @@ namespace Microsoft.Bot.Builder
             }
         }
 
-        private void AddAttributeBasedHandlers()
+        public static IEnumerable<KeyValuePair<string, IntentHandler>> AttributeBasedHandlers(object dialog)
         {
-            if (this.handlerByIntent != null)
-            {
-                throw new InvalidOperationException();
-            }
+            var type = dialog.GetType();
 
-            this.handlerByIntent = new Dictionary<string, IntentHandler>();
-
-            var methods = from m in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+            var methods = from m in type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                           let attr = m.GetCustomAttributes(typeof(LuisIntent), true)
                           where attr.Length > 0
                           select new { method = m, attributes = attr.Select(s => (LuisIntent)s).ToList() };
@@ -141,14 +135,14 @@ namespace Microsoft.Bot.Builder
                 var method = handler.method;
                 var intentHandler = new IntentHandler(async (context, result) =>
                 {
-                    var task = (Task)method.Invoke(this, new object[] { context, result });
+                    var task = (Task)method.Invoke(dialog, new object[] { context, result });
                     await task;
                 });
 
                 foreach (var intent in handler.intents)
                 {
                     var key = string.IsNullOrWhiteSpace(intent) ? string.Empty : intent;
-                    this.handlerByIntent.Add(key, intentHandler);
+                    yield return new KeyValuePair<string, IntentHandler>(key, intentHandler);
                 }
             }
         }

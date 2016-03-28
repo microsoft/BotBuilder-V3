@@ -86,6 +86,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FiberTests.cs" />
+    <Compile Include="LuisTests.cs" />
     <Compile Include="PromptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
