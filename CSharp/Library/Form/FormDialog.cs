@@ -45,6 +45,9 @@ using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Form
 {
+    /// <summary>
+    /// Static factory methods for creating form dialogs.
+    /// </summary>
     public static class FormDialog
     {
         public static IFormDialog<T> FromType<T>() where T : class, new()
