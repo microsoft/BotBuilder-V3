@@ -188,7 +188,7 @@ namespace Microsoft.Bot.Builder.FormTest
 
         static void Main(string[] args)
         {
-            TestValidate();
+            // TestValidate();
             var choiceForm = FormDialog.FromType<Choices>();
             var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
             {
@@ -227,12 +227,12 @@ namespace Microsoft.Bot.Builder.FormTest
                         }
                     case DebugOptions.SimpleSandwichBot:
                         {
-                            Call(context, root, () => new FormBuilder<SimpleSandwichOrder>().Build());
+                            Call(context, root, () => SimpleSandwichOrder.BuildForm());
                             return;
                         }
                     case DebugOptions.AnnotatedSandwichBot:
                         {
-                            Call(context, root, () => new FormBuilder<AnnotatedSandwichOrder>().Build());
+                            Call(context, root, () => AnnotatedSandwichOrder.BuildForm());
                             return;
                         }
                 }

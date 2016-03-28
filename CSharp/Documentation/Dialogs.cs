@@ -84,6 +84,7 @@
     /// with a continuation back to MessageReceivedAsync on the next message.
     /// 
     /// \subsection alarmBot Alarm Bot
+    /// <a href="http://aka.ms/bf-node-nl">How to use LUIS</a>
     /// 
     /// \subsection IDialog
     /// The IDialog<T> interface provides a single IDialog<T>.StartAsync method that serves as the entry point to the dialog.

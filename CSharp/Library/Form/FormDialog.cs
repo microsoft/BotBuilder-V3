@@ -333,6 +333,10 @@ namespace Microsoft.Bot.Builder.Form
             {
                 if (next.Direction == StepDirection.Complete)
                 {
+                    if (message != null)
+                    {
+                        await context.PostAsync(message);
+                    }
                     if (_form.Completion != null)
                     {
                         await _form.Completion(context, _state);
