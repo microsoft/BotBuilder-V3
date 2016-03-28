@@ -36,6 +36,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

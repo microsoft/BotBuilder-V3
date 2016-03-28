@@ -42,6 +42,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder
