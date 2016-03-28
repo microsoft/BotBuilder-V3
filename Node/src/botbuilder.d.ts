@@ -479,9 +479,6 @@ export interface IBotConnectorOptions {
     /** Bots application secret. */
     appSecret?: string;
 
-    /** Bot developers subscription key. */
-    subscriptionKey?: string;
-
     /** Default "from" address used in calls to ConnectorSession.beginDialog(). */
     defaultFrom?: IChannelAccount;
     
