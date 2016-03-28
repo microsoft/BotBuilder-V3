@@ -549,12 +549,15 @@ ul.header-nav li a:visisted {
   margin: 0 auto;
 }
 .outline.footer {
+  max-width: 1366px;
   height: auto;
   min-height: 0;
   font-size: 12px;
+  margin: 0 auto;
 }
 .outline.footer ul {
   list-style-type: none;
+  margin-right: 20px;
   text-align: right;
 }
 .outline.footer ul li {
@@ -568,6 +571,9 @@ ul.header-nav li a:visisted {
 }
 .outline.footer ul a {
   color: #2B2B2B;
+}
+.outline.footer li:last-child {
+  padding-right: 0;
 }
 .no-bots-prompt {
   font-family: "Segoe UI", sans-serif;
@@ -759,6 +765,25 @@ body {
 }
 label {
   color: #999999;
+}
+.directory-hero {
+  min-height: 250px;
+  background-color: #307AB3;
+  text-align: center;
+  padding: 0 2ex 50px 2ex;
+  color: white;
+}
+.directory-hero .svgicon-meet-the-bots {
+  font-size: 60px;
+}
+.directory-hero svg {
+  margin-top: 70px;
+}
+.directory-hero h2 {
+  font-family: "Segoe UI Semilight", sans-serif;
+  font-size: 34px;
+  line-height: 46px;
+  margin-top: 40px;
 }
 body,
 table,
@@ -1158,6 +1183,30 @@ a {
   }
   .home-intro .intro-bot-directory svg {
     font-size: 112.2px;
+  }
+  .bot-overview .ul-vert-bar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .bot-overview .ul-vert-bar li {
+    border-left: 0px none transparent;
+    padding-left: 0;
+    padding-right: 2ex;
+    white-space: nowrap;
+    line-height: 2;
   }
 }
 @media screen and (min-width: 868px) {

@@ -169,6 +169,9 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.IDialogStack", "d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html", [
       [ "Microsoft.Bot.Builder.IDialogContext", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.ILuisService", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service.html", [
+      [ "Microsoft.Bot.Builder.LuisService", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.IUserToBot", "d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html", [
       [ "Microsoft.Bot.Builder.Internals.DialogContext", "db/dd4/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_dialog_context.html", null ]
     ] ],
