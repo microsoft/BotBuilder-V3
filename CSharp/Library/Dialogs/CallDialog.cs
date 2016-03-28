@@ -43,16 +43,18 @@ namespace Microsoft.Bot.Builder
     public class CallDialog<R> : IDialog
     {
         /// <summary>   Resume handler when sub-dialog returns. </summary>
-        /// <param name="dialog">   The dialog. </param>
-        /// <param name="context">  The context. </param>
-        /// <param name="result">   The result. </param>
+        /// <param name="dialog">   Parent dialog. </param>
+        /// <param name="context">  Context. </param>
+        /// <param name="result">   An empty task. </param>
         /// <returns>   A Task. </returns>
-
         public delegate Task Resume(CallDialog<R> dialog, IDialogContext context, IAwaitable<R> result);
 
         private readonly IDialog child;
         private readonly Resume resume;
 
+        /// <summary>   Construct a CallDialog that calls child and passes the result to a resume handler.  </summary>
+        /// <param name="child">    Child dialog. </param>
+        /// <param name="resume">   Resume handler. </param>
         public CallDialog(IDialog child, Resume resume)
         {
             SetField.NotNull(out this.child, nameof(child), child);
@@ -64,11 +66,19 @@ namespace Microsoft.Bot.Builder
             await CallChild(context, ignored: null);
         }
 
+        /// <summary>   Resume handler for when child sub-dialog is done. </summary>
+        /// <param name="context">  Context. </param>
+        /// <param name="result">   Result from child sub-dialog. </param>
+        /// <returns>   A Task. </returns>
         public async Task ChildDone(IDialogContext context, IAwaitable<R> result)
         {
             await resume(this, context, result);
         }
 
+        /// <summary>   Call child sub-dialog. </summary>
+        /// <param name="context">  Context. </param>
+        /// <param name="ignored">  Ignored. </param>
+        /// <returns>   A Task. </returns>
         public async Task CallChild(IDialogContext context, IAwaitable<object> ignored)
         {
             context.Call<R>(this.child, ChildDone);
