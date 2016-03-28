@@ -39,11 +39,14 @@ You’ll want to copy the URL listed on the dialog as this is what you’ll bind
 ## Handle Intents
 Once you've deployed a model for your LUIS app we can create a bot that consumes that model. To keep things simple we'll create a TextBot that we can interact with from a console window.
 
+You'll need to update the model in the sample code below to use the URL you got from LUIS for your copy of the prebuilt Cortana App.
+
 {% highlight JavaScript %}
 var builder = require('botbuilder');
 
 // Create LUIS Dialog that points at our model and add it as the root '/' dialog for our Cortana Bot.
-var dialog = new builder.LuisDialog('https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=fe054e042fd14754a83f0a205f6552a5&q= ');
+var model = '<your models url>';
+var dialog = new builder.LuisDialog(model);
 var cortanaBot = new builder.TextBot();
 cortanaBot.add('/', dialog);
 
@@ -72,7 +75,8 @@ Now that we have our bot understanding what the users intended action is we can 
 var builder = require('../../');
 
 // Create LUIS Dialog that points at our model and add it as the root '/' dialog for our Cortana Bot.
-var dialog = new builder.LuisDialog('https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=fe054e042fd14754a83f0a205f6552a5&q= ');
+var model = '<your models url>';
+var dialog = new builder.LuisDialog(model);
 var cortanaBot = new builder.TextBot();
 cortanaBot.add('/', dialog);
 

@@ -56,7 +56,7 @@ dialog.matches('^echo', [
 ]);
 {% endhighlight %}
 
-The ID of a dialog to redirect to and optional arguments to pass to that dialog. It's often easiest to think of the CommandDialog as a switch that simply redirects to another dialog when a pattern is matched so we support a shorthand for expressing that.
+The ID of a dialog to redirect to and optional arguments to pass to that dialog. It's often easiest to think of the CommandDialog as a switch that simply redirects to another dialog when a pattern is matched so we support a shorthand way of expressing that.
 
 {% highlight JavaScript %}
 bot.add('/', new builder.CommandDialog()
