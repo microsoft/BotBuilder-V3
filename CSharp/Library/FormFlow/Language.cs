@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <remarks>
         /// This function will call <see cref="CamelCase(string)"/> and then will generate sub-phrases up to maxLength.  
         /// For example an enumeration of AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
-        /// You can call it directly, or it is used when <see cref="FieldReflector{T}"/> generates terms or when <see cref="Terms"/> is used with a <see cref="Terms.MaxPhrase"/> argument.
+        /// You can call it directly, or it is used when <see cref="FieldReflector{T}"/> generates terms or when <see cref="TermsAttribute"/> is used with a <see cref="TermsAttribute.MaxPhrase"/> argument.
         /// </remarks>
         public static string[] GenerateTerms(string phrase, int maxLength)
         {

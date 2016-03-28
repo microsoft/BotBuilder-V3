@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prompt">Confirmation prompt expressed using \ref patterns.</param>
         /// <param name="condition">Delegate for whether confirmation applies.</param>
         /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
-        public Confirmation(Prompt prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
+        public Confirmation(PromptAttribute prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
             : base(Guid.NewGuid().ToString(), FieldRole.Confirm)
         {
             SetPrompt(prompt);

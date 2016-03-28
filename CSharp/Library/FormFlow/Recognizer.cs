@@ -338,7 +338,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private readonly IEnumerable<string> _valueDescriptions;
         private readonly DescriptionDelegate _descriptionDelegate;
         private readonly TermsDelegate _termsDelegate;
-        private readonly Template _helpFormat;
+        private readonly TemplateAttribute _helpFormat;
         private int _max;
         private readonly List<ValueAndExpression> _expressions = new List<ValueAndExpression>();
     }

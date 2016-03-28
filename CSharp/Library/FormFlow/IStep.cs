@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         StepType Type { get; }
 
-        TemplateBase Annotation { get; }
+        TemplateBaseAttribute Annotation { get; }
 
         IField<T> Field { get; }
 

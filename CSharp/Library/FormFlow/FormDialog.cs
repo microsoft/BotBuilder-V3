@@ -609,7 +609,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     case FormCommand.Reset: next.Direction = StepDirection.Reset; break;
                     case FormCommand.Status:
                         {
-                            var prompt = new Prompt("{*}");
+                            var prompt = new PromptAttribute("{*}");
                             feedback = new Prompter<T>(prompt, _form, null).Prompt(state, "");
                         }
                         break;
