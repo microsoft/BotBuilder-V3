@@ -11,7 +11,7 @@ parent2: Bots
 {:toc}
 
 ## Overview
-The [BotConnectorBot](/sdkreference/nodejs/classes/_botbuilder_d_.botconnectorbot.html) makes it easy to build a bot that’s compatible with the Bot Frameworks [Bot Connector Service](/connector/getstarted/). Using the Bot Connector Service to host your bot lets you maximize your bots visibility across a wide range of communication channels. It also lets your bot take advantage of features provided by the Bot Connector Service like [Automatic Language Translation](/connector/bot-options/#translation). 
+The [BotConnectorBot](/sdkreference/nodejs/classes/_botbuilder_d_.botconnectorbot.html) class makes it easy to build a bot that’s compatible with the Bot Frameworks [Bot Connector Service](/connector/getstarted/). Using the Bot Connector Service to host your bot lets you maximize your bots visibility across a wide range of communication channels. It also lets your bot take advantage of features provided by the Bot Connector Service like [Automatic Language Translation](/connector/bot-options/#translation). 
 
 ## Usage
 The example below shows a Hello World bot built using [restify](http://restify.com/) web service framework. The example would be relatively the same if you were instead using the [Express](http://expressjs.com/) web application framework. Both frameworks are equally supported by Bot Builder.
