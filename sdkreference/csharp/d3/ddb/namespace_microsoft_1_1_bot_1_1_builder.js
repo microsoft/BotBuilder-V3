@@ -17,10 +17,12 @@ var namespace_microsoft_1_1_bot_1_1_builder =
     [ "IDialog", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog.html", "da/d12/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog" ],
     [ "IDialogContext", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context.html", "d3/d92/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_context" ],
     [ "IDialogStack", "d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack.html", "d5/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_i_dialog_stack" ],
+    [ "ILuisService", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service.html", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service" ],
     [ "IUserToBot", "d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot.html", "d6/dc4/interface_microsoft_1_1_bot_1_1_builder_1_1_i_user_to_bot" ],
     [ "LuisDialog", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog.html", "d4/d86/class_microsoft_1_1_bot_1_1_builder_1_1_luis_dialog" ],
     [ "LuisIntent", "d7/da6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_intent.html", "d7/da6/class_microsoft_1_1_bot_1_1_builder_1_1_luis_intent" ],
     [ "LuisModel", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model.html", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model" ],
     [ "LuisResult", "de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html", "de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result" ],
+    [ "LuisService", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service.html", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service" ],
     [ "Prompts", "de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts.html", "de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts" ]
 ];

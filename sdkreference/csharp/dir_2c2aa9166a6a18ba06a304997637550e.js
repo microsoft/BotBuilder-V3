@@ -28,6 +28,13 @@ var dir_2c2aa9166a6a18ba06a304997637550e =
     ] ],
     [ "IDialogContext.cs", "da/d92/_i_dialog_context_8cs.html", "da/d92/_i_dialog_context_8cs" ],
     [ "LuisDialog.cs", "dd/d15/_luis_dialog_8cs.html", "dd/d15/_luis_dialog_8cs" ],
+    [ "LuisService.cs", "d6/da6/_luis_service_8cs.html", [
+      [ "Extensions", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions.html", "dd/d63/class_microsoft_1_1_bot_1_1_builder_1_1_extensions" ],
+      [ "ILuisService", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service.html", "dd/d04/interface_microsoft_1_1_bot_1_1_builder_1_1_i_luis_service" ],
+      [ "LuisModel", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model.html", "df/d41/class_microsoft_1_1_bot_1_1_builder_1_1_luis_model" ],
+      [ "LuisResult", "de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result.html", "de/d55/class_microsoft_1_1_bot_1_1_builder_1_1_luis_result" ],
+      [ "LuisService", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service.html", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_luis_service" ]
+    ] ],
     [ "PromptDialog.cs", "d2/d2b/_prompt_dialog_8cs.html", [
       [ "Prompts", "de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts.html", "de/db4/class_microsoft_1_1_bot_1_1_builder_1_1_prompts" ]
     ] ]
