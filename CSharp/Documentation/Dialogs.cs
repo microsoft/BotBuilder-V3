@@ -16,14 +16,14 @@
     /// web server's memory.)
     /// 
     /// The best way to understand this is to work through some examples.  The first example changes the code in the 
-    /// Bot Framework template to use dialogs from the Bot Builder.  The second example, \ref echoBot builds on that to
-    /// add some simple state.  The final example \ref alarmBot uses the [LUIS] natural language framework and some of the built-in system 
-    /// prompts.
+    /// %Bot Framework template to use dialogs from the %Bot %Builder.  The second example, \ref echoBot builds on that to
+    /// add some simple state.  The final example \ref alarmBot uses the [LUIS] natural language framework and some of the 
+    /// built-in system prompts.
     /// 
-    /// \section simpleEcho Simple Echo Bot
-    /// This example starts with the bot you get by starting your Bot the Bot Framework template which includes code to 
+    /// \section simpleEcho Echo Bot
+    /// This example starts with the bot you get by starting your bot the %Bot Framework template which includes code to 
     /// echo back what the user says.  
-    /// In order to change the echo example to use the Bot Builder, we need to add a C# class to represent our conversation and its state.  
+    /// In order to change the echo example to use the %Bot %Builder, we need to add a C# class to represent our conversation and its state.  
     /// You can do this by adding this class to your MessagesController.cs file:
     /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
     /// \skip Serializable
@@ -37,10 +37,10 @@
     /// \until }
     /// \until }
     /// 
-    /// The method is marked async because the Bot Framework makes use of the C# facilities for handling asynchronous communication. 
+    /// The method is marked async because the %Bot Builder makes use of the C# facilities for handling asynchronous communication. 
     /// It returns a Task<Message> which is the reply to the passed in Message.  
     /// If there is an exception, the Task will contain the exception information. Within the Post method we call
-    /// Conversation.SendAsync which is the root method for the Bot Builder SDK.  It follows the dependency
+    /// Conversation.SendAsync which is the root method for the %Bot %Builder SDK.  It follows the dependency
     /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle) and does the following steps:
     /// - Instantiate the required components.  
     /// - Deserialize the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message.
@@ -58,12 +58,12 @@
     /// In this simple case the next message would again be processed by MessageReceivedAsync. 
     /// Every time we call IDialogContext.Wait our bot is suspended and can be restarted on any machine that receives the message.  
     /// 
-    /// If you run and test this bot, it will behave exactly like the original one from the Bot Framework template.  It is a
+    /// If you run and test this bot, it will behave exactly like the original one from the %Bot Framework template.  It is a
     /// little more complicated, but it allows you to compose together multiple dialogs into complex conversations without
     /// having to explicitly manage state.   
     /// 
-    /// \section echoBot Echo Bot
-    /// Now that we have an example of the Bot Builder framework we are going to build on it to add some dialog state and 
+    /// \section echoBot Echo Bot with State
+    /// Now that we have an example of the %Bot %Builder framework we are going to build on it to add some dialog state and 
     /// some commands to control that state. We are going to number the responses and allow the command "reset" to reset the
     /// count.  All we need to do is to replace our EchoDialog with the one below. 
     /// \dontinclude EchoBot/EchoDialog.cs
@@ -84,20 +84,22 @@
     /// with a continuation back to MessageReceivedAsync on the next message.
     /// 
     /// \section alarmBot Alarm Bot
-    /// This example is more complex and shows how to integrate [LUIS] together with system prompts to create an alarm 
-    /// system you can interact with through natural language.  The first step is to set up your [LUIS] account
-    /// as described in [LUIS Setup] and create an alarm endpoint you can use to support a conversation with natural language.
-    /// 
+    /// This example is more complex and shows how to integrate [LUIS] together with PromptDialog to create an alarm 
+    /// system you can interact with through natural language.  
     /// In order to create a dialog that uses [LUIS] you need to create a class that derives from
     /// LuisDialog like this:
-    /// \notinclude SimpleAlarmBot/SimpleAlarmDialog.cs
+    /// \dontinclude SimpleAlarmBot/SimpleAlarmDialog.cs
     /// \skip LuisModel
     /// \until {
     /// 
-    /// Within this class any method with the name of the [LUIS] intent or marked with the LuisIntent attribute
+    /// The parameters to the LuisModel attribute are the [LUIS] REST endpoint and key.  Here we have supplied
+    /// some values that will work, but the endpoint may be throttled in which case you will need to setup your own endpoint 
+    /// as described in [LUIS Setup].  
+    /// 
+    /// Within the SimpleAlarmDialog class any method with the name of the [LUIS] intent or marked with the LuisIntent attribute
     /// is called when that intent is matched.  For example here is the handler for turning off an
     /// alarm, i.e. the intent "builtin.intent.alarm.turn_off_alarm":
-    /// \notinclude SimpleAlarmBot/SimpleAlarmDialog.cs
+    /// \dontinclude SimpleAlarmBot/SimpleAlarmDialog.cs
     /// \skip builtin.intent.alarm.turn_off_alarm
     /// \until context.Wait
     /// \until }

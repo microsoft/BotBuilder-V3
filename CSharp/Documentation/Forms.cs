@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.FormFlow
 {
-    /// \page forms Forms 
+    /// \page forms FormFlow 
     /// \tableofcontents
     /// [LUIS]: http://luis.ai "LUIS"
     ///
@@ -9,10 +9,10 @@
     /// can require a lot of effort.  At each point in the dialog, there are many possibilities for what happens
     /// next.  You may need to clarify an ambiguity, provide help, go back or show progress so far.  
     /// In order to simplify building guided conversations the framework provides a powerful 
-    /// dialog building block known as a form.  A form sacrifices some of the flexibility provided by dialogs, 
-    /// but in a way that requires much less effort.  Even better, you can combine forms and other kinds of dialogs
-    /// like a <a href="http://luis.ai">LUIS</a> dialog to get the best of both worlds.  The dialog guides the user through filling in the form
-    /// while provding help and guidance along the way.
+    /// dialog building block known as FormFlow.  FormFlow sacrifices some of the flexibility provided by dialogs, 
+    /// but in a way that requires much less effort.  Even better, you can combine FormFlow and other kinds of dialogs
+    /// like a Microsoft.Bot.Builder.Dialogs.LuisDialog to get the best of both worlds.  
+    /// A FormFlow dialog guides the user through filling in the form while provding help and guidance along the way.
     /// 
     /// The clearest way to understand this is to take a look at the \ref simpleSandwichBot sample. 
     /// In that sample you define the form you want using C# classes, fields and properties. 
@@ -21,7 +21,7 @@
     /// to improve your bot in a straightforward way.  
     /// 
     /// \section fields Forms and Fields
-    /// A form is made up of fields that you want to fill in through a conversation with the user.  
+    /// FormFlow starts with the idea of a form--a collection of fields that you want to fill in through a conversation with the user.  
     /// The simplest way to describe a form is through a C# class.  
     /// Within a class, a "field" is any public field or property with one of the following types:
     /// * Integral -- sbyte, byte, short, ushort, int, uint, long, ulong
@@ -39,9 +39,8 @@
     /// everything is automatically generated and \ref annotatedSandwich where the form is extensively customized.
     /// 
     /// \section simpleSandwichBot Simple Sandwich Bot
-    /// As an example of %Form Flow in action, this will outline a simple sandwich ordering form that we will elaborate
-    /// to show various features.  To start with %Form Flow you need to create a C# class to represent the result of 
-    /// the form flow dialog. 
+    /// As an example of FormFlow in action, this will outline a simple sandwich ordering form that we will elaborate in \ref annotatedSandwichBot
+    /// to show various features.  To start with FormFlow you need to create a C# class to define the form you want to fill in. 
     /// Like this:
     /// \include SimpleSandwichBot/sandwich.cs
     /// Included in the class is a static method BuildForm that uses a FormBuilder to build your form.  There
@@ -54,9 +53,8 @@
     /// \until }
     /// 
     /// The combination of your C# class and connecting it to the %Bot Framework is enough to automatically create a conversation.  
-    /// Here is an example interaction that demonstrates some of the features offered by %Form Flow.  A <b>></b> symbol shows 
+    /// Here is an example interaction that demonstrates some of the features offered by FormFlow.  A __>__ symbol shows 
     /// When a response is expected from the user.
-    /// 
     /// ~~~{.txt}
     ///  Please select a sandwich
     ///  1. BLT
@@ -79,7 +77,7 @@
     /// 
     /// Here you can see the field SandwichOrder.Sandwich being filled in.  First off you can see the automatically generated
     /// prompt "Please select a sandwich".  The word "sandwich" came from the name of the field.  The SandwichOptions enumeration provided the 
-    /// choices that make up the list.  Each enumeration was broken into words based on case and _.  
+    /// choices that make up the list.  Each enumeration was broken into words based on changes in case and underscores.  
     /// 
     /// Now what are the possible responses?  If you ask for "help" you can see the possibilities like this:
     /// ~~~{.txt}
@@ -305,16 +303,17 @@
     /// * Value validation  
     /// * and much more...
     /// 
-    /// The next example shows how to improve the sandwich bot.
+    /// The next example shows how to improve the sandwich bot with attributes, business logic and the FormBuilder.
     ///
     /// \section annotatedSandwich Annotated Sandwich Bot
     /// This example builds on the previous one by:
+    /// * Adding some new field types including string and DateTime.  
     /// * Adding  attributes to add descriptions, terms, prompts and templates.  
     /// * Switching from fields to properties to incorporate business logic.  
     /// * Adding messages, flow control and confirmations.  
     /// 
     /// \subsection attributes Attributes
-    /// %Form Flow includes some C# attributes you can add to your class to better control the dialog.  
+    /// FormFlow includes some C# attributes you can add to your class to better control the dialog.  
     /// Here are the attributes:
     /// 
     /// Attribute | Purpose
@@ -475,7 +474,7 @@
     /// * Break on case changes and _.  
     /// * Generate each n-gram up to a maximum length.
     /// * Add s? to the end to support plurals.  
-    /// So for example, the value AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
+    /// For example, the value AngusBeefAndGarlicPizza would generate: 'angus?', 'beefs?', 'garlics?', 'pizzas?', 'angus? beefs?', 'garlics? pizzas?' and 'angus beef and garlic pizza'.
     /// The word "rotisserie" is one that is highly likely to be misspelled so here we have used a regular expression to make it more likely
     /// we will match what the user types.  Because we specify Terms.MaxPhrase, Language.GenerateTerms will also generate variations for us.
     /// 
@@ -507,7 +506,7 @@
     /// 
     /// \subsection logic Adding Business Logic
     /// Sometimes there are complex interdependencies between fields or you need to 
-    /// add logic to setting or getting a value.  In this example we want to add support
+    /// add logic to setting or getting a value.  Here we want to add support
     /// for including all toppings except some of them.  To do this, we change toppings
     /// from a property to a field and add some logic to complement the selected toppings.
     /// 
@@ -543,7 +542,7 @@
     /// \subsection ControlFlow Using the Form Builder
     /// So far we have improved your dialog via attributes and business logic.  There is 
     /// another way to improve your dialog and that is through the FormBuilder.  The FormBuilder
-    /// allows more fine-grained control over the steps in your form and lets you put in messages
+    /// allows more fine-grained control over the steps in your conversation and lets you put in messages
     /// and more friendly confirmations.  By default the steps specified in the builder
     /// are executed in order.  (Steps might be skipped if there is already a value, or if there
     /// is explicit navigation.)  Here is a more complex usage of FormBuilder:
@@ -563,10 +562,10 @@
     /// * Fill in SandwichOrder.DeliveryAddress and verify the resulting string.  If it does not start with a number we return a message.
     /// * Fill in SandwichOrder.DeliveryTime with a custom prompt.  
     /// * Confirm the order.    
-    /// * Add any remaining fields in the order they are defined in your class.  
-    /// * Show a final message thanking them
+    /// * Add any remaining fields in the order they are defined in your class.  (If this was left out, those steps to fill in those fields would not be included.)
+    /// * Show a final message thanking them.
     /// 
-    /// In the delivery time prompt and the confirmation message you can see an instance of
+    /// In the SandwichOrder.DeliveryTime prompt and the confirmation message you can see an instance of
     /// the \ref patterns where pattern elements like {Length} are filled in from your C# class
     /// before the string is shown to the user.
     /// 
