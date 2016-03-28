@@ -202,7 +202,21 @@ Registering your Bot tells the Connector how to call your Bot's web service. Not
 
 Now that the Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build. You need only the primary AppSecret, the secondary is used when you wish to regenerate your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the regenerate link if you ever need to change your AppSecret. Update your web.config, and re-publish your bot to Azure.
 
-![Update the keys in the web.config file in your Visual Studio project](/images/connector-getstarted-configure-vs-keys.png)
+{% highlight cs %}
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <!--
+    For more information on how to configure your ASP.NET application, please visit
+    http://go.microsoft.com/fwlink/?LinkId=301879
+    -->
+    <configuration>
+    <appSettings>
+        <!-- update these with your appid and one of your appsecret keys-->
+        <add key="AppId" value="gssamplebot" />
+        <add key="AppSecret" value="41bdc034db134879a53ad7b605936e79" />
+    </appSettings>
+  
+{% endhighlight %}
 
 ## Testing the connection to your bot
 
@@ -220,7 +234,9 @@ Now that you have a Bot up and running, you'll want to configure it for one or m
 
 ![Sign in, select your Bot, and go to the Channels panel.](/images/connector-getstarted-configure-channels.png)
 
-2. Pick the channel you wish to configure, and click edit.  You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf.
+2. Pick the channel you wish to configure, and click add.  You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf.
+
+![Configuring a channel, for example, Skype.](/images/connector_channel_config_skype.png)
 
 3. Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".  
 
