@@ -30,3 +30,10 @@ These examples show a simple "Hello World" sample for each bot type supported by
 ## Basic Techniques
 These examples show the basic techniques needed to build a great bot. All of the examples use the TextBot class and can be executed from a console window. 
 
+|**Example**     | **Description**                                   
+| -------------------| ---------------------------------------------
+|[basics-waterfall](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-waterfall) | This Bot demonstrates how to use a waterfall to prompt the user with a series of questions.
+|[basics-naturalLanguage](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-naturalLanguage) | Shows how to use a LuisDialog to add natural language support to a bot.
+|[basics-multiTurn](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-multiTurn) | Shows how to implement simple multi-turns using waterfalls.
+|[basics-firstRun](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-firstRun) | Shows how to create a First Run experience using a piece of middleware.
+      
