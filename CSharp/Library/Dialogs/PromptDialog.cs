@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private abstract class Prompt<T> : IDialog
+        private abstract class Prompt<T> : IDialog<T>
         {
             protected readonly string prompt;
             protected readonly string retry;

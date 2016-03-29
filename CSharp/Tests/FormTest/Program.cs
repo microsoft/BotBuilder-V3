@@ -139,12 +139,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Build();
         }
 
-        public static void Call<T>(IDialogContext context, CallDialog<Choices> root, BuildForm<T> buildForm) where T : class, new()
-        {
-            var form = new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
-            context.Call<T>(form, root.CallChild);
-        }
-
         public static void TestValidate()
         {
             try
@@ -190,59 +184,50 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
         }
 
+        public static IFormDialog<T> MakeForm<T>(BuildForm<T> buildForm) where T : class, new()
+        {
+            return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
+        }
+
         static void Main(string[] args)
         {
             // TestValidate();
-            var choiceForm = FormDialog.FromType<Choices>();
-            var callDebug = new CallDialog<Choices>(choiceForm, async (root, context, result) =>
-            {
-                Choices choices;
-                try
-                {
-                    choices = await result;
-                }
-                catch (Exception error)
-                {
-                    await context.PostAsync(error.ToString());
-                    throw;
-                }
 
-                switch (choices.Choice)
+            var callDebug =
+                Fluent
+                .From(() => FormDialog.FromType<Choices>())
+                .ContinueWith<Choices, object>(async (context, result) =>
                 {
-                    case DebugOptions.AnnotationsAndNumbers:
-                        {
-                            Call(context, root, () => BuildForm(noNumbers: false));
-                            return;
-                        }
-                    case DebugOptions.AnnotationsAndNoNumbers:
-                        {
-                            Call(context, root, () => BuildForm(noNumbers: true));
-                            return;
-                        }
-                    case DebugOptions.NoAnnotations:
-                        {
-                            Call(context, root, () => BuildForm(noNumbers: true, ignoreAnnotations: true));
-                            return;
-                        }
-                    case DebugOptions.NoFieldOrder:
-                        {
-                            Call(context, root, () => new FormBuilder<PizzaOrder>().Build());
-                            return;
-                        }
-                    case DebugOptions.SimpleSandwichBot:
-                        {
-                            Call(context, root, () => SimpleSandwichOrder.BuildForm());
-                            return;
-                        }
-                    case DebugOptions.AnnotatedSandwichBot:
-                        {
-                            Call(context, root, () => AnnotatedSandwichOrder.BuildForm());
-                            return;
-                        }
-                }
+                    Choices choices;
+                    try
+                    {
+                        choices = await result;
+                    }
+                    catch (Exception error)
+                    {
+                        await context.PostAsync(error.ToString());
+                        throw;
+                    }
 
-                context.Done(result);
-            });
+                    switch (choices.Choice)
+                    {
+                        case DebugOptions.AnnotationsAndNumbers:
+                            return MakeForm(() => BuildForm(noNumbers: false));
+                        case DebugOptions.AnnotationsAndNoNumbers:
+                            return MakeForm(() => BuildForm(noNumbers: true));
+                        case DebugOptions.NoAnnotations:
+                            return MakeForm(() => BuildForm(noNumbers: true, ignoreAnnotations: true));
+                        case DebugOptions.NoFieldOrder:
+                            return MakeForm(() => new FormBuilder<PizzaOrder>().Build());
+                        case DebugOptions.SimpleSandwichBot:
+                            return MakeForm(() => SimpleSandwichOrder.BuildForm());
+                        case DebugOptions.AnnotatedSandwichBot:
+                            return MakeForm(() => AnnotatedSandwichOrder.BuildForm());
+                        default:
+                            throw new NotImplementedException();
+                    }
+                })
+                .Loop();
 
             Interactive(callDebug);
             /*

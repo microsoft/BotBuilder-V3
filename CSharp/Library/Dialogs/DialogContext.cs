@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        async Task IDialogContext.PostAsync(string text, CancellationToken cancellationToken)
+        async Task IBotToUser.PostAsync(string text, CancellationToken cancellationToken)
         {
             var toUser = DialogContext.ToUser(this.toBot, text);
             IBotToUser botToUser = this;
