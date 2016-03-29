@@ -37,6 +37,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs
@@ -52,7 +53,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="attempts"> The number of times to retry. </param>
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var child = new PromptText(prompt, retry, attempts);
+            var child = new PromptString(prompt, retry, attempts);
             context.Call<string>(child, resume);
         }
 
@@ -105,65 +106,16 @@ namespace Microsoft.Bot.Builder.Dialogs
             context.Call<T>(child, resume);
         }
 
+        /// <summary>   Prompt for a text string. </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Text(IDialogContext, ResumeAfter{string}, string, string, int)"/>.</remarks>
         [Serializable]
-        private abstract class Prompt<T> : IDialog<T>
+        public sealed class PromptString : Prompt<string>
         {
-            protected readonly string prompt;
-            protected readonly string retry;
-            protected int attempts;
-
-            public Prompt(string prompt, string retry, int attempts)
-            {
-                SetField.NotNull(out this.prompt, nameof(prompt), prompt);
-                SetField.NotNull(out this.retry, nameof(retry), retry ?? prompt);
-                this.attempts = attempts;
-            }
-
-            async Task IDialog.StartAsync(IDialogContext context)
-            {
-                await context.PostAsync(this.prompt);
-                context.Wait(MessageReceived);
-            }
-
-            private async Task MessageReceived(IDialogContext context, IAwaitable<Message> message)
-            {
-                T result;
-                if (this.TryParse(await message, out result))
-                {
-                    context.Done(result);
-                }
-                else
-                {
-                    --this.attempts;
-                    if (this.attempts > 0)
-                    {
-                        var retry = this.retry ?? this.DefaultRetry;
-                        await context.PostAsync(retry);
-                        context.Wait(MessageReceived);
-                    }
-                    else
-                    {
-                        await context.PostAsync("too many attempts");
-                        throw new Exception();
-                    }
-                }
-            }
-
-            protected abstract bool TryParse(Message message, out T result);
-
-            protected virtual string DefaultRetry
-            {
-                get
-                {
-                    return this.prompt;
-                }
-            }
-        }
-
-        [Serializable]
-        private sealed class PromptText : Prompt<string>
-        {
-            public PromptText(string prompt, string retry, int attempts)
+            /// <summary>   Constructor for a prompt string dialog. </summary>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
+            public PromptString(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
             }
@@ -191,9 +143,15 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>   Prompt for a confirmation. </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int)/>.</remarks>
         [Serializable]
-        private sealed class PromptConfirm : Prompt<bool>
+        public sealed class PromptConfirm : Prompt<bool>
         {
+            /// <summary>   Constructor for a prompt confirmation dialog. </summary>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptConfirm(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
@@ -227,9 +185,15 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>   Prompt for a confirmation. </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int)/>.</remarks>
         [Serializable]
-        private sealed class PromptInt64 : Prompt<Int64>
+        public sealed class PromptInt64 : Prompt<Int64>
         {
+            /// <summary>   Constructor for a prompt int64 dialog. </summary>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptInt64(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
@@ -241,9 +205,15 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>   Prompt for a double. </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int)/>.</remarks>
         [Serializable]
-        private sealed class PromptDouble: Prompt<double>
+        public sealed class PromptDouble: Prompt<double>
         {
+            /// <summary>   Constructor for a prompt double dialog. </summary>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptDouble(string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
@@ -255,11 +225,18 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>   Prompt for a choice from a set of choices. </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int)/>.</remarks>
         [Serializable]
-        private class PromptChoice<T> : Prompt<T>
+        public class PromptChoice<T> : Prompt<T>
         {
             private readonly IEnumerable<T> options;
 
+            /// <summary>   Constructor for a prompt choice dialog. </summary>
+            /// <param name="options">Enumerable of the options to choose from.</param>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts)
                 : base(prompt, retry, attempts)
             {
@@ -287,6 +264,64 @@ namespace Microsoft.Bot.Builder.Dialogs
 
                 result = default(T);
                 return false;
+            }
+        }
+    }
+}
+
+namespace Microsoft.Bot.Builder.Dialogs.Internals
+{
+    [Serializable]
+    public abstract class Prompt<T> : IDialog<T>
+    {
+        protected readonly string prompt;
+        protected readonly string retry;
+        protected int attempts;
+
+        public Prompt(string prompt, string retry, int attempts)
+        {
+            SetField.NotNull(out this.prompt, nameof(prompt), prompt);
+            SetField.NotNull(out this.retry, nameof(retry), retry ?? prompt);
+            this.attempts = attempts;
+        }
+
+        async Task IDialog.StartAsync(IDialogContext context)
+        {
+            await context.PostAsync(this.prompt);
+            context.Wait(MessageReceived);
+        }
+
+        private async Task MessageReceived(IDialogContext context, IAwaitable<Message> message)
+        {
+            T result;
+            if (this.TryParse(await message, out result))
+            {
+                context.Done(result);
+            }
+            else
+            {
+                --this.attempts;
+                if (this.attempts > 0)
+                {
+                    var retry = this.retry ?? this.DefaultRetry;
+                    await context.PostAsync(retry);
+                    context.Wait(MessageReceived);
+                }
+                else
+                {
+                    await context.PostAsync("too many attempts");
+                    throw new Exception();
+                }
+            }
+        }
+
+        protected abstract bool TryParse(Message message, out T result);
+
+        protected virtual string DefaultRetry
+        {
+            get
+            {
+                return this.prompt;
             }
         }
     }
