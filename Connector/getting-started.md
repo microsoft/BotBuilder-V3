@@ -92,7 +92,7 @@ The core functionality of the Bot Template is all in the Post function within Co
             
 ##Use the Bot Framework Emulator to test your Bot application
 
-The Bot Framework provides an emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from here [https://aka.ms/bf-bc-emulator](https://aka.ms/bf-bc-emulator).
+The Bot Framework provides an emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
 
 One installed, you're ready to test. First, start your Bot in Visual Studio using a browser as the application host. The image below uses Microsoft Edge.
 
