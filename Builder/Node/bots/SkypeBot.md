@@ -58,7 +58,7 @@ bot.add('/', function (session) {
 // Setup Restify Server
 const server = restify.createServer();
 server.post('/v1/chat', skype.messagingHandler(botService));
-server.listen(process.env.PORT || 8000, function () {
+server.listen(process.env.PORT || 8080, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
 {% endhighlight %}
@@ -83,9 +83,9 @@ You’ll need to download ngrok and modify your bot’s registration.
 
 First step is to start ngrok on your machine and map it to a local http port:
 
-    ngrok http 8000
+    ngrok http 8080
 
-This will create a new tunnel from a public url to http://localhost:8000 on your machine. After you start the command, you can see the status of the tunnel:
+This will create a new tunnel from a public url to http://localhost:8080 on your machine. After you start the command, you can see the status of the tunnel:
 
 {% highlight JavaScript %}
 ngrok by @inconshreveable                                           (Ctrl+C to quit)
@@ -93,8 +93,8 @@ Tunnel Status       online
 Update              update available (version 2.0.24, Ctrl-U to update)
 Version             2.0.19/2.0.25
 Web Interface       http://127.0.0.1:4040
-Forwarding          http://78191649.ngrok.io -> localhost:8000
-Forwarding          https://78191649.ngrok.io -> localhost:8000
+Forwarding          http://78191649.ngrok.io -> localhost:8080
+Forwarding          https://78191649.ngrok.io -> localhost:8080
 
 Connections     ttl     opn     rt1     rt5     p50     p90
                 0       0       0.00    0.00    0.00    0.00

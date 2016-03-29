@@ -20,15 +20,15 @@ The example below shows a Hello World bot built using [restify](http://restify.c
 var restify = require('restify');
 var builder = require('botbuilder');
 
-var server = restify.createServer();
-
+// Create bot and add dialogs
 var bot = new builder.BotConnectorBot({ appId: '<your appId>', appSecret: '<your appSecret>' });
 bot.add('/', function (session) {
    session.send('Hello World'); 
 });
 
+// Setup Restify Server
+var server = restify.createServer();
 server.post('/v1/messages', bot.verifyBotFramework(), bot.listen());
-
 server.listen(8080, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
