@@ -154,8 +154,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void IDialogStack.Call<R>(IDialog child, ResumeAfter<R> resume)
         {
             var callRest = ToRest(child.StartAsync);
-            var doneRest = ToRest(resume);
-            this.wait = this.fiber.Call<object, R>(callRest, null, doneRest);
+            if (resume != null)
+            {
+                var doneRest = ToRest(resume);
+                this.wait = this.fiber.Call<object, R>(callRest, null, doneRest);
+            }
+            else
+            {
+                this.wait = this.fiber.Call<object>(callRest, null);
+            }
         }
 
         void IDialogStack.Done<R>(R value)
