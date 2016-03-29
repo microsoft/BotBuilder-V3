@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Microsoft.Bot.Builder.Luis.LuisService Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
+<title>Microsoft.Bot.Builder.Luis.LuisModel Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -98,49 +98,44 @@
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html','../../');});
+$(document).ready(function(){initNavTree('df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html','../../');});
 </script>
 <div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="../../dd/df4/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service-members.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../da/d46/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Microsoft.Bot.Builder.Luis.LuisService Class Reference</div>  </div>
+<div class="title">Microsoft.Bot.Builder.Luis.LuisModel Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Standard implementation of <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html" title="A mockable interface for the LUIS service. ">ILuisService</a> against actual LUIS service.  
- <a href="../../d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html#details">More...</a></p>
 <div class="dynheader">
-Inheritance diagram for Microsoft.Bot.Builder.Luis.LuisService:</div>
+Inheritance diagram for Microsoft.Bot.Builder.Luis.LuisModel:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="../../d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.png" usemap="#Microsoft.Bot.Builder.Luis.LuisService_map" alt=""/>
-  <map id="Microsoft.Bot.Builder.Luis.LuisService_map" name="Microsoft.Bot.Builder.Luis.LuisService_map">
-<area href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html" title="A mockable interface for the LUIS service. " alt="Microsoft.Bot.Builder.Luis.ILuisService" shape="rect" coords="0,0,232,24"/>
+  <img src="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.png" usemap="#Microsoft.Bot.Builder.Luis.LuisModel_map" alt=""/>
+  <map id="Microsoft.Bot.Builder.Luis.LuisModel_map" name="Microsoft.Bot.Builder.Luis.LuisModel_map">
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a55ebdac41dd94f204f461b2909f9f38f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html#a55ebdac41dd94f204f461b2909f9f38f">LuisService</a> (<a class="el" href="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html">LuisModel</a> model)</td></tr>
-<tr class="memdesc:a55ebdac41dd94f204f461b2909f9f38f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the LUIS service using the model information.  <a href="#a55ebdac41dd94f204f461b2909f9f38f">More...</a><br /></td></tr>
-<tr class="separator:a55ebdac41dd94f204f461b2909f9f38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7acfa79a145268cd7ff03acfa3b98193"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html#a7acfa79a145268cd7ff03acfa3b98193">LuisModel</a> (string modelID, string subscriptionKey)</td></tr>
+<tr class="separator:a7acfa79a145268cd7ff03acfa3b98193"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a6537ae00df1fc7c722b1bd1c0a293aaa"><td class="memItemLeft" align="right" valign="top">static readonly Uri&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html#a6537ae00df1fc7c722b1bd1c0a293aaa">UriBase</a> = new Uri(&quot;https://api.projectoxford.ai/luis/v1/application&quot;)</td></tr>
-<tr class="memdesc:a6537ae00df1fc7c722b1bd1c0a293aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base URi for accessing LUIS.  <a href="#a6537ae00df1fc7c722b1bd1c0a293aaa">More...</a><br /></td></tr>
-<tr class="separator:a6537ae00df1fc7c722b1bd1c0a293aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a83dee3d70e5056bf3bbc392d6cf4d836"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html#a83dee3d70e5056bf3bbc392d6cf4d836">ModelID</a></td></tr>
+<tr class="separator:a83dee3d70e5056bf3bbc392d6cf4d836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6148bae90187b1fe977c6356ce4bcb47"><td class="memItemLeft" align="right" valign="top">readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html#a6148bae90187b1fe977c6356ce4bcb47">SubscriptionKey</a></td></tr>
+<tr class="separator:a6148bae90187b1fe977c6356ce4bcb47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Standard implementation of <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html" title="A mockable interface for the LUIS service. ">ILuisService</a> against actual LUIS service. </p>
-
-<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00081">81</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
+<div class="textblock">
+<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00027">27</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a55ebdac41dd94f204f461b2909f9f38f"></a>
+<a class="anchor" id="a7acfa79a145268cd7ff03acfa3b98193"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -148,11 +143,21 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Microsoft.Bot.Builder.Luis.LuisService.LuisService </td>
+          <td class="memname">Microsoft.Bot.Builder.Luis.LuisModel.LuisModel </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html">LuisModel</a>&#160;</td>
-          <td class="paramname"><em>model</em></td><td>)</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>modelID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>subscriptionKey</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -162,45 +167,41 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construct the LUIS service using the model information. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">model</td><td>The LUIS model information.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00089">89</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00032">32</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a6537ae00df1fc7c722b1bd1c0a293aaa"></a>
+<a class="anchor" id="a83dee3d70e5056bf3bbc392d6cf4d836"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly Uri Microsoft.Bot.Builder.Luis.LuisService.UriBase = new Uri(&quot;https://api.projectoxford.ai/luis/v1/application&quot;)</td>
+          <td class="memname">readonly string Microsoft.Bot.Builder.Luis.LuisModel.ModelID</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>The base URi for accessing LUIS. </p>
+<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00029">29</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00097">97</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a6148bae90187b1fe977c6356ce4bcb47"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly string Microsoft.Bot.Builder.Luis.LuisModel.SubscriptionKey</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/da6/_luis_service_8cs_source.html#l00030">30</a> of file <a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/v-chph/Source/Repos/BotBuilder/CSharp/Library/Luis/<a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a></li>
+<li>C:/code/BotBuilder/CSharp/Library/Luis/<a class="el" href="../../d6/da6/_luis_service_8cs_source.html">LuisService.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
