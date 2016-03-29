@@ -194,7 +194,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // TestValidate();
 
             var callDebug =
-                Fluent
+                Chain
                 .From(() => FormDialog.FromType<Choices>())
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {

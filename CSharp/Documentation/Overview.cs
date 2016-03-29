@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder { }
 /// <remarks>This is one of the core namespaces you should include in your code.</remarks>
 namespace Microsoft.Bot.Builder.Dialogs { }
 
-/// <summary>Namespace for internal \ref dialogs machinery that is not useful for a developer.</summary>
+/// <summary>Namespace for internal \ref dialogs machinery that is not useful for most developers.</summary>
 namespace Microsoft.Bot.Builder.Dialogs.Internals { }
 
 /// <summary>Core namespace for \ref FormFlow and associated infrastructure.</summary>
@@ -79,10 +79,10 @@ namespace Microsoft.Bot.Builder.FormFlow { }
 /// </remarks>
 namespace Microsoft.Bot.Builder.FormFlow.Advanced { }
 
-/// <summary>Namespace for internal machinery that is not useful for a developer.</summary>
+/// <summary>Namespace for internal machinery that is not useful for most developers.</summary>
 namespace Microsoft.Bot.Builder.Internals { }
 
-/// <summary>Namespace for the internal fibers machinery that is not useful for a developer.</summary>
+/// <summary>Namespace for the internal fibers machinery that is not useful for most developers.</summary>
 namespace Microsoft.Bot.Builder.Internals.Fibers { }
 
 /// <summary>Namespace for the machinery needed to talk to http://luis.ai.</summary>

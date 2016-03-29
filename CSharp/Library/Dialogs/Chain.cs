@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// <summary>
     /// A fluent, chainable interface for IDialogs.
     /// </summary>
-    public static partial class Fluent
+    public static partial class Chain
     {
         /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute this continuation method to construct the next <see cref="IDialog{R}"/>.
