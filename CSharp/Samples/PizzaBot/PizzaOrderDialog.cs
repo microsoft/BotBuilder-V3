@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    [LuisModel("a19f7eee-0280-4a9a-b5e5-73c16b32c43d", "fe054e042fd14754a83f0a205f6552a5")]
+    [LuisModel("4311ccf1-5ed1-44fe-9f10-a6adbad05c14", "6d0966209c6e4f6b835ce34492f3e6d9")]
     [Serializable]
     public class PizzaOrderDialog : LuisDialog
     {
