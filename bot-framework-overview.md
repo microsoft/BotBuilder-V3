@@ -39,6 +39,6 @@ The Bot Directory is a public directory of all approved bots registered through 
 ![Bot Directory (coming soon)](/images/bot_directory_mock_comingsoon.png)
 
 
-To learn more about Bot Framework, view [the FAQ or dive in to the rest of the documentation](http://doc.botframework.com).
+To learn more about Bot Framework, view [the FAQ or dive in to the rest of the documentation](http://docs.botframework.com).
 
 
