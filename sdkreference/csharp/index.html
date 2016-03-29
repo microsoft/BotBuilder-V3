@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
     <script type="text/javascript">
         $(document).ready(function () {
             var sidenav = $('#side-nav');
@@ -103,49 +103,35 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#overview">Overview</a></li>
 <li class="level1"><a href="#install">Install</a></li>
+<li class="level1"><a href="#debugging">Debugging</a></li>
 <li class="level1"><a href="#troubleshooting_q_and_a">Troubleshooting Q &amp; A</a></li>
 </ul>
 </div>
-<div class="textblock"><ul style="list-style-type: none;">
-<li>
-<a class="el" href="index.html#overview">Overview</a>  </li>
-<li>
-<a class="el" href="index.html#install">Install</a>  </li>
-<li>
-<a class="el" href="dialogs.html">Dialogs</a>  </li>
-<li>
-<a class="el" href="forms.html">FormFlow</a>  </li>
-<li>
-<a href="namespaces.html"><b>Namespaces</b></a> </li>
-<li>
-<a href="annotated.html"><b>Classes</b></a> </li>
-<li>
-<a href="files.html"><b>Source Files</b></a> </li>
-</ul>
-<h1><a class="anchor" id="overview"></a>
+<div class="textblock"><h1><a class="anchor" id="overview"></a>
 Overview</h1>
-<p>Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write Bots.</p>
+<p>Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write bots.</p>
 <p>High Level Features:</p><ul>
 <li>Powerful dialog system with dialogs that are isolated and composable.</li>
 <li>Built-in dialogs for simple things like Yes/No, strings, numbers, enumerations.</li>
 <li>Built-in dialogs that utilize powerful AI frameworks like <a href="http://luis.ai">LUIS</a>.</li>
 <li>Bots are stateless which helps them scale.</li>
-<li>Form Flow for automatically generating a <a class="el" href="d5/d61/namespace_microsoft_1_1_bot.html">Bot</a> from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.</li>
-<li>Open source found on <a href="http://github.com/Microsoft/botbuilder">http://github.com/Microsoft/botbuilder</a>.</li>
+<li><a class="el" href="forms.html">FormFlow</a> for automatically generating a bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.</li>
+<li>SDK source code is found on <a href="http://github.com/Microsoft/botbuilder">http://github.com/Microsoft/botbuilder</a>.</li>
 </ul>
 <h1><a class="anchor" id="install"></a>
 Install</h1>
-<p>In order to use the <a class="el" href="d7/d4e/namespace_microsoft.html">Microsoft</a> <a class="el" href="d5/d61/namespace_microsoft_1_1_bot.html">Bot</a> <a class="el" href="d3/ddb/namespace_microsoft_1_1_bot_1_1_builder.html">Builder</a> you should first follow the install steps in the <a href="http://aka.ms/bf-getting-started-in-c">Getting Started with Bot Connector</a> page to setup your bot. In order to use the framework you need to:</p><ol type="1">
+<p>In order to use the Microsoft Bot Builder you should first follow the install steps in the <a href="http://aka.ms/bf-getting-started-in-c">Getting Started with Bot Connector</a> page to setup your bot. In order to use the framework you need to:</p><ol type="1">
 <li>Right-click on your project and select "Manage NuGet Packages".</li>
 <li>In the "Browse" tab, type "Microsoft.Bot.Builder".</li>
 <li>Click the "Install" button and accept the changes.</li>
 </ol>
 <p>At this point your project has the builder installed and is ready to use it. If you want to understand how to create and use dialogs, see <a class="el" href="dialogs.html">Dialogs</a> or if you would like to have a dialog automatically constructed see <a class="el" href="forms.html">FormFlow</a>.</p>
-<h1><a class="anchor" id="troubleshooting_q_and_a"></a>
+<h1><a class="anchor" id="debugging"></a>
+Debugging</h1>
+<p>In order to debug your bot, you can either use the Bot Framework Emulator as described in <a href="http://aka.ms/bf-getting-started-in-c">Getting Started with Bot Connector</a> or you can create a console app with a command loop like this:  <div class="fragment"><div class="line">        <span class="keyword">static</span> <span class="keywordtype">void</span> Interactive(IDialog form)</div><div class="line">        {</div><div class="line">            var message = <span class="keyword">new</span> Message()</div><div class="line">            {</div><div class="line">                ConversationId = Guid.NewGuid().ToString(),</div><div class="line">                Text = <span class="stringliteral">&quot;&quot;</span></div><div class="line">            };</div><div class="line">            <span class="keywordtype">string</span> prompt;</div><div class="line">            <span class="keywordflow">do</span></div><div class="line">            {</div><div class="line">                var task = Conversation.SendAsync(message, () =&gt; form);</div><div class="line">                message = task.GetAwaiter().GetResult();</div><div class="line">                prompt = message.Text;</div><div class="line">                <span class="keywordflow">if</span> (prompt != null)</div><div class="line">                {</div><div class="line">                    Console.WriteLine(prompt);</div><div class="line">                    Console.Write(<span class="stringliteral">&quot;&gt; &quot;</span>);</div><div class="line">                    message.Text = Console.ReadLine();</div><div class="line">                }</div><div class="line">            } <span class="keywordflow">while</span> (prompt != null);</div><div class="line">        }</div></div><!-- fragment --></p>
+<p>To use it your would do something like this: </p><div class="fragment"><div class="line">Interactive(FormDialog.FromForm&lt;AnnotatedSandwichOrder&gt;(() =&gt; AnnotatedSandwichOrder.BuildForm()));</div></div><!-- fragment --><h1><a class="anchor" id="troubleshooting_q_and_a"></a>
 Troubleshooting Q &amp; A</h1>
-<p>If your question isn't answered here visit our <a href="/support/">support page</a>. </p><hr/>
-<p> <b>Question:</b> I have a problem with the builder who should I contact?</p>
-<p><b>Answer:</b> contact fuse labs </p>
+<p>If you have problems or suggestions, please visit our <a href="/support/">support page</a>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->

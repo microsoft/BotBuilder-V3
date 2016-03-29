@@ -8,7 +8,7 @@ parent1: none
 
 
 
-The Microsoft Bot Framework provides everything you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+The Microsoft Bot Framework provides just what you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
 
 ![Bot Framework Diagram](/images/bot_framework_wht_bkgrnd.png)
 
@@ -39,6 +39,6 @@ The Bot Directory is a public directory of all approved bots registered through 
 ![Bot Directory (coming soon)](/images/bot_directory_mock_comingsoon.png)
 
 
-To learn more about Bot Framework, view the FAQ or dive in to the rest of the documentation.
+To learn more about Bot Framework, view [the FAQ or dive in to the rest of the documentation](http://docs.botframework.com).
 
-# Bot Framework - your bots, wherever your users are talking.
+
