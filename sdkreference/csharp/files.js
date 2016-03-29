@@ -105,7 +105,7 @@ var files =
     ] ],
     [ "LuisDialog.cs", "dd/d15/_luis_dialog_8cs.html", "dd/d15/_luis_dialog_8cs" ],
     [ "LuisModel.cs", "df/df8/_luis_model_8cs.html", [
-      [ "LuisModel", "df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html", "df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model" ]
+      [ "LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute" ]
     ] ],
     [ "LuisResult.cs", "d9/dd6/_luis_result_8cs.html", [
       [ "Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions" ],

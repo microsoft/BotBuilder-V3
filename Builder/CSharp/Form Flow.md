@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Forms
-permalink: /builder/csharp/forms/
+title: FormFlow
+permalink: /builder/csharp/formflow/
 weight: 505
 parent1: Bot Builder for C#
 redirect: /sdkreference/csharp/forms.html

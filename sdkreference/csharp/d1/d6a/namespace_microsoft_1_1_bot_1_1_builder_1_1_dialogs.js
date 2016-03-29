@@ -10,6 +10,6 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
     [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ],
     [ "IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context" ],
     [ "LuisDialog", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog" ],
-    [ "LuisIntent", "db/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent.html", "db/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent" ],
+    [ "LuisIntentAttribute", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute" ],
     [ "PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog" ]
 ];

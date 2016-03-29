@@ -56,8 +56,8 @@ var NAVTREEINDEX =
 "annotated.html",
 "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#af8eca2cad4a049db44767515b9e7451b",
 "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html",
-"db/da8/_i_localizer_8cs_source.html",
-"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#ae27d761765795ceb3ccdf82155d2eae2"
+"db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html",
+"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a5c6e2df2b4d4c93f7699da72b28204c8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

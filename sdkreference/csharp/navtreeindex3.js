@@ -1,6 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"db/da8/_i_localizer_8cs_source.html":[8,0,30],
 "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html":[7,0,0,0,0,2,5],
 "db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html":[7,0,0,0,0,2,0,1],
 "db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#a0681934b8537bfb4b5956c0df40a1e90":[7,0,0,0,0,2,0,1,52],
@@ -74,8 +73,8 @@ var NAVTREEINDEX3 =
 "dc/d9c/_dialogs_2_extensions_8cs.html":[8,0,12],
 "dc/d9c/_dialogs_2_extensions_8cs_source.html":[8,0,12],
 "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html":[7,0,0,0,0,0,2],
-"dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a2329cee9cfd63ed02167edb533c06cee":[7,0,0,0,0,0,2,1],
 "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a39f8ee780fdf62fc68cc578ace19dbd3":[7,0,0,0,0,0,2,2],
+"dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#ac77e14fe635187fe0c6952bcc00c6dbd":[7,0,0,0,0,0,2,1],
 "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html":[7,0,0,0,0,2,0,17],
 "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html#a084b8ccfcf2df7e219db90249ec0ec58":[7,0,0,0,0,2,0,17,2],
 "dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html#a24ba29077a69c9da283cec7c47d11753":[7,0,0,0,0,2,0,17,9],
@@ -187,8 +186,8 @@ var NAVTREEINDEX3 =
 "de/d1e/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame_loop.html#a773a3cea44de942195fb25ca9958820d":[7,0,0,0,0,1,9,0],
 "de/d3d/_dialog_context_8cs.html":[8,0,8],
 "de/d3d/_dialog_context_8cs_source.html":[8,0,8],
-"de/d58/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced.html":[7,0,0,0,0,2,0],
 "de/d58/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced.html":[6,0,0,0,0,2,0],
+"de/d58/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced.html":[7,0,0,0,0,2,0],
 "de/d76/_i_field_8cs.html":[8,0,26],
 "de/d76/_i_field_8cs.html#a4162b6f70317117742a226c4b62044f1":[8,0,26,7],
 "de/d76/_i_field_8cs.html#a4162b6f70317117742a226c4b62044f1a02a7d85bf0d59dff6a850fb5d7dbbe01":[8,0,26,7,1],
@@ -223,6 +222,10 @@ var NAVTREEINDEX3 =
 "de/da1/_recognizer_8cs.html":[8,0,44],
 "de/da1/_recognizer_8cs.html#add9f460ca8f4fab894b278e84876d538":[8,0,44,7],
 "de/da1/_recognizer_8cs_source.html":[8,0,44],
+"de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html":[7,0,0,0,0,3,4],
+"de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html#a231a94634926222f506993f682f1f12a":[7,0,0,0,0,3,4,0],
+"de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html#a447c2fb8db24917bad68d838da0281fc":[7,0,0,0,0,3,4,2],
+"de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html#abee7f6dde9b72c937ef8a0b344e0e436":[7,0,0,0,0,3,4,1],
 "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html":[7,0,0,0,0,0,0,6],
 "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#a419d2ed7293dbe9d958f74090503f488":[7,0,0,0,0,0,0,6,2],
 "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ab08f6d0f644741d1cf41762780b31708":[7,0,0,0,0,0,0,6,0],
@@ -246,8 +249,5 @@ var NAVTREEINDEX3 =
 "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html":[7,0,0,0,0,0,0,0],
 "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a2f1a74a1b97f914dc7fdf5869d1fc2b6":[7,0,0,0,0,0,0,0,0],
 "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a467a3d9b676030e1de27dea562b3ddd2":[7,0,0,0,0,0,0,0,6],
-"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a4f554ffbbf8e1ad5e4dba1c7faf2a213":[7,0,0,0,0,0,0,0,3],
-"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a5c6e2df2b4d4c93f7699da72b28204c8":[7,0,0,0,0,0,0,0,2],
-"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#aa6448053fbd491f062f9da239fab67e4":[7,0,0,0,0,0,0,0,5],
-"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#ac6d878ee7af920c66c82dac26c54e659":[7,0,0,0,0,0,0,0,4]
+"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#a4f554ffbbf8e1ad5e4dba1c7faf2a213":[7,0,0,0,0,0,0,0,3]
 };

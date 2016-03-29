@@ -1,7 +1,7 @@
 var hierarchy =
 [
     [ "Attribute", null, [
-      [ "Microsoft.Bot.Builder.Dialogs.LuisIntent", "db/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.LuisIntentAttribute", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html", [
         [ "Microsoft.Bot.Builder.FormFlow.PromptAttribute", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html", null ],
         [ "Microsoft.Bot.Builder.FormFlow.TemplateAttribute", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html", null ]
@@ -10,7 +10,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.FormFlow.NumericAttribute", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.OptionalAttribute", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.TermsAttribute", "d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html", null ],
-      [ "Microsoft.Bot.Builder.Luis.LuisModel", "df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html", null ]
+      [ "Microsoft.Bot.Builder.Luis.LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", null ]
     ] ],
     [ "BotDataBase< Dictionary< string, object >>", null, [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.DictionaryBotData", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data.html", null ]
