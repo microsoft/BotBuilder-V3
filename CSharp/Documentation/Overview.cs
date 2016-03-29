@@ -1,11 +1,8 @@
 namespace Microsoft.Bot.Builder.Dialogs
 {
     ///
-    /// \mainpage 
-    ///
-    /// \section getting_started Getting Started
+    /// \mainpage Getting Started
     /// 
-    /// \subsection contents Table of Contents
     /// <ul style="list-style-type: none;">
     /// <li>\ref overview </li>
     /// <li>\ref install </li>
@@ -43,7 +40,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// At this point your project has the builder installed and is ready to use it.  If you want to understand how
     /// to create and use dialogs, see \ref dialogs or if you would like to have a dialog automatically constructed see \ref forms.
     /// 
-    /// \section troubleshooting_q_and_a Troubleshooting Q and A
+    /// \section troubleshooting_q_and_a Troubleshooting Q & A
     /// 
     /// If your question isn't answered here visit our [support page](/support/).
     /// 
