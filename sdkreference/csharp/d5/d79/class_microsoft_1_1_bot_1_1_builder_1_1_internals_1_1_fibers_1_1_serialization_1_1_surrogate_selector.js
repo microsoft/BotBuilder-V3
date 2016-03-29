@@ -1,0 +1,4 @@
+var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector =
+[
+    [ "SurrogateSelector", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html#aa10fa644544317edbffc2e509c8d994e", null ]
+];

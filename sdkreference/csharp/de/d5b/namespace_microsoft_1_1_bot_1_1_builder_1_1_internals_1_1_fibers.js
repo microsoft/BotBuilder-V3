@@ -1,0 +1,36 @@
+var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
+[
+    [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ],
+    [ "Fiber", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber.html", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber" ],
+    [ "Frame", "da/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame.html", "da/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame" ],
+    [ "FrameFactory", "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html", "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory" ],
+    [ "IAwaiter", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter.html", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter" ],
+    [ "IFiber", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber" ],
+    [ "IFiberLoop", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop" ],
+    [ "IFrame", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame.html", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame" ],
+    [ "IFrameFactory", "d0/d3d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_factory.html", "d0/d3d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_factory" ],
+    [ "IFrameLoop", "dc/db7/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_loop.html", "dc/db7/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_loop" ],
+    [ "IItem", "d9/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_item.html", "d9/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_item" ],
+    [ "InvalidNeedException", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception.html", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception" ],
+    [ "InvalidNextException", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception.html", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception" ],
+    [ "InvalidTypeException", "db/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_type_exception.html", "db/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_type_exception" ],
+    [ "InvalidWaitException", "d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception.html", "d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception" ],
+    [ "IPost", "dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post.html", "dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post" ],
+    [ "IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
+    [ "IWaiter", "d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html", "d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter" ],
+    [ "IWaitFactory", "d2/da8/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait_factory.html", "d2/da8/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait_factory" ],
+    [ "Methods", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods" ],
+    [ "NullWait", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait" ],
+    [ "PostStruct", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct" ],
+    [ "Serialization", "df/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization.html", [
+      [ "LogSurrogate", "df/dbf/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_log_surrogate.html", "df/dbf/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_log_surrogate" ],
+      [ "ObjectReference", "df/daf/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_object_reference.html", "df/daf/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_object_reference" ],
+      [ "ReferenceSurrogate", "da/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_reference_surrogate.html", null ],
+      [ "ReflectionSurrogate", "d5/d40/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html", "d5/d40/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_reflection_surrogate" ],
+      [ "SimpleServiceLocator", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
+      [ "SurrogateSelector", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
+    ] ],
+    [ "SetField", "d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field.html", "d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field" ],
+    [ "Wait", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait" ],
+    [ "WaitFactory", "d6/dde/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait_factory.html", null ]
+];
