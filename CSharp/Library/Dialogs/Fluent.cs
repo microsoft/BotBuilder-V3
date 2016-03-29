@@ -80,6 +80,17 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Post to the user the result of a <see cref="IDialog{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<T> PostToUser<T>(this IDialog<T> antecedent)
+        {
+            return new PostToUserDialog<T>(antecedent);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the continuation to produce the next <see cref="IDialog{R}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -143,6 +154,26 @@ namespace Microsoft.Bot.Builder.Dialogs
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
                 this.Action(result);
+                context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class PostToUserDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public PostToUserDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                var item = await result;
+                await context.PostAsync(item.ToString());
                 context.Done<T>(await result);
             }
         }
