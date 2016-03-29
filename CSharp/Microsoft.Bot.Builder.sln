@@ -6,14 +6,23 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder", "Library\Microsoft.Bot.Builder.csproj", "{CDFEC7D6-847E-4C13-956B-0A960AE3EB60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FAEFFF66-7944-48F4-972A-9A1C13A5C206}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\README.md = Samples\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}"
+	ProjectSection(SolutionItems) = preProject
+		Library\README.md = Library\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E05398E-3CBE-4DCD-9382-072DC8859427}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8B80380D-BA94-4257-842B-D8BC185EDEA5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{72C60ACB-4804-4584-AD49-00289A89F227}"
 EndProject

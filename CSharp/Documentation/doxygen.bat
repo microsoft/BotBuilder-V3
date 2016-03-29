@@ -1,1 +1,2 @@
-..\packages\Doxygen.1.8.11\tools\bin\doxygen.exe %1 %2 %3
+cd %~dp0
+"%ProgramFiles%\doxygen\bin\doxygen.exe" %1 %2 %3

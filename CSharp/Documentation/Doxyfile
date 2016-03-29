@@ -2034,7 +2034,7 @@ CLASS_DIAGRAMS         = YES
 # the mscgen tool resides. If left empty the tool is assumed to be found in the
 # default search path.
 
-MSCGEN_PATH            = ..\packages\Mscgen.0.2.0\tools\
+MSCGEN_PATH            = $(ProgramFiles(x86))\Mscgen
 
 # You can include diagrams made with dia in doxygen documentation. Doxygen will
 # then run dia to produce the diagram and insert it in the documentation. The
@@ -2228,7 +2228,7 @@ INTERACTIVE_SVG        = NO
 # found. If left blank, it is assumed the dot tool can be found in the path.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DOT_PATH               = ..\packages\Graphviz.2.36.0\tools\bin\
+DOT_PATH               = $(ProgramFiles(x86))\Graphviz2.38\bin\
 
 # The DOTFILE_DIRS tag can be used to specify one or more directories that
 # contain dot files that are included in the documentation (see the \dotfile
