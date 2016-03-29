@@ -53,4 +53,4 @@ Deploy your bot to the cloud and then register it with the Microsoft Bot Framewo
 ## Dive deeper
 Learn how to build great bots.
 
-* [Getting Started with Bot Builder for Node.js](/builder/node/getstarted)
+* [Core Concepts](/builder/node/guides/core-concepts/)

@@ -2,7 +2,7 @@
 layout: page
 title: SlackBot
 permalink: /builder/node/bots/SlackBot/
-weight: 623
+weight: 624
 parent1: Bot Builder for Node.js
 parent2: Bots
 ---
@@ -11,7 +11,7 @@ parent2: Bots
 {:toc}
 
 ## Overview
-The [SlackBot](/sdkreference/nodejs/classes/_botbuilder_d_.botconnectorbot.html) class makes it easy to build a native bot for [slack](https://slack.com/) using [Botkit](http://howdy.ai/botkit/).  Bot Builder is a perfect companion for Botkit as it lets you do everything you can do in Botkit with the added power of Bot Builders Dialog System.
+The [SlackBot](/sdkreference/nodejs/classes/_botbuilder_d_.slackbot.html) class makes it easy to build a native bot for [slack](https://slack.com/) using [Botkit](http://howdy.ai/botkit/).  Bot Builder is a perfect companion for Botkit as it lets you do everything you can do in Botkit with the added power of Bot Builders Dialog System.
 
 ## Usage
 The example below shows a Hello World bot built using [Botkit](http://howdy.ai/botkit/) and the [SlackBot](/sdkreference/nodejs/classes/_botbuilder_d_.slackbot.html) class. You simply create you Botkit controller and spawn your bot the way you normally would, then pass your controller & bot into the constructor of a SlackBot instance.  Next you add your dialogs and call [SlackBot.listenForMentions()](/sdkreference/nodejs/classes/_botbuilder_d_.slackbot.html#listenformentions) to have your bot listen for messages directed at the bot. Once you call startRtm() on the Botkit side of things the bot will login to slack and start processing messages. You'll need to provide an integration token for your bot which the example pulls from an environment variable.
