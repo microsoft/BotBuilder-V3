@@ -22,7 +22,7 @@ Most of the time Text and Language are the only properties you need to worry abo
 | **Text**  | A text payload in markdown syntax which will be rendered as appropriate on each channel| Hello, how are you?
 | **Language** | (Optional) an optional [language code](https://msdn.microsoft.com/en-us/library/hh456380.aspx) | "en"
 
-If all you do is give simple one line text responses you don't have to read any further.
+If all you do is give simple one-line text responses, you don't have to read any further.
 
 ## The Text property is **Markdown**
 The text property is expressed in markdown. This allows each channel to render the markdown as appropriate.
