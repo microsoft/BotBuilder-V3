@@ -30,5 +30,7 @@ exports.MemoryStorage = storage.MemoryStorage;
 exports.BotConnectorBot = connector.BotConnectorBot;
 exports.BotConnectorSession = connector.BotConnectorSession;
 exports.SkypeBot = skype.SkypeBot;
+exports.SkypeSession = skype.SkypeSession;
 exports.SlackBot = slack.SlackBot;
+exports.SlackSession = slack.SlackSession;
 exports.TextBot = text.TextBot;

@@ -61,16 +61,10 @@ var IntentDialog = (function (_super) {
     };
     IntentDialog.prototype.compareConfidence = function (action, language, utterance, score) {
         var _this = this;
-        // First check to see if the childs confidence is low and that we have a capture handler.
         if (score < IntentDialog.CAPTURE_THRESHOLD && this.captureIntent) {
             this.recognizeIntents(language, utterance, function (err, intents, entities) {
                 var handled = false;
                 if (!err) {
-                    // Ensure capture handler is worth invoking. Requirements are the top intents
-                    // score should be greater then the childs score and there should be a handler
-                    // registered for that intent. The last requirement addresses the fact that the
-                    // 'None' intent from LUIS is likely to have a score that's greater then the 
-                    // intent threshold.
                     var matches;
                     var topIntent = _this.findTopIntent(intents);
                     if (topIntent && topIntent.score > _this.intentThreshold && topIntent.score > score) {
@@ -138,7 +132,6 @@ var IntentDialog = (function (_super) {
     };
     IntentDialog.prototype.invokeIntent = function (session, intents, entities) {
         try {
-            // Find top intent, group, and handler;
             var match;
             var topIntent = this.findTopIntent(intents);
             if (topIntent && topIntent.score > this.intentThreshold) {
@@ -150,7 +143,6 @@ var IntentDialog = (function (_super) {
                     handler: this.getDefaultGroup()._intentHandler(consts.Intents.Default)
                 };
             }
-            // Invoke handler
             if (match) {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
@@ -205,7 +197,6 @@ var IntentGroup = (function () {
     IntentGroup.prototype.getId = function () {
         return this.id;
     };
-    /** Returns the handler registered for an intent if it exists. */
     IntentGroup.prototype._intentHandler = function (intent) {
         return this.handlers[intent];
     };

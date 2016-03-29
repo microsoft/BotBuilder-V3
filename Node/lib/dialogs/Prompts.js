@@ -27,16 +27,11 @@ var SimplePromptRecognizer = (function () {
     SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
         this.checkCanceled(args, function () {
             try {
-                // Recognize value
                 var score = 0.0;
                 var response;
                 var text = args.utterance.trim();
                 switch (args.promptType) {
                     case PromptType.text:
-                        // This is an open ended question so it's a little tricky to know what to pass as a confidence
-                        // score. Currently we're saying that we have 0.1 confidence that we understand the users intent
-                        // which will give all of the prompts parents a chance to capture the utterance. If no one 
-                        // captures the utterance we'll return the full text of the utterance as the result.
                         score = 0.1;
                         response = text;
                         break;
@@ -76,7 +71,6 @@ var SimplePromptRecognizer = (function () {
                         break;
                     default:
                 }
-                // Return results
                 args.compareConfidence(args.language, text, score, function (handled) {
                     if (!handled && score > 0) {
                         callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
@@ -175,7 +169,6 @@ var Prompts = (function (_super) {
         args.prompt = prompt;
         args.enumValues = entities.EntityRecognizer.expandChoices(choices);
         args.listStyle = args.listStyle || ListStyle.list;
-        // Format list
         var connector = '', list;
         switch (args.listStyle) {
             case ListStyle.list:

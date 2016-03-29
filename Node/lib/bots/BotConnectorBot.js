@@ -34,7 +34,6 @@ var BotConnectorBot = (function (_super) {
         var _this = this;
         this.configure(options);
         return function (req, res, next) {
-            // Check authorization
             var authorized;
             if (_this.options.appId && _this.options.appSecret) {
                 if (req.headers && req.headers.hasOwnProperty('authorization')) {
@@ -89,34 +88,28 @@ var BotConnectorBot = (function (_super) {
         };
     };
     BotConnectorBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
-        // Fixup address fields
         var msg = address;
         msg.type = 'Message';
         if (!msg.from) {
             msg.from = this.options.defaultFrom;
         }
-        // Validate args
         if (!msg.to || !msg.from) {
             throw new Error('Invalid address passed to BotConnectorBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to BotConnectorBot.beginDialog().');
         }
-        // Dispatch message
         this.processMessage(msg, dialogId, dialogArgs);
     };
     BotConnectorBot.prototype.processMessage = function (message, dialogId, dialogArgs, res) {
         var _this = this;
         try {
-            // Validate message
             if (!message || !message.type) {
                 this.emit('error', new Error('Invalid Bot Framework Message'));
                 return res.send(400);
             }
-            // Dispatch messages
             this.emit(message.type, message);
             if (message.type == 'Message') {
-                // Initialize session
                 var ses = new BotConnectorSession({
                     localizer: this.options.localizer,
                     dialogs: this,
@@ -124,7 +117,6 @@ var BotConnectorBot = (function (_super) {
                     dialogArgs: dialogArgs
                 });
                 ses.on('send', function (message) {
-                    // Compose reply
                     var reply = message || {};
                     reply.botUserData = utils.clone(ses.userData);
                     reply.botConversationData = utils.clone(ses.conversationData);
@@ -133,14 +125,12 @@ var BotConnectorBot = (function (_super) {
                     if (reply.text && !reply.language) {
                         reply.language = ses.message.language;
                     }
-                    // Send message
                     if (res) {
                         _this.emit('reply', reply);
                         res.send(200, reply);
                         res = null;
                     }
                     else if (ses.message.conversationId) {
-                        // Post an additional reply
                         reply.from = ses.message.to;
                         reply.to = ses.message.replyTo ? ses.message.replyTo : ses.message.from;
                         reply.replyToMessageId = ses.message.id;
@@ -155,7 +145,6 @@ var BotConnectorBot = (function (_super) {
                         });
                     }
                     else {
-                        // Start a new conversation
                         reply.from = ses.message.from;
                         reply.to = ses.message.to;
                         _this.emit('send', reply);
@@ -173,7 +162,6 @@ var BotConnectorBot = (function (_super) {
                 ses.on('quit', function () {
                     _this.emit('quit', ses.message);
                 });
-                // Unpack data fields
                 var sessionState;
                 if (message.botUserData) {
                     ses.userData = message.botUserData;
@@ -200,7 +188,6 @@ var BotConnectorBot = (function (_super) {
                 else {
                     ses.perUserInConversationData = {};
                 }
-                // Dispatch message
                 ses.dispatch(sessionState, message);
             }
             else if (res) {

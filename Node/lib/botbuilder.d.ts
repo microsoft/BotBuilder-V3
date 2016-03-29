@@ -1581,6 +1581,23 @@ export class SkypeBot extends DialogCollection {
 }
 
 /**
+ * Adds additional properties and methods for working with Skype bots.
+ */
+export class SkypeSession extends Session {
+    /**
+     * Escapes &, <, and > characters in a text string. These characters are reserved in Slack for 
+     * control codes so should always be escaped when returning user generated text.
+     */
+    escapeText(text: string): string;
+    
+    /**
+     * Unescapes &amp;, &lt;, and &gt; characters in a text string. This restores a previously
+     * escaped string.
+     */
+    unescapeText(text: string): string;
+}
+
+/**
  * Connects your bots dialogs to Slack via BotKit. See http://howdy.ai/botkit/ for details.
  */
 export class SlackBot extends DialogCollection {
@@ -1647,7 +1664,7 @@ export class SlackBot extends DialogCollection {
 }
 
 /**
- * Adds additional properties for working with Slack bots.
+ * Adds additional properties and methods for working with Slack bots.
  */
 export class SlackSession extends Session {
     /** Data that's persisted on a per team basis. */

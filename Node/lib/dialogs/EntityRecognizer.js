@@ -58,14 +58,12 @@ var EntityRecognizer = (function () {
                         }
                         break;
                     case 'chrono.duration':
-                        // Date is already calculated
                         var duration = entity;
                         resolvedDate = duration.resolution.start;
                 }
             }
         });
         if (!resolvedDate && (date || time)) {
-            // The user can just say "at 9am" so we'll use today if no date.
             if (!date) {
                 date = utils.toDate8601(now);
             }
@@ -98,7 +96,6 @@ var EntityRecognizer = (function () {
                 if (duration.ref) {
                     response.resolution.ref = duration.ref;
                 }
-                // Calculate a confidence score based on text coverage and call compareConfidence.
                 response.score = duration.text.length / utterance.length;
             }
         }

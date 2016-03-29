@@ -35,14 +35,12 @@ var SkypeBot = (function (_super) {
         }
     };
     SkypeBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
-        // Validate args
         if (!address.to) {
             throw new Error('Invalid address passed to SkypeBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to SkypeBot.beginDialog().');
         }
-        // Dispatch message
         this.dispatchMessage(null, this.toSkypeMessage(address), dialogId, dialogArgs);
     };
     SkypeBot.prototype.handleEvent = function (event, bot, data) {
@@ -86,8 +84,7 @@ var SkypeBot = (function (_super) {
         var onError = function (err) {
             _this.emit('error', err, data);
         };
-        // Initialize session
-        var ses = new session.Session({
+        var ses = new SkypeSession({
             localizer: this.options.localizer,
             dialogs: this,
             dialogId: dialogId,
@@ -95,12 +92,9 @@ var SkypeBot = (function (_super) {
         });
         ses.on('send', function (reply) {
             _this.saveData(msg.from.address, ses.userData, ses.sessionState, function () {
-                // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
-                    // Do we have a bot?
                     var skypeReply = _this.toSkypeMessage(reply);
                     if (bot) {
-                        // Check for a different TO address
                         if (skypeReply.to && skypeReply.to != data.from) {
                             _this.emit('send', skypeReply);
                             bot.send(skypeReply.to, skypeReply.content, onError);
@@ -124,7 +118,6 @@ var SkypeBot = (function (_super) {
         ses.on('quit', function () {
             _this.emit('quit', data);
         });
-        // Load data and dispatch message
         var msg = this.fromSkypeMessage(data);
         this.getData(msg.from.address, function (userData, sessionState) {
             ses.userData = userData || {};
@@ -133,14 +126,12 @@ var SkypeBot = (function (_super) {
     };
     SkypeBot.prototype.getData = function (userId, callback) {
         var _this = this;
-        // Ensure stores specified
         if (!this.options.userStore) {
             this.options.userStore = new storage.MemoryStorage();
         }
         if (!this.options.sessionStore) {
             this.options.sessionStore = new storage.MemoryStorage();
         }
-        // Load data
         var ops = 2;
         var userData, sessionState;
         this.options.userStore.get(userId, function (err, data) {
@@ -213,3 +204,27 @@ var SkypeBot = (function (_super) {
     return SkypeBot;
 })(collection.DialogCollection);
 exports.SkypeBot = SkypeBot;
+var SkypeSession = (function (_super) {
+    __extends(SkypeSession, _super);
+    function SkypeSession() {
+        _super.apply(this, arguments);
+    }
+    SkypeSession.prototype.escapeText = function (text) {
+        if (text) {
+            text = text.replace('&', '&amp;');
+            text = text.replace('<', '&lt;');
+            text = text.replace('>', '&gt;');
+        }
+        return text;
+    };
+    SkypeSession.prototype.unescapeText = function (text) {
+        if (text) {
+            text = text.replace('&amp;', '&');
+            text = text.replace('&lt;', '<');
+            text = text.replace('&gt;', '>');
+        }
+        return text;
+    };
+    return SkypeSession;
+})(session.Session);
+exports.SkypeSession = SkypeSession;

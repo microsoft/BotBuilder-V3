@@ -11,15 +11,12 @@ var DialogAction = (function () {
         }
         args.splice(0, 0, msg);
         return function sendAction(s) {
-            // Send a message to the user.
             session.Session.prototype.send.apply(s, args);
         };
     };
     DialogAction.beginDialog = function (id, args) {
         return function beginDialogAction(s, a) {
-            // Handle calls where we're being resumed.
             if (a && a.hasOwnProperty('resumed')) {
-                // We have to implement logic to ensure our callstack gets persisted.
                 var r = a;
                 if (r.error) {
                     s.error(r.error);
@@ -29,7 +26,6 @@ var DialogAction = (function () {
                 }
             }
             else {
-                // Merge args
                 if (args) {
                     a = a || {};
                     for (var key in args) {
@@ -38,14 +34,12 @@ var DialogAction = (function () {
                         }
                     }
                 }
-                // Begin a new dialog
                 s.beginDialog(id, a);
             }
         };
     };
     DialogAction.endDialog = function (result) {
         return function endDialogAction(s) {
-            // End dialog
             s.endDialog(result);
         };
     };
@@ -59,9 +53,7 @@ var DialogAction = (function () {
                 waterfallAction(s, result);
             };
             try {
-                // Check for continuation of waterfall
                 if (r && r.hasOwnProperty('resumed')) {
-                    // Adjust step based on users utterance
                     var step = s.dialogData[consts.Data.WaterfallStep];
                     switch (r.resumed) {
                         case dialog.ResumeReason.back:
@@ -70,7 +62,6 @@ var DialogAction = (function () {
                         default:
                             step++;
                     }
-                    // Handle result
                     if (step >= 0 && step < steps.length) {
                         s.dialogData[consts.Data.WaterfallStep] = step;
                         steps[step](s, r, skip);
@@ -81,7 +72,6 @@ var DialogAction = (function () {
                     }
                 }
                 else if (steps && steps.length > 0) {
-                    // Start waterfall
                     s.dialogData[consts.Data.WaterfallStep] = 0;
                     steps[0](s, r, skip);
                 }

@@ -89,7 +89,6 @@ var CommandDialog = (function (_super) {
         return this;
     };
     CommandDialog.prototype.matches = function (patterns, dialogId, dialogArgs) {
-        // Fix args
         var fn;
         var patterns = !util.isArray(patterns) ? [patterns] : patterns;
         if (Array.isArray(dialogId)) {
@@ -101,7 +100,6 @@ var CommandDialog = (function (_super) {
         else {
             fn = dialogId;
         }
-        // Save compiled expressions
         var expressions = [];
         for (var i = 0; i < patterns.length; i++) {
             expressions.push(new RegExp(patterns[i], 'i'));

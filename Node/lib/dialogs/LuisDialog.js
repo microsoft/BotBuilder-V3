@@ -27,7 +27,6 @@ var LuisDialog = (function (_super) {
                 if (!err) {
                     var result = JSON.parse(body);
                     if (result.intents.length == 1 && !result.intents[0].hasOwnProperty('score')) {
-                        // Intents for the builtin Cortana app don't return a score.
                         result.intents[0].score = 1.0;
                     }
                     callback(null, result.intents, result.entities);
@@ -92,12 +91,10 @@ var LuisEntityResolver = (function () {
             }
         }
         if (date || time) {
-            // The user can just say "at 9am" so we'll use today if no date.
             if (!date) {
                 date = utils.toDate8601(now);
             }
             if (time) {
-                // Append time but adjust timezone. Default is to use bots timezone.
                 if (typeof timezoneOffset !== 'number') {
                     timezoneOffset = now.getTimezoneOffset() / 60;
                 }

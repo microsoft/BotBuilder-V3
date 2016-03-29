@@ -28,11 +28,9 @@ var TextBot = (function (_super) {
         }
     };
     TextBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
-        // Validate args
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to TextBot.beginDialog().');
         }
-        // Dispatch message
         var message = address || {};
         var userId = message.to ? message.to.address : 'user';
         this.dispatchMessage(userId, message, null, dialogId, dialogArgs, true);
@@ -66,7 +64,6 @@ var TextBot = (function (_super) {
     TextBot.prototype.dispatchMessage = function (userId, message, callback, dialogId, dialogArgs, newSessionState) {
         var _this = this;
         if (newSessionState === void 0) { newSessionState = false; }
-        // Initialize session
         var ses = new session.Session({
             localizer: this.options.localizer,
             dialogs: this,
@@ -75,7 +72,6 @@ var TextBot = (function (_super) {
         });
         ses.on('send', function (reply) {
             _this.saveData(userId, ses.userData, ses.sessionState, function () {
-                // If we have no message text then we're just saving state.
                 if (reply && reply.text) {
                     if (callback) {
                         callback(null, reply);
@@ -106,7 +102,6 @@ var TextBot = (function (_super) {
         ses.on('quit', function () {
             _this.emit('quit', message);
         });
-        // Dispatch message
         this.getData(userId, function (err, userData, sessionState) {
             ses.userData = userData || {};
             ses.dispatch(newSessionState ? null : sessionState, message);
@@ -114,14 +109,12 @@ var TextBot = (function (_super) {
     };
     TextBot.prototype.getData = function (userId, callback) {
         var _this = this;
-        // Ensure stores specified
         if (!this.options.userStore) {
             this.options.userStore = new storage.MemoryStorage();
         }
         if (!this.options.sessionStore) {
             this.options.sessionStore = new storage.MemoryStorage();
         }
-        // Load data
         var ops = 2;
         var userData, sessionState;
         this.options.userStore.get(userId, function (err, data) {

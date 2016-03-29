@@ -14,7 +14,6 @@ var DialogCollection = (function (_super) {
         this.dialogs = {};
     }
     DialogCollection.prototype.add = function (id, dialog) {
-        // Fixup params
         var dialogs;
         if (typeof id == 'string') {
             if (Array.isArray(dialog)) {
@@ -28,7 +27,6 @@ var DialogCollection = (function (_super) {
         else {
             dialogs = id;
         }
-        // Add dialogs
         for (var key in dialogs) {
             if (!this.dialogs.hasOwnProperty(key)) {
                 this.dialogs[key] = dialogs[key];

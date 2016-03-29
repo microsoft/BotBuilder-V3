@@ -5,7 +5,8 @@
         "sourceMap": false,
         "noImplicitAny": true,
         "outDir": "../built",
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "removeComments": true
     },
     "exclude": [
         "botbuilder.d.ts"

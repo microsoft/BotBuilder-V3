@@ -30,7 +30,6 @@ var Session = (function (_super) {
                 _this.routeMessage();
             }
         };
-        // Dispatch message
         this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
         this.sessionState.lastAccess = new Date().getTime();
         this.message = message || { text: '' };
@@ -72,17 +71,20 @@ var Session = (function (_super) {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        // Update dialog state
-        // - Deals with a situation where the user assigns a whole new object to dialogState.
         var ss = this.sessionState;
         if (ss.callstack.length > 0) {
             ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
         }
-        // Compose message
         this.msgSent = true;
         var message = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
         this.emit('send', message);
         return this;
+    };
+    Session.prototype.getMessageReceived = function () {
+        return this.message.channelData;
+    };
+    Session.prototype.sendMessage = function (msg) {
+        return this.send({ channelData: msg });
     };
     Session.prototype.messageSent = function () {
         return this.msgSent;
@@ -153,7 +155,6 @@ var Session = (function (_super) {
     };
     Session.prototype.routeMessage = function () {
         try {
-            // Route message to dialog.
             var ss = this.sessionState;
             if (ss.callstack.length == 0) {
                 this.beginDialog(this.args.dialogId, this.args.dialogArgs);
@@ -183,7 +184,6 @@ var Session = (function (_super) {
         }
         return args && args.length > 0 ? sprintf.vsprintf(tmpl, args) : tmpl;
     };
-    /** Checks for any unsupported dialogs on the callstack. */
     Session.prototype.validateCallstack = function () {
         var ss = this.sessionState;
         for (var i = 0; i < ss.callstack.length; i++) {
@@ -217,7 +217,6 @@ var SessionConfidenceComparor = (function () {
         }
     };
     SessionConfidenceComparor.prototype.endDialog = function (result) {
-        // End dialog up to current point in the stack.
         this.session.sessionState.callstack.splice(this.index + 1);
         this.getDialog().dialogResumed(this.session, result || { resumed: dialog.ResumeReason.childEnded });
         this.callback(true);
@@ -227,7 +226,6 @@ var SessionConfidenceComparor = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        // Send a message to the user.
         args.splice(0, 0, [msg]);
         Session.prototype.send.apply(this.session, args);
         this.callback(true);
