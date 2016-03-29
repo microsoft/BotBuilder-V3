@@ -13,8 +13,11 @@ You can also use a version number instead of a flag if say you need to
 periodically update your Terms Of Use and want to re-show an existing user the 
 new TOU on their next interaction with the bot.
 
-Run the bot from the command line using "node app.js" and then type "hello"
-to wake the bot up.
+# RUN THE BOT:
+
+    Run the bot from the command line using "node app.js" and then type 
+    "hello" to wake the bot up.
+
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../');

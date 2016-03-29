@@ -7,28 +7,6 @@ For a complete walkthrough of creating this bot see the article below.
 
     http://docs.botframework.com/builder/node/understanding-natural-language/
 
-# RUN THE BOT:
-
-  Refer to the walkthrough for how to get a link to the LUIS model for the
-  prebuit Cortana app.
-    
-    http://luis.ai
-
-  Run the bot from the command line:
-
-    model=MODEL_URL node app.js
-
-  Run the bot from the command line (WINDOWS):
-    
-    set model="MODEL_URL"
-    node app.js
-    
-# USE THE BOT
-
-    Say: set an alarm in 1 minute called wakeup
-    
-    Say: delete the wakeup alarm
-
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../');

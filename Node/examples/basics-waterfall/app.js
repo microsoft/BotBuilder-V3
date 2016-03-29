@@ -3,12 +3,13 @@ This Bot demonstrates how to use a waterfall to prompt the user with a series
 of questions.
 
 This example also shows the user of session.userData to persist information
-about a specific user. Depending on the type of bot you created this could 
-get automatically persisted for you (BotConnectorBot) or you might have to 
-configure your bot to use one of the storage plugins. 
+about a specific user. 
 
-Run the bot from the command line using "node app.js" and then type "hello"
-to wake the bot up.
+# RUN THE BOT:
+
+    Run the bot from the command line using "node app.js" and then type 
+    "hello" to wake the bot up.
+    
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../');
