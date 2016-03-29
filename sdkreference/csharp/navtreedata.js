@@ -1,12 +1,11 @@
 var NAVTREE =
 [
   [ "Bot Builder for C#", "index.html", [
-    [ "Getting Started", "index.html#getting_started", [
-      [ "Table of Contents", "index.html#contents", null ]
+    [ "Getting Started", "index.html", [
+      [ "Overview", "index.html#overview", null ],
+      [ "Install", "index.html#install", null ],
+      [ "Troubleshooting Q & A", "index.html#troubleshooting_q_and_a", null ]
     ] ],
-    [ "Overview", "index.html#overview", null ],
-    [ "Install", "index.html#install", null ],
-    [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
     [ "Dialogs", "dialogs.html", [
       [ "Overview", "dialogs.html#Overview", null ],
       [ "Echo Bot", "dialogs.html#simpleEcho", null ],
