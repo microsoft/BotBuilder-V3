@@ -4,6 +4,7 @@ var NAVTREE =
     [ "Getting Started", "index.html", [
       [ "Overview", "index.html#overview", null ],
       [ "Install", "index.html#install", null ],
+      [ "Debugging", "index.html#debugging", null ],
       [ "Troubleshooting Q & A", "index.html#troubleshooting_q_and_a", null ]
     ] ],
     [ "Dialogs", "dialogs.html", [
@@ -17,7 +18,7 @@ var NAVTREE =
     [ "FormFlow", "forms.html", [
       [ "Forms and Fields", "forms.html#fields", null ],
       [ "Simple Sandwich Bot", "forms.html#simpleSandwichBot", null ],
-      [ "Annotated Sandwich Bot", "forms.html#annotatedSandwich", [
+      [ "Improved Sandwich Bot", "forms.html#annotatedSandwich", [
         [ "Attributes", "forms.html#attributes", null ],
         [ "Adding Business Logic", "forms.html#logic", null ],
         [ "Using the Form Builder", "forms.html#ControlFlow", null ]
