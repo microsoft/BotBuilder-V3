@@ -1,0 +1,5 @@
+<map id="Microsoft.Bot.Builder.Fibers.IFrame" name="Microsoft.Bot.Builder.Fibers.IFrame">
+<area shape="rect" id="node4" href="$d5/d34/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame.html" title="Microsoft.Bot.Builder.Fibers.\lFrame" alt="" coords="5,171,192,213"/>
+<area shape="rect" id="node2" href="$dd/d72/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_waiter.html" title="IWaiter" alt="" coords="17,5,79,32"/>
+<area shape="rect" id="node3" href="$de/d1e/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame_loop.html" title="IFrameLoop" alt="" coords="104,5,195,32"/>
+</map>

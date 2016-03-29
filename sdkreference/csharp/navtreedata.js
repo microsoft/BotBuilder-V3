@@ -9,12 +9,13 @@ var NAVTREE =
     [ "Troubleshooting Q and A", "index.html#troubleshooting_q_and_a", null ],
     [ "Dialogs", "dialogs.html", [
       [ "Overview", "dialogs.html#Overview", null ],
-      [ "Simple Echo Bot", "dialogs.html#simpleEcho", null ],
-      [ "Echo Bot", "dialogs.html#echoBot", null ],
+      [ "Echo Bot", "dialogs.html#simpleEcho", null ],
+      [ "Echo Bot with State", "dialogs.html#echoBot", null ],
       [ "Alarm Bot", "dialogs.html#alarmBot", null ],
-      [ "IDialogContext", "dialogs.html#IDialogContext", null ]
+      [ "IDialogContext", "dialogs.html#IDialogContext", null ],
+      [ "Conclusion", "dialogs.html#Conclusion", null ]
     ] ],
-    [ "Forms", "forms.html", [
+    [ "FormFlow", "forms.html", [
       [ "Forms and Fields", "forms.html#fields", null ],
       [ "Simple Sandwich Bot", "forms.html#simpleSandwichBot", null ],
       [ "Annotated Sandwich Bot", "forms.html#annotatedSandwich", [
@@ -53,9 +54,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d4/da8/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html#a4128a54c4bd2b8bf9810582227134a4b",
-"da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html#a46a195e5cc9e26be377d660f5c17219e",
-"dir_161dbb49a42a23b237510096aed45bce.html"
+"d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#af8eca2cad4a049db44767515b9e7451b",
+"d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html",
+"db/da8/_i_localizer_8cs_source.html",
+"de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html#ae27d761765795ceb3ccdf82155d2eae2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

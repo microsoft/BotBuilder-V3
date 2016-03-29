@@ -1,0 +1,7 @@
+<map id="Microsoft.Bot.Builder.Dialogs.IDialog" name="Microsoft.Bot.Builder.Dialogs.IDialog">
+<area shape="rect" id="node2" href="$d6/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_call_dialog.html" title="Simple way to call a sub&#45;dialog with a resume handler for the result. " alt="" coords="248,5,443,46"/>
+<area shape="rect" id="node3" href="$dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html" title="Microsoft.Bot.Builder.Dialogs.\lCommandDialog" alt="" coords="248,70,443,111"/>
+<area shape="rect" id="node4" href="$d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html" title="A dialog specialized to handle intents and entities from LUIS. " alt="" coords="248,135,443,177"/>
+<area shape="rect" id="node5" href="$dc/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_dialog.html" title="Interface for controlling the form dialog created. " alt="" coords="257,201,434,242"/>
+<area shape="rect" id="node6" href="$db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html" title="Form dialog manager for to fill in your state. " alt="" coords="491,201,683,242"/>
+</map>

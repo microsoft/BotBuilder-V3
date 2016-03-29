@@ -2,14 +2,14 @@ var hierarchy =
 [
     [ "Attribute", null, [
       [ "Microsoft.Bot.Builder.Dialogs.LuisIntent", "db/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent.html", null ],
-      [ "Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBase", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base.html", [
-        [ "Microsoft.Bot.Builder.FormFlow.Prompt", "d7/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt.html", null ],
-        [ "Microsoft.Bot.Builder.FormFlow.Template", "d1/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template.html", null ]
+      [ "Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html", [
+        [ "Microsoft.Bot.Builder.FormFlow.PromptAttribute", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html", null ],
+        [ "Microsoft.Bot.Builder.FormFlow.TemplateAttribute", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html", null ]
       ] ],
-      [ "Microsoft.Bot.Builder.FormFlow.Describe", "d9/d9f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe.html", null ],
-      [ "Microsoft.Bot.Builder.FormFlow.Numeric", "d1/d81/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric.html", null ],
-      [ "Microsoft.Bot.Builder.FormFlow.Optional", "df/d14/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional.html", null ],
-      [ "Microsoft.Bot.Builder.FormFlow.Terms", "de/db7/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.DescribeAttribute", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.NumericAttribute", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.OptionalAttribute", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.TermsAttribute", "d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html", null ],
       [ "Microsoft.Bot.Builder.Luis.LuisModel", "df/df7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model.html", null ]
     ] ],
     [ "BotDataBase< Dictionary< string, object >>", null, [

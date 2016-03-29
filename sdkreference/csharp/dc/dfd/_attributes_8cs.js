@@ -1,12 +1,12 @@
 var _attributes_8cs =
 [
-    [ "TemplateBase", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base.html", "d5/d58/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base" ],
-    [ "Describe", "d9/d9f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe.html", "d9/d9f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe" ],
-    [ "Numeric", "d1/d81/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric.html", "d1/d81/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric" ],
-    [ "Optional", "df/d14/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional.html", "df/d14/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional" ],
-    [ "Prompt", "d7/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt.html", "d7/d4d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt" ],
-    [ "Template", "d1/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template.html", "d1/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template" ],
-    [ "Terms", "de/db7/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms.html", "de/db7/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms" ],
+    [ "TemplateBaseAttribute", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute" ],
+    [ "DescribeAttribute", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute" ],
+    [ "NumericAttribute", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute" ],
+    [ "OptionalAttribute", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute" ],
+    [ "PromptAttribute", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute" ],
+    [ "TemplateAttribute", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute" ],
+    [ "TermsAttribute", "d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html", "d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute" ],
     [ "BoolDefault", "dc/dfd/_attributes_8cs.html#ae2db7acc1e75f92bb357aa0aee8449c5", [
       [ "Default", "dc/dfd/_attributes_8cs.html#ae2db7acc1e75f92bb357aa0aee8449c5a7a1920d61156abc05a60135aefe8bc67", null ],
       [ "True", "dc/dfd/_attributes_8cs.html#ae2db7acc1e75f92bb357aa0aee8449c5af827cf462f62848df37c5e1e94a4da74", null ],
