@@ -551,17 +551,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             TermMatch result = null;
             if (!string.IsNullOrWhiteSpace(input))
             {
-                var trimmed = input.Trim();
-                if (trimmed.StartsWith("\""))
-                {
-                    trimmed = trimmed.Substring(1);
-                }
-                if (trimmed.EndsWith("\""))
-                {
-                    trimmed = trimmed.Substring(0, trimmed.Length - 1);
-                }
                 // Confidence is 0.0 so commands get a crack
-                result = new TermMatch(0, input.Length, 0.0, trimmed);
+                result = new TermMatch(0, input.Length, 0.0, input);
             }
             return result;
         }

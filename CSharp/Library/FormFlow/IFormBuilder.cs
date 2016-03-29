@@ -177,16 +177,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
-        /// Add a confirmation step.
-        /// </summary>
-        /// <param name="field">Prompt information to use for confirmation.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This allows you to take full control of the behavior of this confirmation.
-        /// </remarks>
-        IFormBuilder<T> Confirm(IFieldPrompt<T> field);
-
-        /// <summary>
         /// Delegate to call when form is completed.
         /// </summary>
         /// <param name="callback">Delegate to call on completion.</param>

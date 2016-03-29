@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             var form = _buildForm();
 
             // instantiated in constructor, saved when serialized
-            this._formState = new FormState(form.Steps.Count, cultureInfo);
+            this._formState = new FormState(form.Steps.Count);
 
             // instantiated in constructor, re-instantiated when deserialized
             this._form = form;
@@ -211,7 +211,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     var input = builder.ToString();
                     string feedback;
                     string prompt = step.Start(context, _state, _formState);
-                    var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input, out prompt), input);
+                    var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input), input);
                     if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
                     {
                         // TODO: In the case of clarification I could
@@ -253,7 +253,15 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 IStep<T> step;
                 IEnumerable<TermMatch> matches = null;
-                string lastInput = null;
+                var stepInput = toBotText == null ? "" : toBotText.Trim();
+                if (stepInput.StartsWith("\""))
+                {
+                    stepInput = stepInput.Substring(1);
+                }
+                if (stepInput.EndsWith("\""))
+                {
+                    stepInput = stepInput.Substring(0, stepInput.Length - 1);
+                }
                 string feedback = null;
                 if (next.Direction == StepDirection.Named && next.Names.Count() > 1)
                 {
@@ -267,7 +275,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                     else
                     {
-                        matches = step.Match(context, _state, _formState, toBotText, out lastInput);
+                        matches = step.Match(context, _state, _formState, stepInput);
                     }
                 }
                 else
@@ -290,15 +298,15 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                     else if (_formState.Phase() == StepPhase.Responding)
                     {
-                        matches = step.Match(context, _state, _formState, toBotText, out lastInput);
+                        matches = step.Match(context, _state, _formState, stepInput);
                     }
                 }
                 if (matches != null)
                 {
-                    matches = MatchAnalyzer.Coalesce(matches, lastInput).ToArray();
-                    if (MatchAnalyzer.IsFullMatch(lastInput, matches))
+                    matches = MatchAnalyzer.Coalesce(matches, stepInput).ToArray();
+                    if (MatchAnalyzer.IsFullMatch(stepInput, matches))
                     {
-                        var result = await step.ProcessAsync(context, _state, _formState, lastInput, matches);
+                        var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
                         next = result.Next;
                         feedback = result.Feedback;
                         prompt = result.Prompt;
@@ -312,13 +320,13 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         // Filter non-active steps out of command matches
                         var commands =
-                            lastInput.Trim().StartsWith("\"")
+                            toBotText.Trim().StartsWith("\"")
                             ? new TermMatch[0]
-                            : (from command in MatchAnalyzer.Coalesce(_commands.Matches(lastInput), lastInput)
+                            : (from command in MatchAnalyzer.Coalesce(_commands.Matches(toBotText), toBotText)
                                where (command.Value is FormCommand
                                    || _form.Fields.Field(command.Value as string).Active(_state))
                                select command).ToArray();
-                        if (MatchAnalyzer.IsFullMatch(lastInput, commands))
+                        if (MatchAnalyzer.IsFullMatch(toBotText, commands))
                         {
                             next = DoCommand(context, _state, _formState, step, commands, out feedback);
                             requirePrompt = false;
@@ -329,7 +337,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             if (matches.Count() == 0 && commands.Count() == 0)
                             {
                                 // TODO: If we implement fallback, opportunity to call parent dialogs
-                                feedback = step.NotUnderstood(context, _state, _formState, lastInput);
+                                feedback = step.NotUnderstood(context, _state, _formState, toBotText);
                                 requirePrompt = false;
                                 useLastPrompt = false;
                             }
@@ -339,7 +347,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 var bestMatch = MatchAnalyzer.BestMatches(matches, commands);
                                 if (bestMatch == 0)
                                 {
-                                    var result = await step.ProcessAsync(context, _state, _formState, lastInput, matches);
+                                    var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
                                     next = result.Next;
                                     feedback = result.Feedback;
                                     prompt = result.Prompt;
@@ -566,7 +574,6 @@ namespace Microsoft.Bot.Builder.FormFlow
                     break;
                 case StepDirection.Reset:
                     form.Reset();
-                    // TODO: Should I reset the state as well?
                     // Because we redo phase they can go through everything again but with defaults.
                     found = true;
                     break;

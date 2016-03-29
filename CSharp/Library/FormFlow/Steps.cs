@@ -90,12 +90,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _field.Prompt().Prompt(state, _name, _field.Prompt().Recognizer().PromptArgs());
         }
 
-        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput)
+        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input)
         {
             IEnumerable<TermMatch> matches = null;
             Debug.Assert(form.Phase() == StepPhase.Responding);
             var stepState = form.StepState as FieldStepState;
-            lastInput = input;
             if (stepState.State == FieldStepStates.SentPrompt)
             {
                 matches = _field.Prompt().Recognizer().Matches(input, _field.GetValue(state));
@@ -471,9 +470,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _field.Active(state);
         }
 
-        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput)
+        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input)
         {
-            lastInput = input;
             return _field.Prompt().Recognizer().Matches(input);
         }
 
@@ -581,9 +579,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return true;
         }
 
-        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput)
+        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input)
         {
-            lastInput = input;
             return _prompt.Recognizer().Matches(input);
         }
 
@@ -691,7 +688,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input, out string lastInput)
+        public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input)
         {
             throw new NotImplementedException();
         }

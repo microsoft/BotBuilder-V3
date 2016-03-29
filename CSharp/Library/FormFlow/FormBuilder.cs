@@ -194,12 +194,6 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public IFormBuilder<T> Confirm(IFieldPrompt<T> prompt)
-        {
-            // TODO: Need to fill this in
-            return this;
-        }
-
         public IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback)
         {
             _form._completion = callback;
