@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 
     /// \section troubleshooting_q_and_a Troubleshooting Q and A
     /// 
-    /// If your question isn't answered here, try:
+    /// If your question isn't answered here visit our [support page](/support/).
     /// 
     /// 
     /// -----------------
