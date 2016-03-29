@@ -2,8 +2,8 @@
 {
     /// \page dialogs %Dialogs
     /// \tableofcontents
-    /// [LUIS]: http://luis.ai "LUIS"
-    /// [LUIS setup]: http://aka.ms/bf-node-nl "How to Setup LUIS"
+    /// [LUIS]: http://luis.ai 
+    /// [How to Setup LUIS]: http://aka.ms/bf-node-nl 
     /// 
     /// \section Overview
     /// %Dialogs model a conversational process, where the exchange of messages between bot and user
@@ -23,7 +23,12 @@
     /// \section simpleEcho Echo Bot
     /// This example starts with the bot you get by starting your bot the %Bot Framework template which includes code to 
     /// echo back what the user says.  
-    /// In order to change the echo example to use the %Bot %Builder, we need to add a C# class to represent our conversation and its state.  
+    /// In order to change the echo example to use the %Bot %Builder, we first need to import the required namespace:
+    /// ~~~
+    /// using Microsoft.Bot.Builder.Dialogs;
+    /// ~~~
+    /// 
+    /// Next we need to add a C# class to represent our conversation. 
     /// You can do this by adding this class to your MessagesController.cs file:
     /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
     /// \skip Serializable
@@ -31,9 +36,10 @@
     /// \until }
     /// \until }
     /// 
-    /// Next we need to wire this class into your Post method like this:
+    /// Finally we need to wire the class into your Post method like this:
     /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
     /// \skip Post(
+    /// \until HandleSystem
     /// \until }
     /// \until }
     /// 
@@ -94,7 +100,7 @@
     /// 
     /// The parameters to the LuisModel attribute are the [LUIS] REST endpoint and key.  Here we have supplied
     /// some values that will work, but the endpoint may be throttled in which case you will need to setup your own endpoint 
-    /// as described in [LUIS Setup].  
+    /// as described in [How to Setup LUIS].  
     /// 
     /// Within the SimpleAlarmDialog class any method with the name of the [LUIS] intent or marked with the LuisIntent attribute
     /// is called when that intent is matched.  For example here is the handler for turning off an

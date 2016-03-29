@@ -34,8 +34,8 @@
     /// The clearest way to understand this is to take a look at the \ref simpleSandwichBot sample. 
     /// In that sample you define the form you want using C# classes, fields and properties. 
     /// That is all you need to do to get a pretty good dialog that supports help, clarification, status and 
-    /// navigation without any more effort.  Once you have that dialog you can make use of C# attributes
-    /// to improve your bot in a straightforward way.  
+    /// navigation without any more effort.  Once you have that base you can make use of C# attributes and FormBuilder
+    /// to improve your bot in a straightforward way as shown in the \ref annotatedSandwich example.
     /// 
     /// \section fields Forms and Fields
     /// %FormFlow starts with the idea of a form--a collection of fields that you want to fill in through a conversation with the user.  
@@ -50,7 +50,9 @@
     /// 
     /// Any of the data types can also be nullable which is a good way to model that the field does not have a value.
     /// If a field is based on an enum and it is not nullable, then the 0 value in the enum is considered to be null and you should start your enumeration at 1.
-    /// Any other fields, properties or methods are ignored by the %FormFlow code.
+    /// Any other fields, properties or methods are ignored by the %FormFlow code.  In order to handle a list of complex
+    /// objects, you need to create a form for the top level C# class and also one for the complex object.  You can
+    /// use the \ref dialogs system to compose the forms together.  
     /// It is also possible to define a form directly by implementing Advanced.IField or using Advanced.Field and populating the dictionaries within it. 
     /// In order to better understand FormFlow and its capabilities we will work through two examples, \ref simpleSandwichBot where 
     /// everything is automatically generated and \ref annotatedSandwich where the form is extensively customized.
@@ -60,6 +62,7 @@
     /// to show various features.  To start with %FormFlow you need to create a C# class to define the form you want to fill in. 
     /// Like this:
     /// \include SimpleSandwichBot/sandwich.cs
+    /// You can see how we import the core Microsoft.Bot.Builder.FormFlow namespace and then define our class.
     /// Included in the class is a static method BuildForm that uses a FormBuilder to build your form.  There
     /// are lots of things you can do with the form builder, but we will cover that later and here we just 
     /// define a simple welcome message.
@@ -323,7 +326,7 @@
     /// 
     /// The next example shows how to improve the sandwich bot with attributes, business logic and the FormBuilder.
     ///
-    /// \section annotatedSandwich Annotated Sandwich Bot
+    /// \section annotatedSandwich Improved Sandwich Bot
     /// This example builds on the previous one by:
     /// * Adding some new field types including string and DateTime.  
     /// * Adding  attributes to add descriptions, terms, prompts and templates.  

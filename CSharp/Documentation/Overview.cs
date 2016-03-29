@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 
     /// \section install Install
     /// 
-    /// In order to use the Microsoft Bot Builder you should first follow the install steps in the 
+    /// In order to use the %Microsoft %Bot %Builder you should first follow the install steps in the 
     /// [Getting Started with Bot Connector] page to setup your bot.  
     /// In order to use the framework you need to:
     /// 1. Right-click on your project and select "Manage NuGet Packages".  
@@ -48,14 +48,43 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 
     /// \section troubleshooting_q_and_a Troubleshooting Q & A
     /// 
-    /// If your question isn't answered here visit our [support page](/support/).
-    /// 
-    /// -----------------
-    /// \b Question: I have a problem with the builder who should I contact?
-    /// 
-    /// \b Answer: contact FUSE Labs
+    /// If you have problems or suggestions, please visit our [support page](/support/).
     /// 
     /// \tableofcontents
     ///
     ///
 }
+
+/// <summary>Root namespace for the %Microsoft %Bot %Builder %SDK.</summary>
+namespace Microsoft.Bot.Builder { }
+
+/// <summary>Core namespace for \ref dialogs and associated infrastructure.</summary>
+/// <remarks>This is one of the core namespaces you should include in your code.</remarks>
+namespace Microsoft.Bot.Builder.Dialogs { }
+
+/// <summary>Namespace for internal \ref dialogs machinery that is not useful for a developer.</summary>
+namespace Microsoft.Bot.Builder.Dialogs.Internals { }
+
+/// <summary>Core namespace for \ref FormFlow and associated infrastructure.</summary>
+/// <remarks>
+/// If you want to use \ref FormFlow you should use include both the Microsoft.Bot.Builder.Dialogs namespace and this one.
+/// </remarks>
+namespace Microsoft.Bot.Builder.FormFlow { }
+
+/// <summary>Namespace for \ref FormFlow advanced building blocks.</summary>
+/// <remarks>
+/// For most developers the building blocks in this namespace are not necessary.
+/// The main place where you would use these building blocks is if you want to define a form
+/// dynamically rather than through C# reflection.
+/// </remarks>
+namespace Microsoft.Bot.Builder.FormFlow.Advanced { }
+
+/// <summary>Namespace for internal machinery that is not useful for a developer.</summary>
+namespace Microsoft.Bot.Builder.Internals { }
+
+/// <summary>Namespace for the internal fibers machinery that is not useful for a developer.</summary>
+namespace Microsoft.Bot.Builder.Internals.Fibers { }
+
+/// <summary>Namespace for the machinery needed to talk to http://luis.ai.</summary>
+/// <remarks>This namespace is not useful for most developers.</remarks>
+namespace Microsoft.Bot.Builder.Luis { }
