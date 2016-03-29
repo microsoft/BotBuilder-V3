@@ -1,0 +1,6 @@
+<map id="Microsoft.Bot.Builder.Dialogs.IDialogContext" name="Microsoft.Bot.Builder.Dialogs.IDialogContext">
+<area shape="rect" id="node5" href="$de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="52,171,247,213"/>
+<area shape="rect" id="node2" href="$db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html" title="Private bot data. " alt="" coords="5,5,77,32"/>
+<area shape="rect" id="node3" href="$de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html" title="The stack of dialogs in the conversational process. " alt="" coords="102,5,196,32"/>
+<area shape="rect" id="node4" href="$d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html" title="Methods to send a message from the bot to the user. " alt="" coords="221,5,307,32"/>
+</map>

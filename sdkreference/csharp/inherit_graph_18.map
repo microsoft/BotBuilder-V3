@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$de/d1e/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame_loop.html" title="Microsoft.Bot.Builder.Fibers.\lIFrameLoop" alt="" coords="5,5,192,46"/>
+<area shape="rect" id="node2" href="$da/d54/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_frame.html" title="Microsoft.Bot.Builder.Fibers.\lIFrame" alt="" coords="240,5,427,46"/>
+<area shape="rect" id="node3" href="$d5/d34/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_frame.html" title="Microsoft.Bot.Builder.Fibers.\lFrame" alt="" coords="475,5,661,46"/>
+<area shape="rect" id="node4" href="$dd/d72/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_waiter.html" title="Microsoft.Bot.Builder.Fibers.\lIWaiter" alt="" coords="5,70,192,111"/>
+<area shape="rect" id="node5" href="$d6/d52/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber.html" title="Microsoft.Bot.Builder.Fibers.\lIFiber" alt="" coords="240,70,427,111"/>
+<area shape="rect" id="node6" href="$d3/d67/class_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_fiber.html" title="Microsoft.Bot.Builder.Fibers.\lFiber" alt="" coords="709,95,896,137"/>
+<area shape="rect" id="node7" href="$d4/d1a/interface_microsoft_1_1_bot_1_1_builder_1_1_fibers_1_1_i_fiber_loop.html" title="Microsoft.Bot.Builder.Fibers.\lIFiberLoop" alt="" coords="475,125,661,166"/>
+</map>

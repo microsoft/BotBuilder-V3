@@ -16,14 +16,14 @@ Bots (or conversation agents) are rapidly becoming an integral part of one’s d
 
 The Bot Framework has a number of components including the Bot Connector, Bot Builder SDK, and the Bot Directory.
 
-### Bot Connector
+## Bot Connector
 {:.no_toc}
 
 The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 365 mail, Skype, Slack, and other services. Simply register your bot, configure desired channels and publish in the Bot Directory. 
 
 ![Bot Connector Diagram](/images/bot_connector_diagram.png)
 
-### Bot Builder SDK
+## Bot Builder SDK
 {:.no_toc}
 
 The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
@@ -31,7 +31,7 @@ The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Micr
 ![Bot Builder SDK](/images/bot_builder_sdk.png)
 
 
-### Bot Directory (coming soon)
+## Bot Directory (coming soon)
 {:.no_toc}
 
 The Bot Directory is a public directory of all approved bots registered through the Bot Connector. Users will be able to discover, try, and add bots to their favorite conversation experiences from the Bot Directory. Initially the Bot Directory will feature bots demonstrated at [Microsoft Build 2016](http://build.microsoft.com/).
