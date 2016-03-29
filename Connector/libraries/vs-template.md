@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Visual Studio Template C#
+title: Bot Connector C# VS Template
 permalink: /connector/vs-template/
-weight: 260
+weight: 237
 parent1: Bot Connector
-parent2: Tools
+parent2: Libraries
 ---
 
 Download the Bot Connector Visual Studio Template for C# **[here](http://aka.ms/bf-bc-vstemplate)**
