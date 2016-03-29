@@ -92,6 +92,11 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new ContinueWithDialog<T, R>(antecedent, continuation);
         }
 
+        public static IDialog<C> SelectMany<A, B, C>(this IDialog<A> antecedent, Func<A, IDialog<B>> function, Func<A, B, C> projection)
+        {
+            return new SelectManyDialog<A, B, C>(antecedent, function, projection);
+        }
+
         /// <summary>
         /// Loop the <see cref="IDialog"/> forever.
         /// </summary>
@@ -164,6 +169,37 @@ namespace Microsoft.Bot.Builder.Dialogs
             private async Task DoneAsync(IDialogContext context, IAwaitable<R> result)
             {
                 context.Done(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class SelectManyDialog<T, C, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<T, IDialog<C>> Function;
+            public readonly Func<T, C, R> Projection;
+            public SelectManyDialog(IDialog<T> antecedent, Func<T, IDialog<C>> function, Func<T, C, R> projection)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Function, nameof(function), function);
+                SetField.NotNull(out this.Projection, nameof(projection), projection);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, AfterAntecedent);
+            }
+            private T itemT;
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                this.itemT = await result;
+                var dialog = this.Function(this.itemT);
+                context.Call<C>(dialog, AfterFunction);
+            }
+            private async Task AfterFunction(IDialogContext context, IAwaitable<C> result)
+            {
+                var itemC = await result;
+                var itemR = this.Projection(itemT, itemC);
+                context.Done(itemR);
             }
         }
 
