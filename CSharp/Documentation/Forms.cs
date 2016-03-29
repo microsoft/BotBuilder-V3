@@ -12,14 +12,14 @@
     /// [EntityType]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Type "EntityRecommendation.Type"
     /// [Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity "EntityRecommendation.Entity"
     /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog "LuisDialog"
-    /// [AllowDefault] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.AllowDefault "AllowDefault"
-    /// [ChoiceFormat] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ChoiceFormat "ChoiceFormat"
-    /// [ChoiceStyle] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ChoiceStyle "ChoiceStyle"
-    /// [Feedback] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.Feedback "Feedback"
-    /// [FieldCase] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.FieldCase "FieldCase"
-    /// [LastSeparator] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.LastSeparator "LastSeparator"
-    /// [Separator] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.Separator "Separator"
-    /// [ValueCase] @ref Microsoft.Bot.Builder.Advanced.TemplateBase.ValueCase "ValueCase"
+    /// [AllowDefault]: @ref Advanced.TemplateBaseAttribute.AllowDefault "AllowDefault"
+    /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat "ChoiceFormat"
+    /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle "ChoiceStyle"
+    /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback "Feedback"
+    /// [FieldCase]: @ref Advanced.TemplateBaseAttribute.FieldCase "FieldCase"
+    /// [LastSeparator]: @ref Advanced.TemplateBaseAttribute.LastSeparator "LastSeparator"
+    /// [Separator]: @ref Advanced.TemplateBaseAttribute.Separator "Separator"
+    /// [ValueCase]: @ref Advanced.TemplateBaseAttribute.ValueCase "ValueCase"
     /// 
     /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
@@ -50,18 +50,19 @@
     /// 
     /// Any of the data types can also be nullable which is a good way to model that the field does not have a value.
     /// If a field is based on an enum and it is not nullable, then the 0 value in the enum is considered to be null and you should start your enumeration at 1.
-    /// Any other fields, properties or methods are ignored by the form code.
+    /// Any other fields, properties or methods are ignored by the %FormFlow code.
     /// It is also possible to define a form directly by implementing Advanced.IField or using Advanced.Field and populating the dictionaries within it. 
-    /// In order to better understand %Form Flow and its capabilities we will work through two examples, \ref simplesandwichbot where 
+    /// In order to better understand %Form Flow and its capabilities we will work through two examples, \ref simpleSandwichBot where 
     /// everything is automatically generated and \ref annotatedSandwich where the form is extensively customized.
     /// 
     /// \section simpleSandwichBot Simple Sandwich Bot
-    /// As an example of %FormFlow in action, this will outline a simple sandwich ordering form that we will elaborate in \ref annotatedSandwichBot
+    /// As an example of %FormFlow in action, we will outline a simple sandwich ordering form that will be elaborated in \ref annotatedSandwich
     /// to show various features.  To start with %FormFlow you need to create a C# class to define the form you want to fill in. 
     /// Like this:
     /// \include SimpleSandwichBot/sandwich.cs
     /// Included in the class is a static method BuildForm that uses a FormBuilder to build your form.  There
-    /// are lots of things you can do with the form builder, but here we just define a simple welcome message.
+    /// are lots of things you can do with the form builder, but we will cover that later and here we just 
+    /// define a simple welcome message.
     /// 
     /// In order to connect your form to the bot framework you need to add it to your controller like this:
     /// \dontinclude SimpleSandwichBot/Controllers/MessagesController.cs
@@ -96,7 +97,7 @@
     /// prompt "Please select a sandwich".  The word "sandwich" came from the name of the field.  The SandwichOptions enumeration provided the 
     /// choices that make up the list.  Each enumeration was broken into words based on changes in case and underscores.  
     /// 
-    /// Now what are the possible responses?  If you ask for "help" you can see the possibilities like this:
+    /// Now what are the possible responses?  If you ask for "help" you can see this:
     /// ~~~{.txt}
     /// > help
     /// * You are filling in the sandwich field.Possible responses:
@@ -109,7 +110,7 @@
     /// * You can switch to another field by entering its name. (Sandwich, Length, Bread, Cheese, Toppings, and Sauce).
     /// ~~~  
     /// 
-    /// The possibilities include responding with the number of the choice you want, or you can also use the words that
+    /// As described in th help, you can respond to this prompt by responding with the number of the choice you want, or you can also use the words that
     /// are found in the choice descriptions.  There are also a number of commands that let you back up a step, get help, quit, start over 
     /// or get the progress so far.  Let's enter "2" to select "Black Forest Ham".
     /// ~~~{.txt}
@@ -135,7 +136,7 @@
     /// ~~~
     /// 
     /// Now we get the next prompt which is for the SandwichOrder.Length property.  If you wanted to back up to check
-    /// on your change your sandwich type you could type 'back' like this:
+    /// on your change, you could type 'back' like this:
     /// ~~~{.txt}
     /// > back
     /// Please select a sandwich(current choice: Black Forest Ham)
@@ -181,7 +182,7 @@
     /// ~~~
     /// 
     /// In addition to typing numbers and commands you can also type in words from the choices.  Here we have typed "nine grain" which 
-    /// is ambiguous and %Form Flow system automatically asks for clarification.
+    /// is ambiguous and the %Form Flow system automatically asks for clarification.
     /// ~~~{.txt}
     /// Please select a bread
     ///  1. Nine Grain Wheat
@@ -194,8 +195,9 @@
     /// > 1
     /// ~~~
     /// 
-    /// What happens if you type in something which is not understood or a mixture of understood and not understood?  In the below
-    /// you can see both something that is not understood at all and also a mixture of understood and not understood things.
+    /// What happens if you type in something which is not understood or a mixture of understood and not understood words?  
+    /// In the below you can see both something that is not understood at all and also a mixture of understood and 
+    /// not understood things.
     /// ~~~{.txt}
     /// Please select a cheese (1. American, 2. Monterey Cheddar, 3. Pepperjack)
     /// > amercan
@@ -204,7 +206,7 @@
     /// For cheese I understood American. "smoked" is not an option.
     /// ~~~
     /// 
-    /// Some fields like SandiwchOrder.Toppings allow multiple possibilities. Here we are entering multiple possibilities and showing 
+    /// Some fields like SandiwchOrder.Toppings allow multiple choices. Here we are entering multiple choices and showing 
     /// another example of clarification.
     /// ~~~{.txt}
     /// Please select one or more toppings
@@ -224,7 +226,7 @@
     /// ~~~
     /// 
     /// At this point, I might wonder how much is left and I can ask about my progress so far by typing "status".  When
-    /// I do so, I see my form and all that is left is the SandwichOrder.Sauce.
+    /// I do so, I see my form and all that is left to fill out is my SandwichOrder.Sauce.
     /// ~~~{.txt}
     /// Please select one or more sauce
     ///  1. Honey Mustard
@@ -308,8 +310,7 @@
     /// * Allows navigating between the steps.  
     /// 
     /// All of this is pretty amazing for not having to do any of the work!  
-    /// However, not every interaction was as
-    /// good as you might want it to be.  That is why there are easy ways to provide:
+    /// However, not every interaction was as good as you might want it to be.  That is why there are easy ways to provide:
     /// * Messages during the process of filling in a form.  
     /// * Custom prompts per field.  
     /// * Templates to use when automatically generating prompts or help.  
@@ -716,12 +717,12 @@
     /// Usage | Description
     /// ------|------------
     /// [AllowDefault] | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    ///[ChoiceFormat] | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
-    ///[ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
-    ///[Feedback] | For [Prompt] only controls feedback after user entry.
-    ///[FieldCase] | Controls case normalization when displaying a field description.
-    ///[LastSeparator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
-    ///[Separator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
-    ///[ValueCase] | Controls case normalization when displaying a field value.
+    /// [ChoiceFormat] | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    /// [ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
+    /// [Feedback] | For [Prompt] only controls feedback after user entry.
+    /// [FieldCase] | Controls case normalization when displaying a field description.
+    /// [LastSeparator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
+    /// [Separator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
+    /// [ValueCase] | Controls case normalization when displaying a field value.
     /// 
 }
