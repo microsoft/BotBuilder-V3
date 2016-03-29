@@ -311,10 +311,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         // Filter non-active steps out of command matches
                         var commands =
-                            (from command in MatchAnalyzer.Coalesce(_commands.Matches(lastInput), lastInput)
-                             where (command.Value is FormCommand
-                                 || _form.Fields.Field(command.Value as string).Active(_state))
-                             select command).ToArray();
+                            lastInput.Trim().StartsWith("\"")
+                            ? new TermMatch[0]
+                            : (from command in MatchAnalyzer.Coalesce(_commands.Matches(lastInput), lastInput)
+                               where (command.Value is FormCommand
+                                   || _form.Fields.Field(command.Value as string).Active(_state))
+                               select command).ToArray();
                         if (MatchAnalyzer.IsFullMatch(lastInput, commands))
                         {
                             next = DoCommand(context, _state, _formState, step, commands, out feedback);
