@@ -1,4 +1,4 @@
-# Instructions for contributing to the Bot Builder SDK
+# Instructions for Logging Issues
 
 ## 1. Search for Duplicates
 
