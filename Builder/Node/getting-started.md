@@ -41,7 +41,7 @@ server.listen(8080, function () {
 ## Test your bot
 Use the Bot Framework Emulator to test your bot on localhost (Windows Only)
 
-* Download it [here](http://download.botframework.com/botconnector/tools/emulator/)
+* Download it [here](http://aka.ms/bf-bc-emulator)
 * Learn how to use it [here](/botframework/bot-framework-emulator/)
 
 ## Publish your bot
