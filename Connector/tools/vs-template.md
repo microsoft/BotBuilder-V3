@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Bot Connector Visual Studio Template C#
+title: Visual Studio Template C#
 permalink: /connector/vs-template/
 weight: 260
 parent1: Bot Connector

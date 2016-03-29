@@ -111,8 +111,9 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.IBotToUser:</div
 <div class="dyncontent">
 <div class="center"><img src="../../d0/d0b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_bot_to_user_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_bot_to_user_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_bot_to_user_inherit__map">
-<area shape="rect" id="node2" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html" title="The context for the execution of a dialog&#39;s conversational process. " alt="" coords="5,97,200,138"/>
-<area shape="rect" id="node3" href="../../de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="5,187,200,229"/>
+<area shape="rect" id="node2" href="../../d1/d29/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_context.html" title="The context for the bot. " alt="" coords="5,97,200,138"/>
+<area shape="rect" id="node3" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html" title="The context for the execution of a dialog&#39;s conversational process. " alt="" coords="5,187,200,229"/>
+<area shape="rect" id="node4" href="../../de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="5,278,200,319"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -121,6 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2c8b54897040c1aa363bc1faf5f1acd7"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html#a2c8b54897040c1aa363bc1faf5f1acd7">PostAsync</a> (Message message, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
 <tr class="memdesc:a2c8b54897040c1aa363bc1faf5f1acd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post a message to be sent to the user.  <a href="#a2c8b54897040c1aa363bc1faf5f1acd7">More...</a><br /></td></tr>
 <tr class="separator:a2c8b54897040c1aa363bc1faf5f1acd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f06d809369cdc1abecbb2fe3907dbf4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html#a8f06d809369cdc1abecbb2fe3907dbf4">PostAsync</a> (string text, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
+<tr class="memdesc:a8f06d809369cdc1abecbb2fe3907dbf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post a message to be sent to the bot, using previous messages to establish a conversation context.  <a href="#a8f06d809369cdc1abecbb2fe3907dbf4">More...</a><br /></td></tr>
+<tr class="separator:a8f06d809369cdc1abecbb2fe3907dbf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Methods to send a message from the bot to the user. </p>
@@ -163,6 +167,42 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8f06d809369cdc1abecbb2fe3907dbf4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Microsoft.Bot.Builder.Dialogs.Internals.IBotToUser.PostAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em> = <code>default(CancellationToken)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Post a message to be sent to the bot, using previous messages to establish a conversation context. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>The message text.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task that represents the post operation.</dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
 <li><a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a></li>
 </ul>
@@ -180,6 +220,6 @@ Public Member Functions</h2></td></tr>
         <li>&copy; 2016 Microsoft</li>
 	</ul>
 </div>
-<script src="//intercom-ppe.azureedge.net/libs/svgxuse.js"></script>
+<script src="http://bot-framework.azureedge.net/libs/svgxuse.js"></script>
 </body>
 </html>
