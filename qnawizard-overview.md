@@ -6,6 +6,7 @@ weight: 1100
 parent1: Sandbox
 parent2: QnA Maker
 ---
+
 ###Go To [http://qnamaker.botframework.com/](http://qnamaker.botframework.com/ "QnA Maker")
 
 One of the basic requirements in writing your own Bot service is to seed it with questions and answers.

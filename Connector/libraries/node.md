@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Node.js
+title: Bot Connector Node.js
 permalink: /connector/libraries/node/
 weight: 238
 parent1: Bot Connector

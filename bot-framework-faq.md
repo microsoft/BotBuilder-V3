@@ -12,7 +12,7 @@ parent1: none
 
 ## What is the Microsoft Bot Framework?
 
-The Microsoft Bot Framework provides everything you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+The Microsoft Bot Framework provides just what you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
 
 ![Bot Framework Diagram](/images/bot_framework_wht_bkgrnd.png)
 
@@ -32,7 +32,7 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 
 The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
 
-### Bot Directory
+### Bot Directory (coming soon)
 {:.no_toc}
 
 The Bot Directory is a public directory of all approved bots registered through the Bot Connector. Users will be able to discover, try, and add bots to their favorite conversation experiences from the Bot Directory. Initially the Bot Directory will feature bots demonstrated at [Microsoft Build 2016](http://build.microsoft.com/).
@@ -80,7 +80,7 @@ Additionally, as a participant in the Bot Framework, your bot will also be enabl
 
 Bot Connector is the easiest way to achieve broad reach for your text/speech, image, and/or card-capable bot. In addition to enabling broad reach to the conversation experiences your users love, the Bot Connector also provides automatic translation to more than 30 languages, an embeddable web chat control, user and conversation state management, and debugging through the Bot Framework Emulator.
 
-![Bot Details - Develop0er Portal)](/images/connector_channel_config_skype.png)
+![Bot Dashboard)](/images/bot_connector_bot_details_nobrowser.png)
 
 #### How it works
 {:.no_toc}

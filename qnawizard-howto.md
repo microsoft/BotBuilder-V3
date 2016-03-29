@@ -13,11 +13,11 @@ The QnA Maker tool will attempt to extract questions and answers from a bunch of
 
 Currently the tool supports extraction from URLs which have explicit questions and answers, like FAQ pages. Examples:
 
--  [http://windows.microsoft.com/en-us/windows-10/upgrade-to-windows-10-faq](http://windows.microsoft.com/en-us/windows-10/upgrade-to-windows-10-faq)
--  [https://www.creditonebank.com/faqs.aspx](https://www.creditonebank.com/faqs.aspx)
--  [https://www.bankofamerica.com/credit-cards/account-access-faq.go](https://www.bankofamerica.com/credit-cards/account-access-faq.go)
--  [https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions](https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions)
--  [https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs](https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs)
+- [http://windows.microsoft.com/en-us/windows-10/upgrade-to-windows-10-faq](http://windows.microsoft.com/en-us/windows-10/upgrade-to-windows-10-faq)
+- [https://www.creditonebank.com/faqs.aspx](https://www.creditonebank.com/faqs.aspx)
+- [https://www.bankofamerica.com/credit-cards/account-access-faq.go](https://www.bankofamerica.com/credit-cards/account-access-faq.go)
+- [https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions](https://www.irs.gov/Retirement-Plans/Retirement-Plans-FAQs-regarding-Required-Minimum-Distributions)
+- [https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs](https://childsupport.oag.state.tx.us/wps/portal/csi/Faqs)
 
 ## Step 1
 
