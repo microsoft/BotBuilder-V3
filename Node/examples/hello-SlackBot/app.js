@@ -6,27 +6,10 @@ More details about setting up Botkit can be found at:
 
     http://howdy.ai/botkit
  
+A detailed walkthrough of creating and running this bot can be found at the 
+link below.
 
-# RUN THE BOT:
-
-  Get a Bot token from Slack:
-
-    http://my.slack.com/services/new/bot
-
-  Run your bot from the command line:
-
-    token=YOUR_TOKEN node app.js
-
-  Run your bot from the command line (WINDOWS):
-    
-    set token=YOUR_TOKEN
-    node app.js
-
-# USE THE BOT:
-
-  Find your bot inside Slack
-
-  Say: "hello"
+    http://docs.botframework.com/builder/node/bots/SlackBot
 
 -----------------------------------------------------------------------------*/
 
@@ -43,7 +26,7 @@ slackBot.add('/', function (session) {
    session.send('Hello World'); 
 });
 
-slackBot.listen(['direct_message','direct_mention']);
+slackBot.listenForMentions();
 
 bot.startRTM(function(err,bot,payload) {
   if (err) {
