@@ -2,24 +2,24 @@
 {
     /// \page forms %FormFlow 
     /// \tableofcontents
-    /// [LUIS]: http://luis.ai "LUIS"
-    /// [Describe]: @ref DescribeAttribute "Describe"
-    /// [Numeric]: @ref NumericAttribute "Numeric"
-    /// [Optional]: @ref OptionalAttribute "Optional"
-    /// [Prompt]: @ref PromptAttribute "Prompt"
-    /// [Template]: @ref TemplateAttribute "Template"
-    /// [Terms]: @ref TermsAttribute "Terms"
-    /// [EntityType]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Type "EntityRecommendation.Type"
-    /// [Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity "EntityRecommendation.Entity"
-    /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog "LuisDialog"
-    /// [AllowDefault]: @ref Advanced.TemplateBaseAttribute.AllowDefault "AllowDefault"
-    /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat "ChoiceFormat"
-    /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle "ChoiceStyle"
-    /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback "Feedback"
-    /// [FieldCase]: @ref Advanced.TemplateBaseAttribute.FieldCase "FieldCase"
-    /// [LastSeparator]: @ref Advanced.TemplateBaseAttribute.LastSeparator "LastSeparator"
-    /// [Separator]: @ref Advanced.TemplateBaseAttribute.Separator "Separator"
-    /// [ValueCase]: @ref Advanced.TemplateBaseAttribute.ValueCase "ValueCase"
+    /// [LUIS]: http://luis.ai
+    /// [Describe]: @ref DescribeAttribute 
+    /// [Numeric]: @ref NumericAttribute 
+    /// [Optional]: @ref OptionalAttribute 
+    /// [Prompt]: @ref PromptAttribute 
+    /// [Template]: @ref TemplateAttribute 
+    /// [Terms]: @ref TermsAttribute 
+    /// [EntityRecommendation.Type]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Type 
+    /// [EntityRecommendation.Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity 
+    /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog 
+    /// [AllowDefault]: @ref Advanced.TemplateBaseAttribute.AllowDefault 
+    /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat 
+    /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle 
+    /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback 
+    /// [FieldCase]: @ref Advanced.TemplateBaseAttribute.FieldCase 
+    /// [LastSeparator]: @ref Advanced.TemplateBaseAttribute.LastSeparator 
+    /// [Separator]: @ref Advanced.TemplateBaseAttribute.Separator 
+    /// [ValueCase]: @ref Advanced.TemplateBaseAttribute.ValueCase
     /// 
     /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
@@ -34,7 +34,7 @@
     /// The clearest way to understand this is to take a look at the \ref simpleSandwichBot sample. 
     /// In that sample you define the form you want using C# classes, fields and properties. 
     /// That is all you need to do to get a pretty good dialog that supports help, clarification, status and 
-    /// navigation without any more effort.  Once you have that dialog you can make use of simple annotations
+    /// navigation without any more effort.  Once you have that dialog you can make use of C# attributes
     /// to improve your bot in a straightforward way.  
     /// 
     /// \section fields Forms and Fields
@@ -52,7 +52,7 @@
     /// If a field is based on an enum and it is not nullable, then the 0 value in the enum is considered to be null and you should start your enumeration at 1.
     /// Any other fields, properties or methods are ignored by the %FormFlow code.
     /// It is also possible to define a form directly by implementing Advanced.IField or using Advanced.Field and populating the dictionaries within it. 
-    /// In order to better understand %Form Flow and its capabilities we will work through two examples, \ref simpleSandwichBot where 
+    /// In order to better understand FormFlow and its capabilities we will work through two examples, \ref simpleSandwichBot where 
     /// everything is automatically generated and \ref annotatedSandwich where the form is extensively customized.
     /// 
     /// \section simpleSandwichBot Simple Sandwich Bot
@@ -182,7 +182,7 @@
     /// ~~~
     /// 
     /// In addition to typing numbers and commands you can also type in words from the choices.  Here we have typed "nine grain" which 
-    /// is ambiguous and the %Form Flow system automatically asks for clarification.
+    /// is ambiguous and the FormFlow system automatically asks for clarification.
     /// ~~~{.txt}
     /// Please select a bread
     ///  1. Nine Grain Wheat
@@ -672,8 +672,8 @@
     /// \section initialState Passing in Initial Form State and Entities
     /// When you launch a FormDialog, you can optionally pass in an instance of your state.
     /// If you do that, any step for filling a field is skipped if that field has a value.
-    /// You can also pass in [LUIS] entities to bind to the state.  If the [EntityType]
-    /// is a path to a field in your C# class then the [Entity] will be 
+    /// You can also pass in [LUIS] entities to bind to the state.  If the [EntityRecommendation.Type]
+    /// is a path to a field in your C# class then the [EntityRecommendation.Entity] will be 
     /// passed through the recognizer to bind to your field.  Just like initial state, any step for 
     /// filling in that field will be skipped.
     /// 
@@ -698,19 +698,19 @@
     /// {&} | Description of the current field.
     /// {<field><format>} | Value of a particular field. 
     /// {&<field>} | Description of a particular field.
-    /// {\|\|} | Show the current choices for enumerated fields.
+    /// {\|\|} | Show the current choices which can be the current value, no preference or the possible values for enumerated fields.
     /// {[{<field><format>} ...]} | Create a list with all field values together utilizing [Separator] and [LastSeparator] to separate the individual values.
     /// {*} | Show one line for each active field with the description and current value.
     /// {*filled} | Show one line for each active field that has an actual value with the description and current value.
     /// {<nth><format>} | A regular C# format specifier that refers to the nth arg.  See TemplateUsage to see what args are available.
     /// {?<textOrPatternElement>...} | Conditional substitution.  If all referred to pattern elements have values, the values are substituted and the whole expression is used.
     ///
-    /// Patterns are used in [Prompt] and [Template] annotations.  
+    /// Patterns are used in [Prompt] and [Template] attributes.  
     /// [Prompt] defines a prompt to the user for a particular field or confirmation.  
     /// [Template] is used to automatically construct prompts and other things like help.
     /// There is a built-in set of templates defined in FormConfiguration.Templates.
     /// A good way to see examples of the pattern language is to look at the templates defined there.
-    /// A [Prompt] can be specified by annotating a particular field or property or implicitly defined through IField<T>.Field.
+    /// A [Prompt] can be specified by using it as an attribute on a particular field or property or implicitly defined through IFormBuilder<T>.Field.
     /// A default [Template] can be overridden on a class or field basis.  
     /// Both prompts and templates support the formatting parameters outlined below.
     /// 
