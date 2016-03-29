@@ -39,7 +39,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Bot.Builder.Fibers
+namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public static class Serialization
     {

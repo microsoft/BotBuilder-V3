@@ -38,7 +38,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Newtonsoft.Json;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
 {

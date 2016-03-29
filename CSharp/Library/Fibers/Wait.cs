@@ -39,7 +39,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.Bot.Builder.Fibers
+namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public interface IItem<out T> : IAwaitable<T>
     {

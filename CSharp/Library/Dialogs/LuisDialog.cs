@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Dialogs

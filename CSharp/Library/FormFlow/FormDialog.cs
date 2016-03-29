@@ -43,6 +43,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -139,9 +140,9 @@ namespace Microsoft.Bot.Builder.FormFlow
             cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
 
             // constructor arguments
-            Fibers.SetField.NotNull(out this._state, nameof(state), state);
-            Fibers.SetField.NotNull(out this._buildForm, nameof(buildForm), buildForm);
-            Fibers.SetField.NotNull(out this._entities, nameof(entities), entities);
+            SetField.NotNull(out this._state, nameof(state), state);
+            SetField.NotNull(out this._buildForm, nameof(buildForm), buildForm);
+            SetField.NotNull(out this._entities, nameof(entities), entities);
             this._options = options;
 
             // make our form
@@ -158,13 +159,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         private FormDialog(SerializationInfo info, StreamingContext context)
         {
             // constructor arguments
-            Fibers.SetField.NotNullFrom(out this._state, nameof(this._state), info);
-            Fibers.SetField.NotNullFrom(out this._buildForm, nameof(this._buildForm), info);
-            Fibers.SetField.NotNullFrom(out this._entities, nameof(this._entities), info);
+            SetField.NotNullFrom(out this._state, nameof(this._state), info);
+            SetField.NotNullFrom(out this._buildForm, nameof(this._buildForm), info);
+            SetField.NotNullFrom(out this._entities, nameof(this._entities), info);
             this._options = info.GetValue<FormOptions>(nameof(this._options));
 
             // instantiated in constructor, saved when serialized
-            Fibers.SetField.NotNullFrom(out this._formState, nameof(this._formState), info);
+            SetField.NotNullFrom(out this._formState, nameof(this._formState), info);
 
             // instantiated in constructor, re-instantiated when deserialized
             this._form = _buildForm();

@@ -37,7 +37,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
