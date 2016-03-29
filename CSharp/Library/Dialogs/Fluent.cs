@@ -68,6 +68,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Execute a side-effect after a <see cref="IDialog{T}"/> completes.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <param name="callback">The callback method.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<T> Do<T>(this IDialog<T> antecedent, Action<IAwaitable<T>> callback)
+        {
+            return new DoDialog<T>(antecedent, callback);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the continuation to produce the next <see cref="IDialog{R}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -105,6 +117,27 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
+                context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class DoDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Action<IAwaitable<T>> Action;
+            public DoDialog(IDialog<T> antecedent, Action<IAwaitable<T>> Action)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Action, nameof(Action), Action);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                this.Action(result);
                 context.Done<T>(await result);
             }
         }

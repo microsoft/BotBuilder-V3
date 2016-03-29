@@ -227,6 +227,18 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             throw new NotImplementedException();
                     }
                 })
+                .Do(async result =>
+                {
+                    try
+                    {
+                        var item = await result;
+                        Debug.WriteLine(item);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Debug.WriteLine("you cancelled");
+                    }
+                })
                 .Loop();
 
             Interactive(callDebug);
