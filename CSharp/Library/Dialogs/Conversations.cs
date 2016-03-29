@@ -1,4 +1,4 @@
-﻿﻿// 
+﻿// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -88,21 +88,22 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             IWaitFactory waits = new WaitFactory();
             IFrameFactory frames = new FrameFactory(waits);
-            IBotData toBotData = new JObjectBotData(toBot);
+            IBotData botData = new JObjectBotData(toBot);
             IConnectorClient client = new ConnectorClient();
+            var botToUser = new ReactiveBotToUser(toBot, client);
             var provider = new Serialization.SimpleServiceLocator(singletons)
             {
-                waits, frames, toBotData, client
+                waits, frames, botData, botToUser
             };
             var formatter = Conversation.MakeBinaryFormatter(provider);
 
             IDialogContextStore store = new DialogContextStore(formatter);
 
             IDialogContext context;
-            if (! store.TryLoad(toBotData.PerUserInConversationData, BlobKey, out context))
+            if (!store.TryLoad(botData.PerUserInConversationData, BlobKey, out context))
             {
                 IFiberLoop fiber = new Fiber(frames);
-                context = new Internals.DialogContext(client, toBotData, fiber);
+                context = new Internals.DialogContext(botToUser, botData, fiber);
                 var root = MakeRoot();
                 var loop = root.Loop();
                 context.Call<object>(loop, null);
@@ -110,18 +111,11 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
 
             IUserToBot userToBot = (IUserToBot)context;
-            var toUser = await userToBot.SendAsync(toBot, token);
+            await userToBot.SendAsync(toBot, token);
 
-            // even with no bot response, try to save state
-            if (toUser == null)
-            {
-                toUser = Internals.DialogContext.ToUser(toBot, toUserText: null);
-            }
+            store.Save(context, botData.PerUserInConversationData, BlobKey);
 
-            IBotData toUserData = new Internals.JObjectBotData(toUser);
-            store.Save(context, toUserData.PerUserInConversationData, BlobKey);
-
-            return toUser;
+            return botToUser.ToUser;
         }
     }
 }

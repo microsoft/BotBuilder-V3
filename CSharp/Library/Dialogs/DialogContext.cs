@@ -44,27 +44,27 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     [Serializable]
     public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable
     {
-        private readonly IConnectorClient client;
+        private readonly IBotToUser botToUser;
         private readonly IBotData data;
         private readonly IFiberLoop fiber;
 
-        public DialogContext(IConnectorClient client, IBotData data, IFiberLoop fiber)
+        public DialogContext(IBotToUser botToUser, IBotData data, IFiberLoop fiber)
         {
-            SetField.NotNull(out this.client, nameof(client), client);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.data, nameof(data), data);
             SetField.NotNull(out this.fiber, nameof(fiber), fiber);
         }
 
         public DialogContext(SerializationInfo info, StreamingContext context)
         {
-            SetField.NotNullFrom(out this.client, nameof(client), info);
+            SetField.NotNullFrom(out this.botToUser, nameof(botToUser), info);
             SetField.NotNullFrom(out this.data, nameof(data), info);
             SetField.NotNullFrom(out this.fiber, nameof(fiber), info);
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(this.client), this.client);
+            info.AddValue(nameof(this.botToUser), this.botToUser);
             info.AddValue(nameof(this.data), this.data);
             info.AddValue(nameof(this.fiber), this.fiber);
         }
@@ -175,53 +175,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Wait<Message>(ToRest(resume));
         }
 
-        private Message toUser;
+        async Task IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
+        {
+            this.fiber.Post(message);
+            await this.fiber.PollAsync();
+        }
 
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
         {
-            if (this.toUser != null)
-            {
-                await this.client.Messages.SendMessageAsync(this.toUser, cancellationToken);
-                this.toUser = null;
-            }
-
-            SetField.NotNull(out this.toUser, nameof(message), message);
+            await this.botToUser.PostAsync(message, cancellationToken);
         }
 
-        private Message toBot;
-
-        async Task<Message> IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
+        Message IBotToUser.MakeMessage()
         {
-            this.toBot = message;
-            this.fiber.Post(message);
-            await this.fiber.PollAsync();
-            var toUser = this.toUser;
-            this.toUser = null;
-            return toUser;
-        }
-
-        public static Message ToUser(Message toBot, string toUserText)
-        {
-            if (toBot != null)
-            {
-                var toUser = toBot.CreateReplyMessage(toUserText);
-                toUser.BotUserData = toBot.BotUserData;
-                toUser.BotConversationData = toBot.BotConversationData;
-                toUser.BotPerUserInConversationData = toBot.BotPerUserInConversationData;
-
-                return toUser;
-            }
-            else
-            {
-                return new Message(text: toUserText);
-            }
-        }
-
-        async Task IBotToUser.PostAsync(string text, CancellationToken cancellationToken)
-        {
-            var toUser = DialogContext.ToUser(this.toBot, text);
-            IBotToUser botToUser = this;
-            await botToUser.PostAsync(toUser, cancellationToken);
+            return this.botToUser.MakeMessage();
         }
     }
 }

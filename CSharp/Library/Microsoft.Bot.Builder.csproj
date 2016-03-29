@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\BotData.cs" />
+    <Compile Include="Dialogs\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
     <Compile Include="Dialogs\Conversations.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
