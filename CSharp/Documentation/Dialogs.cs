@@ -132,6 +132,6 @@
     /// 
     /// \section Conclusion
     /// Through this description we have seen how you can easily create stateless bots that can reuse dialog building blocks
-    /// ranging from simple prompts to advanced natural language.  As a next stpe, you should explore \ref forms which 
+    /// ranging from simple prompts to advanced natural language.  As a next step, you should explore \ref forms which 
     /// describes how the %Bot Builder framework can automatically build dialogs from a C# class you want the user to fill in.
 }
