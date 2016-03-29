@@ -21,8 +21,8 @@ namespace Microsoft.Bot.Builder.Tests
     {
         public interface IFormTarget
         {
-            int Integer { get; set; }
             string Text { get; set; }
+            int Integer { get; set; }
             float Float { get; set; }
         }
 
@@ -47,21 +47,22 @@ namespace Microsoft.Bot.Builder.Tests
             var toUser = await Conversation.SendAsync(toBot, MakeRoot, default(CancellationToken), mock.Object);
 
             // assert
-            AssertMentions(toUser, nameof(mock.Object.Integer));
+            AssertMentions(toUser, nameof(mock.Object.Text));
 
 
             // arrange
-            toBot.Text = "3";
+            // note: this can not be "text" as that is a navigation command
+            toBot.Text = "words";
 
             // act
             toUser = await Conversation.SendAsync(toBot, MakeRoot, default(CancellationToken), mock.Object);
 
             // assert
-            AssertMentions(toUser, nameof(mock.Object.Text));
+            AssertMentions(toUser, nameof(mock.Object.Integer));
 
 
             // arrange
-            toBot.Text = "words";
+            toBot.Text = "3";
 
             // act
             toUser = await Conversation.SendAsync(toBot, MakeRoot, default(CancellationToken), mock.Object);
@@ -77,7 +78,7 @@ namespace Microsoft.Bot.Builder.Tests
             toUser = await Conversation.SendAsync(toBot, MakeRoot, default(CancellationToken), mock.Object);
 
             // assert
-            AssertMentions(toUser, nameof(mock.Object.Float));
+            Assert.AreEqual(string.Empty, toUser.Text);
 
             mock.VerifyAll();
         }
