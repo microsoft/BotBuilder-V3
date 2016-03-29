@@ -1,8 +1,8 @@
 # Bot Builder SDK
 
-The Microsoft Bot Builder SDK is a core piece of the Microsoft Bot Framework.
+The Microsoft Bot Builder SDK is one of three main components of the Microsoft Bot Framework.
 
-The Microsoft Bot Framework provides everything you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+The Microsoft Bot Framework provides just what you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
 
 ![Bot Framework Diagram](http://botframework.blob.core.windows.net/web/images/bot_framework_wht_bkgrnd.png)
 
