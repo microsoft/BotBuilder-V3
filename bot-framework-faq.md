@@ -80,7 +80,7 @@ Additionally, as a participant in the Bot Framework, your bot will also be enabl
 
 Bot Connector is the easiest way to achieve broad reach for your text/speech, image, and/or card-capable bot. In addition to enabling broad reach to the conversation experiences your users love, the Bot Connector also provides automatic translation to more than 30 languages, an embeddable web chat control, user and conversation state management, and debugging through the Bot Framework Emulator.
 
-![Bot Details - Develop0er Portal)](/images/connector_channel_config_skype.png)
+![Bot Dashboard)](/images/bot_connector_bot_details_nobrowser.png)
 
 #### How it works
 {:.no_toc}
