@@ -136,9 +136,6 @@
     /// - Wait for a message from the user and suspend the conversation until the message arrives.
     /// The stack is usually automatically managed for you.
     /// 
-    /// \section Combining Dialogs
-    /// 
-    /// 
     /// \section Conclusion
     /// Through this description we have seen how you can easily create stateless bots that can reuse dialog building blocks
     /// ranging from simple prompts to advanced natural language.  As a next step, you should explore \ref forms which 
