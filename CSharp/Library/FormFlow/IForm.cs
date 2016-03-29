@@ -38,6 +38,10 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
+    #region Documentation
+    /// <summary>   Form definition interface. </summary>
+    /// <typeparam name="T">    Form state. </typeparam>
+    #endregion
     public abstract class IForm<T>
     {
         internal abstract bool IgnoreAnnotations { get; }

@@ -177,16 +177,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
-        /// Add a confirmation step.
-        /// </summary>
-        /// <param name="field">Prompt information to use for confirmation.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This allows you to take full control of the behavior of this confirmation.
-        /// </remarks>
-        IFormBuilder<T> Confirm(IFieldPrompt<T> field);
-
-        /// <summary>
         /// Delegate to call when form is completed.
         /// </summary>
         /// <param name="callback">Delegate to call on completion.</param>
@@ -259,6 +249,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public List<TemplateAttribute> Templates = new List<TemplateAttribute>
         {
             new TemplateAttribute(TemplateUsage.Bool, "Would you like a {&}? {||}"),
+            // {0} is current choice, {1} is no preference
             new TemplateAttribute(TemplateUsage.BoolHelp, "Please enter 'yes' or 'no'{?, {0}}."),
 
             // {0} is term being clarified
@@ -272,7 +263,6 @@ namespace Microsoft.Bot.Builder.FormFlow
 
             // {0} is min and {1} is max.
             new TemplateAttribute(TemplateUsage.Double, "Please enter a number {?between {0:F1} and {1:F1}} for {&} {||}") { ChoiceFormat = "{1}" },
-
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
             new TemplateAttribute(TemplateUsage.DoubleHelp, "Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}."),
@@ -318,9 +308,8 @@ namespace Microsoft.Bot.Builder.FormFlow
             new TemplateAttribute(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
 
             new TemplateAttribute(TemplateUsage.String, "Please enter {&} {||}") { ChoiceFormat = "{1}" },
- 
             // {0} is current choice, {1} is no preference
-			new TemplateAttribute(TemplateUsage.StringHelp, "You can enter anything{?, {0}}{?, {1}}."),
+			new TemplateAttribute(TemplateUsage.StringHelp, "You can enter anything (use \"'s to force string){?, {0}}{?, {1}}."),
 
             new TemplateAttribute(TemplateUsage.Unspecified, "Unspecified")
         };

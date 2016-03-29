@@ -35,7 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Fibers
+namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public interface IWaiter
     {

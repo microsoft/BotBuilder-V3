@@ -38,6 +38,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    #region Documentation
+    /// <summary>   Dialog that dispatches based on a regex matching input. </summary>
+    #endregion
     public class CommandDialog : IDialog
     {
         public class Command
@@ -84,30 +87,32 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
 
         }
-
-        public CommandDialog On(Regex expression, ResumeAfter<Connector.Message> handler, bool defaultHandler = false)
+        #region Documentation
+        /// <summary>   Define a handler that is fired on a regular expression match of a message. </summary>
+        /// <param name="expression">       Regular expression to match. </param>
+        /// <param name="handler">          Handler to call on match. </param>
+        /// <returns>   A CommandDialog. </returns>
+        #endregion
+        public CommandDialog On(Regex expression, ResumeAfter<Connector.Message> handler)
         {
-            var command = new Command()
+            var command = new Command
             {
                 Expression = expression,
                 CommandHandler = handler,
             };
-
-            if (defaultHandler)
-            {
-                this.defaultCommand = command;
-            }
-            else
-            {
-                commands.Add(command);
-            }
-
-            return this; 
+            commands.Add(command);
+            return this;
         }
-
+        #region Documentation
+        /// <summary>   Define the default action if no match. </summary>
+        /// <param name="handler">  Handler to call if no match. </param>
+        /// <returns>   A CommandDialog. </returns>
+        #endregion
         public CommandDialog OnDefault(ResumeAfter<Connector.Message> handler)
         {
-            return this.On(null, handler, defaultHandler: true);
+            var command = new Command { CommandHandler = handler };
+            this.defaultCommand = command;
+            return this;
         }
     }
 }

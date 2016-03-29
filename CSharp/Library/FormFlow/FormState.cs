@@ -63,13 +63,9 @@ namespace Microsoft.Bot.Builder.FormFlow
         // Field name and recognized entities
         public List<Tuple<string, string>> FieldInputs;
 
-        // Current culture. TODO: Not used
-        public CultureInfo Culture;
-
-        public FormState(int steps, CultureInfo culture)
+        public FormState(int steps)
         {
             Phases = new StepPhase[steps];
-            Culture = culture;
             Reset();
         }
 

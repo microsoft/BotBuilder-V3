@@ -83,10 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\BotData.cs" />
-    <Compile Include="Dialogs\CallDialog.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
     <Compile Include="Dialogs\Conversations.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
+    <Compile Include="Dialogs\Fluent.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Fibers\SetField.cs" />

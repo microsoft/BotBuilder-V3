@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Sample.Tests
         public static IntentRecommendation[] IntentsFor(Expression<Func<SimpleAlarmBot.SimpleAlarmDialog, Task>> expression)
         {
             var body = (MethodCallExpression)expression.Body;
-            var attribute = body.Method.GetCustomAttribute<LuisIntent>();
+            var attribute = body.Method.GetCustomAttribute<LuisIntentAttribute>();
             var name = attribute.IntentName;
             var intent = new IntentRecommendation(name);
             return new[] { intent };

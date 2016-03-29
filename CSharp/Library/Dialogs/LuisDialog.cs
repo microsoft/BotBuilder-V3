@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Dialogs
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// Associate a LUIS intent with a dialog method.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class LuisIntent : Attribute
+    public class LuisIntentAttribute : Attribute
     {
         /// <summary>
         /// The LUIS intent name.
@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Construct the association between the LUIS intent and a dialog method.
         /// </summary>
         /// <param name="intentName">The LUIS intent name.</param>
-        public LuisIntent(string intentName)
+        public LuisIntentAttribute(string intentName)
         {
             SetField.NotNull(out this.IntentName, nameof(intentName), intentName);
         }
@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             if (service == null)
             {
                 var type = this.GetType();
-                var luisModel = type.GetCustomAttribute<LuisModel>(inherit: true);
+                var luisModel = type.GetCustomAttribute<LuisModelAttribute>(inherit: true);
                 if (luisModel == null)
                 {
                     throw new Exception("Luis model attribute is not set for the class");
@@ -153,7 +153,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var intentHandler = (IntentHandler)Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
                 if (intentHandler != null)
                 {
-                    var intents = method.GetCustomAttributes<LuisIntent>(inherit: true);
+                    var intents = method.GetCustomAttributes<LuisIntentAttribute>(inherit: true);
                     var intentNames = intents.Select(i => i.IntentName).DefaultIfEmpty(method.Name);
 
                     foreach (var intentName in intentNames)

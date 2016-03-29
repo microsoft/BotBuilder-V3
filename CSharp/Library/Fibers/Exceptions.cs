@@ -34,7 +34,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Bot.Builder.Fibers
+namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     [Serializable]
     public abstract class InvalidWaitException : InvalidOperationException

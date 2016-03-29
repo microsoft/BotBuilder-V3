@@ -52,4 +52,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>A task that represents the dialog start.</returns>
         Task StartAsync(IDialogContext context);
     }
+
+    /// <summary>
+    /// A <see cref="IDialog{T}"/> is a suspendable conversational process that produces a result of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The result type.</typeparam>
+    public interface IDialog<out T> : IDialog
+    {
+    }
 }

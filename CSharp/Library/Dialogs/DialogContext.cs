@@ -36,7 +36,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        async Task IDialogContext.PostAsync(string text, CancellationToken cancellationToken)
+        async Task IBotToUser.PostAsync(string text, CancellationToken cancellationToken)
         {
             var toUser = DialogContext.ToUser(this.toBot, text);
             IBotToUser botToUser = this;

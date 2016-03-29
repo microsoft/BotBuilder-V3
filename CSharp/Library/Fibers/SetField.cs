@@ -38,7 +38,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Fibers
+namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public static partial class SetField
     {

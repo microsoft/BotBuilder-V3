@@ -36,7 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
 {
@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     [Serializable]
-    public class LuisModel : Attribute
+    public class LuisModelAttribute : Attribute
     {
         /// <summary>
         /// The LUIS model ID.
@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         /// <param name="modelID">The LUIS model ID.</param>
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
-        public LuisModel(string modelID, string subscriptionKey)
+        public LuisModelAttribute(string modelID, string subscriptionKey)
         {
             SetField.NotNull(out this.ModelID, nameof(modelID), modelID);
             SetField.NotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);

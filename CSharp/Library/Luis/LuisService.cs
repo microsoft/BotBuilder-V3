@@ -38,7 +38,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Newtonsoft.Json;
-using Microsoft.Bot.Builder.Fibers;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
 {
@@ -68,13 +68,13 @@ namespace Microsoft.Bot.Builder.Luis
     [Serializable]
     public sealed class LuisService : ILuisService
     {
-        private readonly LuisModel model;
+        private readonly LuisModelAttribute model;
 
         /// <summary>
         /// Construct the LUIS service using the model information.
         /// </summary>
         /// <param name="model">The LUIS model information.</param>
-        public LuisService(LuisModel model)
+        public LuisService(LuisModelAttribute model)
         {
             SetField.NotNull(out this.model, nameof(model), model);
         }

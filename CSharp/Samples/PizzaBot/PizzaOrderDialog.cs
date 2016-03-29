@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,15 +36,16 @@ namespace Microsoft.Bot.Sample.PizzaBot
             if (!entities.Any((entity) => entity.Type == "Kind"))
             {
                 // Infer kind
-                foreach(var entity in result.Entities)
+                foreach (var entity in result.Entities)
                 {
                     string kind = null;
-                    switch(entity.Type)
+                    switch (entity.Type)
                     {
                         case "Signature": kind = "Signature"; break;
                         case "GourmetDelite": kind = "Gourmet delite"; break;
                         case "Stuffed": kind = "stuffed"; break;
-                        default: if (entity.Type.StartsWith("BYO")) kind = "byo";
+                        default:
+                            if (entity.Type.StartsWith("BYO")) kind = "byo";
                             break;
                     }
                     if (kind != null)
@@ -82,7 +83,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             }
         }
 
-        enum Days { Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday }; 
+        enum Days { Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday };
 
         [LuisIntent("StoreHours")]
         public async Task ProcessStoreHours(IDialogContext context, LuisResult result)
@@ -93,18 +94,18 @@ namespace Microsoft.Bot.Sample.PizzaBot
         }
 
         private async Task StoreHoursResult(IDialogContext context, IAwaitable<Days> day)
-                {
-                    var hours = string.Empty;
+        {
+            var hours = string.Empty;
             switch (await day)
-                    {
-                        case Days.Saturday:
-                        case Days.Sunday:
-                            hours = "5pm to 11pm";
-                            break;
-                        default:
-                            hours = "11am to 10pm";
-                            break;
-                    }
+            {
+                case Days.Saturday:
+                case Days.Sunday:
+                    hours = "5pm to 11pm";
+                    break;
+                default:
+                    hours = "11am to 10pm";
+                    break;
+            }
 
             var text = $"Store hours are {hours}";
             await context.PostAsync(text);

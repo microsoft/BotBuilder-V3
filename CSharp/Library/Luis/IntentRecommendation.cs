@@ -7,13 +7,15 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Luis
 {
+    /// <summary>   LUIS intent recommendation. </summary>
     public partial class IntentRecommendation
     {
         private string _intent;
 
         /// <summary>
-        /// Required.
+        /// The intent returned from LUIS.
         /// </summary>
+        /// <remarks>An intent is required in this class.</remarks>
         public string Intent
         {
             get { return this._intent; }
@@ -23,8 +25,9 @@ namespace Microsoft.Bot.Builder.Luis
         private double? _score;
 
         /// <summary>
-        /// Optional.
+        /// LUIS confidence score.
         /// </summary>
+        /// <remarks>The confidence score is optional.</remarks>
         public double? Score
         {
             get { return this._score; }
@@ -32,16 +35,16 @@ namespace Microsoft.Bot.Builder.Luis
         }
 
         /// <summary>
-        /// Initializes a new instance of the IntentRecommendation class.
+        /// Constructor.
         /// </summary>
         public IntentRecommendation()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the IntentRecommendation class with
-        /// required arguments.
+        /// Contructor with required intent.
         /// </summary>
+        /// <param name="intent">Intent form LUIS.</param>
         public IntentRecommendation(string intent)
             : this()
         {
@@ -53,8 +56,9 @@ namespace Microsoft.Bot.Builder.Luis
         }
 
         /// <summary>
-        /// Deserialize the object
+        /// Deserialize the object from LUIS.
         /// </summary>
+        /// <param name="inputObject">JSON response from LUIS.</param>
         public virtual void DeserializeJson(JToken inputObject)
         {
             if (inputObject != null && inputObject.Type != JTokenType.Null)
@@ -73,8 +77,9 @@ namespace Microsoft.Bot.Builder.Luis
         }
 
         /// <summary>
-        /// Serialize the object
+        /// Serialize this intent.
         /// </summary>
+        /// <param name="outputObject">Result of serialization.</param>
         /// <returns>
         /// Returns the json model for the type IntentRecommendation
         /// </returns>

@@ -59,17 +59,17 @@ namespace Microsoft.Bot.Builder.Dialogs
     public delegate Task StartAsync(IDialogContext context);
 
     /// <summary>
+    /// The context for the bot.
+    /// </summary>
+    public interface IBotContext : IBotData, IBotToUser
+    {
+    }
+
+    /// <summary>
     /// The context for the execution of a dialog's conversational process.
     /// </summary>
-    public interface IDialogContext : IBotData, IDialogStack, IBotToUser
+    public interface IDialogContext : IDialogStack, IBotContext
     {
-        /// <summary>
-        /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
-        /// </summary>
-        /// <param name="text">The message text.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(string text, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
@@ -132,6 +132,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>
         Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
+        /// </summary>
+        /// <param name="text">The message text.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the post operation.</returns>
+        Task PostAsync(string text, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
