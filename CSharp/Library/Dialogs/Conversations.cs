@@ -52,8 +52,12 @@ namespace Microsoft.Bot.Builder.Dialogs
     public static partial class Conversation
     {
         private const string BlobKey = "DialogState";
-
-        public static BinaryFormatter MakeBinaryFormatter(IServiceProvider provider)
+        #region Documentation
+        /// <summary>   Makes a binary formatter for serializing state. </summary>
+        /// <param name="provider"> The provider. </param>
+        /// <returns>   A BinaryFormatter. </returns>
+        #endregion
+        internal static BinaryFormatter MakeBinaryFormatter(IServiceProvider provider)
         {
             var listener = new DefaultTraceListener();
             var reference = new Serialization.LogSurrogate(new Serialization.ReferenceSurrogate(), listener);

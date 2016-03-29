@@ -1,6 +1,5 @@
 namespace Microsoft.Bot.Builder.Dialogs
 {
-
     ///
     /// \mainpage 
     ///
@@ -29,7 +28,8 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// * Built-in dialogs for simple things like Yes/No, strings, numbers, enumerations.  
     /// * Built-in dialogs that utilize powerful AI frameworks like <a href="http://luis.ai">LUIS</a>.  
     /// * Bots are stateless which helps them scale.  
-    /// * Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
+    /// * Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.  
+    /// * Open source found on http://github.com/Microsoft/botbuilder.
     /// 
     /// \section install Install
     /// 
@@ -46,7 +46,6 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// \section troubleshooting_q_and_a Troubleshooting Q and A
     /// 
     /// If your question isn't answered here visit our [support page](/support/).
-    /// 
     /// 
     /// -----------------
     /// \b Question: I have a problem with the builder who should I contact?

@@ -7,6 +7,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Luis
 {
+    #region Documentation
+    /// <summary>   Luis entity recommendation. </summary>
+    #endregion
     public partial class EntityRecommendation
     {
         private string _entity;

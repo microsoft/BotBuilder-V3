@@ -40,6 +40,10 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
+    #region Documentation
+    /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
+    /// <typeparam name="T">    Form state class. </typeparam>
+    #endregion
     public sealed class FormBuilder<T> : IFormBuilder<T>
         where T : class
     {
