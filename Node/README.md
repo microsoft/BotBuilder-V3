@@ -7,7 +7,7 @@ High Level Features:
 * Built-in prompts for simple things like Yes/No, strings, numbers, enumerations.
 * Built-in dialogs that utilize powerful AI frameworks like [LUIS](http://luis.ai).
 * Bots are stateless which helps them scale.
-* Bots can run on almost any platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
+* Bots can run on almost any bot platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
  
 ## Install
 Get the BotBuilder module using npm.
