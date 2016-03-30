@@ -36,11 +36,13 @@ Let's use the [Echobot Sample](http://github.com/Microsoft/BotBuilder) for this 
 * By default you will be in the Chat tab
 * Enter some text e.g. "Hello World!" and hit Send (or the Enter key)
 ![Send message to bot](/images/emulator-helloworld.png)
+{% comment %} 
 * The Emulator will send the request to your bot, and will display the response below your initial message
 ![Emulator response](/images/emulator-response.png)
 * Switch to the Debug tab and inspect the full Json response
 ![Inspect the Json response](/images/emulator-json.png)
-
+{% endcomment %}
+ 
 See an example of use in the [Getting started page](/connector/getstarted/).
 
 ## Using ConnectorClient library with emulator
