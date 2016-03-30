@@ -6,7 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "botkit": "0.0.14",
-    "restify": "^4.0.4",
-    "skype-sdk": "file:///C:\\Source\\skype-sdk.tar.gz"
+    "restify": "^4.0.4"
   }
 }
