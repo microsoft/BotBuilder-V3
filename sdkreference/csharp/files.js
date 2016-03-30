@@ -11,6 +11,13 @@ var files =
       [ "DictionaryBotData", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data.html", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data" ],
       [ "JObjectBotData", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data.html", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data" ]
     ] ],
+    [ "BotToUser.cs", "de/dfc/_bot_to_user_8cs.html", [
+      [ "BotToUserQueue", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue" ],
+      [ "ReactiveBotToUser", "d9/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_bot_to_user.html", "d9/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_bot_to_user" ]
+    ] ],
+    [ "Chain.cs", "dd/d4f/_chain_8cs.html", [
+      [ "Chain", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain" ]
+    ] ],
     [ "CommandDialog.cs", "dd/d45/_command_dialog_8cs.html", [
       [ "CommandDialog", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog" ],
       [ "Command", "db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command.html", "db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command" ]
@@ -24,7 +31,11 @@ var files =
     [ "DialogContext.cs", "de/d3d/_dialog_context_8cs.html", [
       [ "DialogContext", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context" ]
     ] ],
-    [ "Dialogs.cs", "d6/d82/_dialogs_8cs.html", null ],
+    [ "DialogContextStore.cs", "df/daa/_dialog_context_store_8cs.html", [
+      [ "DialogContextStore", "d7/d41/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context_store.html", "d7/d41/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context_store" ],
+      [ "IDialogContextStore", "db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html", "db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store" ]
+    ] ],
+    [ "dialogs.cs", "d0/d88/dialogs_8cs.html", null ],
     [ "EntityRecommendation.cs", "dc/d40/_entity_recommendation_8cs.html", [
       [ "EntityRecommendation", "d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation.html", "d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation" ]
     ] ],
@@ -60,15 +71,12 @@ var files =
       [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ],
       [ "Fields", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields" ]
     ] ],
-    [ "Fluent.cs", "d2/d2f/_fluent_8cs.html", [
-      [ "Fluent", "d9/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_fluent.html", "d9/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_fluent" ]
-    ] ],
     [ "Form.cs", "db/d24/_form_8cs.html", null ],
     [ "FormBuilder.cs", "d3/df3/_form_builder_8cs.html", [
       [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ]
     ] ],
     [ "FormDialog.cs", "d5/def/_form_dialog_8cs.html", "d5/def/_form_dialog_8cs" ],
-    [ "Forms.cs", "df/de2/_forms_8cs.html", null ],
+    [ "forms.cs", "d0/dd1/forms_8cs.html", null ],
     [ "FormState.cs", "dd/dc1/_form_state_8cs.html", null ],
     [ "IBotData.cs", "d2/d58/_i_bot_data_8cs.html", [
       [ "IBotData", "db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html", "db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data" ]
@@ -121,9 +129,15 @@ var files =
     [ "Methods.cs", "d2/dd6/_methods_8cs.html", [
       [ "Methods", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods" ]
     ] ],
-    [ "Overview.cs", "d4/d86/_overview_8cs.html", null ],
+    [ "overview.cs", "d0/d32/overview_8cs.html", null ],
     [ "PromptDialog.cs", "d2/d2b/_prompt_dialog_8cs.html", [
-      [ "PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog" ]
+      [ "Prompt", "d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html", "d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt" ],
+      [ "PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog" ],
+      [ "PromptChoice", "dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_choice.html", "dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_choice" ],
+      [ "PromptConfirm", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm" ],
+      [ "PromptDouble", "d9/d63/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_double.html", "d9/d63/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_double" ],
+      [ "PromptInt64", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64.html", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64" ],
+      [ "PromptString", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string.html", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string" ]
     ] ],
     [ "Recognizer.cs", "de/da1/_recognizer_8cs.html", "de/da1/_recognizer_8cs" ],
     [ "Serialization.cs", "d8/d54/_serialization_8cs.html", [

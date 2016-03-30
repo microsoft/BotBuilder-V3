@@ -23,6 +23,8 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 
 ![Bot Connector Diagram](/images/bot_connector_diagram.png)
 
+[Get started with the Bot Connector](/connector/getstarted/).
+
 ## Bot Builder SDK
 {:.no_toc}
 
@@ -30,6 +32,8 @@ The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Micr
 
 ![Bot Builder SDK](/images/bot_builder_sdk.png)
 
+* [Get started with the Bot Builder - C#](/sdkreference/csharp/).
+* [Get started with the Bot Builder - Node.js](/builder/node/overview/).
 
 ## Bot Directory (coming soon)
 {:.no_toc}

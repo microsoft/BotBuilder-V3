@@ -1,4 +1,4 @@
 <map id="Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute" name="Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute">
-<area shape="rect" id="node3" href="$d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html" title="Define the prompt template used when asking about a field. " alt="" coords="419,5,597,46"/>
-<area shape="rect" id="node4" href="$d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html" title="Define a template for generating strings. " alt="" coords="419,70,597,111"/>
+<area shape="rect" id="node3" href="$d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html" title="Define the prompt template used when asking about a field. " alt="" coords="417,5,595,47"/>
+<area shape="rect" id="node4" href="$d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html" title="Define a template for generating strings. " alt="" coords="417,71,595,112"/>
 </map>

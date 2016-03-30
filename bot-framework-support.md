@@ -13,5 +13,5 @@ parent1: none
 |**General site/BotFramework feedback and suggestions**| <a href="http://feedback.botframework.com/" target="_blank">http://feedback.botframework.com/</a>
 |**Using a bot** | Contact the bot's developer through their publisher e-mail                 
 |**Building bots and connecting to the Bot Framework** | Use StackOverflow, with the hashtag #botframework  
-|**Issues with the Bot Framework SDK**| Use the issues tab on our <a href="https://github.com/Microsoft/BotBuilder/" target="_blank">Git repo</a>
+|**Issues with the Bot Builder SDK**| Use the issues tab on our <a href="https://github.com/Microsoft/BotBuilder/" target="_blank">Git repo</a>
 |**Reporting Abuse**| Contact us at [bf-reports@microsoft.com](mailto://bf-reports@microsoft.com) 
