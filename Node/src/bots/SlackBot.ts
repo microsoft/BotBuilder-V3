@@ -356,24 +356,22 @@ export class SlackBot extends collection.DialogCollection {
 export class SlackSession extends session.Session {
     public teamData: any;
     public channelData: any;
-    
+
     public escapeText(text: string): string {
         if (text) {
-            text = text.replace('&', '&amp;');
-            text = text.replace('<', '&lt;');
-            text = text.replace('>', '&gt;');
+            text = text.replace(/&/g, '&amp;');
+            text = text.replace(/</g, '&lt;');
+            text = text.replace(/>/g, '&gt;');
         }
         return text;
     }
-    
+
     public unescapeText(text: string): string {
         if (text) {
-            text = text.replace('&amp;', '&');
-            text = text.replace('&lt;', '<');
-            text = text.replace('&gt;', '>');
+            text = text.replace(/&amp;/g, '&');
+            text = text.replace(/&lt;/g, '<');
+            text = text.replace(/&gt;/g, '>');
         }
         return text;
     }
-    
-    
 }
