@@ -7,10 +7,15 @@ parent1: Bot Builder for Node.js
 ---
 
 ## What is Bot Builder for Node.js and why should I use it?
-Bot Builder for Node.js is targeted at Node.js developers creating new bots from scratch. By building your bot using the Bot Builder framework you can easily adapt it to run on nearly any communication platform. This gives your bot the flexibility to be wherever your users are.
+Bot Builder for Node.js is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and models frameworks like Express & Restify to provide developers with a familiar way to write Bots.
 
-* [Bot Builder for Node.js Reference](/sdkreference/nodejs/modules/_botbuilder_d_.html)
-* [Bot Builder on GitHub](https://github.com/Microsoft/BotBuilder)
+High Level Features:
+
+* Powerful dialog system with dialogs that are isolated and composable.
+* Built-in prompts for simple things like Yes/No, strings, numbers, enumerations.
+* Built-in dialogs that utilize powerful AI frameworks like [LUIS](http://luis.ai).
+* Bots are stateless which helps them scale.
+* Bots can run on almost any platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
 
 ## Install
 Get the BotBuilder module using npm.
@@ -54,3 +59,5 @@ Deploy your bot to the cloud and then register it with the Microsoft Bot Framewo
 Learn how to build great bots.
 
 * [Core Concepts Guide](/builder/node/guides/core-concepts/)
+* [Bot Builder for Node.js Reference](/sdkreference/nodejs/modules/_botbuilder_d_.html)
+* [Bot Builder on GitHub](https://github.com/Microsoft/BotBuilder)
