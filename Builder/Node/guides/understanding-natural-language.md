@@ -47,7 +47,7 @@ Install the BotBuilder module from npm.
 
     npm install --save botbuilder
 
-Create an app.js file with teh code below. You'll need to update the model in the sample code below to use the URL you got from LUIS for your copy of the prebuilt Cortana App.
+Create a file named app.js with the code below. You'll need to update the model in the sample code below to use the URL you got from LUIS for your copy of the prebuilt Cortana App.
 
 {% highlight JavaScript %}
 var builder = require('botbuilder');
