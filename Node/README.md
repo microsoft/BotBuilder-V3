@@ -1,5 +1,5 @@
 # Bot Builder for Node.js
-Bot Builder for Node.js is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and models frameworks like Express and Restify to provide a familiar way to write Bots.
+[Bot Builder for Node.js](http://docs.botframework.com/builder/node/overview/) is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and models frameworks like Express and Restify to provide a familiar way to write Bots.
 
 High Level Features:
 
