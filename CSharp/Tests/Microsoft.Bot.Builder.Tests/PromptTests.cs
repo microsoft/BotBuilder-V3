@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -65,12 +66,11 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<DialogContext> MakeContextAsync(IDialog root)
+        public static async Task<DialogContext> MakeContextAsync(IDialog root, IBotToUser botToUser)
         {
-            var client = new Mock<IConnectorClient>(MockBehavior.Strict);
             var data = new JObjectBotData(new Connector.Message());
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var context = new DialogContext(client.Object, data, fiber);
+            var context = new DialogContext(botToUser, data, fiber);
             var loop = Methods.Void(Methods.Loop(context.ToRest(root.StartAsync), int.MaxValue));
             fiber.Call(loop, null);
             await fiber.PollAsync();
@@ -96,18 +96,22 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
 
             var conversationID = NewID();
-
-            var context = await MakeContextAsync(dialogRoot.Object);
+            var botToUser = new BotToUserQueue(new Message() { ConversationId = conversationID });
+            var context = await MakeContextAsync(dialogRoot.Object, botToUser);
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.SendAsync(toBot);
+                botToUser.Clear();
+                await userToBot.SendAsync(toBot);
+                var toUser = botToUser.Messages.Single();
                 Assert.AreEqual(PromptText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID, Text = text };
-                var toUser = await userToBot.SendAsync(toBot);
+                botToUser.Clear();
+                await userToBot.SendAsync(toBot);
+                Assert.IsFalse(botToUser.Messages.Any());
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.GetAwaiter().GetResult().Equals(expected))), Times.Once);
             }
         }
@@ -169,24 +173,30 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
 
             var conversationID = NewID();
+            var botToUser = new BotToUserQueue(new Message() { ConversationId = conversationID });
+            var context = await MakeContextAsync(dialogRoot.Object, botToUser);
 
-            var context = await MakeContextAsync(dialogRoot.Object);
             IUserToBot userToBot = context;
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.SendAsync(toBot);
+                botToUser.Clear();
+                await userToBot.SendAsync(toBot);
+                var toUser = botToUser.Messages.Single();
                 Assert.AreEqual(PromptText, toUser.Text);
             }
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.SendAsync(toBot);
+                botToUser.Clear();
+                await userToBot.SendAsync(toBot);
+                var toUser = botToUser.Messages.Single();
                 Assert.AreEqual(RetryText, toUser.Text);
             }
 
             {
                 var toBot = new Connector.Message() { ConversationId = conversationID };
-                var toUser = await userToBot.SendAsync(toBot);
-
+                botToUser.Clear();
+                await userToBot.SendAsync(toBot);
+                var toUser = botToUser.Messages.Single();
                 dialogRoot.Verify(d => d.PromptResult(context, It.Is<IAwaitable<T>>(actual => actual.ToTask().IsFaulted)), Times.Once);
             }
         }

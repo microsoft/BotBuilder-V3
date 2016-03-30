@@ -259,7 +259,8 @@ namespace Microsoft.Bot.Builder.FormFlow
 
             new TemplateAttribute(TemplateUsage.DateTime, "Please enter a date and time for {&} {||}"),
             // {0} is current choice, {1} is no preference
-            new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
+            // new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression {?, {0}}{?, {1}}."),
 
             // {0} is min and {1} is max.
             new TemplateAttribute(TemplateUsage.Double, "Please enter a number {?between {0:F1} and {1:F1}} for {&} {||}") { ChoiceFormat = "{1}" },

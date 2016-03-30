@@ -1,4 +1,4 @@
-﻿﻿// 
+﻿// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -33,8 +33,6 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -85,64 +83,39 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="MakeRoot">The factory method to make the root dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <param name="singletons">An optional list of object instances that should not be serialized.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the message to send inline back to the user.</returns>
         public static async Task<Message> SendAsync(Message toBot, Func<IDialog> MakeRoot, CancellationToken token = default(CancellationToken), params object[] singletons)
         {
             IWaitFactory waits = new WaitFactory();
             IFrameFactory frames = new FrameFactory(waits);
-            IBotData toBotData = new JObjectBotData(toBot);
+            IBotData botData = new JObjectBotData(toBot);
             IConnectorClient client = new ConnectorClient();
+            var botToUser = new ReactiveBotToUser(toBot, client);
             var provider = new Serialization.SimpleServiceLocator(singletons)
             {
-                waits, frames, toBotData, client
+                waits, frames, botData, botToUser
             };
             var formatter = Conversation.MakeBinaryFormatter(provider);
 
-            Internals.DialogContext context;
+            IDialogContextStore store = new DialogContextStore(formatter);
 
-            byte[] blobOld;
-            bool found = toBotData.PerUserInConversationData.TryGetValue(BlobKey, out blobOld);
-            if (found)
-            {
-                using (var streamOld = new MemoryStream(blobOld))
-                using (var gzipOld = new GZipStream(streamOld, CompressionMode.Decompress))
-                {
-                    context = (Internals.DialogContext)formatter.Deserialize(gzipOld);
-                }
-            }
-            else
+            IDialogContext context;
+            if (!store.TryLoad(botData.PerUserInConversationData, BlobKey, out context))
             {
                 IFiberLoop fiber = new Fiber(frames);
-                context = new Internals.DialogContext(client, toBotData, fiber);
+                context = new Internals.DialogContext(botToUser, botData, fiber);
                 var root = MakeRoot();
-                var loop = Methods.Void(Methods.Loop(context.ToRest(root.StartAsync), int.MaxValue));
-                fiber.Call(loop, null);
+                var loop = root.Loop();
+                context.Call<object>(loop, null);
                 await fiber.PollAsync();
             }
 
-            IUserToBot userToBot = context;
-            var toUser = await userToBot.SendAsync(toBot, token);
+            IUserToBot userToBot = (IUserToBot)context;
+            await userToBot.SendAsync(toBot, token);
 
-            // even with no bot response, try to save state
-            if (toUser == null)
-            {
-                toUser = Internals.DialogContext.ToUser(toBot, toUserText: null);
-            }
+            store.Save(context, botData.PerUserInConversationData, BlobKey);
 
-            byte[] blobNew;
-            using (var streamNew = new MemoryStream())
-            using (var gzipNew = new GZipStream(streamNew, CompressionMode.Compress))
-            {
-                formatter.Serialize(gzipNew, context);
-                gzipNew.Close();
-                blobNew = streamNew.ToArray();
-            }
-
-            IBotData toUserData = new Internals.JObjectBotData(toUser);
-
-            toUserData.PerUserInConversationData.SetValue(BlobKey, blobNew);
-
-            return toUser;
+            return botToUser.ToUser;
         }
     }
 }

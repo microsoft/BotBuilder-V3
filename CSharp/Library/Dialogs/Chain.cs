@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// <summary>
     /// A fluent, chainable interface for IDialogs.
     /// </summary>
-    public static partial class Fluent
+    public static partial class Chain
     {
         /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute this continuation method to construct the next <see cref="IDialog{R}"/>.
@@ -68,6 +68,29 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Execute a side-effect after a <see cref="IDialog{T}"/> completes.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <param name="callback">The callback method.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<T> Do<T>(this IDialog<T> antecedent, Action<IAwaitable<T>> callback)
+        {
+            return new DoDialog<T>(antecedent, callback);
+        }
+
+        /// <summary>
+        /// Post to the user the result of a <see cref="IDialog{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<T> PostToUser<T>(this IDialog<T> antecedent)
+        {
+            return new PostToUserDialog<T>(antecedent);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the continuation to produce the next <see cref="IDialog{R}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -81,12 +104,26 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// Loop the <see cref="IDialog{T}"/> forever.
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
-        /// <param name="antecedent">The antcedent <see cref="IDialog{T}"/>.</param>
+        /// <typeparam name="C">The type of the intermediate dialog.</typeparam>
+        /// <typeparam name="R">The type of the projected dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="function">The factory method to create the next dialog <see cref="IDialog{C}"/>.</param>
+        /// <param name="projection">The projection function for the combination of the two dialogs.</param>
+        /// <returns>The result <see cref="IDialog{R}"/>.</returns>
+        public static IDialog<R> SelectMany<T, C, R>(this IDialog<T> antecedent, Func<T, IDialog<C>> function, Func<T, C, R> projection)
+        {
+            return new SelectManyDialog<T, C, R>(antecedent, function, projection);
+        }
+
+        /// <summary>
+        /// Loop the <see cref="IDialog"/> forever.
+        /// </summary>
+        /// <param name="antecedent">The antecedent <see cref="IDialog"/>.</param>
         /// <returns>The looping dialog.</returns>
-        public static IDialog Loop<T>(this IDialog<T> antecedent)
+        public static IDialog Loop(this IDialog antecedent)
         {
             return new LoopDialog(antecedent);
         }
@@ -106,6 +143,47 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
+                context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class DoDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Action<IAwaitable<T>> Action;
+            public DoDialog(IDialog<T> antecedent, Action<IAwaitable<T>> Action)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Action, nameof(Action), Action);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                this.Action(result);
+                context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class PostToUserDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public PostToUserDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                var item = await result;
+                await context.PostAsync(item.ToString());
                 context.Done<T>(await result);
             }
         }
@@ -132,6 +210,38 @@ namespace Microsoft.Bot.Builder.Dialogs
             private async Task DoneAsync(IDialogContext context, IAwaitable<R> result)
             {
                 context.Done(await result);
+            }
+        }
+
+        // http://blogs.msdn.com/b/pfxteam/archive/2013/04/03/tasks-monads-and-linq.aspx
+        [Serializable]
+        private sealed class SelectManyDialog<T, C, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<T, IDialog<C>> Function;
+            public readonly Func<T, C, R> Projection;
+            public SelectManyDialog(IDialog<T> antecedent, Func<T, IDialog<C>> function, Func<T, C, R> projection)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Function, nameof(function), function);
+                SetField.NotNull(out this.Projection, nameof(projection), projection);
+            }
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, AfterAntecedent);
+            }
+            private T itemT;
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                this.itemT = await result;
+                var dialog = this.Function(this.itemT);
+                context.Call<C>(dialog, AfterFunction);
+            }
+            private async Task AfterFunction(IDialogContext context, IAwaitable<C> result)
+            {
+                var itemC = await result;
+                var itemR = this.Projection(itemT, itemC);
+                context.Done(itemR);
             }
         }
 

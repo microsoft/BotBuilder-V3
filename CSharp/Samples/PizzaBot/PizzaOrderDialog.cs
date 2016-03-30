@@ -75,12 +75,14 @@ namespace Microsoft.Bot.Sample.PizzaBot
 
             if (order != null)
             {
-                await context.PostAsync("Your Pizza Order: " + result.ToString());
+                await context.PostAsync("Your Pizza Order: " + order.ToString());
             }
             else
             {
                 await context.PostAsync("Form returned empty response!");
             }
+
+            context.Wait(MessageReceived);
         }
 
         enum Days { Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday };

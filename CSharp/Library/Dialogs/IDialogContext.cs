@@ -88,6 +88,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             context.Call<R>(child, resume);
         }
+
+        /// <summary>
+        /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
+        /// </summary>
+        /// <param name="text">The message text.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the post operation.</returns>
+        public static async Task PostAsync(this IBotToUser botToUser, string text, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var message = botToUser.MakeMessage();
+            message.Text = text;
+            await botToUser.PostAsync(message, cancellationToken);
+        }
     }
 }
 
@@ -134,12 +147,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
+        /// Make a message.
         /// </summary>
-        /// <param name="text">The message text.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(string text, CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>The new message.</returns>
+        Message MakeMessage();
     }
 
     /// <summary>
@@ -152,7 +163,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// </summary>
         /// <param name="message">The message for the bot.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents an inline response message to send back to the user.</returns>
-        Task<Message> SendAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>A task that represents the completion of the send.</returns>
+        Task SendAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

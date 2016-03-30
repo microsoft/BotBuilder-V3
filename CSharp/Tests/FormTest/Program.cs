@@ -194,7 +194,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // TestValidate();
 
             var callDebug =
-                Fluent
+                Chain
                 .From(() => FormDialog.FromType<Choices>())
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
@@ -225,6 +225,18 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => AnnotatedSandwichOrder.BuildForm());
                         default:
                             throw new NotImplementedException();
+                    }
+                })
+                .Do(async result =>
+                {
+                    try
+                    {
+                        var item = await result;
+                        Debug.WriteLine(item);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Debug.WriteLine("you cancelled");
                     }
                 })
                 .Loop();
