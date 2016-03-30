@@ -44,7 +44,7 @@ Chat widget can be embedded in 2 ways
 
 {% endhighlight %}
 
-<li>If you do not want your bot secret to be disclosed, use Option </li>
+<li>If you do not want your bot secret to be disclosed, use Option 2</li>
 </ol>
 
 ### Option 2 - Embed the chat widget in your website using token
@@ -54,7 +54,7 @@ Chat widget can be embedded in 2 ways
 <li>You can generate your bot token using the Web Chat secret from Steps1 as below
 <ul>
 <li>Issue a POST request to "https://webchat.botframework.com/api/conversations" passing the Web Chat secret as the Authorization header</li>
-<li>Parse the json response and get the </li>
+<li>Parse the json response and get the token</li>
 <li>Example code in javascript –</li>
 </ul>
 </li>
@@ -71,7 +71,7 @@ Chat widget can be embedded in 2 ways
     })
 
 {% endhighlight %}
-<li>The generated token can be used on only website for only one session. You need to automate above step for every invocation of your website</li>
+<li>The generated token can be used on only one website for only one session. You need to automate above step for every invocation of your website</li>
 <li>Embed the modified iframe tag in your website and adjust the styling for the iframe element as per the requirement. To use the token instead of the secret, use the IFrame like below:</li>
 </ol>
 
