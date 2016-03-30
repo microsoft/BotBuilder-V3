@@ -47,8 +47,8 @@ Here are the properties on the message.
 |**message.BotConversationData**         | an object saved based on the conversationId                | Remembering context object with a conversation
 |**message.BotPerUserInConversationData**| an object saved based on the from.Id + conversationId      | Remembering context object with a person in a conversation
 
-When your bot sends a reply you  simply set your object in one of the BotData records properties and it be persisted and
-played back to you on future messages. 
+When your bot sends a reply you  simply set your object in one of the BotData records properties and it will be persisted and
+played back to you on future messages when the context is the same. 
 
 Example of setting the data on a reply message
 
@@ -60,7 +60,8 @@ Example of setting the data on a reply message
 	
 {% endhighlight %}
 
-*When a new message comes from that user in that conversation the botPerUserConversationData will have your state*
+When a new message comes from that user in that conversation the botPerUserConversationData will have your object restored in it, giving 
+you access to your persisted state for that user
 
 {% highlight C# %}
 
@@ -68,26 +69,26 @@ Example of setting the data on a reply message
 	
 {% endhighlight %}
 
-With the C# nuget library the message has methods to make it easy to deal with setting and getting the object back as a typed value.
+Our C# nuget client library has extension methods for the Message class to make it easy to deal with setting and getting the object back as a typed value.
 
 {% highlight C#  %}
 
-    // Set BotUserData as a versioned record
+    // Set a property on the BotUserData 
     public static void SetBotUserData(this Message message, object data, string property)
     
-    // Set BotConversationData as a versioned record
+    // Set a property on the BotConversationData 
     public static void SetBotConversationData(this Message message, object data, string property)
     
-    // Set BotPerUserInConversationData as a versioned record
+    // Set a property on the BotPerUserInConversationData 
     public static void SetBotPerUserInConversationData(this Message message, object data, string property)
 
-    // Get BotUserData based on version
+    // Get a property off of the BotUserData 
     public static TypeT GetBotUserData<TypeT>(this Message message, string property)
 
-    // Get BotConversationData based on version
+    // Get a property off of the BotConversationData 
     public static TypeT GetBotConversationData<TypeT>(this Message message, string property)
 
-    // Get BotPerUserInConversationData based on version
+    // Get a property off of the BotPerUserInConversationData 
     public static TypeT GetBotPerUserInConversationData<TypeT>(this Message message, string property)
 	
 {% endhighlight %}
@@ -106,16 +107,17 @@ An example of using these helper extensions:
 
 
 ## Concurrency
-These state properties being set as part of a message response are not concurrent, aka they are the 
-same as setting an ETag of "*" on the records.   
+When these botData objects are being set on a message object they are not able to be stored
+in a way which guarentees you won't overwrite data from another overlapping message from your bot
 
-Many bots have simple sequential messages with the same people in the same conversation, and
-so the convenience of just storing your state inline is worth the possibility of stomping on a
+For many bots which have low load or simple sequential conversations with non-overlapping messages
+ the convenience of just storing your state inline is worth the possibility of stomping on a
 previous message.   
 
-On the other hand if your bot is sensitive to data getting stomped then you can use the  
-REST API to store data on these records using ETags to ensure consistency, or you can
-simply store your state in your own data store.
+Other bots can are sensitive to data getting stomped and desire a more reliable storage system.
+For these bots you can use the REST API to store the same BotData records but with ETags to ensure consistency.
+
+Or you can simply use the userId and conversationId to store you own data in your own database.  
 
 Example of using the REST API client library:
 {% highlight C# %}
@@ -133,6 +135,6 @@ Example of using the REST API client library:
     }
     catch(HttpOperationException err)
     {
-        // handle error
+        // handle precondition failed error if someone else has modified your object
     }
 {% endhighlight %}

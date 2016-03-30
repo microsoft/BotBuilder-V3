@@ -35,9 +35,9 @@ The Connector is primarily a switch which routes messages between channel accoun
 
 | **Property** | **Description**                                             
 |--------------|-------------------------------------
-|**Message.From**       | The channel for the sender         
-|**Message.To**         | The channel for the recipient      
-|**Message.Participants** | ChannelAccount array of known participants in the conversation           
+|**Message.From**       | The address for the sender         
+|**Message.To**         | The address for the recipient      
+|**Message.Participants** | address array of known participants in the conversation           
 |**Message.Mentions**   | A collection of user mentions (more on this below)
 
 When you receive a message from a user it will have the From field set to the
@@ -59,7 +59,7 @@ The thing that makes a message a "reply" message is if it contains the **Convers
 with all of the participants.  See [Starting new conversations](/connector/new-conversations/) for more info.
 
 The Message.TotalParticipants field will be used to determine if it is a group setting in order to adjust
-the behavior of bots.  In a group setting your bot should probably use *Spoke if spoken to* mode to 
+the behavior of bots.  In a group setting your bot should probably use *Group Conversation* mode to 
 have good user experience.  See [Bot Options](/connector/bot-options/) for details on that.
 
 ## Mentions
@@ -67,15 +67,13 @@ Many communication clients have mechanisms to "mention" someone.  Knowing that s
 mentioned can be an important piece of information for a bot that 
 the channel knows and needs to be able to pass to you.  
 
-At the same time, sometimes the bot needs the ability to strip out information that they don't want to have
-in their input as it will mess up their pattern matching.
-
-Even more importantly, a bot frequently needs to know that **they** were mentioned, but with some channels
-they don't always know what their name is on that channel. 
+Frequently a bot needs to know that **they** were mentioned, but with some channels
+they don't always know what their name is on that channel. (again see Slack and Group me where names
+are assigned per conversation) 
 
 To accomodate these needs the Message an array of Mention objects.  The Mention object is made up of
-* Mentioned - ChannelAccount of the person or user who was mentiond
-* Text - (optionally) the text in the message.Text property which represents the mention.
+* **Mentioned** - ChannelAccount of the person or user who was mentiond
+* **Text** - the text in the message.Text property which represents the mention. (this can be empty or null)
 
 Example:
 The user on slack says:

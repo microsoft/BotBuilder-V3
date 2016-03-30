@@ -42,3 +42,13 @@ Let's use the [Echobot Sample](http://github.com/Microsoft/BotBuilder) for this 
 ![Inspect the Json response](/images/emulator-json.png)
 
 See an example of use in the [Getting started page](/connector/getstarted/).
+
+## Using ConnectorClient library with emulator
+If you need access to the SendMessageAsync API from the connector client you can use localhost:9000 
+
+{% highlight C# %}
+    var connector = new ConnectorClient(new Uri("http://localhost:9000"), new ConnectorClientCredentials());
+    await connector.SendMessageAsync(message);
+{% endhighlight %}
+
+The emulator supports the message BotData fields but doesn't support the connector API version of it (yet!).

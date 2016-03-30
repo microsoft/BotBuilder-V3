@@ -72,11 +72,6 @@ When you receive a message that has been translated you will see the following c
 |*message.Text*          | the translated text                 
 
 
-## Disable all logging
-* **Off** *(default)*- Microsoft will use anonymized conversation data to train future systems. [See privacy polcy](link) 
-* **On**- Microsoft will not log any of the conversation with your bot.
-
-
 ## Publish in Bot directory
 * **Off** *(default)*- Your bot will only be visible to you or to someone you give the link to your contact card to. 
 * **On**- Your bot will show up on the [Bot Gallery](https://bots.botframework.com)

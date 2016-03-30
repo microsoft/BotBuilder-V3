@@ -10,8 +10,9 @@ parent2: Configure
 Some developers want to ensure that their bot's endpoint can only be called by the Bot Connector.
 
 To do this you should
+
 * configure your endpoint to only use HTTPS
-* accept your AppId/AppSecret using basic authorization
+* accept basic authorization with User: AppId Password: AppSecret 
 
 If the Basic auth headers are missing you should return a 401 asking for basic authentication like this
 

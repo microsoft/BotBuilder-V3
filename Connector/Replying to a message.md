@@ -14,13 +14,15 @@ parent2: Routing
 When your bot receives a message it most likely will want to respond. The minimum amount of information that is needed
 to respond is to send back the text that you want to send back to the user as a reply.  
 
-To do that, you need a new Message() that has the minimum of 
+To do that, you need a new Message() with
+ 
 * The From and To fields swapped from the original message (so that it will be routed back to where it came from)
 * The conversationId from the original message on it (so you can send it back to the same conversation)
 * The new Text
 * The language of your text.
 
 To make this super easy to do in C# we created an extension method on the message class called **CreateReplyMessage()**.
+
 To create a proper reply message all you have to do is:
 {% highlight C# %}
     var replyMessage = incomingMessage.CreateReplyMessage("Yo, I heard you.", "en");
