@@ -57,10 +57,9 @@ Install the emulator from [here](http://aka.ms/bf-bc-emulator) and then start yo
 Start the emulator and say "hello" to your bot.
 
 ## Publish your bot
-Deploy your bot to the cloud and then register it with the Microsoft Bot Framework.
+Deploy your bot to the cloud and then [register it](/connector/getstarted/#registering-your-bot-with-the-microsoft-bot-framework) with the Microsoft Bot Framework. If you're deploying your bot to Microsoft Azure you can use this great guide for publishing a Node.js app using Continuous Integration.
 
-* [Publishing a bot to Microsoft Azure](/connector/getstarted/#publishing-your-bot-application-to-microsoft-azure)
-* [Registering a bot with the Microsoft Bot Framework](/connector/getstarted/#registering-your-bot-with-the-microsoft-bot-framework)
+    https://blogs.msdn.microsoft.com/sarahsays/2015/08/31/building-your-first-node-js-app-and-publishing-to-azure/
 
 ## Dive deeper
 Learn how to build great bots.
