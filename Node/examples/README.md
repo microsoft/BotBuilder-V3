@@ -1,4 +1,4 @@
-## Overview
+# Bot Builder Examples
 Bot Builder for Node.js examples are organized into groups and designed to illustrate the techniques needed to build great bots. To use the samples clone our GitHub repository using Git.
 
     git clone git@github.com:Microsoft/BotBuilder.git
