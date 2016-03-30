@@ -106,7 +106,7 @@ Once registered, use the dashboard to test your bot to ensure it is talking to t
 
 Connect your bot to the conversation channels of your choice using the channel configuration page and your developer credentials associated with that channel.
 
-#### View in Bot Directory (comming soon)
+#### View in Bot Directory (coming soon)
 {:.no_toc}
 
 Bots registered through Bot Connector and approved for publishing will appear in the [Bot Directory](http://bots.botframework.com) where users can discover, try, and add bots to their favorite conversation experiences. Public visibility of your bot in the directory is a setting made during registration and can be changed at any time. 
