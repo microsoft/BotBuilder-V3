@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation.html" title="Luis entity recommendation. " alt="" coords="6,5,181,46"/>
+<area shape="rect" id="node2" href="$df/dbf/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_log_surrogate.html" title="Microsoft.Bot.Builder.Internals.\lFibers.Serialization.LogSurrogate" alt="" coords="223,5,438,47"/>
+<area shape="rect" id="node3" href="$da/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_reference_surrogate.html" title="Microsoft.Bot.Builder.Internals.\lFibers.Serialization.ReferenceSurrogate" alt="" coords="205,71,456,112"/>
+<area shape="rect" id="node4" href="$d5/d40/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_reflection_surrogate.html" title="Microsoft.Bot.Builder.Internals.\lFibers.Serialization.ReflectionSurrogate" alt="" coords="205,136,456,177"/>
 </map>
