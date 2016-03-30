@@ -158,7 +158,7 @@ The next step in the Azure App Service publishing process is to create your App 
 
 ![Click new to create a "New..." Azure App Service](/images/connector-getstarted-publish-app-service.png)
 
-The Create App Service dialog will be displayed, fill in the details as appropriate
+The Create App Service dialog will be displayed, fill in the details as appropriate.  Make sure to choose "Web App" from the Change Type drop down in the top right instead of "API App" (which is the default).
 
 ![Give your App Service a name, then click New App Service Plan to define one](/images/connector-getstarted-publish-app-service-create.png)
 
@@ -190,7 +190,7 @@ Registering your Bot tells the Connector how to call your Bot's web service. Not
 	
 2. Register an agent
 	
-3. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at /API/Messages. Save your changes by hitting "Create" at the bottom of the form.
+3. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at /API/Messages.  You should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your bot. Save your changes by hitting "Create" at the bottom of the form.
 
 ![Register a bot](/images/connector-getstarted-register-agent.png)
 
