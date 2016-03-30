@@ -27,7 +27,7 @@ Get the BotBuilder and Restify modules using npm.
     npm install --save botbuilder
     npm install --save restify
         
-Say hello in a few lines of code.
+Make a file named app.js and say hello in a few lines of code.
  
 {% highlight JavaScript %}
 var restify = require('restify');
@@ -35,14 +35,14 @@ var builder = require('botbuilder');
 
 var server = restify.createServer();
 
-var helloBot = new builder.TextBot();
+var helloBot = new builder.BotConnectorBot();
 helloBot.add('/', function (session) {
     session.send('Hello World');
 });
 
-server.post('/v1/messages', helloBot.listen());
+server.post('/api/messages', helloBot.listen());
 
-server.listen(8080, function () {
+server.listen(3978, function () {
     console.log('%s listening to %s', server.name, server.url); 
 });
 {% endhighlight %}
