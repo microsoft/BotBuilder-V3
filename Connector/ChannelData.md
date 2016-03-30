@@ -113,35 +113,3 @@ Example Message:
 {% endhighlight %}
 
 
-## Custom Twitter Messages
-The Twitter channel optionally supports the ability to create custom [twitter cards](https://dev.twitter.com/cards/overview) via the channelData property.  
-
-
-|**Property**   | ** Description**
-|---------------| -----
-|*cardData*   | An array of name content pairs
-
-When slack processes a bot connector message it will use the normal message properties to create a slack message, and
-then it will merge in the values from the *channelData* property if they are provided by the sender. 
-
-Example Message:
-
-{% highlight json %}
-    {
-        "type": "Message", 
-        "language": "en", 
-        "text": "This is a test", 
-        "channelData": 
-        {
-            "cardData": [
-                { "name" : "twitter:card", "content": "summary" },
-                { "name" : "twitter:site", "content": "@flickr" },
-                { "name" : "twitter:title", "content": "Small Island Developing States Photo Submission" },
-                { "name" : "twitter:description", "content": "View the album on Flickr." },
-                { "name" : "twitter:image", "content": "https://farm6.staticflickr.com/5510/14338202952_93595258ff_z.jpg" },
-            ],   
-        },
-        ... 
-    }
-{% endhighlight %}
-  

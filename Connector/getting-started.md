@@ -38,9 +38,7 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 
 2. Download and install the Bot Application template
 	* Download the file from the direct download link **[here](http://aka.ms/bf-bc-vstemplate)**:
-	* Unpack the downloaded file into a folder
-	* If Visual Studio is installed in the default path, Double-click install.cmd, which copies the ZIP file to your VS templates directory
-		* If not, copy to "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
+    * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
 
 3. Open Visual Studio
 

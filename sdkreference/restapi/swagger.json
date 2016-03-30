@@ -619,7 +619,7 @@
           "type": "string"
         },
         "channelId": {
-          "description": "Channel Id that the channelAccount is to be communicated with (Example: slack, sms, email, groupme, skype, twitter, etc.)",
+          "description": "Channel Id that the channelAccount is to be communicated with (Example: slack, sms, email, groupme, skype, etc.)",
           "type": "string"
         },
         "address": {
