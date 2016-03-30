@@ -39,7 +39,7 @@ You’ll want to copy the URL listed on the dialog as this is what you’ll bind
 ## Handle Intents
 Once you've deployed a model for your LUIS app we can create a bot that consumes that model. To keep things simple we'll create a [TextBot](/builder/node/bots/TextBot/) that we can interact with from a console window.
 
-Create a folder and run npm init.
+Create a folder for yoru bot, cd into it, and run npm init.
 
     npm init
 
