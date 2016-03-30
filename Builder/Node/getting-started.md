@@ -17,12 +17,15 @@ High Level Features:
 * Bots are stateless which helps them scale.
 * Bots can run on almost any bot platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
 
-## Install
+## Build a bot
+Create a folder for your bot and run npm init.
+
+    npm init
+    
 Get the BotBuilder module using npm.
 
     npm install --save botbuilder
-
-## Build a bot
+    
 Say hello in a few lines of code.
  
 {% highlight JavaScript %}
