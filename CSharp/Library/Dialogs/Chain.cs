@@ -103,9 +103,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new ContinueWithDialog<T, R>(antecedent, continuation);
         }
 
-        public static IDialog<C> SelectMany<A, B, C>(this IDialog<A> antecedent, Func<A, IDialog<B>> function, Func<A, B, C> projection)
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
+        /// </summary>
+        /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
+        /// <typeparam name="C">The type of the intermediate dialog.</typeparam>
+        /// <typeparam name="R">The type of the projected dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="function">The factory method to create the next dialog <see cref="IDialog{C}"/>.</param>
+        /// <param name="projection">The projection function for the combination of the two dialogs.</param>
+        /// <returns>The result <see cref="IDialog{R}"/>.</returns>
+        public static IDialog<R> SelectMany<T, C, R>(this IDialog<T> antecedent, Func<T, IDialog<C>> function, Func<T, C, R> projection)
         {
-            return new SelectManyDialog<A, B, C>(antecedent, function, projection);
+            return new SelectManyDialog<T, C, R>(antecedent, function, projection);
         }
 
         /// <summary>
@@ -203,6 +213,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        // http://blogs.msdn.com/b/pfxteam/archive/2013/04/03/tasks-monads-and-linq.aspx
         [Serializable]
         private sealed class SelectManyDialog<T, C, R> : IDialog<R>
         {
