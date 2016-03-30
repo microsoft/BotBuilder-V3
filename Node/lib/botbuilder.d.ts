@@ -108,7 +108,7 @@ export interface IChannelAccount {
     /** Display friendly name of the user. */
     name?: string;
 
-    /** Channel Id that the channelAccount is to be communicated with (Example: Twitter.) */
+    /** Channel Id that the channelAccount is to be communicated with (Example: GroupMe.) */
     channelId: string;
 
     /** Channel Address for the channelAccount (Example: @thermous.) */
