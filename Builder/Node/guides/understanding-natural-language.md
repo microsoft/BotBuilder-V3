@@ -80,7 +80,7 @@ This sample pulls in our Cortana Model and implements two intent handlers, one f
 Now that we have our bot understanding what the users intended action is we can do the work of actually creating and deleting alarms. We’ll extend our sample to include logic to handle each [intent](/sdkreference/nodejs/interfaces/_botbuilder_d_.iintent.html) and a very simple in-memory alarm scheduler. We’ll also need to add a new ‘/notify’ dialog to do the work of actually telling the user when an alarm has triggered.    
   
 {% highlight JavaScript %}
-var builder = require('../../');
+var builder = require('botbuilder');
 
 // Create LUIS Dialog that points at our model and add it as the root '/' dialog for our Cortana Bot.
 var model = '<your models url>';
