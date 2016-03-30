@@ -47,11 +47,14 @@ server.listen(process.env.port || 3978, function () {
 });
 {% endhighlight %}
 
-## Test your bot
-Use the Bot Framework Emulator to test your bot on localhost (Windows Only)
+## Test your bot (Windows Only)
+Use the [Bot Framework Emulator](/botframework/bot-framework-emulator/) to test your bot on localhost. 
 
-* Download it [here](http://aka.ms/bf-bc-emulator)
-* Learn how to use it [here](/botframework/bot-framework-emulator/)
+Install the emulator from [here](http://aka.ms/bf-bc-emulator) and then start your bot in a console window.
+
+    node app.js
+    
+Start the emulator and say "hello" to your bot.
 
 ## Publish your bot
 Deploy your bot to the cloud and then register it with the Microsoft Bot Framework.
