@@ -20,7 +20,7 @@ To publish the bot to the Bot Connector Service follow the steps outlined in the
     http://docs.botframework.com/builder/node/bots/BotConnectorBot/#publishing
 
 # SkypeBot Usage
-To run the bot using Skype you'll need to follow Skypes Gettign Started guide and register a new bot with the Skype Developer Portal.
+To run the bot using Skype you'll need to follow Skypes Getting Started guide and register a new bot with the Skype Developer Portal.
 
     http://docs.botframework.com/builder/node/bots/SkypeBot/#usage
 
