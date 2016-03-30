@@ -1,19 +1,18 @@
 /*-----------------------------------------------------------------------------
-A simple "Hello World" bot for the Microsoft Bot Connector Service. A detailed 
-walkthrough of creating and running this bot can be found at the link below.
-
-    http://docs.botframework.com/builder/node/bots/BotConnectorBot
-
+A bot for managing a users to-do list.  See the README.md file for usage 
+instructions.
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
 var builder = require('../../');
+var index = require('./dialogs/index')
 
 // Create bot and add dialogs
-var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppSecret' });
-bot.add('/', function (session) {
-   session.send('Hello World'); 
+var bot = new builder.BotConnectorBot({ 
+    appId: process.env.appId, 
+    appSecret: process.env.appSecret 
 });
+bot.add('/', index);
 
 // Setup Restify Server
 var server = restify.createServer();
