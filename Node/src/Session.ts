@@ -167,7 +167,10 @@ export class Session extends events.EventEmitter implements ISession {
 
     public endDialog(result?: any): ISession {
         var ss = this.sessionState;
-        var r: dialog.IDialogResult<any> = result || { resumed: dialog.ResumeReason.completed };
+        var r: dialog.IDialogResult<any> = result || {};
+        if (!r.hasOwnProperty('resumed')) {
+            r.resumed = dialog.ResumeReason.completed;
+        }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {

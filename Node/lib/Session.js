@@ -116,7 +116,10 @@ var Session = (function (_super) {
     };
     Session.prototype.endDialog = function (result) {
         var ss = this.sessionState;
-        var r = result || { resumed: dialog.ResumeReason.completed };
+        var r = result || {};
+        if (!r.hasOwnProperty('resumed')) {
+            r.resumed = dialog.ResumeReason.completed;
+        }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {
