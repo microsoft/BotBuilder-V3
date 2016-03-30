@@ -31,9 +31,9 @@ Create a file named app.js and say hello in a few lines of code.
         session.send('Hello World');
     });
 
-    server.post('/v1/messages', helloBot.listen());
+    server.post('/api/messages', helloBot.listen());
 
-    server.listen(8080, function () {
+    server.listen(3978, function () {
         console.log('%s listening to %s', server.name, server.url); 
     });
 
