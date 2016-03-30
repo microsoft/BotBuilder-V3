@@ -125,7 +125,7 @@ var Session = (function (_super) {
             this.dialogData = cur.state;
             d.dialogResumed(this, r);
         }
-        else if (!this.msgSent) {
+        else {
             this.send();
             this.emit('quit');
         }

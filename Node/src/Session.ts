@@ -175,7 +175,7 @@ export class Session extends events.EventEmitter implements ISession {
             var d = this.dialogs.getDialog(cur.id);
             this.dialogData = cur.state;
             d.dialogResumed(this, r);
-        } else if (!this.msgSent) {
+        } else {
             this.send();
             this.emit('quit');
         }

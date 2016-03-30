@@ -46,4 +46,21 @@ describe('TextBot', function() {
         
     });
     
+    it('should reply inline with "msg1" and then quit', function (done) {
+        var inlineReply = false;
+        var bot = new builder.TextBot();
+        bot.add('/', function (session) {
+            session.send('msg1');
+            session.endDialog();
+        });
+        bot.on('quit', function () {
+            assert(inlineReply);
+            done();
+        });
+        bot.processMessage({ text: 'hello' }, function (err, reply) {
+            assert(reply && reply.text == 'msg1');
+            inlineReply = true;
+        });
+        
+    });
 });
