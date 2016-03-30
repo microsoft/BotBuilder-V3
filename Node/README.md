@@ -10,7 +10,7 @@ High Level Features:
 * Bots can run on almost any bot platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
  
 ## Build a bot
-Create a folder for your bot and run npm init.
+Create a folder for your bot, cd into it, and run npm init.
 
     npm init
     
