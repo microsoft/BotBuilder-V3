@@ -81,8 +81,8 @@
 .svgicon-skype {
   width: 2.2119140625em;
 }
-.svgicon-cognitive-service-logo {
-  width: 1.6669921875em;
+.svgicon-cognitive-services-logo {
+  width: 1.6884765625em;
 }
 .svgicon-bot-connector {
   width: 0.9951171875em;
@@ -121,7 +121,7 @@ h3 {
   font-size: 18px;
 }
 .nobreak {
-  white-space: nowrap;
+  white-space: pre;
 }
 html,
 body,
@@ -214,11 +214,10 @@ button.danger:hover {
 a.button {
   width: 200px;
   height: 50px;
-  border: 1px solid #2B2B2B;
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  padding-top: 13px;
+  line-height: 50px;
 }
 input[type="text"],
 input[type="password"],
@@ -297,6 +296,9 @@ textarea {
   float: right;
   margin-right: 0;
 }
+.page-grid-right.no-webchat .grid-card {
+  margin-right: 0;
+}
 .page-grid-left {
   padding: 0 20px;
 }
@@ -362,11 +364,11 @@ header {
   right: 20px;
 }
 .logo {
-  font-size: 20px;
+  font-size: 21px;
   margin-left: 20px;
   float: left;
   display: block;
-  margin-top: 12px;
+  margin-top: 11px;
 }
 .brand-primary {
   background-color: #3E92D2;
@@ -603,6 +605,9 @@ ul.header-nav li a:visisted {
 .no-bots-prompt .button:visited {
   color: white;
 }
+.no-bots-prompt .button:hover {
+  background-color: #307AB3;
+}
 .two-tone-1 {
   background-color: #F4ABBA;
 }
@@ -741,6 +746,10 @@ ul.header-nav li a:visisted {
 .site-status .registration-action button {
   margin-top: 4em;
 }
+.must-check:not(:checked) {
+  outline: 1px solid #E81022;
+  margin-left: 1px !important;
+}
 .loading-animation {
   margin: 0 auto;
   visibility: hidden;
@@ -780,13 +789,14 @@ label {
   font-size: 60px;
 }
 .directory-hero svg {
-  margin-top: 70px;
+  margin-top: 55px;
 }
 .directory-hero h2 {
   font-family: "Segoe UI Semilight", sans-serif;
   font-size: 34px;
   line-height: 46px;
-  margin-top: 40px;
+  margin-bottom: 2px;
+  margin-top: 20px;
 }
 body,
 table,
@@ -796,7 +806,7 @@ dl {
   font: 15px "Segoe UI", sans-serif;
 }
 #side-nav {
-  width: 270px;
+  width: 270px !important;
   position: relative;
   float: left;
   padding: 15px 20px;
@@ -824,6 +834,7 @@ dl {
 #doc-content {
   overflow: auto;
   padding: 0 45px;
+  margin-left: 0px !important;
 }
 article:after {
   clear: both;
@@ -1006,9 +1017,7 @@ a {
     font-family: "Segoe UI", sans-serif;
     font-size: 24px;
     line-height: 32px;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    margin-top: 20px;
+    margin: 20px 10px 20px 10px;
   }
   .page-grid .more-link,
   .page-grid-right .more-link,
@@ -1092,6 +1101,9 @@ a {
     margin-bottom: 12px;
     margin-top: 12px;
   }
+  .bot-webChat {
+    display: none;
+  }
   .maximize {
     display: none;
   }
@@ -1100,10 +1112,9 @@ a {
   }
   .outline.footer {
     height: auto;
-    background: white;
   }
   .outline.footer ul {
-    text-align: left;
+    text-align: center;
     display: block;
   }
   .outline.footer ul li {
