@@ -42,7 +42,7 @@ The Bot Directory is a public directory of all approved bots registered through 
 ## Why should I write a bot?
 The Conversational User Interface, or CUI, has arrived. 
 
-A plethora of chit-chat bots are offering to do things for us in our various communication channels like Skype and Twitter. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook “M” to name a few). 
+A plethora of chit-chat bots are offering to do things for us in our various communication channels like Skype and GroupMe. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook “M” to name a few). 
 
 The primary interface for these experiences is email, text or voice. Conversation-driven UI now enables us to do everything from grabbing a taxi, to paying the electric bill or sending money to a friend. Offerings such as Siri, Google Now and Cortana demonstrate value to millions of people every day, particularly on mobile devices where the CUI is often superior to the GUI or complements it. 
 
@@ -128,11 +128,10 @@ Supported channels as of March 30, 2016 are:
 1. Text/sms
 2. Office 365 mail
 3. Skype
-4. Twitter (coming soon)
-5. Slack
-6. GroupMe
-7. Telegram
-8. Web (via the Bot Framework embeddable web chat control).
+4. Slack
+5. GroupMe
+6. Telegram
+7. Web (via the Bot Framework embeddable web chat control).
 
 ## I have a communication channel I’d like to be configurable on Bot Connector. Can I work with Microsoft to do that?
 
