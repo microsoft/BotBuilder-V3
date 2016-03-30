@@ -48,7 +48,7 @@ server.listen(process.env.port || 3978, function () {
 {% endhighlight %}
 
 ## Test your bot (Windows Only)
-Use the [Bot Framework Emulator](/botframework/bot-framework-emulator/) to test your bot on localhost. 
+Use the [Bot Framework Emulator](/connector/tools/bot-framework-emulator/) to test your bot on localhost. 
 
 Install the emulator from [here](http://aka.ms/bf-bc-emulator) and then start your bot in a console window.
 
