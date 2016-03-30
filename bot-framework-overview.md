@@ -28,7 +28,7 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 ## Bot Builder SDK
 {:.no_toc}
 
-The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
+The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github.com/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
 
 ![Bot Builder SDK](/images/bot_builder_sdk.png)
 
