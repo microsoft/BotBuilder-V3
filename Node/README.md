@@ -24,15 +24,15 @@ Create a file named app.js and say hello in a few lines of code.
     var restify = require('restify');
     var builder = require('botbuilder');
 
-    var server = restify.createServer();
-
-    var helloBot = new builder.BotConnectorBot();
-    helloBot.add('/', function (session) {
+    // Create bot and add dialogs
+    var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppSecret' });
+    bot.add('/', function (session) {
         session.send('Hello World');
     });
 
-    server.post('/api/messages', helloBot.listen());
-
+    // Setup Restify Server
+    var server = restify.createServer();
+    server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
     server.listen(process.env.port || 3978, function () {
         console.log('%s listening to %s', server.name, server.url); 
     });
@@ -48,6 +48,8 @@ Start the emulator and say "hello" to your bot.
 
 ## Publish your bot
 Deploy your bot to the cloud and then [register it](http://docs.botframework.com/connector/getstarted/#registering-your-bot-with-the-microsoft-bot-framework) with the Microsoft Bot Framework. If you're deploying your bot to Microsoft Azure you can use this great guide for [Publishing a Node.js app to Azure using Continuous Integration](https://blogs.msdn.microsoft.com/sarahsays/2015/08/31/building-your-first-node-js-app-and-publishing-to-azure/).
+
+NOTE: When you register your bot with the Bot Framework you'll want to updated the appId & appSecret for both your bot and the emulator with the values assigned to you by the portal.
 
 ## Dive deeper
 Learn how to build great bots.
