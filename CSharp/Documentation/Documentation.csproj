@@ -47,7 +47,7 @@
     <Content Include="header.html" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Overview.cs" />
+    <None Include="overview.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library\Microsoft.Bot.Builder.csproj">
@@ -56,8 +56,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs.cs" />
-    <Compile Include="Forms.cs" />
+    <Compile Include="dialogs.cs" />
+    <Compile Include="forms.cs" />
   </ItemGroup>
   <Target Name="Clean">
     <RemoveDir Directories="@(DirsToClean)" />
