@@ -30,7 +30,7 @@ The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 36
 ### Bot Builder SDK
 {:.no_toc}
 
-The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
+The Bot Builder SDK is [an open source SDK hosted on GitHub](https://github.com/Microsoft/BotBuilder) that provides everything you need to build great dialogs within your Node.js- or C#-based bot.
 
 ### Bot Directory (coming soon)
 {:.no_toc}
@@ -89,7 +89,7 @@ Bot Connector lets you connect your bot with many different communication experi
 To connect your bot to your users you must have:
 
 
-* A bot (if you don’t have one, check out the [Bot Builder SDK](http://github/Microsoft/BotBuilder) on Github
+* A bot (if you don’t have one, check out the [Bot Builder SDK](http://github.com/Microsoft/BotBuilder) on Github
 * A Microsoft Account, which you will use to register and manage your bot in the Bot Framework
 * An internet-accessible REST endpoint exposing the Bot Connector messages API
 * Optionally, accounts on one or more communication services where your bot will converse.
@@ -169,7 +169,7 @@ Simply visit [www.botframework.com](http://botframework.com) to learn more.
 
 ## I'm a developer, what do I need to get started?
 
-You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK](http://github/Microsoft/BotBuilder) is open source and available to all on Github.
+You can get started by visiting the Bot Framework site. To register a bot in the Bot Connector service, you’ll need a Microsoft account. The [Bot Builder SDK](http://github.com/Microsoft/BotBuilder) is open source and available to all on Github.
 
 ## Do the bots registered with the Bot Connector collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
