@@ -1,5 +1,6 @@
 /built
 /docs
 /examples
-/node_modules
+/**/node_modules
 /src
+/**/.vscode
