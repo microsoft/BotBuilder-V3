@@ -38,7 +38,7 @@ Create a file named app.js and say hello in a few lines of code.
     });
 
 ## Test your bot (Windows Only)
-Use the [Bot Framework Emulator](/botframework/bot-framework-emulator/) to test your bot on localhost. 
+Use the [Bot Framework Emulator](http://docs.botframework.com/connector/tools/bot-framework-emulator/) to test your bot on localhost. 
 
 Install the emulator from [here](http://aka.ms/bf-bc-emulator) and then start your bot in a console window.
 
