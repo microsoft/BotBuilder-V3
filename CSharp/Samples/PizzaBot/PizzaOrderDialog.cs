@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
 {
     [LuisModel("4311ccf1-5ed1-44fe-9f10-a6adbad05c14", "6d0966209c6e4f6b835ce34492f3e6d9")]
     [Serializable]
-    public class PizzaOrderDialog : LuisDialog
+    class PizzaOrderDialog : LuisDialog<PizzaOrder>
     {
         private readonly BuildForm<PizzaOrder> MakePizzaForm;
 

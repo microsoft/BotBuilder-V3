@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     #region Documentation
     /// <summary>   Dialog that dispatches based on a regex matching input. </summary>
     #endregion
-    public class CommandDialog : IDialog
+    public class CommandDialog<T> : IDialog<T>
     {
         public class Command
         {
@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
 
-        async Task IDialog.StartAsync(IDialogContext context)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }
@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="handler">          Handler to call on match. </param>
         /// <returns>   A CommandDialog. </returns>
         #endregion
-        public CommandDialog On(Regex expression, ResumeAfter<Connector.Message> handler)
+        public CommandDialog<T> On(Regex expression, ResumeAfter<Connector.Message> handler)
         {
             var command = new Command
             {
@@ -108,7 +108,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="handler">  Handler to call if no match. </param>
         /// <returns>   A CommandDialog. </returns>
         #endregion
-        public CommandDialog OnDefault(ResumeAfter<Connector.Message> handler)
+        public CommandDialog<T> OnDefault(ResumeAfter<Connector.Message> handler)
         {
             var command = new Command { CommandHandler = handler };
             this.defaultCommand = command;

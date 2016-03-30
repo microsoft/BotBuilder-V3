@@ -203,7 +203,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         #region IDialog implementation
 
-        async Task IDialog.StartAsync(IDialogContext context)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             var entityGroups = (from entity in this._entities group entity by entity.Type);
             foreach (var entityGroup in entityGroups)

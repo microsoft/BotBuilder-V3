@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Builder.Tests
             var mock = new Mock<IFormTarget>();
             mock.SetupAllProperties();
 
-            Func<IDialog> MakeRoot = () => new FormDialog<IFormTarget>(mock.Object);
+            Func<IDialog<IFormTarget>> MakeRoot = () => new FormDialog<IFormTarget>(mock.Object);
 
             // arrange
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };

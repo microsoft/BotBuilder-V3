@@ -78,18 +78,6 @@ namespace Microsoft.Bot.Builder.Dialogs
     public static partial class Extensions
     {
         /// <summary>
-        /// Call a child dialog and add it to the top of the stack.
-        /// </summary>
-        /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
-        /// <param name="context">The dialog context.</param>
-        /// <param name="child">The child dialog.</param>
-        /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        public static void Call<R>(this IDialogContext context, IDialog child, ResumeAfter<R> resume)
-        {
-            context.Call<R>(child, resume);
-        }
-
-        /// <summary>
         /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
         /// </summary>
         /// <param name="text">The message text.</param>
@@ -123,7 +111,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
         /// <param name="child">The child dialog.</param>
         /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        void Call<R>(IDialog child, ResumeAfter<R> resume);
+        void Call<R>(IDialog<R> child, ResumeAfter<R> resume);
 
         /// <summary>
         /// Complete the current dialog and return a result to the parent dialog.

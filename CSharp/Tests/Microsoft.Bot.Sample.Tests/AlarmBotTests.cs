@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Sample.Tests
             var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToShortTimeString());
             SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTitle);
 
-            Func<IDialog> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
+            Func<IDialog<object>> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
 
             // act

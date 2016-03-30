@@ -285,7 +285,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.attempts = attempts;
         }
 
-        async Task IDialog.StartAsync(IDialogContext context)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             await context.PostAsync(this.prompt);
             context.Wait(MessageReceived);

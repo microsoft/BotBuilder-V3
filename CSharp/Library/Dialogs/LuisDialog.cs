@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// A dialog specialized to handle intents and entities from LUIS.
     /// </summary>
     [Serializable]
-    public class LuisDialog : IDialog
+    public class LuisDialog<T> : IDialog<T>
     {
         private readonly ILuisService service;
 
@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             if (this.handlerByIntent == null)
             {
-                this.handlerByIntent = EnumerateHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
+                this.handlerByIntent = LuisDialog.EnumerateHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
             }
 
             var message = await item;
@@ -138,7 +138,10 @@ namespace Microsoft.Bot.Builder.Dialogs
                 throw new Exception(text);
             }
         }
+    }
 
+    internal static class LuisDialog
+    {
         /// <summary>
         /// Enumerate the handlers based on the attributes on the dialog instance.
         /// </summary>

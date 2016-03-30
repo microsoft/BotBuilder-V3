@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="token">The cancellation token.</param>
         /// <param name="singletons">An optional list of object instances that should not be serialized.</param>
         /// <returns>A task that represents the message to send inline back to the user.</returns>
-        public static async Task<Message> SendAsync(Message toBot, Func<IDialog> MakeRoot, CancellationToken token = default(CancellationToken), params object[] singletons)
+        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken), params object[] singletons)
         {
             IWaitFactory waits = new WaitFactory();
             IFrameFactory frames = new FrameFactory(waits);
@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 context = new Internals.DialogContext(botToUser, botData, fiber);
                 var root = MakeRoot();
                 var loop = root.Loop();
-                context.Call<object>(loop, null);
+                context.Call(loop, null);
                 await fiber.PollAsync();
             }
 

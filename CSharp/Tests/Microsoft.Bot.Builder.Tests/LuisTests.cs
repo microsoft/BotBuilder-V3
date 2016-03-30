@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-    public sealed class DerivedLuisDialog : LuisDialog
+    public sealed class DerivedLuisDialog : LuisDialog<object>
     {
         public DerivedLuisDialog(ILuisService service)
             : base(service)

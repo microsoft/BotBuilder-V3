@@ -9,7 +9,7 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Sample.EchoBot
 {
     [Serializable]
-    public class EchoDialog : IDialog
+    public class EchoDialog : IDialog<object>
     {
         private int count = 1;
 

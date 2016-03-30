@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Tests
             return Guid.NewGuid().ToString();
         }
 
-        public interface IPromptCaller<T> : IDialog
+        public interface IPromptCaller<T> : IDialog<T>
         {
             Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog;
         }
 
-        public static async Task<DialogContext> MakeContextAsync(IDialog root, IBotToUser botToUser)
+        public static async Task<DialogContext> MakeContextAsync<T>(IDialog<T> root, IBotToUser botToUser)
         {
             var data = new JObjectBotData(new Connector.Message());
             IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));

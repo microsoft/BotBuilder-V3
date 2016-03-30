@@ -123,9 +123,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <param name="antecedent">The antecedent <see cref="IDialog"/>.</param>
         /// <returns>The looping dialog.</returns>
-        public static IDialog Loop(this IDialog antecedent)
+        public static IDialog<T> Loop<T>(this IDialog<T> antecedent)
         {
-            return new LoopDialog(antecedent);
+            return new LoopDialog<T>(antecedent);
         }
 
         [Serializable]
@@ -136,7 +136,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 SetField.NotNull(out this.MakeDialog, nameof(MakeDialog), MakeDialog);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<T>.StartAsync(IDialogContext context)
             {
                 var dialog = this.MakeDialog();
                 context.Call<T>(dialog, ResumeAsync);
@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Action, nameof(Action), Action);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<T>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
@@ -176,7 +176,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<T>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
@@ -198,7 +198,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Continuation, nameof(continuation), continuation);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<R>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
@@ -226,7 +226,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 SetField.NotNull(out this.Function, nameof(function), function);
                 SetField.NotNull(out this.Projection, nameof(projection), projection);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<R>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, AfterAntecedent);
             }
@@ -246,20 +246,20 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class LoopDialog : IDialog
+        private sealed class LoopDialog<T> : IDialog<T>
         {
-            public readonly IDialog Antecedent;
-            public LoopDialog(IDialog antecedent)
+            public readonly IDialog<T> Antecedent;
+            public LoopDialog(IDialog<T> antecedent)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
             }
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<T>.StartAsync(IDialogContext context)
             {
-                context.Call<object>(this.Antecedent, ResumeAsync);
+                context.Call<T>(this.Antecedent, ResumeAsync);
             }
-            private async Task ResumeAsync(IDialogContext context, IAwaitable<object> ignored)
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> ignored)
             {
-                context.Call<object>(this.Antecedent, ResumeAsync);
+                context.Call<T>(this.Antecedent, ResumeAsync);
             }
         }
     }

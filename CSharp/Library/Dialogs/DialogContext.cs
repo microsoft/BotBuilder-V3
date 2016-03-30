@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<R>(IDialog child, ResumeAfter<R> resume)
+        void IDialogStack.Call<R>(IDialog<R> child, ResumeAfter<R> resume)
         {
             var callRest = ToRest(child.StartAsync);
             if (resume != null)

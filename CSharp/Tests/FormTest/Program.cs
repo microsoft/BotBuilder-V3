@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
     class Program
     {
-        static void Interactive(IDialog form)
+        static void Interactive<T>(IDialog<T> form)
         {
             var message = new Message()
             {
