@@ -33,7 +33,7 @@ Create a file named app.js and say hello in a few lines of code.
 
     server.post('/api/messages', helloBot.listen());
 
-    server.listen(3978, function () {
+    server.listen(process.env.port || 3978, function () {
         console.log('%s listening to %s', server.name, server.url); 
     });
 
