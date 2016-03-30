@@ -14,9 +14,10 @@ Create a folder for your bot and run npm init.
 
     npm init
     
-Get the BotBuilder module using npm.
+Get the BotBuilder and Restify modules using npm.
 
     npm install --save botbuilder
+    npm install --save restify
     
 Say hello in a few lines of code.
  
