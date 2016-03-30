@@ -26,15 +26,9 @@ When logging a bug, please be sure to include the following:
 
 # Instructions for Contributing Code
 
-## Contributing bug fixes
+## Contributing bug fixes and features
 
-BotBuilder is currently accepting contributions in the form of bug fixes. A bug must have an issue tracking it in the issue tracker that has been approved by the BotBuilder team. Your pull request should include a link to the bug that you are fixing. If you've submitted a PR for a bug, please post a comment in the bug to avoid duplication of effort.
-
-## Contributing features
-
-Features (things that add new or improved functionality to BotBuilder) may be accepted, but will need to first be approved (marked as "Milestone == Community" by a BotBuilder coordinator with the message "Approved") in the suggestion issue. Features with language design impact, or that are adequately satisfied with external tools, will not be accepted.
-
-Design changes will not be accepted at this time. If you have a design change proposal, please log a suggestion issue.
+BotBuilder is currently accepting contributions in the form of bug fixes and new features. Any submission must have an issue tracking it in the issue tracker that has been approved by the BotBuilder team. Your pull request should include a link to the bug that you are fixing. If you've submitted a PR for a bug, please post a comment in the bug to avoid duplication of effort.
 
 ## Legal
 
