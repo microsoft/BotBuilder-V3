@@ -59,4 +59,6 @@ You should either:
 or
  
 * register as HTTP and **disable basic auth** 
+
+> Remember, if you use HTTP you are operating your web service open to the web.
  
