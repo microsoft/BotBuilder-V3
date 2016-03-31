@@ -24,7 +24,7 @@ with all of the participants.  In this case you can set To.ChannelId and not bot
     message.To = new ChannelAddress() {ChannelId = "email", "Address":"joe@hotmail.com"};
     message.Text = "Hey, what's up homey?";
     message.Language = "en";
-    connector.SendMessage(message);
+    connector.Messages.SendMessage(message);
 {% endhighlight %}
 
 
@@ -40,7 +40,7 @@ with all of the participants.  In this case you can set To.ChannelId and not bot
     message.Participants = participants.ToArray();
     message.Text = "Hey, what's up everyone?";
     message.Language = "en";
-    connector.SendMessage(message);
+    connector.Messages.SendMessage(message);
 {% endhighlight %}
 
 

@@ -62,7 +62,7 @@ send it to the user, only you do it through an explicit POST to /bots/V1/message
 
     // send the reply later    
     var connector = new ConnectorClient();
-    await connector.SendMessageAsync(replyMessage); 
+    await connector.Messages.SendMessageAsync(replyMessage); 
        
 {% endhighlight %}
 
@@ -72,9 +72,9 @@ multiple replies at a later point.
 
 {% highlight C# %}
     var connector = new ConnectorClient();
-    connector.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 1.", "en"));
-    connector.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 2.", "en"));
-    connector.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 3.", "en"));
+    connector.Messages.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 1.", "en"));
+    connector.Messages.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 2.", "en"));
+    connector.Messages.SendMessage(incomingMessage.CreateReplyMessage("Yo, I heard you 3.", "en"));
 {% endhighlight %}
 
 > NOTE: When you send a reply at a later time like this (*what we call an async reply*) your bot

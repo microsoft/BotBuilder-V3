@@ -50,7 +50,7 @@ If you need access to the SendMessageAsync API from the connector client you can
 
 {% highlight C# %}
     var connector = new ConnectorClient(new Uri("http://localhost:9000"), new ConnectorClientCredentials());
-    await connector.SendMessageAsync(message);
+    await connector.Messages.SendMessageAsync(message);
 {% endhighlight %}
 
 The emulator supports the message BotData fields but doesn't support the connector API version of it (yet!).
