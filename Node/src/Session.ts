@@ -180,7 +180,11 @@ export class Session extends events.EventEmitter implements ISession {
             d.dialogResumed(this, r);
         } else {
             this.send();
-            this.emit('quit');
+            if (r.error) {
+                this.emit('error', r.error);
+            } else {
+                this.emit('quit');
+            }
         }
         return this;
     }
