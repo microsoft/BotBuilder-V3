@@ -42,10 +42,14 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    public interface IDialogContextInternal : IDialogContext, IUserToBot
+    {
+    }
+
     public interface IDialogContextStore
     {
-        bool TryLoad(IBotDataBag bag, string key, out IDialogContext context);
-        void Save(IDialogContext context, IBotDataBag bag, string key);
+        bool TryLoad(IBotDataBag bag, string key, out IDialogContextInternal context);
+        void Save(IDialogContextInternal context, IBotDataBag bag, string key);
     }
 
     public sealed class DialogContextStore : IDialogContextStore
@@ -56,7 +60,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.formatter, nameof(formatter), formatter);
         }
 
-        bool IDialogContextStore.TryLoad(IBotDataBag bag, string key, out IDialogContext context)
+        bool IDialogContextStore.TryLoad(IBotDataBag bag, string key, out IDialogContextInternal context)
         {
             byte[] blobOld;
             bool found = bag.TryGetValue(key, out blobOld);
@@ -65,7 +69,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 using (var streamOld = new MemoryStream(blobOld))
                 using (var gzipOld = new GZipStream(streamOld, CompressionMode.Decompress))
                 {
-                    context = (IDialogContext)this.formatter.Deserialize(gzipOld);
+                    context = (IDialogContextInternal)this.formatter.Deserialize(gzipOld);
                     return true;
                 }
             }
@@ -74,7 +78,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return false;
         }
 
-        void IDialogContextStore.Save(IDialogContext context, IBotDataBag bag, string key)
+        void IDialogContextStore.Save(IDialogContextInternal context, IBotDataBag bag, string key)
         {
             byte[] blobNew;
             using (var streamNew = new MemoryStream())

@@ -42,7 +42,7 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     [Serializable]
-    public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable
+    public sealed class DialogContext : IDialogContextInternal, ISerializable
     {
         private readonly IBotToUser botToUser;
         private readonly IBotData data;

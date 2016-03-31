@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             IDialogContextStore store = new DialogContextStore(formatter);
 
-            IDialogContext context;
+            IDialogContextInternal context;
             if (!store.TryLoad(botData.PerUserInConversationData, BlobKey, out context))
             {
                 IFiberLoop fiber = new Fiber(frames);
@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 await fiber.PollAsync();
             }
 
-            IUserToBot userToBot = (IUserToBot)context;
+            IUserToBot userToBot = context;
             await userToBot.SendAsync(toBot, token);
 
             store.Save(context, botData.PerUserInConversationData, BlobKey);
