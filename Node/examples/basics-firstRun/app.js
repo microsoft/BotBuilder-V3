@@ -29,12 +29,12 @@ bot.add('/', function (session) {
 
 // Install First Run middleware and dialog
 bot.use(function (session, next) {
-   if (!session.userData.firstRun) {
-       session.userData.firstRun = true;
-       session.beginDialog('/firstRun');
-   } else {
-       next();
-   }
+    if (!session.userData.firstRun) {
+        session.userData.firstRun = true;
+        session.beginDialog('/firstRun');
+    } else {
+        next();
+    }
 });
 bot.add('/firstRun', [
     function (session) {
