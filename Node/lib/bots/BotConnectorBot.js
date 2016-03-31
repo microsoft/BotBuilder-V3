@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -229,7 +230,7 @@ var BotConnectorBot = (function (_super) {
         request.post(options, callback);
     };
     return BotConnectorBot;
-})(collection.DialogCollection);
+}(collection.DialogCollection));
 exports.BotConnectorBot = BotConnectorBot;
 var BotConnectorSession = (function (_super) {
     __extends(BotConnectorSession, _super);
@@ -237,5 +238,5 @@ var BotConnectorSession = (function (_super) {
         _super.apply(this, arguments);
     }
     return BotConnectorSession;
-})(session.Session);
+}(session.Session));
 exports.BotConnectorSession = BotConnectorSession;

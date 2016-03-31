@@ -1,3 +1,4 @@
+"use strict";
 var utils = require('../utils');
 var MemoryStorage = (function () {
     function MemoryStorage() {
@@ -23,5 +24,5 @@ var MemoryStorage = (function () {
         }
     };
     return MemoryStorage;
-})();
+}());
 exports.MemoryStorage = MemoryStorage;
