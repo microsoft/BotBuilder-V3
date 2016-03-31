@@ -60,7 +60,7 @@ var builder = require('../../');
 var prompts = require('./prompts');
 
 /** Use CrunchBot LUIS model for the root dialog. */
-var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=56c73d36-e6de-441f-b2c2-6ba7ea73a1bf&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q';
+var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=56c73d36-e6de-441f-b2c2-6ba7ea73a1bf&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';
 var dialog = new builder.LuisDialog(model);
 var crunchBot = new builder.TextBot();
 crunchBot.add('/', dialog);
