@@ -44,7 +44,7 @@ These are complete bots designed to run on all of Bot Builders supported platfor
 |**Example**     | **Description**                                   
 | ---------------| ---------------------------------------------
 |[todoBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/todoBot) | A bot for managing a users to-do list.
-|[todoBotLuis](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/todoBot) | A bot for managing a users to-do list using a natural language interface.
+|[todoBotLuis](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/todoBotLuis) | A bot for managing a users to-do list using a natural language interface.
 
 
 
