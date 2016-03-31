@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -41,7 +42,7 @@ var LuisDialog = (function (_super) {
         });
     };
     return LuisDialog;
-})(intent.IntentDialog);
+}(intent.IntentDialog));
 exports.LuisDialog = LuisDialog;
 var LuisEntityResolver = (function () {
     function LuisEntityResolver() {
@@ -107,5 +108,5 @@ var LuisEntityResolver = (function () {
         }
     };
     return LuisEntityResolver;
-})();
+}());
 exports.LuisEntityResolver = LuisEntityResolver;

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -187,7 +188,7 @@ var IntentDialog = (function (_super) {
     };
     IntentDialog.CAPTURE_THRESHOLD = 0.6;
     return IntentDialog;
-})(dialog.Dialog);
+}(dialog.Dialog));
 exports.IntentDialog = IntentDialog;
 var IntentGroup = (function () {
     function IntentGroup(id) {
@@ -218,5 +219,5 @@ var IntentGroup = (function () {
         return this;
     };
     return IntentGroup;
-})();
+}());
 exports.IntentGroup = IntentGroup;

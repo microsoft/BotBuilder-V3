@@ -1,3 +1,4 @@
+"use strict";
 var utils = require('../utils');
 var chrono = require('chrono-node');
 var EntityRecognizer = (function () {
@@ -197,5 +198,5 @@ var EntityRecognizer = (function () {
     EntityRecognizer.noExp = /^(0|n|no|nope|not|false)\z/i;
     EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
     return EntityRecognizer;
-})();
+}());
 exports.EntityRecognizer = EntityRecognizer;
