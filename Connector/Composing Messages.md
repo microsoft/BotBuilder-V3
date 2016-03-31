@@ -34,7 +34,7 @@ The markdown that is supported:
 |**Bold**           | \*\*text\*\*                                                           | make the text bold                      | **text**                                                            
 |**Italic**         | \*text\*                                                               | make the text italic                    | *text*
 |**Header1-5**      | # H1                                                                   | Mark a line as a header                 | # H1                                                       
-|**Strikethrough**  | \~\~text\~\~                                                           | make the text strikethrough             | ~~text~~                                                            
+|**Strikethrough**  | ~~text~~                                                           | make the text strikethrough                 | ~~text~~                                                              
 |**Hr**             | \-\-\-                                                                 | insert a horizontal rule                |                                                                    |   
 |**Unordered list** | \*                                                                     | Make an unordered list item             | * text                                             
 |**Ordered list**   | 1.                                                                     | Make an ordered list item starting at 1 | 1. text                                                          

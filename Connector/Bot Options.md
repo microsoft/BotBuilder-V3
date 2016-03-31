@@ -71,6 +71,8 @@ When you receive a message that has been translated you will see the following c
 |*message.Language*      | The language for Text 
 |*message.Text*          | the translated text                 
 
+Go to [Supported language codes](https://msdn.microsoft.com/en-us/library/hh456380.aspx) to get list of valid language codes.
+
 
 ## Publish in Bot directory
 * **Off** *(default)*- Your bot will only be visible to you or to someone you give the link to your contact card to. 

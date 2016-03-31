@@ -44,3 +44,21 @@ Or you can pass in the appId appSecret to the attribute directly:
 
 
 
+### Debugging access issues
+
+If you register your endpoint with HTTP, we will NOT use basic Auth because if we did that we would be exposing in the
+clear your appId/appSecret combo.
+
+The problem is that our samples are written to do basic auth with AppId/AppSecret, so if you deploy a server using HTTP
+the default code will be *checking for a value which will not be sent.*
+
+You should either:
+
+* register as HTTPS and Check for basic auth appId/appSecret
+
+or
+ 
+* register as HTTP and **disable basic auth** 
+
+> Remember, if you use HTTP you are operating your web service open to the web.
+ 
