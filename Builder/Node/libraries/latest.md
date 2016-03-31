@@ -21,7 +21,7 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
-### 0.6.1
+### v0.6.1
 * Fixed an issue with SlackBot & SkypeBot escapeText() and unescapeText() methods not doing  a global replace.
 * Changed the URL that the BotConnectorBot sends outgoing bot originated messages to. We had an old server link. 
 * Updated LKG build and package.json version.
