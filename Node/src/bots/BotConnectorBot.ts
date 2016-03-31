@@ -79,7 +79,7 @@ interface IMiddleware {
 
 export class BotConnectorBot extends collection.DialogCollection {
     private options: IBotConnectorOptions = {
-        endpoint: process.env['endpoint'] || 'https://intercomppe.azure-api.net',
+        endpoint: process.env['endpoint'] || 'https://api.botframework.com',
         appId: process.env['appId'] || '',
         appSecret: process.env['appSecret'] || '',
         subscriptionKey: process.env['subscriptionKey'] || '',
