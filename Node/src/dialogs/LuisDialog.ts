@@ -62,7 +62,7 @@ export class LuisDialog extends intent.IntentDialog {
             try {
                 if (!err) {
                     var result: ILuisResults = JSON.parse(body);
-                    if (result.intents.length == 1 && !result.intents[0].hasOwnProperty('score')) {
+                    if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                         // Intents for the builtin Cortana app don't return a score.
                         result.intents[0].score = 1.0;
                     }

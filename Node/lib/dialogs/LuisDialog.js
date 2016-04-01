@@ -24,7 +24,7 @@ var LuisDialog = (function (_super) {
             try {
                 if (!err) {
                     var result = JSON.parse(body);
-                    if (result.intents.length == 1 && !result.intents[0].hasOwnProperty('score')) {
+                    if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                         result.intents[0].score = 1.0;
                     }
                     callback(null, result.intents, result.entities);
