@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -131,7 +130,12 @@ var Session = (function (_super) {
         }
         else {
             this.send();
-            this.emit('quit');
+            if (r.error) {
+                this.emit('error', r.error);
+            }
+            else {
+                this.emit('quit');
+            }
         }
         return this;
     };
@@ -199,7 +203,7 @@ var Session = (function (_super) {
         return true;
     };
     return Session;
-}(events.EventEmitter));
+})(events.EventEmitter);
 exports.Session = Session;
 var SessionConfidenceComparor = (function () {
     function SessionConfidenceComparor(session, language, utterance, score, callback) {
@@ -240,4 +244,4 @@ var SessionConfidenceComparor = (function () {
         return this.session.dialogs.getDialog(cur.id);
     };
     return SessionConfidenceComparor;
-}());
+})();
