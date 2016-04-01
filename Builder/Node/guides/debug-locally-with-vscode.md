@@ -11,7 +11,7 @@ parent2: Guides
 {:toc}
 
 ## Overview
-If you’re building a bot for the Bot Connector Service on a Windows machine you can use the awesome [Bot Framework Emulator](/connector/tools/bot-framework-emulator/) that you can use to debug your bot. Unfortunately, the emulator is currently Windows only so for Mac or Linux users you’ll need to explore other options. One option is to install [VSCode](https://code.visualstudio.com/) and use Bot Builders [TextBot]( /builder/node/bots/TextBot/) class to debug your bot running in a console window. This guide will walk you through doing just that.
+If you’re building a bot for the Bot Connector Service on a Windows machine you can use the awesome [Bot Framework Emulator](/connector/tools/bot-framework-emulator/) to debug your bot. Unfortunately, the emulator is currently Windows only so for Mac and Linux users you’ll need to explore other options. One option is to install [VSCode](https://code.visualstudio.com/) and use Bot Builders [TextBot]( /builder/node/bots/TextBot/) class to debug your bot running in a console window. This guide will walk you through doing just that.
 
 ## Launch VSCode
 For purposes of this walkthrough we’ll use Bot Builders [TodoBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/todoBot) example. After you install VSCode on your machine you should open your bots project using “open folder”.
