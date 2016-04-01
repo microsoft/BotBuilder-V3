@@ -2,7 +2,7 @@
 layout: page
 title: Examples
 permalink: /builder/node/guides/examples/
-weight: 612
+weight: 613
 parent1: Bot Builder for Node.js
 parent2: Guides
 ---
