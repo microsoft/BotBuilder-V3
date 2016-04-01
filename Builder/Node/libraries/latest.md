@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.6.1
+title: BotBuilder v0.6.2
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -20,6 +20,12 @@ Get the latest version of BotBuilder using npm.
 
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v0.6.2
+* Fixed an issue where Session.endDialog() was eating error messages when a dialog throws an exception. Now exceptions result in the 'error' event being emitted as expected. 
+* Updated BotConnectorBot.verifyBotFramework() to only verify authorization headers over HTTPS.
+* Removed some dead code from LuisDialog.ts.
+* Updated LKG build and package.json version.
 
 ### v0.6.1
 * Fixed an issue with SlackBot & SkypeBot escapeText() and unescapeText() methods not doing  a global replace.
