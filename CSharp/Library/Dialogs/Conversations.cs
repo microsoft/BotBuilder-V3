@@ -97,7 +97,8 @@ namespace Microsoft.Bot.Builder.Dialogs
             };
             var formatter = Conversation.MakeBinaryFormatter(provider);
 
-            IDialogContextStore store = new DialogContextStore(formatter);
+            IDialogContextStore contextStore = new DialogContextStore(formatter);
+            IDialogContextStore store = new ErrorResilientDialogContextStore(contextStore);
 
             IDialogContext context;
             if (!store.TryLoad(botData.PerUserInConversationData, BlobKey, out context))
