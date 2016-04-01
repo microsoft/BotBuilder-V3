@@ -106,7 +106,8 @@ export class BotConnectorBot extends collection.DialogCollection {
         return (req: IRequest, res: IResponse, next: Function) => {
             // Check authorization
             var authorized: boolean;
-            if (this.options.appId && this.options.appSecret) {
+            var isSecure = req.headers['x-forwarded-proto'] === 'https' || req.headers['x-arr-ssl'];
+            if (isSecure && this.options.appId && this.options.appSecret) {
                 if (req.headers && req.headers.hasOwnProperty('authorization')) {
                     var tmp = req.headers['authorization'].split(' ');
                     var buf = new Buffer(tmp[1], 'base64');
