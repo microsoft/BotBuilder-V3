@@ -53,7 +53,7 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 
 ## Building your Bot
 
-The core functionality of the Bot Template is all in the Post function within Controllers\MessagesController.cs. In this case the code takes the message text for the user, increments a counter that it pulled from the Message, and then creates replyMessage using the CreateReplyMessage function. It wraps up by saving the counter in the PerUserInConversationData block, and returns the replyMessage.
+The core functionality of the Bot Template is all in the Post function within Controllers\MessagesController.cs. In this case the code takes the message text for the user, then creates replyMessage using the CreateReplyMessage function. The BotAuthentication decoration on the method is used to validate your Bot Connector credentials over HTTPS.  If you choose to operate over HTTP, you will need to remove the BotAuthentication decoration.
 
 {% highlight cs %}
 
@@ -62,23 +62,14 @@ The core functionality of the Bot Template is all in the Post function within Co
     {
         /// <summary>
         /// POST: api/Messages
-        /// receive a message from a user and reply to it
+        /// Receive a message from a user and reply to it
         /// </summary>
-        public Message Post([FromBody]Message message)
+        public async Task<Message> Post([FromBody]Message message)
         {
             if (message.Type == "Message")
             {
-                // fetch our state associated with a user in a conversation. If we don't have state, we get default(T)
-                var counter = message.GetBotPerUserInConversationData<int>();
-
-                // create a reply message   
-                Message replyMessage = message.CreateReplyMessage($"{++counter} You said:{message.Text}");
-
-                // save our new counter by adding it to the outgoing message
-                replyMessage.SetBotPerUserInConversationData(counter);
-
                 // return our reply to the user
-                return replyMessage;
+                return message.CreateReplyMessage($"You said:{message.Text}");
             }
             else
             {
@@ -88,7 +79,7 @@ The core functionality of the Bot Template is all in the Post function within Co
             
 {% endhighlight %}
             
-##Use the Bot Framework Emulator to test your Bot application
+## Use the Bot Framework Emulator to test your Bot application
 
 The Bot Framework provides an emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
 
