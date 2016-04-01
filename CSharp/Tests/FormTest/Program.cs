@@ -33,6 +33,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
@@ -40,6 +41,7 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -189,10 +191,102 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
 
+
+        [Serializable]
+        public class MyBot : IDialog
+        {
+            async Task IDialog.StartAsync(IDialogContext context)
+            {
+                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice()), WhatDoYouWant);
+            }
+
+            public async Task WhatDoYouWant(IDialogContext context, IAwaitable<TopChoice> choices)
+            {
+                switch ((await choices).Choice.Value)
+                {
+                    case TopChoices.Joke:
+                        context.Call<ChooseJoke>(new FormDialog<ChooseJoke>(new ChooseJoke(), options: FormOptions.PromptInStart),
+                            TellAJoke);
+                        break;
+                    default:
+                        await context.PostAsync("I don't understand");
+                        context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart), WhatDoYouWant);
+                        break;
+                }
+            }
+
+            public async Task TellAJoke(IDialogContext context, IAwaitable<ChooseJoke> joke)
+            {
+                switch ((await joke).KindOfJoke)
+                {
+                    case TypeOfJoke.Funny:
+                        await context.PostAsync("Something funny");
+                        break;
+                    case TypeOfJoke.KnockKnock:
+                        await context.PostAsync("Knock-knock...");
+                        break;
+                }
+                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart), WhatDoYouWant);
+            }
+        }
+
+        public enum TopChoices { Joke, Weather }
+
+        [Serializable]
+        public class TopChoice
+        {
+            public TopChoices? Choice;
+        }
+
+        public enum TypeOfJoke { Funny, KnockKnock };
+
+        [Serializable]
+        public class ChooseJoke
+        {
+            public TypeOfJoke? KindOfJoke;
+        }
+
+        [Serializable]
+        public class NullDialog<T> : IDialog<T>
+        {
+            public async Task StartAsync(IDialogContext context)
+            {
+                context.Done<T>(default(T));
+            }
+        }
+
         static void Main(string[] args)
         {
+            var callJoke = Chain
+                .From(() => new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart))
+                .ContinueWith<TopChoice, object>(async (context, result) =>
+                {
+                    switch ((await result).Choice)
+                    {
+                        case TopChoices.Joke: return new FormDialog<ChooseJoke>(new ChooseJoke(), options: FormOptions.PromptInStart);
+                        default:
+                            await context.PostAsync("I don't understand");
+                            return new NullDialog<object>();
+                    }
+                })
+                .ContinueWith<object, object>(async (context, result) =>
+                {
+                    var choice = await result;
+                    if (choice is ChooseJoke)
+                    {
+                        switch ((choice as ChooseJoke).KindOfJoke)
+                        {
+                            case TypeOfJoke.Funny:
+                                await context.PostAsync("Something funny");
+                                break;
+                            case TypeOfJoke.KnockKnock:
+                                await context.PostAsync("Knock-knock...");
+                                break;
+                        }
+                    }
+                    return new NullDialog<object>();
+                });
             // TestValidate();
-
             var callDebug =
                 Chain
                 .From(() => FormDialog.FromType<Choices>())
@@ -242,6 +336,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Loop();
 
             Interactive(callDebug);
+            // Interactive(new MyBot());
             /*
             var dialogs = new DialogCollection().Add(debugForm);
             var form = AddFields(new Form<PizzaOrder>("full"), noNumbers: true);
