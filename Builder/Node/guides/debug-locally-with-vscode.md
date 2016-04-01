@@ -19,22 +19,22 @@ For purposes of this walkthrough we’ll use Bot Builders [TodoBot](https://gith
 ![Step 1: Launch VSCode](/images/builder-debug-step1.png)
 
 ## Launch Bot
-The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot]() class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the –debug-brk flag which cause it to immediately break. So from a console window type “node –debug-brk textBot.js”.
+The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug your bot locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot]() class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the –debug-brk flag which causes it to immediately break. So from a console window type “node –debug-brk textBot.js”.
 
 ![Step 2: Launch Bot](/images/builder-debug-step2.png)
 
 ## Configure VSCode
-Before you can debug your now paused bot you’ll need to configure the VSCode node debugger. VSCode knows you project is using node but there are a lot of possible configurations for how you launch node so it makes you go through a one-time setup for each project (folder.)  To setup the debugger select the debug tab on the lower left and press the green run button. This will ask you to pick your debug environment and you can just select “node.js”. The default settings are fine for our purposes so no need to adjust anything.
+Before you can debug your now paused bot you’ll need to configure the VSCode node debugger. VSCode knows you project is using node but there are a lot of possible configurations for how you launch node so it wants you to go through a one-time setup for each project (aka folder.)  To setup the debugger select the debug tab on the lower left and press the green run button. VSCode will ask you to pick your debug environment and you can just select “node.js”. The default settings are fine for our purposes so no need to adjust anything. You should see a .vscode folder added to your project and if you don't want this checked into your Git repository you can add a '/**/.vscode' entry to your .gitignore file.
 
 ![Step 3: Configure VSCode](/images/builder-debug-step3.png)
 
 ## Attach Debugger
-Configuring the debugger resulted in two debug modes being added, Launch & Attach. Since our bot is paused in a console window we want to select the “Attach” mode and press the green run button again.
+Configuring the debugger resulted in two debug modes being added, Launch & Attach. Since our bot is paused in a console window we'll want to select the “Attach” mode and press the green run button again.
 
 ![Step 4: Attach Debugger](/images/builder-debug-step4.png)
 
 ## Debug Bot
-VSCode will attach to your bot paused on the first line of code and now you’re ready to set break points and debug your bot! Your bot can be sent communicated with from the console window so switch back to the console window and say “hello”.
+VSCode will attach to your bot paused on the first line of code and now you’re ready to set break points and debug your bot! Your bot can be communicated with from the console window so switch back to the console window your bot is running in and say “hello”.
 
 ![Step 5: Debug Bot](/images/builder-debug-step5.png)
 
