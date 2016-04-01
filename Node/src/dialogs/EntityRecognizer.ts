@@ -101,7 +101,7 @@ export class EntityRecognizer {
         var time: string;
         entities.forEach((entity: ILuisDateTimeEntity) => {
             if (entity.resolution) {
-                switch (entity.resolution.resolution_type) {
+                switch (entity.resolution.resolution_type || entity.type) {
                     case 'builtin.datetime.date':
                     case 'builtin.datetime.time':
                         var parts = (entity.resolution.date || entity.resolution.time).split('T');
