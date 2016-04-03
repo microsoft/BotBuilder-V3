@@ -119,8 +119,8 @@ namespace Microsoft.Bot.Builder.Dialogs
             var message = await item;
             var luisRes = await this.service.QueryAsync(message.Text);
 
-            var maximum = luisRes.Intents.Max(t => t.Score);
-            var intent = luisRes.Intents.FirstOrDefault(i => i.Score == maximum);
+            var maximum = luisRes.Intents.Max(t => t.Score ?? 0);
+            var intent = luisRes.Intents.FirstOrDefault(i => { var curScore = i.Score ?? 0; return curScore == maximum; });
 
             IntentHandler handler = null;
             if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
