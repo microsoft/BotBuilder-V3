@@ -41,6 +41,15 @@ namespace Microsoft.Bot.Builder.FormFlow
     #region Documentation
     /// <summary>   Interface for building a form. </summary>
     /// <remarks>   
+    /// A form consists of a series of steps that can be one of:
+    /// <list type="list">
+    /// <item>A message to the user.</item>
+    /// <item>A prompt sent to the user where the response is to fill in a form state value.</item>
+    /// <item>A confirmation of the current state with the user.</item>
+    /// </list>
+    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="PromptAttribute"/> and <see cref="Confirm"/> calls.
+    /// If you do not take explicit control, the steps will be executed in the order defined in the 
+    /// form state class with a final confirmation.
     /// This interface allows you to flently build a form by composing together fields,
     /// messages and confirmation.  The fluent building blocks provide common patterns
     /// like fields being based on your state class, but you can also build up your

@@ -95,21 +95,24 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Prompt when the dialog starts.
         /// </summary>
-        PromptInStart
+        PromptInStart,
+
+        /// <summary>  
+        /// Prompt for fields that already have a value in the initial state when processing form.
+        /// </summary>
+        PromptFieldsWithValues
     };
 
     public delegate IForm<T> BuildForm<T>();
 
     /// <summary>
-    /// Form dialog manager for to fill in your state.
+    /// Form dialog to fill in your state.
     /// </summary>
     /// <typeparam name="T">The type to fill in.</typeparam>
     /// <remarks>
-    /// This is the root class for creating a form.  To use it, you:
-    /// * Create an instance of this class parameterized with the class you want to fill in.
-    /// * Optionally use the fluent API to specify the order of fields, messages and confirmations.
-    /// * Register with the global dialog collection.
-    /// * Start the form dialog.
+    /// This is the root class for managing a FormFlow dialog. It is usually created
+    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T})"/>
+    /// or <see cref="FormDialog.FromType{T}"/>. 
     /// </remarks>
     [Serializable]
     public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
@@ -132,7 +135,15 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
-
+        #region Documentation
+        /// <summary>   Constructor for creating a FormFlow dialog. </summary>
+        /// <param name="state">        The intial state. </param>
+        /// <param name="buildForm">    A delegate for building the form. </param>
+        /// <param name="options">      Options for controlling the form. </param>
+        /// <param name="entities">     Optional entities to process into the form. </param>
+        /// <param name="cultureInfo">  The culture to use. </param>
+        /// <remarks>For building forms <see cref="IFormBuilder{T}"/>.</remarks>
+        #endregion
         public FormDialog(T state, BuildForm<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
             buildForm = buildForm ?? BuildDefaultForm;
@@ -225,6 +236,34 @@ namespace Microsoft.Bot.Builder.FormFlow
                     else
                     {
                         _formState.SetPhase(StepPhase.Ready);
+                    }
+                }
+            }
+            if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
+            {
+                // Skip steps that already have a value if they are nullable and valid.
+                foreach (var step in _form.Steps)
+                {
+                    if (step.Type == StepType.Field 
+                        && !step.Field.IsUnknown(_state) 
+                        && step.Field.IsNullable)
+                    {
+                        var val = step.Field.GetValue(_state);
+                        if (step.Field.ValidateAsync(_state, val).Result.IsValid)
+                        {
+                            bool ok = true;
+                            double min, max;
+                            if (step.Field.Limits(out min, out max))
+                            {
+                                var num = (double) Convert.ChangeType(val, typeof(double));
+                                ok = (num >= min && num <= max);
+                            }
+                            if (ok)
+                            {
+                                _formState.Step = _form.StepIndex(step);
+                                _formState.SetPhase(StepPhase.Completed);
+                            }
+                        }
                     }
                 }
             }

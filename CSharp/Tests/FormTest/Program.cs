@@ -47,7 +47,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder, 
+        WithState, 
         SimpleSandwichBot, AnnotatedSandwichBot
     };
     [Serializable]
@@ -313,6 +314,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => BuildForm(noNumbers: true, ignoreAnnotations: true));
                         case DebugOptions.NoFieldOrder:
                             return MakeForm(() => new FormBuilder<PizzaOrder>().Build());
+                        case DebugOptions.WithState:
+                            return new FormDialog<PizzaOrder>(new PizzaOrder()
+                            { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza }, 
+                            () => BuildForm(noNumbers: false), options:FormOptions.PromptInStart);
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:
