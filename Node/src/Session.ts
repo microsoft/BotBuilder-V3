@@ -165,21 +165,37 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
-    public endDialog(result?: any): ISession {
+    public endDialog(msg: string, ...args: any[]): ISession;
+    public endDialog(msg: IMessage): ISession;
+    public endDialog(result?: dialog.IDialogResult<any>): ISession;
+    public endDialog(result?: any, ...args: any[]): ISession {
         var ss = this.sessionState;
-        var r: dialog.IDialogResult<any> = result || {};
+        var m: IMessage;
+        var r = <dialog.IDialogResult<any>>{};
+        if (result) {
+            if (typeof result === 'string') {
+                m = this.createMessage(result, args);
+            } else if (result.hasOwnProperty('text') || result.hasOwnProperty('channelData')) {
+                m = result;
+            } else {
+                r = result;
+            }
+        }
         if (!r.hasOwnProperty('resumed')) {
             r.resumed = dialog.ResumeReason.completed;
         }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {
+            if (m) {
+                this.send(m);
+            }
             var cur = ss.callstack[ss.callstack.length - 1];
             var d = this.dialogs.getDialog(cur.id);
             this.dialogData = cur.state;
             d.dialogResumed(this, r);
         } else {
-            this.send();
+            this.send(m);
             if (r.error) {
                 this.emit('error', r.error);
             } else {

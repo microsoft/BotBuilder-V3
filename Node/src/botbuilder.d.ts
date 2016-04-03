@@ -795,6 +795,25 @@ export class Session {
     replaceDialog<T>(id: string, args?: T): Session;
 
     /**
+     * Ends the current dialog and sends a simple text message to the user. The dialogs parent will be resumed after the message is sent. 
+     * The message will be localized using the sessions configured ILocalizer and if arguments are passed in the message will be 
+     * formatted using sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param msg Text of the message to send.
+     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     */
+    public endDialog(msg: string, ...args: any[]): Session;
+    /**
+     * Ends the current dialog and sends a message to the user. The dialogs parent will be resumed after the message is sent.
+     * @param msg Message to send.
+     */
+    public endDialog(msg: IMessage): Session;
+
+    /**
+     * Ends the current dialog and returns a string, typically a message, to the parent dialog. The dialogs parent will be resumed.
+     * @param response Text to return to caller.
+     */
+    endDialog<T>(response: string): Session;
+    /**
      * Ends the current dialog. The dialogs parent will be resumed.
      * @param result Optional results to pass to the parent dialog.
      */

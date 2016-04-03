@@ -56,7 +56,7 @@ export class DialogAction {
                 var r = <dialog.IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
-                } else {
+                } else if (!s.messageSent()) {
                     s.send();
                 }
             } else  {
