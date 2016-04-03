@@ -43,6 +43,10 @@ describe('Dialogs', function() {
             },
             function (session, results) {
                 assert(results.response && results.response.entity === 'green');
+                builder.Prompts.confirm(session, 'Is green your choice?');
+            },
+            function (session, results) {
+                assert(results.response && results.response === true);
                 builder.Prompts.time(session, 'enter a time');
             },
             function (session, results) {
@@ -65,9 +69,12 @@ describe('Dialogs', function() {
                     bot.processMessage({ text: 'green' });
                     break;
                 case 4:
-                    bot.processMessage({ text: 'in 5 minutes' });
+                    bot.processMessage({ text: 'yes' });
                     break;
                 case 5:
+                    bot.processMessage({ text: 'in 5 minutes' });
+                    break;
+                case 6:
                     assert(message.text == 'done');
                     done();
                     break;
