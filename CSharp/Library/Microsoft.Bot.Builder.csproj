@@ -36,6 +36,10 @@
     <NoWarn>CS1998</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Bot.Connector, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bot.Connector.1.0.0.0\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>
@@ -78,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DialogModule.cs" />
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
@@ -86,7 +91,9 @@
     <Compile Include="Dialogs\DialogContextStore.cs" />
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
+    <Compile Include="Dialogs\IDialogContextStore.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
+    <Compile Include="Fibers\FiberModule.cs" />
     <Compile Include="Fibers\SetField.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />

@@ -56,10 +56,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildForm{T}"/>.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
+        /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromType<T>() where T : class, new()
+        public static IFormDialog<T> FromType<T>(FormOptions options = FormOptions.None) where T : class, new()
         {
-            return new FormDialog<T>(new T());
+            return new FormDialog<T>(new T(), null, options);
         }
 
         /// <summary>
@@ -67,10 +68,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="buildForm">The delegate to build the form.</param>
+        /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm) where T : class, new()
+        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
         {
-            return new FormDialog<T>(new T(), buildForm);
+            return new FormDialog<T>(new T(), buildForm, options);
         }
 
 

@@ -42,28 +42,24 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public interface IDialogContextInternal : IDialogContext, IUserToBot
-    {
-    }
-
-    public interface IDialogContextStore
-    {
-        bool TryLoad(IBotDataBag bag, string key, out IDialogContextInternal context);
-        void Save(IDialogContextInternal context, IBotDataBag bag, string key);
-    }
-
     public sealed class DialogContextStore : IDialogContextStore
     {
         private readonly IFormatter formatter;
-        public DialogContextStore(IFormatter formatter)
+        private readonly IBotData botData;
+        private readonly string key;
+        public DialogContextStore(IFormatter formatter, IBotData botData, string key)
         {
             SetField.NotNull(out this.formatter, nameof(formatter), formatter);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.NotNull(out this.key, nameof(key), key);
         }
 
-        bool IDialogContextStore.TryLoad(IBotDataBag bag, string key, out IDialogContextInternal context)
+        public IBotDataBag Bag {  get { return this.botData.PerUserInConversationData; } }
+
+        bool IDialogContextStore.TryLoad(out IDialogContextInternal context)
         {
             byte[] blobOld;
-            bool found = bag.TryGetValue(key, out blobOld);
+            bool found = this.Bag.TryGetValue(this.key, out blobOld);
             if (found)
             {
                 using (var streamOld = new MemoryStream(blobOld))
@@ -78,7 +74,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return false;
         }
 
-        void IDialogContextStore.Save(IDialogContextInternal context, IBotDataBag bag, string key)
+        void IDialogContextStore.Save(IDialogContextInternal context)
         {
             byte[] blobNew;
             using (var streamNew = new MemoryStream())
@@ -89,7 +85,42 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 blobNew = streamNew.ToArray();
             }
 
-            bag.SetValue(key, blobNew);
+            this.Bag.SetValue(this.key, blobNew);
+        }
+    }
+
+    public sealed class DialogContextFactory : IDialogContextStore
+    {
+        private readonly IDialogContextStore store;
+        private readonly IFrameFactory frames;
+        private readonly IBotToUser botToUser;
+        private readonly IBotData botData;
+
+        public DialogContextFactory(IDialogContextStore store, IFrameFactory frames, IBotToUser botToUser, IBotData botData)
+        {
+            SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.frames, nameof(frames), frames);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+        }
+
+        bool IDialogContextStore.TryLoad(out IDialogContextInternal context)
+        {
+            if (store.TryLoad(out context))
+            {
+                return true;
+            }
+            else
+            {
+                IFiberLoop fiber = new Fiber(frames);
+                context = new DialogContext(botToUser, botData, fiber);
+                return false;
+            }
+        }
+
+        void IDialogContextStore.Save(IDialogContextInternal context)
+        {
+            this.store.Save(context);
         }
     }
 }

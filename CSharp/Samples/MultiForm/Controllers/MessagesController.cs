@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.MultiForm
         [Serializable]
         public class MyBot : IDialog
         {
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<object>.StartAsync(IDialogContext context)
             {
                 context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice()), WhatDoYouWant);
             }

@@ -32,7 +32,9 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -41,6 +43,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Autofac;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -49,20 +52,13 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public static partial class Conversation
     {
-        private const string BlobKey = "DialogState";
+        public static readonly IContainer Container;
 
-        /// <summary>Compose a BinaryFormatter within a singleton service provider.</summary>
-        /// <param name="provider">The singleton service provider.</param>
-        /// <returns>The BinaryFormatter.</returns>
-        internal static BinaryFormatter MakeBinaryFormatter(IServiceProvider provider)
+        static Conversation()
         {
-            var listener = new DefaultTraceListener();
-            var reference = new Serialization.LogSurrogate(new Serialization.ReferenceSurrogate(), listener);
-            //var reflection = new Serialization.LogSurrogate(new Serialization.ReflectionSurrogate(), listener);
-            var selector = new Serialization.SurrogateSelector(reference, reflection: null);
-            var context = new StreamingContext(StreamingContextStates.All, provider);
-            var formatter = new BinaryFormatter(selector, context);
-            return formatter;
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new Internals.DialogModule());
+            Container = builder.Build();
         }
 
         /// <summary>
@@ -82,40 +78,17 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="toBot">The message sent to the bot.</param>
         /// <param name="MakeRoot">The factory method to make the root dialog.</param>
         /// <param name="token">The cancellation token.</param>
-        /// <param name="singletons">An optional list of object instances that should not be serialized.</param>
         /// <returns>A task that represents the message to send inline back to the user.</returns>
-        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken), params object[] singletons)
+        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            IWaitFactory waits = new WaitFactory();
-            IFrameFactory frames = new FrameFactory(waits);
-            IBotData botData = new JObjectBotData(toBot);
-            IConnectorClient client = new ConnectorClient();
-            var botToUser = new ReactiveBotToUser(toBot, client);
-            var provider = new Serialization.SimpleServiceLocator(singletons)
+            using (var scope = Container.BeginLifetimeScope())
             {
-                waits, frames, botData, botToUser
-            };
-            var formatter = Conversation.MakeBinaryFormatter(provider);
+                var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                await store.PostAsync<T>(toBot, MakeRoot, token);
 
-            IDialogContextStore store = new DialogContextStore(formatter);
-
-            IDialogContextInternal context;
-            if (!store.TryLoad(botData.PerUserInConversationData, BlobKey, out context))
-            {
-                IFiberLoop fiber = new Fiber(frames);
-                context = new Internals.DialogContext(botToUser, botData, fiber);
-                var root = MakeRoot();
-                var loop = root.Loop();
-                context.Call(loop, null);
-                await fiber.PollAsync();
+                var botToUser = scope.Resolve<ReactiveBotToUser>();
+                return botToUser.ToUser;
             }
-
-            IUserToBot userToBot = context;
-            await userToBot.SendAsync(toBot, token);
-
-            store.Save(context, botData.PerUserInConversationData, BlobKey);
-
-            return botToUser.ToUser;
         }
     }
 }

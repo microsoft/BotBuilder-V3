@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -147,11 +148,23 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public interface IUserToBot
     {
         /// <summary>
-        /// Send a message to the bot with the option of an inline response.
+        /// Post a message to the bot.
         /// </summary>
         /// <param name="message">The message for the bot.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents the completion of the send.</returns>
-        Task SendAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        /// <returns>A task that represents the post operation.</returns>
+        Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+    }
+
+    /// <summary>
+    /// Additional internal methods to drive the execution of the dialog context.
+    /// </summary>
+    public interface IDialogContextInternal : IDialogContext, IUserToBot
+    {
+        /// <summary>
+        /// Poll the dialog stack for any work to be done.
+        /// </summary>
+        /// <returns>A task that represents the poll operation.</returns>
+        Task PollAsync();
     }
 }

@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -175,7 +176,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Wait<Message>(ToRest(resume));
         }
 
-        async Task IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
+        async Task IUserToBot.PostAsync(Message message, CancellationToken cancellationToken)
         {
             this.fiber.Post(message);
             await this.fiber.PollAsync();
@@ -189,6 +190,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Message IBotToUser.MakeMessage()
         {
             return this.botToUser.MakeMessage();
+        }
+
+        async Task IDialogContextInternal.PollAsync()
+        {
+            await this.fiber.PollAsync();
         }
     }
 }

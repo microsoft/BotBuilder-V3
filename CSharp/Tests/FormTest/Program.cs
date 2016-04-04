@@ -32,22 +32,27 @@
 //
 
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using Microsoft.Bot.Connector;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+using Autofac;
+
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
-using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
-using System.Threading.Tasks;
+using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder, 
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
         WithState, 
         SimpleSandwichBot, AnnotatedSandwichBot
     };
@@ -59,26 +64,36 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
     class Program
     {
-        static void Interactive<T>(IDialog<T> form)
+
+        static async Task Interactive<T>(IDialog<T> form)
         {
             var message = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString(),
                 Text = ""
             };
-            string prompt;
-            do
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new DialogModule());
+            builder
+                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message), Console.Out))
+                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .As<IBotToUser>()
+                .SingleInstance();
+            using (var container = builder.Build())
             {
-                var task = Conversation.SendAsync(message, () => form);
-                message = task.GetAwaiter().GetResult();
-                prompt = message.Text;
-                if (prompt != null)
+                var store = container.Resolve<IDialogContextStore>(TypedParameter.From(message));
+
+                Func<IDialog<T>> MakeRoot = () => form;
+
+                await store.PollAsync(() => form);
+
+                while (true)
                 {
-                    Console.WriteLine(prompt);
-                    Console.Write("> ");
-                    message.Text = Console.ReadLine();
+                    message.Text = await Console.In.ReadLineAsync();
+                    await store.PostAsync(message, () => form);
                 }
-            } while (prompt != null);
+                }
         }
 
         private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false)
@@ -196,7 +211,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Serializable]
         public class MyBot : IDialog
         {
-            async Task IDialog.StartAsync(IDialogContext context)
+            async Task IDialog<object>.StartAsync(IDialogContext context)
             {
                 context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice()), WhatDoYouWant);
             }
@@ -290,7 +305,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // TestValidate();
             var callDebug =
                 Chain
-                .From(() => FormDialog.FromType<Choices>())
+                .From(() => FormDialog.FromType<Choices>(FormOptions.PromptInStart))
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
                     Choices choices;
@@ -340,8 +355,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 })
                 .Loop();
 
-            Interactive(callDebug);
-            // Interactive(new MyBot());
+            Interactive(callDebug).GetAwaiter().GetResult();
             /*
             var dialogs = new DialogCollection().Add(debugForm);
             var form = AddFields(new Form<PizzaOrder>("full"), noNumbers: true);
