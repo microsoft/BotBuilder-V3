@@ -80,7 +80,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             const string BlobKey = "DialogState";
 
             builder
-                .Register((c, p) => new DialogContextFactory(new DialogContextStore(c.Resolve<IFormatter>(p), c.Resolve<IBotData>(p), BlobKey), c.Resolve<IFrameFactory>(), c.Resolve<IBotToUser>(p), c.Resolve<IBotData>(p)))
+                .Register((c, p) => new DialogContextFactory(new ErrorResilientDialogContextStore(new DialogContextStore(c.Resolve<IFormatter>(p), c.Resolve<IBotData>(p), BlobKey)), c.Resolve<IFrameFactory>(), c.Resolve<IBotToUser>(p), c.Resolve<IBotData>(p)))
                 .As<IDialogContextStore>()
                 .InstancePerLifetimeScope();
         }

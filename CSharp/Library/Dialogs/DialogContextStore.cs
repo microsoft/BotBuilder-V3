@@ -89,6 +89,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class ErrorResilientDialogContextStore : IDialogContextStore
+    {
+        private readonly IDialogContextStore store;
+        public ErrorResilientDialogContextStore(IDialogContextStore store)
+        {
+            SetField.NotNull(out this.store, nameof(store), store);
+        }
+        bool IDialogContextStore.TryLoad(out IDialogContextInternal context)
+        {
+            try
+            {
+                return this.store.TryLoad(out context);
+            }
+            catch (Exception)
+            {
+                // exception in loading the serialized context data
+                context = null;
+                return false;
+            }
+        }
+
+        void IDialogContextStore.Save(IDialogContextInternal context)
+        {
+            this.store.Save(context);
+        }
+    }
+
     public sealed class DialogContextFactory : IDialogContextStore
     {
         private readonly IDialogContextStore store;
