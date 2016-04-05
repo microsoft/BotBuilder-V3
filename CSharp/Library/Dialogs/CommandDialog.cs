@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Builder.Dialogs
 {
     #region Documentation
-    /// <summary>   Dialog that dispatches based on a regex matching input. </summary>
+    /// <summary> Dialog that dispatches based on a regex matching input. </summary>
     #endregion
 
     [Serializable]
@@ -63,11 +63,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         #region Documentation
-        /// <summary>
-        ///     Message handler of the command dialog.
-        /// </summary>
-        /// <param name="context">  Dialog context. </param>
-        /// <param name="message">  Message from the user. </param>
+        /// <summary> Message handler of the command dialog.  </summary>
+        /// <param name="context"> Dialog context. </param>
+        /// <param name="message"> Message from the user. </param>
         #endregion
         public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
         {
@@ -101,32 +99,32 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         #region Documentation
         /// <summary>
-        ///     The result handler of the command dialog passed to the child dialogs. 
+        /// The result handler of the command dialog passed to the child dialogs. 
         /// </summary>
-        /// <typeparam name="T">    The type of the result returned by the child dialog. </typeparam>
-        /// <param name="context">  Dialog context. </param>
-        /// <param name="result">   The result retured by the child dialog. </param>
+        /// <typeparam name="U"> The type of the result returned by the child dialog. </typeparam>
+        /// <param name="context"> Dialog context. </param>
+        /// <param name="result"> The result retured by the child dialog. </param>
         #endregion
-        public async Task ResultHanler<T>(IDialogContext context, IAwaitable<T> result)
+        public async Task ResultHandler<U>(IDialogContext context, IAwaitable<U> result)
         {
             Delegate handler = null;
-            if (resultHandlers.TryGetValue(typeof(T), out handler))
+            if (resultHandlers.TryGetValue(typeof(U), out handler))
             {
-                await (Task)handler.DynamicInvoke(context, result);
+                await ((ResumeAfter<U>)handler).Invoke(context, result);
                 context.Wait(MessageReceived);
             }
             else
             {
-                string error = $"CommandDialog doesn't have a registered result handler for this type: {typeof(T)}";
+                string error = $"CommandDialog doesn't have a registered result handler for this type: {typeof(U)}";
                 throw new Exception(error);
             }
         }
 
         #region Documentation
-        /// <summary>   Define a handler that is fired on a regular expression match of a message. </summary>
-        /// <param name="expression">       Regular expression to match. </param>
-        /// <param name="handler">          Handler to call on match. </param>
-        /// <returns>   A CommandDialog. </returns>
+        /// <summary> Define a handler that is fired on a regular expression match of a message. </summary>
+        /// <param name="expression"> Regular expression to match. </param>
+        /// <param name="handler"> Handler to call on match. </param>
+        /// <returns> A CommandDialog. </returns>
         #endregion
         public CommandDialog<T> On(Regex expression, ResumeAfter<Connector.Message> handler)
         {
@@ -139,9 +137,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             return this;
         }
         #region Documentation
-        /// <summary>   Define the default action if no match. </summary>
-        /// <param name="handler">  Handler to call if no match. </param>
-        /// <returns>   A CommandDialog. </returns>
+        /// <summary> Define the default action if no match. </summary>
+        /// <param name="handler"> Handler to call if no match. </param>
+        /// <returns> A CommandDialog. </returns>
         #endregion
         public CommandDialog<T> OnDefault(ResumeAfter<Connector.Message> handler)
         {
@@ -151,14 +149,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         #region Documentation
-        /// <summary>   Define a result handler for specific result type returned by the child dialog. </summary>
-        /// <typeparam name="T">    Type of the result returned by the child dialog started in command handler. </typeparam>
-        /// <param name="handler">  Handler of the result. </param>
+        /// <summary> Define a result handler for specific result type returned by the child dialog. </summary>
+        /// <typeparam name="U"> Type of the result returned by the child dialog started in command handler. </typeparam>
+        /// <param name="handler"> Handler of the result. </param>
         /// <returns></returns>
         #endregion
-        public CommandDialog OnResult<T>(ResumeAfter<T> handler)
+        public CommandDialog<T> OnResult<U>(ResumeAfter<U> handler)
         {
-            resultHandlers.Add(typeof(T), handler);
+            resultHandlers.Add(typeof(U), handler);
             return this;
         }
     }

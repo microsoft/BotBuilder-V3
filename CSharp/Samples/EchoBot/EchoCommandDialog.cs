@@ -11,9 +11,9 @@ namespace Microsoft.Bot.Sample.EchoBot
     [Serializable]
     public class EchoCommandDialog
     {
-        public static readonly CommandDialog echoCommandDialog = new CommandDialog().On(new Regex("^reset"), async (context, msg) =>
+        public static readonly CommandDialog<object> echoCommandDialog = new CommandDialog<object>().On(new Regex("^reset"), async (context, msg) =>
         {
-            PromptDialog.Confirm(context, echoCommandDialog.ResultHanler,
+            PromptDialog.Confirm(context, echoCommandDialog.ResultHandler,
             "Are you sure you want to reset the count?",
             "Didn't get that!");
         }).OnResult<bool>(async (context, result) =>
@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Sample.EchoBot
         })
           .OnDefault(async (context, msg) =>
             {
-                var count = 0;
+                int count;
                 var message = await msg;
                 context.UserData.TryGetValue("count", out count);
                 context.UserData.SetValue("count", ++count);

@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Sample.Tests
             await EchoDialogFlow(EchoCommandDialog.echoCommandDialog);
         }
 
-        private async Task EchoDialogFlow(IDialog echoDialog)
+        private async Task EchoDialogFlow<T>(IDialog<T> echoDialog)
         {
             // arrange
             var toBot = new Message()
@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Sample.Tests
                 Text = "Test"
             };
 
-            Func<IDialog> MakeRoot = () => echoDialog;
+            Func<IDialog<T>> MakeRoot = () => echoDialog;
 
             // act: sending the message
             var toUser = await Conversation.SendAsync(toBot, MakeRoot);
