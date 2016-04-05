@@ -55,15 +55,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder.RegisterModule(new FiberModule());
 
-            // singletons
-
-            builder
-                .RegisterType<ConnectorClient>()
-                .As<IConnectorClient>()
-                .SingleInstance();
-
             // per-message
             // http://stackoverflow.com/questions/1211595/autofac-parameter-passing-and-autowiring
+
+            builder
+                .Register((c, p) => new DetectEmulatorFactory(p.TypedAs<Message>(), new Uri("http://localhost:9000")))
+                .As<IConnectorClientFactory>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register((c, p) => c.Resolve<IConnectorClientFactory>(p).Make())
+                .As<IConnectorClient>()
+                .InstancePerLifetimeScope();
+
             builder
                 .RegisterType<JObjectBotData>()
                 .Keyed<IBotData>(FiberModule.Key_DoNotSerialize)
@@ -71,7 +75,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<SendLastInline_BotToUser>()
+                .Register((c, p) => new SendLastInline_BotToUser(p.TypedAs<Message>(), c.Resolve<IConnectorClient>(p)))
                 .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
                 .AsSelf()
                 .As<IBotToUser>()
