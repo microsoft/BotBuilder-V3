@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Utilities;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
@@ -18,7 +19,8 @@ namespace Microsoft.Bot.Sample.EchoBot
         /// </summary>
         public async Task<Message> Post([FromBody]Message message)
         {
-            return await Conversation.SendAsync(message, () => new EchoDialog());
+            //return await Conversation.SendAsync(message, () => new EchoDialog());
+            return await Conversation.SendAsync(message, () => EchoCommandDialog.echoCommandDialog);
         }
     }
 }

@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -41,8 +42,11 @@ namespace Microsoft.Bot.Builder.Dialogs
     #region Documentation
     /// <summary>   Dialog that dispatches based on a regex matching input. </summary>
     #endregion
+
+    [Serializable]
     public class CommandDialog<T> : IDialog<T>
     {
+        [Serializable]
         public class Command
         {
             public Regex Expression { set; get; }
@@ -51,13 +55,21 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
+        private readonly Dictionary<Type, Delegate> resultHandlers = new Dictionary<Type, Delegate>();
 
         async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }
 
-        private async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
+        #region Documentation
+        /// <summary>
+        ///     Message handler of the command dialog.
+        /// </summary>
+        /// <param name="context">  Dialog context. </param>
+        /// <param name="message">  Message from the user. </param>
+        #endregion
+        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
         {
             var text = (await message).Text;
             Command matched = null;
@@ -85,8 +97,31 @@ namespace Microsoft.Bot.Builder.Dialogs
                 string error = $"CommandDialog doesn't have a registered command handler for this message: {text}";
                 throw new Exception(error);
             }
-
         }
+
+        #region Documentation
+        /// <summary>
+        ///     The result handler of the command dialog passed to the child dialogs. 
+        /// </summary>
+        /// <typeparam name="T">    The type of the result returned by the child dialog. </typeparam>
+        /// <param name="context">  Dialog context. </param>
+        /// <param name="result">   The result retured by the child dialog. </param>
+        #endregion
+        public async Task ResultHanler<T>(IDialogContext context, IAwaitable<T> result)
+        {
+            Delegate handler = null;
+            if (resultHandlers.TryGetValue(typeof(T), out handler))
+            {
+                await (Task)handler.DynamicInvoke(context, result);
+                context.Wait(MessageReceived);
+            }
+            else
+            {
+                string error = $"CommandDialog doesn't have a registered result handler for this type: {typeof(T)}";
+                throw new Exception(error);
+            }
+        }
+
         #region Documentation
         /// <summary>   Define a handler that is fired on a regular expression match of a message. </summary>
         /// <param name="expression">       Regular expression to match. </param>
@@ -112,6 +147,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var command = new Command { CommandHandler = handler };
             this.defaultCommand = command;
+            return this;
+        }
+
+        #region Documentation
+        /// <summary>   Define a result handler for specific result type returned by the child dialog. </summary>
+        /// <typeparam name="T">    Type of the result returned by the child dialog started in command handler. </typeparam>
+        /// <param name="handler">  Handler of the result. </param>
+        /// <returns></returns>
+        #endregion
+        public CommandDialog OnResult<T>(ResumeAfter<T> handler)
+        {
+            resultHandlers.Add(typeof(T), handler);
             return this;
         }
     }
