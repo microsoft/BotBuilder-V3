@@ -45,12 +45,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
+    /// <summary>
+    /// Autofac module for Fiber components.
+    /// </summary>
     public sealed class FiberModule : Autofac.Module
     {
         public static readonly object Key_DoNotSerialize = new object();
         public static readonly object Key_SurrogateProvider = new object();
 
-        public static IEnumerable<object> DoNotSerialize(IComponentContext context, IEnumerable<Parameter> parameters)
+        private static IEnumerable<object> DoNotSerialize(IComponentContext context, IEnumerable<Parameter> parameters)
         {
             foreach (var registration in context.ComponentRegistry.Registrations)
             {

@@ -43,8 +43,17 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public static class Serialization
     {
+        /// <summary>
+        /// Extend <see cref="ISerializationSurrogate"/> with a "tester" method used by <see cref="SurrogateSelector"/>.
+        /// </summary>
         public interface ISurrogateProvider : ISerializationSurrogate
         {
+            /// <summary>
+            /// Determine whether this surrogate provider handles this type.
+            /// </summary>
+            /// <param name="type">The query type.</param>
+            /// <param name="context">The serialization context.</param>
+            /// <returns>True if this provider handles this type, false otherwise.</returns>
             bool Handles(Type type, StreamingContext context);
         }
 

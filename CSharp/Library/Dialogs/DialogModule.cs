@@ -47,6 +47,9 @@ using Autofac.Core;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    /// <summary>
+    /// Autofac module for Dialog components.
+    /// </summary>
     public sealed class DialogModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
