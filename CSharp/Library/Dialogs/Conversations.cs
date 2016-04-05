@@ -58,6 +58,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new Internals.DialogModule());
+            if (Debugger.IsAttached)
+            {
+                builder
+                    .Register(c => new ConnectorClient(new Uri("http://localhost:9000"), new ConnectorClientCredentials()))
+                    .As<IConnectorClient>()
+                    .SingleInstance();
+            }
+
             Container = builder.Build();
         }
 
