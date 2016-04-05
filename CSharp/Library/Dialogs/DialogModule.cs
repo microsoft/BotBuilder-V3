@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<ReactiveBotToUser>()
+                .RegisterType<SendLastInline_BotToUser>()
                 .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
                 .AsSelf()
                 .As<IBotToUser>()

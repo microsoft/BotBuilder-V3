@@ -45,11 +45,11 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class ReactiveBotToUser : IBotToUser
+    public sealed class SendLastInline_BotToUser : IBotToUser
     {
         private readonly Message toBot;
         private readonly IConnectorClient client;
-        public ReactiveBotToUser(Message toBot, IConnectorClient client)
+        public SendLastInline_BotToUser(Message toBot, IConnectorClient client)
         {
             SetField.NotNull(out this.toBot, nameof(toBot), toBot);
             SetField.NotNull(out this.client, nameof(client), client);

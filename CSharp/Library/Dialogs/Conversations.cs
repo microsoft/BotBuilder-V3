@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
                 await store.PostAsync<T>(toBot, MakeRoot, token);
 
-                var botToUser = scope.Resolve<ReactiveBotToUser>();
+                var botToUser = scope.Resolve<SendLastInline_BotToUser>();
                 return botToUser.ToUser;
             }
         }
