@@ -50,8 +50,7 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class ChainTests
     {
-        //[TestMethod]
-        public async Task SelectMany()
+        public static IDialog<string> MakeQuery()
         {
             var prompts = new[] { "p1", "p2", "p3" };
 
@@ -60,12 +59,20 @@ namespace Microsoft.Bot.Builder.Tests
                         from z in new PromptDialog.PromptString(prompts[2], prompts[2], attempts: 1)
                         select string.Join(" ", x, y, z);
 
+            query = query.PostToUser();
+
+            return query;
+        }
+
+        [TestMethod]
+        public async Task SelectMany()
+        {
             var toBot = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString()
             };
 
-            var words = new [] { "hello", "world" };
+            var words = new [] { "hello", "world", "!" };
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
@@ -75,19 +82,25 @@ namespace Microsoft.Bot.Builder.Tests
                 .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
                 .AsSelf()
                 .As<IBotToUser>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
             using (var container = builder.Build())
-            using (var scope = container.BeginLifetimeScope())
             {
-                var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
                 foreach (var word in words)
                 {
-                    toBot.Text = "hello";
-                    await store.PostAsync(toBot, () => query);
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        // if we inline the query from MakeQuery into this method, and we use an anonymous method to return that query as MakeRoot
+                        // then because in C# all anonymous functions in the same method capture all variables in that method, query will be captured
+                        // with the linq anonymous methods, and the serializer gets confused trying to deserialize it all.
+                        await store.PostAsync(toBot, MakeQuery);
+                    }
                 }
 
                 var queue = container.Resolve<BotToUserQueue>();
-                var toUser = queue.Messages.Last();
+                // last message is re-prompt, next-to-last is result of query expression
+                var toUser = queue.Messages.Reverse().ElementAt(1);
                 var expected = string.Join(" ", words);
                 Assert.AreEqual(expected, toUser.Text);
             }
