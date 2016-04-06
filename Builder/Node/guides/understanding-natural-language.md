@@ -178,8 +178,9 @@ dialog.onDefault(builder.DialogAction.send("I'm sorry I didn't understand. I can
 
 // Add notification dialog
 cortanaBot.add('/notify', function (session, alarm) {
-   session.send("Here's your '%s' alarm.", alarm.title); 
-   session.endDialog(); // <= we don't want replies coming to us 
+    // We don't want replies coming to us so we'll end the dialog
+    // and send the user their notification. 
+    session.endDialog("Here's your '%s' alarm.", alarm.title); 
 });
 
 cortanaBot.listenStdin();
