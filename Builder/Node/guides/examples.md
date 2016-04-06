@@ -2,7 +2,7 @@
 layout: page
 title: Examples
 permalink: /builder/node/guides/examples/
-weight: 613
+weight: 614
 parent1: Bot Builder for Node.js
 parent2: Guides
 ---
@@ -26,6 +26,7 @@ These examples show a simple "Hello World" sample for each bot type supported by
 |[hello-BotConnectorBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/hello-BotConnectorBot) | "Hello World" for BotConnectorBot class.  
 |[hello-SkypeBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/hello-SkypeBot) | "Hello World" for SkypeBot class.
 |[hello-SlackBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/hello-SlackBot) | "Hello World" for SlackBot class.
+|[hello-AzureWebApp](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/hello-AzureWebApp) | Visual Studio example solution for deploying a "Hello World" bot to Azure.
 
 ## Basic Techniques
 These examples show the basic techniques needed to build a great bot. All of the examples use the TextBot class and can be executed from a console window. 
