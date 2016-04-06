@@ -1,4 +1,3 @@
-"use strict";
 var sprintf = require('sprintf-js');
 function clone(obj) {
     var cpy = {};

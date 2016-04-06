@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -43,7 +42,9 @@ var CommandDialog = (function (_super) {
                     if (matches) {
                         var length = 0;
                         matches.forEach(function (value) {
-                            length += value.length;
+                            if (value) {
+                                length += value.length;
+                            }
                         });
                         score = length / text.length;
                     }
@@ -123,5 +124,5 @@ var CommandDialog = (function (_super) {
         return this;
     };
     return CommandDialog;
-}(dialog.Dialog));
+})(dialog.Dialog);
 exports.CommandDialog = CommandDialog;

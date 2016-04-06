@@ -37,7 +37,7 @@ var BotConnectorBot = (function (_super) {
             var authorized;
             var isSecure = req.headers['x-forwarded-proto'] === 'https' || req.headers['x-arr-ssl'];
             if (isSecure && _this.options.appId && _this.options.appSecret) {
-                if (req.headers && req.headers.hasOwnProperty('authorization')) {
+                if (req.headers.hasOwnProperty('authorization')) {
                     var tmp = req.headers['authorization'].split(' ');
                     var buf = new Buffer(tmp[1], 'base64');
                     var cred = buf.toString().split(':');

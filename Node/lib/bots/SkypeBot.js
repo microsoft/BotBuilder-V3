@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -203,7 +202,7 @@ var SkypeBot = (function (_super) {
         };
     };
     return SkypeBot;
-}(collection.DialogCollection));
+})(collection.DialogCollection);
 exports.SkypeBot = SkypeBot;
 var SkypeSession = (function (_super) {
     __extends(SkypeSession, _super);
@@ -227,5 +226,5 @@ var SkypeSession = (function (_super) {
         return text;
     };
     return SkypeSession;
-}(session.Session));
+})(session.Session);
 exports.SkypeSession = SkypeSession;

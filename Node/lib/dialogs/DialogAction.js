@@ -1,4 +1,3 @@
-"use strict";
 var session = require('../Session');
 var dialog = require('./Dialog');
 var consts = require('../consts');
@@ -22,7 +21,7 @@ var DialogAction = (function () {
                 if (r.error) {
                     s.error(r.error);
                 }
-                else {
+                else if (!s.messageSent()) {
                     s.send();
                 }
             }
@@ -88,5 +87,5 @@ var DialogAction = (function () {
         };
     };
     return DialogAction;
-}());
+})();
 exports.DialogAction = DialogAction;

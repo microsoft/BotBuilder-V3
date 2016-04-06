@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -95,7 +94,7 @@ var SimplePromptRecognizer = (function () {
         }
     };
     return SimplePromptRecognizer;
-}());
+})();
 exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var Prompts = (function (_super) {
     __extends(Prompts, _super);
@@ -206,7 +205,7 @@ var Prompts = (function (_super) {
         recognizer: new SimplePromptRecognizer()
     };
     return Prompts;
-}(dialog.Dialog));
+})(dialog.Dialog);
 exports.Prompts = Prompts;
 function beginPrompt(ses, args) {
     if (!ses.dialogs.hasDialog(consts.DialogId.Prompts)) {
