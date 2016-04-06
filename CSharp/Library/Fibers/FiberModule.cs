@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             builder
-                .RegisterType<Serialization.StoreInstanceByTypeSurrogate>()
+                .Register(c => new Serialization.StoreInstanceByTypeSurrogate(priority: int.MaxValue))
                 .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
                 .SingleInstance();
 
@@ -136,7 +136,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             base.Load(builder);
 
             builder
-                .RegisterType<Serialization.StoreInstanceByFieldsSurrogate>()
+                .Register(c => new Serialization.StoreInstanceByFieldsSurrogate(priority: 1))
                 .Keyed<Serialization.ISurrogateProvider>(FiberModule.Key_SurrogateProvider)
                 .SingleInstance();
         }

@@ -53,8 +53,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             /// </summary>
             /// <param name="type">The query type.</param>
             /// <param name="context">The serialization context.</param>
+            /// <param name="priority">The priority of this provider.</param>
             /// <returns>True if this provider handles this type, false otherwise.</returns>
-            bool Handles(Type type, StreamingContext context);
+            bool Handles(Type type, StreamingContext context, out int priority);
         }
 
         public sealed class StoreInstanceByTypeSurrogate : ISurrogateProvider
@@ -70,11 +71,20 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            bool ISurrogateProvider.Handles(Type type, StreamingContext context)
+            private readonly int priority;
+
+            public StoreInstanceByTypeSurrogate(int priority)
+            {
+                this.priority = priority;
+            }
+
+            bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
             {
                 var provider = (IServiceProvider)context.Context;
                 var instance = provider.GetService(type);
-                return instance != null;
+                bool handles = instance != null;
+                priority = handles ? this.priority : 0;
+                return handles;
             }
 
             void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
@@ -93,10 +103,18 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         public sealed class StoreInstanceByFieldsSurrogate : ISurrogateProvider
         {
             public const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            private readonly int priority;
 
-            bool ISurrogateProvider.Handles(Type type, StreamingContext context)
+            public StoreInstanceByFieldsSurrogate(int priority)
             {
-                return !type.IsSerializable;
+                this.priority = priority;
+            }
+
+            bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
+            {
+                bool handles = !type.IsSerializable;
+                priority = handles ? this.priority : 0;
+                return handles;
             }
 
             void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
@@ -140,9 +158,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             {
                 return $"{this.GetType().Name}({this.inner})";
             }
-            bool ISurrogateProvider.Handles(Type type, StreamingContext context)
+            bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
             {
-                return this.inner.Handles(type, context);
+                return this.inner.Handles(type, context, out priority);
             }
 
             void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
@@ -188,18 +206,29 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             ISerializationSurrogate ISurrogateSelector.GetSurrogate(Type type, StreamingContext context, out ISurrogateSelector selector)
             {
+                int maximumPriority = -int.MaxValue;
+                ISurrogateProvider maximumProvider = null;
                 for (int index = 0; index < this.providers.Count; ++index)
                 {
                     var provider = this.providers[index];
-                    if (provider.Handles(type, context))
+                    int priority;
+                    if (provider.Handles(type, context, out priority) && priority > maximumPriority)
                     {
-                        selector = this;
-                        return provider;
+                        maximumPriority = priority;
+                        maximumProvider = provider;
                     }
                 }
 
-                selector = null;
-                return null;
+                if (maximumProvider != null)
+                {
+                    selector = this;
+                    return maximumProvider;
+                }
+                else
+                {
+                    selector = null;
+                    return null;
+                }
             }
         }
         public sealed class SimpleServiceLocator : IServiceProvider
