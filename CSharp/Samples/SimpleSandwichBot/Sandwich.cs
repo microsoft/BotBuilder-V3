@@ -39,10 +39,23 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         public List<ToppingOptions> Toppings;
         public List<SauceOptions> Sauce;
 
+        public override string ToString()
+        {
+            return $"Your sandwich: {Newtonsoft.Json.JsonConvert.SerializeObject(this)}";
+            
+        }
+
         public static IForm<SandwichOrder> BuildForm()
         {
             return new FormBuilder<SandwichOrder>()
                     .Message("Welcome to the simple sandwich order bot!")
+                    .OnCompletionAsync(async (context, res) =>
+                    {
+                        var reply = context.MakeMessage();
+                        reply.Text = $"order compeleted: {res.ToString()}";
+                        await context.PostAsync(reply);
+                        context.Done(res);
+                    })
                     .Build();
         }
     };
