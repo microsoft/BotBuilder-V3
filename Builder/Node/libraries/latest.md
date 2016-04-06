@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.6.5
+title: BotBuilder v0.7.0
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -20,6 +20,11 @@ Get the latest version of BotBuilder using npm.
 
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v0.7.0
+* Making Node CommandDialog robust against undefined matched group.
+* Added the ability to send a message as part of ending a dialog.. 
+* Updated LKG build and package.json version.
 
 ### v0.6.5
 * Fixed bad regular expressions used by Prompts.confirm() and adding missing unit tests for Prompts.confirm().
