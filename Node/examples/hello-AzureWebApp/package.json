@@ -1,0 +1,11 @@
+{
+  "name": "hello-AzureWebApp",
+  "version": "0.0.1",
+  "description": "hello-AzureWebApp",
+  "main": "server.js",
+  "author": "Microsoft Corp",
+  "dependencies": {
+    "botbuilder": "^0.6.5",
+    "restify": "^4.0.4"
+  }
+}
