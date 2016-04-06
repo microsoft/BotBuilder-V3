@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         /// <param name="uri">The query uri.</param>
         /// <returns>The LUIS result.</returns>
-        Task<LuisResult> QueryAsync(Uri uri); 
+        Task<LuisResult> QueryAsync(Uri uri);
     }
 
     /// <summary>
@@ -104,8 +104,15 @@ namespace Microsoft.Bot.Builder.Luis
                 json = await client.GetStringAsync(uri);
             }
 
-            var result = JsonConvert.DeserializeObject<LuisResult>(json);
-            return result;
+            try
+            {
+                var result = JsonConvert.DeserializeObject<LuisResult>(json);
+                return result;
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception("Unable to deserialize the LUIS response.", ex);
+            }
         }
     }
 
