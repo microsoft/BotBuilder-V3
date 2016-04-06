@@ -26,6 +26,7 @@ These examples show the basic techniques needed to build a great bot. All of the
 |[basics-multiTurn](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-multiTurn) | Shows how to implement simple multi-turns using waterfalls.
 |[basics-firstRun](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-firstRun) | Shows how to create a First Run experience using a piece of middleware.
 |[basics-logging](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-logging) | Shows how to add logging/filtering of incoming messages using a piece of middleware. 
+|[basics-validatedPrompt](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-validatedPrompt) | Shows how to create a custom prompt that validates a users input. 
       
 ## Sample Bots
 These are complete bots designed to run on all of Bot Builders supported platforms. Consult the README.md file for each bot for usage instructions.
