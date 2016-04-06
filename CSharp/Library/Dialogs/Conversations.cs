@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             using (var scope = Container.BeginLifetimeScope())
             {
                 var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-                await store.PostAsync<T>(toBot, MakeRoot, token);
+                await store.PostAsync(toBot, MakeRoot, token);
 
                 var botToUser = scope.Resolve<SendLastInline_BotToUser>();
                 return botToUser.ToUser;

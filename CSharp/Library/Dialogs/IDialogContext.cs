@@ -145,21 +145,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// <summary>
     /// Methods to send a message from the user to the bot.
     /// </summary>
-    public interface IUserToBot
+    public interface IPostToBot
     {
         /// <summary>
-        /// Post a message to the bot.
+        /// Post an item (e.g. message or other external event) to the bot.
         /// </summary>
-        /// <param name="message">The message for the bot.</param>
+        /// <param name="item">The item for the bot.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
     /// Additional internal methods to drive the execution of the dialog context.
     /// </summary>
-    public interface IDialogContextInternal : IDialogContext, IUserToBot
+    public interface IDialogContextInternal : IDialogContext, IPostToBot
     {
         /// <summary>
         /// Poll the dialog stack for any work to be done.

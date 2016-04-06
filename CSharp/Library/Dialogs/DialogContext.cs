@@ -176,9 +176,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Wait<Message>(ToRest(resume));
         }
 
-        async Task IUserToBot.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken cancellationToken)
         {
-            this.fiber.Post(message);
+            this.fiber.Post(item);
             await this.fiber.PollAsync();
         }
 

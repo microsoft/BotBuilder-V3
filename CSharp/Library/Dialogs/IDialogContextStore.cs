@@ -68,12 +68,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Load or create the dialog context from the store.
         /// </summary>
-        /// <typeparam name="T">The type of the root dialog.</typeparam>
+        /// <typeparam name="R">The type of the root dialog.</typeparam>
         /// <param name="store">The dialog context store.</param>
         /// <param name="MakeRoot">The factory method for the root dialog.</param>
         /// <param name="token">An optional cancellation token.</param>
         /// <returns>A task representing the dialog context load operation.</returns>
-        public static async Task<IDialogContextInternal> LoadAsync<T>(this IDialogContextStore store, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task<IDialogContextInternal> LoadAsync<R>(this IDialogContextStore store, Func<IDialog<R>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             IDialogContextInternal context;
             if (!store.TryLoad(out context))
@@ -90,31 +90,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Poll the dialog context for any work to be done.
         /// </summary>
-        /// <typeparam name="T">The type of the root dialog.</typeparam>
+        /// <typeparam name="R">The type of the root dialog.</typeparam>
         /// <param name="store">The dialog context store.</param>
         /// <param name="MakeRoot">The factory method for the root dialog.</param>
         /// <param name="token">An optional cancellation token.</param>
         /// <returns>A task representing the poll operation.</returns>
-        public static async Task PollAsync<T>(this IDialogContextStore store, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task PollAsync<R>(this IDialogContextStore store, Func<IDialog<R>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var context = await LoadAsync(store, MakeRoot);
             store.Save(context);
         }
 
         /// <summary>
-        /// Post a message to the dialog context and poll the dialog context for any work to be done.
+        /// Post an item to the dialog context and poll the dialog context for any work to be done.
         /// </summary>
-        /// <typeparam name="T">The type of the root dialog.</typeparam>
+        /// <typeparam name="R">The type of the root dialog.</typeparam>
+        /// <typeparam name="T">The type of the item.</typeparam>
         /// <param name="store">The dialog context store.</param>
-        /// <param name="toBot">The message sent to the bot.</param>
+        /// <param name="toBot">The item to be sent to the bot.</param>
         /// <param name="MakeRoot">The factory method for the root dialog.</param>
         /// <param name="token">An optional cancellation token.</param>
         /// <returns>A task representing the post operation.</returns>
-        public static async Task PostAsync<T>(this IDialogContextStore store, Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task PostAsync<T, R>(this IDialogContextStore store, T toBot, Func<IDialog<R>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var context = await LoadAsync(store, MakeRoot);
-            IUserToBot userToBot = context;
-            await userToBot.PostAsync(toBot, token);
+            IPostToBot postToBot = context;
+            await postToBot.PostAsync(toBot, token);
             store.Save(context);
         }
     }
