@@ -422,7 +422,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L812">botbuilder.d.ts:812</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L831">botbuilder.d.ts:831</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -491,7 +491,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L833">botbuilder.d.ts:833</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L852">botbuilder.d.ts:852</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -563,13 +563,96 @@
 								<a name="enddialog" class="tsd-anchor"></a>
 								<h3>end<wbr>Dialog</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L801">botbuilder.d.ts:801</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L804">botbuilder.d.ts:804</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Ends the current dialog and sends a simple text message to the user. The dialogs parent will be resumed after the message is sent.
+													The message will be localized using the sessions configured ILocalizer and if arguments are passed in the message will be
+												formatted using sprintf-js. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>msg: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text of the message to send.</p>
+												</div>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Optional arguments used to format the final output string. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L809">botbuilder.d.ts:809</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Ends the current dialog and sends a message to the user. The dialogs parent will be resumed after the message is sent.</p>
+											</div>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>msg: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Message to send.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L815">botbuilder.d.ts:815</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Ends the current dialog and returns a string, typically a message, to the parent dialog. The dialogs parent will be resumed.</p>
+											</div>
+										</div>
+										<h4 class="tsd-type-parameters-title">Type parameters</h4>
+										<ul class="tsd-type-parameters">
+											<li>
+												<h4>T</h4>
+											</li>
+										</ul>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>response: <span class="tsd-signature-type">string</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<p>Text to return to caller.</p>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L820">botbuilder.d.ts:820</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -697,7 +780,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L824">botbuilder.d.ts:824</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L843">botbuilder.d.ts:843</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -871,7 +954,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L819">botbuilder.d.ts:819</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L838">botbuilder.d.ts:838</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
