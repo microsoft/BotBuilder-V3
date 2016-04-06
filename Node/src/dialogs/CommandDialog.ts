@@ -80,7 +80,9 @@ export class CommandDialog extends dialog.Dialog {
                     if (matches) {
                         var length = 0;
                         matches.forEach((value) => {
-                            length += value.length;
+                            if(value) {
+                                length += value.length;
+                            }
                         });
                         score = length / text.length;
                     }
