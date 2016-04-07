@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Luis
             }
             catch (JsonException ex)
             {
-                throw new Exception("Unable to deserialize the LUIS response.", ex);
+                throw new ArgumentException("Unable to deserialize the LUIS response.", ex);
             }
         }
     }

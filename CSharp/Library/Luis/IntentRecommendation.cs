@@ -11,7 +11,9 @@ using Microsoft.Rest.Serialization;
 
 namespace Microsoft.Bot.Builder.Luis
 {
-    /// <summary>   LUIS intent recommendation. </summary>
+    /// <summary>
+    /// LUIS intent recommendation. Look at https://www.luis.ai/Help for more information.
+    /// </summary>
     public partial class IntentRecommendation
     {
         /// <summary>
@@ -22,6 +24,8 @@ namespace Microsoft.Bot.Builder.Luis
         /// <summary>
         /// Initializes a new instance of the IntentRecommendation class.
         /// </summary>
+        /// <param name="intent"> The LUIS intent.</param>
+        /// <param name="score"> The score for this LUIS intent</param>
         public IntentRecommendation(string intent = default(string), double? score = default(double?))
         {
             Intent = intent;
@@ -29,11 +33,13 @@ namespace Microsoft.Bot.Builder.Luis
         }
 
         /// <summary>
+        /// The LUIS intent detected by LUIS service in response to a query.
         /// </summary>
         [JsonProperty(PropertyName = "intent")]
         public string Intent { get; set; }
 
         /// <summary>
+        /// The score for the detected intent.
         /// </summary>
         [JsonProperty(PropertyName = "score")]
         public double? Score { get; set; }

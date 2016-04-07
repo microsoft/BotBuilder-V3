@@ -12,7 +12,9 @@ using Microsoft.Rest.Serialization;
 namespace Microsoft.Bot.Builder.Luis
 {
     #region Documentation
-    /// <summary>   Luis entity recommendation. </summary>
+    /// <summary>
+    /// Luis entity recommendation. Look at https://www.luis.ai/Help for more information.
+    /// </summary>
     #endregion
     public partial class EntityRecommendation
     {
@@ -24,6 +26,13 @@ namespace Microsoft.Bot.Builder.Luis
         /// <summary>
         /// Initializes a new instance of the EntityRecommendation class.
         /// </summary>
+        /// <param name="role"> Role of the entity. </param>
+        /// <param name="entity"> The entity. </param>
+        /// <param name="type"> The type of the entity. </param>
+        /// <param name="startIndex"> Start index of the entity. </param>
+        /// <param name="endIndex"> End index of the entity. </param>
+        /// <param name="score"> Score of the entity. </param>
+        /// <param name="resolution"> Resolution for the entity. <see cref="Resolution"/></param>
         public EntityRecommendation(string role = default(string), string entity = default(string), string type = default(string), int? startIndex = default(int?), int? endIndex = default(int?), double? score = default(double?), IDictionary<string, string> resolution = default(IDictionary<string, string>))
         {
             Role = role;
@@ -36,36 +45,44 @@ namespace Microsoft.Bot.Builder.Luis
         }
 
         /// <summary>
+        /// Role of the entity
         /// </summary>
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
 
         /// <summary>
+        /// Entity extracted by LUIS
         /// </summary>
         [JsonProperty(PropertyName = "entity")]
         public string Entity { get; set; }
 
         /// <summary>
+        /// Type of the Entity
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
         /// <summary>
+        /// Start index of the entity in the LUIS query string
         /// </summary>
         [JsonProperty(PropertyName = "startIndex")]
         public int? StartIndex { get; set; }
 
         /// <summary>
+        /// End index of the entity in the LUIS query string
         /// </summary>
         [JsonProperty(PropertyName = "endIndex")]
         public int? EndIndex { get; set; }
 
         /// <summary>
+        /// Score assigned by LUIS to detected entity
         /// </summary>
         [JsonProperty(PropertyName = "score")]
         public double? Score { get; set; }
 
         /// <summary>
+        /// A machine readable dictionary with more information about the entity
+        /// Look at builtin.datetime for an example in the https://www.luis.ai/Help#PreBuiltEntities
         /// </summary>
         [JsonProperty(PropertyName = "resolution")]
         public IDictionary<string, string> Resolution { get; set; }
