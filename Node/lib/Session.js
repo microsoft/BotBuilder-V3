@@ -139,12 +139,12 @@ var Session = (function (_super) {
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {
+            var cur = ss.callstack[ss.callstack.length - 1];
+            this.dialogData = cur.state;
             if (m) {
                 this.send(m);
             }
-            var cur = ss.callstack[ss.callstack.length - 1];
             var d = this.dialogs.getDialog(cur.id);
-            this.dialogData = cur.state;
             d.dialogResumed(this, r);
         }
         else {
