@@ -86,19 +86,19 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             EntityRecommendation title;
             if (! result.TryFindEntity(Entity_Alarm_Title, out title))
             {
-                title = new EntityRecommendation(Entity_Alarm_Title) { Entity = DefaultAlarmWhat };
+                title = new EntityRecommendation(type: Entity_Alarm_Title) { Entity = DefaultAlarmWhat };
             }
 
             EntityRecommendation date;
             if (! result.TryFindEntity(Entity_Alarm_Start_Date, out date))
             {
-                date = new EntityRecommendation() { Entity = string.Empty };
+                date = new EntityRecommendation(type: Entity_Alarm_Start_Date) { Entity = string.Empty };
             }
 
             EntityRecommendation time;
             if (!result.TryFindEntity(Entity_Alarm_Start_Time, out time))
             {
-                time = new EntityRecommendation() { Entity = string.Empty };
+                time = new EntityRecommendation(type: Entity_Alarm_Start_Time) { Entity = string.Empty };
             }
 
             var parser = new Chronic.Parser();

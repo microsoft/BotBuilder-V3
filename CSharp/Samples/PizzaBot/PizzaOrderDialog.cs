@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                     }
                     if (kind != null)
                     {
-                        entities.Add(new EntityRecommendation("Kind") { Entity = kind });
+                        entities.Add(new EntityRecommendation(type: "Kind") { Entity = kind });
                         break;
                     }
                 }
