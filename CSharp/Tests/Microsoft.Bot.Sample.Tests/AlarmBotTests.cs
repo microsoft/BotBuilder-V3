@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Sample.Tests
 
         public static EntityRecommendation EntityFor(string type, string entity)
         {
-            return new EntityRecommendation(type) { Entity = entity };
+            return new EntityRecommendation(type: type) { Entity = entity };
         }
 
         public static void SetupLuis(
