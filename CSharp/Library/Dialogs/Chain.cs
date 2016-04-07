@@ -104,6 +104,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, project the result into a new <see cref="IDialog{R}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
+        /// <typeparam name="R">The type of the projected dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="selector">The projection function from <typeparamref name="T"/> to <typeparamref name="R"/>.</param>
+        /// <returns>The result <see cref="IDialog{R}"/>.</returns>
+        public static IDialog<R> Select<T, R>(this IDialog<T> antecedent, Func<T, R> selector)
+        {
+            return new SelectDialog<T, R>(antecedent, selector);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -210,6 +223,29 @@ namespace Microsoft.Bot.Builder.Dialogs
             private async Task DoneAsync(IDialogContext context, IAwaitable<R> result)
             {
                 context.Done(await result);
+            }
+        }
+
+        // http://blogs.msdn.com/b/pfxteam/archive/2013/04/03/tasks-monads-and-linq.aspx
+        [Serializable]
+        private sealed class SelectDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<T, R> Selector;
+            public SelectDialog(IDialog<T> antecedent, Func<T, R> selector)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Selector, nameof(selector), selector);
+            }
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, AfterAntecedent);
+            }
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                var itemT = await result;
+                var itemR = this.Selector(itemT);
+                context.Done(itemR);
             }
         }
 

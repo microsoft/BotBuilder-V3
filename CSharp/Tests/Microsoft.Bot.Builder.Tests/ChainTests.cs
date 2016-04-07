@@ -50,7 +50,31 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class ChainTests
     {
-        public static IDialog<string> MakeQuery()
+        public static IContainer Build()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new DialogModule());
+            builder.RegisterModule(new ReflectionSurrogateModule());
+            builder
+                .RegisterType<BotToUserQueue>()
+                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .AsSelf()
+                .As<IBotToUser>()
+                .SingleInstance();
+
+            return builder.Build();
+        }
+
+        public static void AssertQueryText(string expectedText, IContainer container)
+        {
+            var queue = container.Resolve<BotToUserQueue>();
+            // last message is re-prompt, next-to-last is result of query expression
+            var toUser = queue.Messages.Reverse().ElementAt(1);
+            var actualText = toUser.Text;
+            Assert.AreEqual(expectedText, actualText);
+        }
+
+        public static IDialog<string> MakeSelectManyQuery()
         {
             var prompts = new[] { "p1", "p2", "p3" };
 
@@ -74,16 +98,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var words = new [] { "hello", "world", "!" };
 
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule());
-            builder.RegisterModule(new ReflectionSurrogateModule());
-            builder
-                .RegisterType<BotToUserQueue>()
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
-                .AsSelf()
-                .As<IBotToUser>()
-                .SingleInstance();
-            using (var container = builder.Build())
+            using (var container = Build())
             {
                 foreach (var word in words)
                 {
@@ -94,15 +109,49 @@ namespace Microsoft.Bot.Builder.Tests
                         // if we inline the query from MakeQuery into this method, and we use an anonymous method to return that query as MakeRoot
                         // then because in C# all anonymous functions in the same method capture all variables in that method, query will be captured
                         // with the linq anonymous methods, and the serializer gets confused trying to deserialize it all.
-                        await store.PostAsync(toBot, MakeQuery);
+                        await store.PostAsync(toBot, MakeSelectManyQuery);
                     }
                 }
 
-                var queue = container.Resolve<BotToUserQueue>();
-                // last message is re-prompt, next-to-last is result of query expression
-                var toUser = queue.Messages.Reverse().ElementAt(1);
                 var expected = string.Join(" ", words);
-                Assert.AreEqual(expected, toUser.Text);
+                AssertQueryText(expected, container);
+            }
+        }
+
+        public static IDialog<string> MakeSelectQuery()
+        {
+            const string Prompt = "p1";
+
+            var query = from x in new PromptDialog.PromptString(Prompt, Prompt, attempts: 1)
+                        let w = new string(x.Reverse().ToArray())
+                        select w;
+
+            query = query.PostToUser();
+
+            return query;
+        }
+
+        [TestMethod]
+        public async Task Select()
+        {
+            const string Phrase = "hello world";
+
+            using (var container = Build())
+            {
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var toBot = new Message()
+                    {
+                        ConversationId = Guid.NewGuid().ToString(),
+                        Text = Phrase
+                    };
+
+                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    await store.PostAsync(toBot, MakeSelectQuery);
+                }
+
+                var expected = new string(Phrase.Reverse().ToArray());
+                AssertQueryText(expected, container);
             }
         }
     }
