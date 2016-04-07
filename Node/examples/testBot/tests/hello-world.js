@@ -1,6 +1,4 @@
 var builder = require('../../../');
-var prompts = require('../prompts');
-var tests = require('../tests/index');
 
 module.exports = {
     description: "Says 'Hello World'",

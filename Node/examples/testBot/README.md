@@ -6,8 +6,6 @@ New tests can be added to the bot by simply adding a new my-test.js file to the 
 
 ```JavaScript
 var builder = require('../../../');
-var prompts = require('../prompts');
-var tests = require('../tests/index');
 
 module.exports = {
     description: "Says 'Hello World'",
