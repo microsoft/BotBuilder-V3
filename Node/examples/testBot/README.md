@@ -31,8 +31,7 @@ To run the bot from a console window execute "node textBot.js" and type “/help
 ## BotConnectorBot Usage
 To run the bot using the Bot Framework Emulator open a console window and execute:
 
-    set appId=YourAppId
-    set appSecret=YourAppSecret
+    set EMULATOR_PORT=9000
     node botConnectorBot.js
 
 Then launch the Bot Framework Emulator, connect to http://localhost:8080/v1/messages, and say "/help".

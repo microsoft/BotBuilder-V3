@@ -16,7 +16,7 @@ module.exports = {
 };
 
 function addDialogs(bot, addressConverter) {
-        bot.add('/run-async', [
+    bot.add('/run-async', [
         function (session, args, next) {
             // See if the user specified a valid test to run by name.
             var match;

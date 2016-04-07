@@ -26,6 +26,7 @@ function addDialogs(bot, addressConverter) {
         .matches('^\/list', '/list')
         .matches('^\/run-async', '/run-async')
         .matches('^\/run', '/run')
+        .matches('^\/quit', builder.DialogAction.endDialog(prompts.goodbye))
         .onDefault(builder.DialogAction.send(prompts.unknown)));
     
     // Add dialogs for commands

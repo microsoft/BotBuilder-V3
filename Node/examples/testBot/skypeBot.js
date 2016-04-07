@@ -22,9 +22,9 @@ const botService = new skype.BotService({
 // Create bot and add dialogs
 var bot = new builder.SkypeBot(botService);
 index.addDialogs(bot, function (message) {
+    // Compose a return address that's the sender of the message
     return {
-        to: message.from,
-        from: message.to    
+        to: message.from    
     };
 });
 
