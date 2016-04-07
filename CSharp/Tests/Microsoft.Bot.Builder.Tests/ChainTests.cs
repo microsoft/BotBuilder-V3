@@ -68,9 +68,9 @@ namespace Microsoft.Bot.Builder.Tests
         public static void AssertQueryText(string expectedText, IContainer container)
         {
             var queue = container.Resolve<BotToUserQueue>();
+            var texts = queue.Messages.Select(m => m.Text).ToArray();
             // last message is re-prompt, next-to-last is result of query expression
-            var toUser = queue.Messages.Reverse().ElementAt(1);
-            var actualText = toUser.Text;
+            var actualText = texts.Reverse().ElementAt(1);
             Assert.AreEqual(expectedText, actualText);
         }
 
@@ -151,6 +151,40 @@ namespace Microsoft.Bot.Builder.Tests
                 }
 
                 var expected = new string(Phrase.Reverse().ToArray());
+                AssertQueryText(expected, container);
+            }
+        }
+
+        public static IDialog<string> MakeUnwrapQuery()
+        {
+            const string Prompt1 = "p1";
+            const string Prompt2 = "p2";
+            return new PromptDialog.PromptString(Prompt1, Prompt1, attempts: 1).Select(p => new PromptDialog.PromptString(Prompt2, Prompt2, attempts: 1)).Unwrap().PostToUser();
+        }
+
+        [TestMethod]
+        public async Task Unwrap()
+        {
+            var toBot = new Message()
+            {
+                ConversationId = Guid.NewGuid().ToString()
+            };
+
+            var words = new[] { "hello", "world" };
+
+            using (var container = Build())
+            {
+                foreach (var word in words)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, MakeUnwrapQuery);
+                    }
+                }
+
+                var expected = words.Last();
                 AssertQueryText(expected, container);
             }
         }

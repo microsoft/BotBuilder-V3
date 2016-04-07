@@ -117,6 +117,17 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// When the antecedent <see cref="IDialog{IDialog{T}}"/> has completed, unwrap the result into a new <see cref="IDialog{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{IDialog{T}}"/>.</param>
+        /// <returns>The result <see cref="IDialog{T}"/>.</returns>
+        public static IDialog<T> Unwrap<T>(this IDialog<IDialog<T>> antecedent)
+        {
+            return new UnwrapDialog<T>(antecedent);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -226,7 +237,6 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        // http://blogs.msdn.com/b/pfxteam/archive/2013/04/03/tasks-monads-and-linq.aspx
         [Serializable]
         private sealed class SelectDialog<T, R> : IDialog<R>
         {
@@ -246,6 +256,30 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var itemT = await result;
                 var itemR = this.Selector(itemT);
                 context.Done(itemR);
+            }
+        }
+
+        [Serializable]
+        private sealed class UnwrapDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<IDialog<T>> Antecedent;
+            public UnwrapDialog(IDialog<IDialog<T>> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<IDialog<T>>(this.Antecedent, AfterAntecedent);
+            }
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<IDialog<T>> result)
+            {
+                var dialogT = await result;
+                context.Call<T>(dialogT, AfterDialog);
+            }
+            private async Task AfterDialog(IDialogContext context, IAwaitable<T> result)
+            {
+                var itemT = await result;
+                context.Done(itemT);
             }
         }
 
