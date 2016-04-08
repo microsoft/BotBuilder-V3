@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.7.2
+title: BotBuilder v0.8.0
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -21,6 +21,14 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v0.8.0
+* Added minSendDelay option that slows down the rate at which a bot sends replies to the user. The default is 1 sec but can be set using an option passed to the bot. See TextBot.js unit test for an example of that.
+* Added support to SlackBot for sending an isTyping indicator. This goes along with the message slow down.
+* Added a new Message builder class to simplify returning messages with attachments. See the send-attachment.js test in TestBot for an example of using it.
+* Added a new DialogAction.validatedPrompt() method to simplify creating custom prompts with validation logic. See basics-validatedPrompt example for a sample of how to use it.
+* SlackBot didn't support returning image attachments so I added that and fixed a couple of other issues with the SlackBot. 
+* Updated the LKG build, unit tests, and package.json version.
+  
 ### v0.7.2
 * Fixed bugs preventing BotConnectorBot originated messages from working. Also resolved issues with sending multiple messages from a bot.
 * Fixed bugs preventing SlackBot originated messages from working.
