@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.7.1
+title: BotBuilder v0.7.2
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
