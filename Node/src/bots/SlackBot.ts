@@ -91,9 +91,7 @@ export interface ISlackBotOptions {
 }
 
 export interface ISlackBeginDialogAddress {
-    team?: string;
-    user?: string;
-    channel?: string;
+    channel: string;
     text?: string;
 }
 
@@ -179,7 +177,7 @@ export class SlackBot extends collection.DialogCollection {
 
     public beginDialog(address: ISlackBeginDialogAddress, dialogId: string, dialogArgs?: any): this {
         // Validate args
-        if (!address.user && !address.channel) {
+        if (!address.channel) {
             throw new Error('Invalid address passed to SlackBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
@@ -193,15 +191,17 @@ export class SlackBot extends collection.DialogCollection {
 
     private dispatchMessage(bot: Bot, msg: ISlackMessage, dialogId: string, dialogArgs: any, smartState?: ISessionState) {
         var onError = (err: Error) => {
-            this.emit('error', err, msg);
+            if (err) {
+                this.emit('error', err, msg);
+            }
         };
 
         // Initialize session
         var ses = new SlackSession({
             localizer: this.options.localizer,
             dialogs: this,
-            dialogId: this.options.defaultDialogId,
-            dialogArgs: this.options.defaultDialogArgs
+            dialogId: dialogId || this.options.defaultDialogId,
+            dialogArgs: dialogArgs || this.options.defaultDialogArgs
         });
         ses.on('send', (reply: IMessage) => {
             // Clone data fields & store session state
@@ -219,7 +219,7 @@ export class SlackBot extends collection.DialogCollection {
                     var slackReply = this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
-                        if (slackReply.user && slackReply.user != msg.user) {
+                        if (slackReply.channel && slackReply.channel != msg.channel) {
                             this.emit('send', slackReply);
                             bot.say(slackReply, onError);
                         } else {
@@ -227,7 +227,9 @@ export class SlackBot extends collection.DialogCollection {
                             bot.reply(msg, slackReply.text);
                         }
                     } else {
-                        slackReply.user = ses.message.to.address;
+                        if (!slackReply.channel) {
+                            slackReply.channel = msg.channel;
+                        }
                         this.emit('send', slackReply);
                         this.bot.say(slackReply, onError);
                     }
