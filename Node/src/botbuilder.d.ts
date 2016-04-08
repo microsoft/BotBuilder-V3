@@ -1051,6 +1051,8 @@ export class DialogAction {
     /**
      * Returns a closer that wraps a built-in prompt with validation logic. The closure should be used
      * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
+     * @param promptType Type of built-in prompt to validate.
+     * @param validator Function used to validate the response. Should return true if the response is valid.
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
