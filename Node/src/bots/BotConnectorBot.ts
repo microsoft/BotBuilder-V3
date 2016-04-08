@@ -49,6 +49,7 @@ export interface IBotConnectorOptions {
     conversationStore?: storage.IStorage;
     perUserInConversationStore?: storage.IStorage;
     localizer?: ILocalizer;
+    minSendDelay?: number;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     groupWelcomeMessage?: string;
@@ -93,7 +94,8 @@ export class BotConnectorBot extends collection.DialogCollection {
         endpoint: process.env['endpoint'] || 'https://api.botframework.com',
         appId: process.env['appId'] || '',
         appSecret: process.env['appSecret'] || '',
-        defaultDialogId: '/'
+        defaultDialogId: '/',
+        minSendDelay: 1000
     }
 
     constructor(options?: IBotConnectorOptions) {
@@ -226,6 +228,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                 // Initialize session
                 var ses = new BotConnectorSession({
                     localizer: this.options.localizer,
+                    minSendDelay: this.options.minSendDelay,
                     dialogs: this,
                     dialogId: dialogId,
                     dialogArgs: dialogArgs

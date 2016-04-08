@@ -416,6 +416,9 @@ export interface ISessionArgs {
 
     /** Optional localizer to use when localizing the bots responses. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot.  */
+    minSendDelay?: number;
 }
 
 /** Signature of error events fired from a session. */
@@ -484,6 +487,9 @@ export interface IBotConnectorOptions {
     
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -514,6 +520,9 @@ export interface ISkypeBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -544,6 +553,9 @@ export interface ISlackBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 2000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -553,6 +565,9 @@ export interface ISlackBotOptions {
     
     /** Maximum time (in milliseconds) that a bot continues to recieve ambient messages after its been @mentioned. Default 5 minutes.  */
     ambientMentionDuration?: number;
+    
+    /** Optional flag that if true will cause a 'typing' message to be sent when the bot recieves a message. */
+    sendIsType?: boolean;
 }
 
 /** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
@@ -583,6 +598,9 @@ export interface ITextBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -1635,6 +1653,7 @@ export class SlackBot extends DialogCollection {
      * - reply: A reply to an existing message was sent. [IBotMessageEvent]
      * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
      * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
+     * - typing: The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent]
      * - message_received: The bot received a message. [IBotMessageEvent]
      * - bot_channel_join: The bot has joined a channel. [IBotMessageEvent]
      * - user_channel_join: A user has joined a channel. [IBotMessageEvent]
@@ -1691,6 +1710,11 @@ export class SlackSession extends Session {
 
     /** Data that's persisted on a per channel basis. */
     channelData: any;
+    
+    /**
+     * Causes the bot to send a 'typing' message indicating its busy.
+     */
+    isTyping(): void;
     
     /**
      * Escapes &, <, and > characters in a text string. These characters are reserved in Slack for 

@@ -88,6 +88,8 @@ export interface ISlackBotOptions {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     ambientMentionDuration?: number;
+    minSendDelay?: number;
+    sendIsTyping?: boolean;
 }
 
 export interface ISlackBeginDialogAddress {
@@ -99,7 +101,9 @@ export class SlackBot extends collection.DialogCollection {
     private options: ISlackBotOptions = {
         maxSessionAge: 14400000,        // <-- default max session age of 4 hours
         defaultDialogId: '/',
-        ambientMentionDuration: 300000  // <-- default duration of 5 minutes
+        ambientMentionDuration: 300000, // <-- default duration of 5 minutes
+        minSendDelay: 2000,
+        sendIsTyping: true
     };
     
     constructor(private controller: BotKitController, private bot: Bot, options?: ISlackBotOptions) {
@@ -199,6 +203,7 @@ export class SlackBot extends collection.DialogCollection {
         // Initialize session
         var ses = new SlackSession({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId || this.options.defaultDialogId,
             dialogArgs: dialogArgs || this.options.defaultDialogArgs
@@ -242,6 +247,13 @@ export class SlackBot extends collection.DialogCollection {
         ses.on('quit', () => {
             this.emit('quit', msg);
         });
+        ses.on('typing', () => {
+           this.emit('typing', msg);
+           this.bot.say(<any>{ id: 1, type: 'typing', channel: msg.channel }, onError); 
+        });
+        
+        // Send initial typing indicator
+        this.bot.say(<any>{ id: 1, type: 'typing', channel: msg.channel }, onError); 
 
         // Load data from storage
         var sessionState: ISessionState;
@@ -358,6 +370,10 @@ export class SlackBot extends collection.DialogCollection {
 export class SlackSession extends session.Session {
     public teamData: any;
     public channelData: any;
+    
+    public isTyping(): void {
+        this.emit('typing');
+    }
 
     public escapeText(text: string): string {
         if (text) {

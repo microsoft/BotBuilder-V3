@@ -42,15 +42,21 @@ export interface ISessionArgs {
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
+    minSendDelay?: number;
 }
 
 export class Session extends events.EventEmitter implements ISession {
     private msgSent = false;
     private _isReset = false;
+    private lastSendTime = new Date().getTime();
+    private sendQueue: { event: string, msg: IMessage; }[] = [];
 
     constructor(protected args: ISessionArgs) {
         super();
         this.dialogs = args.dialogs;
+        if (typeof this.args.minSendDelay !== 'number') {
+            this.args.minSendDelay = 1000;  // 1 sec delay
+        }
     }
 
     public dispatch(sessionState: ISessionState, message: IMessage): ISession {
@@ -120,9 +126,8 @@ export class Session extends events.EventEmitter implements ISession {
         }
 
         // Compose message
-        this.msgSent = true;
         var message: IMessage = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
-        this.emit('send', message);
+        this.delayedEmit('send', message);
         return this;
     }
     
@@ -199,7 +204,7 @@ export class Session extends events.EventEmitter implements ISession {
             if (r.error) {
                 this.emit('error', r.error);
             } else {
-                this.emit('quit');
+                this.delayedEmit('quit');
             }
         }
         return this;
@@ -271,6 +276,34 @@ export class Session extends events.EventEmitter implements ISession {
             }
         }
         return true;
+    }
+
+    /** Queues an event to be sent for the session. */    
+    private delayedEmit(event: string, message?: IMessage): void {
+        var now = new Date().getTime();
+        var delaySend = () => {
+            setTimeout(() => {
+                var entry = this.sendQueue.shift();
+                this.lastSendTime = now = new Date().getTime();
+                this.emit(entry.event, entry.msg);
+                if (this.sendQueue.length > 0) {
+                    delaySend();
+                }
+            }, this.args.minSendDelay - (now - this.lastSendTime));  
+        };
+        
+        if (this.sendQueue.length == 0) {
+            this.msgSent = true;
+            if ((now - this.lastSendTime) >= this.args.minSendDelay) {
+                this.lastSendTime = now;
+                this.emit(event, message);
+            } else {
+                this.sendQueue.push({ event: event, msg: message });
+                delaySend();
+            }
+        } else {
+            this.sendQueue.push({ event: event, msg: message });
+        }
     }
 }
 
