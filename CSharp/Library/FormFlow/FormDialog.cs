@@ -650,7 +650,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var active = (from istep in _form.Steps
                                           where istep.Type == StepType.Field && istep.Active(state)
                                           select istep.Field.FieldDescription);
-                            var activeList = Language.BuildList(active, navigation.Annotation.Separator, navigation.Annotation.LastSeparator);
+                            var activeList = Language.BuildList(active, navigation.Annotation.ChoiceSeparator, navigation.Annotation.ChoiceLastSeparator);
                             builder.Append("* ");
                             builder.Append(navigation.Prompt(state, "", activeList));
                             feedback = step.Help(state, form, builder.ToString());

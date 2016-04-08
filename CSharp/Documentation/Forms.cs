@@ -13,6 +13,9 @@
     /// [EntityRecommendation.Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity 
     /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog 
     /// [AllowDefault]: @ref Advanced.TemplateBaseAttribute.AllowDefault 
+    /// [ChoiceCase]: @ref Advanvced.TemplateBaseAttribute.ChoiceCase
+    /// [ChoiceLastSeparator]: @ref Advanced.TemplateBaseAttribute.ChoiceLastSeparator
+    /// [ChoiceSeparator]: @ref Advanced.TemplateBaseAttribtue.ChoiceSeparator
     /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat 
     /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle 
     /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback 
@@ -414,7 +417,7 @@
     /// ~~~{.txt}
     /// What kind of sandwich would you like?
     /// > ?
-    /// * You are filling in the sandwich field.Possible responses:
+    /// * You are filling in the sandwich field. Possible responses:
     /// * You can enter in any words from the descriptions. (BLT, Black Forest Ham, Buffalo Chicken, Chicken And Bacon Ranch Melt, Cold Cut Combo, Meatball Marinara, Over Roasted Chicken, Roast Beef, Rotisserie Style Chicken, Spicy Italian, Steak And Cheese, Sweet Onion Teriyaki, Tuna, Turkey Breast, and Veggie)
     /// * Back: Go back to the previous question.
     /// * Help: Show the kinds of responses you can enter.
@@ -720,12 +723,15 @@
     /// Usage | Description
     /// ------|------------
     /// [AllowDefault] | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    /// [ChoiceFormat] | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    /// [ChoiceCase] | When prcoessing choices for {\|\|} controls case normalization for each choice.
+    /// [ChoiceFormat] | When processing choices for {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    /// [ChoiceLastSeparator] | When inline choice lists are constructed for {\|\|} provides the separator before the last choice.
+    /// [ChoiceSeparator] | When inline choice lists are constructed for {\|\|} provides the separaotr before every choice except the last.
     /// [ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
     /// [Feedback] | For [Prompt] only controls feedback after user entry.
     /// [FieldCase] | Controls case normalization when displaying a field description.
-    /// [LastSeparator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
-    /// [Separator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
+    /// [LastSeparator] | When lists are constructed for {[]} provides the separator before the last item.
+    /// [Separator] | When lists are constructed for {[]} provides the separator before every item except the last.
     /// [ValueCase] | Controls case normalization when displaying a field value.
     /// 
 }

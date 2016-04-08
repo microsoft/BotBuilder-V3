@@ -108,6 +108,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             if (noNumbers)
             {
                 form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                form.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
+                form.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
             }
             else
             {
