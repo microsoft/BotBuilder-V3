@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,19 +43,42 @@ namespace Microsoft.Bot.Builder.Luis
     /// <summary>
     /// The result of a LUIS query.
     /// </summary>
-    public class LuisResult
+    public partial class LuisResult
     {
+        /// <summary>
+        /// Initializes a new instance of the LuisResult class.
+        /// </summary>
+        public LuisResult() { }
+
+        /// <summary>
+        /// Initializes a new instance of the LuisResult class.
+        /// </summary>
+        public LuisResult(string query, IList<IntentRecommendation> intents, IList<EntityRecommendation> entities)
+        {
+            Query = query;
+            Intents = intents;
+            Entities = entities;
+        }
+
+        /// <summary>
+        /// The query sent to LUIS.
+        /// </summary>
+        [JsonProperty(PropertyName = "query")]
+        public string Query { get; set; }
+
         /// <summary>
         /// The intents found in the query text.
         /// </summary>
-        public IntentRecommendation[] Intents { get; set; }
+        [JsonProperty(PropertyName = "intents")]
+        public IList<IntentRecommendation> Intents { get; set; }
 
         /// <summary>
         /// The entities found in the query text.
         /// </summary>
-        public EntityRecommendation[] Entities { get; set; }
+        [JsonProperty(PropertyName = "entities")]
+        public IList<EntityRecommendation> Entities { get; set; }
     }
-
+    
     /// <summary>
     /// LUIS extension methods.
     /// </summary>

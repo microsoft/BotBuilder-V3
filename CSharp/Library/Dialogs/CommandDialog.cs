@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> Dialog context. </param>
         /// <param name="message"> Message from the user. </param>
         #endregion
-        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
+        public virtual async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
         {
             var text = (await message).Text;
             Command matched = null;
@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> Dialog context. </param>
         /// <param name="result"> The result retured by the child dialog. </param>
         #endregion
-        public async Task ResultHandler<U>(IDialogContext context, IAwaitable<U> result)
+        public virtual async Task ResultHandler<U>(IDialogContext context, IAwaitable<U> result)
         {
             Delegate handler;
             string commandId;
