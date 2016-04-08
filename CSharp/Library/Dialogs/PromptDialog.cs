@@ -159,7 +159,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             protected override bool TryParse(Message message, out bool result)
             {
-                switch (message.Text)
+                switch (message.Text.Trim().ToLower())
                 {
                     case "y":
                     case "yes":
