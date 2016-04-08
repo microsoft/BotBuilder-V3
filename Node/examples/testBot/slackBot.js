@@ -16,7 +16,6 @@ var slackBot = new builder.SlackBot(controller, bot);
 index.addDialogs(slackBot, function (message) {
     // Compose a return address that's the sender of the message
     return {
-        user: message.channelData.user,
         channel: message.channelData.channel    
     };
 });
