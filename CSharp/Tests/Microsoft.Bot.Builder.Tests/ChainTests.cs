@@ -50,11 +50,14 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class ChainTests
     {
-        public static IContainer Build()
+        public static IContainer Build(bool includeReflection = true)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
-            builder.RegisterModule(new ReflectionSurrogateModule());
+            if (includeReflection)
+            {
+                builder.RegisterModule(new ReflectionSurrogateModule());
+            }
             builder
                 .RegisterType<BotToUserQueue>()
                 .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
@@ -89,7 +92,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task SelectMany()
+        public async Task LinqQuerySyntax_SelectMany()
         {
             var toBot = new Message()
             {
@@ -132,7 +135,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Select()
+        public async Task LinqQuerySyntax_Select()
         {
             const string Phrase = "hello world";
 
@@ -163,7 +166,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Unwrap()
+        public async Task Linq_Unwrap()
         {
             var toBot = new Message()
             {
@@ -185,6 +188,40 @@ namespace Microsoft.Bot.Builder.Tests
                 }
 
                 var expected = words.Last();
+                AssertQueryText(expected, container);
+            }
+        }
+
+        [TestMethod]
+        public async Task LinqQuerySyntax_Without_Reflection_Surrogate()
+        {
+            // no environment capture in closures here
+            var query = from x in new PromptDialog.PromptString("p1", "p1", 1)
+                        from y in new PromptDialog.PromptString("p2", "p2", 1)
+                        select string.Join(" ", x, y);
+
+            query = query.PostToUser();
+
+            var words = new[] { "hello", "world" };
+
+            using (var container = Build(includeReflection: false))
+            {
+                var toBot = new Message()
+                {
+                    ConversationId = Guid.NewGuid().ToString()
+                };
+
+                foreach (var word in words)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, () => query);
+                    }
+                }
+
+                var expected = string.Join(" ", words);
                 AssertQueryText(expected, container);
             }
         }
