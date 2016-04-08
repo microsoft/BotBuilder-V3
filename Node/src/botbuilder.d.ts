@@ -554,7 +554,7 @@ export interface ISlackBotOptions {
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
     
-    /** Optional minimum delay between messages sent to the user from the bot. Default value is 2000. */
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1500. */
     minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
@@ -868,6 +868,47 @@ export class Session {
      * @param args Optional arguments used to format the message text when Text is a template. 
      */
     public createMessage(text: string, args?: any[]): IMessage;
+}
+
+/**
+ * Message builder class that simplifies building reply messages with attachments.
+ */
+export class Message implements IMessage {
+    /**
+     * Sets the messages language.
+     * @param language The language of the message.
+     */
+    setLanguage(language: string): Message;
+    
+    /**
+     * Sets the localized text of the message.
+     * @param session Session object used to localize the message text.
+     * @param text Text or template string for the reply. This will be localized using session.gettext().
+     * @param args Optional arguments used to format the message text when Text is a template.  
+     */
+    setText(session: Session, text: string, ...args: any[]): Message;
+
+    /**
+     * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
+     * include the count by replacing %d in the string with the count.
+     * @param session Session object used to localize the message text.
+     * @param msg Singular form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param msg_plural Plural form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     */
+    setNText(session: Session, msg: string, msg_plural: string, count: number): Message;
+    
+    /**
+     * Adds an attachment to the message.
+     * @param attachment The attachment to add.  
+     */    
+    addAttachment(attachment: IAttachment): Message;
+    
+    /**
+     * Sets the channelData for the message.
+     * @param data The channel data to assign.
+     */
+    setChannelData(data: any): Message;
 }
 
 /**

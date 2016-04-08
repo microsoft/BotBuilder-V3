@@ -50,6 +50,24 @@ interface ISlackMessage {
 }
 
 interface ISlackAttachment {
+    fallback: string;
+    color?: string;
+    pretext?: string;
+    author_name?: string;
+    author_link?: string;
+    author_icon?: string;
+    title?: string;
+    title_link?: string;
+    text?: string;
+    field?: ISlackAttachmentField[];
+    image_url?: string;
+    thumb_url?: string;    
+}
+
+interface ISlackAttachmentField {
+    title: string;
+    value: string;
+    short?: boolean;    
 }
 
 declare class BotKitController  {
@@ -77,7 +95,7 @@ interface IStoredData {
 }
 
 declare class Bot {
-    reply(message: ISlackMessage, text: string): void;
+    reply(message: ISlackMessage, reply: ISlackMessage, cb: (err: Error) => void): void;
     say(message: ISlackMessage, cb: (err: Error) => void): void;
     identifyTeam(cb: (err: Error, teamId: string) => void): void;
 }
@@ -102,7 +120,7 @@ export class SlackBot extends collection.DialogCollection {
         maxSessionAge: 14400000,        // <-- default max session age of 4 hours
         defaultDialogId: '/',
         ambientMentionDuration: 300000, // <-- default duration of 5 minutes
-        minSendDelay: 2000,
+        minSendDelay: 1500,
         sendIsTyping: true
     };
     
@@ -229,7 +247,7 @@ export class SlackBot extends collection.DialogCollection {
                             bot.say(slackReply, onError);
                         } else {
                             this.emit('reply', slackReply);
-                            bot.reply(msg, slackReply.text);
+                            bot.reply(msg, slackReply, onError);
                         }
                     } else {
                         if (!slackReply.channel) {
@@ -342,10 +360,37 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private fromSlackMessage(msg: ISlackMessage): IMessage {
+        // Convert attachments
+        var attachments: IAttachment[] = [];
+        if (msg.attachments) {
+            msg.attachments.forEach((value) => {
+                var contentType = value.image_url ? 'image' : 'text/plain';
+                var a: IAttachment = { contentType: contentType, fallbackText: value.fallback };
+                if (value.image_url) {
+                    a.contentUrl = value.image_url;
+                }
+                if (value.thumb_url) {
+                    a.thumbnailUrl = value.thumb_url;
+                }
+                if (value.text) {
+                    a.text = value.text;
+                }
+                if (value.title) {
+                    a.title = value.title;
+                }
+                if (value.title_link) {
+                    a.titleLink
+                }
+                attachments.push(a);
+            });
+        }
+        
+        // Return message
         return {
             type: msg.type,
             id: msg.ts,
             text: msg.text,
+            attachments: attachments,
             from: {
                 channelId: 'slack',
                 address: msg.user
@@ -356,11 +401,42 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private toSlackMessage(msg: IMessage): ISlackMessage {
+        // Convert attachments
+        var attachments: ISlackAttachment[] = [];
+        if (msg.attachments && !msg.channelData) {
+            msg.attachments.forEach((value) => {
+                var a = <ISlackAttachment>{};
+                if (value.fallbackText) {
+                    a.fallback = value.fallbackText;
+                } else {
+                    a.fallback = value.contentUrl ? value.contentUrl : value.text || '<attachment>';
+                }
+                if (value.contentUrl && /^image/i.test(value.contentType)) {
+                    a.image_url = value.contentUrl;
+                }
+                if (value.thumbnailUrl) {
+                    a.thumb_url = value.thumbnailUrl;
+                }
+                if (value.text) {
+                    a.text = value.text;
+                }
+                if (value.title) {
+                    a.title = value.title;
+                }
+                if (value.titleLink) {
+                    a.title_link = value.titleLink;
+                }
+                attachments.push(a);
+            });
+        }
+        
+        // Return message
         return msg.channelData || {
             event:'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
+            attachments: attachments,
             user: msg.to ? msg.to.address : (msg.from ? msg.from.address : null),
             channel: msg.channelConversationId
         };

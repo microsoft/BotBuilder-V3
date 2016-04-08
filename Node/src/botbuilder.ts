@@ -34,6 +34,7 @@
 import consts = require('./consts');
 import utils = require('./utils');
 import session = require('./Session');
+import message = require('./Message');
 import dialog = require('./dialogs/Dialog');
 import actions = require('./dialogs/DialogAction');
 import collection = require('./dialogs/DialogCollection');
@@ -52,6 +53,7 @@ import text = require('./bots/TextBot');
 declare var exports: any;
 
 exports.Session = session.Session;
+exports.Message = message.Message;
 exports.Dialog = dialog.Dialog;
 exports.ResumeReason = dialog.ResumeReason;
 exports.DialogAction = actions.DialogAction;
