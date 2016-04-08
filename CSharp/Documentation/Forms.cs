@@ -17,6 +17,7 @@
     /// [ChoiceLastSeparator]: @ref Advanced.TemplateBaseAttribute.ChoiceLastSeparator
     /// [ChoiceSeparator]: @ref Advanced.TemplateBaseAttribtue.ChoiceSeparator
     /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat 
+    /// [ChoiceParens]: @ref Advanced.TemplateBaseAttribute.ChoiceParens
     /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle 
     /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback 
     /// [FieldCase]: @ref Advanced.TemplateBaseAttribute.FieldCase 
@@ -726,6 +727,7 @@
     /// [ChoiceCase] | When prcoessing choices for {\|\|} controls case normalization for each choice.
     /// [ChoiceFormat] | When processing choices for {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
     /// [ChoiceLastSeparator] | When inline choice lists are constructed for {\|\|} provides the separator before the last choice.
+    /// [ChoiceParens] | When inline choice lists are constructed for {\|\|} indicates whether or not they are in parentheses.
     /// [ChoiceSeparator] | When inline choice lists are constructed for {\|\|} provides the separaotr before every choice except the last.
     /// [ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
     /// [Feedback] | For [Prompt] only controls feedback after user entry.
