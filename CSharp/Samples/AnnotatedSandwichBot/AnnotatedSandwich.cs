@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.FormFlow;
+﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,11 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<SandwichOrder> BuildForm()
         {
+            CompletionDelegate<SandwichOrder> processOrder = async (context, state) =>
+                           {
+                               await context.PostAsync("We are currently processing your sandwich. We will message you the status");
+                           };
+
             return new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(SandwichOrder.Sandwich))
@@ -114,6 +120,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
                         .AddRemainingFields()
                         .Message("Thanks for ordering a sandwich!")
+                        .OnCompletionAsync(processOrder)
                         .Build();
         }
     };
