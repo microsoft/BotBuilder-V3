@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Releases
-permalink: /builder/node/libraries/latest/
+permalink: /builder/node/libraries/CSharp/latest/
 weight: 560
 parent1: Bot Builder for C#
 ---
