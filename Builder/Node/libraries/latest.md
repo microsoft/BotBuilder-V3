@@ -21,6 +21,11 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v0.7.2
+* Fixed bugs preventing BotConnectorBot originated messages from working. Also resolved issues with sending multiple messages from a bot.
+* Fixed bugs preventing SlackBot originated messages from working.
+* Updated LKG build and package.json version.
+
 ### v0.7.1
 * Fixed a critical bug in Session.endDialog() that was causing Session.dialogData to get corrupted.
 * Updated LKG build and package.json version.
