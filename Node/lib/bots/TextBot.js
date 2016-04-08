@@ -103,8 +103,13 @@ var TextBot = (function (_super) {
             _this.emit('quit', message);
         });
         this.getData(userId, function (err, userData, sessionState) {
-            ses.userData = userData || {};
-            ses.dispatch(newSessionState ? null : sessionState, message);
+            if (!err) {
+                ses.userData = userData || {};
+                ses.dispatch(newSessionState ? null : sessionState, message);
+            }
+            else {
+                _this.emit('error', err, message);
+            }
         });
     };
     TextBot.prototype.getData = function (userId, callback) {

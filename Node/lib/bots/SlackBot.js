@@ -86,7 +86,7 @@ var SlackBot = (function (_super) {
         return this;
     };
     SlackBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
-        if (!address.user && !address.channel) {
+        if (!address.channel) {
             throw new Error('Invalid address passed to SlackBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
@@ -98,13 +98,15 @@ var SlackBot = (function (_super) {
     SlackBot.prototype.dispatchMessage = function (bot, msg, dialogId, dialogArgs, smartState) {
         var _this = this;
         var onError = function (err) {
-            _this.emit('error', err, msg);
+            if (err) {
+                _this.emit('error', err, msg);
+            }
         };
         var ses = new SlackSession({
             localizer: this.options.localizer,
             dialogs: this,
-            dialogId: this.options.defaultDialogId,
-            dialogArgs: this.options.defaultDialogArgs
+            dialogId: dialogId || this.options.defaultDialogId,
+            dialogArgs: dialogArgs || this.options.defaultDialogArgs
         });
         ses.on('send', function (reply) {
             var teamData = ses.teamData && ses.teamData.id ? utils.clone(ses.teamData) : null;
@@ -117,7 +119,7 @@ var SlackBot = (function (_super) {
                 if (reply && (reply.text || reply.channelData)) {
                     var slackReply = _this.toSlackMessage(reply);
                     if (bot) {
-                        if (slackReply.user && slackReply.user != msg.user) {
+                        if (slackReply.channel && slackReply.channel != msg.channel) {
                             _this.emit('send', slackReply);
                             bot.say(slackReply, onError);
                         }
@@ -127,7 +129,9 @@ var SlackBot = (function (_super) {
                         }
                     }
                     else {
-                        slackReply.user = ses.message.to.address;
+                        if (!slackReply.channel) {
+                            slackReply.channel = msg.channel;
+                        }
                         _this.emit('send', slackReply);
                         _this.bot.say(slackReply, onError);
                     }

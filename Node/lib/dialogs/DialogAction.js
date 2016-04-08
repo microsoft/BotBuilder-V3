@@ -52,37 +52,43 @@ var DialogAction = (function () {
                 }
                 waterfallAction(s, result);
             };
-            try {
-                if (r && r.hasOwnProperty('resumed')) {
-                    var step = s.dialogData[consts.Data.WaterfallStep];
-                    switch (r.resumed) {
-                        case dialog.ResumeReason.back:
-                            step -= 1;
-                            break;
-                        default:
-                            step++;
-                    }
-                    if (step >= 0 && step < steps.length) {
+            if (r && r.hasOwnProperty('resumed')) {
+                var step = s.dialogData[consts.Data.WaterfallStep];
+                switch (r.resumed) {
+                    case dialog.ResumeReason.back:
+                        step -= 1;
+                        break;
+                    default:
+                        step++;
+                }
+                if (step >= 0 && step < steps.length) {
+                    try {
                         s.dialogData[consts.Data.WaterfallStep] = step;
                         steps[step](s, r, skip);
                     }
-                    else {
+                    catch (e) {
                         delete s.dialogData[consts.Data.WaterfallStep];
-                        s.send();
+                        s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
                     }
-                }
-                else if (steps && steps.length > 0) {
-                    s.dialogData[consts.Data.WaterfallStep] = 0;
-                    steps[0](s, r, skip);
                 }
                 else {
                     delete s.dialogData[consts.Data.WaterfallStep];
                     s.send();
                 }
             }
-            catch (e) {
+            else if (steps && steps.length > 0) {
+                try {
+                    s.dialogData[consts.Data.WaterfallStep] = 0;
+                    steps[0](s, r, skip);
+                }
+                catch (e) {
+                    delete s.dialogData[consts.Data.WaterfallStep];
+                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                }
+            }
+            else {
                 delete s.dialogData[consts.Data.WaterfallStep];
-                s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                s.send();
             }
         };
     };
