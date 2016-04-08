@@ -15,7 +15,7 @@ High Level Features:
 * Built-in dialogs that utilize powerful AI frameworks like LUIS.
 * Bots are stateless which helps them scale.
 * FormFlow for automatically generating a bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
-* SDK source code is found on http://github.com/Microsoft/botbuilder.
+* SDK source code is found on [http://github.com/Microsoft/botbuilder](http://github.com/Microsoft/botbuilder).
 
 ## Install
 To install Microsoft.Bot.Builder, run the following command in the [Package Manager Console](http://docs.nuget.org/consume/package-manager-console)
