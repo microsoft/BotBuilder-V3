@@ -4,7 +4,7 @@ var builder = require('../');
 describe('TextBot', function() {
     this.timeout(5000);
     it('should reply inline with "Hello World"', function (done) {
-        var bot = new builder.TextBot();
+        var bot = new builder.TextBot({ minSendDelay: 0 });
         bot.add('/', function (session) {
             assert(session.message.text == 'hello');
             session.send('Hello World');
@@ -16,7 +16,7 @@ describe('TextBot', function() {
     });
 
     it('should reply via event with "Hello World"', function (done) {
-        var bot = new builder.TextBot();
+        var bot = new builder.TextBot({ minSendDelay: 0 });
         bot.add('/', function (session) {
             session.send('Hello World');
         });
@@ -29,7 +29,7 @@ describe('TextBot', function() {
     
     it('should reply inline with "msg1" and then reply via event with "msg2"', function (done) {
         var inlineReply = false;
-        var bot = new builder.TextBot();
+        var bot = new builder.TextBot({ minSendDelay: 0 });
         bot.add('/', function (session) {
             session.send('msg1');
             session.send('msg2');
@@ -48,7 +48,7 @@ describe('TextBot', function() {
     
     it('should reply inline with "msg1" and then quit', function (done) {
         var inlineReply = false;
-        var bot = new builder.TextBot();
+        var bot = new builder.TextBot({ minSendDelay: 0 });
         bot.add('/', function (session) {
             session.send('msg1');
             session.endDialog();
@@ -61,6 +61,5 @@ describe('TextBot', function() {
             assert(reply && reply.text == 'msg1');
             inlineReply = true;
         });
-        
     });
 });

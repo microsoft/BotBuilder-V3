@@ -416,6 +416,9 @@ export interface ISessionArgs {
 
     /** Optional localizer to use when localizing the bots responses. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot.  */
+    minSendDelay?: number;
 }
 
 /** Signature of error events fired from a session. */
@@ -484,6 +487,9 @@ export interface IBotConnectorOptions {
     
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -514,6 +520,9 @@ export interface ISkypeBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -544,6 +553,9 @@ export interface ISlackBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1500. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -553,6 +565,9 @@ export interface ISlackBotOptions {
     
     /** Maximum time (in milliseconds) that a bot continues to recieve ambient messages after its been @mentioned. Default 5 minutes.  */
     ambientMentionDuration?: number;
+    
+    /** Optional flag that if true will cause a 'typing' message to be sent when the bot recieves a message. */
+    sendIsType?: boolean;
 }
 
 /** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
@@ -583,6 +598,9 @@ export interface ITextBotOptions {
 
     /** Optional localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+    
+    /** Optional minimum delay between messages sent to the user from the bot. Default value is 1000. */
+    minSendDelay?: number;
 
     /** Dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
@@ -853,6 +871,47 @@ export class Session {
 }
 
 /**
+ * Message builder class that simplifies building reply messages with attachments.
+ */
+export class Message implements IMessage {
+    /**
+     * Sets the messages language.
+     * @param language The language of the message.
+     */
+    setLanguage(language: string): Message;
+    
+    /**
+     * Sets the localized text of the message.
+     * @param session Session object used to localize the message text.
+     * @param text Text or template string for the reply. This will be localized using session.gettext().
+     * @param args Optional arguments used to format the message text when Text is a template.  
+     */
+    setText(session: Session, text: string, ...args: any[]): Message;
+
+    /**
+     * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
+     * include the count by replacing %d in the string with the count.
+     * @param session Session object used to localize the message text.
+     * @param msg Singular form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param msg_plural Plural form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     */
+    setNText(session: Session, msg: string, msg_plural: string, count: number): Message;
+    
+    /**
+     * Adds an attachment to the message.
+     * @param attachment The attachment to add.  
+     */    
+    addAttachment(attachment: IAttachment): Message;
+    
+    /**
+     * Sets the channelData for the message.
+     * @param data The channel data to assign.
+     */
+    setChannelData(data: any): Message;
+}
+
+/**
  * Base class for all dialogs. Dialogs are the core component of the BotBuilder 
  * framework. Bots use Dialogs to manage arbitrarily complex conversations with
  * a user. 
@@ -988,6 +1047,31 @@ export class DialogAction {
      * @param steps Steps of a waterfall.
      */
     static waterfall(steps: IDialogWaterfallStep[]): (session: Session, args: any) => void;
+
+    /**
+     * Returns a closer that wraps a built-in prompt with validation logic. The closure should be used
+     * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
+     * @example
+     * <pre><code>
+     * var bot = new builder.BotConnectorBot();
+     * bot.add('/', [
+     *     function (session) {
+     *         session.beginDialog('/meaningOfLife', { prompt: "What's the meaning of life?" });
+     *     },
+     *     function (session, results) {
+     *         if (results.response) {
+     *             session.send("That's correct! The meaning of life is 42.");
+     *         } else {
+     *             session.send("Sorry you couldn't figure it out. Everyone knows that the meaning of life is 42.");
+     *         }
+     *     }
+     * ]);
+     * bot.add('/meaningOfLife'. builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+     *     return response === '42';
+     * }));
+     * </code></pre>
+     */    
+    static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): (session: Session, args: any) => void;
 }
 
 /**
@@ -1635,6 +1719,7 @@ export class SlackBot extends DialogCollection {
      * - reply: A reply to an existing message was sent. [IBotMessageEvent]
      * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
      * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
+     * - typing: The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent]
      * - message_received: The bot received a message. [IBotMessageEvent]
      * - bot_channel_join: The bot has joined a channel. [IBotMessageEvent]
      * - user_channel_join: A user has joined a channel. [IBotMessageEvent]
@@ -1691,6 +1776,11 @@ export class SlackSession extends Session {
 
     /** Data that's persisted on a per channel basis. */
     channelData: any;
+    
+    /**
+     * Causes the bot to send a 'typing' message indicating its busy.
+     */
+    isTyping(): void;
     
     /**
      * Escapes &, <, and > characters in a text string. These characters are reserved in Slack for 

@@ -14,7 +14,8 @@ var SkypeBot = (function (_super) {
         this.botService = botService;
         this.options = {
             maxSessionAge: 14400000,
-            defaultDialogId: '/'
+            defaultDialogId: '/',
+            minSendDelay: 1000
         };
         this.configure(options);
         var events = 'message|personalMessage|groupMessage|attachment|threadBotAdded|threadAddMember|threadBotRemoved|threadRemoveMember|contactAdded|threadTopicUpdated|threadHistoryDisclosedUpdate'.split('|');
@@ -86,6 +87,7 @@ var SkypeBot = (function (_super) {
         };
         var ses = new SkypeSession({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId,
             dialogArgs: dialogArgs

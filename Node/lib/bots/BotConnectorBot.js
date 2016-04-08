@@ -16,7 +16,8 @@ var BotConnectorBot = (function (_super) {
             endpoint: process.env['endpoint'] || 'https://api.botframework.com',
             appId: process.env['appId'] || '',
             appSecret: process.env['appSecret'] || '',
-            defaultDialogId: '/'
+            defaultDialogId: '/',
+            minSendDelay: 1000
         };
         this.configure(options);
     }
@@ -130,6 +131,7 @@ var BotConnectorBot = (function (_super) {
             if (message.type == 'Message') {
                 var ses = new BotConnectorSession({
                     localizer: this.options.localizer,
+                    minSendDelay: this.options.minSendDelay,
                     dialogs: this,
                     dialogId: dialogId,
                     dialogArgs: dialogArgs

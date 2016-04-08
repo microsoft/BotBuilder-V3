@@ -4,7 +4,7 @@ var builder = require('../');
 describe('Dialogs', function() {
     this.timeout(5000);
     it('should redirect to another dialog with arguments', function (done) {
-        var bot = new builder.TextBot(); 
+        var bot = new builder.TextBot({ minSendDelay: 0 }); 
         bot.add('/', [
             function (session) {
                 session.beginDialog('/child', { foo: 'bar' }) 
@@ -27,7 +27,7 @@ describe('Dialogs', function() {
 
     it('should process a waterfall of all built-in prompt types', function (done) {
         var step = 0;
-        var bot = new builder.TextBot();
+        var bot = new builder.TextBot({ minSendDelay: 0 });
         bot.add('/', [
             function (session) {
                 assert(session.message.text == 'start');

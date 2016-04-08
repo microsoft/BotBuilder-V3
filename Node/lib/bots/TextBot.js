@@ -14,7 +14,8 @@ var TextBot = (function (_super) {
         _super.call(this);
         this.options = {
             maxSessionAge: 14400000,
-            defaultDialogId: '/'
+            defaultDialogId: '/',
+            minSendDelay: 1000
         };
         this.configure(options);
     }
@@ -66,6 +67,7 @@ var TextBot = (function (_super) {
         if (newSessionState === void 0) { newSessionState = false; }
         var ses = new session.Session({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId,
             dialogArgs: dialogArgs

@@ -1,6 +1,7 @@
 var session = require('../Session');
-var dialog = require('./Dialog');
 var consts = require('../consts');
+var utils = require('../utils');
+var dialog = require('./Dialog');
 var DialogAction = (function () {
     function DialogAction() {
     }
@@ -89,6 +90,51 @@ var DialogAction = (function () {
             else {
                 delete s.dialogData[consts.Data.WaterfallStep];
                 s.send();
+            }
+        };
+    };
+    DialogAction.validatedPrompt = function (promptType, validator) {
+        return function validatePromptAction(s, r) {
+            r = r || {};
+            var valid = false;
+            if (r.response) {
+                try {
+                    valid = validator(r.response);
+                }
+                catch (e) {
+                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                }
+            }
+            var canceled = false;
+            switch (r.resumed) {
+                case dialog.ResumeReason.canceled:
+                case dialog.ResumeReason.forward:
+                case dialog.ResumeReason.back:
+                    canceled = true;
+                    break;
+            }
+            if (valid || canceled) {
+                s.endDialog(r);
+            }
+            else if (!s.dialogData.hasOwnProperty('prompt')) {
+                s.dialogData = utils.clone(r);
+                s.dialogData.promptType = promptType;
+                if (!s.dialogData.hasOwnProperty('maxRetries')) {
+                    s.dialogData.maxRetries = 2;
+                }
+                var a = utils.clone(s.dialogData);
+                a.maxRetries = 0;
+                s.beginDialog(consts.DialogId.Prompts, a);
+            }
+            else if (s.dialogData.maxRetries > 0) {
+                s.dialogData.maxRetries--;
+                var a = utils.clone(s.dialogData);
+                a.maxRetries = 0;
+                a.prompt = s.dialogData.retryPrompt || "I didn't understand. " + s.dialogData.prompt;
+                s.beginDialog(consts.DialogId.Prompts, a);
+            }
+            else {
+                s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
             }
         };
     };
