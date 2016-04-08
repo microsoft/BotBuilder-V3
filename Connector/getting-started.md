@@ -165,7 +165,7 @@ Now that you've returned to the Publish Web wizard copy the destination URL to t
 
 ![Validate and click next to move on to the last step.](/images/connector-getstarted-publish-configuration.png)
 
-By default your Bot will be published in a Release configuration. If you want to debug your Bt, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your Bot will be published to Azure.
+By default your Bot will be published in a Release configuration. If you want to debug your Bot, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your Bot will be published to Azure.
 
 ![Last step; click Publish to submit to Azure](/images/connector-getstarted-publish-preview.png)
 
