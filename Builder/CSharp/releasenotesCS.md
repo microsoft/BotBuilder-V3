@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v1.0.1
+title: Releases
 permalink: /builder/node/libraries/latest/
 weight: 560
 parent1: Bot Builder for C#
