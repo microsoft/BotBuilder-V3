@@ -149,6 +149,9 @@ export class Session extends events.EventEmitter implements ISession {
             throw new Error('Dialog[' + id + '] not found.');
         }
         var ss = this.sessionState;
+        if (ss.callstack.length > 0) {
+            ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
+        }
         var cur: IDialogState = { id: id, state: {} };
         ss.callstack.push(cur);
         this.dialogData = cur.state;

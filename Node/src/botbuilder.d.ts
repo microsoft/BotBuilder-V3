@@ -1047,6 +1047,31 @@ export class DialogAction {
      * @param steps Steps of a waterfall.
      */
     static waterfall(steps: IDialogWaterfallStep[]): (session: Session, args: any) => void;
+
+    /**
+     * Returns a closer that wraps a built-in prompt with validation logic. The closure should be used
+     * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
+     * @example
+     * <pre><code>
+     * var bot = new builder.BotConnectorBot();
+     * bot.add('/', [
+     *     function (session) {
+     *         session.beginDialog('/meaningOfLife', { prompt: "What's the meaning of life?" });
+     *     },
+     *     function (session, results) {
+     *         if (results.response) {
+     *             session.send("That's correct! The meaning of life is 42.");
+     *         } else {
+     *             session.send("Sorry you couldn't figure it out. Everyone knows that the meaning of life is 42.");
+     *         }
+     *     }
+     * ]);
+     * bot.add('/meaningOfLife'. builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+     *     return response === '42';
+     * }));
+     * </code></pre>
+     */    
+    static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): (session: Session, args: any) => void;
 }
 
 /**

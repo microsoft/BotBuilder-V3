@@ -35,6 +35,8 @@ import dialog = require('./Dialog');
 import actions = require('./DialogAction');
 import simpleDialog = require('./SimpleDialog');
 import events = require('events');
+import prompts = require('./Prompts');
+import consts = require('../Consts');
 
 interface IDialogMap {
     [id: string]: dialog.IDialog;
@@ -46,6 +48,7 @@ export class DialogCollection extends events.EventEmitter {
 
     constructor() {
         super();
+        this.add(consts.DialogId.Prompts, new prompts.Prompts())
     }
 
     public add(dialogs: { [id: string]: dialog.IDialog; }): DialogCollection;

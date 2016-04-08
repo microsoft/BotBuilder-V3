@@ -284,8 +284,5 @@ export class Prompts extends dialog.Dialog {
 }
 
 function beginPrompt(ses: session.Session, args: IPromptArgs) {
-    if (!ses.dialogs.hasDialog(consts.DialogId.Prompts)) {
-        ses.dialogs.add(consts.DialogId.Prompts, new Prompts());
-    }
     ses.beginDialog(consts.DialogId.Prompts, args);
 }
