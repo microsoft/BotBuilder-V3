@@ -103,14 +103,27 @@ $(document).ready(function(){initNavTree('d8/d2d/class_microsoft_1_1_bot_1_1_bui
 <div class="title">Microsoft.Bot.Builder.Dialogs.Internals.Extensions Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Helper methods for dialog contexts.  
+ <a href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a99f2d99ced27f0db05cd89081cee3eda"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a99f2d99ced27f0db05cd89081cee3eda">GetValue&lt; T &gt;</a> (this SerializationInfo info, string name)</td></tr>
 <tr class="separator:a99f2d99ced27f0db05cd89081cee3eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17fc0a1eac9aa0275fad553a4530f624"><td class="memItemLeft" align="right" valign="top">static async Task&lt; <a class="el" href="../../d8/d66/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_internal.html">IDialogContextInternal</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a17fc0a1eac9aa0275fad553a4530f624">LoadAsync&lt; R &gt;</a> (this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a> store, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
+<tr class="memdesc:a17fc0a1eac9aa0275fad553a4530f624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load or create the dialog context from the store.  <a href="#a17fc0a1eac9aa0275fad553a4530f624">More...</a><br /></td></tr>
+<tr class="separator:a17fc0a1eac9aa0275fad553a4530f624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a0a54929e89aad3e8b3711ac2d3bebb"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a2a0a54929e89aad3e8b3711ac2d3bebb">PollAsync&lt; R &gt;</a> (this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a> store, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
+<tr class="memdesc:a2a0a54929e89aad3e8b3711ac2d3bebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the dialog context for any work to be done.  <a href="#a2a0a54929e89aad3e8b3711ac2d3bebb">More...</a><br /></td></tr>
+<tr class="separator:a2a0a54929e89aad3e8b3711ac2d3bebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817a8f2ebf36663594a0cb0e55726133"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a817a8f2ebf36663594a0cb0e55726133">PostAsync&lt; T, R &gt;</a> (this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a> store, T toBot, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
+<tr class="memdesc:a817a8f2ebf36663594a0cb0e55726133"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an item to the dialog context and poll the dialog context for any work to be done.  <a href="#a817a8f2ebf36663594a0cb0e55726133">More...</a><br /></td></tr>
+<tr class="separator:a817a8f2ebf36663594a0cb0e55726133"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>Helper methods for dialog contexts. </p>
+
 <p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00039">39</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a99f2d99ced27f0db05cd89081cee3eda"></a>
@@ -149,8 +162,194 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a class="anchor" id="a17fc0a1eac9aa0275fad553a4530f624"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task&lt;<a class="el" href="../../d8/d66/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_internal.html">IDialogContextInternal</a>&gt; Microsoft.Bot.Builder.Dialogs.Internals.Extensions.LoadAsync&lt; R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a>&#160;</td>
+          <td class="paramname"><em>store</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
+          <td class="paramname"><em>MakeRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Load or create the dialog context from the store. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">store</td><td>The dialog context store.</td></tr>
+    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
+    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task representing the dialog context load operation.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html#l00076">76</a> of file <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html">IDialogContextStore.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a0a54929e89aad3e8b3711ac2d3bebb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.PollAsync&lt; R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a>&#160;</td>
+          <td class="paramname"><em>store</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
+          <td class="paramname"><em>MakeRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Poll the dialog context for any work to be done. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">store</td><td>The dialog context store.</td></tr>
+    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
+    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task representing the poll operation.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html#l00098">98</a> of file <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html">IDialogContextStore.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a817a8f2ebf36663594a0cb0e55726133"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.PostAsync&lt; T, R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../db/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_store.html">IDialogContextStore</a>&#160;</td>
+          <td class="paramname"><em>store</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>toBot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
+          <td class="paramname"><em>MakeRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Post an item to the dialog context and poll the dialog context for any work to be done. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
+    <tr><td class="paramname">T</td><td>The type of the item.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">store</td><td>The dialog context store.</td></tr>
+    <tr><td class="paramname">toBot</td><td>The item to be sent to the bot.</td></tr>
+    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
+    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task representing the post operation.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html#l00114">114</a> of file <a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html">IDialogContextStore.cs</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a></li>
+<li><a class="el" href="../../da/d93/_i_dialog_context_store_8cs_source.html">IDialogContextStore.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
