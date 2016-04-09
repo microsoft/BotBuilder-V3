@@ -10,7 +10,7 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace Microsoft.Bot.Sample.SimpleEchoBot
 {
     [Serializable]
-    public class EchoDialog : IDialog
+    public class EchoDialog : IDialog<object>
     {
         public async Task StartAsync(IDialogContext context)
         {

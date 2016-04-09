@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     [Serializable]
-    public sealed class DialogContext : IDialogContext, IUserToBot, ISerializable
+    public sealed class DialogContext : IDialogContextInternal, ISerializable
     {
         private readonly IBotToUser botToUser;
         private readonly IBotData data;
@@ -151,7 +152,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return thunk.Rest;
         }
 
-        void IDialogStack.Call<R>(IDialog child, ResumeAfter<R> resume)
+        void IDialogStack.Call<R>(IDialog<R> child, ResumeAfter<R> resume)
         {
             var callRest = ToRest(child.StartAsync);
             if (resume != null)
@@ -175,9 +176,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Wait<Message>(ToRest(resume));
         }
 
-        async Task IUserToBot.SendAsync(Message message, CancellationToken cancellationToken)
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken cancellationToken)
         {
-            this.fiber.Post(message);
+            this.fiber.Post(item);
             await this.fiber.PollAsync();
         }
 
@@ -189,6 +190,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Message IBotToUser.MakeMessage()
         {
             return this.botToUser.MakeMessage();
+        }
+
+        async Task IDialogContextInternal.PollAsync()
+        {
+            await this.fiber.PollAsync();
         }
     }
 }

@@ -51,6 +51,17 @@ namespace Microsoft.Bot.Sample.Tests
         [TestMethod]
         public async Task EchoDialogFlow()
         {
+            await EchoDialogFlow(new EchoDialog());
+        }
+
+        [TestMethod]
+        public async Task EchoCommandDialogFlow()
+        {
+            await EchoDialogFlow(EchoCommandDialog.echoCommandDialog);
+        }
+
+        private async Task EchoDialogFlow<T>(IDialog<T> echoDialog)
+        {
             // arrange
             var toBot = new Message()
             {
@@ -58,7 +69,7 @@ namespace Microsoft.Bot.Sample.Tests
                 Text = "Test"
             };
 
-            Func<IDialog> MakeRoot = () => new EchoDialog();
+            Func<IDialog<T>> MakeRoot = () => echoDialog;
 
             // act: sending the message
             var toUser = await Conversation.SendAsync(toBot, MakeRoot);

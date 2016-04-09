@@ -126,7 +126,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Show choices with one per line.
         /// </summary>
-        PerLine };
+        PerLine,
+
+        /// <summary>   Show choices on the same line without surrounding parentheses. </summary>
+        InlineNoParen
+    };
 
 
     /// <summary>
@@ -562,11 +566,31 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         public BoolDefault AllowDefault { get; set; }
 
+        /// <summary>  
+        /// Control case when showing choices in {||} references in a \ref patterns string. 
+        /// </summary>
+        public CaseNormalization ChoiceCase { get; set; }
+
         /// <summary>
         /// Format string used for presenting each choice when showing {||} choices in a \ref patterns string.
         /// </summary>
         /// <remarks>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</remarks>
         public string ChoiceFormat { get; set; }
+
+        /// <summary>   
+        /// When constructing inline lists of choices using {||} in a \ref patterns string, the string used before the last choice. 
+        /// </summary>
+        public string ChoiceLastSeparator { get; set; }
+
+        /// <summary>  
+        /// When constructing inline choice lists for {||} in a \ref patterns string controls whether to include parentheses around choices. 
+        /// </summary>
+        public BoolDefault ChoiceParens { get; set; }
+
+        /// <summary>
+        /// When constructing inline lists using {||} in a \ref patterns string, the string used between all choices except the last. 
+        /// </summary>
+        public string ChoiceSeparator { get; set; }
 
         /// <summary>
         /// How to display choices {||} when processed in a \ref patterns string.
@@ -644,10 +668,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public void ApplyDefaults(TemplateBaseAttribute defaultTemplate)
         {
             if (AllowDefault == BoolDefault.Default) AllowDefault = defaultTemplate.AllowDefault;
+            if (ChoiceCase == CaseNormalization.Default) ChoiceCase = defaultTemplate.ChoiceCase;
+            if (ChoiceFormat == null) ChoiceFormat = defaultTemplate.ChoiceFormat;
+            if (ChoiceLastSeparator == null) ChoiceLastSeparator = defaultTemplate.ChoiceLastSeparator;
+            if (ChoiceParens == BoolDefault.Default) ChoiceParens = defaultTemplate.ChoiceParens;
+            if (ChoiceSeparator == null) ChoiceSeparator = defaultTemplate.ChoiceSeparator;
             if (ChoiceStyle == ChoiceStyleOptions.Default) ChoiceStyle = defaultTemplate.ChoiceStyle;
             if (FieldCase == CaseNormalization.Default) FieldCase = defaultTemplate.FieldCase;
             if (Feedback == FeedbackOptions.Default) Feedback = defaultTemplate.Feedback;
-            if (ChoiceFormat == null) ChoiceFormat = defaultTemplate.ChoiceFormat;
             if (LastSeparator == null) LastSeparator = defaultTemplate.LastSeparator;
             if (Separator == null) Separator = defaultTemplate.Separator;
             if (ValueCase == CaseNormalization.Default) ValueCase = defaultTemplate.ValueCase;
@@ -671,10 +699,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _patterns = other._patterns;
             AllowDefault = other.AllowDefault;
+            ChoiceCase = other.ChoiceCase;
+            ChoiceFormat = other.ChoiceFormat;
+            ChoiceLastSeparator = other.ChoiceLastSeparator;
+            ChoiceParens = other.ChoiceParens;
+            ChoiceSeparator = other.ChoiceSeparator;
             ChoiceStyle = other.ChoiceStyle;
             FieldCase = other.FieldCase;
             Feedback = other.Feedback;
-            ChoiceFormat = other.ChoiceFormat;
             LastSeparator = other.LastSeparator;
             Separator = other.Separator;
             ValueCase = other.ValueCase;
@@ -683,10 +715,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private void Initialize()
         {
             AllowDefault = BoolDefault.Default;
+            ChoiceCase = CaseNormalization.Default;
+            ChoiceFormat = null;
+            ChoiceLastSeparator = null;
+            ChoiceParens = BoolDefault.Default;
+            ChoiceSeparator = null;
             ChoiceStyle = ChoiceStyleOptions.Default;
             FieldCase = CaseNormalization.Default;
             Feedback = FeedbackOptions.Default;
-            ChoiceFormat = null;
             LastSeparator = null;
             Separator = null;
             ValueCase = CaseNormalization.Default;

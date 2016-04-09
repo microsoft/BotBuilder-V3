@@ -56,10 +56,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildForm{T}"/>.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
+        /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromType<T>() where T : class, new()
+        public static IFormDialog<T> FromType<T>(FormOptions options = FormOptions.None) where T : class, new()
         {
-            return new FormDialog<T>(new T());
+            return new FormDialog<T>(new T(), null, options);
         }
 
         /// <summary>
@@ -67,10 +68,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="buildForm">The delegate to build the form.</param>
+        /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm) where T : class, new()
+        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
         {
-            return new FormDialog<T>(new T(), buildForm);
+            return new FormDialog<T>(new T(), buildForm, options);
         }
 
 
@@ -95,21 +97,24 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Prompt when the dialog starts.
         /// </summary>
-        PromptInStart
+        PromptInStart,
+
+        /// <summary>  
+        /// Prompt for fields that already have a value in the initial state when processing form.
+        /// </summary>
+        PromptFieldsWithValues
     };
 
     public delegate IForm<T> BuildForm<T>();
 
     /// <summary>
-    /// Form dialog manager for to fill in your state.
+    /// Form dialog to fill in your state.
     /// </summary>
     /// <typeparam name="T">The type to fill in.</typeparam>
     /// <remarks>
-    /// This is the root class for creating a form.  To use it, you:
-    /// * Create an instance of this class parameterized with the class you want to fill in.
-    /// * Optionally use the fluent API to specify the order of fields, messages and confirmations.
-    /// * Register with the global dialog collection.
-    /// * Start the form dialog.
+    /// This is the root class for managing a FormFlow dialog. It is usually created
+    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T})"/>
+    /// or <see cref="FormDialog.FromType{T}"/>. 
     /// </remarks>
     [Serializable]
     public sealed class FormDialog<T> : IFormDialog<T>, ISerializable
@@ -132,7 +137,15 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
-
+        #region Documentation
+        /// <summary>   Constructor for creating a FormFlow dialog. </summary>
+        /// <param name="state">        The intial state. </param>
+        /// <param name="buildForm">    A delegate for building the form. </param>
+        /// <param name="options">      Options for controlling the form. </param>
+        /// <param name="entities">     Optional entities to process into the form. </param>
+        /// <param name="cultureInfo">  The culture to use. </param>
+        /// <remarks>For building forms <see cref="IFormBuilder{T}"/>.</remarks>
+        #endregion
         public FormDialog(T state, BuildForm<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
             buildForm = buildForm ?? BuildDefaultForm;
@@ -192,7 +205,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         #region IDialog implementation
 
-        async Task IDialog.StartAsync(IDialogContext context)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             var entityGroups = (from entity in this._entities group entity by entity.Type);
             foreach (var entityGroup in entityGroups)
@@ -225,6 +238,34 @@ namespace Microsoft.Bot.Builder.FormFlow
                     else
                     {
                         _formState.SetPhase(StepPhase.Ready);
+                    }
+                }
+            }
+            if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
+            {
+                // Skip steps that already have a value if they are nullable and valid.
+                foreach (var step in _form.Steps)
+                {
+                    if (step.Type == StepType.Field 
+                        && !step.Field.IsUnknown(_state) 
+                        && step.Field.IsNullable)
+                    {
+                        var val = step.Field.GetValue(_state);
+                        if (step.Field.ValidateAsync(_state, val).Result.IsValid)
+                        {
+                            bool ok = true;
+                            double min, max;
+                            if (step.Field.Limits(out min, out max))
+                            {
+                                var num = (double) Convert.ChangeType(val, typeof(double));
+                                ok = (num >= min && num <= max);
+                            }
+                            if (ok)
+                            {
+                                _formState.Step = _form.StepIndex(step);
+                                _formState.SetPhase(StepPhase.Completed);
+                            }
+                        }
                     }
                 }
             }
@@ -609,7 +650,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var active = (from istep in _form.Steps
                                           where istep.Type == StepType.Field && istep.Active(state)
                                           select istep.Field.FieldDescription);
-                            var activeList = Language.BuildList(active, navigation.Annotation.Separator, navigation.Annotation.LastSeparator);
+                            var activeList = Language.BuildList(active, navigation.Annotation.ChoiceSeparator, navigation.Annotation.ChoiceLastSeparator);
                             builder.Append("* ");
                             builder.Append(navigation.Prompt(state, "", activeList));
                             feedback = step.Help(state, form, builder.ToString());
