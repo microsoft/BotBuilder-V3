@@ -25,6 +25,18 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+
+### [v1.0.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.0.2)
+
+* Move to IDialog<T> typed for result type
+* Add support for linq query syntax (e.g. Select, SelectMany)
+* Multiple IBotToUser.Post(Message) calls
+* Move to Autofac dependency injection container
+* IConnectorClient instantiated to point to emulator when emulating bot
+* Fix CommandDialog<T>
+* Update LUIS Models
+* Add ChoiceCase, ChoiceParens to Form template attributes
+
 ### [v1.0.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.0.1)
 * Fixed LuisDialog to handle null score returned by Luis. This is because of a behavior change in Cortana pre-built apps by [Luis](http://luis.ai)
 * Updated nuspec with better description 
