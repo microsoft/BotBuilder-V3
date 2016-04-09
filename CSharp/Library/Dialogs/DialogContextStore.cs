@@ -150,33 +150,4 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.store.Save(context);
         }
     }
-
-    public sealed class ErrorResilientDialogContextStore : IDialogContextStore
-    {
-        private readonly IDialogContextStore store;
-
-        public ErrorResilientDialogContextStore(IDialogContextStore store)
-        {
-            SetField.NotNull(out this.store, nameof(store), store);
-        }
-
-        public void Save(IDialogContext context, IBotDataBag bag, string key)
-        {
-            this.store.Save(context, bag, key);
-        }
-
-        public bool TryLoad(IBotDataBag bag, string key, out IDialogContext context)
-        {
-            try
-            {
-                return this.store.TryLoad(bag, key, out context);
-            }
-            catch (Exception)
-            {
-                // exception in loading the serialized context data
-                context = null;
-                return false;
-            }
-        }
-    }
 }
