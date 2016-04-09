@@ -31,7 +31,7 @@ Copy the generated secret and embed tag and press “I'm done configuring Web Ch
 
 ## Step 2 - Embed the chat widget in your website
 
-Chat widget can be embedded in 2 ways:
+You can embed the chat control in either of these ways:
 
 ### Option 1 - Keep your secret hidden, exchange your secret for a token, and generate the embed
 
@@ -45,8 +45,8 @@ To exchange your secret for a token and generate the embed:
 
 <ol>
 <li>Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header</li>
-<li>The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.
-<li>Embed the modified iframe tag in your website and adjust the styling for the iframe element as per the requirement. To use the token instead of the secret, use the IFrame like below:</li>
+<li>The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.</li>
+<li>Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.</li>
 </ol>
 
 {% highlight html %}
@@ -65,7 +65,9 @@ If you do not want other websites to host web chat with your bot, option 1 makes
 To embed your bot in your web site by include your secret on your web page:
 
 <ol>
-<li>Copy the iframe embed code from the channel. See Step 1, above. Example:</li>
+<li>Copy the iframe embed code from the channel. See Step 1, above.</li>
+<li>Replace YOUR_SECRET_HERE with the embed secret from the same page.</li>
+</ol>
 
 {% highlight html %}
 
@@ -73,16 +75,13 @@ To embed your bot in your web site by include your secret on your web page:
 
 {% endhighlight %}
 
-<li>Replace YOUR_SECRET_HERE with the embed secret from the same page.</li>
-</ol>
-
 ## Step 3 - Style the chat control
 
 You may change the chat control's size by adding height and width to the style element.
 
 {% highlight html %}
 
-    <iframe style="height:480px; width:402px" src="https://webchat.botframework.com/embed/YOUR_BOT_ID?t=YOUR_TOKEN_HERE"></iframe>
+    <iframe style="height:480px; width:402px" src="... SEE ABOVE ..."></iframe>
 
 {% endhighlight %}
 
