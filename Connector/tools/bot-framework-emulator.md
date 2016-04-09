@@ -62,7 +62,7 @@ To install
 
 1. download [Console Emulator Zip](http://aka.ms/bfemulator)
 2. unzip it
-3. Install mono [Mono download](http://www.mono-project.com/download/)
+3. Install [Mono](http://www.mono-project.com/download/)
 4. mono BFEmulator.exe 
 
 
