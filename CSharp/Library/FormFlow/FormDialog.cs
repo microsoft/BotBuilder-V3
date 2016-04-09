@@ -132,11 +132,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         // instantiated in constructor, re-instantiated when deserialized
         private readonly IForm<T> _form;
         private readonly IRecognize<T> _commands;
+        private FormStatus _status = new FormStatus();
 
         private static IForm<T> BuildDefaultForm()
         {
             return new FormBuilder<T>().AddRemainingFields().Build();
         }
+
         #region Documentation
         /// <summary>   Constructor for creating a FormFlow dialog. </summary>
         /// <param name="state">        The intial state. </param>
@@ -197,9 +199,11 @@ namespace Microsoft.Bot.Builder.FormFlow
             info.AddValue(nameof(this._formState), this._formState);
         }
 
-        #region IForm<T> implementation
+        #region IFormDialog<T> implementation
 
         IForm<T> IFormDialog<T>.Form { get { return this._form; } }
+
+        IFormStatus<T> IFormDialog<T>.Status { get { return this._status;  } }
 
         #endregion
 
@@ -424,10 +428,20 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         await _form.Completion(context, _state);
                     }
+                    _status.LastForm = _state;
+                    _status.Completed = from step in _form.Steps
+                                        where _formState.Phase(_form.StepIndex(step)) == StepPhase.Completed
+                                        select step.Name;
+                    _status.Last = null;
                     context.Done(_state);
                 }
                 else if (next.Direction == StepDirection.Quit)
                 {
+                    _status.LastForm = _state;
+                    _status.Completed = from step in _form.Steps
+                                        where _formState.Phase(_form.StepIndex(step)) == StepPhase.Completed
+                                        select step.Name;
+                    _status.Last = _form.Steps[_formState.Step].Name;
                     throw new OperationCanceledException();
                 }
                 else
@@ -676,6 +690,16 @@ namespace Microsoft.Bot.Builder.FormFlow
                 }
             }
             return next;
+        }
+
+        [Serializable]
+        private class FormStatus : IFormStatus<T>
+        {
+            public IEnumerable<string> Completed { get; set; }
+
+            public string Last { get; set; }
+
+            public T LastForm { get; set; }
         }
 
         #endregion

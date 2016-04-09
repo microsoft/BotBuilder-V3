@@ -93,6 +93,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// The form specification.
         /// </summary>
         IForm<T> Form { get; }
+
+        #region Documentation
+        /// <summary>   Gets the last form status. </summary>
+        #endregion
+        IFormStatus<T> Status { get; }
     }
 
     /// <summary>
@@ -158,4 +163,25 @@ namespace Microsoft.Bot.Builder.FormFlow
         }
     }
  }
+
+namespace Microsoft.Bot.Builder.FormFlow.Advanced
+{
+    /// <summary>   Interface for last form status. </summary>
+    /// <typeparam name="T">    Underlying form. </typeparam>
+    /// <remarks>
+    /// This will either be a partial form if the user quit or there is an error
+    /// or the last form completed.
+    /// </remarks>
+    public interface IFormStatus<T>
+    {
+        /// <summary>   Gets the last form processed by dialog. </summary>
+        T LastForm { get; }
+
+        /// <summary>   Gets the name of completed steps. </summary>
+        IEnumerable<string> Completed { get; }
+
+        /// <summary>   Gets the last step or null if form was complete. </summary>
+        string Last { get; }
+    }
+}
 

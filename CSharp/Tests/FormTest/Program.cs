@@ -209,7 +209,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
 
-
         [Serializable]
         public class MyBot : IDialog
         {
@@ -305,6 +304,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     return new NullDialog<object>();
                 });
             // TestValidate();
+            IFormDialog<PizzaOrder> lastDialog = null;
             var callDebug =
                 Chain
                 .From(() => FormDialog.FromType<Choices>(FormOptions.PromptInStart))
@@ -324,7 +324,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     switch (choices.Choice)
                     {
                         case DebugOptions.AnnotationsAndNumbers:
-                            return MakeForm(() => BuildForm(noNumbers: false));
+                            return lastDialog = MakeForm(() => BuildForm(noNumbers: false));
                         case DebugOptions.AnnotationsAndNoNumbers:
                             return MakeForm(() => BuildForm(noNumbers: true));
                         case DebugOptions.NoAnnotations:
@@ -352,6 +352,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     }
                     catch (OperationCanceledException)
                     {
+                        if (lastDialog != null)
+                        {
+                            Debug.WriteLine("Quit on step {0}", lastDialog.Status.Last);
+                        }
                         Debug.WriteLine("you cancelled");
                     }
                 })
