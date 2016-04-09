@@ -17,9 +17,9 @@ The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown) and 
 ![Chat widget Overview](/images/chatwidget-overview.png)
 
 ## Step 1 - Get your bot secret key
-1.	Go to [https://dev.botframework.com/#/bots](https://dev.botframework.com/#/bots)
-2.	Click on your bot
-3.	Look for “Web Chat” in the Channels section
+1. Go to [https://dev.botframework.com/#/bots](https://dev.botframework.com/#/bots)
+2. Click on your bot
+3. Look for “Web Chat” in the Channels section
 
 ![Chat widget channel](/images/chatwidget-channel.png)
 
@@ -43,19 +43,16 @@ harder than option 2 below.
 
 To exchange your secret for a token and generate the embed:
 
-<ol>
-<li>Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header.
-The Authorization header uses the "BotConnector" scheme and includes your secret. (This auth scheme may also be used with a token but for now we're using our secret to generate a token.) Example:</li>
+1. Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header.
+2. The Authorization header uses the "BotConnector" scheme and includes your secret. (This auth scheme may also be used with a token but for now we're using our secret to generate a token.) See example below.
+3. The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.
+4. Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.
 
-~~~
+    -- connect to webchat.botframework.com --
+    GET /api/tokens
     Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0
     
-    Note, the above secret is a sample and will not work. Use your own secret.
-~~~
-
-<li>The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.</li>
-<li>Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.</li>
-</ol>
+Note, the above secret is a sample and will not work. Use your own secret.
 
 {% highlight html %}
 
@@ -72,10 +69,8 @@ If you do not want other websites to host web chat with your bot, option 1 makes
 
 To embed your bot in your web site by include your secret on your web page:
 
-<ol>
-<li>Copy the iframe embed code from the channel. See Step 1, above.</li>
-<li>Replace YOUR_SECRET_HERE with the embed secret from the same page.</li>
-</ol>
+1. Copy the iframe embed code from the channel. See Step 1, above.
+2. Replace YOUR_SECRET_HERE with the embed secret from the same page.
 
 {% highlight html %}
 
