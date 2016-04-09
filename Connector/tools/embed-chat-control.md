@@ -9,14 +9,14 @@ parent2: Tools
 
 ## Overview
 
-Microsoft's chat widget is a messaging application that allows you to chat with the bot built using Microsoft BotFramework. Each bot created using the BotFramework has this chat widget in it's Bot page. The chat widget can be embedded in any website, allowing you to have your bot available on anywhere.
+The Bot Framework chat widget allows you to chat with your bot through the Bot Connector. The chat widget may be enabled on the bot's landing page in the directory, and you may embed the web chat control in your own page.
 
-The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown).
+The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown) and images.
 
 ## Flow
 ![Chat widget Overview](/images/chatwidget-overview.png)
 
-## Step 1 : Get your bot secret key
+## Step 1 - Get your bot secret key
 1.	Go to [https://dev.botframework.com/#/bots](https://dev.botframework.com/#/bots)
 2.	Click on your bot
 3.	Look for “Web Chat” in the Channels section
@@ -29,65 +29,60 @@ Click on Edit for Web chat and press Generate Web Chat Secret
 
 Copy the generated secret and embed tag and press “I'm done configuring Web Chat”
 
-## Step 2 : Embed the chat widget in your website
+## Step 2 - Embed the chat widget in your website
 
-Chat widget can be embedded in 2 ways
+Chat widget can be embedded in 2 ways:
 
-### Option 1 - Embed the chat widget in your website using secret
-<ol>
-<li>The Web Chat secret you got from Step 1 is the unique identifier for your bot. Using this secret to embed the chat control will disclose the bot secret and can be used by anyone to embed chat widget for your bot on any website</li>
-<li>If you want to use secret for chat widget, paste the embed tag from Step 1 in your website and adjust the styling for the iframe element as per the requirement. Example:</li>
+### Option 1 - Keep your secret hidden, exchange your secret for a token, and generate the embed
 
-{% highlight html %}
+Use this option if you can make a server-to-server call to exchange your web chat secret for a temporary token,
+and if you want to discourage other websites from embedding your bot in their pages.
 
-    <iframe src="https://webchat.botframework.com/embed/<AppId>?s=<secret>"></iframe>
+Note that this does not prevent another website from embedding your bot in their pages, but it makes it substantially
+harder than option 2 below.
 
-{% endhighlight %}
-
-<li>If you do not want your bot secret to be disclosed, use Option 2</li>
-</ol>
-
-### Option 2 - Embed the chat widget in your website using token
+To exchange your secret for a token and generate the embed:
 
 <ol>
-<li>You can embed chat widget using token if you want your bot only on your specific websites</li>
-<li>You can generate your bot token using the Web Chat secret from Steps1 as below
-<ul>
-<li>Issue a POST request to "https://webchat.botframework.com/api/conversations" passing the Web Chat secret as the Authorization header</li>
-<li>Parse the json response and get the token</li>
-<li>Example code in javascript –</li>
-</ul>
-</li>
-
-{% highlight javascript %}
-
-    var token = null;
-    $.ajax({
-    type: 'POST',
-    url: 'https://webchat.botframework.com/api/conversations',
-    headers: { 'Authorization': 'BOTCONNECTOR ' + secret }
-    }).done(result => {
-    token = result.token;
-    })
-
-{% endhighlight %}
-<li>The generated token can be used on only one website for only one session. You need to automate above step for every invocation of your website</li>
+<li>Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header</li>
+<li>The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.
 <li>Embed the modified iframe tag in your website and adjust the styling for the iframe element as per the requirement. To use the token instead of the secret, use the IFrame like below:</li>
 </ol>
 
 {% highlight html %}
 
-    <iframe src="https://webchat.botframework.com/embed/<AppId>?t=<token>"></iframe>
+    <iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?t=YOUR_TOKEN_HERE"></iframe>
 
 {% endhighlight %}
 
-## Step 3 : Chat with your Bot
+### Option 2 - Embed the chat widget in your website using secret
 
-This is how the chat widget looks like with below iframe styling
+Use this option if you are OK with other websites embedding your bot into their page. This option provides no protection against
+other developers copying your embed code.
+
+If you do not want other websites to host web chat with your bot, option 1 makes it more difficult to do so.
+
+To embed your bot in your web site by include your secret on your web page:
+
+<ol>
+<li>Copy the iframe embed code from the channel. See Step 1, above. Example:</li>
 
 {% highlight html %}
 
-    <iframe style="height:480px; width:402px" src="https://webchat.botframework.com/embed/qnatestbot?t=<token>"></iframe>
+    <iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?s=YOUR_SECRET_HERE"></iframe>
+
+{% endhighlight %}
+
+<li>Replace YOUR_SECRET_HERE with the embed secret from the same page.</li>
+</ol>
+
+## Step 3 - Style the chat control
+
+You may change the chat control's size by adding height and width to the style element.
+
+{% highlight html %}
+
+    <iframe style="height:480px; width:402px" src="https://webchat.botframework.com/embed/YOUR_BOT_ID?t=YOUR_TOKEN_HERE"></iframe>
 
 {% endhighlight %}
 
