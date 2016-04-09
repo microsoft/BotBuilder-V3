@@ -20,7 +20,7 @@ Using the Emulator, you can:
 * Emulate a specific user and/or conversation
 
 ## Installation and configuration
-* [Install the Emulator](http://aka.ms/bf-bc-emulator)
+* [Install the Windows Emulator](http://aka.ms/bf-bc-emulator)
 * Launch the Emulator
 * Copy the AppId and AppSecret from the Web.config of your Bot app
 ![Configure the Bot Framework](/images/emulator-configure.png)
@@ -54,3 +54,18 @@ If you need access to the SendMessageAsync API from the connector client you can
 {% endhighlight %}
 
 The emulator supports the message BotData fields but doesn't support the connector API version of it (yet!).
+
+## Mac and Linux support using command line emulator
+For folks who are developing on Mac and Linux we have created a console only version which works using mono. 
+
+To install,
+1. download [Console Emulator Zip](http://aka.ms/bfemulator)
+2. unzip it
+3. Install mono [Mono download](http://www.mono-project.com/download/)
+4. mono BFEmulator.exe 
+
+
+
+
+
+
