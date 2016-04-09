@@ -7,7 +7,7 @@ var actions = require('./DialogAction');
 var simpleDialog = require('./SimpleDialog');
 var events = require('events');
 var prompts = require('./Prompts');
-var consts = require('../Consts');
+var consts = require('../consts');
 var DialogCollection = (function (_super) {
     __extends(DialogCollection, _super);
     function DialogCollection() {
