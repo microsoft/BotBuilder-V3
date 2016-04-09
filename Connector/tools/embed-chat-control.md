@@ -44,7 +44,13 @@ harder than option 2 below.
 To exchange your secret for a token and generate the embed:
 
 <ol>
-<li>Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header</li>
+<li>Issue a server-to-server GET request to "https://webchat.botframework.com/api/tokens" and pass your web chat secret as the Authorization header.
+The Authorization header uses the "BotConnector" scheme and includes your secret. (This auth scheme may also be used with a token but for now we're using our secret to generate a token.) Example:</li>
+
+    Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0
+    
+    Note, the above secret is a sample and will not work. Use your own secret.
+
 <li>The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.</li>
 <li>Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.</li>
 </ol>
