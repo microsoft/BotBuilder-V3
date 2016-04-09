@@ -58,7 +58,8 @@ The emulator supports the message BotData fields but doesn't support the connect
 ## Mac and Linux support using command line emulator
 For folks who are developing on Mac and Linux we have created a console only version which works using mono. 
 
-To install,
+To install
+
 1. download [Console Emulator Zip](http://aka.ms/bfemulator)
 2. unzip it
 3. Install mono [Mono download](http://www.mono-project.com/download/)
