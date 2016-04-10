@@ -36,7 +36,7 @@ import actions = require('./DialogAction');
 import simpleDialog = require('./SimpleDialog');
 import events = require('events');
 import prompts = require('./Prompts');
-import consts = require('../Consts');
+import consts = require('../consts');
 
 interface IDialogMap {
     [id: string]: dialog.IDialog;
