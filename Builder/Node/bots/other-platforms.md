@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Other Platforms
-permalink: /builder/node/bots/SlackBot/
+permalink: /builder/node/bots/other-platforms/
 weight: 625
 parent1: Bot Builder for Node.js
 parent2: Bots
