@@ -76,9 +76,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _valueDescriptions = field.ValueDescriptions.ToArray();
             _descriptionDelegate = (value) => field.ValueDescription(value);
             _termsDelegate = (value) => field.Terms(value);
-            _helpFormat = field.Template(field.AllowNumbers                ? (field.AllowsMultiple? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
-                : (field.AllowsMultiple? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
-            _noPreference = field.Optional? configuration.NoPreference.ToArray() : null;
+            _helpFormat = field.Template(field.AllowNumbers
+                ? (field.AllowsMultiple ? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
+                : (field.AllowsMultiple ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
+            _noPreference = field.Optional ? configuration.NoPreference.ToArray() : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
             BuildPerValueMatcher(configuration.CurrentChoice);
         }
@@ -122,7 +123,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
             {
-                values = values.Union(new string[] { _currentChoice + " or 'c'" });
+                values = values.Union(new string[] { _currentChoice + "('c')" });
             }
             var args = new List<object>();
             if (_allowNumbers)
@@ -135,7 +136,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(null);
                 args.Add(null);
             }
-            args.Add(Language.BuildList(values, _helpFormat.Separator, _helpFormat.LastSeparator));
+            args.Add(Language.BuildList(from val in values select Language.Normalize(val, _helpFormat.ChoiceCase), _helpFormat.ChoiceSeparator, _helpFormat.ChoiceLastSeparator));
             return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
         }
 
@@ -433,7 +434,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var args = new List<object>();
             if (defaultValue != null || _field.Optional)
             {
-                args.Add(_field.Form.Configuration.CurrentChoice.First() + " or 'c'");
+                args.Add(_field.Form.Configuration.CurrentChoice.First() + "('c')");
                 if (_field.Optional)
                 {
                     args.Add(_field.Form.Configuration.NoPreference.First());
@@ -755,7 +756,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override string ValueDescription(object value)
         {
-            return ((DateTime) value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
+            return ((DateTime)value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
         }
 
         private CultureInfo _culture;

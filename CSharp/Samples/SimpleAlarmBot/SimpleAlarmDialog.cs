@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
     [LuisModel("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "6d0966209c6e4f6b835ce34492f3e6d9")]
     [Serializable]
-    public class SimpleAlarmDialog : LuisDialog
+    public class SimpleAlarmDialog : LuisDialog<object>
     {
         private readonly Dictionary<string, Alarm> alarmByWhat = new Dictionary<string, Alarm>();
 
@@ -86,19 +86,19 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             EntityRecommendation title;
             if (! result.TryFindEntity(Entity_Alarm_Title, out title))
             {
-                title = new EntityRecommendation(Entity_Alarm_Title) { Entity = DefaultAlarmWhat };
+                title = new EntityRecommendation(type: Entity_Alarm_Title) { Entity = DefaultAlarmWhat };
             }
 
             EntityRecommendation date;
             if (! result.TryFindEntity(Entity_Alarm_Start_Date, out date))
             {
-                date = new EntityRecommendation() { Entity = string.Empty };
+                date = new EntityRecommendation(type: Entity_Alarm_Start_Date) { Entity = string.Empty };
             }
 
             EntityRecommendation time;
             if (!result.TryFindEntity(Entity_Alarm_Start_Time, out time))
             {
-                time = new EntityRecommendation() { Entity = string.Empty };
+                time = new EntityRecommendation(type: Entity_Alarm_Start_Time) { Entity = string.Empty };
             }
 
             var parser = new Chronic.Parser();

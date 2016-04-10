@@ -81,18 +81,11 @@ namespace Microsoft.Bot.Builder.FormFlow
     public delegate Task CompletionDelegate<T>(IDialogContext context, T state);
 
     /// <summary>
-    /// Interface for controlling the form dialog created.
+    /// Interface for controlling a FormFlow dialog.
     /// </summary>
     /// <typeparam name="T">Form state type.</typeparam>
     /// <remarks>
-    /// A form consists of a series of steps that can be one of:
-    /// <list type="list">
-    /// <item>A message to the user.</item>
-    /// <item>A prompt sent to the user where the response is to fill in a form state value.</item>
-    /// <item>A confirmation of the current state with the user.</item>
-    /// </list>
-    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="PromptAttribute"/> and <see cref="Confirm"/> calls.
-    /// If you do not take explicit control, the steps will be executed in the order defined in the form state class with a final confirmation.
+    /// <see cref="FormDialog{T}"/> for an implementation of this interface.
     /// </remarks>
     public interface IFormDialog<T> : IDialog<T>
     {

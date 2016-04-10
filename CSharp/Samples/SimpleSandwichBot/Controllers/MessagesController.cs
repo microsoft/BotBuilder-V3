@@ -13,9 +13,9 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        internal static IFormDialog<SandwichOrder> MakeRootDialog()
+        internal static IDialog<SandwichOrder> MakeRootDialog()
         {
-            return FormDialog.FromForm(SandwichOrder.BuildForm);
+            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildForm));
         }
 
         /// <summary>

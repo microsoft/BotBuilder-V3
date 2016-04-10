@@ -36,14 +36,15 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
-    /// A dialog is a suspendable conversational process.
+    /// A <see cref="IDialog{T}"/> is a suspendable conversational process that produces a result of type <typeparamref name="T"/>.
     /// </summary>
     /// <remarks>
     /// Dialogs can call child dialogs or send messages to a user.
     /// Dialogs are suspended when waiting for a message from the user to the bot.
     /// Dialogs are resumed when the bot receives a message from the user.
     /// </remarks>
-    public interface IDialog
+    /// <typeparam name="T">The result type.</typeparam>
+    public interface IDialog<out T>
     {
         /// <summary>
         /// The start of the code that represents the conversational dialog.
@@ -54,10 +55,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     }
 
     /// <summary>
-    /// A <see cref="IDialog{T}"/> is a suspendable conversational process that produces a result of type <typeparamref name="T"/>.
+    /// A <see cref="IDialog"/> is a suspendable conversational process that produces an ignored result.
     /// </summary>
-    /// <typeparam name="T">The result type.</typeparam>
-    public interface IDialog<out T> : IDialog
+    public interface IDialog : IDialog<object>
     {
     }
 }
