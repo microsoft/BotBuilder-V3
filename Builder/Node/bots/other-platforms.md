@@ -8,4 +8,4 @@ parent2: Bots
 ---
 Here's a list of 3rd party connectors for other platforms.
 
-* [HipChatBot](https://github.com/wballard/botbuilder-hipchat) created by [Will Ballard](https://github.com/wballard)
+* [HipchatBot](https://github.com/wballard/botbuilder-hipchat) created by [Will Ballard](https://github.com/wballard)
