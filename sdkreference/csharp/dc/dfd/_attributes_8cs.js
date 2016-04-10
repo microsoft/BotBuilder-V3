@@ -23,7 +23,8 @@ var _attributes_8cs =
       [ "Default", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a7a1920d61156abc05a60135aefe8bc67", null ],
       [ "Auto", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a06b9281e396db002010bde1de57262eb", null ],
       [ "Inline", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a0125cf5f3ca38b312ca5d3b511c45a13", null ],
-      [ "PerLine", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a2f15de9c45e5a145af424ac64d617aa0", null ]
+      [ "PerLine", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a2f15de9c45e5a145af424ac64d617aa0", null ],
+      [ "InlineNoParen", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a8ad4c9438cf3f547d613a734885a0d76", null ]
     ] ],
     [ "FeedbackOptions", "dc/dfd/_attributes_8cs.html#ac4ead01e3c8eeb1424f886479af0adf5", [
       [ "Default", "dc/dfd/_attributes_8cs.html#ac4ead01e3c8eeb1424f886479af0adf5a7a1920d61156abc05a60135aefe8bc67", null ],

@@ -1,11 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html" title="Associate a LUIS intent with a dialog method. " alt="" coords="149,5,344,47"/>
-<area shape="rect" id="node3" href="$d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html" title="Abstract base class used by all attributes that use Pattern Language. " alt="" coords="124,71,369,112"/>
-<area shape="rect" id="node6" href="$dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html" title="Attribute to override the default description of a field, property or enum value. ..." alt="" coords="158,136,335,177"/>
-<area shape="rect" id="node7" href="$df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html" title="Provide limits on the possible values in a numeric field or property. " alt="" coords="158,201,335,243"/>
-<area shape="rect" id="node8" href="$d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html" title="Define a field or property as optional. " alt="" coords="158,267,335,308"/>
-<area shape="rect" id="node9" href="$d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html" title="Attribute to override the default terms used to match a field, property or enum value to user input..." alt="" coords="158,332,335,373"/>
-<area shape="rect" id="node10" href="$de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html" title="The LUIS model information. " alt="" coords="159,397,334,439"/>
-<area shape="rect" id="node4" href="$d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html" title="Define the prompt template used when asking about a field. " alt="" coords="417,39,595,80"/>
-<area shape="rect" id="node5" href="$d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html" title="Define a template for generating strings. " alt="" coords="417,104,595,145"/>
+<area shape="rect" id="node1" href="$d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.Prompt\&lt; double \&gt;" alt="" coords="5,5,200,47"/>
+<area shape="rect" id="node2" href="$d9/d63/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_double.html" title="Prompt for a double. " alt="" coords="248,5,443,47"/>
 </map>
