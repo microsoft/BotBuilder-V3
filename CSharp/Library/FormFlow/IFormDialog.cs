@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Dialogs;
+using System;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -87,23 +88,20 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <remarks>
     /// <see cref="FormDialog{T}"/> for an implementation of this interface.
     /// </remarks>
+    /// <exception cref="FormCanceledException{T}">Thrown when the user quits while filling in a form, or there is an underlying exception in the code.</exception>
     public interface IFormDialog<T> : IDialog<T>
     {
         /// <summary>
         /// The form specification.
         /// </summary>
         IForm<T> Form { get; }
-
-        #region Documentation
-        /// <summary>   Gets the last form status. </summary>
-        #endregion
-        IFormStatus<T> Status { get; }
     }
 
     /// <summary>
     /// Commands supported in form dialogs.
     /// </summary>
-    public enum FormCommand {
+    public enum FormCommand
+    {
         /// <summary>
         /// Move back to the previous step.
         /// </summary>
@@ -127,7 +125,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Provide feedback to the user on the current form state.
         /// </summary>
-        Status };
+        Status
+    };
 
     /// <summary>
     /// Description of all the information needed for a built-in command.
@@ -162,26 +161,50 @@ namespace Microsoft.Bot.Builder.FormFlow
             Help = help;
         }
     }
- }
 
-namespace Microsoft.Bot.Builder.FormFlow.Advanced
-{
-    /// <summary>   Interface for last form status. </summary>
-    /// <typeparam name="T">    Underlying form. </typeparam>
-    /// <remarks>
-    /// This will either be a partial form if the user quit or there is an error
-    /// or the last form completed.
-    /// </remarks>
-    public interface IFormStatus<T>
+    #region Documentation
+    /// <summary>   Exception generated when form filling is canceled by user quit or exception. </summary>
+    /// <remarks>In the case of user quit or an exception the strongly typed exception <see cref="FormCanceledException{T}"/>
+    ///          is actually thrown, but this provides simple access to the Last step.</remarks>
+    #endregion
+    public class FormCanceledException : OperationCanceledException
     {
-        /// <summary>   Gets the last form processed by dialog. </summary>
-        T LastForm { get; }
+        #region Documentation
+        /// <summary>   Constructor with message and inner exception. </summary>
+        /// <param name="message">Exception message.</param>
+        /// <param name="inner">Inner exception.</param>
+        /// <remarks>In the case of quit by the user, the inner exception will be null.</remarks>
+        #endregion
+        public FormCanceledException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
 
-        /// <summary>   Gets the name of completed steps. </summary>
-        IEnumerable<string> Completed { get; }
+        /// <summary>   The names of completed steps. </summary>
+        public IEnumerable<string> Completed { get; internal set; }
 
-        /// <summary>   Gets the last step or null if form was complete. </summary>
-        string Last { get; }
+        /// <summary>   Name of the step that quit or threw an exception. </summary>
+        public string Last { get; internal set; }
+    }
+
+    #region Documentation
+    /// <summary>   Exception generated when form filling is canceled by user quit or exception. </summary>
+    /// <typeparam name="T">    Underlying form type. </typeparam>
+    #endregion
+    public class FormCanceledException<T> : FormCanceledException
+    {
+        /// <summary>   Constructor with message and inner exception. </summary>
+        /// <param name="message">Exception message.</param>
+        /// <param name="inner">Inner exception.</param>
+        /// <remarks>In the case of user quit, the inner exception will be null.</remarks>
+        public FormCanceledException(string message, Exception inner = null)
+            : base(message, inner)
+        {
+            LastForm = default(T);
+        }
+
+        /// <summary>   Gets the partial form when the user quits or there is an exception. </summary>
+        public T LastForm { get; internal set; }
     }
 }
 
