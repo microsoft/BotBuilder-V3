@@ -21,7 +21,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                     try
                     {
                         var completed = await order;
-                        await context.PostAsync("Got your order!");
+                        // Actually process the sandwich order...
+                        await context.PostAsync("Processed your order!");
                     }
                     catch (FormCanceledException<SandwichOrder> e)
                     {
