@@ -15,7 +15,28 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     {
         internal static IDialog<SandwichOrder> MakeRootDialog()
         {
-            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildForm));
+            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildForm))
+                .Do(async (context, order) =>
+                {
+                    try
+                    {
+                        var completed = await order;
+                        await context.PostAsync("Got your order!");
+                    }
+                    catch (FormCanceledException<SandwichOrder> e)
+                    {
+                        string reply;
+                        if (e.InnerException == null)
+                        {
+                            reply = $"You quit on {e.Last}--maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = "Sorry, I've had a short circuit.  Please try again.";
+                        }
+                        await context.PostAsync(reply);
+                    }
+                });
         }
 
         /// <summary>

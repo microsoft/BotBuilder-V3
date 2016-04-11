@@ -250,7 +250,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             throw new NotImplementedException();
                     }
                 })
-                .Do(async result =>
+                .Do(async (context, result) =>
                 {
                     try
                     {
@@ -261,11 +261,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     {
                         if (e.InnerException == null)
                         {
-                            Console.WriteLine("Quit on {0} step.", e.Last);
+                            await context.PostAsync($"Quit on {e.Last} step.");
                         }
                         else
                         {
-                            Console.WriteLine("Exception {0} on step {1}.", e.Message, e.Last);
+                            await context.PostAsync($"Exception {e.Message} on step {e.Last}.");
                         }
                     }
                 })

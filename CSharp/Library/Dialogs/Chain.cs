@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <param name="callback">The callback method.</param>
         /// <returns>The antecedent dialog.</returns>
-        public static IDialog<T> Do<T>(this IDialog<T> antecedent, Action<IAwaitable<T>> callback)
+        public static IDialog<T> Do<T>(this IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task> callback)
         {
             return new DoDialog<T>(antecedent, callback);
         }
@@ -175,8 +175,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         private sealed class DoDialog<T> : IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly Action<IAwaitable<T>> Action;
-            public DoDialog(IDialog<T> antecedent, Action<IAwaitable<T>> Action)
+            public readonly Func<IBotContext, IAwaitable<T>, Task> Action;
+            public DoDialog(IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task> Action)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Action, nameof(Action), Action);
@@ -187,7 +187,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
-                this.Action(result);
+                await this.Action(context, result);
                 context.Done<T>(await result);
             }
         }
