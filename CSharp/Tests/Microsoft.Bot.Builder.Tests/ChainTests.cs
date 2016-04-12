@@ -46,6 +46,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using System.Runtime.Serialization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -157,6 +158,50 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var expected = new string(Phrase.Reverse().ToArray());
                 AssertQueryText(expected, container);
+            }
+        }
+
+        public static IDialog<string> MakeSwitchDialog()
+        {
+            return Chain.PostToChain().Select(m => m.Text).Switch(new Chain.RegexCase<string>(new Regex("^hello"), (context, text) =>
+            {
+                return "world!";
+            }), new Chain.Case<string, string>( (txt) => txt == "world", (context, text) =>
+            {
+                return "!";
+            }), new Chain.DefaultCase<string, string>( (context, text) =>
+            {
+                return text;
+            })
+            ).PostToUser();
+        }
+
+        [TestMethod]
+        public async Task Switch_Case()
+        {
+            var toBot = new Message()
+            {
+                ConversationId = Guid.NewGuid().ToString()
+            };
+
+            var words = new[] { "hello", "world", "echo" };
+            var expectedReply = new[] { "world!", "!", "echo" };
+
+            using (var container = Build())
+            {
+                foreach (var word in words)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, MakeSwitchDialog);
+                    }
+                }
+
+                var queue = container.Resolve<BotToUserQueue>();
+                var texts = queue.Messages.Select(m => m.Text).ToArray();
+                CollectionAssert.AreEqual(expectedReply, texts);
             }
         }
 
