@@ -132,7 +132,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             return new UnwrapDialog<T>(antecedent);
         }
-
+        
         /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
         /// </summary>
@@ -432,8 +432,22 @@ namespace Microsoft.Bot.Builder.Dialogs
                 }
                 context.Done(itemR);
             }
-
         }
-            
+
+        [Serializable]
+        public class ValueWrapperDialog<T> : IDialog<T>
+        {
+            public readonly T Value;
+
+            public ValueWrapperDialog(T value)
+            {
+                this.Value = value;
+            }
+
+            public async Task StartAsync(IDialogContext context)
+            {
+                context.Done(Value);
+            }
+        }
     }
 }
