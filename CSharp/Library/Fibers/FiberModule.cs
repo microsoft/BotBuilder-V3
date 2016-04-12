@@ -92,6 +92,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             builder
+                .Register(c => new Serialization.ClosureCaptureErrorSurrogate(priority: 1))
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+
+            builder
                 .RegisterDecorator<Serialization.ISurrogateProvider>((c, inner) => new Serialization.SurrogateLogDecorator(inner, c.Resolve<TraceListener>()), fromKey: Key_SurrogateProvider);
 
             builder
@@ -136,7 +141,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             base.Load(builder);
 
             builder
-                .Register(c => new Serialization.StoreInstanceByFieldsSurrogate(priority: 1))
+                .Register(c => new Serialization.StoreInstanceByFieldsSurrogate(priority: 2))
                 .Keyed<Serialization.ISurrogateProvider>(FiberModule.Key_SurrogateProvider)
                 .SingleInstance();
         }

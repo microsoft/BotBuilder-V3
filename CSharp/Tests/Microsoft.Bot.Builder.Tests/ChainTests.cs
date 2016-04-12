@@ -44,6 +44,8 @@ using Microsoft.Bot.Connector;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using System.Runtime.Serialization;
+using System.IO;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -99,7 +101,7 @@ namespace Microsoft.Bot.Builder.Tests
                 ConversationId = Guid.NewGuid().ToString()
             };
 
-            var words = new [] { "hello", "world", "!" };
+            var words = new[] { "hello", "world", "!" };
 
             using (var container = Build())
             {
@@ -223,6 +225,23 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var expected = string.Join(" ", words);
                 AssertQueryText(expected, container);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ClosureCaptureException))]
+        public async Task LinqQuerySyntax_Throws_ClosureCaptureException()
+        {
+            var prompts = new[] { "p1", "p2" };
+            var query = new PromptDialog.PromptString(prompts[0], prompts[0], attempts: 1).Select(p => new PromptDialog.PromptString(prompts[1], prompts[1], attempts: 1)).Unwrap().PostToUser();
+
+            using (var container = Build(includeReflection: false))
+            {
+                var formatter = container.Resolve<IFormatter>(TypedParameter.From(new Message()));
+                using (var stream = new MemoryStream())
+                {
+                    formatter.Serialize(stream, query);
+                }
             }
         }
     }

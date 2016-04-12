@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -139,6 +140,33 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
 
                 return obj;
+            }
+        }
+
+        public sealed class ClosureCaptureErrorSurrogate : ISurrogateProvider
+        {
+            private readonly int priority;
+            public ClosureCaptureErrorSurrogate(int priority)
+            {
+                this.priority = priority;
+            }
+
+            bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
+            {
+                bool generated = Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute));
+                bool handles = generated && !type.IsSerializable;
+                priority = handles ? this.priority : 0;
+                return handles;
+            }
+
+            void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
+            {
+                throw new ClosureCaptureException(obj);
+            }
+
+            object ISerializationSurrogate.SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            {
+                throw new NotImplementedException();
             }
         }
 
