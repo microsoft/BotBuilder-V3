@@ -31,13 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -167,6 +164,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <remarks>In the case of user quit or an exception the strongly typed exception <see cref="FormCanceledException{T}"/>
     ///          is actually thrown, but this provides simple access to the Last step.</remarks>
     #endregion
+    [Serializable]
     public class FormCanceledException : OperationCanceledException
     {
         #region Documentation
@@ -191,6 +189,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <summary>   Exception generated when form filling is canceled by user quit or exception. </summary>
     /// <typeparam name="T">    Underlying form type. </typeparam>
     #endregion
+    [Serializable]
     public class FormCanceledException<T> : FormCanceledException
     {
         /// <summary>   Constructor with message and inner exception. </summary>

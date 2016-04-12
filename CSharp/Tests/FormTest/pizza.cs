@@ -218,7 +218,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     builder.AppendFormat("{0}, {1}", Kind, Stuffed);
                     break;
             }
-            builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating.HasValue ? Rating.Value : 0.0);
+            builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating ?? 0.0);
             return builder.ToString();
         }
     };

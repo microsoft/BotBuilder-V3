@@ -605,7 +605,7 @@
     /// a message after either:
     /// * Successfully processing the order.  
     /// * When the user quit.  
-    /// * When there is an exception
+    /// * When there is an exception.
     /// \dontinclude AnnotatedSandwichBot/Controllers/MessagesController.cs
     /// \skip MakeRootDialog
     /// \until });

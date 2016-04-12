@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         {
             CompletionDelegate<SandwichOrder> processOrder = async (context, state) =>
                            {
-                               await context.PostAsync("We are currently processing your sandwich. We will message you the status");
+                               await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
                            };
 
             return new FormBuilder<SandwichOrder>()
