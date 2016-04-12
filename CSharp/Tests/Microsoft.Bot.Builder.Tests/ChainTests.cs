@@ -31,22 +31,20 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using System.Runtime.Serialization;
+using Microsoft.Bot.Connector;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -163,13 +161,13 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static IDialog<string> MakeSwitchDialog()
         {
-            return Chain.PostToChain().Select(m => m.Text).Switch(new Chain.RegexCase<string>(new Regex("^hello"), (context, text) =>
+            return Chain.PostToChain().Select(m => m.Text).Switch(new RegexCase<string>(new Regex("^hello"), (context, text) =>
             {
                 return "world!";
-            }), new Chain.Case<string, string>( (txt) => txt == "world", (context, text) =>
+            }), new Case<string, string>( (txt) => txt == "world", (context, text) =>
             {
                 return "!";
-            }), new Chain.DefaultCase<string, string>( (context, text) =>
+            }), new DefaultCase<string, string>( (context, text) =>
             {
                 return text;
             })
