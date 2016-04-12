@@ -20,21 +20,25 @@ namespace Microsoft.Bot.Sample.EchoBot
        }, (context, txt) =>
        {
            return Chain.From(() => new PromptDialog.PromptConfirm("Are you sure you want to reset the count?",
-          "Didn't get that!", 3)).ContinueWith<bool, string>( async (ctx, res) =>
-          {
-              string reply;
-              if (await res)
-              {
-                  ctx.UserData.SetValue("count", 0);
-                  reply = "Reset count.";
-              }
-              else
-              {
-                  reply = "Did not reset count.";
-              }
-              return new Chain.ValueWrapperDialog<string>(reply);
-          });
+          "Didn't get that!", 3)).ContinueWith<bool, string>(async (ctx, res) =>
+         {
+             string reply;
+             if (await res)
+             {
+                 ctx.UserData.SetValue("count", 0);
+                 reply = "Reset count.";
+             }
+             else
+             {
+                 reply = "Did not reset count.";
+             }
+             return new Chain.ValueWrapperDialog<string>(reply);
+         });
        }),
+        new Chain.RegexCase<IDialog<string>>(new Regex("^help", RegexOptions.IgnoreCase), (context, txt) =>
+        {
+            return new Chain.ValueWrapperDialog<string>("I am a simple echo dialog with a counter! Reset my counter by typing \"reset\"!");
+        }),
         new Chain.DefaultCase<string, IDialog<string>>((context, txt) =>
         {
             int count;

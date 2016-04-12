@@ -132,7 +132,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             return new UnwrapDialog<T>(antecedent);
         }
-        
+
         /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, execute the next <see cref="IDialog{C}"/>, and use the projection to combine the results.
         /// </summary>
@@ -158,29 +158,46 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new LoopDialog<T>(antecedent);
         }
 
-        [Serializable]
-        public class Case<T, R>
+        public interface ICase<T, R>
         {
-            public readonly Func<T, bool> Condition;
-            public readonly Func<IBotContext, T, R> Selector;
+            Func<T, bool> Condition { get; }
+            Func<IBotContext, T, R> Selector { get; }
+        }
+
+        [Serializable]
+        public class Case<T, R> : ICase<T, R>
+        {
+            public Func<T, bool> Condition { get; protected set; }
+            public Func<IBotContext, T, R> Selector { get; protected set; }
+
+            protected Case()
+            {
+            }
             public Case(Func<T, bool> condition, Func<IBotContext, T, R> selector)
             {
-                SetField.NotNull(out this.Condition, nameof(condition), condition);
-                SetField.NotNull(out this.Selector, nameof(selector), selector);
+                SetField.ThrowOnNullField(nameof(condition), condition);
+                this.Condition = condition;
+                SetField.ThrowOnNullField(nameof(selector), selector);
+                this.Selector = selector;
             }
         }
 
         [Serializable]
         public sealed class RegexCase<R> : Case<string, R>
         {
+            private readonly Regex Regex;
+
             public RegexCase(Regex regex, Func<IBotContext, string, R> selector)
-                : base(MakeMatch(regex), selector)
             {
+                SetField.ThrowOnNullField(nameof(selector), selector);
+                this.Selector = selector;
+                SetField.NotNull(out this.Regex, nameof(regex), regex);
+                this.Condition = this.IsMatch;
             }
 
-            private static Func<string, bool> MakeMatch(Regex regex)
+            private bool IsMatch(string text)
             {
-                return (txt) => regex.Match(txt).Success;
+                return this.Regex.Match(text).Success;
             }
         }
 
@@ -192,7 +209,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
             }
         }
-        public static IDialog<R> Switch<T, R>(this IDialog<T> antecedent, params Case<T,R>[] cases)
+        public static IDialog<R> Switch<T, R>(this IDialog<T> antecedent, params ICase<T, R>[] cases)
         {
             return new SwitchDialog<T, R>(antecedent, cases);
         }
@@ -254,14 +271,14 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var item = await result;
                 if (item is Connector.Message)
                 {
-                    var msg = item as Connector.Message; 
+                    var msg = item as Connector.Message;
                     await context.PostAsync(msg);
                 }
                 else
                 {
                     await context.PostAsync(item.ToString());
                 }
-                
+
                 context.Done<T>(await result);
             }
         }
@@ -400,14 +417,14 @@ namespace Microsoft.Bot.Builder.Dialogs
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
         }
-        
+
 
         [Serializable]
         private sealed class SwitchDialog<T, R> : IDialog<R>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly IList<Case<T, R>> Cases;
-            public SwitchDialog(IDialog<T> antecedent, IList<Case<T,R>> cases)
+            public readonly IList<ICase<T, R>> Cases;
+            public SwitchDialog(IDialog<T> antecedent, IList<ICase<T, R>> cases)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Cases, nameof(cases), cases);
@@ -422,9 +439,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 var itemT = await result;
                 R itemR = default(R);
-                foreach(var condition in this.Cases)
+                foreach (var condition in this.Cases)
                 {
-                    if(condition.Condition(itemT))
+                    if (condition.Condition(itemT))
                     {
                         itemR = condition.Selector(context, itemT);
                         break;

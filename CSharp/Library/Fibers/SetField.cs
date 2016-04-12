@@ -44,12 +44,16 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     {
         public static void NotNull<T>(out T field, string name, T value) where T : class
         {
+            ThrowOnNullField(name, value);
+            field = value;
+        }
+
+        public static void ThrowOnNullField<T>(string name, T value) where T : class
+        {
             if (value == null)
             {
                 throw new ArgumentNullException(name);
             }
-
-            field = value;
         }
 
         public static void NotNullFrom<T>(out T field, string name, SerializationInfo info) where T : class
