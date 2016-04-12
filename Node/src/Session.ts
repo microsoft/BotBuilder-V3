@@ -33,7 +33,7 @@
 
 import collection = require('./dialogs/DialogCollection');
 import dialog = require('./dialogs/Dialog');
-import consts = require('./Consts');
+import consts = require('./consts');
 import sprintf = require('sprintf-js');
 import events = require('events');
 
