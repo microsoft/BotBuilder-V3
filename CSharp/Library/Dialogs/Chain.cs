@@ -57,6 +57,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>A task that represents the next <see cref="IDialog{R}"/>.</returns>
         public delegate Task<IDialog<R>> Continutation<in T, R>(IBotContext context, IAwaitable<T> item);
 
+        public delegate R ContextualSelector<in T, R>(IBotContext context, T item);
+
         /// <summary>
         /// Construct a <see cref="IDialog{T}"/> that will make a new copy of another <see cref="IDialog{T}"/> when started.
         /// </summary>
@@ -161,19 +163,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         public interface ICase<T, R>
         {
             Func<T, bool> Condition { get; }
-            Func<IBotContext, T, R> Selector { get; }
+            ContextualSelector<T, R> Selector { get; }
         }
 
         [Serializable]
         public class Case<T, R> : ICase<T, R>
         {
             public Func<T, bool> Condition { get; protected set; }
-            public Func<IBotContext, T, R> Selector { get; protected set; }
+            public ContextualSelector<T, R> Selector { get; protected set; }
 
             protected Case()
             {
             }
-            public Case(Func<T, bool> condition, Func<IBotContext, T, R> selector)
+            public Case(Func<T, bool> condition, ContextualSelector<T, R> selector)
             {
                 SetField.ThrowOnNullField(nameof(condition), condition);
                 this.Condition = condition;
@@ -187,7 +189,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             private readonly Regex Regex;
 
-            public RegexCase(Regex regex, Func<IBotContext, string, R> selector)
+            public RegexCase(Regex regex, ContextualSelector<string, R> selector)
             {
                 SetField.ThrowOnNullField(nameof(selector), selector);
                 this.Selector = selector;
@@ -204,7 +206,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         [Serializable]
         public sealed class DefaultCase<T, R> : Case<T, R>
         {
-            public DefaultCase(Func<IBotContext, T, R> selector)
+            public DefaultCase(ContextualSelector<T, R> selector)
                 : base(obj => true, selector)
             {
             }
@@ -423,8 +425,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         private sealed class SwitchDialog<T, R> : IDialog<R>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly IList<ICase<T, R>> Cases;
-            public SwitchDialog(IDialog<T> antecedent, IList<ICase<T, R>> cases)
+            public readonly IReadOnlyList<ICase<T, R>> Cases;
+            public SwitchDialog(IDialog<T> antecedent, IReadOnlyList<ICase<T, R>> cases)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Cases, nameof(cases), cases);
