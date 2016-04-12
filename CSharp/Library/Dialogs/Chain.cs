@@ -57,6 +57,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>A task that represents the next <see cref="IDialog{R}"/>.</returns>
         public delegate Task<IDialog<R>> Continutation<in T, R>(IBotContext context, IAwaitable<T> item);
 
+        /// <summary>
+        /// The contextual selector function.
+        /// </summary>
+        /// <typeparam name="T"> The type of value passed to selector.</typeparam>
+        /// <typeparam name="R"> The returned type of the selector.</typeparam>
+        /// <param name="context"> <see cref="IBotContext"/> passed to selector.</param>
+        /// <param name="item"> The value passed to selector.</param>
+        /// <returns></returns>
         public delegate R ContextualSelector<in T, R>(IBotContext context, T item);
 
         /// <summary>
@@ -93,6 +101,10 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new PostToUserDialog<T>(antecedent);
         }
 
+        /// <summary>
+        /// Post the message from the user to Chain. This can be used to create the root dialog for a chain.
+        /// </summary>
+        /// <returns> The dialog that dispatches the incoming message from the user to chain.</returns>
         public static IDialog<Connector.Message> PostToChain()
         {
             return new PostToChainDialog();
@@ -160,12 +172,26 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new LoopDialog<T>(antecedent);
         }
 
-        public interface ICase<T, R>
+        /// <summary>
+        /// The interface for cases evelauted by switch
+        /// </summary>
+        /// <typeparam name="T"> The type of incoming value to case.</typeparam>
+        /// <typeparam name="R"> The type of the object returned by selector.</typeparam>
+        public interface ICase<in T, R>
         {
+            /// <summary>
+            /// The condition field of the case.
+            /// </summary>
             Func<T, bool> Condition { get; }
+            /// <summary>
+            /// The selector that will be invoked if condition is met.
+            /// </summary>
             ContextualSelector<T, R> Selector { get; }
         }
 
+        /// <summary>
+        /// The default implementation of <see cref="ICase{T, R}"/>.
+        /// </summary>
         [Serializable]
         public class Case<T, R> : ICase<T, R>
         {
@@ -175,6 +201,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             protected Case()
             {
             }
+
+            /// <summary>
+            /// Constructs a case. 
+            /// </summary>
+            /// <param name="condition"> The condition of the case.</param>
+            /// <param name="selector"> The contextual selector of the case.</param>
             public Case(Func<T, bool> condition, ContextualSelector<T, R> selector)
             {
                 SetField.ThrowOnNullField(nameof(condition), condition);
@@ -184,11 +216,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>
+        /// The regex case for switch. The condition will be true if the regex matches the text.
+        /// </summary>
         [Serializable]
         public sealed class RegexCase<R> : Case<string, R>
         {
             private readonly Regex Regex;
 
+            /// <summary>
+            /// Constructs a case based on a regular experssion.
+            /// </summary>
+            /// <param name="regex"> The regex for condition.</param>
+            /// <param name="selector"> The contextual selector for the case.</param>
             public RegexCase(Regex regex, ContextualSelector<string, R> selector)
             {
                 SetField.ThrowOnNullField(nameof(selector), selector);
@@ -203,14 +243,32 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>
+        /// The default case for switch. <see cref="ICase{T, R}"/>
+        /// </summary>
         [Serializable]
         public sealed class DefaultCase<T, R> : Case<T, R>
         {
+            /// <summary>
+            /// Constructs the default case for switch.
+            /// </summary>
+            /// <param name="selector"> The contextual selector that will be called in default case.</param>
             public DefaultCase(ContextualSelector<T, R> selector)
                 : base(obj => true, selector)
             {
             }
         }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, go through each <see cref="ICase{T, R}"/> 
+        /// and run the <see cref="ContextualSelector{T, R}"/>" of the first <see cref="ICase{T, R}"/> that 
+        /// returned value of the antecedent passes the <see cref="ICase{T, R}.Condition"/> test.
+        /// </summary>
+        /// <typeparam name="T"> The type of the antecedent dialog.</typeparam>
+        /// <typeparam name="R"> The type of the Dialog returned by <see cref="ContextualSelector{T, R}"/></typeparam>
+        /// <param name="antecedent"> The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="cases"> Cases for the switch</param>
+        /// <returns></returns>
         public static IDialog<R> Switch<T, R>(this IDialog<T> antecedent, params ICase<T, R>[] cases)
         {
             return new SwitchDialog<T, R>(antecedent, cases);
@@ -453,8 +511,15 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>
+        /// A Dialog that wraps a value of type T.
+        /// </summary>
+        /// <remarks>
+        /// The type of the value should be serializable.
+        /// </remarks>
+        /// <typeparam name="T">The result type of the Dialog. </typeparam>
         [Serializable]
-        public class ValueWrapperDialog<T> : IDialog<T>
+        public sealed class ValueWrapperDialog<T> : IDialog<T>
         {
             public readonly T Value;
 
