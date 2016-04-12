@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -88,6 +89,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<T> PostToUser<T>(this IDialog<T> antecedent)
         {
             return new PostToUserDialog<T>(antecedent);
+        }
+
+        public static IDialog<Connector.Message> PostToChain()
+        {
+            return new PostToChainDialog();
         }
 
         /// <summary>
@@ -153,6 +159,45 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
+        public class Case<T, R>
+        {
+            public readonly Func<T, bool> Condition;
+            public readonly Func<IBotContext, T, R> Selector;
+            public Case(Func<T, bool> condition, Func<IBotContext, T, R> selector)
+            {
+                SetField.NotNull(out this.Condition, nameof(condition), condition);
+                SetField.NotNull(out this.Selector, nameof(selector), selector);
+            }
+        }
+
+        [Serializable]
+        public sealed class RegexCase<R> : Case<string, R>
+        {
+            public RegexCase(Regex regex, Func<IBotContext, string, R> selector)
+                : base(MakeMatch(regex), selector)
+            {
+            }
+
+            private static Func<string, bool> MakeMatch(Regex regex)
+            {
+                return (txt) => regex.Match(txt).Success;
+            }
+        }
+
+        [Serializable]
+        public sealed class DefaultCase<T, R> : Case<T, R>
+        {
+            public DefaultCase(Func<IBotContext, T, R> selector)
+                : base(obj => true, selector)
+            {
+            }
+        }
+        public static IDialog<R> Switch<T, R>(this IDialog<T> antecedent, params Case<T,R>[] cases)
+        {
+            return new SwitchDialog<T, R>(antecedent, cases);
+        }
+
+        [Serializable]
         private sealed class FromDialog<T> : IDialog<T>
         {
             public readonly Func<IDialog<T>> MakeDialog;
@@ -207,8 +252,31 @@ namespace Microsoft.Bot.Builder.Dialogs
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
                 var item = await result;
-                await context.PostAsync(item.ToString());
+                if (item is Connector.Message)
+                {
+                    var msg = item as Connector.Message; 
+                    await context.PostAsync(msg);
+                }
+                else
+                {
+                    await context.PostAsync(item.ToString());
+                }
+                
                 context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class PostToChainDialog : IDialog<Connector.Message>
+        {
+            public async Task StartAsync(IDialogContext context)
+            {
+                context.Wait(MessageReceivedAsync);
+            }
+
+            public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Connector.Message> argument)
+            {
+                context.Done(await argument);
             }
         }
 
@@ -332,5 +400,40 @@ namespace Microsoft.Bot.Builder.Dialogs
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
         }
+        
+
+        [Serializable]
+        private sealed class SwitchDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly IList<Case<T, R>> Cases;
+            public SwitchDialog(IDialog<T> antecedent, IList<Case<T,R>> cases)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Cases, nameof(cases), cases);
+            }
+
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(Antecedent, AfterAntecedent);
+            }
+
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                var itemT = await result;
+                R itemR = default(R);
+                foreach(var condition in this.Cases)
+                {
+                    if(condition.Condition(itemT))
+                    {
+                        itemR = condition.Selector(context, itemT);
+                        break;
+                    }
+                }
+                context.Done(itemR);
+            }
+
+        }
+            
     }
 }
