@@ -207,6 +207,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <returns>True if numbers are allowed as input.</returns>
         bool AllowNumbers { get; }
+
+        /// <summary>   Adds any resources to form localizer. </summary>
+        void SaveResources();
+
+        /// <summary>   Loads resources from the form localizer. </summary>
+        void LoadResources();
     }
 
     /// <summary>
@@ -375,6 +381,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Form that owns this field
         /// </summary>
         IForm<T> Form { get; set; }
+
+        #region Documentation
+        /// <summary>   Makes a deep copy of this object. </summary>
+        /// <returns>   A copy of this object. </returns>
+        #endregion
+        IField<T> Clone();
     }
 
     /// <summary>

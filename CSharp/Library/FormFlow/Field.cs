@@ -79,6 +79,39 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
+        public IField<T> Clone()
+        {
+            var newField = new Field<T>(_name, _role);
+            newField._allowsMultiple = _allowsMultiple;
+            newField._calculatedPrompt = _calculatedPrompt;
+            newField._description = _description;
+            newField._form = _form;
+            newField._help = new PromptAttribute(_help);
+            newField._isNullable = _isNullable;
+            newField._keepZero = _keepZero;
+            newField._limited = _limited;
+            newField._max = _max;
+            newField._min = _min;
+            newField._optional = _optional;
+            newField._prompt = null;
+            newField._promptDefinition = new PromptAttribute(_promptDefinition);
+            newField._recognizer = null;
+            newField._templates = new Dictionary<TemplateUsage, TemplateAttribute>();
+            foreach(var entry in _templates)
+            {
+                newField._templates[entry.Key] = new TemplateAttribute(entry.Value);
+            }
+            newField._terms = _terms;
+            newField._validate = _validate;
+            newField._valueDescriptions = new Dictionary<object, string>(_valueDescriptions);
+            newField._valueTerms = new Dictionary<object, string[]>();
+            foreach(var entry in _valueTerms)
+            {
+                newField._valueTerms[entry.Key] = entry.Value.Clone() as string[];
+            }
+            return newField;
+        }
+
         #region IFieldState
         public virtual object GetValue(T state)
         {
@@ -130,7 +163,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 return new string[0];
             }
         }
+        #endregion
 
+        #region IFieldDescription
         public virtual FieldRole Role
         {
             get
@@ -204,6 +239,90 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
                 return _promptDefinition.AllowNumbers;
             }
+        }
+
+        public virtual void SaveResources()
+        {
+            // Configuration -- yes/no, commands, current, ...
+            //  Map from NAME -> list<string>
+            //  Key = CONFIG.NAME
+            // Templates per step
+            //  Map from Usage.pattern -> step names
+            //  *Key = TEMPLATE.Usage + step names
+            // Prompt if overriden
+            //  Map from stepName -> Prompt
+            //  Key = stepName.PROMPT
+            // FieldDescription, FieldTerms
+            //  Map from stepName.FieldDescription -> string
+            //  Map from stepName.FieldTerms -> list<string>
+            // ValueDescription, ValueTerms
+            //  Map from stepName.Terms.Value -> list<string>
+            //  Map from stepName.Descripton.Value -> string
+            //
+            // On load you would go generate new form and redefine config and
+            // prompts/templates/description/terms per step.
+            // 
+            var localizer = _form.Resources;
+            localizer.Add(_name + nameof(_description), _description);
+            localizer.Add(_name + nameof(_terms), _terms);
+            var prefix = _name + nameof(_valueDescriptions);
+            foreach(var entry in _valueDescriptions)
+            {
+                localizer.Add(prefix + entry.Key, entry.Value);
+            }
+            prefix = _name + nameof(_valueTerms);
+            foreach (var entry in _valueTerms)
+            {
+                localizer.Add(prefix + entry.Key, entry.Value);
+            }
+            if (!_calculatedPrompt)
+            {
+                localizer.Add(_name + nameof(_promptDefinition), _promptDefinition.Patterns);
+            }
+            foreach(var entry in _templates)
+            {
+                localizer.Add(entry.Value, _name);
+            }
+        }
+
+        public virtual void LoadResources()
+        {
+            var localizer = _form.Resources;
+            var description = localizer.Lookup(_name + nameof(_description));
+            var terms = localizer.LookupList(_name + nameof(_terms));
+            if (description != null) _description = description;
+            if (terms != null) _terms = terms.ToArray();
+
+            var prefix = _name + nameof(_valueDescriptions);
+            foreach(var key in _valueDescriptions.Keys)
+            {
+                var value = localizer.Lookup(prefix + key);
+                if (value != null)
+                {
+                    _valueDescriptions[key] = value;
+                }
+            }
+
+            prefix = _name + nameof(_valueTerms);
+            foreach (var key in _valueTerms.Keys)
+            {
+                var value = localizer.LookupList(prefix + key);
+                if (value != null)
+                {
+                    _valueTerms[key] = value.ToArray();
+                }
+            }
+
+            foreach (var entry in _templates)
+            {
+                var patterns = localizer.LookupPatterns(entry.Key, _name);
+                if (patterns != null)
+                {
+                    _templates[entry.Key] = new TemplateAttribute(_templates.entry.Key, patterns.ToArray());
+                }
+            }
+
+            // TODO: Get the rest of the fields
         }
 
         #endregion
@@ -408,11 +527,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected bool _keepZero;
         protected string _description;
         protected PromptAttribute _help;
-        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true } );
+        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
         protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
+        protected bool _calculatedPrompt;
         protected PromptAttribute _promptDefinition;
         protected IRecognize<T> _recognizer;
         protected IPrompt<T> _prompt;
@@ -606,63 +726,74 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 base.Form = value;
                 if (_promptDefinition == null)
                 {
+                    TemplateUsage usage = TemplateUsage.None;
+                    _calculatedPrompt = true;
                     if (_type.IsEnum)
                     {
-                        _promptDefinition = new PromptAttribute(Template(_allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne));
+                        usage = _allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne;
                     }
                     else if (_type == typeof(string))
                     {
-                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.String));
+                        usage = TemplateUsage.String;
                     }
                     else if (_type.IsIntegral())
                     {
-                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Integer));
+                        usage = TemplateUsage.Integer;
                     }
                     else if (_type == typeof(bool))
                     {
-                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Bool));
+                        usage = TemplateUsage.Bool;
                     }
                     else if (_type.IsDouble())
                     {
-                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.Double));
+                        usage = TemplateUsage.Double;
                     }
                     else if (_type == typeof(DateTime))
                     {
-                        _promptDefinition = new PromptAttribute(Template(TemplateUsage.DateTime));
+                        usage = TemplateUsage.DateTime;
+                    }
+                    else
+                    {
+                        throw new ArgumentException(_name + " is not a type FormFlow understands.");
+                    }
+                    if (usage != TemplateUsage.None)
+                    {
+                        _promptDefinition = new PromptAttribute(Template(usage));
                     }
                 }
-
-                var step = _path.LastOrDefault();
-                if (_type == null || _type.IsEnum)
+                if (_recognizer == null)
                 {
-                    _recognizer = new RecognizeEnumeration<T>(this);
-                }
-                else if (_type == typeof(bool))
-                {
-                    _recognizer = new RecognizeBool<T>(this);
-                }
-                else if (_type == typeof(string))
-                {
-                    _recognizer = new RecognizeString<T>(this);
-                }
-                else if (_type.IsIntegral())
-                {
-                    _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type.IsDouble())
-                {
-                    _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type == typeof(DateTime))
-                {
-                    _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
-                }
-                else if (_type.IsIEnumerable())
-                {
-                    var elt = _type.GetGenericElementType();
-                    if (elt.IsEnum)
+                    if (_type == null || _type.IsEnum)
                     {
                         _recognizer = new RecognizeEnumeration<T>(this);
+                    }
+                    else if (_type == typeof(bool))
+                    {
+                        _recognizer = new RecognizeBool<T>(this);
+                    }
+                    else if (_type == typeof(string))
+                    {
+                        _recognizer = new RecognizeString<T>(this);
+                    }
+                    else if (_type.IsIntegral())
+                    {
+                        _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type.IsDouble())
+                    {
+                        _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type == typeof(DateTime))
+                    {
+                        _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type.IsIEnumerable())
+                    {
+                        var elt = _type.GetGenericElementType();
+                        if (elt.IsEnum)
+                        {
+                            _recognizer = new RecognizeEnumeration<T>(this);
+                        }
                     }
                 }
             }
@@ -910,6 +1041,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public IEnumerator<IField<T>> GetEnumerator()
         {
             return (from entry in _fields select entry.Value).GetEnumerator();
+        }
+
+        public Fields(Fields<T> other)
+        {
+            foreach(var field in other._fields)
+            {
+                // TODO: copy _fields[field.Key] = new Field
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -214,6 +214,10 @@ namespace Microsoft.Bot.Builder.FormFlow
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class PromptAttribute : TemplateBaseAttribute
     {
+        public PromptAttribute(TemplateBaseAttribute other) : base(other)
+        {
+        }
+
         /// <summary>
         /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
@@ -240,6 +244,9 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </remarks>
     public enum TemplateUsage
     {
+        /// <summary>   An enum constant representing the none option. </summary>
+        None,
+
         /// <summary>
         /// How to ask for a boolean.
         /// </summary>
@@ -497,6 +504,12 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             Usage = usage;
         }
+
+        public TemplateAttribute(TemplateAttribute other)
+            : base(other)
+        {
+            Usage = other.Usage;
+        }
     }
 
     /// <summary>
@@ -554,7 +567,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     public abstract class TemplateBaseAttribute : Attribute
     {
-        private readonly string[] _patterns;
         private static Random _generator = new Random();
 
         /// <summary>
@@ -603,7 +615,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             get
             {
                 // You can match on numbers only if they are included in Choices and choices are shown
-                return ChoiceFormat.Contains("{0}") && _patterns.Any((pattern) => pattern.Contains("{||}"));
+                return ChoiceFormat.Contains("{0}") && Patterns.Any((pattern) => pattern.Contains("{||}"));
             }
         }
 
@@ -615,27 +627,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public string Pattern()
         {
             var choice = 0;
-            if (_patterns.Length > 1)
+            if (Patterns.Length > 1)
             {
                 lock (_generator)
                 {
-                    choice = _generator.Next(_patterns.Length);
+                    choice = _generator.Next(Patterns.Length);
                 }
             }
-            return _patterns[choice];
+            return Patterns[choice];
         }
 
         /// <summary>
         /// All possible templates.
         /// </summary>
         /// <returns>The possible templates.</returns>
-        public string[] Patterns
-        {
-            get
-            {
-                return _patterns;
-            }
-        }
+        public string[] Patterns { get; set; }
 
         /// <summary>
         /// Any default values in this template will be overridden by the supplied <see cref="defaultTemplate"/>.
@@ -659,7 +665,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="patterns">Possible patterns.</param>
         public TemplateBaseAttribute(params string[] patterns)
         {
-            _patterns = patterns;
+            Patterns = patterns;
             Initialize();
         }
 
@@ -669,7 +675,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="other">The template to copy from.</param>
         public TemplateBaseAttribute(TemplateBaseAttribute other)
         {
-            _patterns = other._patterns;
+            Patterns = other.Patterns;
             AllowDefault = other.AllowDefault;
             ChoiceStyle = other.ChoiceStyle;
             FieldCase = other.FieldCase;

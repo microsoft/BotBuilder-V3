@@ -33,7 +33,9 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
@@ -41,14 +43,14 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder, 
-        WithState, 
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
+        WithState,
         SimpleSandwichBot, AnnotatedSandwichBot
     };
     [Serializable]
@@ -83,7 +85,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false)
         {
-            var form = new FormBuilder<PizzaOrder>(ignoreAnnotations);
+            var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
             ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
             ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
@@ -92,13 +94,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
             }
             else
             {
-                form.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
+                builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
-            return form
+            var form = builder
                 .Message("Welcome to the pizza bot!!!")
                 .Message("Lets make pizza!!!")
                 .Field(nameof(PizzaOrder.NumberOfPizzas))
@@ -140,6 +142,16 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
+            using (var stream = new FileStream("pizza.res", FileMode.Create))
+            {
+                form.SaveResources(stream);
+            }
+            using (var stream = new FileStream("pizza.res", FileMode.Open))
+            {
+                IEnumerable<string> missing, extra;
+                form.Localize(stream, out missing, out extra);
+            }
+            return form;
         }
 
         public static void TestValidate()
@@ -182,7 +194,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         .Build();
                 Debug.Fail("Validation failed");
             }
-            catch (ArgumentException )
+            catch (ArgumentException)
             {
             }
         }
@@ -211,7 +223,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         break;
                     default:
                         await context.PostAsync("I don't understand");
-                        context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart), WhatDoYouWant);
+                        context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart), WhatDoYouWant);
                         break;
                 }
             }
@@ -227,7 +239,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         await context.PostAsync("Knock-knock...");
                         break;
                 }
-                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart), WhatDoYouWant);
+                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart), WhatDoYouWant);
             }
         }
 
@@ -259,7 +271,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         static void Main(string[] args)
         {
             var callJoke = Chain
-                .From(() => new FormDialog<TopChoice>(new TopChoice(), options:FormOptions.PromptInStart))
+                .From(() => new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart))
                 .ContinueWith<TopChoice, object>(async (context, result) =>
                 {
                     switch ((await result).Choice)
@@ -316,8 +328,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => new FormBuilder<PizzaOrder>().Build());
                         case DebugOptions.WithState:
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
-                            { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza }, 
-                            () => BuildForm(noNumbers: false), options:FormOptions.PromptInStart);
+                            { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
+                            () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:

@@ -32,7 +32,7 @@
 //
 
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 
@@ -44,10 +44,13 @@ namespace Microsoft.Bot.Builder.FormFlow
     #endregion
     public abstract class IForm<T>
     {
+        public abstract void SaveResources(Stream stream);
+        public abstract IForm<T> Localize(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
         internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
         internal abstract CompletionDelegate<T> Completion { get; }
         internal abstract IFields<T> Fields { get; }
+        internal abstract ILocalizer Resources { get; }
     }   
 }

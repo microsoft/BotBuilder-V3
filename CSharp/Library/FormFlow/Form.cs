@@ -31,7 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 
@@ -53,6 +56,19 @@ namespace Microsoft.Bot.Builder.FormFlow
             this._fields = fields ?? new Fields<T>();
             this._steps = steps ?? new List<IStep<T>>();
             this._completion = completion;
+            this._resources = new ResourceLocalizer() { Culture = CultureInfo.CurrentCulture }; 
+        }
+
+        public override void SaveResources(Stream stream)
+        {
+            this._resources.Save(stream);
+        }
+
+        public override IForm<T> Localize(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra)
+        {
+            var newForm = new Form<T>(_ignoreAnnotations, _configuration, _fields, _steps, _completion);
+            newForm._resources = this._resources.Load(stream, out missing, out extra);
+            return newForm;
         }
 
         internal override bool IgnoreAnnotations
@@ -92,6 +108,16 @@ namespace Microsoft.Bot.Builder.FormFlow
             get
             {
                 return this._fields;
+            }
+        }
+
+        private ILocalizer _resources;
+
+        internal override ILocalizer Resources
+        {
+            get
+            {
+                return _resources;
             }
         }
     }

@@ -414,6 +414,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return prompter;
         }
 
+        public void SaveResources()
+        {
+            _field.SaveResources();
+        }
+
+        public void LoadResources()
+        {
+            throw new NotImplementedException();
+        }
+
         internal enum FieldStepStates { Unknown, SentPrompt, SentClarify };
 
         [Serializable]
@@ -515,6 +525,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var template = _field.Template(TemplateUsage.HelpConfirm);
             var prompt = new Prompter<T>(template, _field.Form, _field.Prompt().Recognizer());
             return "* " + prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer().Help(state, null), commandHelp);
+        }
+
+        public void SaveResources()
+        {
+            _field.SaveResources();
+        }
+
+        public void LoadResources()
+        {
+            throw new NotImplementedException();
         }
 
         public StepType Type
@@ -634,6 +654,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
         }
 
+        public void SaveResources()
+        {
+        }
+
+        public void LoadResources()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> Dependencies
         {
             get
@@ -653,7 +682,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public MessageStep(PromptAttribute prompt, ConditionalDelegate<T> condition, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
-            _prompt = new Prompter<T>(prompt, form, null);
+            _form = form;
+            _promptDefinition = prompt;
             _condition = (condition == null ? (state) => true : condition);
         }
 
@@ -703,7 +733,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public TemplateBaseAttribute Annotation
         {
-            get { return _prompt.Annotation; }
+            get { return _promptDefinition; }
         }
 
         public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
@@ -719,7 +749,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public string Start(IDialogContext context, T state, FormState form)
         {
             form.SetPhase(StepPhase.Completed);
-            return _prompt.Prompt(state, "");
+            var prompt = new Prompter<T>(_promptDefinition, _form, null);
+            return prompt.Prompt(state, "");
+        }
+
+        public void SaveResources()
+        {
+            _form.Resources.Add(_name + ".PROMPT", _promptDefinition.Patterns);
+        }
+
+        public void LoadResources()
+        {
+            throw new NotImplementedException();
         }
 
         public StepType Type
@@ -731,7 +772,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         private readonly string _name;
+        private readonly IForm<T> _form;
+        private readonly PromptAttribute _promptDefinition;
         private readonly ConditionalDelegate<T> _condition;
-        private readonly IPrompt<T> _prompt;
     }
 }

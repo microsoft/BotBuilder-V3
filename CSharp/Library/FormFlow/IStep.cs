@@ -65,6 +65,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         IField<T> Field { get; }
 
+        void SaveResources();
+
+        void LoadResources();
+
         bool Active(T state);
 
         string Start(IDialogContext context, T state, FormState form);
