@@ -146,7 +146,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             {
                 form.SaveResources(stream);
             }
-            using (var stream = new FileStream("pizza.res", FileMode.Open))
+            Process.Start(@"..\..\..\..\Tools\RView\bin\debug\RView.exe", "pizza.res -c neutral -p t-").WaitForExit();
+            using (var stream = new FileStream("pizza-neutral.res", FileMode.Open))
             {
                 IEnumerable<string> missing, extra;
                 form.Localize(stream, out missing, out extra);

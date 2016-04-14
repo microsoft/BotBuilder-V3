@@ -72,10 +72,6 @@ namespace Microsoft.Bot.Builder.FormFlow
                 builder.Confirm("Is this your selection?\n{*}");
             }
             Validate();
-            foreach(var step in _form._steps)
-            {
-                step.SaveResources();
-            }
             return this._form;
         }
 

@@ -79,39 +79,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public IField<T> Clone()
-        {
-            var newField = new Field<T>(_name, _role);
-            newField._allowsMultiple = _allowsMultiple;
-            newField._calculatedPrompt = _calculatedPrompt;
-            newField._description = _description;
-            newField._form = _form;
-            newField._help = new PromptAttribute(_help);
-            newField._isNullable = _isNullable;
-            newField._keepZero = _keepZero;
-            newField._limited = _limited;
-            newField._max = _max;
-            newField._min = _min;
-            newField._optional = _optional;
-            newField._prompt = null;
-            newField._promptDefinition = new PromptAttribute(_promptDefinition);
-            newField._recognizer = null;
-            newField._templates = new Dictionary<TemplateUsage, TemplateAttribute>();
-            foreach(var entry in _templates)
-            {
-                newField._templates[entry.Key] = new TemplateAttribute(entry.Value);
-            }
-            newField._terms = _terms;
-            newField._validate = _validate;
-            newField._valueDescriptions = new Dictionary<object, string>(_valueDescriptions);
-            newField._valueTerms = new Dictionary<object, string[]>();
-            foreach(var entry in _valueTerms)
-            {
-                newField._valueTerms[entry.Key] = entry.Value.Clone() as string[];
-            }
-            return newField;
-        }
-
         #region IFieldState
         public virtual object GetValue(T state)
         {
@@ -261,68 +228,26 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             //
             // On load you would go generate new form and redefine config and
             // prompts/templates/description/terms per step.
-            // 
             var localizer = _form.Resources;
             localizer.Add(_name + nameof(_description), _description);
             localizer.Add(_name + nameof(_terms), _terms);
-            var prefix = _name + nameof(_valueDescriptions);
-            foreach(var entry in _valueDescriptions)
-            {
-                localizer.Add(prefix + entry.Key, entry.Value);
-            }
-            prefix = _name + nameof(_valueTerms);
-            foreach (var entry in _valueTerms)
-            {
-                localizer.Add(prefix + entry.Key, entry.Value);
-            }
+            localizer.Add(_name + nameof(_valueDescriptions), _valueDescriptions);
+            localizer.Add(_name + nameof(_valueTerms), _valueTerms);
             if (!_calculatedPrompt)
             {
                 localizer.Add(_name + nameof(_promptDefinition), _promptDefinition.Patterns);
             }
-            foreach(var entry in _templates)
-            {
-                localizer.Add(entry.Value, _name);
-            }
+            localizer.Add(_name, _templates);
         }
 
         public virtual void LoadResources()
         {
             var localizer = _form.Resources;
-            var description = localizer.Lookup(_name + nameof(_description));
-            var terms = localizer.LookupList(_name + nameof(_terms));
-            if (description != null) _description = description;
-            if (terms != null) _terms = terms.ToArray();
-
-            var prefix = _name + nameof(_valueDescriptions);
-            foreach(var key in _valueDescriptions.Keys)
-            {
-                var value = localizer.Lookup(prefix + key);
-                if (value != null)
-                {
-                    _valueDescriptions[key] = value;
-                }
-            }
-
-            prefix = _name + nameof(_valueTerms);
-            foreach (var key in _valueTerms.Keys)
-            {
-                var value = localizer.LookupList(prefix + key);
-                if (value != null)
-                {
-                    _valueTerms[key] = value.ToArray();
-                }
-            }
-
-            foreach (var entry in _templates)
-            {
-                var patterns = localizer.LookupPatterns(entry.Key, _name);
-                if (patterns != null)
-                {
-                    _templates[entry.Key] = new TemplateAttribute(_templates.entry.Key, patterns.ToArray());
-                }
-            }
-
-            // TODO: Get the rest of the fields
+            localizer.Lookup(_name + nameof(_description), out _description);
+            localizer.LookupValues(_name + nameof(_terms), out _terms);
+            localizer.LookupDictionary(_name + nameof(_valueDescriptions), _valueDescriptions);
+            localizer.LookupDictionary(_name + nameof(_valueTerms), _valueTerms);
+            localizer.LookupTemplates(_name, _templates);
         }
 
         #endregion
@@ -375,7 +300,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #region Publics
         /// <summary>Set the field description. </summary>
         /// <param name="description">Field description. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetFieldDescription(string description)
         {
             UpdateAnnotations();
@@ -385,7 +310,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Set the terms associated with the field. </summary>
         /// <param name="terms">    The terms. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetFieldTerms(IEnumerable<string> terms)
         {
             UpdateAnnotations();
@@ -396,7 +321,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Adds a description for a value. </summary>
         /// <param name="value">        The value. </param>
         /// <param name="description">  Description of the value. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> AddDescription(object value, string description)
         {
             UpdateAnnotations();
@@ -407,7 +332,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Adds terms for a value. </summary>
         /// <param name="value">    The value. </param>
         /// <param name="terms">    The terms. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> AddTerms(object value, IEnumerable<string> terms)
         {
             UpdateAnnotations();
@@ -417,7 +342,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Removes the description and terms associated with a value. </summary>
         /// <param name="value">    The value to remove. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> RemoveValue(object value)
         {
             UpdateAnnotations();
@@ -428,7 +353,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Set whether or not a field is optional. </summary>
         /// <param name="optional"> True if field is optional. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetOptional(bool optional = true)
         {
             UpdateAnnotations();
@@ -438,7 +363,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Set whether or not field is nullable. </summary>
         /// <param name="nullable"> True if field is nullable. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetIsNullable(bool nullable = true)
         {
             UpdateAnnotations();
@@ -448,7 +373,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Sets the field prompt. </summary>
         /// <param name="prompt">   The prompt. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetPrompt(PromptAttribute prompt)
         {
             UpdateAnnotations();
@@ -458,7 +383,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary> Sets the recognizer for the field. </summary>
         /// <param name="recognizer">   The recognizer for the field. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             UpdateAnnotations();
@@ -468,7 +393,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Replace a template in the field. </summary>
         /// <param name="template"> The template. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> ReplaceTemplate(TemplateAttribute template)
         {
             UpdateAnnotations();
@@ -478,7 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Set the field validation. </summary>
         /// <param name="validate"> The validator. </param>
-        /// <returns>   An IField&lt;T&gt; </returns>
+        /// <returns>   An I<see cref="Field{T}"/> </returns>
         public IField<T> SetValidation(ValidateDelegate<T> validate)
         {
             UpdateAnnotations();
@@ -489,7 +414,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Set numeric limits. </summary>
         /// <param name="min">  The minimum. </param>
         /// <param name="max">  The maximum. </param>
-        /// <returns>   An IField&lt;T&gt; </returns>
+        /// <returns>   An I<see cref="Field{T}"/> </returns>
         public IField<T> SetLimits(double min, double max)
         {
             UpdateAnnotations();
@@ -1041,14 +966,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public IEnumerator<IField<T>> GetEnumerator()
         {
             return (from entry in _fields select entry.Value).GetEnumerator();
-        }
-
-        public Fields(Fields<T> other)
-        {
-            foreach(var field in other._fields)
-            {
-                // TODO: copy _fields[field.Key] = new Field
-            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

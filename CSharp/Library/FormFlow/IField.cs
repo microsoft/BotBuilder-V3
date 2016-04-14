@@ -381,13 +381,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Form that owns this field
         /// </summary>
         IForm<T> Form { get; set; }
-
-        #region Documentation
-        /// <summary>   Makes a deep copy of this object. </summary>
-        /// <returns>   A copy of this object. </returns>
-        #endregion
-        IField<T> Clone();
-    }
+     }
 
     /// <summary>
     /// Interface to track all of the fields in a form.

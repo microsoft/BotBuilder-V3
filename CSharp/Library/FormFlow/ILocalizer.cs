@@ -51,29 +51,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         CultureInfo Culture { get; set; }
 
         /// <summary>
-        /// Translate a key to a translation.
-        /// </summary>
-        /// <param name="key">Key to lookup.</param>
-        /// <returns>Translation.</returns>
-        string Lookup(string key);
-
-        /// <summary>
-        /// Translate a key to a list of terms.
-        /// </summary>
-        /// <param name="key">Key to lookup.</param>
-        /// <returns>List of translations.</returns>
-        IEnumerable<string> LookupList(string key);
-
-        #region Documentation
-        /// <summary>   Enumerates template definitions. </summary>
-        /// <param name="name"> The field name. </param>
-        /// <returns>
-        /// An enumerator that allows foreach to be used to process templates in this collection.
-        /// </returns>
-        #endregion
-        IEnumerable<string> LookupPatterns(TemplateUsage usage, string name);
-
-        /// <summary>
         /// Add a key and its translation to the localizer.
         /// </summary>
         /// <param name="key">Key for indexing translation.</param>
@@ -87,12 +64,35 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="list">List of translated terms.</param>
         void Add(string key, IEnumerable<string> list);
 
-        #region Documentation
-        /// <summary>   Add a template. </summary>
-        /// <param name="template"> The template to add. </param>
-        /// <remarks>Templates are special because they are shared but overridable per field.</remarks>
-        #endregion
-        void Add(TemplateAttribute template, string name);
+        void Add(string prefix, IReadOnlyDictionary<object, string> dictionary);
+
+        void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary);
+
+        void Add(string prefix, IReadOnlyDictionary<TemplateUsage, TemplateAttribute> templates);
+
+        void Add(string prefix, TemplateAttribute template);
+
+        /// <summary>
+        /// Translate a key to a translation.
+        /// </summary>
+        /// <param name="key">Key to lookup.</param>
+        /// <param name="value">Value to set if present.</param>
+        /// <returns>True if value is found. </returns>
+        bool Lookup(string key, out string value);
+
+        /// <summary>
+        /// Translate a key to an array of values.
+        /// </summary>
+        /// <param name="key">Key to lookup.</param>
+        /// <param name="values">Array value to set if present.</param>
+        /// <returns>True if value is found. </returns>
+        bool LookupValues(string key, out string[] values);
+
+        void LookupDictionary(string prefix, IDictionary<object, string> dictionary);
+
+        void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary);
+
+        void LookupTemplates(string prefix, IDictionary<TemplateUsage, TemplateAttribute> templates);
 
         /// <summary>
         /// Remove a key from the localizer.
@@ -120,19 +120,96 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     {
         public CultureInfo Culture { get; set; }
 
-        public void Add(string key, IEnumerable<string> list)
-        {
-            _listTranslations.Add(key, list.ToArray());
-        }
-
-        public void Add(string key, string translation)
+       public void Add(string key, string translation)
         {
             _translations.Add(key, translation);
         }
 
-        public void Add(TemplateAttribute template, string name)
+        public void Add(string key, IEnumerable<string> list)
         {
-            _templateTranslations.Add(name + SSEPERATOR + template.Usage, template.Patterns);
+            _arrayTranslations.Add(key, list.ToArray());
+        }
+
+         public void Add(string prefix, IReadOnlyDictionary<object, string> dictionary)
+        {
+            foreach (var entry in dictionary)
+            {
+                _translations.Add(prefix + SSEPERATOR + entry.Key, entry.Value);
+            }
+        }
+
+        public void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary)
+        {
+            foreach (var entry in dictionary)
+            {
+                _arrayTranslations.Add(prefix + SSEPERATOR + entry.Key, entry.Value);
+            }
+        }
+
+        public void Add(string prefix, IReadOnlyDictionary<TemplateUsage, TemplateAttribute> templates)
+        {
+            foreach (var template in templates.Values)
+            {
+                _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+            }
+        }
+
+        public void Add(string prefix, TemplateAttribute template)
+        {
+            _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+        }
+
+        public bool Lookup(string key, out string value)
+        {
+            return _translations.TryGetValue(key, out value);
+        }
+
+        public bool LookupValues(string key, out string[] values)
+        {
+            return _arrayTranslations.TryGetValue(key, out values);
+        }
+
+        public void LookupDictionary(string prefix, IDictionary<object, string> dictionary)
+        {
+            foreach (var key in dictionary.Keys.ToArray())
+            {
+                string value;
+                if (_translations.TryGetValue(prefix + SSEPERATOR + key, out value))
+                {
+                    dictionary[key] = value;
+                }
+            }
+        }
+
+        public void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary)
+        {
+            foreach (var key in dictionary.Keys.ToArray())
+            {
+                string[] values;
+                if (_arrayTranslations.TryGetValue(prefix + SSEPERATOR + key, out values))
+                {
+                    dictionary[key] = values;
+                }
+            }
+        }
+
+        public void LookupTemplates(string prefix, IDictionary<TemplateUsage, TemplateAttribute> templates)
+        {
+            foreach (var template in templates.Values)
+            {
+                string[] patterns;
+                if (_templateTranslations.TryGetValue(prefix + SSEPERATOR + template.Usage, out patterns))
+                {
+                    template.Patterns = patterns;
+                }
+            }
+        }
+
+        public void Remove(string key)
+        {
+            _translations.Remove(key);
+            _arrayTranslations.Remove(key);
+            _templateTranslations.Remove(key);
         }
 
         public ILocalizer Load(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra)
@@ -142,12 +219,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var newLocalizer = new ResourceLocalizer();
             using (var reader = new ResourceReader(stream))
             {
-                foreach(DictionaryEntry entry in reader)
+                foreach (DictionaryEntry entry in reader)
                 {
-                    var fullKey = (string) entry.Key;
-                    var dot = fullKey.IndexOf(".");
-                    var type = fullKey.Substring(0, dot);
-                    var key = fullKey.Substring(dot + 1);
+                    var fullKey = (string)entry.Key;
+                    var semi = fullKey.IndexOf(SEPERATOR);
+                    var type = fullKey.Substring(0, semi);
+                    var key = fullKey.Substring(semi + 1);
                     var val = (string)entry.Value;
                     if (type == "CULTURE")
                     {
@@ -167,10 +244,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var usage = elements.First();
                         var fields = elements.Skip(1);
                         var patterns = SplitList(val);
-                        var template = new TemplateAttribute((TemplateUsage) Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray());
-                        foreach(var field in fields)
+                        var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray());
+                        foreach (var field in fields)
                         {
-                            newLocalizer.Add(template, field);
+                            newLocalizer.Add(field, template);
                         }
                     }
                 }
@@ -178,28 +255,31 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
             // Find missing and extra keys
             lmissing.AddRange(_translations.Keys.Except(newLocalizer._translations.Keys));
-            lmissing.AddRange(_listTranslations.Keys.Except(newLocalizer._listTranslations.Keys));
+            lmissing.AddRange(_arrayTranslations.Keys.Except(newLocalizer._arrayTranslations.Keys));
             lmissing.AddRange(_templateTranslations.Keys.Except(newLocalizer._templateTranslations.Keys));
             lextra.AddRange(newLocalizer._translations.Keys.Except(_translations.Keys));
-            lextra.AddRange(newLocalizer._listTranslations.Keys.Except(_listTranslations.Keys));
+            lextra.AddRange(newLocalizer._arrayTranslations.Keys.Except(_arrayTranslations.Keys));
             lextra.AddRange(newLocalizer._templateTranslations.Keys.Except(_templateTranslations.Keys));
             missing = lmissing;
             extra = lextra;
             return newLocalizer;
         }
 
-        public void Remove(string key)
-        {
-            _translations.Remove(key);
-            _listTranslations.Remove(key);
-            _templateTranslations.Remove(key);
-        }
-
         public void Save(Stream stream)
         {
             using (var writer = new ResourceWriter(stream))
             {
-                writer.AddResource("CULTURE.", Culture.Name);
+                writer.AddResource("CULTURE" + SSEPERATOR, Culture.Name);
+                foreach (var entry in _translations)
+                {
+                    writer.AddResource("VALUE" + SSEPERATOR + entry.Key, entry.Value);
+                }
+
+                foreach (var entry in _arrayTranslations)
+                {
+                    writer.AddResource("LIST" + SSEPERATOR + entry.Key, MakeList(entry.Value));
+                }
+
                 // Switch from field;usage -> patterns
                 // to usage;pattern* -> [fields]
                 var byPattern = new Dictionary<string, List<string>>();
@@ -220,52 +300,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                 }
 
-                // Write out usage;field* -> pattern*
+                // Write out TEMPLATE;usage;field* -> pattern*
                 foreach (var entry in byPattern)
                 {
                     var elements = SplitList(entry.Key).ToArray();
                     var usage = elements[0];
                     var patterns = elements.Skip(1);
-                    var key = "TEMPLATE." + MakeList(AddPrefix(usage, entry.Value));
+                    var key = "TEMPLATE" + SSEPERATOR + usage + SSEPERATOR + MakeList(entry.Value);
                     writer.AddResource(key, MakeList(patterns));
-                }
-
-                foreach (var entry in _translations)
-                {
-                    writer.AddResource("VALUE." + entry.Key, entry.Value);
-                }
-
-                foreach (var entry in _listTranslations)
-                {
-                    writer.AddResource("LIST." + entry.Key, MakeList(entry.Value));
                 }
             }
         }
 
-        public string Lookup(string key)
-        {
-            string translation;
-            _translations.TryGetValue(key, out translation);
-            return translation;
-        }
-
-        public IEnumerable<string> LookupList(string key)
-        {
-            string[] translation;
-            _listTranslations.TryGetValue(key, out translation);
-            return translation;
-        }
-
-        public IEnumerable<string> LookupPatterns(TemplateUsage usage, string name)
-        {
-            string[] patterns;
-            _templateTranslations.TryGetValue(MakeList(AddPrefix(name, new string[] { usage.ToString() })), out patterns);
-            return patterns;
-        }
-
         protected const char SEPERATOR = ';';
         protected const string SSEPERATOR = ";";
-        protected const string ESCAPED_SEPERATOR = "_;_";
+        protected const string ESCAPED_SEPERATOR = "__semi";
 
         protected IEnumerable<string> AddPrefix(string prefix, IEnumerable<string> suffix)
         {
@@ -277,6 +326,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return string.Join(SSEPERATOR, from elt in elements select elt.Replace(SSEPERATOR, ESCAPED_SEPERATOR));
         }
 
+        protected string MakeList(params string[] elements)
+        {
+            return MakeList(elements.AsEnumerable<string>());
+        }
+
         protected IEnumerable<string> SplitList(string str)
         {
             var elements = str.Split(SEPERATOR);
@@ -284,7 +338,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         protected Dictionary<string, string> _translations = new Dictionary<string, string>();
-        protected Dictionary<string, string[]> _listTranslations = new Dictionary<string, string[]>();
+        protected Dictionary<string, string[]> _arrayTranslations = new Dictionary<string, string[]>();
         protected Dictionary<string, string[]> _templateTranslations = new Dictionary<string, string[]>();
     }
 }

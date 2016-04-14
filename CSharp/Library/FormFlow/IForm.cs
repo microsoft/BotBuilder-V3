@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     public abstract class IForm<T>
     {
         public abstract void SaveResources(Stream stream);
-        public abstract IForm<T> Localize(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
+        public abstract void Localize(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
         internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }

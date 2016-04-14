@@ -421,7 +421,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void LoadResources()
         {
-            throw new NotImplementedException();
+            _field.LoadResources();
         }
 
         internal enum FieldStepStates { Unknown, SentPrompt, SentClarify };
@@ -534,7 +534,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void LoadResources()
         {
-            throw new NotImplementedException();
+            _field.LoadResources();
         }
 
         public StepType Type
@@ -660,7 +660,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void LoadResources()
         {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<string> Dependencies
@@ -760,7 +759,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void LoadResources()
         {
-            throw new NotImplementedException();
+            string[] patterns;
+            _form.Resources.LookupValues(_name + ".PROMPT", out patterns);
+            if (patterns != null) _promptDefinition.Patterns = patterns;
         }
 
         public StepType Type
