@@ -50,6 +50,24 @@ interface ISlackMessage {
 }
 
 interface ISlackAttachment {
+    fallback: string;
+    color?: string;
+    pretext?: string;
+    author_name?: string;
+    author_link?: string;
+    author_icon?: string;
+    title?: string;
+    title_link?: string;
+    text?: string;
+    field?: ISlackAttachmentField[];
+    image_url?: string;
+    thumb_url?: string;    
+}
+
+interface ISlackAttachmentField {
+    title: string;
+    value: string;
+    short?: boolean;    
 }
 
 declare class BotKitController  {
@@ -77,7 +95,7 @@ interface IStoredData {
 }
 
 declare class Bot {
-    reply(message: ISlackMessage, text: string): void;
+    reply(message: ISlackMessage, reply: ISlackMessage, cb: (err: Error) => void): void;
     say(message: ISlackMessage, cb: (err: Error) => void): void;
     identifyTeam(cb: (err: Error, teamId: string) => void): void;
 }
@@ -88,12 +106,12 @@ export interface ISlackBotOptions {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     ambientMentionDuration?: number;
+    minSendDelay?: number;
+    sendIsTyping?: boolean;
 }
 
 export interface ISlackBeginDialogAddress {
-    team?: string;
-    user?: string;
-    channel?: string;
+    channel: string;
     text?: string;
 }
 
@@ -101,7 +119,9 @@ export class SlackBot extends collection.DialogCollection {
     private options: ISlackBotOptions = {
         maxSessionAge: 14400000,        // <-- default max session age of 4 hours
         defaultDialogId: '/',
-        ambientMentionDuration: 300000  // <-- default duration of 5 minutes
+        ambientMentionDuration: 300000, // <-- default duration of 5 minutes
+        minSendDelay: 1500,
+        sendIsTyping: true
     };
     
     constructor(private controller: BotKitController, private bot: Bot, options?: ISlackBotOptions) {
@@ -179,7 +199,7 @@ export class SlackBot extends collection.DialogCollection {
 
     public beginDialog(address: ISlackBeginDialogAddress, dialogId: string, dialogArgs?: any): this {
         // Validate args
-        if (!address.user && !address.channel) {
+        if (!address.channel) {
             throw new Error('Invalid address passed to SlackBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
@@ -193,15 +213,18 @@ export class SlackBot extends collection.DialogCollection {
 
     private dispatchMessage(bot: Bot, msg: ISlackMessage, dialogId: string, dialogArgs: any, smartState?: ISessionState) {
         var onError = (err: Error) => {
-            this.emit('error', err, msg);
+            if (err) {
+                this.emit('error', err, msg);
+            }
         };
 
         // Initialize session
         var ses = new SlackSession({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
-            dialogId: this.options.defaultDialogId,
-            dialogArgs: this.options.defaultDialogArgs
+            dialogId: dialogId || this.options.defaultDialogId,
+            dialogArgs: dialogArgs || this.options.defaultDialogArgs
         });
         ses.on('send', (reply: IMessage) => {
             // Clone data fields & store session state
@@ -219,15 +242,17 @@ export class SlackBot extends collection.DialogCollection {
                     var slackReply = this.toSlackMessage(reply);
                     if (bot) {
                         // Check for a different TO address
-                        if (slackReply.user && slackReply.user != msg.user) {
+                        if (slackReply.channel && slackReply.channel != msg.channel) {
                             this.emit('send', slackReply);
                             bot.say(slackReply, onError);
                         } else {
                             this.emit('reply', slackReply);
-                            bot.reply(msg, slackReply.text);
+                            bot.reply(msg, slackReply, onError);
                         }
                     } else {
-                        slackReply.user = ses.message.to.address;
+                        if (!slackReply.channel) {
+                            slackReply.channel = msg.channel;
+                        }
                         this.emit('send', slackReply);
                         this.bot.say(slackReply, onError);
                     }
@@ -240,6 +265,13 @@ export class SlackBot extends collection.DialogCollection {
         ses.on('quit', () => {
             this.emit('quit', msg);
         });
+        ses.on('typing', () => {
+           this.emit('typing', msg);
+           this.bot.say(<any>{ id: 1, type: 'typing', channel: msg.channel }, onError); 
+        });
+        
+        // Send initial typing indicator
+        this.bot.say(<any>{ id: 1, type: 'typing', channel: msg.channel }, onError); 
 
         // Load data from storage
         var sessionState: ISessionState;
@@ -328,10 +360,37 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private fromSlackMessage(msg: ISlackMessage): IMessage {
+        // Convert attachments
+        var attachments: IAttachment[] = [];
+        if (msg.attachments) {
+            msg.attachments.forEach((value) => {
+                var contentType = value.image_url ? 'image' : 'text/plain';
+                var a: IAttachment = { contentType: contentType, fallbackText: value.fallback };
+                if (value.image_url) {
+                    a.contentUrl = value.image_url;
+                }
+                if (value.thumb_url) {
+                    a.thumbnailUrl = value.thumb_url;
+                }
+                if (value.text) {
+                    a.text = value.text;
+                }
+                if (value.title) {
+                    a.title = value.title;
+                }
+                if (value.title_link) {
+                    a.titleLink
+                }
+                attachments.push(a);
+            });
+        }
+        
+        // Return message
         return {
             type: msg.type,
             id: msg.ts,
             text: msg.text,
+            attachments: attachments,
             from: {
                 channelId: 'slack',
                 address: msg.user
@@ -342,11 +401,42 @@ export class SlackBot extends collection.DialogCollection {
     }
 
     private toSlackMessage(msg: IMessage): ISlackMessage {
+        // Convert attachments
+        var attachments: ISlackAttachment[] = [];
+        if (msg.attachments && !msg.channelData) {
+            msg.attachments.forEach((value) => {
+                var a = <ISlackAttachment>{};
+                if (value.fallbackText) {
+                    a.fallback = value.fallbackText;
+                } else {
+                    a.fallback = value.contentUrl ? value.contentUrl : value.text || '<attachment>';
+                }
+                if (value.contentUrl && /^image/i.test(value.contentType)) {
+                    a.image_url = value.contentUrl;
+                }
+                if (value.thumbnailUrl) {
+                    a.thumb_url = value.thumbnailUrl;
+                }
+                if (value.text) {
+                    a.text = value.text;
+                }
+                if (value.title) {
+                    a.title = value.title;
+                }
+                if (value.titleLink) {
+                    a.title_link = value.titleLink;
+                }
+                attachments.push(a);
+            });
+        }
+        
+        // Return message
         return msg.channelData || {
             event:'direct_message',
             type: msg.type,
             ts: msg.id,
             text: msg.text,
+            attachments: attachments,
             user: msg.to ? msg.to.address : (msg.from ? msg.from.address : null),
             channel: msg.channelConversationId
         };
@@ -357,23 +447,25 @@ export class SlackSession extends session.Session {
     public teamData: any;
     public channelData: any;
     
+    public isTyping(): void {
+        this.emit('typing');
+    }
+
     public escapeText(text: string): string {
         if (text) {
-            text = text.replace('&', '&amp;');
-            text = text.replace('<', '&lt;');
-            text = text.replace('>', '&gt;');
+            text = text.replace(/&/g, '&amp;');
+            text = text.replace(/</g, '&lt;');
+            text = text.replace(/>/g, '&gt;');
         }
         return text;
     }
-    
+
     public unescapeText(text: string): string {
         if (text) {
-            text = text.replace('&amp;', '&');
-            text = text.replace('&lt;', '<');
-            text = text.replace('&gt;', '>');
+            text = text.replace(/&amp;/g, '&');
+            text = text.replace(/&lt;/g, '<');
+            text = text.replace(/&gt;/g, '>');
         }
         return text;
     }
-    
-    
 }

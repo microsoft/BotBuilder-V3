@@ -6,12 +6,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 var actions = require('./DialogAction');
 var simpleDialog = require('./SimpleDialog');
 var events = require('events');
+var prompts = require('./Prompts');
+var consts = require('../Consts');
 var DialogCollection = (function (_super) {
     __extends(DialogCollection, _super);
     function DialogCollection() {
         _super.call(this);
         this.middleware = [];
         this.dialogs = {};
+        this.add(consts.DialogId.Prompts, new prompts.Prompts());
     }
     DialogCollection.prototype.add = function (id, dialog) {
         var dialogs;

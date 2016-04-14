@@ -14,7 +14,8 @@ var SkypeBot = (function (_super) {
         this.botService = botService;
         this.options = {
             maxSessionAge: 14400000,
-            defaultDialogId: '/'
+            defaultDialogId: '/',
+            minSendDelay: 1000
         };
         this.configure(options);
         var events = 'message|personalMessage|groupMessage|attachment|threadBotAdded|threadAddMember|threadBotRemoved|threadRemoveMember|contactAdded|threadTopicUpdated|threadHistoryDisclosedUpdate'.split('|');
@@ -86,6 +87,7 @@ var SkypeBot = (function (_super) {
         };
         var ses = new SkypeSession({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId,
             dialogArgs: dialogArgs
@@ -211,17 +213,17 @@ var SkypeSession = (function (_super) {
     }
     SkypeSession.prototype.escapeText = function (text) {
         if (text) {
-            text = text.replace('&', '&amp;');
-            text = text.replace('<', '&lt;');
-            text = text.replace('>', '&gt;');
+            text = text.replace(/&/g, '&amp;');
+            text = text.replace(/</g, '&lt;');
+            text = text.replace(/>/g, '&gt;');
         }
         return text;
     };
     SkypeSession.prototype.unescapeText = function (text) {
         if (text) {
-            text = text.replace('&amp;', '&');
-            text = text.replace('&lt;', '<');
-            text = text.replace('&gt;', '>');
+            text = text.replace(/&amp;/g, '&');
+            text = text.replace(/&lt;/g, '<');
+            text = text.replace(/&gt;/g, '>');
         }
         return text;
     };

@@ -42,7 +42,9 @@ var CommandDialog = (function (_super) {
                     if (matches) {
                         var length = 0;
                         matches.forEach(function (value) {
-                            length += value.length;
+                            if (value) {
+                                length += value.length;
+                            }
                         });
                         score = length / text.length;
                     }

@@ -31,12 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -87,6 +85,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <remarks>
     /// <see cref="FormDialog{T}"/> for an implementation of this interface.
     /// </remarks>
+    /// <exception cref="FormCanceledException{T}">Thrown when the user quits while filling in a form, or there is an underlying exception in the code.</exception>
     public interface IFormDialog<T> : IDialog<T>
     {
         /// <summary>
@@ -98,7 +97,8 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <summary>
     /// Commands supported in form dialogs.
     /// </summary>
-    public enum FormCommand {
+    public enum FormCommand
+    {
         /// <summary>
         /// Move back to the previous step.
         /// </summary>
@@ -122,7 +122,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Provide feedback to the user on the current form state.
         /// </summary>
-        Status };
+        Status
+    };
 
     /// <summary>
     /// Description of all the information needed for a built-in command.
@@ -157,5 +158,52 @@ namespace Microsoft.Bot.Builder.FormFlow
             Help = help;
         }
     }
- }
+
+    #region Documentation
+    /// <summary>   Exception generated when form filling is canceled by user quit or exception. </summary>
+    /// <remarks>In the case of user quit or an exception the strongly typed exception <see cref="FormCanceledException{T}"/>
+    ///          is actually thrown, but this provides simple access to the Last step.</remarks>
+    #endregion
+    [Serializable]
+    public class FormCanceledException : OperationCanceledException
+    {
+        #region Documentation
+        /// <summary>   Constructor with message and inner exception. </summary>
+        /// <param name="message">Exception message.</param>
+        /// <param name="inner">Inner exception.</param>
+        /// <remarks>In the case of quit by the user, the inner exception will be null.</remarks>
+        #endregion
+        public FormCanceledException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+
+        /// <summary>   The names of completed steps. </summary>
+        public IEnumerable<string> Completed { get; internal set; }
+
+        /// <summary>   Name of the step that quit or threw an exception. </summary>
+        public string Last { get; internal set; }
+    }
+
+    #region Documentation
+    /// <summary>   Exception generated when form filling is canceled by user quit or exception. </summary>
+    /// <typeparam name="T">    Underlying form type. </typeparam>
+    #endregion
+    [Serializable]
+    public class FormCanceledException<T> : FormCanceledException
+    {
+        /// <summary>   Constructor with message and inner exception. </summary>
+        /// <param name="message">Exception message.</param>
+        /// <param name="inner">Inner exception.</param>
+        /// <remarks>In the case of user quit, the inner exception will be null.</remarks>
+        public FormCanceledException(string message, Exception inner = null)
+            : base(message, inner)
+        {
+            LastForm = default(T);
+        }
+
+        /// <summary>   Gets the partial form when the user quits or there is an exception. </summary>
+        public T LastForm { get; internal set; }
+    }
+}
 

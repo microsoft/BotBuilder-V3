@@ -1,4 +1,5 @@
 var session = require('./Session');
+var message = require('./Message');
 var dialog = require('./dialogs/Dialog');
 var actions = require('./dialogs/DialogAction');
 var collection = require('./dialogs/DialogCollection');
@@ -13,6 +14,7 @@ var skype = require('./bots/SkypeBot');
 var slack = require('./bots/SlackBot');
 var text = require('./bots/TextBot');
 exports.Session = session.Session;
+exports.Message = message.Message;
 exports.Dialog = dialog.Dialog;
 exports.ResumeReason = dialog.ResumeReason;
 exports.DialogAction = actions.DialogAction;

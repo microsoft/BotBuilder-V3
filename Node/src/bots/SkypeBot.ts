@@ -40,6 +40,7 @@ export interface ISkypeBotOptions {
     sessionStore?: storage.IStorage;
     maxSessionAge?: number;
     localizer?: ILocalizer;
+    minSendDelay?: number;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     contactAddedmessage?: string;
@@ -52,7 +53,8 @@ export interface ISkypeBotOptions {
 export class SkypeBot extends collection.DialogCollection {
     private options: ISkypeBotOptions = {
         maxSessionAge: 14400000,    // <-- default max session age of 4 hours
-        defaultDialogId: '/'
+        defaultDialogId: '/',
+        minSendDelay: 1000
     };
 
     constructor(protected botService: skypeSdk.BotService, options?: ISkypeBotOptions) {
@@ -135,6 +137,7 @@ export class SkypeBot extends collection.DialogCollection {
         // Initialize session
         var ses = new SkypeSession({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId,
             dialogArgs: dialogArgs
@@ -263,21 +266,19 @@ export class SkypeSession extends session.Session {
 
     public escapeText(text: string): string {
         if (text) {
-            text = text.replace('&', '&amp;');
-            text = text.replace('<', '&lt;');
-            text = text.replace('>', '&gt;');
+            text = text.replace(/&/g, '&amp;');
+            text = text.replace(/</g, '&lt;');
+            text = text.replace(/>/g, '&gt;');
         }
         return text;
     }
     
     public unescapeText(text: string): string {
         if (text) {
-            text = text.replace('&amp;', '&');
-            text = text.replace('&lt;', '<');
-            text = text.replace('&gt;', '>');
+            text = text.replace(/&amp;/g, '&');
+            text = text.replace(/&lt;/g, '<');
+            text = text.replace(/&gt;/g, '>');
         }
         return text;
     }
-    
-    
 }

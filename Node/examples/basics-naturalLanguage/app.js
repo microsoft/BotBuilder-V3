@@ -12,7 +12,8 @@ For a complete walkthrough of creating this bot see the article below.
 var builder = require('../../');
 
 // Create LUIS Dialog that points at our model and add it as the root '/' dialog for our Cortana Bot.
-var dialog = new builder.LuisDialog(process.env.model);
+var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';
+var dialog = new builder.LuisDialog(model);
 var cortanaBot = new builder.TextBot();
 cortanaBot.add('/', dialog);
 

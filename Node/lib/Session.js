@@ -13,7 +13,12 @@ var Session = (function (_super) {
         this.args = args;
         this.msgSent = false;
         this._isReset = false;
+        this.lastSendTime = new Date().getTime();
+        this.sendQueue = [];
         this.dialogs = args.dialogs;
+        if (typeof this.args.minSendDelay !== 'number') {
+            this.args.minSendDelay = 1000;
+        }
     }
     Session.prototype.dispatch = function (sessionState, message) {
         var _this = this;
@@ -75,9 +80,8 @@ var Session = (function (_super) {
         if (ss.callstack.length > 0) {
             ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
         }
-        this.msgSent = true;
         var message = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
-        this.emit('send', message);
+        this.delayedEmit('send', message);
         return this;
     };
     Session.prototype.getMessageReceived = function () {
@@ -95,6 +99,9 @@ var Session = (function (_super) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         var ss = this.sessionState;
+        if (ss.callstack.length > 0) {
+            ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
+        }
         var cur = { id: id, state: {} };
         ss.callstack.push(cur);
         this.dialogData = cur.state;
@@ -115,19 +122,46 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.endDialog = function (result) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
         var ss = this.sessionState;
-        var r = result || { resumed: dialog.ResumeReason.completed };
+        var m;
+        var r = {};
+        if (result) {
+            if (typeof result === 'string') {
+                m = this.createMessage(result, args);
+            }
+            else if (result.hasOwnProperty('text') || result.hasOwnProperty('channelData')) {
+                m = result;
+            }
+            else {
+                r = result;
+            }
+        }
+        if (!r.hasOwnProperty('resumed')) {
+            r.resumed = dialog.ResumeReason.completed;
+        }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {
             var cur = ss.callstack[ss.callstack.length - 1];
-            var d = this.dialogs.getDialog(cur.id);
             this.dialogData = cur.state;
+            if (m) {
+                this.send(m);
+            }
+            var d = this.dialogs.getDialog(cur.id);
             d.dialogResumed(this, r);
         }
-        else if (!this.msgSent) {
-            this.send();
-            this.emit('quit');
+        else {
+            this.send(m);
+            if (r.error) {
+                this.emit('error', r.error);
+            }
+            else {
+                this.delayedEmit('quit');
+            }
         }
         return this;
     };
@@ -193,6 +227,34 @@ var Session = (function (_super) {
             }
         }
         return true;
+    };
+    Session.prototype.delayedEmit = function (event, message) {
+        var _this = this;
+        var now = new Date().getTime();
+        var delaySend = function () {
+            setTimeout(function () {
+                var entry = _this.sendQueue.shift();
+                _this.lastSendTime = now = new Date().getTime();
+                _this.emit(entry.event, entry.msg);
+                if (_this.sendQueue.length > 0) {
+                    delaySend();
+                }
+            }, _this.args.minSendDelay - (now - _this.lastSendTime));
+        };
+        if (this.sendQueue.length == 0) {
+            this.msgSent = true;
+            if ((now - this.lastSendTime) >= this.args.minSendDelay) {
+                this.lastSendTime = now;
+                this.emit(event, message);
+            }
+            else {
+                this.sendQueue.push({ event: event, msg: message });
+                delaySend();
+            }
+        }
+        else {
+            this.sendQueue.push({ event: event, msg: message });
+        }
     };
     return Session;
 })(events.EventEmitter);

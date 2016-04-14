@@ -1,0 +1,7 @@
+*.pubxml
+*.pubxml.user
+*.dat
+\.vs
+\bin
+\obj
+\node_modules

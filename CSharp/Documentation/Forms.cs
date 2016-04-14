@@ -13,7 +13,11 @@
     /// [EntityRecommendation.Entity]: @ref Microsoft.Bot.Builder.Luis.EntityRecommendation.Entity 
     /// [LuisDialog]: @ref Microsoft.Bot.Builder.Dialogs.LuisDialog 
     /// [AllowDefault]: @ref Advanced.TemplateBaseAttribute.AllowDefault 
+    /// [ChoiceCase]: @ref Advanced.TemplateBaseAttribute.ChoiceCase
+    /// [ChoiceLastSeparator]: @ref Advanced.TemplateBaseAttribute.ChoiceLastSeparator
+    /// [ChoiceSeparator]: @ref Advanced.TemplateBaseAttribute.ChoiceSeparator
     /// [ChoiceFormat]: @ref Advanced.TemplateBaseAttribute.ChoiceFormat 
+    /// [ChoiceParens]: @ref Advanced.TemplateBaseAttribute.ChoiceParens
     /// [ChoiceStyle]: @ref Advanced.TemplateBaseAttribute.ChoiceStyle 
     /// [Feedback]: @ref Advanced.TemplateBaseAttribute.Feedback 
     /// [FieldCase]: @ref Advanced.TemplateBaseAttribute.FieldCase 
@@ -414,7 +418,7 @@
     /// ~~~{.txt}
     /// What kind of sandwich would you like?
     /// > ?
-    /// * You are filling in the sandwich field.Possible responses:
+    /// * You are filling in the sandwich field. Possible responses:
     /// * You can enter in any words from the descriptions. (BLT, Black Forest Ham, Buffalo Chicken, Chicken And Bacon Ranch Melt, Cold Cut Combo, Meatball Marinara, Over Roasted Chicken, Roast Beef, Rotisserie Style Chicken, Spicy Italian, Steak And Cheese, Sweet Onion Teriyaki, Tuna, Turkey Breast, and Veggie)
     /// * Back: Go back to the previous question.
     /// * Help: Show the kinds of responses you can enter.
@@ -560,7 +564,7 @@
     /// For sandwich toppings you have selected Avocado, Banana Peppers, Cucumbers, Green Bell Peppers, Lettuce, Olives, Pickles, Red Onion, Spinach, and Tomatoes.
     /// ~~~
     /// 
-    /// \subsection ControlFlow Using the Form Builder
+    /// \subsection controlFlow Using the Form Builder
     /// So far we have improved your dialog via attributes and business logic.  There is 
     /// another way to improve your dialog and that is through the FormBuilder.  The FormBuilder
     /// allows more fine-grained control over the steps in your conversation and lets you put in messages
@@ -569,7 +573,7 @@
     /// is explicit navigation.)  Here is a more complex usage of FormBuilder:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip static
-    /// \until return
+    /// \until .Build
     /// \until }
     /// 
     /// The steps this defines are:
@@ -594,6 +598,20 @@
     /// and off parts of your form based on the state of your object or dynamically define fields
     /// rather than drive them off a C# class.  
     /// 
+    /// \subsection quitExceptions Handling Quit and Exceptions
+    /// When the user types 'quit' or there is an exception while filling in a form using FormDialog it is useful to be able
+    /// to know what step the 'quit' or exception happened, the state of the form and and what steps were successfully completed.
+    /// All of these are passed back through the FormCanceledException<T> class.  Here is an example of how to catch the exception and send
+    /// a message after either:
+    /// * Successfully processing the order.  
+    /// * When the user quit.  
+    /// * When there is an exception.
+    /// \dontinclude AnnotatedSandwichBot/Controllers/MessagesController.cs
+    /// \skip MakeRootDialog
+    /// \until });
+    /// \until }
+    /// 
+    /// \subsection finalBot Final Sandwich Bot
     /// Here is the final SandwichOrder with attributes, business logic and a more complex form.
     /// \include AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// 
@@ -627,7 +645,7 @@
     ///  4. Italian Herbs And Cheese
     ///  5. Flatbread
     /// > nine grain
-    /// By "nine grain" bread did you mean(1. Nine Grain Honey Oat, 2. Nine Grain Wheat)
+    /// By "nine grain" bread did you mean (1. Nine Grain Honey Oat, 2. Nine Grain Wheat)
     /// > 1
     /// What kind of cheese would you like on your sandwich? (current choice: No Preference)
     ///  1. American
@@ -650,7 +668,7 @@
     /// > everything but jalapenos
     /// For sandwich toppings you have selected Avocado, Banana Peppers, Cucumbers, Green Bell Peppers, Lettuce, Olives, Pickles, Red Onion, Spinach, and Tomatoes.
     ///
-    /// Please select one or more sauces(current choice: No Preference)
+    /// Please select one or more sauces (current choice: No Preference)
     ///  1. Honey Mustard
     ///  2. Light Mayonnaise
     ///  3. Regular Mayonnaise
@@ -670,6 +688,7 @@
     /// Please enter a number between 1.0 and 5.0 for your experience today(current choice: No Preference)
     /// > 5
     /// Thanks for ordering a sandwich!
+    /// Processed your order!
     /// ~~~
     /// 
     /// \section initialState Passing in Initial Form State and Entities
@@ -720,12 +739,16 @@
     /// Usage | Description
     /// ------|------------
     /// [AllowDefault] | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    /// [ChoiceFormat] | When processing choices using {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    /// [ChoiceCase] | When prcoessing choices for {\|\|} controls case normalization for each choice.
+    /// [ChoiceFormat] | When processing choices for {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
+    /// [ChoiceLastSeparator] | When inline choice lists are constructed for {\|\|} provides the separator before the last choice.
+    /// [ChoiceParens] | When inline choice lists are constructed for {\|\|} indicates whether or not they are in parentheses.
+    /// [ChoiceSeparator] | When inline choice lists are constructed for {\|\|} provides the separaotr before every choice except the last.
     /// [ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
     /// [Feedback] | For [Prompt] only controls feedback after user entry.
     /// [FieldCase] | Controls case normalization when displaying a field description.
-    /// [LastSeparator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before the last item.
-    /// [Separator] | When lists are constructed for {[]} or in line choices from {\|\|} provides the separator before every item except the last.
+    /// [LastSeparator] | When lists are constructed for {[]} provides the separator before the last item.
+    /// [Separator] | When lists are constructed for {[]} provides the separator before every item except the last.
     /// [ValueCase] | Controls case normalization when displaying a field value.
     /// 
 }

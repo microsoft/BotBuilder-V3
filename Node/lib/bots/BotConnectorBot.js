@@ -6,18 +6,18 @@ var __extends = (this && this.__extends) || function (d, b) {
 var collection = require('../dialogs/DialogCollection');
 var session = require('../Session');
 var consts = require('../consts');
-var utils = require('../utils');
 var request = require('request');
+var uuid = require('node-uuid');
 var BotConnectorBot = (function (_super) {
     __extends(BotConnectorBot, _super);
     function BotConnectorBot(options) {
         _super.call(this);
         this.options = {
-            endpoint: process.env['endpoint'] || 'https://intercomppe.azure-api.net',
+            endpoint: process.env['endpoint'] || 'https://api.botframework.com',
             appId: process.env['appId'] || '',
             appSecret: process.env['appSecret'] || '',
-            subscriptionKey: process.env['subscriptionKey'] || '',
-            defaultDialogId: '/'
+            defaultDialogId: '/',
+            minSendDelay: 1000
         };
         this.configure(options);
     }
@@ -35,8 +35,9 @@ var BotConnectorBot = (function (_super) {
         this.configure(options);
         return function (req, res, next) {
             var authorized;
-            if (_this.options.appId && _this.options.appSecret) {
-                if (req.headers && req.headers.hasOwnProperty('authorization')) {
+            var isSecure = req.headers['x-forwarded-proto'] === 'https' || req.headers['x-arr-ssl'];
+            if (isSecure && _this.options.appId && _this.options.appSecret) {
+                if (req.headers.hasOwnProperty('authorization')) {
                     var tmp = req.headers['authorization'].split(' ');
                     var buf = new Buffer(tmp[1], 'base64');
                     var cred = buf.toString().split(':');
@@ -67,7 +68,7 @@ var BotConnectorBot = (function (_super) {
         this.configure(options);
         return function (req, res) {
             if (req.body) {
-                _this.processMessage(req.body, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
+                _this.dispatchMessage(null, req.body, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
             }
             else {
                 var requestData = '';
@@ -77,7 +78,7 @@ var BotConnectorBot = (function (_super) {
                 req.on('end', function () {
                     try {
                         var msg = JSON.parse(requestData);
-                        _this.processMessage(msg, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
+                        _this.dispatchMessage(null, msg, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
                     }
                     catch (e) {
                         _this.emit('error', new Error('Invalid Bot Framework Message'));
@@ -99,59 +100,87 @@ var BotConnectorBot = (function (_super) {
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to BotConnectorBot.beginDialog().');
         }
-        this.processMessage(msg, dialogId, dialogArgs);
+        this.dispatchMessage(msg.to.id, msg, dialogId, dialogArgs);
     };
-    BotConnectorBot.prototype.processMessage = function (message, dialogId, dialogArgs, res) {
+    BotConnectorBot.prototype.dispatchMessage = function (userId, message, dialogId, dialogArgs, res) {
         var _this = this;
         try {
             if (!message || !message.type) {
                 this.emit('error', new Error('Invalid Bot Framework Message'));
-                return res.send(400);
+                return res ? res.send(400) : null;
+            }
+            if (!userId) {
+                if (message.from && message.from.id) {
+                    userId = message.from.id;
+                }
+                else {
+                    this.emit('error', new Error('Invalid Bot Framework Message'));
+                    return res ? res.send(400) : null;
+                }
+            }
+            var sessionId;
+            if (message.botConversationData && message.botConversationData[consts.Data.SessionId]) {
+                sessionId = message.botConversationData[consts.Data.SessionId];
+            }
+            else {
+                sessionId = uuid.v1();
+                message.botConversationData = message.botConversationData || {};
+                message.botConversationData[consts.Data.SessionId] = sessionId;
             }
             this.emit(message.type, message);
             if (message.type == 'Message') {
                 var ses = new BotConnectorSession({
                     localizer: this.options.localizer,
+                    minSendDelay: this.options.minSendDelay,
                     dialogs: this,
                     dialogId: dialogId,
                     dialogArgs: dialogArgs
                 });
-                ses.on('send', function (message) {
-                    var reply = message || {};
-                    reply.botUserData = utils.clone(ses.userData);
-                    reply.botConversationData = utils.clone(ses.conversationData);
-                    reply.botPerUserInConversationData = utils.clone(ses.perUserInConversationData);
-                    reply.botPerUserInConversationData[consts.Data.SessionState] = ses.sessionState;
-                    if (reply.text && !reply.language) {
-                        reply.language = ses.message.language;
+                ses.on('send', function (reply) {
+                    reply = reply || {};
+                    reply.botConversationData = message.botConversationData;
+                    if (reply.text && !reply.language && message.language) {
+                        reply.language = message.language;
                     }
-                    if (res) {
-                        _this.emit('reply', reply);
-                        res.send(200, reply);
-                        res = null;
-                    }
-                    else if (ses.message.conversationId) {
-                        reply.from = ses.message.to;
-                        reply.to = ses.message.replyTo ? ses.message.replyTo : ses.message.from;
-                        reply.replyToMessageId = ses.message.id;
-                        reply.conversationId = ses.message.conversationId;
-                        reply.channelConversationId = ses.message.channelConversationId;
-                        reply.channelMessageId = ses.message.channelMessageId;
-                        reply.participants = ses.message.participants;
-                        reply.totalParticipants = ses.message.totalParticipants;
-                        _this.emit('reply', reply);
-                        _this.post('/bot/v1.0/messages', reply, function (err) {
-                            _this.emit('error', err);
-                        });
-                    }
-                    else {
-                        reply.from = ses.message.from;
-                        reply.to = ses.message.to;
-                        _this.emit('send', reply);
-                        _this.post('/bot/v1.0/messages', reply, function (err) {
-                            _this.emit('error', err);
-                        });
-                    }
+                    var data = {
+                        userData: ses.userData,
+                        conversationData: ses.conversationData,
+                        perUserConversationData: ses.perUserInConversationData
+                    };
+                    data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
+                    _this.saveData(userId, sessionId, data, reply, function (err) {
+                        if (res) {
+                            _this.emit('reply', reply);
+                            res.send(200, reply);
+                            res = null;
+                        }
+                        else if (ses.message.conversationId) {
+                            reply.from = ses.message.to;
+                            reply.to = ses.message.replyTo ? ses.message.replyTo : ses.message.from;
+                            reply.replyToMessageId = ses.message.id;
+                            reply.conversationId = ses.message.conversationId;
+                            reply.channelConversationId = ses.message.channelConversationId;
+                            reply.channelMessageId = ses.message.channelMessageId;
+                            reply.participants = ses.message.participants;
+                            reply.totalParticipants = ses.message.totalParticipants;
+                            _this.emit('reply', reply);
+                            post(_this.options, '/bot/v1.0/messages', reply, function (err) {
+                                if (err) {
+                                    _this.emit('error', err);
+                                }
+                            });
+                        }
+                        else {
+                            reply.from = ses.message.from;
+                            reply.to = ses.message.to;
+                            _this.emit('send', reply);
+                            post(_this.options, '/bot/v1.0/messages', reply, function (err) {
+                                if (err) {
+                                    _this.emit('error', err);
+                                }
+                            });
+                        }
+                    });
                 });
                 ses.on('error', function (err) {
                     _this.emit('error', err, ses.message);
@@ -162,33 +191,22 @@ var BotConnectorBot = (function (_super) {
                 ses.on('quit', function () {
                     _this.emit('quit', ses.message);
                 });
-                var sessionState;
-                if (message.botUserData) {
-                    ses.userData = message.botUserData;
-                    delete message.botUserData;
-                }
-                else {
-                    ses.userData = {};
-                }
-                if (message.botConversationData) {
-                    ses.conversationData = message.botConversationData;
-                    delete message.botConversationData;
-                }
-                else {
-                    ses.conversationData = {};
-                }
-                if (message.botPerUserInConversationData) {
-                    if (message.botPerUserInConversationData.hasOwnProperty(consts.Data.SessionState)) {
-                        sessionState = message.botPerUserInConversationData[consts.Data.SessionState];
-                        delete message.botPerUserInConversationData[consts.Data.SessionState];
+                this.getData(userId, sessionId, message, function (err, data) {
+                    if (!err) {
+                        var sessionState;
+                        ses.userData = data.userData || {};
+                        ses.conversationData = data.conversationData || {};
+                        ses.perUserInConversationData = data.perUserConversationData || {};
+                        if (ses.perUserInConversationData.hasOwnProperty(consts.Data.SessionState)) {
+                            sessionState = ses.perUserInConversationData[consts.Data.SessionState];
+                            delete ses.perUserInConversationData[consts.Data.SessionState];
+                        }
+                        ses.dispatch(sessionState, message);
                     }
-                    ses.perUserInConversationData = message.botPerUserInConversationData;
-                    delete message.botPerUserInConversationData;
-                }
-                else {
-                    ses.perUserInConversationData = {};
-                }
-                ses.dispatch(sessionState, message);
+                    else {
+                        _this.emit('error', err, message);
+                    }
+                });
             }
             else if (res) {
                 var msg;
@@ -211,22 +229,69 @@ var BotConnectorBot = (function (_super) {
             res.send(500);
         }
     };
-    BotConnectorBot.prototype.post = function (path, body, callback) {
-        var settings = this.options;
-        var options = {
-            url: settings.endpoint + path,
-            body: body
-        };
-        if (settings.appId && settings.appSecret) {
-            options.auth = {
-                username: settings.appId,
-                password: settings.appSecret
-            };
-            options.headers = {
-                'Ocp-Apim-Subscription-Key': settings.appSecret
-            };
+    BotConnectorBot.prototype.getData = function (userId, sessionId, msg, callback) {
+        var botPath = '/' + this.options.appId;
+        var userPath = botPath + '/users/' + userId;
+        var convoPath = botPath + '/conversations/' + sessionId;
+        var perUserConvoPath = botPath + '/conversations/' + sessionId + '/users/' + userId;
+        var ops = 3;
+        var data = {};
+        function load(id, field, store, botData) {
+            data[field] = botData;
+            if (store) {
+                store.get(id, function (err, item) {
+                    if (callback) {
+                        if (!err) {
+                            data[field] = item;
+                            if (--ops == 0) {
+                                callback(null, data);
+                            }
+                        }
+                        else {
+                            callback(err, null);
+                            callback = null;
+                        }
+                    }
+                });
+            }
+            else if (callback && --ops == 0) {
+                callback(null, data);
+            }
         }
-        request.post(options, callback);
+        load(userPath, 'userData', this.options.userStore, msg.botUserData);
+        load(convoPath, 'conversationData', this.options.conversationStore, msg.botConversationData);
+        load(perUserConvoPath, 'perUserConversationData', this.options.perUserInConversationStore, msg.botPerUserInConversationData);
+    };
+    BotConnectorBot.prototype.saveData = function (userId, sessionId, data, msg, callback) {
+        var botPath = '/' + this.options.appId;
+        var userPath = botPath + '/users/' + userId;
+        var convoPath = botPath + '/conversations/' + sessionId;
+        var perUserConvoPath = botPath + '/conversations/' + sessionId + '/users/' + userId;
+        var ops = 3;
+        function save(id, field, store, botData) {
+            if (store) {
+                store.save(id, botData, function (err) {
+                    if (callback) {
+                        if (!err && --ops == 0) {
+                            callback(null);
+                        }
+                        else {
+                            callback(err);
+                            callback = null;
+                        }
+                    }
+                });
+            }
+            else {
+                msg[field] = botData;
+                if (callback && --ops == 0) {
+                    callback(null);
+                }
+            }
+        }
+        save(userPath, 'botUserData', this.options.userStore, data.userData);
+        save(convoPath, 'botConversationData', this.options.conversationStore, data.conversationData);
+        save(perUserConvoPath, 'botPerUserInConversationData', this.options.perUserInConversationStore, data.perUserConversationData);
     };
     return BotConnectorBot;
 })(collection.DialogCollection);
@@ -239,3 +304,21 @@ var BotConnectorSession = (function (_super) {
     return BotConnectorSession;
 })(session.Session);
 exports.BotConnectorSession = BotConnectorSession;
+function post(settings, path, body, callback) {
+    var options = {
+        method: 'POST',
+        url: settings.endpoint + path,
+        body: body,
+        json: true
+    };
+    if (settings.appId && settings.appSecret) {
+        options.auth = {
+            username: settings.appId,
+            password: settings.appSecret
+        };
+        options.headers = {
+            'Ocp-Apim-Subscription-Key': settings.appSecret
+        };
+    }
+    request(options, callback);
+}

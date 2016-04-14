@@ -32,8 +32,11 @@
 //
 
 import session = require('../Session');
-import dialog = require('./Dialog');
 import consts = require('../consts');
+import utils = require('../utils');
+import dialog = require('./Dialog');
+import prompts = require('./Prompts');
+
 
 export interface IDialogWaterfallStep {
     (session: ISession, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
@@ -56,7 +59,7 @@ export class DialogAction {
                 var r = <dialog.IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
-                } else {
+                } else if (!s.messageSent()) {
                     s.send();
                 }
             } else  {
@@ -93,38 +96,97 @@ export class DialogAction {
                 waterfallAction(s, result);
             };
 
-            try {
-                // Check for continuation of waterfall
-                if (r && r.hasOwnProperty('resumed')) {
-                    // Adjust step based on users utterance
-                    var step = s.dialogData[consts.Data.WaterfallStep];
-                    switch (r.resumed) {
-                        case dialog.ResumeReason.back:
-                            step -= 1;
-                            break;
-                        default:
-                            step++;
-                    }
+            // Check for continuation of waterfall
+            if (r && r.hasOwnProperty('resumed')) {
+                // Adjust step based on users utterance
+                var step = s.dialogData[consts.Data.WaterfallStep];
+                switch (r.resumed) {
+                    case dialog.ResumeReason.back:
+                        step -= 1;
+                        break;
+                    default:
+                        step++;
+                }
 
-                    // Handle result
-                    if (step >= 0 && step < steps.length) {
+                // Handle result
+                if (step >= 0 && step < steps.length) {
+                    try {
                         s.dialogData[consts.Data.WaterfallStep] = step;
                         steps[step](s, r, skip);
-                    } else {
+                    } catch (e) {
                         delete s.dialogData[consts.Data.WaterfallStep];
-                        s.send();
+                        s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
                     }
-                } else if (steps && steps.length > 0) {
-                    // Start waterfall
-                    s.dialogData[consts.Data.WaterfallStep] = 0;
-                    steps[0](s, r, skip);
                 } else {
                     delete s.dialogData[consts.Data.WaterfallStep];
                     s.send();
                 }
-            } catch (e) {
+            } else if (steps && steps.length > 0) {
+                // Start waterfall
+                try {
+                    s.dialogData[consts.Data.WaterfallStep] = 0;
+                    steps[0](s, r, skip);
+                } catch (e) {
+                    delete s.dialogData[consts.Data.WaterfallStep];
+                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                }
+            } else {
                 delete s.dialogData[consts.Data.WaterfallStep];
-                s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                s.send();
+            }
+        }; 
+    }
+    
+    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): IDialogHandler<any> {
+        return function validatePromptAction(s: ISession, r: dialog.IDialogResult<any>) {
+            r = r || <any>{};
+
+            // Validate response
+            var valid = false;
+            if (r.response) {
+                try {
+                    valid = validator(r.response);
+                } catch (e) {
+                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                }
+            } 
+            
+            // Check for the user canceling the prompt
+            var canceled = false;
+            switch (r.resumed) {
+                case dialog.ResumeReason.canceled:
+                case dialog.ResumeReason.forward:
+                case dialog.ResumeReason.back:
+                    canceled = true;
+                    break;
+            }
+
+            // Return results or prompt the user     
+            if (valid || canceled) {
+                // The user either entered a properly formatted response or they canceled by saying "nevermind"  
+                s.endDialog(r);
+            } else if (!s.dialogData.hasOwnProperty('prompt')) {
+                // First call to the prompt so save args passed to the prompt
+                s.dialogData = utils.clone(r);
+                s.dialogData.promptType = promptType;
+                if (!s.dialogData.hasOwnProperty('maxRetries')) {
+                    s.dialogData.maxRetries = 2;
+                }
+                
+                // Prompt user
+                var a: prompts.IPromptArgs = utils.clone(s.dialogData);
+                a.maxRetries = 0;
+                s.beginDialog(consts.DialogId.Prompts, a);
+            } else if (s.dialogData.maxRetries > 0) {
+                // Reprompt the user
+                s.dialogData.maxRetries--;
+                var a: prompts.IPromptArgs = utils.clone(s.dialogData);
+                a.maxRetries = 0;
+                a.prompt = s.dialogData.retryPrompt || "I didn't understand. " + s.dialogData.prompt;
+                s.beginDialog(consts.DialogId.Prompts, a);
+            } else {
+                // User failed to enter a valid response
+                s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
             }
         }; 
     }

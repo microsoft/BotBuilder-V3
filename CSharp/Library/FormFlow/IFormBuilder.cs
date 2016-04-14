@@ -217,10 +217,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         public PromptAttribute DefaultPrompt = new PromptAttribute("")
         {
             AllowDefault = BoolDefault.True,
+            ChoiceCase = CaseNormalization.None,
+            ChoiceFormat = "{0}. {1}",
+            ChoiceLastSeparator = ", or ",
+            ChoiceParens = BoolDefault.True,
+            ChoiceSeparator = ", ",
             ChoiceStyle = ChoiceStyleOptions.Auto,
             FieldCase = CaseNormalization.Lower,
             Feedback = FeedbackOptions.Auto,
-            ChoiceFormat = "{0}. {1}",
             LastSeparator = ", and ",
             Separator = ", ",
             ValueCase = CaseNormalization.InitialUpper

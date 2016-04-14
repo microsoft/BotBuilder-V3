@@ -32,18 +32,23 @@
 //
 
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+#pragma warning disable 649
 
-using Microsoft.Bot.Connector;
+using Autofac;
+
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
-using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
-using System.Collections.Generic;
+using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -61,26 +66,36 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
     class Program
     {
-        static void Interactive(IDialog form)
+
+        static async Task Interactive<T>(IDialog<T> form)
         {
             var message = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString(),
                 Text = ""
             };
-            string prompt;
-            do
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new DialogModule());
+            builder
+                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message), Console.Out))
+                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .As<IBotToUser>()
+                .SingleInstance();
+            using (var container = builder.Build())
             {
-                var task = Conversation.SendAsync(message, () => form);
-                message = task.GetAwaiter().GetResult();
-                prompt = message.Text;
-                if (prompt != null)
+                var store = container.Resolve<IDialogContextStore>(TypedParameter.From(message));
+
+                Func<IDialog<T>> MakeRoot = () => form;
+
+                await store.PollAsync(() => form);
+
+                while (true)
                 {
-                    Console.WriteLine(prompt);
-                    Console.Write("> ");
-                    message.Text = Console.ReadLine();
+                    message.Text = await Console.In.ReadLineAsync();
+                    await store.PostAsync(message, () => form);
                 }
-            } while (prompt != null);
+            }
         }
 
         private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false)
@@ -94,7 +109,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                form.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
+                form.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
             }
             else
             {
@@ -205,105 +222,12 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
 
-
-        [Serializable]
-        public class MyBot : IDialog
-        {
-            async Task IDialog.StartAsync(IDialogContext context)
-            {
-                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice()), WhatDoYouWant);
-            }
-
-            public async Task WhatDoYouWant(IDialogContext context, IAwaitable<TopChoice> choices)
-            {
-                switch ((await choices).Choice.Value)
-                {
-                    case TopChoices.Joke:
-                        context.Call<ChooseJoke>(new FormDialog<ChooseJoke>(new ChooseJoke(), options: FormOptions.PromptInStart),
-                            TellAJoke);
-                        break;
-                    default:
-                        await context.PostAsync("I don't understand");
-                        context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart), WhatDoYouWant);
-                        break;
-                }
-            }
-
-            public async Task TellAJoke(IDialogContext context, IAwaitable<ChooseJoke> joke)
-            {
-                switch ((await joke).KindOfJoke)
-                {
-                    case TypeOfJoke.Funny:
-                        await context.PostAsync("Something funny");
-                        break;
-                    case TypeOfJoke.KnockKnock:
-                        await context.PostAsync("Knock-knock...");
-                        break;
-                }
-                context.Call<TopChoice>(new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart), WhatDoYouWant);
-            }
-        }
-
-        public enum TopChoices { Joke, Weather }
-
-        [Serializable]
-        public class TopChoice
-        {
-            public TopChoices? Choice;
-        }
-
-        public enum TypeOfJoke { Funny, KnockKnock };
-
-        [Serializable]
-        public class ChooseJoke
-        {
-            public TypeOfJoke? KindOfJoke;
-        }
-
-        [Serializable]
-        public class NullDialog<T> : IDialog<T>
-        {
-            public async Task StartAsync(IDialogContext context)
-            {
-                context.Done<T>(default(T));
-            }
-        }
-
         static void Main(string[] args)
         {
-            var callJoke = Chain
-                .From(() => new FormDialog<TopChoice>(new TopChoice(), options: FormOptions.PromptInStart))
-                .ContinueWith<TopChoice, object>(async (context, result) =>
-                {
-                    switch ((await result).Choice)
-                    {
-                        case TopChoices.Joke: return new FormDialog<ChooseJoke>(new ChooseJoke(), options: FormOptions.PromptInStart);
-                        default:
-                            await context.PostAsync("I don't understand");
-                            return new NullDialog<object>();
-                    }
-                })
-                .ContinueWith<object, object>(async (context, result) =>
-                {
-                    var choice = await result;
-                    if (choice is ChooseJoke)
-                    {
-                        switch ((choice as ChooseJoke).KindOfJoke)
-                        {
-                            case TypeOfJoke.Funny:
-                                await context.PostAsync("Something funny");
-                                break;
-                            case TypeOfJoke.KnockKnock:
-                                await context.PostAsync("Knock-knock...");
-                                break;
-                        }
-                    }
-                    return new NullDialog<object>();
-                });
             // TestValidate();
             var callDebug =
                 Chain
-                .From(() => FormDialog.FromType<Choices>())
+                .From(() => FormDialog.FromType<Choices>(FormOptions.PromptInStart))
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
                     Choices choices;
@@ -339,37 +263,28 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             throw new NotImplementedException();
                     }
                 })
-                .Do(async result =>
+                .Do(async (context, result) =>
                 {
                     try
                     {
                         var item = await result;
                         Debug.WriteLine(item);
                     }
-                    catch (OperationCanceledException)
+                    catch (FormCanceledException e)
                     {
-                        Debug.WriteLine("you cancelled");
+                        if (e.InnerException == null)
+                        {
+                            await context.PostAsync($"Quit on {e.Last} step.");
+                        }
+                        else
+                        {
+                            await context.PostAsync($"Exception {e.Message} on step {e.Last}.");
+                        }
                     }
                 })
                 .Loop();
 
-            Interactive(callDebug);
-            // Interactive(new MyBot());
-            /*
-            var dialogs = new DialogCollection().Add(debugForm);
-            var form = AddFields(new Form<PizzaOrder>("full"), noNumbers: true);
-            Console.WriteLine("\nWith annotations and numbers\n");
-            Interactive<Form<PizzaOrder>>(AddFields(new Form<PizzaOrder>("No numbers"), noNumbers: false));
-
-            Console.WriteLine("With annotations and no numbers");
-            Interactive<Form<PizzaOrder>>(form);
-
-            Console.WriteLine("\nWith no annotations\n");
-            Interactive<Form<PizzaOrder>>(AddFields(new Form<PizzaOrder>("No annotations", ignoreAnnotations: true), noNumbers: false));
-
-            Console.WriteLine("\nWith no fields.\n");
-            Interactive<Form<PizzaOrder>>(new Form<PizzaOrder>("No fields"));
-            */
+            Interactive(callDebug).GetAwaiter().GetResult();
         }
     }
 }

@@ -42,6 +42,7 @@ export interface ITextBotOptions {
     sessionStore?: storage.IStorage;
     maxSessionAge?: number;
     localizer?: ILocalizer;
+    minSendDelay?: number;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
 }
@@ -49,7 +50,8 @@ export interface ITextBotOptions {
 export class TextBot extends collection.DialogCollection {
     private options: ITextBotOptions = {
         maxSessionAge: 14400000,    // <-- default max session age of 4 hours
-        defaultDialogId: '/'
+        defaultDialogId: '/',
+        minSendDelay: 1000
     };
 
     constructor(options?: ITextBotOptions) {
@@ -109,6 +111,7 @@ export class TextBot extends collection.DialogCollection {
         // Initialize session
         var ses = new session.Session({
             localizer: this.options.localizer,
+            minSendDelay: this.options.minSendDelay,
             dialogs: this,
             dialogId: dialogId,
             dialogArgs: dialogArgs
@@ -146,8 +149,12 @@ export class TextBot extends collection.DialogCollection {
 
         // Dispatch message
         this.getData(userId, (err, userData, sessionState) => {
-            ses.userData = userData || {};
-            ses.dispatch(newSessionState ? null : sessionState, message);
+            if (!err) {
+                ses.userData = userData || {};
+                ses.dispatch(newSessionState ? null : sessionState, message);
+            } else {
+                this.emit('error', err, message);
+            }
         });
     }
 

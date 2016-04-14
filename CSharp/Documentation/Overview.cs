@@ -40,10 +40,11 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// \skip Interactive
     /// \until while
     /// \until }
+    /// \until }
     /// 
     /// To use it your would do something like this:
     /// ~~~
-    ///             Interactive(FormDialog.FromForm<AnnotatedSandwichOrder>(() => AnnotatedSandwichOrder.BuildForm()));
+    ///             Interactive(FormDialog.FromForm<AnnotatedSandwichOrder>(() => AnnotatedSandwichOrder.BuildForm())).GetAwaiter().GetResult();
     /// ~~~
     /// 
     /// \section troubleshooting_q_and_a Troubleshooting Q & A

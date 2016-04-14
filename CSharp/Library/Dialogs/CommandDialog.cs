@@ -31,33 +31,48 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
     #region Documentation
-    /// <summary>   Dialog that dispatches based on a regex matching input. </summary>
+    /// <summary> Dialog that dispatches based on a regex matching input. </summary>
     #endregion
-    public class CommandDialog : IDialog
+
+    [Serializable]
+    public class CommandDialog<T> : IDialog<T>
     {
+        [Serializable]
         public class Command
         {
+            public string CommandId { set; get; }
             public Regex Expression { set; get; }
             public ResumeAfter<Connector.Message> CommandHandler { set; get; }
         }
 
         private Command defaultCommand;
         private readonly List<Command> commands = new List<Command>();
+        private readonly Dictionary<string, Delegate> resultHandlers = new Dictionary<string, Delegate>();
 
-        async Task IDialog.StartAsync(IDialogContext context)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceived);
         }
 
-        private async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
+        #region Documentation
+        /// <summary> Message handler of the command dialog.  </summary>
+        /// <param name="context"> Dialog context. </param>
+        /// <param name="message"> Message from the user. </param>
+        #endregion
+        public virtual async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
         {
             var text = (await message).Text;
             Command matched = null;
@@ -78,41 +93,90 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             if (matched != null)
             {
+                context.PerUserInConversationData.SetValue("ActiveCommandId", matched.CommandId);
                 await matched.CommandHandler(context, message);
             }
             else
             {
                 string error = $"CommandDialog doesn't have a registered command handler for this message: {text}";
-                throw new Exception(error);
+                throw new InvalidOperationException(error);
             }
-
         }
+
         #region Documentation
-        /// <summary>   Define a handler that is fired on a regular expression match of a message. </summary>
-        /// <param name="expression">       Regular expression to match. </param>
-        /// <param name="handler">          Handler to call on match. </param>
-        /// <returns>   A CommandDialog. </returns>
+        /// <summary>
+        /// The result handler of the command dialog passed to the child dialogs. 
+        /// </summary>
+        /// <typeparam name="U"> The type of the result returned by the child dialog. </typeparam>
+        /// <param name="context"> Dialog context. </param>
+        /// <param name="result"> The result retured by the child dialog. </param>
         #endregion
-        public CommandDialog On(Regex expression, ResumeAfter<Connector.Message> handler)
+        public virtual async Task ResultHandler<U>(IDialogContext context, IAwaitable<U> result)
+        {
+            Delegate handler;
+            string commandId;
+            if (context.PerUserInConversationData.TryGetValue("ActiveCommandId", out commandId) && resultHandlers.TryGetValue(commandId, out handler))
+            {
+                await ((ResumeAfter<U>)handler).Invoke(context, result);
+                context.Wait(MessageReceived);
+            }
+            else
+            {
+                string error = $"CommandDialog doesn't have a registered result handler for this type: {typeof(U)}";
+                throw new InvalidOperationException(error);
+            }
+        }
+
+        #region Documentation
+        /// <summary> Define a handler that is fired on a regular expression match of a message. </summary>
+        /// <typeparam name="U"> Type of input to result handler. </typeparam>
+        /// <param name="expression"> Regular expression to match. </param>
+        /// <param name="handler"> Handler to call on match. </param>
+        /// <param name="resultHandler"> Optional result handler to be called if handler is creating a chaild dialog. </param>
+        /// <returns> A commandDialog. </returns>
+        #endregion
+        public CommandDialog<T> On<U>(Regex expression, ResumeAfter<Connector.Message> handler, ResumeAfter<U> resultHandler = null)
         {
             var command = new Command
             {
+                CommandId = ComputeHash(expression.ToString()),
                 Expression = expression,
                 CommandHandler = handler,
             };
             commands.Add(command);
+            RegisterResultHandler(command, resultHandler);
+
             return this;
         }
+
         #region Documentation
-        /// <summary>   Define the default action if no match. </summary>
-        /// <param name="handler">  Handler to call if no match. </param>
-        /// <returns>   A CommandDialog. </returns>
+        /// <summary> Define the default action if no match. </summary>
+        /// <typeparam name="U"> Type of input to result handler. </typeparam>
+        /// <param name="handler"> Handler to call if no match. </param>
+        /// <param name="resultHandler"> Optional result handler to be called if handler is creating a chaild dialog. </param>
+        /// <returns> A CommandDialog. </returns>
         #endregion
-        public CommandDialog OnDefault(ResumeAfter<Connector.Message> handler)
+        public CommandDialog<T> OnDefault<U>(ResumeAfter<Connector.Message> handler, ResumeAfter<U> resultHandler = null)
         {
-            var command = new Command { CommandHandler = handler };
+            var command = new Command { CommandId = "defaultResultHandler", CommandHandler = handler };
             this.defaultCommand = command;
+            RegisterResultHandler(command, resultHandler);
+
             return this;
+        }
+
+        private void RegisterResultHandler<U>(Command command, ResumeAfter<U> resultHandler)
+        {
+            if (resultHandler != null)
+            {
+                resultHandlers.Add(command.CommandId, resultHandler);
+            }
+        }
+
+        private string ComputeHash(string str)
+        {
+            var algorithm = SHA1.Create();
+            return Convert.ToBase64String(algorithm.ComputeHash(Encoding.UTF8.GetBytes(str))); 
         }
     }
 }

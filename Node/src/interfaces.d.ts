@@ -57,6 +57,12 @@ interface IMessage {
     eTag?: string;
 }
 
+interface IBotConnectorMessage extends IMessage {
+    botUserData?: any;
+    botConversationData?: any;
+    botPerUserInConversationData?: any;
+}
+
 interface IAttachment {
     contentType: string;
     contentUrl?: string;

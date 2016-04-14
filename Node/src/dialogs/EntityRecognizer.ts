@@ -62,8 +62,8 @@ export interface IFindMatchResult {
 
 export class EntityRecognizer {
     static dateExp = /^\d{4}-\d{2}-\d{2}/i;
-    static yesExp = /^(1|y|yes|yep|sure|ok|true)\z/i;
-    static noExp = /^(0|n|no|nope|not|false)\z/i;
+    static yesExp = /^(1|y|yes|yep|sure|ok|true)/i;
+    static noExp = /^(0|n|no|nope|not|false)/i;
     static numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
 
     static findEntity(entities: IEntity[], type: string): IEntity {
@@ -101,7 +101,7 @@ export class EntityRecognizer {
         var time: string;
         entities.forEach((entity: ILuisDateTimeEntity) => {
             if (entity.resolution) {
-                switch (entity.resolution.resolution_type) {
+                switch (entity.resolution.resolution_type || entity.type) {
                     case 'builtin.datetime.date':
                     case 'builtin.datetime.time':
                         var parts = (entity.resolution.date || entity.resolution.time).split('T');

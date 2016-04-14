@@ -1,0 +1,29 @@
+{
+  "name": "botified-uber",
+  "version": "0.1.0",
+  "description": "A Bot Builder compatible version of Ubers REST API. Shows how to build an API that users can talk to.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/BotBuilder.git"
+  },
+  "keywords": [
+    "BotBuilder",
+    "Botified",
+    "Uber"
+  ],
+  "author": "Microsoft Corp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Microsoft/BotBuilder/issues"
+  },
+  "homepage": "https://github.com/Microsoft/BotBuilder/Node/examples/botified-uber/#readme",
+  "dependencies": {
+    "botbuilder": "^0.6.4",
+    "request": "^2.69.0",
+    "underscore": "^1.8.3"
+  }
+}

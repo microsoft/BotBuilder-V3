@@ -208,8 +208,5 @@ var Prompts = (function (_super) {
 })(dialog.Dialog);
 exports.Prompts = Prompts;
 function beginPrompt(ses, args) {
-    if (!ses.dialogs.hasDialog(consts.DialogId.Prompts)) {
-        ses.dialogs.add(consts.DialogId.Prompts, new Prompts());
-    }
     ses.beginDialog(consts.DialogId.Prompts, args);
 }

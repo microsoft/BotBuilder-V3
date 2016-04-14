@@ -33,13 +33,17 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
-
-using Microsoft.Bot.Builder.Internals.Fibers;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Autofac;
+
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Tests
@@ -99,14 +103,44 @@ namespace Microsoft.Bot.Builder.Tests
             while (wait.Need != Need.None && wait.Need != Need.Done);
         }
 
-        public static void AssertSerializable<T>(ref T item, params object[] instances) where T : class
+        public static IContainer Build()
         {
-            var formatter = Conversation.MakeBinaryFormatter(new Serialization.SimpleServiceLocator(instances));
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new FiberModule());
+            return builder.Build();
+        }
 
-            //var surrogate = new Surrogate();
-            //var selector = new SurrogateSelector();
-            //selector.AddSurrogate(typeof(FrameFactory), new StreamingContext(StreamingContextStates.All), surrogate);
-            //formatter.SurrogateSelector = selector;
+        public sealed class ResolveMoqAssembly : IDisposable
+        {
+            private readonly object[] instances;
+            public ResolveMoqAssembly(params object[] instances)
+            {
+                SetField.NotNull(out this.instances, nameof(instances), instances);
+
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            }
+            void IDisposable.Dispose()
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+            }
+            private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs arguments)
+            {
+                foreach (var instance in instances)
+                {
+                    var type = instance.GetType();
+                    if (arguments.Name == type.Assembly.FullName)
+                    {
+                        return type.Assembly;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public static void AssertSerializable<T>(ILifetimeScope scope, ref T item) where T : class
+        {
+            var formatter = scope.Resolve<IFormatter>();
 
             using (var stream = new MemoryStream())
             {
@@ -124,15 +158,15 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Fiber_Is_Serializable()
         {
             // arrange
-            var waits = new WaitFactory();
-            var frames = new FrameFactory(waits);
-            var fiber = new Fiber(frames);
-
-            // assert
-            var previous = fiber;
-            AssertSerializable(ref fiber, waits, frames);
-            Assert.IsFalse(object.ReferenceEquals(previous, fiber));
-            Assert.IsTrue(object.ReferenceEquals(previous.Factory, fiber.Factory));
+            using (var container = Build())
+            {
+                var fiber = (Fiber) container.Resolve<IFiberLoop>();
+                // assert
+                var previous = fiber;
+                AssertSerializable(container, ref fiber);
+                Assert.IsFalse(object.ReferenceEquals(previous, fiber));
+                Assert.IsTrue(object.ReferenceEquals(previous.Factory, fiber.Factory));
+            }
         }
 
         [Serializable]
@@ -148,17 +182,20 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Fiber_With_Wait_Is_Serializable()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            IMethod method = new SerializableMethod();
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                IMethod method = new SerializableMethod();
 
-            // act
-            var value = 42;
-            fiber.Call(method.CodeAsync, value);
+                // act
+                var value = 42;
+                fiber.Call(method.CodeAsync, value);
 
-            // assert
-            AssertSerializable(ref fiber);
-            var next = await fiber.PollAsync();
-            Assert.AreEqual(Need.Done, next.Need);
+                // assert
+                AssertSerializable(container, ref fiber);
+                var next = await fiber.PollAsync();
+                Assert.AreEqual(Need.Done, next.Need);
+            }
         }
 
 
@@ -166,31 +203,37 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Fiber_NoCall_NeedNone()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
 
-            // assert
-            var next = await fiber.PollAsync();
-            Assert.AreEqual(Need.None, next.Need);
+                // assert
+                var next = await fiber.PollAsync();
+                Assert.AreEqual(Need.None, next.Need);
+            }
         }
 
         [TestMethod]
         public async Task Fiber_OneCall_NeedDone()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = 42;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = 42;
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(method.Object.CodeAsync, value);
+                // act
+                fiber.Call(method.Object.CodeAsync, value);
 
-            // assert
-            var next = await fiber.PollAsync();
-            Assert.AreEqual(Need.Done, next.Need);
-            method.VerifyAll();
+                // assert
+                var next = await fiber.PollAsync();
+                Assert.AreEqual(Need.Done, next.Need);
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
@@ -198,88 +241,100 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Fiber_OneCall_ThenDone_Throws()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            method
-                .Setup(m => m.CodeAsync(fiber, It.IsAny<IAwaitable<int>>()))
-                .Returns(async () => { return fiber.Done(42); });
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.IsAny<IAwaitable<int>>()))
+                    .Returns(async () => { return fiber.Done(42); });
 
-            // act
-            fiber.Call(method.Object.CodeAsync, 42);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, 42);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Code_Is_Called()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = 42;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = 42;
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(method.Object.CodeAsync, value);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, value);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Code_Call_Code()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var valueOne = 42;
-            var valueTwo = "hello world";
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueOne))))
-                .Returns(async () => { return fiber.Call(method.Object.CodeAsync, valueTwo); });
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueTwo))))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var valueOne = 42;
+                var valueTwo = "hello world";
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueOne))))
+                    .Returns(async () => { return fiber.Call(method.Object.CodeAsync, valueTwo); });
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueTwo))))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(method.Object.CodeAsync, valueOne);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, valueOne);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Code_Call_Method_With_Return()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var methodOne = MockMethod();
-            var methodTwo = MockMethod();
-            var value1 = 42;
-            var value2 = "hello world";
-            var value3 = Guid.NewGuid();
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
-            methodTwo
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
-                .Returns(async () => { return fiber.Done(value3); });
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value3))))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var methodOne = MockMethod();
+                var methodTwo = MockMethod();
+                var value1 = 42;
+                var value2 = "hello world";
+                var value3 = Guid.NewGuid();
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                methodTwo
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Returns(async () => { return fiber.Done(value3); });
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value3))))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(methodOne.Object.CodeAsync, value1);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(methodOne.Object.CodeAsync, value1);
+                await PollAsync(fiber);
 
-            // assert
-            methodOne.VerifyAll();
+                // assert
+                methodOne.VerifyAll();
+            }
         }
 
         [TestMethod]
@@ -287,25 +342,28 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Code_Call_Method_No_Return_Throws()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var methodOne = MockMethod();
-            var methodTwo = MockMethod();
-            var value1 = 42;
-            var value2 = "hello world";
-            var value3 = Guid.NewGuid();
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                .Returns(async () => { return fiber.Call<string>(methodTwo.Object.CodeAsync, value2); });
-            methodTwo
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
-                .Returns(async () => { return fiber.Done(value3); });
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var methodOne = MockMethod();
+                var methodTwo = MockMethod();
+                var value1 = 42;
+                var value2 = "hello world";
+                var value3 = Guid.NewGuid();
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<string>(methodTwo.Object.CodeAsync, value2); });
+                methodTwo
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Returns(async () => { return fiber.Done(value3); });
 
-            // act
-            fiber.Call(methodOne.Object.CodeAsync, value1);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(methodOne.Object.CodeAsync, value1);
+                await PollAsync(fiber);
 
-            // assert
-            methodOne.VerifyAll();
+                // assert
+                methodOne.VerifyAll();
+            }
         }
 
         [TestMethod]
@@ -313,19 +371,22 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Code_Throws_To_User()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = 42;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .Returns(async () => { throw new CodeException(); });
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = 42;
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Returns(async () => { throw new CodeException(); });
 
-            // act
-            fiber.Call(method.Object.CodeAsync, value);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, value);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         // TODO: maybe test for unobserved exceptions sent to callers?
@@ -334,76 +395,85 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Code_Call_Method_That_Throws_To_Code()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var methodOne = MockMethod();
-            var methodTwo = MockMethod();
-            var value1 = 42;
-            var value2 = "hello world";
-            var value3 = Guid.NewGuid();
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
-            methodTwo
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
-                .Returns(async () => { throw new CodeException(); });
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, CodeException>())))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var methodOne = MockMethod();
+                var methodTwo = MockMethod();
+                var value1 = 42;
+                var value2 = "hello world";
+                var value3 = Guid.NewGuid();
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                methodTwo
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Returns(async () => { throw new CodeException(); });
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, CodeException>())))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(methodOne.Object.CodeAsync, value1);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(methodOne.Object.CodeAsync, value1);
+                await PollAsync(fiber);
 
-            // assert
-            methodOne.VerifyAll();
+                // assert
+                methodOne.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Code_Call_Method_That_Posts_Invalid_Type_To_Code()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var methodOne = MockMethod();
-            var methodTwo = MockMethod();
-            var value1 = 42;
-            var value2 = "hello world";
-            var value3 = Guid.NewGuid();
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
-            methodTwo
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
-                .Returns(async () => { return fiber.Done("not a guid"); });
-            methodOne
-                .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var methodOne = MockMethod();
+                var methodTwo = MockMethod();
+                var value1 = 42;
+                var value2 = "hello world";
+                var value3 = Guid.NewGuid();
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                methodTwo
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Returns(async () => { return fiber.Done("not a guid"); });
+                methodOne
+                    .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(methodOne.Object.CodeAsync, value1);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(methodOne.Object.CodeAsync, value1);
+                await PollAsync(fiber);
 
-            // assert
-            methodOne.VerifyAll();
+                // assert
+                methodOne.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Code_Item_Variance()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            string valueAsString = "hello world";
-            object valueAsObject = valueAsString;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueAsObject))))
-                .ReturnsAsync(NullWait.Instance);
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                string valueAsString = "hello world";
+                object valueAsObject = valueAsString;
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueAsObject))))
+                    .ReturnsAsync(NullWait.Instance);
 
-            // act
-            fiber.Call(method.Object.CodeAsync, valueAsString);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, valueAsString);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
@@ -411,60 +481,69 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Poll_Is_Not_Reentrant()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = 42;
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .Returns(async () => { await fiber.PollAsync(); return null; });
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = 42;
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Returns(async () => { await fiber.PollAsync(); return null; });
 
-            // act
-            fiber.Call(method.Object.CodeAsync, value);
-            await PollAsync(fiber);
+                // act
+                fiber.Call(method.Object.CodeAsync, value);
+                await PollAsync(fiber);
 
-            // assert
-            method.VerifyAll();
+                // assert
+                method.VerifyAll();
+            }
         }
 
         [TestMethod]
         public async Task Method_Void()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = "hello world";
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .Returns(async () => fiber.Done(42));
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = "hello world";
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Returns(async () => fiber.Done(42));
 
-            // act
-            var loop = Methods.Void<string>(method.Object.CodeAsync);
-            fiber.Call(loop, value);
-            await PollAsync(fiber);
+                // act
+                var loop = Methods.Void<string>(method.Object.CodeAsync);
+                fiber.Call(loop, value);
+                await PollAsync(fiber);
 
-            // assert
-            method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(1));
+                // assert
+                method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(1));
+            }
         }
 
         [TestMethod]
         public async Task Method_Loop()
         {
             // arrange
-            IFiberLoop fiber = new Fiber(new FrameFactory(new WaitFactory()));
-            var method = MockMethod();
-            var value = "hello world";
-            method
-                .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                .Returns(async () => fiber.Done(42) );
+            using (var container = Build())
+            {
+                var fiber = container.Resolve<IFiberLoop>();
+                var method = MockMethod();
+                var value = "hello world";
+                method
+                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Returns(async () => fiber.Done(42));
 
-            // act
-            const int CallCount = 5;
-            var loop = Methods.Void(Methods.Loop<string>(method.Object.CodeAsync, CallCount));
-            fiber.Call(loop, value);
-            await PollAsync(fiber);
+                // act
+                const int CallCount = 5;
+                var loop = Methods.Void(Methods.Loop<string>(method.Object.CodeAsync, CallCount));
+                fiber.Call(loop, value);
+                await PollAsync(fiber);
 
-            // assert
-            method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(CallCount));
+                // assert
+                method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(CallCount));
+            }
         }
     }
 }

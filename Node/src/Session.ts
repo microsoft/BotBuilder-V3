@@ -42,15 +42,21 @@ export interface ISessionArgs {
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
+    minSendDelay?: number;
 }
 
 export class Session extends events.EventEmitter implements ISession {
     private msgSent = false;
     private _isReset = false;
+    private lastSendTime = new Date().getTime();
+    private sendQueue: { event: string, msg: IMessage; }[] = [];
 
     constructor(protected args: ISessionArgs) {
         super();
         this.dialogs = args.dialogs;
+        if (typeof this.args.minSendDelay !== 'number') {
+            this.args.minSendDelay = 1000;  // 1 sec delay
+        }
     }
 
     public dispatch(sessionState: ISessionState, message: IMessage): ISession {
@@ -120,9 +126,8 @@ export class Session extends events.EventEmitter implements ISession {
         }
 
         // Compose message
-        this.msgSent = true;
         var message: IMessage = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
-        this.emit('send', message);
+        this.delayedEmit('send', message);
         return this;
     }
     
@@ -144,6 +149,9 @@ export class Session extends events.EventEmitter implements ISession {
             throw new Error('Dialog[' + id + '] not found.');
         }
         var ss = this.sessionState;
+        if (ss.callstack.length > 0) {
+            ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
+        }
         var cur: IDialogState = { id: id, state: {} };
         ss.callstack.push(cur);
         this.dialogData = cur.state;
@@ -165,19 +173,42 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
-    public endDialog(result?: any): ISession {
+    public endDialog(msg: string, ...args: any[]): ISession;
+    public endDialog(msg: IMessage): ISession;
+    public endDialog(result?: dialog.IDialogResult<any>): ISession;
+    public endDialog(result?: any, ...args: any[]): ISession {
         var ss = this.sessionState;
-        var r: dialog.IDialogResult<any> = result || { resumed: dialog.ResumeReason.completed };
+        var m: IMessage;
+        var r = <dialog.IDialogResult<any>>{};
+        if (result) {
+            if (typeof result === 'string') {
+                m = this.createMessage(result, args);
+            } else if (result.hasOwnProperty('text') || result.hasOwnProperty('channelData')) {
+                m = result;
+            } else {
+                r = result;
+            }
+        }
+        if (!r.hasOwnProperty('resumed')) {
+            r.resumed = dialog.ResumeReason.completed;
+        }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
         ss.callstack.pop();
         if (ss.callstack.length > 0) {
             var cur = ss.callstack[ss.callstack.length - 1];
-            var d = this.dialogs.getDialog(cur.id);
             this.dialogData = cur.state;
+            if (m) {
+                this.send(m);
+            }
+            var d = this.dialogs.getDialog(cur.id);
             d.dialogResumed(this, r);
-        } else if (!this.msgSent) {
-            this.send();
-            this.emit('quit');
+        } else {
+            this.send(m);
+            if (r.error) {
+                this.emit('error', r.error);
+            } else {
+                this.delayedEmit('quit');
+            }
         }
         return this;
     }
@@ -248,6 +279,34 @@ export class Session extends events.EventEmitter implements ISession {
             }
         }
         return true;
+    }
+
+    /** Queues an event to be sent for the session. */    
+    private delayedEmit(event: string, message?: IMessage): void {
+        var now = new Date().getTime();
+        var delaySend = () => {
+            setTimeout(() => {
+                var entry = this.sendQueue.shift();
+                this.lastSendTime = now = new Date().getTime();
+                this.emit(entry.event, entry.msg);
+                if (this.sendQueue.length > 0) {
+                    delaySend();
+                }
+            }, this.args.minSendDelay - (now - this.lastSendTime));  
+        };
+        
+        if (this.sendQueue.length == 0) {
+            this.msgSent = true;
+            if ((now - this.lastSendTime) >= this.args.minSendDelay) {
+                this.lastSendTime = now;
+                this.emit(event, message);
+            } else {
+                this.sendQueue.push({ event: event, msg: message });
+                delaySend();
+            }
+        } else {
+            this.sendQueue.push({ event: event, msg: message });
+        }
     }
 }
 
