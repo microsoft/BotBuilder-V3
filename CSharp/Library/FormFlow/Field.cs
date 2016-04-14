@@ -44,6 +44,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Field<T> : IField<T>
+        where T : class
     {
         /// <summary>   Construct field. </summary>
         /// <param name="name"> Name of field. </param>
@@ -71,11 +72,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         AddTemplate(template);
                     }
                 }
-                if (_help == null)
-                {
-                    var template = Template(TemplateUsage.Help);
-                    _help = new PromptAttribute(template);
-                }
             }
         }
 
@@ -98,6 +94,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void SetUnknown(T state)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual Type Type
+        {
+            get { return _type; }
         }
 
         public virtual bool Optional
@@ -195,7 +196,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return _promptDefinition.AllowDefault != BoolDefault.False;
+                return PromptDefinition.AllowDefault != BoolDefault.False;
             }
         }
 
@@ -203,37 +204,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                _promptDefinition.ApplyDefaults(_form.Configuration.DefaultPrompt);
-                return _promptDefinition.AllowNumbers;
+                return PromptDefinition.AllowNumbers;
             }
         }
 
         public virtual void SaveResources()
         {
-            // Configuration -- yes/no, commands, current, ...
-            //  Map from NAME -> list<string>
-            //  Key = CONFIG.NAME
-            // Templates per step
-            //  Map from Usage.pattern -> step names
-            //  *Key = TEMPLATE.Usage + step names
-            // Prompt if overriden
-            //  Map from stepName -> Prompt
-            //  Key = stepName.PROMPT
-            // FieldDescription, FieldTerms
-            //  Map from stepName.FieldDescription -> string
-            //  Map from stepName.FieldTerms -> list<string>
-            // ValueDescription, ValueTerms
-            //  Map from stepName.Terms.Value -> list<string>
-            //  Map from stepName.Descripton.Value -> string
-            //
-            // On load you would go generate new form and redefine config and
-            // prompts/templates/description/terms per step.
             var localizer = _form.Resources;
             localizer.Add(_name + nameof(_description), _description);
             localizer.Add(_name + nameof(_terms), _terms);
             localizer.Add(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.Add(_name + nameof(_valueTerms), _valueTerms);
-            if (!_calculatedPrompt)
+            if (_promptSet)
             {
                 localizer.Add(_name + nameof(_promptDefinition), _promptDefinition.Patterns);
             }
@@ -247,7 +229,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             localizer.LookupValues(_name + nameof(_terms), out _terms);
             localizer.LookupDictionary(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.LookupDictionary(_name + nameof(_valueTerms), _valueTerms);
+            if (_promptSet)
+            {
+                string[] patterns;
+                if (localizer.LookupValues(_name + nameof(_promptDefinition), out patterns))
+                {
+                    _promptDefinition.Patterns = patterns;
+                }
+            }
             localizer.LookupTemplates(_name, _templates);
+            ClearDerived();
         }
 
         #endregion
@@ -274,7 +265,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             if (_prompt == null)
             {
-                _prompt = new Prompter<T>(_promptDefinition, _form, _recognizer);
+                var prompt = PromptDefinition;
+                prompt.ApplyDefaults(_form.Configuration.DefaultPrompt);
+                _prompt = new Prompter<T>(PromptDefinition, _form, Recognizer);
             }
             return _prompt;
         }
@@ -286,7 +279,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public virtual IPrompt<T> Help()
         {
-            return new Prompter<T>(_help, _form, Prompt().Recognizer());
+            if (_help == null)
+            {
+                var template = Template(TemplateUsage.Help);
+                _help = new Prompter<T>(template, _form, Recognizer);
+            }
+            return _help;
         }
 
         public virtual NextStep Next(object value, T state)
@@ -303,7 +301,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetFieldDescription(string description)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _description = description;
             return this;
         }
@@ -313,7 +311,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetFieldTerms(IEnumerable<string> terms)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _terms = terms.ToArray();
             return this;
         }
@@ -324,7 +322,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> AddDescription(object value, string description)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _valueDescriptions[value] = description;
             return this;
         }
@@ -335,7 +333,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> AddTerms(object value, IEnumerable<string> terms)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _valueTerms[value] = terms.ToArray();
             return this;
         }
@@ -345,9 +343,29 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> RemoveValue(object value)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _valueDescriptions.Remove(value);
             _valueTerms.Remove(value);
+            return this;
+        }
+
+        /// <summary>   Removes all values and their associated descriptions and terms. </summary>
+        /// <returns>   A Field&lt;T&gt; </returns>
+        public Field<T> RemoveValues()
+        {
+            ClearDerived();
+            _valueDescriptions.Clear();
+            _valueTerms.Clear();
+            return this;
+        }
+
+        /// <summary>   Sets the type of the underlying field state. </summary>
+        /// <param name="type"> The field type. </param>
+        /// <returns>   A Field&lt;T&gt; </returns>
+        public Field<T> SetType(Type type)
+        {
+            ClearDerived();
+            _type = type;
             return this;
         }
 
@@ -356,7 +374,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetOptional(bool optional = true)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _optional = optional;
             return this;
         }
@@ -366,7 +384,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetIsNullable(bool nullable = true)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _isNullable = nullable;
             return this;
         }
@@ -376,8 +394,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetPrompt(PromptAttribute prompt)
         {
-            UpdateAnnotations();
-            _promptDefinition = prompt;
+            ClearDerived();
+            PromptDefinition = prompt;
             return this;
         }
 
@@ -386,8 +404,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
-            UpdateAnnotations();
-            _recognizer = recognizer;
+            ClearDerived();
+            Recognizer = recognizer;
             return this;
         }
 
@@ -396,7 +414,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/> </returns>
         public Field<T> ReplaceTemplate(TemplateAttribute template)
         {
-            UpdateAnnotations();
+            ClearDerived();
             AddTemplate(template);
             return this;
         }
@@ -406,7 +424,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   An I<see cref="Field{T}"/> </returns>
         public IField<T> SetValidation(ValidateDelegate<T> validate)
         {
-            UpdateAnnotations();
+            ClearDerived();
             _validate = validate;
             return this;
         }
@@ -417,7 +435,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   An I<see cref="Field{T}"/> </returns>
         public IField<T> SetLimits(double min, double max)
         {
-            UpdateAnnotations();
+            ClearDerived();
             SetLimits(min, max, true);
             return this;
         }
@@ -431,9 +449,111 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _limited = limited;
         }
 
-        protected void UpdateAnnotations()
+        // Clear all derived values so we recompute them.
+        protected void ClearDerived()
         {
             _prompt = null;
+            _help = null;
+            if (!_promptSet) PromptDefinition = null;
+            if (!_recognizerSet) Recognizer = null;
+        }
+
+        protected PromptAttribute PromptDefinition
+        {
+            get
+            {
+                if (_promptDefinition == null)
+                {
+                    TemplateUsage usage = TemplateUsage.None;
+                    if (_type == null || _type.IsEnum)
+                    {
+                        usage = _allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne;
+                    }
+                    else if (_type == typeof(string))
+                    {
+                        usage = TemplateUsage.String;
+                    }
+                    else if (_type.IsIntegral())
+                    {
+                        usage = TemplateUsage.Integer;
+                    }
+                    else if (_type == typeof(bool))
+                    {
+                        usage = TemplateUsage.Bool;
+                    }
+                    else if (_type.IsDouble())
+                    {
+                        usage = TemplateUsage.Double;
+                    }
+                    else if (_type == typeof(DateTime))
+                    {
+                        usage = TemplateUsage.DateTime;
+                    }
+                    else
+                    {
+                        throw new ArgumentException(_name + " is not a type FormFlow understands.");
+                    }
+                    if (usage != TemplateUsage.None)
+                    {
+                        _promptDefinition = new PromptAttribute(Template(usage));
+                    }
+                }
+                return _promptDefinition;
+            }
+            set
+            {
+                _promptSet = (value != null);
+                _promptDefinition = value;
+            }
+        }
+       
+        protected IRecognize<T> Recognizer
+        {
+            get
+            {
+                if (_recognizer == null)
+                {
+                    if (_type == null || _type.IsEnum)
+                    {
+                        _recognizer = new RecognizeEnumeration<T>(this);
+                    }
+                    else if (_type == typeof(bool))
+                    {
+                        _recognizer = new RecognizeBool<T>(this);
+                    }
+                    else if (_type == typeof(string))
+                    {
+                        _recognizer = new RecognizeString<T>(this);
+                    }
+                    else if (_type.IsIntegral())
+                    {
+                        _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type.IsDouble())
+                    {
+                        _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type == typeof(DateTime))
+                    {
+                        _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+                    }
+                    else if (_type.IsIEnumerable())
+                    {
+                        var elt = _type.GetGenericElementType();
+                        if (elt.IsEnum)
+                        {
+                            _recognizer = new RecognizeEnumeration<T>(this);
+                        }
+                    }
+                }
+                return _recognizer;
+            }
+
+            set
+            {
+                _recognizerSet = value != null;
+                _recognizer = value;
+            }
         }
 
         protected void AddTemplate(TemplateAttribute template)
@@ -447,30 +567,32 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected double _min, _max;
         protected bool _limited;
         protected bool _allowsMultiple;
+        protected Type _type;
         protected bool _optional;
         protected bool _isNullable;
         protected bool _keepZero;
         protected string _description;
-        protected PromptAttribute _help;
         protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
         protected string[] _terms = new string[0];
         protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
         protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
-        protected bool _calculatedPrompt;
+        protected bool _promptSet;
         protected PromptAttribute _promptDefinition;
+        protected bool _recognizerSet;
         protected IRecognize<T> _recognizer;
+        protected IPrompt<T> _help;
         protected IPrompt<T> _prompt;
         #endregion
     }
+
     #region Documentation
     /// <summary>   Fill in field information through reflection.</summary>
-    /// <remarks>   The resulting information can be overriden through the fluent interface
-    ///             </remarks>
-    /// <typeparam name="T">    form state. </typeparam>
+    /// <remarks>   The resulting information can be overriden through the fluent interface.</remarks>
+    /// <typeparam name="T">    The form state. </typeparam>
     #endregion
     public class FieldReflector<T> : Field<T>
-        where T : class
+        where T: class
     {
         #region Documentation
         /// <summary>   Construct an <see cref="IField{T}"/> through reflection. </summary>
@@ -643,86 +765,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         #endregion
-
-        public override IForm<T> Form
-        {
-            set
-            {
-                base.Form = value;
-                if (_promptDefinition == null)
-                {
-                    TemplateUsage usage = TemplateUsage.None;
-                    _calculatedPrompt = true;
-                    if (_type.IsEnum)
-                    {
-                        usage = _allowsMultiple ? TemplateUsage.EnumSelectMany : TemplateUsage.EnumSelectOne;
-                    }
-                    else if (_type == typeof(string))
-                    {
-                        usage = TemplateUsage.String;
-                    }
-                    else if (_type.IsIntegral())
-                    {
-                        usage = TemplateUsage.Integer;
-                    }
-                    else if (_type == typeof(bool))
-                    {
-                        usage = TemplateUsage.Bool;
-                    }
-                    else if (_type.IsDouble())
-                    {
-                        usage = TemplateUsage.Double;
-                    }
-                    else if (_type == typeof(DateTime))
-                    {
-                        usage = TemplateUsage.DateTime;
-                    }
-                    else
-                    {
-                        throw new ArgumentException(_name + " is not a type FormFlow understands.");
-                    }
-                    if (usage != TemplateUsage.None)
-                    {
-                        _promptDefinition = new PromptAttribute(Template(usage));
-                    }
-                }
-                if (_recognizer == null)
-                {
-                    if (_type == null || _type.IsEnum)
-                    {
-                        _recognizer = new RecognizeEnumeration<T>(this);
-                    }
-                    else if (_type == typeof(bool))
-                    {
-                        _recognizer = new RecognizeBool<T>(this);
-                    }
-                    else if (_type == typeof(string))
-                    {
-                        _recognizer = new RecognizeString<T>(this);
-                    }
-                    else if (_type.IsIntegral())
-                    {
-                        _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
-                    }
-                    else if (_type.IsDouble())
-                    {
-                        _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
-                    }
-                    else if (_type == typeof(DateTime))
-                    {
-                        _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
-                    }
-                    else if (_type.IsIEnumerable())
-                    {
-                        var elt = _type.GetGenericElementType();
-                        if (elt.IsEnum)
-                        {
-                            _recognizer = new RecognizeEnumeration<T>(this);
-                        }
-                    }
-                }
-            }
-        }
         #endregion
 
         #region Internals
@@ -928,7 +970,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected bool _ignoreAnnotations;
         protected List<object> _path = new List<object>();
-        protected Type _type;
         #endregion
     }
 

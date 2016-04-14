@@ -54,6 +54,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
         {
             SetPrompt(prompt);
+            SetType(typeof(bool));
             _condition = condition;
             _dependencies = dependencies.ToArray();
             var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
@@ -97,15 +98,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public override void SetUnknown(T state)
         {
             throw new NotImplementedException();
-        }
-
-        public override IPrompt<T> Prompt()
-        {
-            if (_prompter == null)
-            {
-                _prompter = new Prompter<T>(_promptDefinition, _form, new RecognizeBool<T>(this));
-            }
-            return _prompter;
         }
         #endregion
 

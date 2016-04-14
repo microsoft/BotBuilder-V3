@@ -81,6 +81,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </remarks>
         void SetUnknown(T state);
 
+        /// <summary>   Gets the type of the field. </summary>
+        /// <value> The type. </value>
+        Type Type { get; }
+
         /// <summary>
         /// Test to see if field is optional which means that an unknown value is legal.
         /// </summary>

@@ -94,6 +94,10 @@
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tools\RView\RView.csproj">
+      <Project>{12cae029-7b8d-4928-8504-28746c36adb3}</Project>
+      <Name>RView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -32,7 +32,7 @@
 //
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -109,9 +109,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
-                form.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
-                form.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
-                form.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
+                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                builder.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
+                builder.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
             }
             else
             {
@@ -163,8 +163,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             {
                 form.SaveResources(stream);
             }
-            Process.Start(@"..\..\..\..\Tools\RView\bin\debug\RView.exe", "pizza.res -c neutral -p t-").WaitForExit();
-            using (var stream = new FileStream("pizza-neutral.res", FileMode.Open))
+            Process.Start(@"RView.exe", "pizza.res -c en-uk -p t-").WaitForExit();
+            using (var stream = new FileStream("pizza-en-uk.res", FileMode.Open))
             {
                 IEnumerable<string> missing, extra;
                 form.Localize(stream, out missing, out extra);

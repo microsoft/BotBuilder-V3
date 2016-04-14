@@ -42,6 +42,7 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     internal class FieldStep<T> : IStep<T>
+        where T: class
     {
         public FieldStep(string name, IForm<T> form)
         {
@@ -119,8 +120,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 #endif
             return matches;
         }
-
-
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
@@ -557,6 +556,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     }
 
     internal class NavigationStep<T> : IStep<T>
+        where T: class
     {
         public NavigationStep(string name, IForm<T> form, T state, FormState formState)
         {

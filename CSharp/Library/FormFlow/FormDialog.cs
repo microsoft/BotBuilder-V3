@@ -131,7 +131,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         // instantiated in constructor, re-instantiated when deserialized
         private readonly IForm<T> _form;
-        private readonly IRecognize<T> _commands;
+        private readonly IField<T> _commands;
 
         private static IForm<T> BuildDefaultForm()
         {
@@ -366,7 +366,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var commands =
                                 toBotText.Trim().StartsWith("\"")
                                 ? new TermMatch[0]
-                                : (from command in MatchAnalyzer.Coalesce(_commands.Matches(toBotText), toBotText)
+                                : (from command in MatchAnalyzer.Coalesce(_commands.Prompt().Recognizer().Matches(toBotText), toBotText)
                                    where (command.Value is FormCommand
                                        || _form.Fields.Field(command.Value as string).Active(_state))
                                    select command).ToArray();
