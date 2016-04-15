@@ -79,6 +79,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
+#if LOCALIZE
+        public void SaveResources()
+        {
+            _field.SaveResources();
+        }
+
+        public void Localize()
+        {
+            _field.Localize();
+        }
+#endif
+
         public bool Active(T state)
         {
             return _field.Active(state);
@@ -413,16 +425,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return prompter;
         }
 
-        public void SaveResources()
-        {
-            _field.SaveResources();
-        }
-
-        public void Localize()
-        {
-            _field.Localize();
-        }
-
         internal enum FieldStepStates { Unknown, SentPrompt, SentClarify };
 
         [Serializable]
@@ -474,6 +476,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
+#if LOCALIZE
+        public void SaveResources()
+        {
+            _field.SaveResources();
+        }
+
+        public void Localize()
+        {
+            _field.Localize();
+        }
+#endif
+
         public bool Active(T state)
         {
             return _field.Active(state);
@@ -524,16 +538,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var template = _field.Template(TemplateUsage.HelpConfirm);
             var prompt = new Prompter<T>(template, _field.Form, _field.Prompt().Recognizer());
             return "* " + prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer().Help(state, null), commandHelp);
-        }
-
-        public void SaveResources()
-        {
-            _field.SaveResources();
-        }
-
-        public void Localize()
-        {
-            _field.Localize();
         }
 
         public StepType Type

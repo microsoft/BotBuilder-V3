@@ -209,6 +209,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
         #endregion
 
+#if LOCALIZE
         #region IFieldResources
 
         public virtual void SaveResources()
@@ -245,6 +246,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         #endregion
+#endif
 
         #region IFieldPrompt
 
@@ -509,7 +511,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 _promptDefinition = value;
             }
         }
-       
+
         protected IRecognize<T> Recognizer
         {
             get
@@ -595,7 +597,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <typeparam name="T">    The form state. </typeparam>
     #endregion
     public class FieldReflector<T> : Field<T>
-        where T: class
+        where T : class
     {
         #region Documentation
         /// <summary>   Construct an <see cref="IField{T}"/> through reflection. </summary>

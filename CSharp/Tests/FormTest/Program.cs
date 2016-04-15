@@ -56,7 +56,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     public enum DebugOptions
     {
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
-        WithState, Localized,
+        WithState,
+#if LOCALIZE
+        Localized,
+#endif
         SimpleSandwichBot, AnnotatedSandwichBot
     };
     [Serializable]
@@ -160,6 +163,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
+#if LOCALIZE
             if (localize)
             {
                 using (var stream = new FileStream("pizza.resx", FileMode.Create))
@@ -175,6 +179,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     form.Localize(reader, out missing, out extra);
                 }
             }
+#endif
             return form;
         }
 
@@ -261,8 +266,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
                             () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
+#if LOCALIZE
                         case DebugOptions.Localized:
                             return MakeForm(() => BuildForm(false, false, true));
+#endif
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:

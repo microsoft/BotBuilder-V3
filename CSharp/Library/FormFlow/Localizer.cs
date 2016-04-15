@@ -43,7 +43,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     #region Documentation
     /// <summary>   A resource localizer. </summary>
     #endregion
-    public class Localizer : ILocalizer
+#if LOCALIZE
+    public
+#else
+    internal 
+#endif
+        class Localizer : ILocalizer
     {
         public CultureInfo Culture { get; set; }
 

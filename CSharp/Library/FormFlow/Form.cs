@@ -55,9 +55,18 @@ namespace Microsoft.Bot.Builder.FormFlow
             _fields = fields ?? new Fields<T>();
             _steps = steps ?? new List<IStep<T>>();
             _completion = completion;
-            _resources = new Localizer() { Culture = CultureInfo.CurrentCulture }; 
+            _resources = new Localizer() { Culture = CultureInfo.CurrentCulture };
         }
 
+        internal override ILocalizer Resources
+        {
+            get
+            {
+                return _resources;
+            }
+        }
+
+#if LOCALIZE
         public override void SaveResources(IResourceWriter writer)
         {
             foreach (var entry in _configuration.Commands)
@@ -98,6 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 step.Localize();
             }
         }
+#endif
 
         internal override bool IgnoreAnnotations
         {
@@ -140,13 +150,5 @@ namespace Microsoft.Bot.Builder.FormFlow
         }
 
         private ILocalizer _resources;
-
-        public override ILocalizer Resources
-        {
-            get
-            {
-                return _resources;
-            }
-        }
     }
 }
