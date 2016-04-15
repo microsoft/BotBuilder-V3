@@ -207,6 +207,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 return PromptDefinition.AllowNumbers;
             }
         }
+        #endregion
+
+        #region IFieldResources
 
         public virtual void SaveResources()
         {
@@ -222,7 +225,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             localizer.Add(_name, _templates);
         }
 
-        public virtual void LoadResources()
+        public virtual void Localize()
         {
             var localizer = _form.Resources;
             localizer.Lookup(_name + nameof(_description), out _description);

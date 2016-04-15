@@ -212,12 +212,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <returns>True if numbers are allowed as input.</returns>
         bool AllowNumbers { get; }
+    }
 
+    #region Documentation
+    /// <summary>   Interface for saving/localizing generated resources. </summary>
+    #endregion
+    public interface IFieldResources
+    {
         /// <summary>   Adds any string resources to form localizer. </summary>
         void SaveResources();
 
         /// <summary>   Loads any string resources from the form localizer. </summary>
-        void LoadResources();
+        void Localize();
     }
 
     /// <summary>
@@ -370,7 +376,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// Interface for all the information about a specific field.
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
-    public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>
+    public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>, IFieldResources
     {
         /// <summary>
         /// Name of this field.

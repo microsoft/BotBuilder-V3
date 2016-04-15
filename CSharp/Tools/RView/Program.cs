@@ -27,6 +27,7 @@ namespace RView
                 Usage();
             }
             var path = args[0];
+            var isResX = Path.GetExtension(path) == ".resx";
             string locale = null;
             string prefix = null;
             for (var i = 1; i < args.Length; ++i)
@@ -52,11 +53,11 @@ namespace RView
                 }
             }
 
-            ResourceWriter writer = null;
+            IResourceWriter writer = null;
             FileStream outStream = null;
             if (locale != null)
             {
-                var outPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "-" + locale + ".res");
+                var outPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "-" + locale + Path.GetExtension(path));
                 Console.Write($"Copying to {outPath}");
                 if (prefix != null)
                 {
@@ -64,10 +65,12 @@ namespace RView
                 }
                 Console.WriteLine();
                 outStream = new FileStream(outPath, FileMode.Create);
-                writer = new ResourceWriter(outStream);
+                writer = isResX ? (IResourceWriter)new ResXResourceWriter(outStream) : (IResourceWriter)new ResourceWriter(outStream);
             }
             using (var stream = new FileStream(path, FileMode.Open))
-            using (var reader = new ResourceReader(stream))
+            using (var reader = isResX ? (IResourceReader)new ResXResourceReader(stream) : (IResourceReader)new ResourceReader(stream))
+            using (outStream)
+            using (writer)
             {
                 int values = 0;
                 int lists = 0;
@@ -97,7 +100,7 @@ namespace RView
                             writer.AddResource(fullKey, prefix + value);
                         }
                     }
-                    switch(type)
+                    switch (type)
                     {
                         case "VALUE": ++values; break;
                         case "LIST": ++lists; break;
@@ -105,11 +108,6 @@ namespace RView
                     }
                 }
                 Console.WriteLine($"Found {values} values, {lists} lists and {templates} templates");
-            }
-            if (writer != null)
-            {
-                writer.Dispose();
-                outStream.Dispose();
             }
         }
 

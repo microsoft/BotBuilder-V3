@@ -117,11 +117,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// When the antecedent <see cref="IDialog{T}"/> has completed, unwrap the result into a new <see cref="IDialog{T}"/>.
+        /// When the antecedent <see cref="IDialog{T}"/> where T is <see cref="IDialog{T}"/> completes, unwrap the result into a new <see cref="IDialog{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
-        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
-        /// <returns>The result <see cref="IDialog{T}"/>.</returns>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/> where T is <see cref="IDialog{T}"/>.</param>
+        /// <returns>An <see cref="IDialog{T}"/>.</returns>
         public static IDialog<T> Unwrap<T>(this IDialog<IDialog<T>> antecedent)
         {
             return new UnwrapDialog<T>(antecedent);

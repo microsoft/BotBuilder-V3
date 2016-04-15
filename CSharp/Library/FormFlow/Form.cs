@@ -31,13 +31,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
-using System.Linq;
+using System.Resources;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -57,10 +55,10 @@ namespace Microsoft.Bot.Builder.FormFlow
             _fields = fields ?? new Fields<T>();
             _steps = steps ?? new List<IStep<T>>();
             _completion = completion;
-            _resources = new ResourceLocalizer() { Culture = CultureInfo.CurrentCulture }; 
+            _resources = new Localizer() { Culture = CultureInfo.CurrentCulture }; 
         }
 
-        public override void SaveResources(Stream stream)
+        public override void SaveResources(IResourceWriter writer)
         {
             foreach (var entry in _configuration.Commands)
             {
@@ -78,12 +76,12 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 step.SaveResources();
             }
-            _resources.Save(stream);
+            _resources.Save(writer);
         }
 
-        public override void Localize(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra)
+        public override void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
-            _resources = _resources.Load(stream, out missing, out extra);
+            _resources = _resources.Load(reader, out missing, out extra);
             foreach(var entry in _configuration.Commands)
             {
                 var command = entry.Value;
@@ -97,7 +95,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             _resources.LookupValues(nameof(_configuration.Yes), out _configuration.Yes);
             foreach (var step in _steps)
             {
-                step.LoadResources();
+                step.Localize();
             }
         }
 

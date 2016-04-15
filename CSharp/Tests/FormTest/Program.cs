@@ -49,6 +49,7 @@ using Microsoft.Bot.Connector;
 
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
+using System.Resources;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -161,15 +162,17 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Build();
             if (localize)
             {
-                using (var stream = new FileStream("pizza.res", FileMode.Create))
+                using (var stream = new FileStream("pizza.resx", FileMode.Create))
+                using (var writer = new ResXResourceWriter(stream))
                 {
-                    form.SaveResources(stream);
+                    form.SaveResources(writer);
                 }
-                Process.Start(@"RView.exe", "pizza.res -c en-uk -p t-").WaitForExit();
-                using (var stream = new FileStream("pizza-en-uk.res", FileMode.Open))
+                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c en-uk -p t-") {  UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
+                using (var stream = new FileStream("pizza-en-uk.resx", FileMode.Open))
+                using (var reader = new ResXResourceReader(stream))
                 {
                     IEnumerable<string> missing, extra;
-                    form.Localize(stream, out missing, out extra);
+                    form.Localize(reader, out missing, out extra);
                 }
             }
             return form;

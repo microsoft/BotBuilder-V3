@@ -418,9 +418,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _field.SaveResources();
         }
 
-        public void LoadResources()
+        public void Localize()
         {
-            _field.LoadResources();
+            _field.Localize();
         }
 
         internal enum FieldStepStates { Unknown, SentPrompt, SentClarify };
@@ -531,9 +531,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _field.SaveResources();
         }
 
-        public void LoadResources()
+        public void Localize()
         {
-            _field.LoadResources();
+            _field.Localize();
         }
 
         public StepType Type
@@ -658,7 +658,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
         }
 
-        public void LoadResources()
+        public void Localize()
         {
         }
 
@@ -757,7 +757,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _form.Resources.Add(_name + ".PROMPT", _promptDefinition.Patterns);
         }
 
-        public void LoadResources()
+        public void Localize()
         {
             string[] patterns;
             _form.Resources.LookupValues(_name + ".PROMPT", out patterns);

@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         void SaveResources();
 
-        void LoadResources();
+        void Localize();
 
         bool Active(T state);
 
