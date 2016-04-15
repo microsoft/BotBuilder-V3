@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     public enum DebugOptions
     {
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
-        WithState,
+        WithState, Localized,
         SimpleSandwichBot, AnnotatedSandwichBot
     };
     [Serializable]
@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
         }
 
-        private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false)
+        private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false, bool localize = false)
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
@@ -159,15 +159,18 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
-            using (var stream = new FileStream("pizza.res", FileMode.Create))
+            if (localize)
             {
-                form.SaveResources(stream);
-            }
-            Process.Start(@"RView.exe", "pizza.res -c en-uk -p t-").WaitForExit();
-            using (var stream = new FileStream("pizza-en-uk.res", FileMode.Open))
-            {
-                IEnumerable<string> missing, extra;
-                form.Localize(stream, out missing, out extra);
+                using (var stream = new FileStream("pizza.res", FileMode.Create))
+                {
+                    form.SaveResources(stream);
+                }
+                Process.Start(@"RView.exe", "pizza.res -c en-uk -p t-").WaitForExit();
+                using (var stream = new FileStream("pizza-en-uk.res", FileMode.Open))
+                {
+                    IEnumerable<string> missing, extra;
+                    form.Localize(stream, out missing, out extra);
+                }
             }
             return form;
         }
@@ -255,6 +258,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
                             () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
+                        case DebugOptions.Localized:
+                            return MakeForm(() => BuildForm(false, false, true));
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:

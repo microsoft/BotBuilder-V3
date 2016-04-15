@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             {FormCommand.Quit, new CommandDescription("Quit", new string[] { "quit", "stop", "finish", "goodbye", "good bye"},
                 "Quit: Quit the form without completing it.") },
             {FormCommand.Reset, new CommandDescription("Start over", new string[] { "start over", "reset", "clear" },
-                "Reset: Start over filling in the form.  (With defaults of your previous entries.)" ) },
+                "Reset: Start over filling in the form.  (With defaults from your previous entries.)" ) },
             {FormCommand.Status, new CommandDescription("status", new string[] {"status", "progress", "so far" },
                 "Status: Show your progress in filling in the form so far.") }
         };

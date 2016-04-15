@@ -112,7 +112,7 @@
     /// * Back: Go back to the previous question.
     /// * Help: Show the kinds of responses you can enter.
     /// * Quit: Quit the form without completing it.
-    /// * Reset: Start over filling in the form. (With defaults of your previous entries.)
+    /// * Reset: Start over filling in the form. (With defaults from your previous entries.)
     /// * Status: Show your progress in filling in the form so far.
     /// * You can switch to another field by entering its name. (Sandwich, Length, Bread, Cheese, Toppings, and Sauce).
     /// ~~~  
@@ -423,7 +423,7 @@
     /// * Back: Go back to the previous question.
     /// * Help: Show the kinds of responses you can enter.
     /// * Quit: Quit the form without completing it.
-    /// * Reset: Start over filling in the form. (With defaults of your previous entries.)
+    /// * Reset: Start over filling in the form. (With defaults from your previous entries.)
     /// * Status: Show your progress in filling in the form so far.
     /// * You can switch to another field by entering its name. (Sandwich, Length, Bread, Cheese, Sauces, and Toppings).
     /// ~~~
