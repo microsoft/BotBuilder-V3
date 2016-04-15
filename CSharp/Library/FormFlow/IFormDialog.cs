@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </summary>
     /// <typeparam name="T">Form state type.</typeparam>
     /// <remarks>
-    /// <see cref="FormDialog{T}"/> for an implementation of this interface.
+    /// <see cref="FormDialog{T}"/> is an implementation of this interface.
     /// </remarks>
     /// <exception cref="FormCanceledException{T}">Thrown when the user quits while filling in a form, or there is an underlying exception in the code.</exception>
     public interface IFormDialog<T> : IDialog<T>

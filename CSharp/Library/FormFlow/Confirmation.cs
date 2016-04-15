@@ -50,6 +50,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prompt">Confirmation prompt expressed using \ref patterns.</param>
         /// <param name="condition">Delegate for whether confirmation applies.</param>
         /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
+        /// <param name="form">Form that contains confirmation.</param>
         public Confirmation(PromptAttribute prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
             : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
         {
@@ -105,7 +106,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private delegate NextStep NextDelegate(bool response, T state);
         private readonly ConditionalDelegate<T> _condition;
         private readonly string[] _dependencies;
-        private IPrompt<T> _prompter;
         private readonly NextDelegate _next;
         #endregion
     }

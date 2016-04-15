@@ -66,13 +66,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <remarks>
         /// This method:
-        /// 1. instantiates and composes the required components
-        /// 2. deserializes the dialog state (the dialog stack and each dialog's state) from the <see cref="toBot"/> <see cref="Message"/>
-        /// 3. resumes the conversation processes where the dialog suspended to wait for a <see cref="Message"/>
-        /// 4. queues <see cref="Message"/>s to be sent to the user
-        /// 5. serializes the updated dialog state in the messages to be sent to the user.
+        /// 1. Instantiates and composes the required components.
+        /// 2. Deserializes the dialog state (the dialog stack and each dialog's state) from the <paramref name="toBot"/> <see cref="Message"/>.
+        /// 3. Resumes the conversation processes where the dialog suspended to wait for a <see cref="Message"/>.
+        /// 4. Queues <see cref="Message"/>s to be sent to the user.
+        /// 5. Serializes the updated dialog state in the messages to be sent to the user.
         /// 
-        /// The <see cref="MakeRoot"/> factory method is invoked for new conversations only,
+        /// The <paramref name="MakeRoot"/> factory method is invoked for new conversations only,
         /// because existing conversations have the dialog stack and state serialized in the <see cref="Message"/> data.
         /// </remarks>
         /// <param name="toBot">The message sent to the bot.</param>

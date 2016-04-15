@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">The type to fill in.</typeparam>
     /// <remarks>
     /// This is the root class for managing a FormFlow dialog. It is usually created
-    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T})"/>
+    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T}, FormOptions)"/>
     /// or <see cref="FormDialog.FromType{T}"/>. 
     /// </remarks>
     [Serializable]

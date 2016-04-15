@@ -143,7 +143,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         private ILocalizer _resources;
 
-        internal override ILocalizer Resources
+        public override ILocalizer Resources
         {
             get
             {

@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <item>A prompt sent to the user where the response is to fill in a form state value.</item>
     /// <item>A confirmation of the current state with the user.</item>
     /// </list>
-    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="PromptAttribute"/> and <see cref="Confirm"/> calls.
+    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="Field"/> and <see cref="Confirm"/> calls.
     /// If you do not take explicit control, the steps will be executed in the order defined in the 
     /// form state class with a final confirmation.
     /// This interface allows you to flently build a form by composing together fields,
@@ -141,8 +141,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="field">Field definition to use.</param>
         /// <returns>This form.</returns>
         /// <remarks>
-        /// You can provide your own implementation of <see cref="IField<T>"/> or you can 
-        /// use the <see cref="Field<T>"/> class to provide fluent values or the <see cref="FieldReflector<T>"/>
+        /// You can provide your own implementation of <see cref="IField{T}"/> or you can 
+        /// use the <see cref="Field{T}"/> class to provide fluent values or the <see cref="FieldReflector{T}"/>
         /// to use reflection to provide a base set of values that can be override.  It might 
         /// also make sense to derive from those classes and override the methods you need to 
         /// change.
@@ -211,7 +211,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Default prompt and template format settings.
         /// </summary>
         /// <remarks>
-        /// When you specify a <see cref="PromptAttribute"/> or <see cref="Template"/>, any format 
+        /// When you specify a <see cref="PromptAttribute"/> or <see cref="TemplateAttribute"/>, any format 
         /// value you do not specify will come from this default.
         /// </remarks>
         public PromptAttribute DefaultPrompt = new PromptAttribute("")

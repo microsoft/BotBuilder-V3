@@ -81,6 +81,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
         /// </summary>
+        /// <param name="botToUser">Communication channel to use.</param>
         /// <param name="text">The message text.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>

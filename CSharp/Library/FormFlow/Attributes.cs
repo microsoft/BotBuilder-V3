@@ -109,7 +109,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </summary>
     public enum ChoiceStyleOptions {
         /// <summary>
-        /// Use the default <see cref="ChoiceStyle"/> from the <see cref="FormConfiguration.DefaultPrompt"/>.
+        /// Use the default <see cref="TemplateBaseAttribute.ChoiceStyle"/> from the <see cref="FormConfiguration.DefaultPrompt"/>.
         /// </summary>
         Default,
 
@@ -412,7 +412,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// What you can enter while entering an integer.
         /// </summary>
-        /// </remarks>
         /// <remarks>
         /// Within this template, {0} is current choice if any, {1} is no preference for optional  and {1} and {2} are min/max if specified.
         /// </remarks>
@@ -509,6 +508,10 @@ namespace Microsoft.Bot.Builder.FormFlow
             Usage = usage;
         }
 
+        #region Documentation
+        /// <summary>   Initialize from another template. </summary>
+        /// <param name="other">    The other template. </param>
+        #endregion
         public TemplateAttribute(TemplateAttribute other)
             : base(other)
         {
@@ -615,7 +618,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public FeedbackOptions Feedback { get; set; }
 
         /// <summary>
-        /// Control case when showing {&} field name references in a \ref patterns string.
+        /// Control case when showing {&amp;} field name references in a \ref patterns string.
         /// </summary>
         public CaseNormalization FieldCase { get; set; }
 
@@ -668,7 +671,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public string[] Patterns { get; set; }
 
         /// <summary>
-        /// Any default values in this template will be overridden by the supplied <see cref="defaultTemplate"/>.
+        /// Any default values in this template will be overridden by the supplied <paramref name="defaultTemplate"/>.
         /// </summary>
         /// <param name="defaultTemplate">Default template to use to override default values.</param>
         public void ApplyDefaults(TemplateBaseAttribute defaultTemplate)

@@ -144,7 +144,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a confirmation. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int)/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int)"/>.</remarks>
         [Serializable]
         public sealed class PromptConfirm : Prompt<bool>
         {
@@ -194,7 +194,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a confirmation. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int)/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int)"/>.</remarks>
         [Serializable]
         public sealed class PromptInt64 : Prompt<Int64>
         {
@@ -214,7 +214,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a double. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int)/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int)"/>.</remarks>
         [Serializable]
         public sealed class PromptDouble: Prompt<double>
         {
@@ -234,7 +234,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a choice from a set of choices. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int)/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int)"/>.</remarks>
         [Serializable]
         public class PromptChoice<T> : Prompt<T>
         {

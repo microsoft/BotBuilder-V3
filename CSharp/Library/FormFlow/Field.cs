@@ -968,7 +968,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
+        /// <summary>   True to ignore annotations. </summary>
         protected bool _ignoreAnnotations;
+
+        /// <summary>   Path to field value in state. </summary>
         protected List<object> _path = new List<object>();
         #endregion
     }
@@ -1014,6 +1017,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return (from entry in _fields select entry.Value).GetEnumerator();
         }
 
+        /// <summary>   Mapping from field name to field definition. </summary>
         protected Dictionary<string, IField<T>> _fields = new Dictionary<string, IField<T>>();
     }
 }

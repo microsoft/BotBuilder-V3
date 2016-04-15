@@ -38,11 +38,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Resources;
-using System.Text;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
-    internal interface ILocalizer
+    #region Documentation
+    /// <summary>   Interface for localizing string resources. </summary>
+    #endregion
+    public interface ILocalizer
     {
         /// <summary>
         /// Return the localizer culture.
@@ -51,25 +53,45 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         CultureInfo Culture { get; set; }
 
         /// <summary>
-        /// Add a key and its translation to the localizer.
+        /// Add a key and its translation.
         /// </summary>
         /// <param name="key">Key for indexing translation.</param>
         /// <param name="translation">Translation for key.</param>
         void Add(string key, string translation);
 
         /// <summary>
-        /// Add a key and a list of translations to the localizer.
+        /// Add a key and a list of translations.
         /// </summary>
         /// <param name="key">Key for indexing translation list.</param>
         /// <param name="list">List of translated terms.</param>
         void Add(string key, IEnumerable<string> list);
 
+        #region Documentation
+        /// <summary>   Adds values from dictionary under prefix;object. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="dictionary">   The dictionary to add. </param>
+        #endregion
         void Add(string prefix, IReadOnlyDictionary<object, string> dictionary);
 
+        #region Documentation
+        /// <summary>   Adds values from dictionary under prefix;object. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="dictionary">   The dictionary to add. </param>
+        #endregion
         void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary);
 
+        #region Documentation
+        /// <summary>   Adds patterns from template under prefix;usage;[fields with template]. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="templates">    The template dictionary to add. </param>
+        #endregion
         void Add(string prefix, IReadOnlyDictionary<TemplateUsage, TemplateAttribute> templates);
 
+        #region Documentation
+        /// <summary>   Adds patterns from template under prefix;usage;[fields with template]. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="template">     The template to add. </param>
+        #endregion
         void Add(string prefix, TemplateAttribute template);
 
         /// <summary>
@@ -88,10 +110,25 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>True if value is found. </returns>
         bool LookupValues(string key, out string[] values);
 
+        #region Documentation
+        /// <summary>   Look up prefix;object from dictionary and replace value from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="dictionary">   Dictionary with existing values. </param>
+        #endregion
         void LookupDictionary(string prefix, IDictionary<object, string> dictionary);
 
+        #region Documentation
+        /// <summary>   Look up prefix;object from dictionary and replace values from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="dictionary">   Dictionary with existing values. </param>
+        #endregion
         void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary);
 
+        #region Documentation
+        /// <summary>   Looks up prefix;usage and replace patterns in template from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="templates">    Template dictionary with existing values. </param>
+        #endregion
         void LookupTemplates(string prefix, IDictionary<TemplateUsage, TemplateAttribute> templates);
 
         /// <summary>
@@ -101,7 +138,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Remove(string key);
 
         /// <summary>
-        /// Save localizer resource information.
+        /// Save localizer resources to stream.
         /// </summary>
         /// <param name="stream">Where to write resources.</param>
         void Save(Stream stream);
@@ -112,7 +149,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="stream">Stream to load from.</param>
         /// <param name="missing">Keys found in current localizer that are not in loaded localizer.</param>
         /// <param name="extra">Keys found in loaded localizer that were not in current localizer.</param>
-        /// <returns>New localizer for culture.</returns>
+        /// <returns>New localizer from stream.</returns>
         ILocalizer Load(Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
     }
 
@@ -120,7 +157,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     {
         public CultureInfo Culture { get; set; }
 
-       public void Add(string key, string translation)
+        public void Add(string key, string translation)
         {
             _translations.Add(key, translation);
         }
@@ -130,7 +167,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _arrayTranslations.Add(key, list.ToArray());
         }
 
-         public void Add(string prefix, IReadOnlyDictionary<object, string> dictionary)
+        public void Add(string prefix, IReadOnlyDictionary<object, string> dictionary)
         {
             foreach (var entry in dictionary)
             {
