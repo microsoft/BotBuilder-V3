@@ -527,15 +527,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                     else if (_type.IsIntegral())
                     {
-                        _recognizer = new RecognizeNumber<T>(this, CultureInfo.CurrentCulture);
+                        _recognizer = new RecognizeNumber<T>(this, _form.Resources.Culture);
                     }
                     else if (_type.IsDouble())
                     {
-                        _recognizer = new RecognizeDouble<T>(this, CultureInfo.CurrentCulture);
+                        _recognizer = new RecognizeDouble<T>(this, _form.Resources.Culture);
                     }
                     else if (_type == typeof(DateTime))
                     {
-                        _recognizer = new RecognizeDateTime<T>(this, CultureInfo.CurrentCulture);
+                        _recognizer = new RecognizeDateTime<T>(this, _form.Resources.Culture);
                     }
                     else if (_type.IsIEnumerable())
                     {

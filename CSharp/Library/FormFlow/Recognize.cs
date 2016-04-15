@@ -770,7 +770,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override string ValueDescription(object value)
         {
-            return ((DateTime)value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
+            return ((DateTime)value).ToString(_culture.DateTimeFormat);
         }
 
         private CultureInfo _culture;
