@@ -31,30 +31,34 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
     [TestClass]
     public sealed class ChainTests
     {
-        public static IContainer Build()
+        public static IContainer Build(bool includeReflection = true)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
-            builder.RegisterModule(new ReflectionSurrogateModule());
+            if (includeReflection)
+            {
+                builder.RegisterModule(new ReflectionSurrogateModule());
+            }
             builder
                 .RegisterType<BotToUserQueue>()
                 .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
@@ -89,14 +93,14 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task SelectMany()
+        public async Task LinqQuerySyntax_SelectMany()
         {
             var toBot = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString()
             };
 
-            var words = new [] { "hello", "world", "!" };
+            var words = new[] { "hello", "world", "!" };
 
             using (var container = Build())
             {
@@ -132,7 +136,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Select()
+        public async Task LinqQuerySyntax_Select()
         {
             const string Phrase = "hello world";
 
@@ -155,6 +159,50 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        public static IDialog<string> MakeSwitchDialog()
+        {
+            return Chain.PostToChain().Select(m => m.Text).Switch(new RegexCase<string>(new Regex("^hello"), (context, text) =>
+            {
+                return "world!";
+            }), new Case<string, string>( (txt) => txt == "world", (context, text) =>
+            {
+                return "!";
+            }), new DefaultCase<string, string>( (context, text) =>
+            {
+                return text;
+            })
+            ).PostToUser();
+        }
+
+        [TestMethod]
+        public async Task Switch_Case()
+        {
+            var toBot = new Message()
+            {
+                ConversationId = Guid.NewGuid().ToString()
+            };
+
+            var words = new[] { "hello", "world", "echo" };
+            var expectedReply = new[] { "world!", "!", "echo" };
+
+            using (var container = Build())
+            {
+                foreach (var word in words)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, MakeSwitchDialog);
+                    }
+                }
+
+                var queue = container.Resolve<BotToUserQueue>();
+                var texts = queue.Messages.Select(m => m.Text).ToArray();
+                CollectionAssert.AreEqual(expectedReply, texts);
+            }
+        }
+
         public static IDialog<string> MakeUnwrapQuery()
         {
             const string Prompt1 = "p1";
@@ -163,7 +211,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Unwrap()
+        public async Task Linq_Unwrap()
         {
             var toBot = new Message()
             {
@@ -186,6 +234,57 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var expected = words.Last();
                 AssertQueryText(expected, container);
+            }
+        }
+
+        [TestMethod]
+        public async Task LinqQuerySyntax_Without_Reflection_Surrogate()
+        {
+            // no environment capture in closures here
+            var query = from x in new PromptDialog.PromptString("p1", "p1", 1)
+                        from y in new PromptDialog.PromptString("p2", "p2", 1)
+                        select string.Join(" ", x, y);
+
+            query = query.PostToUser();
+
+            var words = new[] { "hello", "world" };
+
+            using (var container = Build(includeReflection: false))
+            {
+                var toBot = new Message()
+                {
+                    ConversationId = Guid.NewGuid().ToString()
+                };
+
+                foreach (var word in words)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, () => query);
+                    }
+                }
+
+                var expected = string.Join(" ", words);
+                AssertQueryText(expected, container);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ClosureCaptureException))]
+        public async Task LinqQuerySyntax_Throws_ClosureCaptureException()
+        {
+            var prompts = new[] { "p1", "p2" };
+            var query = new PromptDialog.PromptString(prompts[0], prompts[0], attempts: 1).Select(p => new PromptDialog.PromptString(prompts[1], prompts[1], attempts: 1)).Unwrap().PostToUser();
+
+            using (var container = Build(includeReflection: false))
+            {
+                var formatter = container.Resolve<IFormatter>(TypedParameter.From(new Message()));
+                using (var stream = new MemoryStream())
+                {
+                    formatter.Serialize(stream, query);
+                }
             }
         }
     }

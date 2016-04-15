@@ -57,7 +57,13 @@ namespace Microsoft.Bot.Sample.Tests
         [TestMethod]
         public async Task EchoCommandDialogFlow()
         {
-            await EchoDialogFlow(EchoCommandDialog.echoCommandDialog);
+            await EchoDialogFlow(EchoCommandDialog.dialog);
+        }
+
+        [TestMethod]
+        public async Task EchoChainDialogFlow()
+        {
+            await EchoDialogFlow(EchoChainDialog.dialog);
         }
 
         private async Task EchoDialogFlow<T>(IDialog<T> echoDialog)
