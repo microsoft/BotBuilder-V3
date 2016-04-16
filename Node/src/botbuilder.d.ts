@@ -433,12 +433,12 @@ export interface ISessionMessageEvent {
 
 /** Signature of error events fired from bots. */
 export interface IBotErrorEvent {
-    (err: Error, message): void;
+    (err: Error, message: any): void;
 }
 
 /** Signature of message related events fired from bots. */
 export interface IBotMessageEvent {
-    (message): void;
+    (message: any): void;
 }
 
 /** result returnd from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
@@ -909,6 +909,22 @@ export class Message implements IMessage {
      * @param data The channel data to assign.
      */
     setChannelData(data: any): Message;
+    
+    /**
+     * Selects a prompt at random.
+     * @param prompts Array of prompts to choose from.
+     */
+    static randomPrompt(prompts: string[]): string;
+    
+    /**
+     * Combines an array of prompts into a single localized prompt and then optionally fills the
+     * prompts template slots with the passed in arguments. 
+     * @param session Session object used to localize the individual prompt parts.
+     * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
+     *                which will be chosen at random.  The combined output text will be space delimited.
+     * @param args Optional arguments used to format the output text when the prompt is a template.  
+     */
+    static composePrompt(session: Session, prompts: string[][], ...args: any[]): string;
 }
 
 /**
@@ -956,6 +972,13 @@ export abstract class Dialog {
  * A collection of dialogs & middleware that's used for routing purposes. Bots typically derive from this class.
  */
 export class DialogCollection {
+    /**
+     * Raises an event.
+     * @param event Name of the event to raise.
+     * @param args Optional arguments for the event.
+     */
+    emit(event: string, ...args: any[]): void;
+
     /**
      * Adds a set of dialogs to the collection.
      * @param dialogs Map of dialogs to add to the collection. The map should be keyed off the dialogs ID.
@@ -1604,19 +1627,20 @@ export class BotConnectorBot extends DialogCollection {
      * app.use(bot.verifyBotFramework({ appId: 'your appId', appSecret: 'your appSecret' }));
      * </code></pre>
      */
-    verifyBotFramework(options?: IBotConnectorOptions): (req, res, next) => void;
+    verifyBotFramework(options?: IBotConnectorOptions): (req: any, res: any, next: any) => void;
 
     /**
      * Returns a piece of Express or Restify compliant middleware that will route incoming messages to the bot. 
      * NOTE: The middleware should be mounted to route that receives an HTTPS POST.
-     * @param options Optional configuration options to pass in.
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
+     * @param dialogArgs Optional arguments to pass to the dialog.
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
-     * app.post('/v1/messages', bot.listen());
+     * app.post('/api/messages', bot.listen());
      * </code></pre>
      */
-    listen(options?: IBotConnectorOptions): (req, res) => void;
+    listen(dialogId?: string, dialogArgs?: any): (req: any, res: any) => void;
 
     /**
      * Starts a new conversation with a user.
