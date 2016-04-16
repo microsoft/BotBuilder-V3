@@ -906,6 +906,18 @@ export class Message implements IMessage {
      * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
      *                which will be chosen at random.  The combined output text will be space delimited.
      * @param args Optional arguments used to format the output text when the prompt is a template.  
+     * @example
+     * <pre><code>
+     * var prompts = {
+     *     hello: ["Hello", "Hi"],
+     *     world: ["World", "Planet"]
+     * };
+     * var bot = new builder.BotConnectorBot();
+     * bot.add('/', function (session) {
+     *      var msg = new Message().composePrompt(session, [prompts.hello, prompts.world]);
+     *      session.send(msg);
+     * });
+     * </code></pre>
      */
     composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
