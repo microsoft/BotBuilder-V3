@@ -32,6 +32,7 @@
 //
 
 import session = require('./Session');
+import sprintf = require('sprintf-js');
 
 export class Message implements IMessage {
     public setLanguage(language: string): this {
@@ -67,4 +68,19 @@ export class Message implements IMessage {
         m.channelData = data;
         return this;
     }
+    
+    static randomPrompt(prompts: string[]): string {
+        var i = Math.round(Math.random() * prompts.length);
+        return prompts[i];
+    }
+    
+    static composePrompt(ses: session.Session, prompts: string[][], ...args: any[]): string {
+        var connector = '';
+        var prompt = '';
+        for (var i = 0; i < prompts.length; i++) {
+            prompt += connector + ses.gettext(Message.randomPrompt(prompts[1]));
+            connector = ' ';
+        }
+        return args && args.length > 0 ? sprintf.vsprintf(prompt, args) : prompt;
+    } 
 }
