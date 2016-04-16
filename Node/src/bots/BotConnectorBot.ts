@@ -57,12 +57,6 @@ export interface IBotConnectorOptions {
     goodbyeMessage?: string;
 }
 
-export interface IBotConnectorContinueDialogOptions {
-    getUserData?: boolean;
-    getConversationData?: boolean;
-    dialogId?: string;
-}
-
 /** Express or Restify Request object. */
 interface IRequest {
     body: any;
@@ -87,6 +81,12 @@ interface IStoredData {
     userData: any;
     conversationData: any;
     perUserConversationData: any;
+}
+
+interface IDispatchOptions {
+    dialogId?: string;
+    dialogArgs?: any;
+    replyToDialogId?: string;
 }
 
 export class BotConnectorBot extends collection.DialogCollection {
@@ -143,11 +143,10 @@ export class BotConnectorBot extends collection.DialogCollection {
         };
     }
 
-    public listen(options?: IBotConnectorOptions): IMiddleware {
-        this.configure(options);
+    public listen(dialogId?: string, dialogArgs?: any): IMiddleware {
         return (req: IRequest, res: IResponse) => {
             if (req.body) {
-                this.dispatchMessage(null, req.body, this.options.defaultDialogId, this.options.defaultDialogArgs, res);
+                this.dispatchMessage(null, req.body, { dialogId: dialogId, dialogArgs: dialogArgs }, res);
             } else {
                 var requestData = '';
                 req.on('data', (chunk: string) => {
@@ -156,7 +155,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                 req.on('end', () => {
                     try {
                         var msg = JSON.parse(requestData);
-                        this.dispatchMessage(null, msg, this.options.defaultDialogId, this.options.defaultDialogArgs, res);
+                        this.dispatchMessage(null, msg, { dialogId: dialogId, dialogArgs: dialogArgs }, res);
                     } catch (e) {
                         this.emit('error', new Error('Invalid Bot Framework Message'));
                         res.send(400);
@@ -168,14 +167,14 @@ export class BotConnectorBot extends collection.DialogCollection {
 
     public beginDialog(address: IBeginDialogAddress, dialogId: string, dialogArgs?: any): void {
         // Fixup address fields
-        var msg: IBotConnectorMessage = address;
-        msg.type = 'Message';
-        if (!msg.from) {
-            msg.from = this.options.defaultFrom;
+        var message: IBotConnectorMessage = address;
+        message.type = 'Message';
+        if (!message.from) {
+            message.from = this.options.defaultFrom;
         }
 
         // Validate args
-        if (!msg.to || !msg.from) {
+        if (!message.to || !message.from) {
             throw new Error('Invalid address passed to BotConnectorBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
@@ -183,17 +182,59 @@ export class BotConnectorBot extends collection.DialogCollection {
         }
 
         // Dispatch message
-        this.dispatchMessage(msg.to.id, msg, dialogId, dialogArgs);
+        this.dispatchMessage(message.to.id, message, { dialogId: dialogId, dialogArgs: dialogArgs });
     }
     
-    /** In Development
-    public continueDialog(message: IBotConnectorMessage, options?: IBotConnectorContinueDialogOptions): void {
+    /** IN DEVELOPMENT
+    public continueDialog(message: IBotConnectorMessage, replyToDialogId?: string): void {
+        // Validate args
         message.type = 'Message';
+        if (!message.from || !message.conversationId) {
+            throw new Error('Invalid message passed to BotConnectorBot.continueDialog().');
+        }
         
+        // Calculate storage paths
+        var userId = message.from.id;
+        var botPath = '/' + this.options.appId;
+        var userPath = botPath + '/users/' + userId;
+        var convoPath = botPath + '/conversations/' + message.conversationId;
+        var perUserConvoPath = botPath + '/conversations/' + message.conversationId + '/users/' + userId;
+
+        // Load botData fields from connector
+        // - We'll optimize for the use of custom stores. If custom stores are being
+        //   we need to at least retrieve the botConversationData field which contains
+        //   the sessionId.
+        var connector = new bcStorage.BotConnectorStorage(<any>this.options);
+        var ops = 3;
+        function load(id: string, field: string) {
+            connector.get(id, (err, item) => {
+                if (!err) {
+                    (<any>message)[field] = item;
+                    if (--ops == 0) {
+                        this.dispatchMessage(null, message, { replyToDialogId: replyToDialogId });
+                    }
+                } else {
+                    this.emit('error', err, message);
+                }
+            });
+        }
+        if (!this.options.userStore) {
+            load(userPath, 'botUserData');
+        } else {
+            message.botUserData = {};
+            ops--;
+        }
+        if (!this.options.perUserInConversationStore) {
+            load(perUserConvoPath, 'botPerUserInConversationData');
+        } else {
+            message.botPerUserInConversationData = {};
+            ops--;
+        }
+        load(convoPath, 'botConversationData');
     }
     */
-
-    private dispatchMessage(userId: string, message: IBotConnectorMessage, dialogId: string, dialogArgs: any, res?: IResponse) {
+    
+    private dispatchMessage(userId: string, message: IBotConnectorMessage, options: IDispatchOptions, res?: IResponse) {
         try {
             // Validate message
             if (!message || !message.type) {
@@ -230,8 +271,8 @@ export class BotConnectorBot extends collection.DialogCollection {
                     localizer: this.options.localizer,
                     minSendDelay: this.options.minSendDelay,
                     dialogs: this,
-                    dialogId: dialogId,
-                    dialogArgs: dialogArgs
+                    dialogId: options.dialogId || this.options.defaultDialogId,
+                    dialogArgs: options.dialogArgs || this.options.defaultDialogArgs
                 });
                 ses.on('send', (reply: IBotConnectorMessage) => {
                     // Compose reply
@@ -307,7 +348,14 @@ export class BotConnectorBot extends collection.DialogCollection {
                         }
                         
                         // Dispatch message
-                        ses.dispatch(sessionState, message);
+                        if (options.replyToDialogId) {
+                            // Enforce that the required dialog is active
+                            if (sessionState && sessionState.callstack[sessionState.callstack.length - 1].id == options.replyToDialogId) {
+                                ses.dispatch(sessionState, message);
+                            }                            
+                        } else {
+                            ses.dispatch(sessionState, message);
+                        }
                     } else {
                         this.emit('error', err, message);
                     }
@@ -406,7 +454,6 @@ export class BotConnectorSession extends session.Session {
     public conversationData: any;
     public perUserInConversationData: any;
 }
-
 
 function post(settings: IBotConnectorOptions, path: string, body: any, callback?: (error: any) => void): void {
     var options: request.Options = {
