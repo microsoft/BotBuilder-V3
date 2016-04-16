@@ -883,10 +883,11 @@ export class Message implements IMessage {
     /**
      * Sets the localized text of the message.
      * @param session Session object used to localize the message text.
-     * @param text Text or template string for the reply. This will be localized using session.gettext().
+     * @param prompt Text or template string for the reply. If an array is passed the reply will be chosen at random. The reply will be localized using session.gettext().
      * @param args Optional arguments used to format the message text when Text is a template.  
      */
-    setText(session: Session, text: string, ...args: any[]): Message;
+    setText(session: Session, prompt: string, ...args: any[]): Message;
+    setText(session: Session, prompt: string[], ...args: any[]): Message;
 
     /**
      * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
@@ -897,6 +898,16 @@ export class Message implements IMessage {
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      */
     setNText(session: Session, msg: string, msg_plural: string, count: number): Message;
+
+    /**
+     * Combines an array of prompts into a single localized prompt and then optionally fills the
+     * prompts template slots with the passed in arguments. 
+     * @param session Session object used to localize the individual prompt parts.
+     * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
+     *                which will be chosen at random.  The combined output text will be space delimited.
+     * @param args Optional arguments used to format the output text when the prompt is a template.  
+     */
+    composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
     /**
      * Adds an attachment to the message.
@@ -922,9 +933,9 @@ export class Message implements IMessage {
      * @param session Session object used to localize the individual prompt parts.
      * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
      *                which will be chosen at random.  The combined output text will be space delimited.
-     * @param args Optional arguments used to format the output text when the prompt is a template.  
+     * @param args Optional array of arguments used to format the output text when the prompt is a template.  
      */
-    static composePrompt(session: Session, prompts: string[][], ...args: any[]): string;
+    static composePrompt(session: Session, prompts: string[][], args?: any[]): string;
 }
 
 /**

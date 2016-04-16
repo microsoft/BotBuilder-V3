@@ -41,8 +41,11 @@ export class Message implements IMessage {
         return this;    
     }
     
-    public setText(ses: session.Session, msg: string, ...args: any[]): this {
+    public setText(ses: session.Session, msg: string, ...args: any[]): this;
+    public setText(ses: session.Session, prompts: string[], ...args: any[]): this;
+    public setText(ses: session.Session, prompts: any, ...args: any[]): this {
         var m = <IMessage>this;
+        var msg: string = typeof prompts == 'string' ? msg : Message.randomPrompt(prompts);
         args.unshift(msg);
         m.text = session.Session.prototype.gettext.apply(ses, args);
         return this;
@@ -51,6 +54,12 @@ export class Message implements IMessage {
     public setNText(ses: session.Session, msg: string, msg_plural: string, count: number): this {
         var m = <IMessage>this;
         m.text = ses.ngettext(msg, msg_plural, count);
+        return this;
+    }
+    
+    public composePrompt(ses: session.Session, prompts: string[][], ...args: any[]): this {
+        var m = <IMessage>this;
+        m.text = Message.composePrompt(ses, prompts, args);
         return this;
     }
     
@@ -74,7 +83,7 @@ export class Message implements IMessage {
         return prompts[i];
     }
     
-    static composePrompt(ses: session.Session, prompts: string[][], ...args: any[]): string {
+    static composePrompt(ses: session.Session, prompts: string[][], args?: any[]): string {
         var connector = '';
         var prompt = '';
         for (var i = 0; i < prompts.length; i++) {
