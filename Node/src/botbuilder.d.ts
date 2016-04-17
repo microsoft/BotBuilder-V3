@@ -1064,7 +1064,7 @@ export class DialogAction {
      * - [ResumeReason.back](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#back): returns to the previous function in the waterfall.
      * - [ResumeReason.canceled](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#canceled): ends the waterfall all together.
      * 
-     * Calling other dialog like built-in prompts can influence the flow as well. If a child dialog
+     * Calling other dialogs like built-in prompts can influence the flow as well. If a child dialog
      * returns either ResumeReason.forward or ResumeReason.back it will automatically be handled.
      * If ResumeReason.canceled is returnd it will be handed to the step for processing which can
      * then decide to cancel the action or not.
@@ -1190,63 +1190,56 @@ export abstract class IntentDialog extends Dialog {
     replyReceived(session: Session): void;
 
     /**
-     * Adds a IntentGroup to the dialog. 
+     * Adds a IntentGroup to the dialog. Intent groups help organize larger dialogs with many
+     * intents. They let you move the processing of related handlers to a seperate file.
      * @param group Group to add to dialog.
      */
     addGroup(group: IntentGroup): IntentDialog;
 
     /**
      * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
-     * @param fn Handler to invoke when the dialog is started.
+     * @param handler Handler to invoke when the dialog is started.
+     * @param handler.session Session object for the current conversation.
+     * @param handler.args Any arguments passed to the dialog in the call to [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * @param handler.next Callback used to continue the dialogs execution.
      */
-    onBegin(fn: (session: Session, args: any, next: () => void) => void): IntentDialog;
+    onBegin(handler: (session: Session, args: any, next: () => void) => void): IntentDialog;
 
     /**
-     * Executes a block of code when the given intent is recognized. Use DialogAction.send() or
-     * DialogEnd.endDialog() to implement common actions.
+     * Executes a block of code when the given intent is recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param intent Intent to trigger on.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    on(intent: string, fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an intent is triggered. See DialogAction.waterfall() for
-     * details.
-     * @param intent Intent to trigger on.
-     * @param waterfall Waterfall steps to execute.
-     */
-    on(intent: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-   /**
-     * Begins a dialog anytime the intent is triggered. 
-     * @param intent Intent to trigger on.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    on(intent: string, dialogId: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    on(intent: string, handler: (session: Session, args?: any) => void): IntentDialog;
 
     /**
-     * Executes a block of code when an unknown intent is recognized. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Executes a block of code when there are no handlers registered for the intent that was 
+     * recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    onDefault(fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an unknown intent is recognized. See DialogAction.waterfall() 
-     * for details.
-     * @param waterfall Waterfall steps to execute.
-     */
-    onDefault(waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when an unknown intent is recognized.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    onDefault(dialogId: string, dialogArgs?: any): IntentDialog;
+    onDefault(handler: string, dialogArgs?: any): IntentDialog;
+    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
+    onDefault(handler: (session: Session, args?: any) => void): IntentDialog;
 
     /** Returns the minimum score needed for an intent to be triggered. */
     getThreshold(): number;
@@ -1263,6 +1256,9 @@ export abstract class IntentDialog extends Dialog {
      * Derived classes should implement this method with the logic needed to perform the actual intent recognition.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
      */
     protected abstract recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
@@ -1285,33 +1281,26 @@ export class IntentGroup {
     getId(): string;
 
     /**
-     * Executes a block of code when the given intent is recognized. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
+     * Executes a block of code when the given intent is recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param intent Intent to trigger on.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    on(intent: string, fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an intent is triggered. See DialogAction.waterfall() for
-     * details.
-     * @param intent Intent to trigger on.
-     * @param waterfall Waterfall steps to execute.
-     */
-    on(intent: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog anytime the intent is triggered. 
-     * @param intent Intent to trigger on.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    on(intent: string, dialogId: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    on(intent: string, handler: (session: Session, args?: any) => void): IntentDialog;
 }
 
 /**
- * Routes incoming messages to a Luis app hosted on http://luis.ai for intent recognition.
+ * Routes incoming messages to a LUIS app hosted on http://luis.ai for intent recognition.
  * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
  * with any entities, for further processing. 
  */
@@ -1326,6 +1315,9 @@ export class LuisDialog extends IntentDialog {
      * Performs the step of recognizing intents & entities when a message is recieved vy the dialog. Called by IntentDialog.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
      */
     protected recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
@@ -1449,8 +1441,8 @@ export class CommandDialog extends Dialog {
     onBegin(handler: (session: Session, args: any, next: () => void) => void): CommandDialog;
 
     /**
-     * Triggers the handler when the pattern(s) is matched. Use the [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
-     * to implement common actions.
+     * Triggers the handler when the pattern(s) is matched. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param pattern 
      * * __patern:__ _{string}_ - A regular expression to match against. Comparisons are case insensitive.
      * * __patern:__ _{string[]}_ - Array of regular expressions to match against. All comparisons are case insensitive.
@@ -1462,7 +1454,7 @@ export class CommandDialog extends Dialog {
      * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
      * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
      * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
-     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandDialog}_ args passed to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
     matches(pattern: string, handler: string, dialogArgs?: any): CommandDialog;
     matches(pattern: string[], handler: string, dialogArgs?: any): CommandDialog;
@@ -1472,7 +1464,8 @@ export class CommandDialog extends Dialog {
     matches(pattern: string[], handler: IDialogWaterfallStep[]): IntentDialog;
 
     /**
-     * Triggers a handler when an unknown pattern is received.
+     * Triggers a handler when an unknown pattern is received. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
      * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
@@ -1481,7 +1474,7 @@ export class CommandDialog extends Dialog {
      * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
      * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
      * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
-     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandDialog}_ args passed to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
     onDefault(handler: string, dialogArgs?: any): CommandDialog;
     onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
