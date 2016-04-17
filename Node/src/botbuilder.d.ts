@@ -1034,8 +1034,8 @@ export class DialogCollection {
 export class DialogAction {
     /**
      * Returns a closure that will send a simple text message to the user. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param msg Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * @param args Optional arguments used to format the final output string. 
      */
     static send(msg: string, ...args: any[]): (session: Session) => void;
 
@@ -1058,11 +1058,11 @@ export class DialogAction {
      * waterfall and the results of that prompt will be passed as input to the second function
      * and the result of the second passed to the third and so on.  
      *
-     * Each step within the waterfall may optionally return a ResumeReson to influence the flow 
+     * Each step within the waterfall may optionally return a [ResumeReson](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to influence the flow 
      * of the waterfall:
-     * - ResumeReason.forward: skips the next function in the waterfall.
-     * - ResumeReason.back: returns to the previous function in the waterfall.
-     * - ResumeReason.canceled: ends the waterfall all together.
+     * - [ResumeReason.forward](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#forward): skips the next function in the waterfall.
+     * - [ResumeReason.back](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#back): returns to the previous function in the waterfall.
+     * - [ResumeReason.canceled](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#canceled): ends the waterfall all together.
      * 
      * Calling other dialog like built-in prompts can influence the flow as well. If a child dialog
      * returns either ResumeReason.forward or ResumeReason.back it will automatically be handled.
@@ -1073,10 +1073,11 @@ export class DialogAction {
     static waterfall(steps: IDialogWaterfallStep[]): (session: Session, args: any) => void;
 
     /**
-     * Returns a closer that wraps a built-in prompt with validation logic. The closure should be used
+     * Returns a closure that wraps a built-in prompt with validation logic. The closure should be used
      * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
      * @param promptType Type of built-in prompt to validate.
      * @param validator Function used to validate the response. Should return true if the response is valid.
+     * @param validator.response The users [IDialogResult.response](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
