@@ -1347,130 +1347,96 @@ export class LuisDialog extends IntentDialog {
  */
 export class EntityRecognizer {
     /**
-     * Searches for the first occurance of an specific entity type within a set.
+     * Searches for the first occurance of a specific entity type within a set.
      * @param entities Set of entities to search over.
      * @param type Type of entity to find.
      */
     static findEntity(entities: IEntity[], type: string): IEntity;
     
     /**
-     * Finds all occurences of a specific entity type within a set.
+     * Finds all occurrences of a specific entity type within a set.
      * @param entities Set of entities to search over.
      * @param type Type of entity to find.
      */
     static findAllEntities(entities: IEntity[], type: string): IEntity[];
 
     /**
-     * Parses and resolves a time from a user utterance.
-     * @param utterance Text utterance to parse. 
-     * @returns A valid Date object if the user spoke a time otherwise null.
+     * Parses a date from either a users text utterance or a set of entities.
+     * @param value 
+     * * __value:__ _{string}_ - Text utterance to parse. The utterance is parsed using the [Chrono](http://wanasit.github.io/pages/chrono/) library.
+     * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
+     * @returns A valid Date object if the user spoke a time otherwise _null_.
      */   
-    static parseTime(utterance: string): Date;
-
-    /**
-     * Resolves a time from a set of entities.
-     * @param entities Array of entities.
-     * @returns A valid Date object if datetime entities were found otherwise null.
-     */
-    static parseTime(entities: IEntity[]): Date;
+    static parseTime(value: string): Date;
+    static parseTime(value: IEntity[]): Date;
 
     /**
      * Calculates a Date from a set of datetime entities.
      * @param entities List of entities to extract date from.
-     * @returns The successfully calculated Date or null if a date couldn't be determined. 
+     * @returns The successfully calculated Date or _null_ if a date couldn't be determined. 
      */
     static resolveTime(entities: IEntity[]): Date;
 
     /**
-     * Recognizes a time from a users uetterance.
+     * Recognizes a time from a users utterance. The utterance is parsed using the [Chrono](http://wanasit.github.io/pages/chrono/) library.
      * @param utterance Text utterance to parse.
-     * @param refDate Optional reference date user to calculate the finale date.
-     * @returns An entity containing the resolved date if successfull or null if a date couldn't be determined. 
+     * @param refDate Optional reference date used to calculate the final date.
+     * @returns An entity containing the resolved date if successful or _null_ if a date couldn't be determined. 
      */
     static recognizeTime(utterance: string, refDate?: Date): IEntity;
 
     /**
-     * Parses a number from a users utterance.
-     * @param utterance Text utterance to parse.
-     * @returns A valid number otherwise undefined. 
+     * Parses a number from either a users text utterance or a set of entities.
+     * @param value
+     * * __value:__ _{string}_ - Text utterance to parse. 
+     * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
+     * @returns A valid number otherwise _Number.NaN_. 
      */
-    static parseNumber(utterance: string): number;
-
-    /**
-     * Resolves a number from a set of entities.
-     * @param entities List of entities to extract number from.
-     * @returns A valid number otherwise undefined. 
-     */
-    static parseNumber(entities: IEntity[]): number;
+    static parseNumber(value: string): number;
+    static parseNumber(value: IEntity[]): number;
 
     /**
      * Parses a boolean from a users utterance.
-     * @param utterance Text utterance to parse.
-     * @returns A valid boolean otherwise undefined. 
+     * @param value Text utterance to parse.
+     * @returns A valid boolean otherwise _undefined_. 
      */
-    static parseBoolean(utterance: string): boolean;
+    static parseBoolean(value: string): boolean;
     
     /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Finds the best match for a users utterance given a list of choices.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values to compare against the users utterance. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings to compare against the users utterance. 
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
     static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
-    /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
-    /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Array of strings to compare against the users utterance.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findBestMatch(choices: string[], utterance: string, threshold?: number): IFindMatchResult;
 
     /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Finds all possible matches for a users utterance given a list of choices.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values to compare against the users utterance. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings to compare against the users utterance. 
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
     static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
-    /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
-    /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Array of strings to compare against the users utterance.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
 
     /**
-     * Returns an array of choices give a pipe delimted string.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Converts a set of choices into an expanded array.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings. This will just be echoed back as the output. 
      */
     static expandChoices(choices: string): string[];
-    /**
-     * Returns an array of choices given an Object.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     */
     static expandChoices(choices: Object): string[];
-    /**
-     * Returns an array of choices.
-     * @param choices Array of strings. This array will just be echoed back.
-     */
     static expandChoices(choices: string[]): string[];
 }
 
