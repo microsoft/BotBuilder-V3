@@ -1145,25 +1145,14 @@ export class Prompts extends Dialog {
      * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param choices List of choices as a pipe ('|') delimted string.
+     * @param choices 
+     * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
+     * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
+     * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
     static choice(session: Session, prompt: string, choices: string, options?: IPromptOptions): void;
-    /**
-     * Prompts the user to choose from a list of options.
-     * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
-     * @param choices List of choices expressed as an Object map. The objects field names will be used to build the list of values.
-     * @param options Optional flags parameters to control the behaviour of the prompt.
-     */
     static choice(session: Session, prompt: string, choices: Object, options?: IPromptOptions): void;
-    /**
-     * Prompts the user to choose from a list of options.
-     * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
-     * @param choices List of choices as an array of strings.
-     * @param options Optional flags parameters to control the behaviour of the prompt.
-     */
     static choice(session: Session, prompt: string, choices: string[], options?: IPromptOptions): void;
 
     /**
