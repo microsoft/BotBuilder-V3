@@ -206,9 +206,10 @@ export abstract class IntentDialog extends dialog.Dialog {
                 match = this.findHandler(topIntent);
             }
             if (!match) {
+                topIntent = { intent: consts.Intents.Default, score: 1.0 };
                 match = {
                     groupId: consts.Id.DefaultGroup,
-                    handler: this.getDefaultGroup()._intentHandler(consts.Intents.Default)
+                    handler: this.getDefaultGroup()._intentHandler(topIntent.intent)
                 };
             }
 
@@ -227,12 +228,14 @@ export abstract class IntentDialog extends dialog.Dialog {
 
     private findTopIntent(intents: IIntent[]): IIntent {
         var topIntent: IIntent;
-        for (var i = 0; i < intents.length; i++) {
-            var intent = intents[i];
-            if (!topIntent) {
-                topIntent = intent;
-            } else if (intent.score > topIntent.score) {
-                topIntent = intent;
+        if (intents) {
+            for (var i = 0; i < intents.length; i++) {
+                var intent = intents[i];
+                if (!topIntent) {
+                    topIntent = intent;
+                } else if (intent.score > topIntent.score) {
+                    topIntent = intent;
+                }
             }
         }
         return topIntent;

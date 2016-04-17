@@ -177,7 +177,15 @@ export class Session extends events.EventEmitter implements ISession {
     public endDialog(msg: IMessage): ISession;
     public endDialog(result?: dialog.IDialogResult<any>): ISession;
     public endDialog(result?: any, ...args: any[]): ISession {
+        // Validate callstack
+        // - Protect against too many calls to endDialog()
         var ss = this.sessionState;
+        if (!ss|| !ss.callstack || ss.callstack.length == 0) {
+            console.error('ERROR: Too many calls to session.endDialog().')
+            return this;
+        }
+        
+        // Pop dialog off the stack.
         var m: IMessage;
         var r = <dialog.IDialogResult<any>>{};
         if (result) {

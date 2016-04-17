@@ -59,6 +59,7 @@ export class LuisDialog extends intent.IntentDialog {
         }
         uri += encodeURIComponent(utterance || '');
         request.get(uri, (err: Error, res: any, body: string) => {
+            var calledCallback = false;
             try {
                 if (!err) {
                     var result: ILuisResults = JSON.parse(body);
@@ -66,12 +67,18 @@ export class LuisDialog extends intent.IntentDialog {
                         // Intents for the builtin Cortana app don't return a score.
                         result.intents[0].score = 1.0;
                     }
+                    calledCallback = true;
                     callback(null, result.intents, result.entities);
                 } else {
+                    calledCallback = true;
                     callback(err);
                 }
             } catch (e) {
-                callback(e);
+                if (!calledCallback) {
+                    callback(e);
+                } else {
+                    console.error(e.toString());
+                }
             }
         });
     }
