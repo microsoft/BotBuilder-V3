@@ -39,18 +39,18 @@ export interface IStorage {
 }
 
 export class MemoryStorage implements IStorage {
-    private store: { [id: string]: any; } = {};
+    private store: { [id: string]: string; } = {};
 
     public get(id: string, callback: (err: Error, data: any) => void): void {
         if (this.store.hasOwnProperty(id)) {
-            callback(null, utils.clone(this.store[id]));
+            callback(null, JSON.parse(this.store[id]));
         } else {
             callback(null, null);
         }
     }
 
     public save(id: string, data: any, callback?: (err: Error) => void): void {
-        this.store[id] = utils.clone(data || {});
+        this.store[id] = JSON.stringify(data || {});
         if (callback) {
             callback(null);
         }
