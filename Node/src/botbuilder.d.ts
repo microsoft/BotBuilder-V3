@@ -403,8 +403,8 @@ export interface IBotConnectorMessage extends IMessage {
     botPerUserInConversationData?: any;
 }
 
-/** Arguments padded to the constructor of a session. */
-export interface ISessionArgs {
+/** Options passed to the constructor of a session. */
+export interface ISessionOptions {
     /** Collection of dialogs to use for routing purposes. Typically this is just the bot. */
     dialogs: DialogCollection;
 
@@ -697,8 +697,8 @@ export class Session {
      */
     on(event: string, listener: Function): void;
 
-    /** Sessions configuration args. */
-    protected args: ISessionArgs;
+    /** Sessions configuration options. */
+    protected options: ISessionOptions;
 
     /** Provides derived classes with access to the sessions localizer. */
     protected localizer: ILocalizer;
@@ -711,15 +711,14 @@ export class Session {
 
     /**
      * Creates an instance of the session.
-     * @param args Sessions configuration options.
+     * @param options Sessions configuration options.
      */
-    constructor(args: ISessionArgs);
+    constructor(options: ISessionOptions);
 
     /**
-     * Dispatches a message for processing. The session will call thr appropriate middleware based
-     * on the messages type. Consumers can install middleware to either intercept or augment certain
-     * messages.
-     * @param sessionState The current session state. 
+     * Dispatches a message for processing. The session will call any installed middleware before
+     * the message to the active dialog for processing. 
+     * @param sessionState The current session state. If _null_ a new conversation will be started beginning with the configured [dialogId](#dialogid).  
      * @param message The message to dispatch.
      */
     dispatch(sessionState: ISessionState, message: IMessage): Session;
@@ -740,16 +739,16 @@ export class Session {
     dialogData: any;
 
     /**
-     * Signals that an error occured. 
+     * Signals that an error occured. The bot will signal the error via an on('error', err) event.
      * @param err Error that occured.
      */
     error(err: Error): Session;
 
     /**
      * Loads a localized string for the messages language. If arguments are passed the localized string
-     * will be treated as a template and formatted using sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
+     * will be treated as a template and formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see their docs for details.) 
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param args Optional arguments used to format the final output string. 
      */
     gettext(msgid: string, ...args: any[]): string;
 
@@ -763,25 +762,18 @@ export class Session {
     ngettext(msgid: string, msgid_plural: string, count: number): string;
 
     /**
-     * Ends the session without sending a message. For user originated conversations the bot always 
-     * needs to reply with something, even if it's an empty message. 
-     */
-    send(): Session;
-    /**
-     * Sends a simple text message to the user. The message will be localized using the sessions 
-     * configured ILocalizer and if arguments are passed in the message will be formatted using
-     * sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * Sends a message to the user. If [send()](#send) is called without any parameters any changes to
+     * [dialogData](#dialogdata) or [userData](#userdata) will be saved but the user will not recieve any reply. 
+     * @param msg 
+     * * __msg:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * * __msg:__ _{IMessage}_ - Message to send. 
+     * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
     send(msg: string, ...args: any[]): Session;
-    /**
-     * Sends a message to the user.
-     * @param msg Message to send.
-     */
     send(msg: IMessage): Session;
+    send(): Session;
 
-    /** Returns a native message the bot receieved. */
+    /** Returns a native message the bot received. This message is pulled from the [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) received. */
     getMessageReceived(): any;
     
     /**
@@ -798,9 +790,10 @@ export class Session {
     /**
      * Passes control of the conversation to a new dialog. The current dialog will be suspended 
      * until the child dialog completes. Once the child ends the current dialog will receive a
-     * call to dialogResumed() where it can inspect any results returned from the child. 
+     * call to [dialogResumed()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
+     * where it can inspect any results returned from the child. 
      * @param id Unique ID of the dialog to start.
-     * @param args Optional arguments to pass to the dialogs begin() method.
+     * @param args Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     beginDialog<T>(id: string, args?: T): Session;
 
@@ -808,66 +801,53 @@ export class Session {
      * Ends the current dialog and starts a new one its place. The parent dialog will not be 
      * resumed until the new dialog completes. 
      * @param id Unique ID of the dialog to start.
-     * @param args Optional arguments to pass to the dialogs begin() method.
+     * @param args Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     replaceDialog<T>(id: string, args?: T): Session;
 
     /**
-     * Ends the current dialog and sends a simple text message to the user. The dialogs parent will be resumed after the message is sent. 
-     * The message will be localized using the sessions configured ILocalizer and if arguments are passed in the message will be 
-     * formatted using sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * Ends the current dialog and optionally sends a message to the user. It's 
+     * typically more efficient to call [endDialog()](#enddialog) with a message then it is to call 
+     * [send()](#send) seperately before ending the dialog. 
+     * 
+     * If a message is sent to the user it will be sent before the dialogs parent is resumed. The
+     * parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * @param result 
+     * * __result:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * * __result:__ _{IMessage}_ - Message to send the user.
+     * * __result:__ _{IDialogResult<any>}_ - Optional results to pass to the parent. If [endDialog()](#enddialog)
+     * is called without any arguments the parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed)
+     * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * @param args Optional arguments used to format the final output text when __result__ is a _{string}_.
      */
-    public endDialog(msg: string, ...args: any[]): Session;
-    /**
-     * Ends the current dialog and sends a message to the user. The dialogs parent will be resumed after the message is sent.
-     * @param msg Message to send.
-     */
-    public endDialog(msg: IMessage): Session;
-
-    /**
-     * Ends the current dialog and returns a string, typically a message, to the parent dialog. The dialogs parent will be resumed.
-     * @param response Text to return to caller.
-     */
-    endDialog<T>(response: string): Session;
-    /**
-     * Ends the current dialog. The dialogs parent will be resumed.
-     * @param result Optional results to pass to the parent dialog.
-     */
-    endDialog<T>(result?: IDialogResult<T>): Session;
+    endDialog(result: string, ...args: any[]): Session;
+    endDialog(result: IMessage): Session;
+    endDialog(result?: IDialogResult<any>): Session;
 
     /**
      * Lets a dialog compare its confidence that it understood an utterance with it's parent. The
      * callback will return true if the utterance was processed by the parent. This function lets a
      * parent of the dialog handle messages not understood by the dialog. 
-     * @param language The langauge of the utterance taken from IMessage.language.
-     * @param utterance The users utterance taken from IMessage.text.
+     * @param language The langauge of the utterance taken from [IMessage.language](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#language).
+     * @param utterance The users utterance taken from [IMessage.text](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#text).
      * @param score The dialogs confidence level on a scale of 0 to 1.0 that it understood the users intent.
-     * @param callback Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.
+     * @param callback Function to invoke with the result of the comparison. 
+     * @param callback.handled If true the dialog should not process the utterance.
      */
     compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 
     /**
-     * Clears the sessions callstack and restarts the conversation with the default (root) dialog.
-     * @param dialogId Unique ID of the dialog to start.
-     * @param dialogArgs Optional arguments to pass to the dialogs begin() method.
+     * Clears the sessions callstack and restarts the conversation with the configured [dialogId](#dialogid).
+     * @param dialogId Optional ID of the dialog to start.
+     * @param dialogArgs Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
-    reset<T>(dialogId: string, dialogArgs?: T): Session;
+    reset<T>(dialogId?: string, dialogArgs?: T): Session;
 
     /**
      * Returns true if the session has been reset.
      */
     isReset(): boolean;
-
-    /**
-     * Creates a reply message object with a formatted text string. The text will be localized and
-     * the languge of the original message will be copied over. Derived classes can use this to 
-     * manually format a reply message.   
-     * @param text Text or template string for the reply. This will be localized using session.gettext().
-     * @param args Optional arguments used to format the message text when Text is a template. 
-     */
-    public createMessage(text: string, args?: any[]): IMessage;
 }
 
 /**
