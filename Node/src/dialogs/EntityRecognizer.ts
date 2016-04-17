@@ -188,7 +188,7 @@ export class EntityRecognizer {
                 return Number(match[0]);
             }
         }
-        return undefined;
+        return Number.NaN;
     }
 
     static parseBoolean(utterance: string): boolean {
