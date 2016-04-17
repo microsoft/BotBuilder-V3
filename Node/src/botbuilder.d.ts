@@ -198,17 +198,15 @@ interface ISessionAction {
     endDialog<T>(result?: IDialogResult<T>): void;
     
     /**
-     * Sends a simple text message to the user. The message will be localized using the sessions 
+     * Sends a message to the user. The message will be localized using the sessions 
      * configured ILocalizer and if arguments are passed in the message will be formatted using
      * sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param msg
+     * * __msg:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
+     * * __msg:__ _{IMessage}_ - Message to send the user.
+     * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
     send(msg: string, ...args: any[]): void;
-    /**
-     * Sends a message to the user.
-     * @param msg Message to send.
-     */
     send(msg: IMessage): void;
 }
 
@@ -307,6 +305,7 @@ export interface IPromptRecognizer {
       * Attempts to match a users reponse to a given prompt.
       * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
       * @param callback Function to invoke with the result of the recognition attempt.
+      * @param callback.result Returns the result of the recognition attempt.
       */
     recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<T>) => void): void;
 }
@@ -336,6 +335,7 @@ export interface IPromptRecognizerArgs {
      * @param utterance The users utterance taken from IMessage.text.
      * @param score The dialogs confidence level on a scale of 0 to 1.0 that it understood the users intent.
      * @param callback Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.
+     * @param callback.handled If true the utterance was handled by the parent and the recognizer should not continue. 
      */
     compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 }
@@ -423,21 +423,34 @@ export interface ISessionOptions {
 
 /** Signature of error events fired from a session. */
 export interface ISessionErrorEvent {
+    /**
+     * @param err The error that occured.
+     */
     (err: Error): void;
 }
 
 /** Signature of message related events fired from a session. */
 export interface ISessionMessageEvent {
+    /**
+     * @param message Relevant message for the event.
+     */
     (message: IMessage): void;
 }
 
 /** Signature of error events fired from bots. */
 export interface IBotErrorEvent {
-    (err: Error, message: any): void;
+    /**
+     * @param err The error that occured.
+     * @param message Optional message that was being processed. May be _null_.
+     */
+    (err: Error, message?: any): void;
 }
 
 /** Signature of message related events fired from bots. */
 export interface IBotMessageEvent {
+    /**
+     * @param message Relevant message for the event.
+     */
     (message: any): void;
 }
 
@@ -459,6 +472,8 @@ export interface IStorage {
       * Loads a value from storage.
       * @param id ID of the value being loaded.
       * @param callaback Function used to receive the loaded value.
+      * @param callback.err Any error that occured.
+      * @param callback.data Data retrieved from storage. May be _null_ or _undefined_ if missing.
       */
     get(id: string, callback: (err: Error, data: any) => void): void;
 
@@ -467,6 +482,7 @@ export interface IStorage {
       * @param id ID of the value to save.
       * @param data Value to save.
       * @param callback Optional function to invoke with the success or failure of the save.
+      * @param callback.err Any error that occured.
       */
     save(id: string, data: any, callback?: (err: Error) => void): void;
 }
@@ -567,7 +583,7 @@ export interface ISlackBotOptions {
     ambientMentionDuration?: number;
     
     /** Optional flag that if true will cause a 'typing' message to be sent when the bot recieves a message. */
-    sendIsType?: boolean;
+    sendIsTyping?: boolean;
 }
 
 /** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
@@ -688,11 +704,11 @@ export enum ListStyle {
  */
 export class Session {
     /**
-     * Registers an event listener. Events:
-     * - error: An error occured. [ISessionErrorEvent]
-     * - send: A message should be sent to the user. [ISessionMessageEvent]
-     * - quit: The bot would like to end the conversation. [Function]
-     * @param event Name of the event.
+     * Registers an event listener.
+     * @param event Name of the event. Event types:
+     * - __error:__ An error occured. [ISessionErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html)
+     * - __send:__ A message should be sent to the user. [ISessionMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionmessageevent.html)
+     * - __quit:__ The bot would like to end the conversation. _{Function}_
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -765,7 +781,7 @@ export class Session {
      * Sends a message to the user. If [send()](#send) is called without any parameters any changes to
      * [dialogData](#dialogdata) or [userData](#userdata) will be saved but the user will not recieve any reply. 
      * @param msg 
-     * * __msg:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * * __msg:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __msg:__ _{IMessage}_ - Message to send. 
      * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
@@ -814,7 +830,7 @@ export class Session {
      * parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
      * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
      * @param result 
-     * * __result:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * * __result:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __result:__ _{IMessage}_ - Message to send the user.
      * * __result:__ _{IDialogResult<any>}_ - Optional results to pass to the parent. If [endDialog()](#enddialog)
      * is called without any arguments the parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed)
@@ -1487,6 +1503,8 @@ export class MemoryStorage implements IStorage {
       * Loads a value from storage.
       * @param id ID of the value being loaded.
       * @param callaback Function used to receive the loaded value.
+      * @param callback.err Any error that occured.
+      * @param callback.data Data retrieved from storage. May be _null_ or _undefined_ if missing.
       */
     get(id: string, callback: (err: Error, data: any) => void): void;
 
@@ -1495,6 +1513,7 @@ export class MemoryStorage implements IStorage {
       * @param id ID of the value to save.
       * @param data Value to save.
       * @param callback Optional function to invoke with the success or failure of the save.
+      * @param callback.err Any error that occured.
       */
     save(id: string, data: any, callback?: (err: Error) => void): void;
 
@@ -1516,19 +1535,18 @@ export class BotConnectorBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be of type IBotConnectorMessage. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - Message: A user message was received. [IBotMessageEvent]
-     * - DeleteUserData: The user has requested to have their data deleted. [IBotMessageEvent]
-     * - BotAddedToConversation: The bot has been added to a conversation. [IBotMessageEvent]
-     * - BotRemovedFromConversation: The bot has been removed from a conversation. [IBotMessageEvent]
-     * - UserAddedToConversation: A user has joined a conversation monitored by the bot. [IBotMessageEvent]
-     * - UserRemovedFromConversation: A user has left a conversation monitored by the bot. [IBotMessageEvent]
-     * - EndOfConversation: The user has elected to end the current conversation. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be of type [IBotConnectorMessage](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotconnectormessage.html). Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ A user message was received. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __DeleteUserData:__ The user has requested to have their data deleted. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __BotAddedToConversation:__ The bot has been added to a conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __BotRemovedFromConversation:__ The bot has been removed from a conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __UserAddedToConversation:__ A user has joined a conversation monitored by the bot. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __UserRemovedFromConversation:__ A user has left a conversation monitored by the bot. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __EndOfConversation:__ The user has elected to end the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1541,7 +1559,7 @@ export class BotConnectorBot extends DialogCollection {
 
     /**
      * Returns a piece of Express or Restify compliant middleware that will ensure only messages from the Bot Framework are processed.
-     * NOTE: Also requires configuring of the bots appId and appSecret.
+     * _NOTE: Ignored for HTTP requests and also requires configuring of the bots appId and appSecret._
      * @param options Optional configuration options to pass in.
      * @example
      * <pre><code>
@@ -1553,9 +1571,9 @@ export class BotConnectorBot extends DialogCollection {
 
     /**
      * Returns a piece of Express or Restify compliant middleware that will route incoming messages to the bot. 
-     * NOTE: The middleware should be mounted to route that receives an HTTPS POST.
-     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
-     * @param dialogArgs Optional arguments to pass to the dialog.
+     * _NOTE: The middleware should be mounted to a route that receives an HTTPS POST._
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotconnectoroptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
@@ -1596,22 +1614,21 @@ export class SkypeBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be a skype message. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - message: This event is emitted for every received message. [IBotMessageEvent]
-     * - personalMessage: This event is emitted for every 1:1 chat message. [IBotMessageEvent]
-     * - groupMessage: This event is emitted for every group chat message. [IBotMessageEvent]
-     * - threadBotAdded: This event is emitted when the bot is added to group chat. [IBotMessageEvent]
-     * - threadAddMember: This event is emitted when some users are added to group chat. [IBotMessageEvent]
-     * - threadBotRemoved: This event is emitted when the bot is removed from group chat. [IBotMessageEvent]
-     * - threadRemoveMember: This event is emitted when some users are removed from group chat. [IBotMessageEvent]
-     * - contactAdded: This event is emitted when users add the bot as a buddy. [IBotMessageEvent]
-     * - threadTopicUpdated: This event is emitted when the topic of a group chat is updated. [IBotMessageEvent]
-     * - threadHistoryDisclosedUpdate: This event is emitted when the "history disclosed" option of a group chat is changed. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be a skype message. Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ This event is emitted for every received message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - personalMessage: This event is emitted for every 1:1 chat message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - groupMessage: This event is emitted for every group chat message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadBotAdded: This event is emitted when the bot is added to group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadAddMember: This event is emitted when some users are added to group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadBotRemoved: This event is emitted when the bot is removed from group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadRemoveMember: This event is emitted when some users are removed from group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - contactAdded: This event is emitted when users add the bot as a buddy. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadTopicUpdated: This event is emitted when the topic of a group chat is updated. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadHistoryDisclosedUpdate: This event is emitted when the "history disclosed" option of a group chat is changed. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1649,7 +1666,7 @@ export class SkypeSession extends Session {
 }
 
 /**
- * Connects your bots dialogs to Slack via BotKit. See http://howdy.ai/botkit/ for details.
+ * Connects your bots dialogs to Slack via [BotKit](http://howdy.ai/botkit/).
  */
 export class SlackBot extends DialogCollection {
     /**
@@ -1662,18 +1679,17 @@ export class SlackBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will a slack message. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - typing: The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent]
-     * - message_received: The bot received a message. [IBotMessageEvent]
-     * - bot_channel_join: The bot has joined a channel. [IBotMessageEvent]
-     * - user_channel_join: A user has joined a channel. [IBotMessageEvent]
-     * - bot_group_join: The bot has joined a group. [IBotMessageEvent]
-     * - user_group_join: A user has joined a group. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will a slack message. Event types:
+     * - __error:__ An error occured. [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __typing:__ The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message_received:__ The bot received a message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __bot_channel_join:__ The bot has joined a channel. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __user_channel_join:__ A user has joined a channel. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __bot_group_join:__ The bot has joined a group. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __user_group_join:__ A user has joined a group. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html) 
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1685,24 +1701,24 @@ export class SlackBot extends DialogCollection {
     configure(options: ISlackBotOptions): void;
 
     /**
-     * Begins listening for incoming messages of the specified types. Types:
-     * - ambient: Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way.
-     * - direct_mention: Direct mentions are messages that begin with the bot's name, as in "@bot hello".
-     * - mention: Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
-     * - direct_message: Direct messages are sent via private 1:1 direct message channels. 
-     * @param types The type of events to listen for,
-     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
-     * @param dialogArgs Optional arguments to pass to the dialog.
+     * Begins listening for incoming messages of the specified types.
+     * @param types The type of events to listen for. Valid types:
+     * - __ambient:__ Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way.
+     * - __direct_mention:__ Direct mentions are messages that begin with the bot's name, as in "@bot hello".
+     * - __mention:__ Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
+     * - __direct_message:__ Direct messages are sent via private 1:1 direct message channels. 
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      */
     listen(types: string[], dialogId?: string, dialogArgs?: any): SlackBot;
 
     /**
      * Begins listening for messages sent to the bot. The bot will recieve direct messages, 
-     * direct mentions, and mentions. One the bot has been mentioned it will continue to receive
+     * direct mentions, and mentions. Once the bot has been mentioned it will continue to receive
      * ambient messages from the user that mentioned them for a short period of time. This time
-     * can be configured using ISlackBotOptions.ambientMentionDuration.
-     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
-     * @param dialogArgs Optional arguments to pass to the dialog.
+     * can be configured using [ISlackBotOptions.ambientMentionDuration](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#ambientmentionduration).
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      */
     listenForMentions(dialogId?: string, dialogArgs?: any): SlackBot;
 
@@ -1761,13 +1777,12 @@ export class TextBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be an IMessage. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - message: This event is emitted for every received message. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be an [IMessage](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html). Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ This event is emitted for every received message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1791,6 +1806,8 @@ export class TextBot extends DialogCollection {
      * @param message Message to process.
      * @param callback Optional callback used to return bots initial reply or an error. If ommited all 
      * replies and errors will be returned as events.
+     * @param callback.err If not _null_ then an error occured while processing the message.
+     * @param callback.reply The bots initial reply for this message that should be sent to the user.
      */
     processMessage(message: IMessage, callback?: (err: Error, reply: IMessage) => void): void;
 
