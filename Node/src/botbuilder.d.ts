@@ -983,31 +983,25 @@ export class DialogCollection {
     emit(event: string, ...args: any[]): void;
 
     /**
-     * Adds a set of dialogs to the collection.
-     * @param dialogs Map of dialogs to add to the collection. The map should be keyed off the dialogs ID.
-     */
-    add(dialogs: { [id: string]: Dialog; }): DialogCollection;
-    /**
-     * Adds a simple dialog to the collection thats based on the passed in closure.
-     * @param id Unique ID of the dialog.
-     * @param fn Closure to base dialog on. The closure will be called anytime a message is recieved 
-     * from the user or when the dialog is being resumed. You can check for args.resumed to tell that 
-     * your being resumed.
-     */
-    add(id: string, fn: (session: Session, args?: any) => void): DialogCollection;
-    /**
-     * Adds a simple dialog to the collection thats based on the passed in waterfall. See DialogAction.waterfall()
-     * for details.
-     * @param id Unique ID of the dialog.
-     * @param waterfall Waterfall of steps to execute.
-     */
-    add(id: string, waterfall: IDialogWaterfallStep[]): DialogCollection;
-    /**
-     * Adds a dialog to the collection.
-     * @param id Unique ID of the dialog.
-     * @param dialog Dialog to add.
+     * Adds dialog(s) to a bot.
+     * @param id 
+     * * __id:__ _{string}_ - Unique ID of the dialog being added.
+     * * __id:__ _{Object}_ - Map of [Dialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
+     * @param dialog
+     * * __dialog:__ _{Dialog}_ - Dialog to add.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __dialog:__ _{Function}_ - Closure to base dialog on. The closure will be called anytime a message is recieved 
+     * from the user or when the dialog is being resumed. You can check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * to tell that the dialog is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ _{any}_ - Any arguments passed to the dialog when [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) is called.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the closure initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the closure.
      */
     add(id: string, dialog: Dialog): DialogCollection;
+    add(id: string, dialog: IDialogWaterfallStep[]): DialogCollection;
+    add(id: string, dialog: (session: Session, args?: any) => void): DialogCollection;
+    add(id: { [id: string]: Dialog; }): DialogCollection;
 
     /**
      * Returns a dialog given its ID.
@@ -1016,7 +1010,8 @@ export class DialogCollection {
     getDialog(id: string): Dialog;
 
     /**
-     * Returns an array of middleware to invoke. 
+     * Returns an array of middleware to invoke.
+     * @returns Array of middleware functions.
      */
     getMiddleware(): { (session: Session, next: Function): void; }[];
 
@@ -1028,6 +1023,9 @@ export class DialogCollection {
 
     /**
      * Registers a piece of middleware that will be called for every message receieved.
+     * @param middleware Function to execute anytime a message is received.
+     * @param middleware.session Session object for the current conversation.
+     * @param middleware.next Function to invoke to call the next piece of middleware and continue processing of the message. Middleware can intercept a message by not calling next().
      */
     use(middleware: (session: Session, next: Function) => void): void;
 }
@@ -1459,7 +1457,7 @@ export class CommandDialog extends Dialog {
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
      * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
      * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args: ICommandArgs|IDialogResult): void`
+     * > `(session: Session, args?: any): void`
      * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
      * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
      * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
@@ -1467,8 +1465,8 @@ export class CommandDialog extends Dialog {
      */
     matches(pattern: string, handler: string, dialogArgs?: any): CommandDialog;
     matches(pattern: string[], handler: string, dialogArgs?: any): CommandDialog;
-    matches(pattern: string, handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    matches(pattern: string[], handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
+    matches(pattern: string, handler: (session: Session, args?: any) => void): CommandDialog;
+    matches(pattern: string[], handler: (session: Session, args?: any) => void): CommandDialog;
     matches(pattern: string, handler: IDialogWaterfallStep[]): IntentDialog;
     matches(pattern: string[], handler: IDialogWaterfallStep[]): IntentDialog;
 
