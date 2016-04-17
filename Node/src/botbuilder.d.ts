@@ -908,7 +908,7 @@ export class Message implements IMessage {
     addAttachment(attachment: IAttachment): Message;
     
     /**
-     * Sets the channelData for the message.
+     * Sets the channelData for the message. Typically used to attach a message in the channels native format.
      * @param data The channel data to assign.
      */
     setChannelData(data: any): Message;
@@ -1452,80 +1452,52 @@ export class CommandDialog extends Dialog {
     replyReceived(session: Session): void;
 
     /**
-     * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
-     * @param fn Handler to invoke when the dialog is started.
+     * The handler will be called anytime the dialog is started for a session. Call next() to continue the dialogs default processing. 
+     * @param handler Handler to invoke when the dialog is started.
+     * @param handler.session Session object for the current conversation.
+     * @param handler.args Any arguments passed to the dialog in the call to [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * @param handler.next Callback used to continue the dialogs execution.
      */
-    onBegin(fn: (session: Session, args: any, next: () => void) => void): CommandDialog;
+    onBegin(handler: (session: Session, args: any, next: () => void) => void): CommandDialog;
 
     /**
-     * Triggers the handler when the pattern is matched. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param pattern A regular expression to match against.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Triggers the handler when the pattern(s) is matched. Use the [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * to implement common actions.
+     * @param pattern 
+     * * __patern:__ _{string}_ - A regular expression to match against. Comparisons are case insensitive.
+     * * __patern:__ _{string[]}_ - Array of regular expressions to match against. All comparisons are case insensitive.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args: ICommandArgs|IDialogResult): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandDialog}_ args passed to the handler.
      */
-    matches(pattern: string, fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Triggers the handler when the pattern is matched. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param patterns Array of regular expressions to match against.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
-     */
-    matches(patterns: string[], fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Executes a waterfall of steps when the pattern is matched. See DialogAction.waterfall() for
-     * details.
-     * @param patterns Array of regular expressions to match against.
-     * @param waterfall Waterfall steps to execute.
-     */
-    matches(pattern: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Executes a waterfall of steps when the pattern is matched. See DialogAction.waterfall() for
-     * details.
-     * @param patterns A regular expression to match against.
-     * @param waterfall Waterfall steps to execute.
-     */
-    matches(patterns: string[], waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when the pattern is matched.
-     * @param pattern A regular expression to match against.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    matches(pattern: string, dialogId: string, dialogArgs?: any): CommandDialog;
-    /**
-     * Begins a dialog when one of the specified patterns is matched.
-     * @param patterns Array of regular expressions to match against.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    matches(patterns: string[], dialogId: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string, handler: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string[], handler: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string, handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
+    matches(pattern: string[], handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
+    matches(pattern: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    matches(pattern: string[], handler: IDialogWaterfallStep[]): IntentDialog;
 
     /**
-     * Executes a block of code when an unknown pattern is received.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Triggers a handler when an unknown pattern is received.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args: ICommandArgs|IDialogResult): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandDialog}_ args passed to the handler.
      */
-    onDefault(fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Executes a waterfall of steps when an unknown pattern is received. See DialogAction.waterfall() 
-     * for details.
-     * @param waterfall Waterfall steps to execute.
-     */
-    onDefault(waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when an unknown pattern is received.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    onDefault(dialogId: string, dialogArgs?: any): CommandDialog;
+    onDefault(handler: string, dialogArgs?: any): CommandDialog;
+    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
+    onDefault(handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
 }
 
 /** Default in memory storage implementation for storing user & session state data. */
