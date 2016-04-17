@@ -37,7 +37,7 @@ import consts = require('./consts');
 import sprintf = require('sprintf-js');
 import events = require('events');
 
-export interface ISessionArgs {
+export interface ISessionOptions {
     dialogs: collection.DialogCollection;
     dialogId: string;
     dialogArgs?: any;
@@ -51,11 +51,11 @@ export class Session extends events.EventEmitter implements ISession {
     private lastSendTime = new Date().getTime();
     private sendQueue: { event: string, msg: IMessage; }[] = [];
 
-    constructor(protected args: ISessionArgs) {
+    constructor(protected options: ISessionOptions) {
         super();
-        this.dialogs = args.dialogs;
-        if (typeof this.args.minSendDelay !== 'number') {
-            this.args.minSendDelay = 1000;  // 1 sec delay
+        this.dialogs = options.dialogs;
+        if (typeof this.options.minSendDelay !== 'number') {
+            this.options.minSendDelay = 1000;  // 1 sec delay
         }
     }
 
@@ -104,8 +104,8 @@ export class Session extends events.EventEmitter implements ISession {
 
     public ngettext(msgid: string, msgid_plural: string, count: number): string {
         var tmpl: string;
-        if (this.args.localizer && this.message) {
-            tmpl = this.args.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
+        if (this.options.localizer && this.message) {
+            tmpl = this.options.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
         } else if (count == 1) {
             tmpl = msgid;
         } else {
@@ -218,9 +218,13 @@ export class Session extends events.EventEmitter implements ISession {
         comparer.next();
     }
 
-    public reset(dialogId: string, dialogArgs?: any): ISession {
+    public reset(dialogId?: string, dialogArgs?: any): ISession {
         this._isReset = true;
         this.sessionState.callstack = [];
+        if (!dialogId) {
+            dialogId = this.options.dialogId;
+            dialogArgs = dialogArgs || this.options.dialogArgs;
+        }
         this.beginDialog(dialogId, dialogArgs);
         return this;
     }
@@ -229,7 +233,7 @@ export class Session extends events.EventEmitter implements ISession {
         return this._isReset;
     }
 
-    public createMessage(text: string, args?: any[]): IMessage {
+    private createMessage(text: string, args?: any[]): IMessage {
         var message: IMessage = {
             text: this.vgettext(text, args)
         };
@@ -244,7 +248,7 @@ export class Session extends events.EventEmitter implements ISession {
             // Route message to dialog.
             var ss = this.sessionState;
             if (ss.callstack.length == 0) {
-                this.beginDialog(this.args.dialogId, this.args.dialogArgs);
+                this.beginDialog(this.options.dialogId, this.options.dialogArgs);
             } else if (this.validateCallstack()) {
                 var cur = ss.callstack[ss.callstack.length - 1];
                 var dialog = this.dialogs.getDialog(cur.id);
@@ -252,7 +256,7 @@ export class Session extends events.EventEmitter implements ISession {
                 dialog.replyReceived(this);
             } else {
                 console.error('Callstack is invalid, resetting session.');
-                this.reset(this.args.dialogId, this.args.dialogArgs);
+                this.reset(this.options.dialogId, this.options.dialogArgs);
             }
         } catch (e) {
             this.error(e);
@@ -261,8 +265,8 @@ export class Session extends events.EventEmitter implements ISession {
 
     private vgettext(msgid: string, args?: any[]): string {
         var tmpl: string;
-        if (this.args.localizer && this.message) {
-            tmpl = this.args.localizer.gettext(this.message.language || '', msgid);
+        if (this.options.localizer && this.message) {
+            tmpl = this.options.localizer.gettext(this.message.language || '', msgid);
         } else {
             tmpl = msgid;
         }
@@ -292,12 +296,12 @@ export class Session extends events.EventEmitter implements ISession {
                 if (this.sendQueue.length > 0) {
                     delaySend();
                 }
-            }, this.args.minSendDelay - (now - this.lastSendTime));  
+            }, this.options.minSendDelay - (now - this.lastSendTime));  
         };
         
         if (this.sendQueue.length == 0) {
             this.msgSent = true;
-            if ((now - this.lastSendTime) >= this.args.minSendDelay) {
+            if ((now - this.lastSendTime) >= this.options.minSendDelay) {
                 this.lastSendTime = now;
                 this.emit(event, message);
             } else {
