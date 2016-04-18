@@ -73,6 +73,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         bool Active(T state);
 
+        Task DefineAsync(T state);
+
         string Start(IDialogContext context, T state, FormState form);
 
         IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input);

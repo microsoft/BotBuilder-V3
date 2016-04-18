@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -56,8 +57,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             SetPrompt(prompt);
             SetType(typeof(bool));
-            _condition = condition;
-            _dependencies = dependencies.ToArray();
+            SetDependencies(dependencies.ToArray());
+            SetCondition(condition);
+            var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
+            _next = (value, state) => value ? new NextStep() : noStep;
+        }
+
+        public Confirmation(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+            : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
+        {
+            SetDefineField(async (state, field) => field.SetPrompt(await generateMessage(state)));
+            SetType(typeof(bool));
+            SetDependencies(dependencies.ToArray());
+            SetCondition(condition);
             var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
             _next = (value, state) => value ? new NextStep() : noStep;
         }
@@ -83,7 +95,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override NextStep Next(object value, T state)
         {
-            return _next((bool) value, state);
+            return _next((bool)value, state);
         }
 
         public override void SetValue(T state, object value)
@@ -104,8 +116,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         #region Implementation
         private delegate NextStep NextDelegate(bool response, T state);
-        private readonly ConditionalDelegate<T> _condition;
-        private readonly string[] _dependencies;
         private readonly NextDelegate _next;
         #endregion
     }

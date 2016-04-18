@@ -121,13 +121,54 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             {
                 builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
+            Func<PizzaOrder, double> computeCost = (order) =>
+            {
+                double cost = 0.0;
+                switch (order.Size)
+                {
+                    case SizeOptions.Medium: cost = 10; break;
+                    case SizeOptions.Large: cost = 15; break;
+                    case SizeOptions.Family: cost = 20; break;
+                }
+                return cost;
+            };
+            MessageDelegate<PizzaOrder> costDelegate = async (state) =>
+                 {
+                     double cost = 0.0;
+                     switch (state.Size)
+                     {
+                         case SizeOptions.Medium: cost = 10; break;
+                         case SizeOptions.Large: cost = 15; break;
+                         case SizeOptions.Family: cost = 20; break;
+                     }
+                     cost *= state.NumberOfPizzas;
+                     return new PromptAttribute($"Your pizza will cost ${cost}");
+                 };
             var form = builder
                 .Message("Welcome to the pizza bot!!!")
                 .Message("Lets make pizza!!!")
                 .Field(nameof(PizzaOrder.NumberOfPizzas))
                 .Field(nameof(PizzaOrder.Size))
                 .Field(nameof(PizzaOrder.Kind))
-                .Field("Size")
+                .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Specials))
+                    .SetType(null)
+                    .SetDefineField(async (state, field) =>
+                    {
+                        var specials = field
+                        .SetFieldDescription("Specials")
+                        .SetFieldTerms("specials")
+                        .RemoveValues();
+                        if (state.NumberOfPizzas > 1)
+                        {
+                            specials
+                                .SetAllowsMultiple(true)
+                                .AddDescription("special1", "Free drink")
+                                .AddTerms("special1", "drink");
+                        }
+                        specials
+                            .AddDescription("special2", "Free garlic bread")
+                            .AddTerms("special2", "bread", "garlic");
+                    }))
                 .Field("BYO.HalfAndHalf", isBYO)
                 .Field("BYO.Crust", isBYO)
                 .Field("BYO.Sauce", isBYO)
@@ -155,6 +196,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         }
                         return result;
                     })
+                 .Message(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost}"); })
+                 .Confirm(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost} is that OK?"); })
                 .AddRemainingFields()
                 .Message("Rating = {Rating:F1} and [{Rating:F2}]")
                 .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
@@ -171,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 {
                     form.SaveResources(writer);
                 }
-                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c en-uk -p t-") {  UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
+                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c en-uk -p t-") { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
                 using (var stream = new FileStream("pizza-en-uk.resx", FileMode.Open))
                 using (var reader = new ResXResourceReader(stream))
                 {

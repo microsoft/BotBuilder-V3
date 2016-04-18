@@ -184,6 +184,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         public double? Rating;
         public DateTime Available;
+        public string Specials;
 
         public override string ToString()
         {

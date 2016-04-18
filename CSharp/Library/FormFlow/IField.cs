@@ -343,11 +343,24 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>NULL if no template, otherwise a template annotation.</returns>
         TemplateAttribute Template(TemplateUsage usage);
 
+        #region Documentation
+        /// <summary>   Returns the prompt description. </summary>
+        /// <returns>   An <see cref="IPrompt{T}"/> describing prompt and recognizer. </returns>
+        /// <remarks>If a prompt is dyhamically computed this should be null until <see cref="DefineAsync(T)"/> is called.</remarks>
+        #endregion
+        IPrompt<T> Prompt { get; }
+
         /// <summary>
-        /// Return the prompt associated with a field.
+        /// Build the prompt and recognizer for dynamically defined fields.
         /// </summary>
-        /// <returns>A prompt and recognizer packaged together.</returns>
-        IPrompt<T> Prompt();
+        /// <remarks>
+        ///          This method is called before asking for <see cref="Prompt"/>.
+        ///          This provides an opportunity to dynamically define the field based on the current
+        ///          state or external information.  The <see cref="IFieldState{T}.Dependencies"/> method 
+        ///          identifies fields that this one depends on.  All of them will be complete before this method
+        ///          is called.
+        /// </remarks>
+        Task DefineAsync(T state);
 
         /// <summary>
         /// Validate value to be set on state and return feedback if not valid.
@@ -368,7 +381,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <remarks>
         /// Help is a mixture of field specific help, what a recognizer understands and available commands.
         /// </remarks>
-        IPrompt<T> Help();
+        IPrompt<T> Help { get; }
 
         /// <summary>
         /// Next step to execute.

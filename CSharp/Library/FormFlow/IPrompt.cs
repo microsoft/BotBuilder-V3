@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Associated recognizer if any.
         /// </summary>
         /// <returns>Recognizer for matching user input.</returns>
-        IRecognize<T> Recognizer();
+        IRecognize<T> Recognizer { get; }
     }
 
     #region Documentation
@@ -120,9 +120,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
         }
 
-        public IRecognize<T> Recognizer()
+        public IRecognize<T> Recognizer
         {
-            return _recognizer;
+            get { return _recognizer; }
         }
 
         #region Documentation
@@ -416,7 +416,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else
             {
-                result = field.Prompt().Recognizer().ValueDescription(value);
+                result = field.Prompt.Recognizer.ValueDescription(value);
             }
             return result;
         }

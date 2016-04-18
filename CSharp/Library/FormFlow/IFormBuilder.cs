@@ -31,13 +31,21 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
+    #region Documentation
+    /// <summary>   Given <paramref name="state"/> return a <see cref="PromptAttribute"/> with a template for the message to display. </summary>
+    /// <typeparam name="T">    Form state type. </typeparam>
+    /// <param name="state">    Form state. </param>
+    /// <returns>   A PromptAttribute describing the message to display. </returns>
+    #endregion
+    public delegate Task<PromptAttribute> MessageDelegate<T>(T state);
+
     #region Documentation
     /// <summary>   Interface for building a form. </summary>
     /// <remarks>   
@@ -87,6 +95,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="condition">Whether or not this step is active.</param>
         /// <returns>This form.</returns>
         IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null);
+
+        #region Documentation
+        /// <summary>   Generate a message using a delegate to dynamically build the message. </summary>
+        /// <param name="generateMessage">  Delegate for building message. </param>
+        /// <param name="condition">        Whether or not this step is active. </param>
+        /// <returns>This form.</returns>
+        #endregion
+        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -184,6 +200,15 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
         IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+
+        #region Documentation
+        /// <summary>   Generate a confirmation using a delegate to dynamically build the message. </summary>
+        /// <param name="generateMessage">  Delegate for building message. </param>
+        /// <param name="condition">        Whether or not this step is active. </param>
+        /// <param name="dependencies">What fields this confirmation depends on.</param>
+        /// <returns>This form.</returns>
+        #endregion
+        IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Delegate to call when form is completed.

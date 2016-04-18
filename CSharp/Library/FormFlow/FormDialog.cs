@@ -326,6 +326,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         // Processing current step
                         step = _form.Steps[_formState.Step];
+                        await step.DefineAsync(_state);
                         if (_formState.Phase() == StepPhase.Ready)
                         {
                             if (step.Type == StepType.Message)
@@ -366,7 +367,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var commands =
                                 toBotText.Trim().StartsWith("\"")
                                 ? new TermMatch[0]
-                                : (from command in MatchAnalyzer.Coalesce(_commands.Prompt().Recognizer().Matches(toBotText), toBotText)
+                                : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(toBotText), toBotText)
                                    where (command.Value is FormCommand
                                        || _form.Fields.Field(command.Value as string).Active(_state))
                                    select command).ToArray();
