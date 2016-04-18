@@ -47,7 +47,7 @@ var Message = (function () {
         return this;
     };
     Message.randomPrompt = function (prompts) {
-        var i = Math.round(Math.random() * prompts.length);
+        var i = Math.floor(Math.random() * prompts.length);
         return prompts[i];
     };
     Message.composePrompt = function (ses, prompts, args) {
