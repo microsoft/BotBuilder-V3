@@ -138,9 +138,10 @@ var IntentDialog = (function (_super) {
                 match = this.findHandler(topIntent);
             }
             if (!match) {
+                topIntent = { intent: consts.Intents.Default, score: 1.0 };
                 match = {
                     groupId: consts.Id.DefaultGroup,
-                    handler: this.getDefaultGroup()._intentHandler(consts.Intents.Default)
+                    handler: this.getDefaultGroup()._intentHandler(topIntent.intent)
                 };
             }
             if (match) {
@@ -158,13 +159,15 @@ var IntentDialog = (function (_super) {
     };
     IntentDialog.prototype.findTopIntent = function (intents) {
         var topIntent;
-        for (var i = 0; i < intents.length; i++) {
-            var intent = intents[i];
-            if (!topIntent) {
-                topIntent = intent;
-            }
-            else if (intent.score > topIntent.score) {
-                topIntent = intent;
+        if (intents) {
+            for (var i = 0; i < intents.length; i++) {
+                var intent = intents[i];
+                if (!topIntent) {
+                    topIntent = intent;
+                }
+                else if (intent.score > topIntent.score) {
+                    topIntent = intent;
+                }
             }
         }
         return topIntent;

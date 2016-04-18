@@ -18,7 +18,7 @@ var SlackBot = (function (_super) {
             maxSessionAge: 14400000,
             defaultDialogId: '/',
             ambientMentionDuration: 300000,
-            minSendDelay: 2000,
+            minSendDelay: 1500,
             sendIsTyping: true
         };
         this.configure(options);

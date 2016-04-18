@@ -8,16 +8,16 @@ var sprintf = require('sprintf-js');
 var events = require('events');
 var Session = (function (_super) {
     __extends(Session, _super);
-    function Session(args) {
+    function Session(options) {
         _super.call(this);
-        this.args = args;
+        this.options = options;
         this.msgSent = false;
         this._isReset = false;
         this.lastSendTime = new Date().getTime();
         this.sendQueue = [];
-        this.dialogs = args.dialogs;
-        if (typeof this.args.minSendDelay !== 'number') {
-            this.args.minSendDelay = 1000;
+        this.dialogs = options.dialogs;
+        if (typeof this.options.minSendDelay !== 'number') {
+            this.options.minSendDelay = 1000;
         }
     }
     Session.prototype.dispatch = function (sessionState, message) {
@@ -60,8 +60,8 @@ var Session = (function (_super) {
     };
     Session.prototype.ngettext = function (msgid, msgid_plural, count) {
         var tmpl;
-        if (this.args.localizer && this.message) {
-            tmpl = this.args.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
+        if (this.options.localizer && this.message) {
+            tmpl = this.options.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
         }
         else if (count == 1) {
             tmpl = msgid;
@@ -127,6 +127,10 @@ var Session = (function (_super) {
             args[_i - 1] = arguments[_i];
         }
         var ss = this.sessionState;
+        if (!ss || !ss.callstack || ss.callstack.length == 0) {
+            console.error('ERROR: Too many calls to session.endDialog().');
+            return this;
+        }
         var m;
         var r = {};
         if (result) {
@@ -172,6 +176,10 @@ var Session = (function (_super) {
     Session.prototype.reset = function (dialogId, dialogArgs) {
         this._isReset = true;
         this.sessionState.callstack = [];
+        if (!dialogId) {
+            dialogId = this.options.dialogId;
+            dialogArgs = dialogArgs || this.options.dialogArgs;
+        }
         this.beginDialog(dialogId, dialogArgs);
         return this;
     };
@@ -191,7 +199,7 @@ var Session = (function (_super) {
         try {
             var ss = this.sessionState;
             if (ss.callstack.length == 0) {
-                this.beginDialog(this.args.dialogId, this.args.dialogArgs);
+                this.beginDialog(this.options.dialogId, this.options.dialogArgs);
             }
             else if (this.validateCallstack()) {
                 var cur = ss.callstack[ss.callstack.length - 1];
@@ -201,7 +209,7 @@ var Session = (function (_super) {
             }
             else {
                 console.error('Callstack is invalid, resetting session.');
-                this.reset(this.args.dialogId, this.args.dialogArgs);
+                this.reset(this.options.dialogId, this.options.dialogArgs);
             }
         }
         catch (e) {
@@ -210,8 +218,8 @@ var Session = (function (_super) {
     };
     Session.prototype.vgettext = function (msgid, args) {
         var tmpl;
-        if (this.args.localizer && this.message) {
-            tmpl = this.args.localizer.gettext(this.message.language || '', msgid);
+        if (this.options.localizer && this.message) {
+            tmpl = this.options.localizer.gettext(this.message.language || '', msgid);
         }
         else {
             tmpl = msgid;
@@ -239,11 +247,11 @@ var Session = (function (_super) {
                 if (_this.sendQueue.length > 0) {
                     delaySend();
                 }
-            }, _this.args.minSendDelay - (now - _this.lastSendTime));
+            }, _this.options.minSendDelay - (now - _this.lastSendTime));
         };
         if (this.sendQueue.length == 0) {
             this.msgSent = true;
-            if ((now - this.lastSendTime) >= this.args.minSendDelay) {
+            if ((now - this.lastSendTime) >= this.options.minSendDelay) {
                 this.lastSendTime = now;
                 this.emit(event, message);
             }

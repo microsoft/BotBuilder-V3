@@ -198,17 +198,15 @@ interface ISessionAction {
     endDialog<T>(result?: IDialogResult<T>): void;
     
     /**
-     * Sends a simple text message to the user. The message will be localized using the sessions 
+     * Sends a message to the user. The message will be localized using the sessions 
      * configured ILocalizer and if arguments are passed in the message will be formatted using
      * sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param msg
+     * * __msg:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
+     * * __msg:__ _{IMessage}_ - Message to send the user.
+     * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
     send(msg: string, ...args: any[]): void;
-    /**
-     * Sends a message to the user.
-     * @param msg Message to send.
-     */
     send(msg: IMessage): void;
 }
 
@@ -307,6 +305,7 @@ export interface IPromptRecognizer {
       * Attempts to match a users reponse to a given prompt.
       * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
       * @param callback Function to invoke with the result of the recognition attempt.
+      * @param callback.result Returns the result of the recognition attempt.
       */
     recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<T>) => void): void;
 }
@@ -336,6 +335,7 @@ export interface IPromptRecognizerArgs {
      * @param utterance The users utterance taken from IMessage.text.
      * @param score The dialogs confidence level on a scale of 0 to 1.0 that it understood the users intent.
      * @param callback Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.
+     * @param callback.handled If true the utterance was handled by the parent and the recognizer should not continue. 
      */
     compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 }
@@ -403,8 +403,8 @@ export interface IBotConnectorMessage extends IMessage {
     botPerUserInConversationData?: any;
 }
 
-/** Arguments padded to the constructor of a session. */
-export interface ISessionArgs {
+/** Options passed to the constructor of a session. */
+export interface ISessionOptions {
     /** Collection of dialogs to use for routing purposes. Typically this is just the bot. */
     dialogs: DialogCollection;
 
@@ -423,22 +423,35 @@ export interface ISessionArgs {
 
 /** Signature of error events fired from a session. */
 export interface ISessionErrorEvent {
+    /**
+     * @param err The error that occured.
+     */
     (err: Error): void;
 }
 
 /** Signature of message related events fired from a session. */
 export interface ISessionMessageEvent {
+    /**
+     * @param message Relevant message for the event.
+     */
     (message: IMessage): void;
 }
 
 /** Signature of error events fired from bots. */
 export interface IBotErrorEvent {
-    (err: Error, message): void;
+    /**
+     * @param err The error that occured.
+     * @param message Optional message that was being processed. May be _null_.
+     */
+    (err: Error, message?: any): void;
 }
 
 /** Signature of message related events fired from bots. */
 export interface IBotMessageEvent {
-    (message): void;
+    /**
+     * @param message Relevant message for the event.
+     */
+    (message: any): void;
 }
 
 /** result returnd from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
@@ -459,6 +472,8 @@ export interface IStorage {
       * Loads a value from storage.
       * @param id ID of the value being loaded.
       * @param callaback Function used to receive the loaded value.
+      * @param callback.err Any error that occured.
+      * @param callback.data Data retrieved from storage. May be _null_ or _undefined_ if missing.
       */
     get(id: string, callback: (err: Error, data: any) => void): void;
 
@@ -467,6 +482,7 @@ export interface IStorage {
       * @param id ID of the value to save.
       * @param data Value to save.
       * @param callback Optional function to invoke with the success or failure of the save.
+      * @param callback.err Any error that occured.
       */
     save(id: string, data: any, callback?: (err: Error) => void): void;
 }
@@ -567,7 +583,7 @@ export interface ISlackBotOptions {
     ambientMentionDuration?: number;
     
     /** Optional flag that if true will cause a 'typing' message to be sent when the bot recieves a message. */
-    sendIsType?: boolean;
+    sendIsTyping?: boolean;
 }
 
 /** Address info passed to SlackBot.beginDialog() calls. Specifies the address of the user or channel to start a conversation with. */
@@ -688,17 +704,17 @@ export enum ListStyle {
  */
 export class Session {
     /**
-     * Registers an event listener. Events:
-     * - error: An error occured. [ISessionErrorEvent]
-     * - send: A message should be sent to the user. [ISessionMessageEvent]
-     * - quit: The bot would like to end the conversation. [Function]
-     * @param event Name of the event.
+     * Registers an event listener.
+     * @param event Name of the event. Event types:
+     * - __error:__ An error occured. [ISessionErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html)
+     * - __send:__ A message should be sent to the user. [ISessionMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionmessageevent.html)
+     * - __quit:__ The bot would like to end the conversation. _{Function}_
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
 
-    /** Sessions configuration args. */
-    protected args: ISessionArgs;
+    /** Sessions configuration options. */
+    protected options: ISessionOptions;
 
     /** Provides derived classes with access to the sessions localizer. */
     protected localizer: ILocalizer;
@@ -711,15 +727,14 @@ export class Session {
 
     /**
      * Creates an instance of the session.
-     * @param args Sessions configuration options.
+     * @param options Sessions configuration options.
      */
-    constructor(args: ISessionArgs);
+    constructor(options: ISessionOptions);
 
     /**
-     * Dispatches a message for processing. The session will call thr appropriate middleware based
-     * on the messages type. Consumers can install middleware to either intercept or augment certain
-     * messages.
-     * @param sessionState The current session state. 
+     * Dispatches a message for processing. The session will call any installed middleware before
+     * the message to the active dialog for processing. 
+     * @param sessionState The current session state. If _null_ a new conversation will be started beginning with the configured [dialogId](#dialogid).  
      * @param message The message to dispatch.
      */
     dispatch(sessionState: ISessionState, message: IMessage): Session;
@@ -740,16 +755,16 @@ export class Session {
     dialogData: any;
 
     /**
-     * Signals that an error occured. 
+     * Signals that an error occured. The bot will signal the error via an on('error', err) event.
      * @param err Error that occured.
      */
     error(err: Error): Session;
 
     /**
      * Loads a localized string for the messages language. If arguments are passed the localized string
-     * will be treated as a template and formatted using sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
+     * will be treated as a template and formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see their docs for details.) 
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param args Optional arguments used to format the final output string. 
      */
     gettext(msgid: string, ...args: any[]): string;
 
@@ -763,25 +778,18 @@ export class Session {
     ngettext(msgid: string, msgid_plural: string, count: number): string;
 
     /**
-     * Ends the session without sending a message. For user originated conversations the bot always 
-     * needs to reply with something, even if it's an empty message. 
-     */
-    send(): Session;
-    /**
-     * Sends a simple text message to the user. The message will be localized using the sessions 
-     * configured ILocalizer and if arguments are passed in the message will be formatted using
-     * sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * Sends a message to the user. If [send()](#send) is called without any parameters any changes to
+     * [dialogData](#dialogdata) or [userData](#userdata) will be saved but the user will not recieve any reply. 
+     * @param msg 
+     * * __msg:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
+     * * __msg:__ _{IMessage}_ - Message to send. 
+     * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
     send(msg: string, ...args: any[]): Session;
-    /**
-     * Sends a message to the user.
-     * @param msg Message to send.
-     */
     send(msg: IMessage): Session;
+    send(): Session;
 
-    /** Returns a native message the bot receieved. */
+    /** Returns a native message the bot received. This message is pulled from the [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) received. */
     getMessageReceived(): any;
     
     /**
@@ -798,9 +806,10 @@ export class Session {
     /**
      * Passes control of the conversation to a new dialog. The current dialog will be suspended 
      * until the child dialog completes. Once the child ends the current dialog will receive a
-     * call to dialogResumed() where it can inspect any results returned from the child. 
+     * call to [dialogResumed()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
+     * where it can inspect any results returned from the child. 
      * @param id Unique ID of the dialog to start.
-     * @param args Optional arguments to pass to the dialogs begin() method.
+     * @param args Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     beginDialog<T>(id: string, args?: T): Session;
 
@@ -808,66 +817,53 @@ export class Session {
      * Ends the current dialog and starts a new one its place. The parent dialog will not be 
      * resumed until the new dialog completes. 
      * @param id Unique ID of the dialog to start.
-     * @param args Optional arguments to pass to the dialogs begin() method.
+     * @param args Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     replaceDialog<T>(id: string, args?: T): Session;
 
     /**
-     * Ends the current dialog and sends a simple text message to the user. The dialogs parent will be resumed after the message is sent. 
-     * The message will be localized using the sessions configured ILocalizer and if arguments are passed in the message will be 
-     * formatted using sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * Ends the current dialog and optionally sends a message to the user. It's 
+     * typically more efficient to call [endDialog()](#enddialog) with a message then it is to call 
+     * [send()](#send) seperately before ending the dialog. 
+     * 
+     * If a message is sent to the user it will be sent before the dialogs parent is resumed. The
+     * parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * @param result 
+     * * __result:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
+     * * __result:__ _{IMessage}_ - Message to send the user.
+     * * __result:__ _{IDialogResult<any>}_ - Optional results to pass to the parent. If [endDialog()](#enddialog)
+     * is called without any arguments the parent will be resumed with an [IDialogResult.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed)
+     * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * @param args Optional arguments used to format the final output text when __result__ is a _{string}_.
      */
-    public endDialog(msg: string, ...args: any[]): Session;
-    /**
-     * Ends the current dialog and sends a message to the user. The dialogs parent will be resumed after the message is sent.
-     * @param msg Message to send.
-     */
-    public endDialog(msg: IMessage): Session;
-
-    /**
-     * Ends the current dialog and returns a string, typically a message, to the parent dialog. The dialogs parent will be resumed.
-     * @param response Text to return to caller.
-     */
-    endDialog<T>(response: string): Session;
-    /**
-     * Ends the current dialog. The dialogs parent will be resumed.
-     * @param result Optional results to pass to the parent dialog.
-     */
-    endDialog<T>(result?: IDialogResult<T>): Session;
+    endDialog(result: string, ...args: any[]): Session;
+    endDialog(result: IMessage): Session;
+    endDialog(result?: IDialogResult<any>): Session;
 
     /**
      * Lets a dialog compare its confidence that it understood an utterance with it's parent. The
      * callback will return true if the utterance was processed by the parent. This function lets a
      * parent of the dialog handle messages not understood by the dialog. 
-     * @param language The langauge of the utterance taken from IMessage.language.
-     * @param utterance The users utterance taken from IMessage.text.
+     * @param language The langauge of the utterance taken from [IMessage.language](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#language).
+     * @param utterance The users utterance taken from [IMessage.text](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#text).
      * @param score The dialogs confidence level on a scale of 0 to 1.0 that it understood the users intent.
-     * @param callback Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.
+     * @param callback Function to invoke with the result of the comparison. 
+     * @param callback.handled If true the dialog should not process the utterance.
      */
     compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 
     /**
-     * Clears the sessions callstack and restarts the conversation with the default (root) dialog.
-     * @param dialogId Unique ID of the dialog to start.
-     * @param dialogArgs Optional arguments to pass to the dialogs begin() method.
+     * Clears the sessions callstack and restarts the conversation with the configured [dialogId](#dialogid).
+     * @param dialogId Optional ID of the dialog to start.
+     * @param dialogArgs Optional arguments to pass to the dialogs [begin()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
-    reset<T>(dialogId: string, dialogArgs?: T): Session;
+    reset<T>(dialogId?: string, dialogArgs?: T): Session;
 
     /**
      * Returns true if the session has been reset.
      */
     isReset(): boolean;
-
-    /**
-     * Creates a reply message object with a formatted text string. The text will be localized and
-     * the languge of the original message will be copied over. Derived classes can use this to 
-     * manually format a reply message.   
-     * @param text Text or template string for the reply. This will be localized using session.gettext().
-     * @param args Optional arguments used to format the message text when Text is a template. 
-     */
-    public createMessage(text: string, args?: any[]): IMessage;
 }
 
 /**
@@ -883,10 +879,11 @@ export class Message implements IMessage {
     /**
      * Sets the localized text of the message.
      * @param session Session object used to localize the message text.
-     * @param text Text or template string for the reply. This will be localized using session.gettext().
+     * @param prompt Text or template string for the reply. If an array is passed the reply will be chosen at random. The reply will be localized using session.gettext().
      * @param args Optional arguments used to format the message text when Text is a template.  
      */
-    setText(session: Session, text: string, ...args: any[]): Message;
+    setText(session: Session, prompt: string, ...args: any[]): Message;
+    setText(session: Session, prompt: string[], ...args: any[]): Message;
 
     /**
      * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
@@ -897,6 +894,28 @@ export class Message implements IMessage {
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      */
     setNText(session: Session, msg: string, msg_plural: string, count: number): Message;
+
+    /**
+     * Combines an array of prompts into a single localized prompt and then optionally fills the
+     * prompts template slots with the passed in arguments. 
+     * @param session Session object used to localize the individual prompt parts.
+     * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
+     *                which will be chosen at random.  The combined output text will be space delimited.
+     * @param args Optional arguments used to format the output text when the prompt is a template.  
+     * @example
+     * <pre><code>
+     * var prompts = {
+     *     hello: ["Hello", "Hi"],
+     *     world: ["World", "Planet"]
+     * };
+     * var bot = new builder.BotConnectorBot();
+     * bot.add('/', function (session) {
+     *      var msg = new Message().composePrompt(session, [prompts.hello, prompts.world]);
+     *      session.send(msg);
+     * });
+     * </code></pre>
+     */
+    composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
     /**
      * Adds an attachment to the message.
@@ -905,10 +924,26 @@ export class Message implements IMessage {
     addAttachment(attachment: IAttachment): Message;
     
     /**
-     * Sets the channelData for the message.
+     * Sets the channelData for the message. Typically used to attach a message in the channels native format.
      * @param data The channel data to assign.
      */
     setChannelData(data: any): Message;
+    
+    /**
+     * Selects a prompt at random.
+     * @param prompts Array of prompts to choose from.
+     */
+    static randomPrompt(prompts: string[]): string;
+    
+    /**
+     * Combines an array of prompts into a single localized prompt and then optionally fills the
+     * prompts template slots with the passed in arguments. 
+     * @param session Session object used to localize the individual prompt parts.
+     * @param prompts Array of prompt lists. Each entry in the array is another array of prompts 
+     *                which will be chosen at random.  The combined output text will be space delimited.
+     * @param args Optional array of arguments used to format the output text when the prompt is a template.  
+     */
+    static composePrompt(session: Session, prompts: string[][], args?: any[]): string;
 }
 
 /**
@@ -957,31 +992,32 @@ export abstract class Dialog {
  */
 export class DialogCollection {
     /**
-     * Adds a set of dialogs to the collection.
-     * @param dialogs Map of dialogs to add to the collection. The map should be keyed off the dialogs ID.
+     * Raises an event.
+     * @param event Name of the event to raise.
+     * @param args Optional arguments for the event.
      */
-    add(dialogs: { [id: string]: Dialog; }): DialogCollection;
+    emit(event: string, ...args: any[]): void;
+
     /**
-     * Adds a simple dialog to the collection thats based on the passed in closure.
-     * @param id Unique ID of the dialog.
-     * @param fn Closure to base dialog on. The closure will be called anytime a message is recieved 
-     * from the user or when the dialog is being resumed. You can check for args.resumed to tell that 
-     * your being resumed.
-     */
-    add(id: string, fn: (session: Session, args?: any) => void): DialogCollection;
-    /**
-     * Adds a simple dialog to the collection thats based on the passed in waterfall. See DialogAction.waterfall()
-     * for details.
-     * @param id Unique ID of the dialog.
-     * @param waterfall Waterfall of steps to execute.
-     */
-    add(id: string, waterfall: IDialogWaterfallStep[]): DialogCollection;
-    /**
-     * Adds a dialog to the collection.
-     * @param id Unique ID of the dialog.
-     * @param dialog Dialog to add.
+     * Adds dialog(s) to a bot.
+     * @param id 
+     * * __id:__ _{string}_ - Unique ID of the dialog being added.
+     * * __id:__ _{Object}_ - Map of [Dialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
+     * @param dialog
+     * * __dialog:__ _{Dialog}_ - Dialog to add.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __dialog:__ _{Function}_ - Closure to base dialog on. The closure will be called anytime a message is recieved 
+     * from the user or when the dialog is being resumed. You can check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * to tell that the dialog is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ _{any}_ - Any arguments passed to the dialog when [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) is called.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the closure initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the closure.
      */
     add(id: string, dialog: Dialog): DialogCollection;
+    add(id: string, dialog: IDialogWaterfallStep[]): DialogCollection;
+    add(id: string, dialog: (session: Session, args?: any) => void): DialogCollection;
+    add(id: { [id: string]: Dialog; }): DialogCollection;
 
     /**
      * Returns a dialog given its ID.
@@ -990,7 +1026,8 @@ export class DialogCollection {
     getDialog(id: string): Dialog;
 
     /**
-     * Returns an array of middleware to invoke. 
+     * Returns an array of middleware to invoke.
+     * @returns Array of middleware functions.
      */
     getMiddleware(): { (session: Session, next: Function): void; }[];
 
@@ -1002,6 +1039,9 @@ export class DialogCollection {
 
     /**
      * Registers a piece of middleware that will be called for every message receieved.
+     * @param middleware Function to execute anytime a message is received.
+     * @param middleware.session Session object for the current conversation.
+     * @param middleware.next Function to invoke to call the next piece of middleware and continue processing of the message. Middleware can intercept a message by not calling next().
      */
     use(middleware: (session: Session, next: Function) => void): void;
 }
@@ -1010,8 +1050,8 @@ export class DialogCollection {
 export class DialogAction {
     /**
      * Returns a closure that will send a simple text message to the user. 
-     * @param msg Text of the message to send.
-     * @param args Optional arguments used to format the final output string. See https://github.com/alexei/sprintf.js for documentation. 
+     * @param msg Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
+     * @param args Optional arguments used to format the final output string. 
      */
     static send(msg: string, ...args: any[]): (session: Session) => void;
 
@@ -1034,13 +1074,13 @@ export class DialogAction {
      * waterfall and the results of that prompt will be passed as input to the second function
      * and the result of the second passed to the third and so on.  
      *
-     * Each step within the waterfall may optionally return a ResumeReson to influence the flow 
+     * Each step within the waterfall may optionally return a [ResumeReson](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to influence the flow 
      * of the waterfall:
-     * - ResumeReason.forward: skips the next function in the waterfall.
-     * - ResumeReason.back: returns to the previous function in the waterfall.
-     * - ResumeReason.canceled: ends the waterfall all together.
+     * - [ResumeReason.forward](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#forward): skips the next function in the waterfall.
+     * - [ResumeReason.back](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#back): returns to the previous function in the waterfall.
+     * - [ResumeReason.canceled](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#canceled): ends the waterfall all together.
      * 
-     * Calling other dialog like built-in prompts can influence the flow as well. If a child dialog
+     * Calling other dialogs like built-in prompts can influence the flow as well. If a child dialog
      * returns either ResumeReason.forward or ResumeReason.back it will automatically be handled.
      * If ResumeReason.canceled is returnd it will be handed to the step for processing which can
      * then decide to cancel the action or not.
@@ -1049,8 +1089,11 @@ export class DialogAction {
     static waterfall(steps: IDialogWaterfallStep[]): (session: Session, args: any) => void;
 
     /**
-     * Returns a closer that wraps a built-in prompt with validation logic. The closure should be used
+     * Returns a closure that wraps a built-in prompt with validation logic. The closure should be used
      * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
+     * @param promptType Type of built-in prompt to validate.
+     * @param validator Function used to validate the response. Should return true if the response is valid.
+     * @param validator.response The users [IDialogResult.response](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
@@ -1117,25 +1160,14 @@ export class Prompts extends Dialog {
      * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
      * @param prompt Initial message to send the user.
-     * @param choices List of choices as a pipe ('|') delimted string.
+     * @param choices 
+     * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
+     * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
+     * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
     static choice(session: Session, prompt: string, choices: string, options?: IPromptOptions): void;
-    /**
-     * Prompts the user to choose from a list of options.
-     * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
-     * @param choices List of choices expressed as an Object map. The objects field names will be used to build the list of values.
-     * @param options Optional flags parameters to control the behaviour of the prompt.
-     */
     static choice(session: Session, prompt: string, choices: Object, options?: IPromptOptions): void;
-    /**
-     * Prompts the user to choose from a list of options.
-     * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
-     * @param choices List of choices as an array of strings.
-     * @param options Optional flags parameters to control the behaviour of the prompt.
-     */
     static choice(session: Session, prompt: string, choices: string[], options?: IPromptOptions): void;
 
     /**
@@ -1174,63 +1206,56 @@ export abstract class IntentDialog extends Dialog {
     replyReceived(session: Session): void;
 
     /**
-     * Adds a IntentGroup to the dialog. 
+     * Adds a IntentGroup to the dialog. Intent groups help organize larger dialogs with many
+     * intents. They let you move the processing of related handlers to a seperate file.
      * @param group Group to add to dialog.
      */
     addGroup(group: IntentGroup): IntentDialog;
 
     /**
      * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
-     * @param fn Handler to invoke when the dialog is started.
+     * @param handler Handler to invoke when the dialog is started.
+     * @param handler.session Session object for the current conversation.
+     * @param handler.args Any arguments passed to the dialog in the call to [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * @param handler.next Callback used to continue the dialogs execution.
      */
-    onBegin(fn: (session: Session, args: any, next: () => void) => void): IntentDialog;
+    onBegin(handler: (session: Session, args: any, next: () => void) => void): IntentDialog;
 
     /**
-     * Executes a block of code when the given intent is recognized. Use DialogAction.send() or
-     * DialogEnd.endDialog() to implement common actions.
+     * Executes a block of code when the given intent is recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param intent Intent to trigger on.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    on(intent: string, fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an intent is triggered. See DialogAction.waterfall() for
-     * details.
-     * @param intent Intent to trigger on.
-     * @param waterfall Waterfall steps to execute.
-     */
-    on(intent: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-   /**
-     * Begins a dialog anytime the intent is triggered. 
-     * @param intent Intent to trigger on.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    on(intent: string, dialogId: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    on(intent: string, handler: (session: Session, args?: any) => void): IntentDialog;
 
     /**
-     * Executes a block of code when an unknown intent is recognized. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Executes a block of code when there are no handlers registered for the intent that was 
+     * recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    onDefault(fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an unknown intent is recognized. See DialogAction.waterfall() 
-     * for details.
-     * @param waterfall Waterfall steps to execute.
-     */
-    onDefault(waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when an unknown intent is recognized.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    onDefault(dialogId: string, dialogArgs?: any): IntentDialog;
+    onDefault(handler: string, dialogArgs?: any): IntentDialog;
+    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
+    onDefault(handler: (session: Session, args?: any) => void): IntentDialog;
 
     /** Returns the minimum score needed for an intent to be triggered. */
     getThreshold(): number;
@@ -1247,6 +1272,9 @@ export abstract class IntentDialog extends Dialog {
      * Derived classes should implement this method with the logic needed to perform the actual intent recognition.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
      */
     protected abstract recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
@@ -1269,33 +1297,26 @@ export class IntentGroup {
     getId(): string;
 
     /**
-     * Executes a block of code when the given intent is recognized. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
+     * Executes a block of code when the given intent is recognized. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
      * @param intent Intent to trigger on.
-     * @param fn Handler to invoke when the intent is triggered. The handler will be passed any 
-     * recognized intents & entities via the args. The handler will also be invoked when a dialog
-     * started by the handler returns. Check for args.resumed to detect that you're being resumed. 
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    on(intent: string, fn: (session: Session, args?: IIntentArgs) => void): IntentDialog;
-    /**
-     * Executes a waterfall of steps when an intent is triggered. See DialogAction.waterfall() for
-     * details.
-     * @param intent Intent to trigger on.
-     * @param waterfall Waterfall steps to execute.
-     */
-    on(intent: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog anytime the intent is triggered. 
-     * @param intent Intent to trigger on.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the IIntentArgs 
-     * generated by the dialog.
-     */
-    on(intent: string, dialogId: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
+    on(intent: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    on(intent: string, handler: (session: Session, args?: any) => void): IntentDialog;
 }
 
 /**
- * Routes incoming messages to a Luis app hosted on http://luis.ai for intent recognition.
+ * Routes incoming messages to a LUIS app hosted on http://luis.ai for intent recognition.
  * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
  * with any entities, for further processing. 
  */
@@ -1310,6 +1331,9 @@ export class LuisDialog extends IntentDialog {
      * Performs the step of recognizing intents & entities when a message is recieved vy the dialog. Called by IntentDialog.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
      */
     protected recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
@@ -1319,130 +1343,96 @@ export class LuisDialog extends IntentDialog {
  */
 export class EntityRecognizer {
     /**
-     * Searches for the first occurance of an specific entity type within a set.
+     * Searches for the first occurance of a specific entity type within a set.
      * @param entities Set of entities to search over.
      * @param type Type of entity to find.
      */
     static findEntity(entities: IEntity[], type: string): IEntity;
     
     /**
-     * Finds all occurences of a specific entity type within a set.
+     * Finds all occurrences of a specific entity type within a set.
      * @param entities Set of entities to search over.
      * @param type Type of entity to find.
      */
     static findAllEntities(entities: IEntity[], type: string): IEntity[];
 
     /**
-     * Parses and resolves a time from a user utterance.
-     * @param utterance Text utterance to parse. 
-     * @returns A valid Date object if the user spoke a time otherwise null.
+     * Parses a date from either a users text utterance or a set of entities.
+     * @param value 
+     * * __value:__ _{string}_ - Text utterance to parse. The utterance is parsed using the [Chrono](http://wanasit.github.io/pages/chrono/) library.
+     * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
+     * @returns A valid Date object if the user spoke a time otherwise _null_.
      */   
-    static parseTime(utterance: string): Date;
-
-    /**
-     * Resolves a time from a set of entities.
-     * @param entities Array of entities.
-     * @returns A valid Date object if datetime entities were found otherwise null.
-     */
-    static parseTime(entities: IEntity[]): Date;
+    static parseTime(value: string): Date;
+    static parseTime(value: IEntity[]): Date;
 
     /**
      * Calculates a Date from a set of datetime entities.
      * @param entities List of entities to extract date from.
-     * @returns The successfully calculated Date or null if a date couldn't be determined. 
+     * @returns The successfully calculated Date or _null_ if a date couldn't be determined. 
      */
     static resolveTime(entities: IEntity[]): Date;
 
     /**
-     * Recognizes a time from a users uetterance.
+     * Recognizes a time from a users utterance. The utterance is parsed using the [Chrono](http://wanasit.github.io/pages/chrono/) library.
      * @param utterance Text utterance to parse.
-     * @param refDate Optional reference date user to calculate the finale date.
-     * @returns An entity containing the resolved date if successfull or null if a date couldn't be determined. 
+     * @param refDate Optional reference date used to calculate the final date.
+     * @returns An entity containing the resolved date if successful or _null_ if a date couldn't be determined. 
      */
     static recognizeTime(utterance: string, refDate?: Date): IEntity;
 
     /**
-     * Parses a number from a users utterance.
-     * @param utterance Text utterance to parse.
-     * @returns A valid number otherwise undefined. 
+     * Parses a number from either a users text utterance or a set of entities.
+     * @param value
+     * * __value:__ _{string}_ - Text utterance to parse. 
+     * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
+     * @returns A valid number otherwise _Number.NaN_. 
      */
-    static parseNumber(utterance: string): number;
-
-    /**
-     * Resolves a number from a set of entities.
-     * @param entities List of entities to extract number from.
-     * @returns A valid number otherwise undefined. 
-     */
-    static parseNumber(entities: IEntity[]): number;
+    static parseNumber(value: string): number;
+    static parseNumber(value: IEntity[]): number;
 
     /**
      * Parses a boolean from a users utterance.
-     * @param utterance Text utterance to parse.
-     * @returns A valid boolean otherwise undefined. 
+     * @param value Text utterance to parse.
+     * @returns A valid boolean otherwise _undefined_. 
      */
-    static parseBoolean(utterance: string): boolean;
+    static parseBoolean(value: string): boolean;
     
     /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Finds the best match for a users utterance given a list of choices.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values to compare against the users utterance. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings to compare against the users utterance. 
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
     static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
-    /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
-    /**
-     * Finds the best match for a users utterance in a list of values.
-     * @param choices Array of strings to compare against the users utterance.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findBestMatch(choices: string[], utterance: string, threshold?: number): IFindMatchResult;
 
     /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Finds all possible matches for a users utterance given a list of choices.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values to compare against the users utterance. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings to compare against the users utterance. 
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
     static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
-    /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
-    /**
-     * Finds all possible matches for a users utterance in a list of values.
-     * @param choices Array of strings to compare against the users utterance.
-     * @param utterance Text utterance to parse.
-     * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
-     */
     static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
 
     /**
-     * Returns an array of choices give a pipe delimted string.
-     * @param choices Pipe ('|') delimited list of values to compare against the users utterance. 
+     * Converts a set of choices into an expanded array.
+     * @param choices 
+     * * __choices:__ _{string}_ - Pipe ('|') delimited list of values. 
+     * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
+     * * __choices:__ _{string[]}_ - Array of strings. This will just be echoed back as the output. 
      */
     static expandChoices(choices: string): string[];
-    /**
-     * Returns an array of choices given an Object.
-     * @param choices Object used to generate the list of choices. The objects field names will be used to 
-     * build the list of choices.
-     */
     static expandChoices(choices: Object): string[];
-    /**
-     * Returns an array of choices.
-     * @param choices Array of strings. This array will just be echoed back.
-     */
     static expandChoices(choices: string[]): string[];
 }
 
@@ -1458,80 +1448,53 @@ export class CommandDialog extends Dialog {
     replyReceived(session: Session): void;
 
     /**
-     * The handler will be called anytime the dialog is started for a session. Call next() to continue default processing.
-     * @param fn Handler to invoke when the dialog is started.
+     * The handler will be called anytime the dialog is started for a session. Call next() to continue the dialogs default processing. 
+     * @param handler Handler to invoke when the dialog is started.
+     * @param handler.session Session object for the current conversation.
+     * @param handler.args Any arguments passed to the dialog in the call to [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * @param handler.next Callback used to continue the dialogs execution.
      */
-    onBegin(fn: (session: Session, args: any, next: () => void) => void): CommandDialog;
+    onBegin(handler: (session: Session, args: any, next: () => void) => void): CommandDialog;
 
     /**
-     * Triggers the handler when the pattern is matched. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param pattern A regular expression to match against.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Triggers the handler when the pattern(s) is matched. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
+     * @param pattern 
+     * * __patern:__ _{string}_ - A regular expression to match against. Comparisons are case insensitive.
+     * * __patern:__ _{string[]}_ - Array of regular expressions to match against. All comparisons are case insensitive.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args?: any): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
-    matches(pattern: string, fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Triggers the handler when the pattern is matched. Use DialogAction.send() or
-     * DialogAction.endDialog() to implement common actions.
-     * @param patterns Array of regular expressions to match against.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
-     */
-    matches(patterns: string[], fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Executes a waterfall of steps when the pattern is matched. See DialogAction.waterfall() for
-     * details.
-     * @param patterns Array of regular expressions to match against.
-     * @param waterfall Waterfall steps to execute.
-     */
-    matches(pattern: string, waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Executes a waterfall of steps when the pattern is matched. See DialogAction.waterfall() for
-     * details.
-     * @param patterns A regular expression to match against.
-     * @param waterfall Waterfall steps to execute.
-     */
-    matches(patterns: string[], waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when the pattern is matched.
-     * @param pattern A regular expression to match against.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    matches(pattern: string, dialogId: string, dialogArgs?: any): CommandDialog;
-    /**
-     * Begins a dialog when one of the specified patterns is matched.
-     * @param patterns Array of regular expressions to match against.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    matches(patterns: string[], dialogId: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string, handler: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string[], handler: string, dialogArgs?: any): CommandDialog;
+    matches(pattern: string, handler: (session: Session, args?: any) => void): CommandDialog;
+    matches(pattern: string[], handler: (session: Session, args?: any) => void): CommandDialog;
+    matches(pattern: string, handler: IDialogWaterfallStep[]): IntentDialog;
+    matches(pattern: string[], handler: IDialogWaterfallStep[]): IntentDialog;
 
     /**
-     * Executes a block of code when an unknown pattern is received.
-     * @param fn Handler to invoke when the pattern is matched. The handler will be passed the expression
-     * that was matched via the args. The handler will also be invoked when a dialog started by the 
-     * handler returns. Check for args.resumed to detect that you're being resumed. 
+     * Triggers a handler when an unknown pattern is received. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
+     * methods to implement common actions.
+     * @param handler 
+     * * __handler:__ _{string}_ - The ID of a dialog to begin. 
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
+     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
+     * > `(session: Session, args: ICommandArgs|IDialogResult): void`
+     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
+     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
+     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
-    onDefault(fn: (session: Session, args?: ICommandArgs) => void): CommandDialog;
-    /**
-     * Executes a waterfall of steps when an unknown pattern is received. See DialogAction.waterfall() 
-     * for details.
-     * @param waterfall Waterfall steps to execute.
-     */
-    onDefault(waterfall: IDialogWaterfallStep[]): IntentDialog;
-    /**
-     * Begins a dialog when an unknown pattern is received.
-     * @param dialogId ID of the dialog to begin.
-     * @param dialogArgs Optional args to pass to the dialog. These will be merged with the ICommandArgs 
-     * generated by the dialog.
-     */
-    onDefault(dialogId: string, dialogArgs?: any): CommandDialog;
+    onDefault(handler: string, dialogArgs?: any): CommandDialog;
+    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
+    onDefault(handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
 }
 
 /** Default in memory storage implementation for storing user & session state data. */
@@ -1540,6 +1503,8 @@ export class MemoryStorage implements IStorage {
       * Loads a value from storage.
       * @param id ID of the value being loaded.
       * @param callaback Function used to receive the loaded value.
+      * @param callback.err Any error that occured.
+      * @param callback.data Data retrieved from storage. May be _null_ or _undefined_ if missing.
       */
     get(id: string, callback: (err: Error, data: any) => void): void;
 
@@ -1548,6 +1513,7 @@ export class MemoryStorage implements IStorage {
       * @param id ID of the value to save.
       * @param data Value to save.
       * @param callback Optional function to invoke with the success or failure of the save.
+      * @param callback.err Any error that occured.
       */
     save(id: string, data: any, callback?: (err: Error) => void): void;
 
@@ -1569,19 +1535,18 @@ export class BotConnectorBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be of type IBotConnectorMessage. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - Message: A user message was received. [IBotMessageEvent]
-     * - DeleteUserData: The user has requested to have their data deleted. [IBotMessageEvent]
-     * - BotAddedToConversation: The bot has been added to a conversation. [IBotMessageEvent]
-     * - BotRemovedFromConversation: The bot has been removed from a conversation. [IBotMessageEvent]
-     * - UserAddedToConversation: A user has joined a conversation monitored by the bot. [IBotMessageEvent]
-     * - UserRemovedFromConversation: A user has left a conversation monitored by the bot. [IBotMessageEvent]
-     * - EndOfConversation: The user has elected to end the current conversation. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be of type [IBotConnectorMessage](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotconnectormessage.html). Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ A user message was received. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __DeleteUserData:__ The user has requested to have their data deleted. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __BotAddedToConversation:__ The bot has been added to a conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __BotRemovedFromConversation:__ The bot has been removed from a conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __UserAddedToConversation:__ A user has joined a conversation monitored by the bot. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __UserRemovedFromConversation:__ A user has left a conversation monitored by the bot. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __EndOfConversation:__ The user has elected to end the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1594,7 +1559,7 @@ export class BotConnectorBot extends DialogCollection {
 
     /**
      * Returns a piece of Express or Restify compliant middleware that will ensure only messages from the Bot Framework are processed.
-     * NOTE: Also requires configuring of the bots appId and appSecret.
+     * _NOTE: Ignored for HTTP requests and also requires configuring of the bots appId and appSecret._
      * @param options Optional configuration options to pass in.
      * @example
      * <pre><code>
@@ -1602,19 +1567,20 @@ export class BotConnectorBot extends DialogCollection {
      * app.use(bot.verifyBotFramework({ appId: 'your appId', appSecret: 'your appSecret' }));
      * </code></pre>
      */
-    verifyBotFramework(options?: IBotConnectorOptions): (req, res, next) => void;
+    verifyBotFramework(options?: IBotConnectorOptions): (req: any, res: any, next: any) => void;
 
     /**
      * Returns a piece of Express or Restify compliant middleware that will route incoming messages to the bot. 
-     * NOTE: The middleware should be mounted to route that receives an HTTPS POST.
-     * @param options Optional configuration options to pass in.
+     * _NOTE: The middleware should be mounted to a route that receives an HTTPS POST._
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotconnectoroptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
-     * app.post('/v1/messages', bot.listen());
+     * app.post('/api/messages', bot.listen());
      * </code></pre>
      */
-    listen(options?: IBotConnectorOptions): (req, res) => void;
+    listen(dialogId?: string, dialogArgs?: any): (req: any, res: any) => void;
 
     /**
      * Starts a new conversation with a user.
@@ -1648,22 +1614,21 @@ export class SkypeBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be a skype message. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - message: This event is emitted for every received message. [IBotMessageEvent]
-     * - personalMessage: This event is emitted for every 1:1 chat message. [IBotMessageEvent]
-     * - groupMessage: This event is emitted for every group chat message. [IBotMessageEvent]
-     * - threadBotAdded: This event is emitted when the bot is added to group chat. [IBotMessageEvent]
-     * - threadAddMember: This event is emitted when some users are added to group chat. [IBotMessageEvent]
-     * - threadBotRemoved: This event is emitted when the bot is removed from group chat. [IBotMessageEvent]
-     * - threadRemoveMember: This event is emitted when some users are removed from group chat. [IBotMessageEvent]
-     * - contactAdded: This event is emitted when users add the bot as a buddy. [IBotMessageEvent]
-     * - threadTopicUpdated: This event is emitted when the topic of a group chat is updated. [IBotMessageEvent]
-     * - threadHistoryDisclosedUpdate: This event is emitted when the "history disclosed" option of a group chat is changed. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be a skype message. Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ This event is emitted for every received message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - personalMessage: This event is emitted for every 1:1 chat message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - groupMessage: This event is emitted for every group chat message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadBotAdded: This event is emitted when the bot is added to group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadAddMember: This event is emitted when some users are added to group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadBotRemoved: This event is emitted when the bot is removed from group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadRemoveMember: This event is emitted when some users are removed from group chat. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - contactAdded: This event is emitted when users add the bot as a buddy. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadTopicUpdated: This event is emitted when the topic of a group chat is updated. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - threadHistoryDisclosedUpdate: This event is emitted when the "history disclosed" option of a group chat is changed. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1701,7 +1666,7 @@ export class SkypeSession extends Session {
 }
 
 /**
- * Connects your bots dialogs to Slack via BotKit. See http://howdy.ai/botkit/ for details.
+ * Connects your bots dialogs to Slack via [BotKit](http://howdy.ai/botkit/).
  */
 export class SlackBot extends DialogCollection {
     /**
@@ -1714,18 +1679,17 @@ export class SlackBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will a slack message. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - typing: The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent]
-     * - message_received: The bot received a message. [IBotMessageEvent]
-     * - bot_channel_join: The bot has joined a channel. [IBotMessageEvent]
-     * - user_channel_join: A user has joined a channel. [IBotMessageEvent]
-     * - bot_group_join: The bot has joined a group. [IBotMessageEvent]
-     * - user_group_join: A user has joined a group. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will a slack message. Event types:
+     * - __error:__ An error occured. [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __typing:__ The bot is sending a 'typing' message to indicate its busy. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message_received:__ The bot received a message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __bot_channel_join:__ The bot has joined a channel. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __user_channel_join:__ A user has joined a channel. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __bot_group_join:__ The bot has joined a group. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __user_group_join:__ A user has joined a group. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html) 
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1737,24 +1701,24 @@ export class SlackBot extends DialogCollection {
     configure(options: ISlackBotOptions): void;
 
     /**
-     * Begins listening for incoming messages of the specified types. Types:
-     * - ambient: Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way.
-     * - direct_mention: Direct mentions are messages that begin with the bot's name, as in "@bot hello".
-     * - mention: Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
-     * - direct_message: Direct messages are sent via private 1:1 direct message channels. 
-     * @param types The type of events to listen for,
-     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
-     * @param dialogArgs Optional arguments to pass to the dialog.
+     * Begins listening for incoming messages of the specified types.
+     * @param types The type of events to listen for. Valid types:
+     * - __ambient:__ Ambient messages are messages that the bot can hear in a channel, but that do not mention the bot in any way.
+     * - __direct_mention:__ Direct mentions are messages that begin with the bot's name, as in "@bot hello".
+     * - __mention:__ Mentions are messages that contain the bot's name, but not at the beginning, as in "hello @bot". 
+     * - __direct_message:__ Direct messages are sent via private 1:1 direct message channels. 
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      */
     listen(types: string[], dialogId?: string, dialogArgs?: any): SlackBot;
 
     /**
      * Begins listening for messages sent to the bot. The bot will recieve direct messages, 
-     * direct mentions, and mentions. One the bot has been mentioned it will continue to receive
+     * direct mentions, and mentions. Once the bot has been mentioned it will continue to receive
      * ambient messages from the user that mentioned them for a short period of time. This time
-     * can be configured using ISlackBotOptions.ambientMentionDuration.
-     * @param dialogId Optional ID of the bots dialog to begin for new conversations.
-     * @param dialogArgs Optional arguments to pass to the dialog.
+     * can be configured using [ISlackBotOptions.ambientMentionDuration](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#ambientmentionduration).
+     * @param dialogId Optional ID of the bots dialog to begin for new conversations. If ommited the bots [defaultDialogId](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.islackbotoptions.html#defaultdialogid) will be used.
+     * @param dialogArgs Optional arguments to pass to the dialog when a new conversation is started.
      */
     listenForMentions(dialogId?: string, dialogArgs?: any): SlackBot;
 
@@ -1813,13 +1777,12 @@ export class TextBot extends DialogCollection {
 
     /**
      * Registers an event listener to get notified of bot related events. 
-     * The message to passed to events will be an IMessage. Events:
-     * - error: An error occured. [IBotErrorEvent]
-     * - reply: A reply to an existing message was sent. [IBotMessageEvent]
-     * - send: A new message was sent to start a new conversation. [IBotMessageEvent]
-     * - quit: The bot has elected to ended the current conversation. [IBotMessageEvent]
-     * - message: This event is emitted for every received message. [IBotMessageEvent]
-     * @param event Name of event to listen for.
+     * @param event Name of event to listen for. The message to passed to events will be an [IMessage](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html). Event types:
+     * - __error:__ An error occured.  [IBotErrorEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iboterrorevent.html)
+     * - __reply:__ A reply to an existing message was sent. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __send:__ A new message was sent to start a new conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __quit:__ The bot has elected to ended the current conversation. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
+     * - __message:__ This event is emitted for every received message. [IBotMessageEvent](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ibotmessageevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1843,6 +1806,8 @@ export class TextBot extends DialogCollection {
      * @param message Message to process.
      * @param callback Optional callback used to return bots initial reply or an error. If ommited all 
      * replies and errors will be returned as events.
+     * @param callback.err If not _null_ then an error occured while processing the message.
+     * @param callback.reply The bots initial reply for this message that should be sent to the user.
      */
     processMessage(message: IMessage, callback?: (err: Error, reply: IMessage) => void): void;
 

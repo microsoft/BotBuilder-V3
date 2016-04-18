@@ -119,7 +119,7 @@ var EntityRecognizer = (function () {
                 return Number(match[0]);
             }
         }
-        return undefined;
+        return Number.NaN;
     };
     EntityRecognizer.parseBoolean = function (utterance) {
         utterance = utterance.trim();

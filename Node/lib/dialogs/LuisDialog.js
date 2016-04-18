@@ -21,20 +21,28 @@ var LuisDialog = (function (_super) {
         }
         uri += encodeURIComponent(utterance || '');
         request.get(uri, function (err, res, body) {
+            var calledCallback = false;
             try {
                 if (!err) {
                     var result = JSON.parse(body);
                     if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                         result.intents[0].score = 1.0;
                     }
+                    calledCallback = true;
                     callback(null, result.intents, result.entities);
                 }
                 else {
+                    calledCallback = true;
                     callback(err);
                 }
             }
             catch (e) {
-                callback(e);
+                if (!calledCallback) {
+                    callback(e);
+                }
+                else {
+                    console.error(e.toString());
+                }
             }
         });
     };

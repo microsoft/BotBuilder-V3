@@ -63,12 +63,11 @@ var BotConnectorBot = (function (_super) {
             }
         };
     };
-    BotConnectorBot.prototype.listen = function (options) {
+    BotConnectorBot.prototype.listen = function (dialogId, dialogArgs) {
         var _this = this;
-        this.configure(options);
         return function (req, res) {
             if (req.body) {
-                _this.dispatchMessage(null, req.body, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
+                _this.dispatchMessage(null, req.body, { dialogId: dialogId, dialogArgs: dialogArgs }, res);
             }
             else {
                 var requestData = '';
@@ -78,7 +77,7 @@ var BotConnectorBot = (function (_super) {
                 req.on('end', function () {
                     try {
                         var msg = JSON.parse(requestData);
-                        _this.dispatchMessage(null, msg, _this.options.defaultDialogId, _this.options.defaultDialogArgs, res);
+                        _this.dispatchMessage(null, msg, { dialogId: dialogId, dialogArgs: dialogArgs }, res);
                     }
                     catch (e) {
                         _this.emit('error', new Error('Invalid Bot Framework Message'));
@@ -89,20 +88,20 @@ var BotConnectorBot = (function (_super) {
         };
     };
     BotConnectorBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
-        var msg = address;
-        msg.type = 'Message';
-        if (!msg.from) {
-            msg.from = this.options.defaultFrom;
+        var message = address;
+        message.type = 'Message';
+        if (!message.from) {
+            message.from = this.options.defaultFrom;
         }
-        if (!msg.to || !msg.from) {
+        if (!message.to || !message.from) {
             throw new Error('Invalid address passed to BotConnectorBot.beginDialog().');
         }
         if (!this.hasDialog(dialogId)) {
             throw new Error('Invalid dialog passed to BotConnectorBot.beginDialog().');
         }
-        this.dispatchMessage(msg.to.id, msg, dialogId, dialogArgs);
+        this.dispatchMessage(message.to.id, message, { dialogId: dialogId, dialogArgs: dialogArgs });
     };
-    BotConnectorBot.prototype.dispatchMessage = function (userId, message, dialogId, dialogArgs, res) {
+    BotConnectorBot.prototype.dispatchMessage = function (userId, message, options, res) {
         var _this = this;
         try {
             if (!message || !message.type) {
@@ -133,8 +132,8 @@ var BotConnectorBot = (function (_super) {
                     localizer: this.options.localizer,
                     minSendDelay: this.options.minSendDelay,
                     dialogs: this,
-                    dialogId: dialogId,
-                    dialogArgs: dialogArgs
+                    dialogId: options.dialogId || this.options.defaultDialogId,
+                    dialogArgs: options.dialogArgs || this.options.defaultDialogArgs
                 });
                 ses.on('send', function (reply) {
                     reply = reply || {};
@@ -201,7 +200,14 @@ var BotConnectorBot = (function (_super) {
                             sessionState = ses.perUserInConversationData[consts.Data.SessionState];
                             delete ses.perUserInConversationData[consts.Data.SessionState];
                         }
-                        ses.dispatch(sessionState, message);
+                        if (options.replyToDialogId) {
+                            if (sessionState && sessionState.callstack[sessionState.callstack.length - 1].id == options.replyToDialogId) {
+                                ses.dispatch(sessionState, message);
+                            }
+                        }
+                        else {
+                            ses.dispatch(sessionState, message);
+                        }
                     }
                     else {
                         _this.emit('error', err, message);
