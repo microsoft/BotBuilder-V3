@@ -22,7 +22,7 @@ Get the latest version of BotBuilder using npm.
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
 ### v0.9.0
-#### Breaking Changes
+__Breaking Changes__
 None of these changes are likely to effect anyone but they could so here are the ones that may break things:
 
 * Updated arguments passed to BotConnectorBot.listen().
@@ -31,7 +31,7 @@ None of these changes are likely to effect anyone but they could so here are the
 * Changed EntityRecognizer.parseNumber() to return Number.NaN instead of undefined when a number isn't recognized.
 
 
-#### Other Changes
+__Other Changes__
 * Significant improvements to the Reference Docs.
 * Fixed a couple of bugs related to missing intents coming back from LUIS. 
 * Fixed a deep copy bug in MemoryStorage class. I now use JSON.stringify() & JSON.parse() to ensure a deep copy.
