@@ -168,12 +168,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1351">botbuilder.d.ts:1351</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1434">botbuilder.d.ts:1434</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Returns an array of choices give a pipe delimted string.</p>
+												<p>Converts a set of choices into an expanded array.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -181,7 +181,11 @@
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+													<ul>
+														<li><strong>choices:</strong> <em>{string}</em> - Pipe (&#39;|&#39;) delimited list of values.</li>
+														<li><strong>choices:</strong> <em>{Object}</em> - Object used to generate the list of choices. The objects field names will be used to build the list of choices.</li>
+														<li><strong>choices:</strong> <em>{string[]}</em> - Array of strings. This will just be echoed back as the output.</li>
+													</ul>
 												</div>
 											</li>
 										</ul>
@@ -190,22 +194,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1357">botbuilder.d.ts:1357</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1435">botbuilder.d.ts:1435</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Returns an array of choices given an Object.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Object used to generate the list of choices. The objects field names will be used to
-													build the list of choices.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -213,21 +208,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1362">botbuilder.d.ts:1362</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1436">botbuilder.d.ts:1436</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Returns an array of choices.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Array of strings. This array will just be echoed back.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -244,12 +231,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1249">botbuilder.d.ts:1249</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1357">botbuilder.d.ts:1357</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Finds all occurences of a specific entity type within a set.</p>
+												<p>Finds all occurrences of a specific entity type within a set.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -283,12 +270,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1330">botbuilder.d.ts:1330</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1423">botbuilder.d.ts:1423</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Finds all possible matches for a users utterance in a list of values.</p>
+												<p>Finds all possible matches for a users utterance given a list of choices.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -296,7 +283,11 @@
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+													<ul>
+														<li><strong>choices:</strong> <em>{string}</em> - Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</li>
+														<li><strong>choices:</strong> <em>{Object}</em> - Object used to generate the list of choices. The objects field names will be used to build the list of choices.</li>
+														<li><strong>choices:</strong> <em>{string[]}</em> - Array of strings to compare against the users utterance.</li>
+													</ul>
 												</div>
 											</li>
 											<li>
@@ -317,34 +308,19 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1338">botbuilder.d.ts:1338</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1424">botbuilder.d.ts:1424</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Finds all possible matches for a users utterance in a list of values.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Object used to generate the list of choices. The objects field names will be used to
-													build the list of choices.</p>
-												</div>
 											</li>
 											<li>
 												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
-												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -352,33 +328,19 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1345">botbuilder.d.ts:1345</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1425">botbuilder.d.ts:1425</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Finds all possible matches for a users utterance in a list of values.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Array of strings to compare against the users utterance.</p>
-												</div>
 											</li>
 											<li>
 												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
-												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -397,12 +359,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1307">botbuilder.d.ts:1307</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1410">botbuilder.d.ts:1410</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Finds the best match for a users utterance in a list of values.</p>
+												<p>Finds the best match for a users utterance given a list of choices.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -410,7 +372,11 @@
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</p>
+													<ul>
+														<li><strong>choices:</strong> <em>{string}</em> - Pipe (&#39;|&#39;) delimited list of values to compare against the users utterance.</li>
+														<li><strong>choices:</strong> <em>{Object}</em> - Object used to generate the list of choices. The objects field names will be used to build the list of choices.</li>
+														<li><strong>choices:</strong> <em>{string[]}</em> - Array of strings to compare against the users utterance.</li>
+													</ul>
 												</div>
 											</li>
 											<li>
@@ -431,34 +397,19 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1315">botbuilder.d.ts:1315</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1411">botbuilder.d.ts:1411</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Finds the best match for a users utterance in a list of values.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">Object</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Object used to generate the list of choices. The objects field names will be used to
-													build the list of choices.</p>
-												</div>
 											</li>
 											<li>
 												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
-												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></h4>
@@ -466,33 +417,19 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1322">botbuilder.d.ts:1322</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1412">botbuilder.d.ts:1412</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Finds the best match for a users utterance in a list of values.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>choices: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Array of strings to compare against the users utterance.</p>
-												</div>
 											</li>
 											<li>
 												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
-												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> threshold: <span class="tsd-signature-type">number</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional minimum score needed for a match to be considered. The default value is 0.6.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ifindmatchresult.html" class="tsd-signature-type">IFindMatchResult</a></h4>
@@ -509,12 +446,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1242">botbuilder.d.ts:1242</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1350">botbuilder.d.ts:1350</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Searches for the first occurance of an specific entity type within a set.</p>
+												<p>Searches for the first occurance of a specific entity type within a set.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -540,13 +477,13 @@
 								<a name="parseboolean" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> parse<wbr>Boolean</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-									<li class="tsd-signature tsd-kind-icon">parse<wbr>Boolean<span class="tsd-signature-symbol">(</span>utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+									<li class="tsd-signature tsd-kind-icon">parse<wbr>Boolean<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1299">botbuilder.d.ts:1299</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1399">botbuilder.d.ts:1399</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -557,14 +494,14 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<h5>value: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
 													<p>Text utterance to parse.</p>
 												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-										<p>A valid boolean otherwise undefined.</p>
+										<p>A valid boolean otherwise <em>undefined</em>.</p>
 									</li>
 								</ul>
 							</section>
@@ -572,55 +509,49 @@
 								<a name="parsenumber" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> parse<wbr>Number</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-									<li class="tsd-signature tsd-kind-icon">parse<wbr>Number<span class="tsd-signature-symbol">(</span>utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-									<li class="tsd-signature tsd-kind-icon">parse<wbr>Number<span class="tsd-signature-symbol">(</span>entities<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+									<li class="tsd-signature tsd-kind-icon">parse<wbr>Number<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+									<li class="tsd-signature tsd-kind-icon">parse<wbr>Number<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1285">botbuilder.d.ts:1285</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1391">botbuilder.d.ts:1391</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Parses a number from a users utterance.</p>
+												<p>Parses a number from either a users text utterance or a set of entities.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<h5>value: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
+													<ul>
+														<li><strong>value:</strong> <em>{string}</em> - Text utterance to parse.</li>
+														<li><strong>value:</strong> <em>{IEntity[]}</em> - Set of entities to resolve.</li>
+													</ul>
 												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-										<p>A valid number otherwise undefined.</p>
+										<p>A valid number otherwise <em>Number.NaN</em>.</p>
 									</li>
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1292">botbuilder.d.ts:1292</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1392">botbuilder.d.ts:1392</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Resolves a number from a set of entities.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>entities: <a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>List of entities to extract number from.</p>
-												</div>
+												<h5>value: <a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-										<p>A valid number otherwise undefined.</p>
 									</li>
 								</ul>
 							</section>
@@ -628,55 +559,49 @@
 								<a name="parsetime" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagStatic">Static</span> parse<wbr>Time</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-									<li class="tsd-signature tsd-kind-icon">parse<wbr>Time<span class="tsd-signature-symbol">(</span>utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
-									<li class="tsd-signature tsd-kind-icon">parse<wbr>Time<span class="tsd-signature-symbol">(</span>entities<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+									<li class="tsd-signature tsd-kind-icon">parse<wbr>Time<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+									<li class="tsd-signature tsd-kind-icon">parse<wbr>Time<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1256">botbuilder.d.ts:1256</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1366">botbuilder.d.ts:1366</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Parses and resolves a time from a user utterance.</p>
+												<p>Parses a date from either a users text utterance or a set of entities.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
+												<h5>value: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Text utterance to parse.</p>
+													<ul>
+														<li><strong>value:</strong> <em>{string}</em> - Text utterance to parse. The utterance is parsed using the <a href="http://wanasit.github.io/pages/chrono/">Chrono</a> library.</li>
+														<li><strong>value:</strong> <em>{IEntity[]}</em> - Set of entities to resolve.</li>
+													</ul>
 												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-										<p>A valid Date object if the user spoke a time otherwise null.</p>
+										<p>A valid Date object if the user spoke a time otherwise <em>null</em>.</p>
 									</li>
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1263">botbuilder.d.ts:1263</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1367">botbuilder.d.ts:1367</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Resolves a time from a set of entities.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>entities: <a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Array of entities.</p>
-												</div>
+												<h5>value: <a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a><span class="tsd-signature-symbol">[]</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-										<p>A valid Date object if datetime entities were found otherwise null.</p>
 									</li>
 								</ul>
 							</section>
@@ -690,12 +615,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1278">botbuilder.d.ts:1278</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1382">botbuilder.d.ts:1382</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Recognizes a time from a users uetterance.</p>
+												<p>Recognizes a time from a users utterance. The utterance is parsed using the <a href="http://wanasit.github.io/pages/chrono/">Chrono</a> library.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -709,12 +634,12 @@
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> refDate: <span class="tsd-signature-type">Date</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional reference date user to calculate the finale date.</p>
+													<p>Optional reference date used to calculate the final date.</p>
 												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.ientity.html" class="tsd-signature-type">IEntity</a></h4>
-										<p>An entity containing the resolved date if successfull or null if a date couldn&#39;t be determined.</p>
+										<p>An entity containing the resolved date if successful or <em>null</em> if a date couldn&#39;t be determined.</p>
 									</li>
 								</ul>
 							</section>
@@ -728,7 +653,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1270">botbuilder.d.ts:1270</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1374">botbuilder.d.ts:1374</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -746,7 +671,7 @@
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-										<p>The successfully calculated Date or null if a date couldn&#39;t be determined.</p>
+										<p>The successfully calculated Date or <em>null</em> if a date couldn&#39;t be determined.</p>
 									</li>
 								</ul>
 							</section>

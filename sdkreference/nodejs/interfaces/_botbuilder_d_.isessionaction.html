@@ -261,12 +261,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L207">botbuilder.d.ts:207</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L209">botbuilder.d.ts:209</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Sends a simple text message to the user. The message will be localized using the sessions
+												<p>Sends a message to the user. The message will be localized using the sessions
 													configured ILocalizer and if arguments are passed in the message will be formatted using
 												sprintf-js. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
 											</div>
@@ -276,13 +276,16 @@
 											<li>
 												<h5>msg: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Text of the message to send.</p>
+													<ul>
+														<li><strong>msg:</strong> <em>{string}</em> - Text of a message to send the user. The message will be localized using the sessions configured <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#localizer">localizer</a>. If arguments are passed in the message will be formatted using <a href="https://github.com/alexei/sprintf.js">sprintf-js</a>.</li>
+														<li><strong>msg:</strong> <em>{IMessage}</em> - Message to send the user.</li>
+													</ul>
 												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments used to format the final output string. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+													<p>Optional arguments used to format the final output text when <strong>msg</strong> is a <em>{string}</em>.</p>
 												</div>
 											</li>
 										</ul>
@@ -291,21 +294,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L212">botbuilder.d.ts:212</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L210">botbuilder.d.ts:210</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Sends a message to the user.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>msg: <a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Message to send.</p>
-												</div>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

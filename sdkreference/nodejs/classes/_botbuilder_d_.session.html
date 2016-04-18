@@ -157,13 +157,13 @@
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
 											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#args" class="tsd-kind-icon">args</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#dialogid" class="tsd-kind-icon">dialog<wbr>Id</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dialogs" class="tsd-kind-icon">dialogs</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#localizer" class="tsd-kind-icon">localizer</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#message" class="tsd-kind-icon">message</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_botbuilder_d_.session.html#options" class="tsd-kind-icon">options</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
 										</ul>
 									</section>
@@ -172,9 +172,8 @@
 										<ul class="tsd-index-list">
 											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#begindialog" class="tsd-kind-icon">begin<wbr>Dialog</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#dispatch" class="tsd-kind-icon">dispatch</a></li>
-											<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.session.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a></li>
+											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#error" class="tsd-kind-icon">error</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#getmessagereceived" class="tsd-kind-icon">get<wbr>Message<wbr>Received</a></li>
 											<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.session.html#gettext" class="tsd-kind-icon">gettext</a></li>
@@ -197,13 +196,13 @@
 								<a name="constructor" class="tsd-anchor"></a>
 								<h3>constructor</h3>
 								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">new <wbr>Session<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">new <wbr>Session<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionoptions.html" class="tsd-signature-type">ISessionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L692">botbuilder.d.ts:692</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L726">botbuilder.d.ts:726</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -214,7 +213,7 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>args: <a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a></h5>
+												<h5>options: <a href="../interfaces/_botbuilder_d_.isessionoptions.html" class="tsd-signature-type">ISessionOptions</a></h5>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
 														<p>Sessions configuration options.</p>
@@ -235,7 +234,7 @@
 								<div class="tsd-signature tsd-kind-icon">ISession<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionstate.html" class="tsd-signature-type">ISessionState</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L713">botbuilder.d.ts:713</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L746">botbuilder.d.ts:746</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -245,27 +244,12 @@
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a name="args" class="tsd-anchor"></a>
-								<h3><span class="tsd-flag ts-flagProtected">Protected</span> args</h3>
-								<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionargs.html" class="tsd-signature-type">ISessionArgs</a></div>
-								<aside class="tsd-sources">
-									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L683">botbuilder.d.ts:683</a></li>
-									</ul>
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Sessions configuration args.</p>
-									</div>
-								</div>
-							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a name="dialogargs" class="tsd-anchor"></a>
 								<h3><span class="tsd-flag ts-flagProtected">Protected</span> dialog<wbr>Args</h3>
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L692">botbuilder.d.ts:692</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L726">botbuilder.d.ts:726</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -280,7 +264,7 @@
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L722">botbuilder.d.ts:722</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L755">botbuilder.d.ts:755</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -295,7 +279,7 @@
 								<div class="tsd-signature tsd-kind-icon">dialog<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L689">botbuilder.d.ts:689</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L723">botbuilder.d.ts:723</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -310,7 +294,7 @@
 								<div class="tsd-signature tsd-kind-icon">dialogs<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L710">botbuilder.d.ts:710</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L743">botbuilder.d.ts:743</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -325,7 +309,7 @@
 								<div class="tsd-signature tsd-kind-icon">localizer<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.ilocalizer.html" class="tsd-signature-type">ILocalizer</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L686">botbuilder.d.ts:686</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L720">botbuilder.d.ts:720</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -340,12 +324,27 @@
 								<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L716">botbuilder.d.ts:716</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L749">botbuilder.d.ts:749</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The message recieved from the user. For bot originated messages this may only contain the &quot;to&quot; &amp; &quot;from&quot; fields.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a name="options" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagProtected">Protected</span> options</h3>
+								<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionoptions.html" class="tsd-signature-type">ISessionOptions</a></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L717">botbuilder.d.ts:717</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Sessions configuration options.</p>
 									</div>
 								</div>
 							</section>
@@ -355,7 +354,7 @@
 								<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L719">botbuilder.d.ts:719</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L752">botbuilder.d.ts:752</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -377,14 +376,15 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L787">botbuilder.d.ts:787</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L814">botbuilder.d.ts:814</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Passes control of the conversation to a new dialog. The current dialog will be suspended
 													until the child dialog completes. Once the child ends the current dialog will receive a
-												call to dialogResumed() where it can inspect any results returned from the child.</p>
+													call to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed">dialogResumed()</a>
+												where it can inspect any results returned from the child.</p>
 											</div>
 										</div>
 										<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -404,7 +404,7 @@
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">T</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments to pass to the dialogs begin() method.</p>
+													<p>Optional arguments to pass to the dialogs <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin">begin()</a> method.</p>
 												</div>
 											</li>
 										</ul>
@@ -422,7 +422,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L831">botbuilder.d.ts:831</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L854">botbuilder.d.ts:854</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -437,13 +437,13 @@
 											<li>
 												<h5>language: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>The langauge of the utterance taken from IMessage.language.</p>
+													<p>The langauge of the utterance taken from <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#language">IMessage.language</a>.</p>
 												</div>
 											</li>
 											<li>
 												<h5>utterance: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>The users utterance taken from IMessage.text.</p>
+													<p>The users utterance taken from <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#text">IMessage.text</a>.</p>
 												</div>
 											</li>
 											<li>
@@ -455,7 +455,7 @@
 											<li>
 												<h5>callback: <span class="tsd-signature-type">function</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.</p>
+													<p>Function to invoke with the result of the comparison.</p>
 												</div>
 												<ul class="tsd-parameters">
 													<li class="tsd-parameter-siganture">
@@ -468,6 +468,9 @@
 																<ul class="tsd-parameters">
 																	<li>
 																		<h5>handled: <span class="tsd-signature-type">boolean</span></h5>
+																		<div class="tsd-comment tsd-typography">
+																			<p>If true the dialog should not process the utterance.</p>
+																		</div>
 																	</li>
 																</ul>
 																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -482,45 +485,6 @@
 								</ul>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-								<a name="createmessage" class="tsd-anchor"></a>
-								<h3>create<wbr>Message</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">create<wbr>Message<span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L852">botbuilder.d.ts:852</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Creates a reply message object with a formatted text string. The text will be localized and
-													the languge of the original message will be copied over. Derived classes can use this to
-												manually format a reply message.</p>
-											</div>
-										</div>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>text: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text or template string for the reply. This will be localized using session.gettext().</p>
-												</div>
-											</li>
-											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments used to format the message text when Text is a template.</p>
-												</div>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h4>
-									</li>
-								</ul>
-							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 								<a name="dispatch" class="tsd-anchor"></a>
 								<h3>dispatch</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -530,14 +494,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L707">botbuilder.d.ts:707</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L740">botbuilder.d.ts:740</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Dispatches a message for processing. The session will call thr appropriate middleware based
-													on the messages type. Consumers can install middleware to either intercept or augment certain
-												messages.</p>
+												<p>Dispatches a message for processing. The session will call any installed middleware before
+												the message to the active dialog for processing.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -545,7 +508,7 @@
 											<li>
 												<h5>sessionState: <a href="../interfaces/_botbuilder_d_.isessionstate.html" class="tsd-signature-type">ISessionState</a></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>The current session state.</p>
+													<p>The current session state. If <em>null</em> a new conversation will be started beginning with the configured <a href="#dialogid">dialogId</a>.</p>
 												</div>
 											</li>
 											<li>
@@ -559,41 +522,49 @@
 									</li>
 								</ul>
 							</section>
-							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+							<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 								<a name="enddialog" class="tsd-anchor"></a>
 								<h3>end<wbr>Dialog</h3>
-								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
-									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
-									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
-									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L804">botbuilder.d.ts:804</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L840">botbuilder.d.ts:840</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Ends the current dialog and sends a simple text message to the user. The dialogs parent will be resumed after the message is sent.
-													The message will be localized using the sessions configured ILocalizer and if arguments are passed in the message will be
-												formatted using sprintf-js. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+												<p>Ends the current dialog and optionally sends a message to the user. It&#39;s
+													typically more efficient to call <a href="#enddialog">endDialog()</a> with a message then it is to call
+												<a href="#send">send()</a> seperately before ending the dialog.</p>
 											</div>
+											<p>If a message is sent to the user it will be sent before the dialogs parent is resumed. The
+												parent will be resumed with an <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed">IDialogResult.resumed</a>
+											reason of <a href="http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed">completed</a>.</p>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>msg: <span class="tsd-signature-type">string</span></h5>
+												<h5>result: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Text of the message to send.</p>
+													<ul>
+														<li><strong>result:</strong> <em>{string}</em> - Text of a message to send the user. The message will be localized using the sessions configured <a href="#localizer">localizer</a>. If arguments are passed in the message will be formatted using <a href="https://github.com/alexei/sprintf.js">sprintf-js</a>.</li>
+														<li><strong>result:</strong> <em>{IMessage}</em> - Message to send the user.</li>
+														<li><strong>result:</strong> <em>{IDialogResult<any>}</em> - Optional results to pass to the parent. If <a href="#enddialog">endDialog()</a>
+															is called without any arguments the parent will be resumed with an <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed">IDialogResult.resumed</a>
+														reason of <a href="http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed">completed</a>.</li>
+													</ul>
 												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments used to format the final output string. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+													<p>Optional arguments used to format the final output text when <strong>result</strong> is a <em>{string}</em>.</p>
 												</div>
 											</li>
 										</ul>
@@ -602,21 +573,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L809">botbuilder.d.ts:809</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L841">botbuilder.d.ts:841</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Ends the current dialog and sends a message to the user. The dialogs parent will be resumed after the message is sent.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>msg: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Message to send.</p>
-												</div>
+												<h5>result: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
@@ -624,55 +587,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L815">botbuilder.d.ts:815</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L842">botbuilder.d.ts:842</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Ends the current dialog and returns a string, typically a message, to the parent dialog. The dialogs parent will be resumed.</p>
-											</div>
-										</div>
-										<h4 class="tsd-type-parameters-title">Type parameters</h4>
-										<ul class="tsd-type-parameters">
-											<li>
-												<h4>T</h4>
-											</li>
-										</ul>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>response: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Text to return to caller.</p>
-												</div>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
-									</li>
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L820">botbuilder.d.ts:820</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Ends the current dialog. The dialogs parent will be resumed.</p>
-											</div>
-										</div>
-										<h4 class="tsd-type-parameters-title">Type parameters</h4>
-										<ul class="tsd-type-parameters">
-											<li>
-												<h4>T</h4>
-											</li>
-										</ul>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Optional results to pass to the parent dialog.</p>
-												</div>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
@@ -689,12 +610,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L728">botbuilder.d.ts:728</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L761">botbuilder.d.ts:761</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Signals that an error occured.</p>
+												<p>Signals that an error occured. The bot will signal the error via an on(&#39;error&#39;, err) event.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -720,12 +641,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L767">botbuilder.d.ts:767</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L793">botbuilder.d.ts:793</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Returns a native message the bot receieved.</p>
+												<p>Returns a native message the bot received. This message is pulled from the <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata">IMessage.channelData</a> received.</p>
 											</div>
 										</div>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -742,13 +663,13 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L736">botbuilder.d.ts:736</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L769">botbuilder.d.ts:769</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Loads a localized string for the messages language. If arguments are passed the localized string
-												will be treated as a template and formatted using sprintf-js. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+												will be treated as a template and formatted using <a href="https://github.com/alexei/sprintf.js">sprintf-js</a> (see their docs for details.)</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -762,7 +683,7 @@
 											<li>
 												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments used to format the final output string. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+													<p>Optional arguments used to format the final output string.</p>
 												</div>
 											</li>
 										</ul>
@@ -780,7 +701,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L843">botbuilder.d.ts:843</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L866">botbuilder.d.ts:866</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -802,7 +723,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L778">botbuilder.d.ts:778</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L804">botbuilder.d.ts:804</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -824,7 +745,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L745">botbuilder.d.ts:745</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L778">botbuilder.d.ts:778</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -868,17 +789,12 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L680">botbuilder.d.ts:680</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L714">botbuilder.d.ts:714</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Registers an event listener. Events:</p>
-												<ul>
-													<li>error: An error occured. [ISessionErrorEvent]</li>
-													<li>send: A message should be sent to the user. [ISessionMessageEvent]</li>
-													<li>quit: The bot would like to end the conversation. [Function]</li>
-												</ul>
+												<p>Registers an event listener.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -886,7 +802,12 @@
 											<li>
 												<h5>event: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Name of the event.</p>
+													<p>Name of the event. Event types:</p>
+													<ul>
+														<li><strong>error:</strong> An error occured. <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html">ISessionErrorEvent</a></li>
+														<li><strong>send:</strong> A message should be sent to the user. <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionmessageevent.html">ISessionMessageEvent</a></li>
+														<li><strong>quit:</strong> The bot would like to end the conversation. <em>{Function}</em></li>
+													</ul>
 												</div>
 											</li>
 											<li>
@@ -910,7 +831,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L795">botbuilder.d.ts:795</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L822">botbuilder.d.ts:822</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -936,7 +857,7 @@
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">T</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments to pass to the dialogs begin() method.</p>
+													<p>Optional arguments to pass to the dialogs <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin">begin()</a> method.</p>
 												</div>
 											</li>
 										</ul>
@@ -948,18 +869,18 @@
 								<a name="reset" class="tsd-anchor"></a>
 								<h3>reset</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-									<li class="tsd-signature tsd-kind-icon">reset&lt;T&gt;<span class="tsd-signature-symbol">(</span>dialogId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">reset&lt;T&gt;<span class="tsd-signature-symbol">(</span>dialogId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L838">botbuilder.d.ts:838</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L861">botbuilder.d.ts:861</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Clears the sessions callstack and restarts the conversation with the default (root) dialog.</p>
+												<p>Clears the sessions callstack and restarts the conversation with the configured <a href="#dialogid">dialogId</a>.</p>
 											</div>
 										</div>
 										<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -971,15 +892,15 @@
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>dialogId: <span class="tsd-signature-type">string</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogId: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Unique ID of the dialog to start.</p>
+													<p>Optional ID of the dialog to start.</p>
 												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagOptional">Optional</span> dialogArgs: <span class="tsd-signature-type">T</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments to pass to the dialogs begin() method.</p>
+													<p>Optional arguments to pass to the dialogs <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin">begin()</a> method.</p>
 												</div>
 											</li>
 										</ul>
@@ -991,36 +912,21 @@
 								<a name="send" class="tsd-anchor"></a>
 								<h3>send</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
+									<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L751">botbuilder.d.ts:751</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L788">botbuilder.d.ts:788</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Ends the session without sending a message. For user originated conversations the bot always
-												needs to reply with something, even if it&#39;s an empty message.</p>
-											</div>
-										</div>
-										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
-									</li>
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L759">botbuilder.d.ts:759</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Sends a simple text message to the user. The message will be localized using the sessions
-													configured ILocalizer and if arguments are passed in the message will be formatted using
-												sprintf-js. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+												<p>Sends a message to the user. If <a href="#send">send()</a> is called without any parameters any changes to
+												<a href="#dialogdata">dialogData</a> or <a href="#userdata">userData</a> will be saved but the user will not recieve any reply.</p>
 											</div>
 										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1028,13 +934,16 @@
 											<li>
 												<h5>msg: <span class="tsd-signature-type">string</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Text of the message to send.</p>
+													<ul>
+														<li><strong>msg:</strong> <em>{string}</em> - Text of the message to send. The message will be localized using the sessions configured <a href="#localizer">localizer</a>. If arguments are passed in the message will be formatted using <a href="https://github.com/alexei/sprintf.js">sprintf-js</a>.</li>
+														<li><strong>msg:</strong> <em>{IMessage}</em> - Message to send.</li>
+													</ul>
 												</div>
 											</li>
 											<li>
 												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 												<div class="tsd-comment tsd-typography">
-													<p>Optional arguments used to format the final output string. See <a href="https://github.com/alexei/sprintf.js">https://github.com/alexei/sprintf.js</a> for documentation.</p>
+													<p>Optional arguments used to format the final output text when <strong>msg</strong> is a <em>{string}</em>.</p>
 												</div>
 											</li>
 										</ul>
@@ -1043,23 +952,23 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L764">botbuilder.d.ts:764</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L789">botbuilder.d.ts:789</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Sends a message to the user.</p>
-											</div>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>msg: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>Message to send.</p>
-												</div>
 											</li>
 										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
+									</li>
+									<li class="tsd-description">
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L790">botbuilder.d.ts:790</a></li>
+											</ul>
+										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h4>
 									</li>
 								</ul>
@@ -1074,7 +983,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L773">botbuilder.d.ts:773</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L799">botbuilder.d.ts:799</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -1122,9 +1031,6 @@
 											<a href="_botbuilder_d_.session.html#isessionstate" class="tsd-kind-icon">ISession<wbr>State</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-											<a href="_botbuilder_d_.session.html#args" class="tsd-kind-icon">args</a>
-										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 											<a href="_botbuilder_d_.session.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -1142,6 +1048,9 @@
 										<li class=" tsd-kind-property tsd-parent-kind-class">
 											<a href="_botbuilder_d_.session.html#message" class="tsd-kind-icon">message</a>
 										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+											<a href="_botbuilder_d_.session.html#options" class="tsd-kind-icon">options</a>
+										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-class">
 											<a href="_botbuilder_d_.session.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
 										</li>
@@ -1152,12 +1061,9 @@
 											<a href="_botbuilder_d_.session.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a>
 										</li>
 										<li class=" tsd-kind-method tsd-parent-kind-class">
-											<a href="_botbuilder_d_.session.html#createmessage" class="tsd-kind-icon">create<wbr>Message</a>
-										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class">
 											<a href="_botbuilder_d_.session.html#dispatch" class="tsd-kind-icon">dispatch</a>
 										</li>
-										<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+										<li class=" tsd-kind-method tsd-parent-kind-class">
 											<a href="_botbuilder_d_.session.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a>
 										</li>
 										<li class=" tsd-kind-method tsd-parent-kind-class">
