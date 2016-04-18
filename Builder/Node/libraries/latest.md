@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.8.0
+title: BotBuilder v0.9.0
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -20,6 +20,27 @@ Get the latest version of BotBuilder using npm.
 
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v0.9.0
+#### Breaking Changes
+None of these changes are likely to effect anyone but they could so here are the ones that may break things:
+
+* Updated arguments passed to BotConnectorBot.listen().
+* Renamed ISessionArgs to ISessionOptions and also renamed Session.args to Session.options.
+* Made Session.createMessage() private. It doesn't need to be public now that we have new Message builder class.
+* Changed EntityRecognizer.parseNumber() to return Number.NaN instead of undefined when a number isn't recognized.
+
+
+#### Other Changes
+* Significant improvements to the Reference Docs.
+* Fixed a couple of bugs related to missing intents coming back from LUIS. 
+* Fixed a deep copy bug in MemoryStorage class. I now use JSON.stringify() & JSON.parse() to ensure a deep copy.
+* Made dialogId passed to Session.reset() optional.
+* Updated Message.setText() to support passing an array of prompts that will be chosen at random.
+* Added methods to Message class to simplify building complex multi-part and randomized prompts.
+* BotConnectorBot changes needed to support continueDialog() method that's in development.
+* Fixed a typo in the import of Consts.ts for Mac builds.
+* Updated LKG build and package.json version.
 
 ### v0.8.0
 * Added minSendDelay option that slows down the rate at which a bot sends replies to the user. The default is 1 sec but can be set using an option passed to the bot. See TextBot.js unit test for an example of that.
