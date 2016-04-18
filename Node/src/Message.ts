@@ -79,7 +79,7 @@ export class Message implements IMessage {
     }
     
     static randomPrompt(prompts: string[]): string {
-        var i = Math.round(Math.random() * prompts.length);
+        var i = Math.floor(Math.random() * prompts.length);
         return prompts[i];
     }
     
