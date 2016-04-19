@@ -135,6 +135,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, evaluate the predicate and decide whether to continue.
+        /// </summary>
+        /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="predicate">The predicate to decide whether to continue the chain.</param>
+        /// <returns>The result from <see cref="IDialog{T}"/> or its cancellation.</returns>
+        public static IDialog<T> Where<T>(this IDialog<T> antecedent, Func<T, bool> predicate)
+        {
+            return new WhereDialog<T>(antecedent, predicate);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> where T is <see cref="IDialog{T}"/> completes, unwrap the result into a new <see cref="IDialog{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
@@ -326,6 +338,34 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var itemT = await result;
                 var itemR = this.Selector(itemT);
                 context.Done(itemR);
+            }
+        }
+
+        private sealed class WhereDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<T, bool> Predicate;
+            public WhereDialog(IDialog<T> antecedent, Func<T, bool> predicate)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Predicate, nameof(predicate), predicate);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, AfterAntecedent);
+            }
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                var itemT = await result;
+                var itemR = this.Predicate(itemT);
+                if (itemR)
+                {
+                    context.Done(itemT);
+                }
+                else
+                {
+                    throw new OperationCanceledException();
+                }
             }
         }
 
