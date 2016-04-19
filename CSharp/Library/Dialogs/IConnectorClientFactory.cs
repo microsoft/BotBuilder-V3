@@ -37,6 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
@@ -53,19 +54,35 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IConnectorClient Make();
     }
 
+    /// <summary>
+    /// Type of the connector deployment that the bot is talking to.
+    /// </summary>
+    public enum ConnectorType
+    {
+        Emulator, 
+        Cloud
+    }
+
     public sealed class DetectEmulatorFactory : IConnectorClientFactory
     {
-        private readonly Message message;
         private readonly Uri emulator;
+        private readonly bool? isEmulator; 
         public DetectEmulatorFactory(Message message, Uri emulator)
         {
-            SetField.NotNull(out this.message, nameof(message), message);
+            SetField.CheckNull(nameof(message), message);
+            var channel = message.From;
+            this.isEmulator = channel?.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
             SetField.NotNull(out this.emulator, nameof(emulator), emulator);
         }
+
+        public DetectEmulatorFactory(ConnectorType connectorType, Uri emulator)
+        {
+            this.isEmulator = connectorType == ConnectorType.Emulator; 
+            SetField.NotNull(out this.emulator, nameof(emulator), emulator);
+        }
+
         IConnectorClient IConnectorClientFactory.Make()
         {
-            var channel = this.message.From;
-            var isEmulator = channel?.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
             if (isEmulator ?? false)
             {
                 return new ConnectorClient(this.emulator, new ConnectorClientCredentials());
@@ -74,6 +91,51 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 return new ConnectorClient();
             }
+        }
+    }
+
+    /// <summary>
+    /// connector client extensions.
+    /// </summary>
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// Loads the message data from connector. 
+        /// </summary>
+        /// <param name="client"> Instance of connector client.</param>
+        /// <param name="botId"> Id of the bot.</param>
+        /// <param name="userId"> Id of the user.</param>
+        /// <param name="conversationId"> Id of the conversation.</param>
+        /// <returns> A message with appropriate data fields.</returns>
+        public static async Task<Message> LoadMessageData(this IConnectorClient client, string botId, string userId, string conversationId, CancellationToken token = default(CancellationToken))
+        {
+            var continuationMessage = new Message
+            {
+                ConversationId = conversationId,
+                To = new ChannelAccount
+                {
+                    Id = botId
+                },
+                From = new ChannelAccount
+                {
+                    Id = userId
+                }
+            };
+
+            var dataRetrievalTasks = new List<Task<BotData>> {
+                client.Bots.GetConversationDataAsync(botId, conversationId, token),
+                client.Bots.GetUserDataAsync(botId, userId, token),
+                client.Bots.GetPerUserConversationDataAsync(botId, conversationId, userId, token)
+            } ;
+
+
+            await Task.WhenAll(dataRetrievalTasks); 
+
+            continuationMessage.BotConversationData = dataRetrievalTasks[0].Result?.Data;
+            continuationMessage.BotUserData = dataRetrievalTasks[1].Result?.Data;
+            continuationMessage.BotPerUserInConversationData = dataRetrievalTasks[2].Result?.Data;
+
+            return continuationMessage;
         }
     }
 }
