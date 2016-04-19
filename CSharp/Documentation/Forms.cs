@@ -576,27 +576,64 @@
     /// \until .Build
     /// \until }
     /// 
-    /// The steps this defines are:
-    /// * Show the welcome message  
-    /// * Fill in SandwichOrder.Sandwich  
+    /// This looks complex, but that is because of the addition of advanced features like validation and dynamically defined fields.
+    /// (See \ref dynamicFields for more information.)
+    /// The main structure is all about defining the default step order.  Here are the steps: 
+    /// * Show the welcome message.
+    /// * Fill in SandwichOrder.Sandwich
     /// * Fill in SandwichOrder.Length    
     /// * Fill in SandwichOrder.Bread  
     /// * Fill in SandwichOrder.Cheese
     /// * Fill in SandwichOrder.Toppings  
-    /// * Show a message confirming the selected toppings.    
+    /// * Show a message confirming the selected toppings.      
+    /// * Fill in SandwichOrder.Sauces  
+    /// * Dynamically defined field for SandwichOrder.Specials.  (See \ref dynamicFields for more information.)
+    /// * Dynamically defined confirmation for the cost
     /// * Fill in SandwichOrder.DeliveryAddress and verify the resulting string.  If it does not start with a number we return a message.
     /// * Fill in SandwichOrder.DeliveryTime with a custom prompt.  
     /// * Confirm the order.    
     /// * Add any remaining fields in the order they are defined in your class.  (If this was left out, those steps to fill in those fields would not be included.)
-    /// * Show a final message thanking them.
+    /// * Show a final thank you message.  
+    /// * Define an OnCompletionAsync handler to process the order.
     /// 
     /// In the SandwichOrder.DeliveryTime prompt and the confirmation message you can see an instance of
     /// the \ref patterns where pattern elements like {Length} are filled in from your C# class
     /// before the string is shown to the user.
     /// 
+    /// \subsection dynamicFields Dynamically Defined Fields, Confirmations and Messages
     /// FormBuilder also allows you to do other more advanced things like dynamically switch on
     /// and off parts of your form based on the state of your object or dynamically define fields
     /// rather than drive them off a C# class.  
+    /// 
+    /// In order to define a dynamic field, you can implement Advanced.IField yourself, 
+    /// but it is easier to make use of the Advanced.FieldReflector class.  Imagine we would like to 
+    /// create some specials for free drinks and cookies but only for foot-long sandwiches.  
+    /// The first step for using Advanced.FieldReflector is to define
+    /// the underlying field that will contain your dynamic value, like this:
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Sauces
+    /// \skip Optional
+    /// \until Specials
+    /// 
+    /// We can apply normal attributes to this field like [Optional] to mark the field as allowing a no preference choice and by changing the template 
+    /// value for TemplateUsage.NoPreference. 
+    /// 
+    /// Now we need to add the dynamic part to the FormBuilder like this:
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip nameof(Specials)
+    /// \until }))
+    /// 
+    /// There are a couple of pieces here:
+    /// * Advanced.Field.SetType sets the type of the field--in this case null which means enumeration.
+    /// * Advanced.Field.SetActive provides a delegate that enables the field only when the length is a foot long.  
+    /// * Advanced.Field.SetDefine provides an async delegate for defining the field.  The delegate is passed the current state object and also the Advanced.Field that is being dynamically defined.  
+    /// The delegate uses the fluent methods found on the field to dynamically define values. In this case we define values as strings and supply the descriptions and terms for the value.    
+    /// 
+    /// Messages and confirmations can also be defined dynamically.  Messages and confirmations only run when the prior steps are inactive
+    /// or are completed.  This is a confirmation that computes the cost of the sandwich:
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Confirm
+    /// \until })
     /// 
     /// \subsection quitExceptions Handling Quit and Exceptions
     /// When the user types 'quit' or there is an exception while filling in a form using FormDialog it is useful to be able
@@ -637,7 +674,7 @@
     ///  15. Veggie
     /// > 2
     /// What size of sandwich do you want? (1. Six Inch, 2. Foot Long)
-    /// > 1
+    /// > 2
     /// What kind of bread would you like on your sandwich?
     ///  1. Nine Grain Wheat
     ///  2. Nine Grain Honey Oat
@@ -679,11 +716,17 @@
     ///  8. Sweet Onion
     ///  9. Vinegar
     /// >
+    /// What kind of specials would you like on your sandwich? (current choice: None)
+    ///  1. Free cookie
+    ///  2. Free large drink
+    /// > 1
+    /// Total for your sandwich is $6.50 is that ok?
+    /// >  y
     /// Please enter delivery address
     /// > 123 State Street
     /// What time do you want your sandwich delivered? (current choice: No Preference)
-    /// > 4:30
-    /// Do you want to order your Six Inch Black Forest Ham on Nine Grain Honey Oat bread with Pepperjack, Avocado, Banana Peppers, Cucumbers, Green Bell Peppers, Lettuce, Olives, Pickles, Red Onion, Spinach, and Tomatoes to be sent to 123 State Street at 4:30 PM?
+    /// > 4:30pm
+    /// Do you want to order your Foot Long Black Forest Ham on Nine Grain Honey Oat bread with Pepperjack, Avocado, Banana Peppers, Cucumbers, Green Bell Peppers, Lettuce, Olives, Pickles, Red Onion, Spinach, and Tomatoes to be sent to 123 State Street at 4:30 PM?
     /// > y
     /// Please enter a number between 1.0 and 5.0 for your experience today(current choice: No Preference)
     /// > 5
