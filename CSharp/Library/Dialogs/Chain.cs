@@ -91,6 +91,11 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new PostToUserDialog<T>(antecedent);
         }
 
+        public static IDialog<Connector.Message> WaitToBot<T>(this IDialog<T> antecedent)
+        {
+            return new WaitToBotDialog<T>(antecedent);
+        }
+
         /// <summary>
         /// Post the message from the user to Chain.
         /// </summary>
@@ -100,7 +105,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns> The dialog that dispatches the incoming message from the user to chain.</returns>
         public static IDialog<Connector.Message> PostToChain()
         {
-            return new PostToChainDialog();
+            return Chain.Return(string.Empty).WaitToBot();
         }
 
         /// <summary>
@@ -255,13 +260,22 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class PostToChainDialog : IDialog<Connector.Message>
+        private sealed class WaitToBotDialog<T> : IDialog<Connector.Message>
         {
+            public readonly IDialog<T> Antecedent;
+            public WaitToBotDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
             public async Task StartAsync(IDialogContext context)
             {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                var item = await result;
                 context.Wait(MessageReceivedAsync);
             }
-
             public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Connector.Message> argument)
             {
                 context.Done(await argument);
