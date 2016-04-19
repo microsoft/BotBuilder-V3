@@ -36,6 +36,7 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -378,6 +379,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        [Serializable]
+        public sealed class WhereCanceledException : OperationCanceledException
+        {
+            public WhereCanceledException()
+            {
+            }
+
+            private WhereCanceledException(SerializationInfo info, StreamingContext context)
+                : base(info, context)
+            {
+            }
+        }
+
         private sealed class WhereDialog<T> : IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
@@ -401,7 +415,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 }
                 else
                 {
-                    throw new OperationCanceledException();
+                    throw new WhereCanceledException();
                 }
             }
         }
