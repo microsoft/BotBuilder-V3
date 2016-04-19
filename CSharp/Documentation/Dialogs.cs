@@ -155,6 +155,47 @@
     /// \skip includeReflection
     /// \until }
     /// 
+    /// \section Fluent Dialog Chains
+    /// 
+    /// Explicit management of the stack of active dialogs is possible through IDialogStack.Call<R> and IDialogStack.Done<R>, explicitly composing dialogs into a larger
+    /// conversation.  It is also possible to implicitly manage the stack of active dialogs through the fluent Chain methods.
+    /// 
+    /// These Chain methods fall into a few buckets.
+    /// 
+    /// Linq query syntax starts off with the basic Chain.Select<T, R>:
+    /// 
+    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
+    /// \skip MakeSelectQuery
+    /// \skip query
+    /// \until select
+    /// 
+    /// and linq query syntax is enhanced with support for Chain.SelectMany<T, C, R>:
+    /// 
+    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
+    /// \skip LinqQuerySyntax_Without_Reflection_Surrogate
+    /// \skip query
+    /// \until select
+    /// 
+    /// Posting messages from the bot to the user and vice versa are supported by a Chain.PostToUser<T> and Chain.WaitToBot<T>:
+    /// 
+    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
+    /// \skip PostToUser
+    /// \until PostToUser
+    /// 
+    /// Branching conversation dialog flow is supported by Chain.Switch<T, R>:
+    /// 
+    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
+    /// \skip logic
+    /// \until );
+    /// 
+    /// If Chain.Switch<T, R> returns a nested IDialog<IDialog<T>>, then the inner IDialog<T> can be unwrapped with Chain.Unwrap<T>.  This allows for branching
+    /// in conversations to different paths of chained dialogs, possibly on unequal length.  Here is a more complete example of branching dialogs written
+    /// in the fluent chain style with implicit stack management:
+    /// 
+    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
+    /// \skip joke
+    /// \until Loop
+    /// 
     /// \section Conclusion
     /// Through this description we have seen how you can easily create stateless bots that can reuse dialog building blocks
     /// ranging from simple prompts to advanced natural language.  As a next step, you should explore \ref forms which 

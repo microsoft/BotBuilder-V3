@@ -161,17 +161,30 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static IDialog<string> MakeSwitchDialog()
         {
-            return Chain.PostToChain().Select(m => m.Text).Switch(new RegexCase<string>(new Regex("^hello"), (context, text) =>
-            {
-                return "world!";
-            }), new Case<string, string>( (txt) => txt == "world", (context, text) =>
-            {
-                return "!";
-            }), new DefaultCase<string, string>( (context, text) =>
-            {
-                return text;
-            })
-            ).PostToUser();
+            var toBot = from message in Chain.PostToChain() select message.Text;
+
+            var logic =
+                toBot
+                .Switch
+                (
+                    new RegexCase<string>(new Regex("^hello"), (context, text) =>
+                    {
+                        return "world!";
+                    }),
+                    new Case<string, string>((txt) => txt == "world", (context, text) =>
+                    {
+                        return "!";
+                    }),
+                    new DefaultCase<string, string>((context, text) =>
+                   {
+                       return text;
+                   }
+                )
+            );
+
+            var toUser = logic.PostToUser();
+
+            return toUser;
         }
 
         [TestMethod]
@@ -285,6 +298,66 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     formatter.Serialize(stream, query);
                 }
+            }
+        }
+
+        [TestMethod]
+        public async Task Joke()
+        {
+            var joke = Chain
+                .PostToChain()
+                .Select(m => m.Text)
+                .Switch
+                (
+                    Chain.Case
+                    (
+                        new Regex("^chicken"),
+                        (context, text) =>
+                            Chain
+                            .Return("why did the chicken cross the road?")
+                            .PostToUser()
+                            .WaitToBot()
+                            .Select(ignoreUser => "to get to the other side")
+                    ),
+                    Chain.Default<string, IDialog<string>>(
+                        (context, text) =>
+                            Chain
+                            .Return("why don't you like chicken jokes?")
+                    )
+                )
+                .Unwrap()
+                .PostToUser().
+                Loop();
+
+            using (var container = Build(includeReflection: false))
+            {
+                var toBot = new Message()
+                {
+                    ConversationId = Guid.NewGuid().ToString()
+                };
+
+                var toBotTexts = new[]
+                {
+                    "chicken",
+                    "i don't know",
+                    "anything but chickens"
+                };
+
+                foreach (var word in toBotTexts)
+                {
+                    using (var scope = container.BeginLifetimeScope())
+                    {
+                        var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                        toBot.Text = word;
+                        await store.PostAsync(toBot, () => joke);
+                    }
+                }
+
+                var queue = container.Resolve<BotToUserQueue>();
+                var texts = queue.Messages.Select(m => m.Text).ToArray();
+                Assert.AreEqual("why did the chicken cross the road?", texts[0]);
+                Assert.AreEqual("to get to the other side", texts[1]);
+                Assert.AreEqual("why don't you like chicken jokes?", texts[2]);
             }
         }
     }
