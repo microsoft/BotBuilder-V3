@@ -159,6 +159,57 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        [TestMethod]
+        public async Task LinqQuerySyntax_Where_True()
+        {
+            var query = Chain.PostToChain().Select(m => m.Text).Where(text => text == true.ToString()).PostToUser();
+
+            using (var container = Build())
+            {
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var toBot = new Message()
+                    {
+                        ConversationId = Guid.NewGuid().ToString(),
+                        Text = true.ToString()
+                    };
+
+                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    await store.PostAsync(toBot, () => query);
+                }
+
+                var queue = container.Resolve<BotToUserQueue>();
+                var texts = queue.Messages.Select(m => m.Text).ToArray();
+                Assert.AreEqual(1, texts.Length);
+                Assert.AreEqual(true.ToString(), texts[0]);
+            }
+        }
+
+        [TestMethod]
+        public async Task LinqQuerySyntax_Where_False()
+        {
+            var query = Chain.PostToChain().Select(m => m.Text).Where(text => text == true.ToString()).PostToUser();
+
+            using (var container = Build())
+            {
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var toBot = new Message()
+                    {
+                        ConversationId = Guid.NewGuid().ToString(),
+                        Text = false.ToString()
+                    };
+
+                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    await store.PostAsync(toBot, () => query);
+                }
+
+                var queue = container.Resolve<BotToUserQueue>();
+                var texts = queue.Messages.Select(m => m.Text).ToArray();
+                Assert.AreEqual(0, texts.Length);
+            }
+        }
+
         public static IDialog<string> MakeSwitchDialog()
         {
             var toBot = from message in Chain.PostToChain() select message.Text;
