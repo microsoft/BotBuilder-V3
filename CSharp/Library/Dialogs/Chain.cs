@@ -211,6 +211,43 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new ReturnDialog<T>(item);
         }
 
+        /// <summary>
+        /// Constructs a case. 
+        /// </summary>
+        /// <typeparam name="T"> The type of incoming value to case.</typeparam>
+        /// <typeparam name="R"> The type of the object returned by selector.</typeparam>
+        /// <param name="condition"> The condition of the case.</param>
+        /// <param name="selector"> The contextual selector of the case.</param>
+        /// <returns></returns>
+        public static ICase<T, R> Case<T, R>(Func<T, bool> condition, ContextualSelector<T, R> selector)
+        {
+            return new Case<T, R>(condition, selector);
+        }
+
+        /// <summary>
+        /// Constructs a case based on a regular expression.
+        /// </summary>
+        /// <typeparam name="R"> The type of the object returned by selector.</typeparam>
+        /// <param name="regex"> The regex for condition.</param>
+        /// <param name="selector"> The contextual selector for the case.</param>
+        /// <returns>The case.</returns>
+        public static ICase<string, R> Case<R>(Regex regex, ContextualSelector<string, R> selector)
+        {
+            return new RegexCase<R>(regex, selector);
+        }
+
+        /// <summary>
+        /// Constructs a case to use as the default.
+        /// </summary>
+        /// <typeparam name="T"> The type of incoming value to case.</typeparam>
+        /// <typeparam name="R"> The type of the object returned by selector.</typeparam>
+        /// <param name="selector"> The contextual selector of the case.</param>
+        /// <returns>The case.</returns>
+        public static ICase<T, R> Default<T, R>(ContextualSelector<T, R> selector)
+        {
+            return new DefaultCase<T, R>(selector);
+        }
+
         [Serializable]
         private sealed class FromDialog<T> : IDialog<T>
         {
@@ -566,7 +603,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         private readonly Regex Regex;
 
         /// <summary>
-        /// Constructs a case based on a regular experssion.
+        /// Constructs a case based on a regular expression.
         /// </summary>
         /// <param name="regex"> The regex for condition.</param>
         /// <param name="selector"> The contextual selector for the case.</param>
