@@ -2,7 +2,7 @@
 layout: page
 title: Bot Framework Support
 permalink: /support/
-weight: 1300
+weight: 160
 parent1: none
 ---
 
