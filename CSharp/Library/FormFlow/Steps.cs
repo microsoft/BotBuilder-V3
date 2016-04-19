@@ -99,9 +99,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _field.Active(state);
         }
 
-        public async Task DefineAsync(T state)
+        public async Task<bool> DefineAsync(T state)
         {
-            await _field.DefineAsync(state);
+            return await _field.DefineAsync(state);
         }
 
         public string Start(IDialogContext context, T state, FormState form)
@@ -538,9 +538,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new StepResult(next, feedback: null, prompt: null);
         }
 
-        public async Task DefineAsync(T state)
+        public async Task<bool> DefineAsync(T state)
         {
-            await _field.DefineAsync(state);
+            return await _field.DefineAsync(state);
         }
 
         public string Start(IDialogContext context, T state, FormState form)
@@ -654,7 +654,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new StepResult(next, feedback: null, prompt: null);
         }
 
-        public Task DefineAsync(T state)
+        public Task<bool> DefineAsync(T state)
         {
             throw new NotImplementedException();
         }
@@ -705,7 +705,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     internal class MessageStep<T> : IStep<T>
     {
-        public MessageStep(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+        public MessageStep(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
             _form = form;
@@ -714,7 +714,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _dependencies = dependencies ?? form.Dependencies(form.Steps.Count());
         }
 
-        public MessageStep(PromptAttribute prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+        public MessageStep(PromptAttribute prompt, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
             _form = form;
@@ -782,12 +782,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             throw new NotImplementedException();
         }
 
-        public async Task DefineAsync(T state)
+        public async Task<bool> DefineAsync(T state)
         {
             if (_message != null)
             {
                 _promptDefinition = await _message(state);
             }
+            return true;
         }
 
         public string Start(IDialogContext context, T state, FormState form)
@@ -829,7 +830,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private readonly IForm<T> _form;
         private PromptAttribute _promptDefinition;
         private readonly MessageDelegate<T> _message;
-        private readonly ConditionalDelegate<T> _condition;
+        private readonly ActiveDelegate<T> _condition;
         private readonly IEnumerable<string> _dependencies;
     }
 }

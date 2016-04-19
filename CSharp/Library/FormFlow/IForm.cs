@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
-        internal abstract CompletionDelegate<T> Completion { get; }
+        internal abstract OnCompletionAsyncDelegate<T> Completion { get; }
         internal abstract IFields<T> Fields { get; }
     }   
 }

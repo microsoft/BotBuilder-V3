@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="condition">Whether or not this step is active.</param>
         /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Show a message with more format control that does not require a response.
@@ -96,7 +96,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="condition">Whether or not this step is active.</param>
         /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         #region Documentation
         /// <summary>   Generate a message using a delegate to dynamically build the message. </summary>
@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
         #endregion
-        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -120,7 +120,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// override.
         /// </remarks>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -136,7 +136,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -152,7 +152,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormBuilder<T> Field(string name, PromptAttribute prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Derfine a field step by supplying your own field definition.
@@ -190,7 +190,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// If prompt is not supplied the \ref patterns element {*} will be used to confirm.
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormBuilder<T> Confirm(string prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(string prompt = null, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -202,7 +202,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         #region Documentation
         /// <summary>   Generate a confirmation using a delegate to dynamically build the message. </summary>
@@ -211,7 +211,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="dependencies">What fields this confirmation depends on.</param>
         /// <returns>This form.</returns>
         #endregion
-        IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Delegate to call when form is completed.
@@ -223,7 +223,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// the form state results.  In any case the completed form state will be passed
         /// to the parent dialog.
         /// </remarks>
-        IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback);
+        IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback);
     }
 
     /// <summary>

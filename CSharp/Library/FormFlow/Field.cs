@@ -46,10 +46,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <typeparam name="T">    Form state type. </typeparam>
     /// <param name="state">    Form state. </param>
     /// <param name="field">Field being dynamically defined.</param>
+    /// <returns>True if field is defined.</returns>
     /// <remarks>Delegate for dynamically defining a field prompt and recognizer.  You can make use of the fluent methods
     ///          on <see cref="Field{T}"/> to change the characteristics of the field.</remarks>
     #endregion
-    public delegate Task DefineFieldDelegate<T>(T state, Field<T> field)
+    public delegate Task<bool> DefineAsyncDelegate<T>(T state, Field<T> field)
     where T : class;
 
     /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
@@ -297,8 +298,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public async virtual Task DefineAsync(T state)
+        public async virtual Task<bool> DefineAsync(T state)
         {
+            bool result = true;
             if (_define != null)
             {
                 if (!_promptSet)
@@ -308,10 +310,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 _recognizer = null;
                 _help = null;
                 _prompt = null;
-                await _define(state, this);
+                result = await _define(state, this);
                 DefinePrompt();
                 DefineRecognizer();
             }
+            return result;
         }
 
         public async virtual Task<ValidateResult> ValidateAsync(T state, object value)
@@ -436,7 +439,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="condition">    The condition delegate. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         #endregion
-        public Field<T> SetCondition(ConditionalDelegate<T> condition)
+        public Field<T> SetActive(ActiveDelegate<T> condition)
         {
             _condition = condition;
             return this;
@@ -449,7 +452,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <remarks>When you dynamically define a field through this delegate you can use all of the fluent methods
         ///          defined on <see cref="Field{T}"/> to change the descriptions and terms dynamically.</remarks>
         #endregion
-        public Field<T> SetDefineField(DefineFieldDelegate<T> definition)
+        public Field<T> SetDefine(DefineAsyncDelegate<T> definition)
         {
             _define = definition;
             return this;
@@ -486,7 +489,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Set the field validation. </summary>
         /// <param name="validate"> The validator. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
-        public Field<T> SetValidation(ValidateDelegate<T> validate)
+        public Field<T> SetValidate(ValidateAsyncDelegate<T> validate)
         {
             _validate = validate;
             return this;
@@ -614,9 +617,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected IForm<T> _form;
         protected string _name;
         protected FieldRole _role;
-        protected ConditionalDelegate<T> _condition = new ConditionalDelegate<T>((state) => true);
-        protected DefineFieldDelegate<T> _define = null;
-        protected ValidateDelegate<T> _validate = new ValidateDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
+        protected ActiveDelegate<T> _condition = new ActiveDelegate<T>((state) => true);
+        protected DefineAsyncDelegate<T> _define = null;
+        protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
         protected double _min, _max;
         protected bool _limited;
         protected string[] _dependencies = new string[0];
@@ -1031,10 +1034,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public class Conditional<T> : FieldReflector<T>
         where T : class
     {
-        public Conditional(string name, ConditionalDelegate<T> condition, bool ignoreAnnotations = false)
+        public Conditional(string name, ActiveDelegate<T> condition, bool ignoreAnnotations = false)
             : base(name, ignoreAnnotations)
         {
-            SetCondition(condition);
+            SetActive(condition);
         }
     }
 

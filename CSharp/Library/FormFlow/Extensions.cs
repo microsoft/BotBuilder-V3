@@ -93,7 +93,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             for(var i = 0; i < istep; ++i)
             {
-                yield return form.Steps[i].Name;
+                if (form.Steps[i].Type == StepType.Field)
+                {
+                    yield return form.Steps[i].Name;
+                }
             }
         }
 

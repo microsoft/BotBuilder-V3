@@ -106,10 +106,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
-            ConditionalDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
-            ConditionalDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
-            ConditionalDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
-            ConditionalDelegate<PizzaOrder> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
+            ActiveDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
+            ActiveDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
+            ActiveDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
+            ActiveDelegate<PizzaOrder> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
             // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
             if (noNumbers)
             {
@@ -152,7 +152,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Field(nameof(PizzaOrder.Kind))
                 .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Specials))
                     .SetType(null)
-                    .SetDefineField(async (state, field) =>
+                    .SetDefine(async (state, field) =>
                     {
                         var specials = field
                         .SetFieldDescription("Specials")
@@ -168,6 +168,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         specials
                             .AddDescription("special2", "Free garlic bread")
                             .AddTerms("special2", "bread", "garlic");
+                        return true;
                     }))
                 .Field("BYO.HalfAndHalf", isBYO)
                 .Field("BYO.Crust", isBYO)

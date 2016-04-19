@@ -246,7 +246,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public enum StepDirection
     {
         /// <summary>
-        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletionAsync(CompletionDelegate{T})"/> should be called.
+        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletionAsync(OnCompletionAsyncDelegate{T})"/> should be called.
         /// </summary>
         Complete,
 
@@ -331,7 +331,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <returns>True if field is active.</returns>
         /// <remarks>
-        /// One way to control this is to supply a <see cref="ConditionalDelegate{T}"/> to the 
+        /// One way to control this is to supply a <see cref="ActiveDelegate{T}"/> to the 
         /// <see cref="IFormBuilder{T}.Field"/> or <see cref="IFormBuilder{T}.Confirm"/> steps.
         /// </remarks>
         bool Active(T state);
@@ -353,6 +353,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>
         /// Build the prompt and recognizer for dynamically defined fields.
         /// </summary>
+        /// <returns>True if field is defined.</returns>
         /// <remarks>
         ///          This method is called before asking for <see cref="Prompt"/>.
         ///          This provides an opportunity to dynamically define the field based on the current
@@ -361,7 +362,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         ///          will be shown to the user, but this method might be called earlier in order to define the field
         ///          for things like status and initial matching or validation.
         /// </remarks>
-        Task DefineAsync(T state);
+        Task<bool> DefineAsync(T state);
 
         /// <summary>
         /// Validate value to be set on state and return feedback if not valid.
@@ -370,7 +371,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="value">Value to be set in field.</param>
         /// <returns>Result including feedback and if valid.</returns>
         /// <remarks>
-        /// One way to control this is to supply a <see cref="ValidateDelegate{T}"/> to the 
+        /// One way to control this is to supply a <see cref="ValidateAsyncDelegate{T}"/> to the 
         /// <see cref="IFormBuilder{T}.Field"/> or <see cref="IFormBuilder{T}.Confirm"/> steps.
         /// </remarks>
         Task<ValidateResult> ValidateAsync(T state, object value);

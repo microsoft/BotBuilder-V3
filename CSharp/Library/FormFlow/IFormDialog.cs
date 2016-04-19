@@ -44,9 +44,9 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">Form state type.</typeparam>
     /// <param name="state">Form state to test.</param>
     /// <returns>True if step is active given the current form state.</returns>
-    public delegate bool ConditionalDelegate<T>(T state);
+    public delegate bool ActiveDelegate<T>(T state);
 
-    /// <summary>   Encapsulates the result of a <see cref="ValidateDelegate{T}"/> </summary>
+    /// <summary>   Encapsulates the result of a <see cref="ValidateAsyncDelegate{T}"/> </summary>
     public struct ValidateResult
     {
         /// <summary>   Feedback to provide back to the user on the input. </summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <param name="state">Form state to test.</param>
     /// <param name="value">Response value to validate.</param>
     /// <returns>Null if value is valid otherwise feedback on what is wrong.</returns>
-    public delegate Task<ValidateResult> ValidateDelegate<T>(T state, object value);
+    public delegate Task<ValidateResult> ValidateAsyncDelegate<T>(T state, object value);
 
     /// <summary>
     /// A delegate called when a form is completed.
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// such as sending it to your service.  It cannot be used to create a new
     /// dialog or return a value to the parent dialog.
     /// </remarks>
-    public delegate Task CompletionDelegate<T>(IDialogContext context, T state);
+    public delegate Task OnCompletionAsyncDelegate<T>(IDialogContext context, T state);
 
     /// <summary>
     /// Interface for controlling a FormFlow dialog.

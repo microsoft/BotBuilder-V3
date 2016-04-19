@@ -334,24 +334,32 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         // Processing current step
                         step = _form.Steps[_formState.Step];
-                        await step.DefineAsync(_state);
-                        if (_formState.Phase() == StepPhase.Ready)
+                        var defined = await step.DefineAsync(_state);
+                        if (defined)
                         {
-                            if (step.Type == StepType.Message)
+                            if (_formState.Phase() == StepPhase.Ready)
                             {
-                                feedback = step.Start(context, _state, _formState);
-                                requirePrompt = true;
-                                useLastPrompt = false;
-                                next = new NextStep();
+                                if (step.Type == StepType.Message)
+                                {
+                                    feedback = step.Start(context, _state, _formState);
+                                    requirePrompt = true;
+                                    useLastPrompt = false;
+                                    next = new NextStep();
+                                }
+                                else
+                                {
+                                    prompt = step.Start(context, _state, _formState);
+                                }
                             }
-                            else
+                            else if (_formState.Phase() == StepPhase.Responding)
                             {
-                                prompt = step.Start(context, _state, _formState);
+                                matches = step.Match(context, _state, _formState, stepInput);
                             }
                         }
-                        else if (_formState.Phase() == StepPhase.Responding)
+                        else
                         {
-                            matches = step.Match(context, _state, _formState, stepInput);
+                            _formState.SetPhase(StepPhase.Completed);
+                            next = new NextStep(StepDirection.Next);
                         }
                     }
                     if (matches != null)

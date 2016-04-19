@@ -46,9 +46,9 @@ namespace Microsoft.Bot.Builder.FormFlow
         internal readonly FormConfiguration _configuration;
         internal readonly Fields<T> _fields;
         internal readonly List<IStep<T>> _steps;
-        internal CompletionDelegate<T> _completion;
+        internal OnCompletionAsyncDelegate<T> _completion;
 
-        public Form(bool ignoreAnnotations, FormConfiguration configuration = null, Fields<T> fields = null, List<IStep<T>> steps = null, CompletionDelegate<T> completion = null)
+        public Form(bool ignoreAnnotations, FormConfiguration configuration = null, Fields<T> fields = null, List<IStep<T>> steps = null, OnCompletionAsyncDelegate<T> completion = null)
         {
             _ignoreAnnotations = ignoreAnnotations;
             _configuration = configuration ?? new FormConfiguration();
@@ -133,7 +133,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        internal override CompletionDelegate<T> Completion
+        internal override OnCompletionAsyncDelegate<T> Completion
         {
             get
             {
