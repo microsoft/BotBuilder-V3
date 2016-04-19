@@ -89,6 +89,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return field;
         }
 
+        internal static IEnumerable<string> Dependencies<T>(this IForm<T> form, int istep)
+        {
+            for(var i = 0; i < istep; ++i)
+            {
+                yield return form.Steps[i].Name;
+            }
+        }
+
         internal static bool IsICollection(this Type type)
         {
             return Array.Exists(type.GetInterfaces(), IsGenericCollectionType);

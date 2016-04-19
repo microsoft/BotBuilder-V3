@@ -357,8 +357,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         ///          This method is called before asking for <see cref="Prompt"/>.
         ///          This provides an opportunity to dynamically define the field based on the current
         ///          state or external information.  The <see cref="IFieldState{T}.Dependencies"/> method 
-        ///          identifies fields that this one depends on.  All of them will be complete before this method
-        ///          is called.
+        ///          identifies fields that this one depends on.  All of them will be complete before the field
+        ///          will be shown to the user, but this method might be called earlier in order to define the field
+        ///          for things like status and initial matching or validation.
         /// </remarks>
         Task DefineAsync(T state);
 

@@ -223,18 +223,16 @@ namespace Microsoft.Bot.Builder.FormFlow
                         builder.Append(' ');
                     }
                     var input = builder.ToString();
-                    string feedback;
-                    string prompt = step.Start(context, _state, _formState);
+                    await step.DefineAsync(_state);
                     var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input), input);
                     if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
                     {
-                        // TODO: In the case of clarification I could
+                        // TODO: In the case of clarification
                         // 1) Go through them while supporting only quit or back and reset
                         // 2) Drop them
                         // 3) Just pick one (found in form.StepState, but that is opaque here)
-                        var result = await step.ProcessAsync(context, _state, _formState, input, matches);
-                        feedback = result.Feedback;
-                        prompt = result.Prompt;
+                        // The challenge is to support clarification without navigation, etc.
+                        await step.ProcessAsync(context, _state, _formState, input, matches);
                     }
                     else
                     {
@@ -251,8 +249,10 @@ namespace Microsoft.Bot.Builder.FormFlow
                         && !step.Field.IsUnknown(_state)
                         && step.Field.IsNullable)
                     {
+                        await step.DefineAsync(_state);
                         var val = step.Field.GetValue(_state);
-                        if (step.Field.ValidateAsync(_state, val).Result.IsValid)
+                        var result = await step.Field.ValidateAsync(_state, val);
+                        if (result.IsValid)
                         {
                             bool ok = true;
                             double min, max;
@@ -292,6 +292,14 @@ namespace Microsoft.Bot.Builder.FormFlow
                 string prompt = null;
                 bool useLastPrompt = false;
                 bool requirePrompt = false;
+                // Ensure we have initial definition for field steps
+                foreach (var step in _form.Steps)
+                {
+                    if (step.Type == StepType.Field && step.Field.Prompt == null)
+                    {
+                        await step.DefineAsync(_state);
+                    }
+                }
                 var next = (_formState.Next == null ? new NextStep() : ActiveSteps(_formState.Next, _state));
                 while (prompt == null && (message == null || requirePrompt) && MoveToNext(_state, _formState, next))
                 {
@@ -588,25 +596,18 @@ namespace Microsoft.Bot.Builder.FormFlow
                         if ((form.Phase() == StepPhase.Ready || form.Phase() == StepPhase.Responding)
                             && step.Active(state))
                         {
-                            if (step.Type == StepType.Confirm)
+                            // Ensure all dependencies have values
+                            foreach (var dependency in step.Dependencies)
                             {
-                                // Ensure all dependencies have values
-                                foreach (var dependency in step.Dependencies)
+                                var dstep = _form.Step(dependency);
+                                var dstepi = _form.StepIndex(dstep);
+                                if (dstep.Active(state) && form.Phases[dstepi] != StepPhase.Completed)
                                 {
-                                    var dstep = _form.Step(dependency);
-                                    var dstepi = _form.StepIndex(dstep);
-                                    if (dstep.Active(state) && form.Phases[dstepi] != StepPhase.Completed)
-                                    {
-                                        form.Step = dstepi;
-                                        break;
-                                    }
+                                    form.Step = dstepi;
+                                    break;
                                 }
-                                found = true;
                             }
-                            else
-                            {
-                                found = true;
-                            }
+                            found = true;
                             if (form.Step != start && _form.Steps[start].Type != StepType.Message)
                             {
                                 form.History.Push(start);

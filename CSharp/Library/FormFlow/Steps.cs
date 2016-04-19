@@ -70,8 +70,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                var prompt = _field.Prompt;
-                return prompt == null ? null : prompt.Annotation;
+                return _field.Prompt?.Annotation;
             }
         }
 
@@ -519,8 +518,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                var prompt = _field.Prompt;
-                return prompt == null ? null : prompt.Annotation;
+                return _field.Prompt?.Annotation;
             }
         }
 
@@ -707,20 +705,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     internal class MessageStep<T> : IStep<T>
     {
-        public MessageStep(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition, IForm<T> form)
+        public MessageStep(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
             _form = form;
             _message = generateMessage;
             _condition = (condition == null ? (state) => true : condition);
+            _dependencies = dependencies ?? form.Dependencies(form.Steps.Count());
         }
 
-        public MessageStep(PromptAttribute prompt, ConditionalDelegate<T> condition, IForm<T> form)
+        public MessageStep(PromptAttribute prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
         {
             _name = "message" + form.Steps.Count.ToString();
             _form = form;
             _promptDefinition = prompt;
             _condition = (condition == null ? (state) => true : condition);
+            _dependencies = dependencies ?? form.Dependencies(form.Steps.Count());
         }
 
         public bool Active(T state)
@@ -742,7 +742,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                throw new NotImplementedException();
+                return _dependencies;
             }
         }
 
@@ -830,5 +830,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private PromptAttribute _promptDefinition;
         private readonly MessageDelegate<T> _message;
         private readonly ConditionalDelegate<T> _condition;
+        private readonly IEnumerable<string> _dependencies;
     }
 }

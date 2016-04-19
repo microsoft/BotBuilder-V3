@@ -412,7 +412,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         #region Documentation
-        /// <summary>   Sets wheter or not multiple values are allowed. </summary>
+        /// <summary>   Sets whether or not multiple values are allowed. </summary>
         /// <param name="multiple"> True if multiple values are allowed. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         #endregion

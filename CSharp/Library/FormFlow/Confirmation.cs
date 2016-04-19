@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetCondition(condition);
-            var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
+            var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
             _next = (value, state) => value ? new NextStep() : noStep;
         }
 
@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetCondition(condition);
-            var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
+            var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
             _next = (value, state) => value ? new NextStep() : noStep;
         }
 

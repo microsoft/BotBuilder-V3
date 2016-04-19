@@ -77,21 +77,21 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public FormConfiguration Configuration { get { return _form._configuration; } }
 
-        public IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null)
+        public IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            _form._steps.Add(new MessageStep<T>(new PromptAttribute(message), condition, _form));
+            _form._steps.Add(new MessageStep<T>(new PromptAttribute(message), condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null)
+        public IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            _form._steps.Add(new MessageStep<T>(prompt, condition, _form));
+            _form._steps.Add(new MessageStep<T>(prompt, condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null)
+        public IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            _form._steps.Add(new MessageStep<T>(generateMessage, condition, _form));
+            _form._steps.Add(new MessageStep<T>(generateMessage, condition, dependencies, _form));
             return this;
         }
 
@@ -160,7 +160,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
-            dependencies = Dependencies(dependencies);
+            dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
             var confirmation = new Confirmation<T>(prompt, condition, dependencies, _form);
             confirmation.Form = _form;
             _form._fields.Add(confirmation);
@@ -171,7 +171,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
-            dependencies = Dependencies(dependencies);
+            dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
             var confirmation = new Confirmation<T>(generateMessage, condition, dependencies, _form);
             confirmation.Form = _form;
             _form._fields.Add(confirmation);
@@ -245,44 +245,6 @@ namespace Microsoft.Bot.Builder.FormFlow
                 throw new ArgumentException("Missing template usage for validation");
             }
             return args;
-        }
-
-        private IEnumerable<string> Dependencies(IEnumerable<string> dependencies)
-        {
-            if (dependencies == null)
-            {
-                // Default next steps go from previous field ignoring confirmations back to next confirmation
-                // Last field before confirmation
-                var end = _form._steps.Count();
-                while (end > 0)
-                {
-                    if (_form._steps[end - 1].Type == StepType.Field)
-                    {
-                        break;
-                    }
-                    --end;
-                }
-
-                var start = end;
-                while (start > 0)
-                {
-                    if (_form._steps[start - 1].Type == StepType.Confirm)
-                    {
-                        break;
-                    }
-                    --start;
-                }
-                var fields = new List<string>();
-                for (var i = start; i < end; ++i)
-                {
-                    if (_form._steps[i].Type == StepType.Field)
-                    {
-                        fields.Add(_form._steps[i].Name);
-                    }
-                }
-                dependencies = fields;
-            }
-            return dependencies;
         }
 
         private void Validate()

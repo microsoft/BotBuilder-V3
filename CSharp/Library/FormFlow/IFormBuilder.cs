@@ -85,30 +85,33 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="message">A \ref patterns string to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
+        /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Show a message with more format control that does not require a response.
         /// </summary>
         /// <param name="prompt">Message to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
+        /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         #region Documentation
         /// <summary>   Generate a message using a delegate to dynamically build the message. </summary>
         /// <param name="generateMessage">  Delegate for building message. </param>
         /// <param name="condition">        Whether or not this step is active. </param>
+        /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
         #endregion
-        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
         /// </summary>
         /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
+        /// <param name="condition">Delegate to test form state to see if step is active.</param>
         /// <param name="validate">Delegate to validate the field value.</param>
         /// <remarks>
         /// This step will use reflection to construct everything needed for a dialog from a combination
