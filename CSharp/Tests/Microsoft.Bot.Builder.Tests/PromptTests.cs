@@ -120,9 +120,21 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task PromptSuccess_Confirm_Yes_CaseInsensitive()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "Yes", true);
+        }
+
+        [TestMethod]
         public async Task PromptSuccess_Confirm_No()
         {
             await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "no", false);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Confirm_No_CaseInsensitive()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "No", false);
         }
 
         [TestMethod]

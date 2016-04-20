@@ -251,7 +251,9 @@ namespace Microsoft.Bot.Builder.FormFlow
                         && step.Field.IsNullable)
                     {
                         var val = step.Field.GetValue(_state);
-                        if (step.Field.ValidateAsync(_state, val).Result.IsValid)
+
+                        var validationResult = await step.Field.ValidateAsync(_state, val);
+                        if (validationResult.IsValid)
                         {
                             bool ok = true;
                             double min, max;
