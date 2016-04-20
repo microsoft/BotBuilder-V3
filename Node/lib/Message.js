@@ -14,7 +14,7 @@ var Message = (function () {
             args[_i - 2] = arguments[_i];
         }
         var m = this;
-        var msg = typeof prompts == 'string' ? msg : Message.randomPrompt(prompts);
+        var msg = typeof prompts == 'string' ? prompts : Message.randomPrompt(prompts);
         args.unshift(msg);
         m.text = session.Session.prototype.gettext.apply(ses, args);
         return this;
