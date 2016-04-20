@@ -290,6 +290,9 @@ export class BotConnectorBot extends collection.DialogCollection {
                     }
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     this.saveData(userId, sessionId, data, reply, (err) =>{
+                        // Check for emulator
+                        var settings = ses.message.to.channelId == 'emulator' ? { endpoint: 'http://localhost:9000' } : this.options;
+                        
                         // Send message
                         if (res) {
                             this.emit('reply', reply);
@@ -306,7 +309,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
                             this.emit('reply', reply);
-                            post(this.options, '/bot/v1.0/messages', reply, (err) => {
+                            post(settings, '/bot/v1.0/messages', reply, (err) => {
                                 if (err) {
                                     this.emit('error', err);
                                 }
@@ -316,7 +319,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             this.emit('send', reply);
-                            post(this.options, '/bot/v1.0/messages', reply, (err) => {
+                            post(settings, '/bot/v1.0/messages', reply, (err) => {
                                 if (err) {
                                     this.emit('error', err);
                                 }
