@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
         public GourmetDeliteOptions GourmetDelite;
         public StuffedOptions Stuffed;
         public BYOPizza BYO;
-        public string DeliveryAddress;
+        public string Address;
         [Optional]
         public CouponOptions Coupon;
 
@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                     builder.AppendFormat("{0}, {1}", Kind, Stuffed);
                     break;
             }
-            builder.AppendFormat(", {0}, {1})", DeliveryAddress, Coupon);
+            builder.AppendFormat(", {0}, {1})", Address, Coupon);
             return builder.ToString();
         }
     };
