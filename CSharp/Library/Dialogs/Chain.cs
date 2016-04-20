@@ -92,6 +92,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new PostToUserDialog<T>(antecedent);
         }
 
+        /// <summary>
+        /// Post to the chain the message to the bot after the antecedent completes.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <returns>The dialog representing the message sent to the bot.</returns>
         public static IDialog<Connector.Message> WaitToBot<T>(this IDialog<T> antecedent)
         {
             return new WaitToBotDialog<T>(antecedent);
@@ -141,7 +147,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
         /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
         /// <param name="predicate">The predicate to decide whether to continue the chain.</param>
-        /// <returns>The result from <see cref="IDialog{T}"/> or its cancellation.</returns>
+        /// <returns>The result from the antecedent <see cref="IDialog{T}"/> or its cancellation, wrapped in a <see cref="IDialog{T}"/>.</returns>
         public static IDialog<T> Where<T>(this IDialog<T> antecedent, Func<T, bool> predicate)
         {
             return new WhereDialog<T>(antecedent, predicate);
@@ -379,13 +385,24 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>
+        /// The exception that is thrown when the where is canceled.
+        /// </summary>
         [Serializable]
         public sealed class WhereCanceledException : OperationCanceledException
         {
+            /// <summary>
+            /// Construct the exception.
+            /// </summary>
             public WhereCanceledException()
             {
             }
 
+            /// <summary>
+            /// This is the serialization constructor.
+            /// </summary>
+            /// <param name="info">The serialization info.</param>
+            /// <param name="context">The streaming context.</param>
             private WhereCanceledException(SerializationInfo info, StreamingContext context)
                 : base(info, context)
             {

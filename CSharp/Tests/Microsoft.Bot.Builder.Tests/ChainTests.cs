@@ -353,7 +353,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Joke()
+        public async Task SampleChain_Joke()
         {
             var joke = Chain
                 .PostToChain()

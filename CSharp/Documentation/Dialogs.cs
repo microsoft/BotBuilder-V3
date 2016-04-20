@@ -159,6 +159,24 @@
     /// 
     /// Explicit management of the stack of active dialogs is possible through IDialogStack.Call<R> and IDialogStack.Done<R>, explicitly composing dialogs into a larger
     /// conversation.  It is also possible to implicitly manage the stack of active dialogs through the fluent Chain methods.
+    ///
+    /// Here is an overview of the chain methods, followed by some examples.
+    /// 
+    /// Name                      | Type    | Notes
+    /// -----                     | ----    | -----
+    /// Chain.Select<T, R>        | Linq    | Supports "select" and "let" in linq query syntax.
+    /// Chain.SelectMany<T, C, R> | Linq    | Supports successive "from" in linq query syntax.
+    /// Chain.Where<T>            | Linq    | Supports "where" in linq query syntax.
+    /// Chain.From<T>             | Chains  | Instantiates a new instance of a dialog.
+    /// Chain.Return<T>           | Chains  | Return a constant value into the chain.
+    /// Chain.Do<T>               | Chains  | Allow for side-effects within the chain.
+    /// Chain.ContinueWith<T, R>  | Chains  | Simple chaining of dialogs.
+    /// Chain.Unwrap<T>           | Chains  | Unwrap a dialog nested in a dialog.
+    /// Chain.Loop<T>             | Branch  | Loop the entire chain of dialogs.
+    /// Chain.Switch<T, R>        | Branch  | Support branching into different dialog chains.
+    /// Chain.PostToUser<T>       | Message | Post a message to the user.
+    /// Chain.WaitToBot<T>        | Message | Wait for a message to the bot.
+    /// Chain.PostToChain<T>      | Message | Start a chain with a message from the user.
     /// 
     /// These Chain methods fall into a few buckets.
     /// 
@@ -189,7 +207,7 @@
     /// \until );
     /// 
     /// If Chain.Switch<T, R> returns a nested IDialog<IDialog<T>>, then the inner IDialog<T> can be unwrapped with Chain.Unwrap<T>.  This allows for branching
-    /// in conversations to different paths of chained dialogs, possibly on unequal length.  Here is a more complete example of branching dialogs written
+    /// in conversations to different paths of chained dialogs, possibly of unequal length.  Here is a more complete example of branching dialogs written
     /// in the fluent chain style with implicit stack management:
     /// 
     /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
