@@ -106,6 +106,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <param name="botId"> Id of the bot.</param>
         /// <param name="userId"> Id of the user.</param>
         /// <param name="conversationId"> Id of the conversation.</param>
+        /// <param name="token"> The cancelation token.</param>
         /// <returns> A message with appropriate data fields.</returns>
         public static async Task<Message> LoadMessageData(this IConnectorClient client, string botId, string userId, string conversationId, CancellationToken token = default(CancellationToken))
         {

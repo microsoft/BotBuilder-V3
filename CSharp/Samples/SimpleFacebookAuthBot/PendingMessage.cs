@@ -3,6 +3,11 @@ using System;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 {
+    /// <summary>
+    /// The pending message that is written to <see cref="Microsoft.Bot.Builder.Dialogs.Internals.IBotData.PerUserInConversationData"/>
+    /// by <see cref="SimpleFacebookAuthDialog"/> to indicate that it is waiting for the auth callback. This pending message is then used 
+    /// to send the reply back to the user on the right channel upon completion of the login flow.
+    /// </summary>
     [Serializable]
     public sealed class PendingMessage
     {

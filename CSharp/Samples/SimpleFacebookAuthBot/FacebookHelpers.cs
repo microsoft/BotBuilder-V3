@@ -9,9 +9,9 @@ using System.Web;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 {
-    public class FacebookAuthToken
+    public class FacebookAcessToken
     {
-        public FacebookAuthToken()
+        public FacebookAcessToken()
         {
         }
 
@@ -37,13 +37,18 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         public string Name { get; set; }
     }
 
-
+    /// <summary>
+    /// Helpers implementing Facebook API calls.
+    /// </summary>
     public static class FacebookHelpers
     {
+        // The Facebook App Id
         public static readonly string FacebookAppId = "YOUR_FACEBOOK_APP_ID";
+
+        // The Facebook App Secret
         public static readonly string FacebookAppSecret = "YOUR_FACEBOOK_APP_SECRET";
 
-        public async static Task<FacebookAuthToken> ExchangeCodeForAuthToken(string userId, string conversationId, string code, string facebookOauthCallback)
+        public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(string userId, string conversationId, string code, string facebookOauthCallback)
         {
             var redirectUri = GetOAuthCallBack(userId, conversationId, facebookOauthCallback);
             var uri = GetUri("https://graph.facebook.com/v2.3/oauth/access_token",
@@ -53,10 +58,10 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("redirect_uri", redirectUri)
                 );
 
-            return await FacebookRequest<FacebookAuthToken>(uri);
+            return await FacebookRequest<FacebookAcessToken>(uri);
         }
 
-        public static async Task<bool> ValidAccessToken(string accessToken)
+        public static async Task<bool> ValidateAccessToken(string accessToken)
         {
             var uri = GetUri("https://graph.facebook.com/debug_token",
                 Tuple.Create("input_token", accessToken),

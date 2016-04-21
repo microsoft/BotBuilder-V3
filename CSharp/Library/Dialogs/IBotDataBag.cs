@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Removes the specified key from the bot data bag.
         /// </summary>
         /// <param name="key">They key of the element to remove</param>
-        /// <returns>true if removal of the key is successful; otherwise, false</returns>
+        /// <returns>True if removal of the key is successful; otherwise, false</returns>
         bool RemoveValue(string key);
     }
 

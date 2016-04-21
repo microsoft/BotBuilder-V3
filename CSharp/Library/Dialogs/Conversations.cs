@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="conversationId"> The id of the conversation that is resumed.</param>
         /// <param name="toBot"> The data sent to bot.</param>
         /// <param name="token"> The cancelation token.</param>
-        /// <param name="isEmulator"> The flag indicating if the bot is talking to the bot framework emulator.</param>
+        /// <param name="connectorType"> The type of the connector environment.</param>
         /// <returns> A task that represent the message to send back to the user after resumption of the coversation.</returns>
         public static async Task<Message> ResumeAsync<T>(string botId, string userId, string conversationId, T toBot, CancellationToken token = default(CancellationToken), ConnectorType connectorType = ConnectorType.Cloud)
         {
