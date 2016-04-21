@@ -141,6 +141,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 value = default(T);
                 return false;
             }
+
+            bool IBotDataBag.RemoveValue(string key)
+            {
+                return this.bag.Remove(key);
+            }
         }
 
         protected override IBotDataBag WrapData(Dictionary<string, object> data)
@@ -191,6 +196,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
                 value = default(T);
                 return false;
+            }
+
+            bool IBotDataBag.RemoveValue(string key)
+            {
+                return this.bag.Remove(key);
             }
         }
 

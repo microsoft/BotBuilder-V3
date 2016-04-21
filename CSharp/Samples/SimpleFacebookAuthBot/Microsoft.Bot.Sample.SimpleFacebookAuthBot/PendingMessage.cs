@@ -1,0 +1,57 @@
+﻿using Microsoft.Bot.Connector;
+using System;
+
+namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
+{
+    [Serializable]
+    public sealed class PendingMessage
+    {
+        public string userId;
+        public string userAddress;
+        public string userChannelId;
+
+        public string botId;
+        public string botAddress;
+        public string botChannelId;
+
+        public string conversationId;
+
+        public PendingMessage()
+        {
+        }
+
+        public PendingMessage(Message msg)
+        {
+            userId = msg.From?.Id;
+            userAddress = msg.From?.Address;
+            userChannelId = msg.From?.ChannelId;
+            botId = msg.To?.Id;
+            botAddress = msg.To?.Address;
+            botChannelId = msg.To?.ChannelId;
+            conversationId = msg.ConversationId;
+        }
+
+        public Message GetMessage()
+        {
+            return new Message
+            {
+                Id = Guid.NewGuid().ToString(),
+                To = new ChannelAccount
+                {
+                    Id = botId,
+                    IsBot = true,
+                    Address = botAddress,
+                    ChannelId = botChannelId
+                },
+                ConversationId = conversationId,
+                From = new ChannelAccount
+                {
+                    Id = userId,
+                    IsBot = false,
+                    Address = userAddress,
+                    ChannelId = userChannelId
+                }
+            };
+        }
+    }
+}
