@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _helpFormat = field.Template(field.AllowNumbers
                 ? (field.AllowsMultiple ? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
                 : (field.AllowsMultiple ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
-            _noPreference = field.Optional ? configuration.NoPreference.ToArray() : null;
+            _noPreference = field.Optional ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
             BuildPerValueMatcher(configuration.CurrentChoice);
         }
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
             {
-                values = values.Union(new string[] { _currentChoice + "('c')" });
+                values = values.Union(new string[] { _currentChoice } );
             }
             var args = new List<object>();
             if (_allowNumbers)
@@ -403,7 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 yield return new TermMatch(0, input.Length, 1.0, null);
             }
-            else if ((defaultValue != null || _noPreference != null) && (matchValue == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
+            else if ((defaultValue != null || _noPreference != null) && (matchValue == "" || _currentChoices.Contains(matchValue)))
             {
                 yield return new TermMatch(0, input.Length, 1.0, defaultValue);
             }
@@ -443,7 +443,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var args = new List<object>();
             if (defaultValue != null || _field.Optional)
             {
-                args.Add(_field.Form.Configuration.CurrentChoice.First() + "('c')");
+                args.Add(_field.Form.Configuration.CurrentChoice.First());
                 if (_field.Optional)
                 {
                     args.Add(_field.Form.Configuration.NoPreference.First());

@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
+using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -66,7 +67,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var entry in dictionary)
             {
-                _translations.Add(prefix + SSEPERATOR + entry.Key, entry.Value);
+                _translations.Add(prefix + SSEPARATOR + entry.Key, entry.Value);
             }
         }
 
@@ -74,7 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var entry in dictionary)
             {
-                _arrayTranslations.Add(prefix + SSEPERATOR + entry.Key, entry.Value);
+                _arrayTranslations.Add(prefix + SSEPARATOR + entry.Key, entry.Value);
             }
         }
 
@@ -106,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string value;
-                if (_translations.TryGetValue(prefix + SSEPERATOR + key, out value))
+                if (_translations.TryGetValue(prefix + SSEPARATOR + key, out value))
                 {
                     dictionary[key] = value;
                 }
@@ -118,7 +119,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string[] values;
-                if (_arrayTranslations.TryGetValue(prefix + SSEPERATOR + key, out values))
+                if (_arrayTranslations.TryGetValue(prefix + SSEPARATOR + key, out values))
                 {
                     dictionary[key] = values;
                 }
@@ -130,7 +131,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var template in templates.Values)
             {
                 string[] patterns;
-                if (_templateTranslations.TryGetValue(prefix + SSEPERATOR + template.Usage, out patterns))
+                if (_templateTranslations.TryGetValue(prefix + SSEPARATOR + template.Usage, out patterns))
                 {
                     template.Patterns = patterns;
                 }
@@ -152,7 +153,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (DictionaryEntry entry in reader)
             {
                 var fullKey = (string)entry.Key;
-                var semi = fullKey.IndexOf(SEPERATOR);
+                var semi = fullKey.IndexOf(SSEPARATOR[0]);
                 var type = fullKey.Substring(0, semi);
                 var key = fullKey.Substring(semi + 1);
                 var val = (string)entry.Value;
@@ -166,14 +167,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (type == "LIST")
                 {
-                    newLocalizer.Add(key, SplitList(val).ToArray());
+                    newLocalizer.Add(key, val.SplitList().ToArray());
                 }
                 else if (type == "TEMPLATE")
                 {
-                    var elements = SplitList(key);
+                    var elements = key.SplitList();
                     var usage = elements.First();
                     var fields = elements.Skip(1);
-                    var patterns = SplitList(val);
+                    var patterns = val.SplitList();
                     var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray());
                     foreach (var field in fields)
                     {
@@ -196,15 +197,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void Save(IResourceWriter writer)
         {
-            writer.AddResource("CULTURE" + SSEPERATOR, Culture.Name);
+            writer.AddResource("CULTURE" + SSEPARATOR, Culture.Name);
             foreach (var entry in _translations)
             {
-                writer.AddResource("VALUE" + SSEPERATOR + entry.Key, entry.Value);
+                writer.AddResource("VALUE" + SSEPARATOR + entry.Key, entry.Value);
             }
 
             foreach (var entry in _arrayTranslations)
             {
-                writer.AddResource("LIST" + SSEPERATOR + entry.Key, MakeList(entry.Value));
+                writer.AddResource("LIST" + SSEPARATOR + entry.Key, MakeList(entry.Value));
             }
 
             // Switch from field;usage -> patterns
@@ -212,7 +213,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var byPattern = new Dictionary<string, List<string>>();
             foreach (var entry in _templateTranslations)
             {
-                var names = SplitList(entry.Key).ToArray();
+                var names = entry.Key.SplitList().ToArray();
                 var field = names[0];
                 var usage = names[1];
                 var key = MakeList(AddPrefix(usage, entry.Value));
@@ -230,37 +231,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             // Write out TEMPLATE;usage;field* -> pattern*
             foreach (var entry in byPattern)
             {
-                var elements = SplitList(entry.Key).ToArray();
+                var elements = entry.Key.SplitList().ToArray();
                 var usage = elements[0];
                 var patterns = elements.Skip(1);
-                var key = "TEMPLATE" + SSEPERATOR + usage + SSEPERATOR + MakeList(entry.Value);
+                var key = "TEMPLATE" + SSEPARATOR + usage + SSEPARATOR + MakeList(entry.Value);
                 writer.AddResource(key, MakeList(patterns));
             }
         }
 
-        protected const char SEPERATOR = ';';
-        protected const string SSEPERATOR = ";";
-        protected const string ESCAPED_SEPERATOR = "__semi";
-
         protected IEnumerable<string> AddPrefix(string prefix, IEnumerable<string> suffix)
         {
             return new string[] { prefix }.Union(suffix);
-        }
-
-        protected string MakeList(IEnumerable<string> elements)
-        {
-            return string.Join(SSEPERATOR, from elt in elements select elt.Replace(SSEPERATOR, ESCAPED_SEPERATOR));
-        }
-
-        protected string MakeList(params string[] elements)
-        {
-            return MakeList(elements.AsEnumerable<string>());
-        }
-
-        protected IEnumerable<string> SplitList(string str)
-        {
-            var elements = str.Split(SEPERATOR);
-            return from elt in elements select elt.Replace(ESCAPED_SEPERATOR, SSEPERATOR);
         }
 
         protected Dictionary<string, string> _translations = new Dictionary<string, string>();

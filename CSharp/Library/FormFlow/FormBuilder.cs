@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             IFormBuilder<T> builder = this;
-            return builder.Confirm(new PromptAttribute(prompt) { ChoiceFormat = "{1}", AllowDefault = BoolDefault.False }, condition, dependencies);
+            return builder.Confirm(new PromptAttribute(prompt) { ChoiceFormat = Resources.ConfirmChoiceFormat, AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
         public IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)

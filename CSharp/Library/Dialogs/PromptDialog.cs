@@ -31,14 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -138,7 +137,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 get
                 {
-                    return "I didn't understand. Say something in reply.\n" + this.prompt;
+                    return Resources.PromptRetry + "\n" + this.prompt;
                 }
             }
         }
@@ -159,36 +158,31 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             protected override bool TryParse(Message message, out bool result)
             {
+                var found = false;
+                result = false;
                 if (message.Text != null)
                 {
-                    switch (message.Text.Trim().ToLower())
+                    var term = message.Text.Trim().ToLower();
+                    var no = (from r in Resources.MatchNo.SplitList() select r.ToLower());
+                    if ((from r in Resources.MatchYes.SplitList() select r.ToLower()).Contains(term))
                     {
-                        case "y":
-                        case "yes":
-                        case "ok":
-                            result = true;
-                            return true;
-                        case "n":
-                        case "no":
-                            result = false;
-                            return true;
-                        default:
-                            result = false;
-                            return false;
+                        result = true;
+                        found = true;
+                    }
+                    else if ((from r in Resources.MatchNo.SplitList() select r.ToLower()).Contains(term))
+                    {
+                        result = false;
+                        found = true;
                     }
                 }
-                else
-                {
-                    result = false;
-                    return false; 
-                }
+                return found;
             }
 
             protected override string DefaultRetry
             {
                 get
                 {
-                    return "I didn't understand. Valid replies are yes or no.\n" + this.prompt;
+                    return Resources.PromptRetry + "\n" + this.prompt;
                 }
             }
         }
