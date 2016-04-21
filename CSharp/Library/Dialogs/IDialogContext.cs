@@ -81,14 +81,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
         /// </summary>
+        /// <remarks>
+        /// If the language parameter is not set, language of the incoming message will be used for reply.
+        /// </remarks>
         /// <param name="botToUser">Communication channel to use.</param>
         /// <param name="text">The message text.</param>
+        /// <param name="language">The language of the text.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>
-        public static async Task PostAsync(this IBotToUser botToUser, string text, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task PostAsync(this IBotToUser botToUser, string text, string language = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var message = botToUser.MakeMessage();
             message.Text = text;
+            
+            if(!string.IsNullOrEmpty(language))
+            {
+                message.Language = language;
+            }
+            
             await botToUser.PostAsync(message, cancellationToken);
         }
     }
