@@ -53,7 +53,6 @@ If you need access to the SendMessageAsync API from the connector client you can
     await connector.Messages.SendMessageAsync(message);
 {% endhighlight %}
 
-The emulator supports the message BotData fields but doesn't support the connector API version of it (yet!).
 
 ## Mac and Linux support using command line emulator
 For folks who are developing on Mac and Linux we have created a console only version which works using mono. 
