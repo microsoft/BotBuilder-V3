@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var entry in dictionary)
             {
-                _translations.Add(prefix + SSEPARATOR + entry.Key, entry.Value);
+                _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var entry in dictionary)
             {
-                _arrayTranslations.Add(prefix + SSEPARATOR + entry.Key, entry.Value);
+                _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string value;
-                if (_translations.TryGetValue(prefix + SSEPARATOR + key, out value))
+                if (_translations.TryGetValue(prefix + SEPARATOR + key, out value))
                 {
                     dictionary[key] = value;
                 }
@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string[] values;
-                if (_arrayTranslations.TryGetValue(prefix + SSEPARATOR + key, out values))
+                if (_arrayTranslations.TryGetValue(prefix + SEPARATOR + key, out values))
                 {
                     dictionary[key] = values;
                 }
@@ -131,7 +131,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var template in templates.Values)
             {
                 string[] patterns;
-                if (_templateTranslations.TryGetValue(prefix + SSEPARATOR + template.Usage, out patterns))
+                if (_templateTranslations.TryGetValue(prefix + SEPARATOR + template.Usage, out patterns))
                 {
                     template.Patterns = patterns;
                 }
@@ -153,7 +153,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (DictionaryEntry entry in reader)
             {
                 var fullKey = (string)entry.Key;
-                var semi = fullKey.IndexOf(SSEPARATOR[0]);
+                var semi = fullKey.IndexOf(SEPARATOR[0]);
                 var type = fullKey.Substring(0, semi);
                 var key = fullKey.Substring(semi + 1);
                 var val = (string)entry.Value;
@@ -197,15 +197,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void Save(IResourceWriter writer)
         {
-            writer.AddResource("CULTURE" + SSEPARATOR, Culture.Name);
+            writer.AddResource("CULTURE" + SEPARATOR, Culture.Name);
             foreach (var entry in _translations)
             {
-                writer.AddResource("VALUE" + SSEPARATOR + entry.Key, entry.Value);
+                writer.AddResource("VALUE" + SEPARATOR + entry.Key, entry.Value);
             }
 
             foreach (var entry in _arrayTranslations)
             {
-                writer.AddResource("LIST" + SSEPARATOR + entry.Key, MakeList(entry.Value));
+                writer.AddResource("LIST" + SEPARATOR + entry.Key, MakeList(entry.Value));
             }
 
             // Switch from field;usage -> patterns
@@ -234,7 +234,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var elements = entry.Key.SplitList().ToArray();
                 var usage = elements[0];
                 var patterns = elements.Skip(1);
-                var key = "TEMPLATE" + SSEPARATOR + usage + SSEPARATOR + MakeList(entry.Value);
+                var key = "TEMPLATE" + SEPARATOR + usage + SEPARATOR + MakeList(entry.Value);
                 writer.AddResource(key, MakeList(patterns));
             }
         }

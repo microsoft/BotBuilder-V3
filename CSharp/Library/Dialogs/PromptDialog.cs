@@ -163,7 +163,6 @@ namespace Microsoft.Bot.Builder.Dialogs
                 if (message.Text != null)
                 {
                     var term = message.Text.Trim().ToLower();
-                    var no = (from r in Resources.MatchNo.SplitList() select r.ToLower());
                     if ((from r in Resources.MatchYes.SplitList() select r.ToLower()).Contains(term))
                     {
                         result = true;

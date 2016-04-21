@@ -43,9 +43,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     public static partial class ResourceExtensions
     {
         /// <summary>   The separator character between elements in a string list. </summary>
-        public const string SSEPARATOR = ";";
+        public const string SEPARATOR = ";";
 
-        /// <summary>   When the <see cref="SSEPARATOR"/> is found in a string list, the escaped replacement.</summary>
+        /// <summary>   When the <see cref="SEPARATOR"/> is found in a string list, the escaped replacement.</summary>
         public const string ESCAPED_SEPARATOR = "__semi";
 
         #region Documentation
@@ -55,10 +55,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="escape">       The escape string for separator characters. </param>
         /// <returns>   A string. </returns>
         #endregion
-        public static string MakeList(IEnumerable<string> elements, string separator = SSEPARATOR, string escape = ESCAPED_SEPARATOR)
+        public static string MakeList(IEnumerable<string> elements, string separator = SEPARATOR, string escape = ESCAPED_SEPARATOR)
         {
             return string.Join(separator, from elt in elements select elt.Replace(separator, escape));
         }
+
         #region Documentation
         /// <summary>   Makes a list from parameters. </summary>
         /// <param name="elements"> The elements to combine into a list. </param>
@@ -66,8 +67,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         #endregion
         public static string MakeList(params string[] elements)
         {
-            return MakeList(elements.AsEnumerable<string>());
+            return MakeList(elements.AsEnumerable());
         }
+
         #region Documentation
         /// <summary>   A string extension method that splits a list. </summary>
         /// <param name="str">          The str to act on. </param>
@@ -75,7 +77,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="escape">       The escape string for separator characters. </param>
         /// <returns>   A string[]. </returns>
         #endregion
-        public static string[] SplitList(this string str, string separator = SSEPARATOR, string escape = ESCAPED_SEPARATOR)
+        public static string[] SplitList(this string str, string separator = SEPARATOR, string escape = ESCAPED_SEPARATOR)
         {
             var elements = str.Split(separator[0]);
             return (from elt in elements select elt.Replace(escape, separator)).ToArray();
