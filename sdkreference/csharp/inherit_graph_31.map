@@ -1,3 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html" title="Description of all the information needed for a built&#45;in command. " alt="" coords="5,5,183,47"/>
+<area shape="rect" id="node1" href="$d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html" title="Describe the information displayed about a field and its values. " alt="" coords="9,5,219,47"/>
+<area shape="rect" id="node2" href="$d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html" title="Interface for all the information about a specific field. " alt="" coords="271,71,448,112"/>
+<area shape="rect" id="node3" href="$d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html" title="Base class with declarative implementation of IField&lt;T&gt;. " alt="" coords="496,71,673,112"/>
+<area shape="rect" id="node4" href="$db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html" title="Confirmation " alt="" coords="725,37,941,79"/>
+<area shape="rect" id="node5" href="$d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html" title="Fill in field information through reflection." alt="" coords="721,103,944,144"/>
+<area shape="rect" id="node6" href="$da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html" title="Microsoft.Bot.Builder.Form\lFlow.Advanced.Conditional\&lt; T \&gt;" alt="" coords="992,103,1200,144"/>
+<area shape="rect" id="node7" href="$d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt.html" title="This provides control information about a field. " alt="" coords="5,71,223,112"/>
+<area shape="rect" id="node8" href="$d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html" title="Interface that defines basic access to a field. " alt="" coords="11,136,217,177"/>
 </map>

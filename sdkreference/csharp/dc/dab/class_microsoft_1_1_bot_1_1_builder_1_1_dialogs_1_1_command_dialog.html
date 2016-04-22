@@ -119,12 +119,12 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.CommandDialog&lt; T &gt;:<
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command.html">Command</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single command.  <a href="../../db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a50781c0d06af294f7bd19510d5068367"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a50781c0d06af294f7bd19510d5068367">MessageReceived</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; Connector.Message &gt; message)</td></tr>
-<tr class="memdesc:a50781c0d06af294f7bd19510d5068367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message handler of the command dialog.  <a href="#a50781c0d06af294f7bd19510d5068367">More...</a><br /></td></tr>
 <tr class="separator:a50781c0d06af294f7bd19510d5068367"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c68ecc27629eb63c405f0db17d07825"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html">CommandDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a7c68ecc27629eb63c405f0db17d07825">On&lt; U &gt;</a> (Regex expression, ResumeAfter&lt; Connector.Message &gt; handler, ResumeAfter&lt; U &gt; resultHandler=null)</td></tr>
 <tr class="memdesc:a7c68ecc27629eb63c405f0db17d07825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define a handler that is fired on a regular expression match of a message.  <a href="#a7c68ecc27629eb63c405f0db17d07825">More...</a><br /></td></tr>
@@ -139,7 +139,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Dialog that dispatches based on a regex matching input. </p>
 
-<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00051">51</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00050">50</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a50781c0d06af294f7bd19510d5068367"></a>
 <div class="memitem">
@@ -173,16 +173,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Message handler of the command dialog. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">context</td><td>Dialog context. </td></tr>
-    <tr><td class="paramname">message</td><td>Message from the user. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00075">75</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00086">86</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -241,7 +232,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A commandDialog. </dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00138">138</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00149">149</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -293,7 +284,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html" title="Dialog that dispatches based on a regex matching input. ">CommandDialog</a>. </dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00159">159</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00170">170</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -344,7 +335,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00114">114</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html#l00125">125</a> of file <a class="el" href="../../dd/d45/_command_dialog_8cs_source.html">CommandDialog.cs</a>.</p>
 
 </div>
 </div>

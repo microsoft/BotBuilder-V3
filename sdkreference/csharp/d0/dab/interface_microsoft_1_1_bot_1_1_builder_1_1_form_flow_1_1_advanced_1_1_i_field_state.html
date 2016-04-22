@@ -149,6 +149,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a5d607b8704afeab5216e22dbe7b1f13f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a5d607b8704afeab5216e22dbe7b1f13f">Optional</a><code> [get]</code></td></tr>
 <tr class="memdesc:a5d607b8704afeab5216e22dbe7b1f13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test to see if field is optional which means that an unknown value is legal.  <a href="#a5d607b8704afeab5216e22dbe7b1f13f">More...</a><br /></td></tr>
 <tr class="separator:a5d607b8704afeab5216e22dbe7b1f13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80a4089e743c06f149aa27a1728182e8"><td class="memItemLeft" align="right" valign="top">Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a80a4089e743c06f149aa27a1728182e8">Type</a><code> [get]</code></td></tr>
+<tr class="memdesc:a80a4089e743c06f149aa27a1728182e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the type of the field.  <a href="#a80a4089e743c06f149aa27a1728182e8">More...</a><br /></td></tr>
+<tr class="separator:a80a4089e743c06f149aa27a1728182e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface that defines basic access to a field. </p>
@@ -159,7 +162,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00045">45</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00046">46</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="add02377bc3bba8fe7a79abe0b75b98f1"></a>
 <div class="memitem">
@@ -212,7 +215,7 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True if value is unknown.</dd></dl>
 <p>For value types (numbers, bools, date time) a value is unknown only if the field is nullable and it is null. For enum based values (both simple and enumerated) they can also be nullable or the 0 enum value if not nullable. For non value types like string the test is to see if the field is actually null. </p>
 
-<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#aa122f2a922aa44293a5e16b50932a7fc">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a75916b7ab75268c85a49e52cb33e4b68">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#a3729b60b2ed7ac3e0b0dccee8fb0bc8b">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#aa122f2a922aa44293a5e16b50932a7fc">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#a3729b60b2ed7ac3e0b0dccee8fb0bc8b">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a75916b7ab75268c85a49e52cb33e4b68">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -249,7 +252,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if limits limit the underlying data type.</dd></dl>
-<p>This reflects the result of setting &lt;see cref="NumericAttribute" limits on the possible values./&gt;</p>
+<p>This reflects the result of setting <a class="el" href="../../df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html" title="Provide limits on the possible values in a numeric field or property. ">NumericAttribute</a> limits on the possible values./&gt;</p>
 
 <p>Implemented in <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a7f121b98343fcef856579d1efa925418">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>.</p>
 
@@ -278,7 +281,7 @@ Properties</h2></td></tr>
 </dl>
 <p>For value types (numbers, bools, date time) the value is set to null if nullable. For enum types it is set to null if nullable or 0 if not. For non value types like string set the value to null. </p>
 
-<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#a49a0040bea11baeb2cf1353a4253a283">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a352eed4df8f7d42c3e1e902a6c240c7b">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#ad6d98be198e81897c6fde246ec3447ab">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#a49a0040bea11baeb2cf1353a4253a283">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#ad6d98be198e81897c6fde246ec3447ab">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a352eed4df8f7d42c3e1e902a6c240c7b">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -315,7 +318,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#aed7bda90698030c458a2e289e0cab289">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a59b8b2d0073ff8b20f6c4396aa7bb938">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#aa4977f384bd5e36479914735c723b4bf">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#aed7bda90698030c458a2e289e0cab289">Microsoft.Bot.Builder.FormFlow.Advanced.FieldReflector&lt; T &gt;</a>, <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#aa4977f384bd5e36479914735c723b4bf">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>, and <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a59b8b2d0073ff8b20f6c4396aa7bb938">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -340,9 +343,9 @@ Properties</h2></td></tr>
 
 <p>Returns the other fields this one depends on. </p>
 <dl class="section return"><dt>Returns</dt><dd>List of field names this one depends on.</dd></dl>
-<p>This is mainly useful for <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html" title="Confirmation ">Confirmation</a> fields.</p>
+<p>This is mainly useful for Advanced.Confirmation&lt;T&gt; fields.</p>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00111">111</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00116">116</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 
 </div>
 </div>
@@ -367,7 +370,7 @@ Properties</h2></td></tr>
 <p>Test to see if field is nullable. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if field is nullable.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00094">94</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00099">99</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 
 </div>
 </div>
@@ -392,7 +395,32 @@ Properties</h2></td></tr>
 <p>Test to see if field is optional which means that an unknown value is legal. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if field is optional.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00088">88</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00093">93</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a80a4089e743c06f149aa27a1728182e8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Type <a class="el" href="../../d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html">Microsoft.Bot.Builder.FormFlow.Advanced.IFieldState</a>&lt; T &gt;.Type</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the type of the field. </p>
+<p>The type. </p>
+
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00087">87</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 
 </div>
 </div>

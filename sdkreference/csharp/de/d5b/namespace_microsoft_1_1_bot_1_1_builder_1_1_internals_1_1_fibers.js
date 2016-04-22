@@ -1,5 +1,6 @@
 var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
 [
+    [ "ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception" ],
     [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ],
     [ "Fiber", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber.html", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber" ],
     [ "FiberModule", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module" ],
@@ -25,6 +26,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
     [ "PostStruct", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct" ],
     [ "ReflectionSurrogateModule", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module" ],
     [ "Serialization", "df/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization.html", [
+      [ "ClosureCaptureErrorSurrogate", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate.html", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate" ],
       [ "ISurrogateProvider", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider" ],
       [ "SimpleServiceLocator", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
       [ "StoreInstanceByFieldsSurrogate", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate" ],

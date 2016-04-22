@@ -16,9 +16,7 @@ var files =
       [ "BotToUserTextWriter", "d0/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_text_writer.html", "d0/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_text_writer" ],
       [ "SendLastInline_BotToUser", "de/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_send_last_inline___bot_to_user.html", "de/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_send_last_inline___bot_to_user" ]
     ] ],
-    [ "Chain.cs", "dd/d4f/_chain_8cs.html", [
-      [ "Chain", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain" ]
-    ] ],
+    [ "Chain.cs", "dd/d4f/_chain_8cs.html", "dd/d4f/_chain_8cs" ],
     [ "CommandDialog.cs", "dd/d45/_command_dialog_8cs.html", [
       [ "CommandDialog", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog" ],
       [ "Command", "db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command.html", "db/d81/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog_1_1_command" ]
@@ -45,13 +43,15 @@ var files =
       [ "EntityRecommendation", "d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation.html", "d5/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_entity_recommendation" ]
     ] ],
     [ "Exceptions.cs", "d9/dac/_exceptions_8cs.html", [
+      [ "ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception" ],
       [ "InvalidNeedException", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception.html", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception" ],
       [ "InvalidNextException", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception.html", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception" ],
       [ "InvalidTypeException", "db/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_type_exception.html", "db/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_type_exception" ],
       [ "InvalidWaitException", "d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception.html", "d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception" ]
     ] ],
     [ "Dialogs/Extensions.cs", "dc/d9c/_dialogs_2_extensions_8cs.html", [
-      [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ]
+      [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ],
+      [ "ResourceExtensions", "dc/d90/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resource_extensions.html", "dc/d90/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resource_extensions" ]
     ] ],
     [ "Fibers/Extensions.cs", "d7/d52/_fibers_2_extensions_8cs.html", [
       [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ]
@@ -74,12 +74,7 @@ var files =
       [ "FiberModule", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module" ],
       [ "ReflectionSurrogateModule", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module" ]
     ] ],
-    [ "Field.cs", "d2/d6b/_field_8cs.html", [
-      [ "Conditional", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional" ],
-      [ "Field", "d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html", "d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field" ],
-      [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ],
-      [ "Fields", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields" ]
-    ] ],
+    [ "Field.cs", "d2/d6b/_field_8cs.html", "d2/d6b/_field_8cs" ],
     [ "Form.cs", "db/d24/_form_8cs.html", null ],
     [ "FormBuilder.cs", "d3/df3/_form_builder_8cs.html", [
       [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ]
@@ -94,10 +89,7 @@ var files =
       [ "Extensions", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions" ],
       [ "IBotDataBag", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag" ]
     ] ],
-    [ "IConnectorClientFactory.cs", "de/de9/_i_connector_client_factory_8cs.html", [
-      [ "DetectEmulatorFactory", "d3/d70/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory.html", "d3/d70/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory" ],
-      [ "IConnectorClientFactory", "db/de6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory.html", "db/de6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory" ]
-    ] ],
+    [ "IConnectorClientFactory.cs", "de/de9/_i_connector_client_factory_8cs.html", "de/de9/_i_connector_client_factory_8cs" ],
     [ "IDialog.cs", "d6/d32/_i_dialog_8cs.html", [
       [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ],
       [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ]
@@ -111,10 +103,7 @@ var files =
     [ "IForm.cs", "d8/dd7/_i_form_8cs.html", [
       [ "IForm", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form" ]
     ] ],
-    [ "IFormBuilder.cs", "dc/dc2/_i_form_builder_8cs.html", [
-      [ "FormConfiguration", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration" ],
-      [ "IFormBuilder", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder" ]
-    ] ],
+    [ "IFormBuilder.cs", "dc/dc2/_i_form_builder_8cs.html", "dc/dc2/_i_form_builder_8cs" ],
     [ "IFormDialog.cs", "d0/df6/_i_form_dialog_8cs.html", "d0/df6/_i_form_dialog_8cs" ],
     [ "ILocalizer.cs", "db/da8/_i_localizer_8cs.html", null ],
     [ "IntentRecommendation.cs", "dd/d99/_intent_recommendation_8cs.html", [
@@ -124,11 +113,12 @@ var files =
       [ "IPrompt", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt" ],
       [ "Prompter", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter" ]
     ] ],
-    [ "IRecognizer.cs", "d1/d48/_i_recognizer_8cs.html", "d1/d48/_i_recognizer_8cs" ],
+    [ "IRecognize.cs", "da/d3e/_i_recognize_8cs.html", "da/d3e/_i_recognize_8cs" ],
     [ "IStep.cs", "d9/d6f/_i_step_8cs.html", "d9/d6f/_i_step_8cs" ],
     [ "Language.cs", "d8/d82/_language_8cs.html", [
       [ "Language", "d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html", "d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language" ]
     ] ],
+    [ "Localizer.cs", "dc/dd9/_localizer_8cs.html", null ],
     [ "LuisDialog.cs", "dd/d15/_luis_dialog_8cs.html", "dd/d15/_luis_dialog_8cs" ],
     [ "LuisModel.cs", "df/df8/_luis_model_8cs.html", [
       [ "LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute" ]
@@ -156,9 +146,11 @@ var files =
       [ "PromptInt64", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64.html", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64" ],
       [ "PromptString", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string.html", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string" ]
     ] ],
-    [ "Recognizer.cs", "de/da1/_recognizer_8cs.html", "de/da1/_recognizer_8cs" ],
+    [ "Recognize.cs", "dd/dc1/_recognize_8cs.html", "dd/dc1/_recognize_8cs" ],
+    [ "Resources.Designer.cs", "d6/d0e/_resources_8_designer_8cs.html", null ],
     [ "Serialization.cs", "d8/d54/_serialization_8cs.html", [
       [ "Serialization", "df/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization.html", [
+        [ "ClosureCaptureErrorSurrogate", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate.html", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate" ],
         [ "ISurrogateProvider", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider" ],
         [ "SimpleServiceLocator", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
         [ "StoreInstanceByFieldsSurrogate", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate" ],
@@ -166,6 +158,7 @@ var files =
         [ "SurrogateLogDecorator", "dd/d43/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_log_decorator.html", "dd/d43/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_log_decorator" ],
         [ "SurrogateSelector", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
       ] ],
+      [ "ClosureCaptureErrorSurrogate", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate.html", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate" ],
       [ "ISurrogateProvider", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider" ],
       [ "SimpleServiceLocator", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator.html", "d1/d1d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_simple_service_locator" ],
       [ "StoreInstanceByFieldsSurrogate", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate" ],

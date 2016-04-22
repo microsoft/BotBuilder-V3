@@ -112,14 +112,14 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#aec72e9871ecddc54f3a63c1d4f5f1798">Get&lt; T &gt;</a> (this <a class="el" href="../../d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html">IBotDataBag</a> bag, string key)</td></tr>
 <tr class="memdesc:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value associated with the specified key.  <a href="#aec72e9871ecddc54f3a63c1d4f5f1798">More...</a><br /></td></tr>
 <tr class="separator:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ba708fa37b51d96048028556ee5f434"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#a0ba708fa37b51d96048028556ee5f434">PostAsync</a> (this <a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a> botToUser, string text, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
-<tr class="memdesc:a0ba708fa37b51d96048028556ee5f434"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post a message to be sent to the bot, using previous messages to establish a conversation context.  <a href="#a0ba708fa37b51d96048028556ee5f434">More...</a><br /></td></tr>
-<tr class="separator:a0ba708fa37b51d96048028556ee5f434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab338ee85f3a4e9168951f03eacaebc6e"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#ab338ee85f3a4e9168951f03eacaebc6e">PostAsync</a> (this <a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a> botToUser, string text, string language=null, CancellationToken cancellationToken=default(CancellationToken))</td></tr>
+<tr class="memdesc:ab338ee85f3a4e9168951f03eacaebc6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post a message to be sent to the bot, using previous messages to establish a conversation context.  <a href="#ab338ee85f3a4e9168951f03eacaebc6e">More...</a><br /></td></tr>
+<tr class="separator:ab338ee85f3a4e9168951f03eacaebc6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper methods. </p>
 
-<p>Definition at line <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html#l00072">72</a> of file <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html">IBotDataBag.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html#l00079">79</a> of file <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html">IBotDataBag.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aec72e9871ecddc54f3a63c1d4f5f1798"></a>
 <div class="memitem">
@@ -169,11 +169,11 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value associated with the specified key. If the specified key is not found, a get operation throws a KeyNotFoundException.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html#l00081">81</a> of file <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html">IBotDataBag.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html#l00088">88</a> of file <a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html">IBotDataBag.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a0ba708fa37b51d96048028556ee5f434"></a>
+<a class="anchor" id="ab338ee85f3a4e9168951f03eacaebc6e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -195,6 +195,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>language</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em> = <code>default(CancellationToken)</code>&#160;</td>
         </tr>
@@ -212,16 +218,19 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Post a message to be sent to the bot, using previous messages to establish a conversation context. </p>
+<p>If the language parameter is not set, language of the incoming message will be used for reply. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">botToUser</td><td>Communication channel to use.</td></tr>
     <tr><td class="paramname">text</td><td>The message text.</td></tr>
+    <tr><td class="paramname">language</td><td>The language of the text.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A task that represents the post operation.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00087">87</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00092">92</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
 
 </div>
 </div>

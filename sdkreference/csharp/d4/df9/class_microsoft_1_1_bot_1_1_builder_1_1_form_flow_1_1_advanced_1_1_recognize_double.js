@@ -1,6 +1,6 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double =
 [
-    [ "RecognizeDouble", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html#a8a72dd6f18f5bea94c92d11611dd8eba", null ],
+    [ "RecognizeDouble", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html#a0d0f9fd752888447beb352af2f764545", null ],
     [ "Help", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html#a9517d12aef12da7163c7848e81a4a18e", null ],
     [ "HelpArgs", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html#a084b8ccfcf2df7e219db90249ec0ec58", null ],
     [ "Matches", "d4/df9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_double.html#af6f9df63391189af124626cd4cfc066a", null ],

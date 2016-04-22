@@ -13,6 +13,8 @@ var NAVTREE =
       [ "Echo Bot with State", "dialogs.html#echoBot", null ],
       [ "Alarm Bot", "dialogs.html#alarmBot", null ],
       [ "IDialogContext", "dialogs.html#IDialogContext", null ],
+      [ "Serialization", "dialogs.html#Serialization", null ],
+      [ "Dialog Chains", "dialogs.html#Fluent", null ],
       [ "Conclusion", "dialogs.html#Conclusion", null ]
     ] ],
     [ "FormFlow", "forms.html", [
@@ -21,7 +23,10 @@ var NAVTREE =
       [ "Improved Sandwich Bot", "forms.html#annotatedSandwich", [
         [ "Attributes", "forms.html#attributes", null ],
         [ "Adding Business Logic", "forms.html#logic", null ],
-        [ "Using the Form Builder", "forms.html#ControlFlow", null ]
+        [ "Using the Form Builder", "forms.html#controlFlow", null ],
+        [ "Dynamically Defined Fields, Confirmations and Messages", "forms.html#dynamicFields", null ],
+        [ "Handling Quit and Exceptions", "forms.html#quitExceptions", null ],
+        [ "Final Sandwich Bot", "forms.html#finalBot", null ]
       ] ],
       [ "Passing in Initial Form State and Entities", "forms.html#initialState", null ],
       [ "Pattern Language", "forms.html#patterns", null ]
@@ -54,10 +59,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html#aaf789ed558fcbc626c37f4318636a632",
-"d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception.html#a0b35b965806543fe81a40f2728ae5cac",
-"da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html#a223024368e62bcc1190dae12a82855f0",
-"dc/dfe/_wait_8cs.html#ade48f20e4b061b5614ade8fea7d3394aa6adf97f83acf6453d4a6a4b1070f3754"
+"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#aa9005546e1af60f5fda0c3293d2a77b8",
+"d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html",
+"d9/db9/_i_prompt_8cs_source.html",
+"dc/d90/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resource_extensions.html",
+"de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html#aedf4f474bf5299cd34fdf5875b2f4018"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

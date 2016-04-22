@@ -4,6 +4,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow =
     [ "CommandDescription", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description" ],
     [ "DescribeAttribute", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute" ],
     [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ],
+    [ "FormCanceledException", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", null ],
     [ "FormConfiguration", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration" ],
     [ "FormDialog", "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html", null ],
     [ "IForm", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form" ],

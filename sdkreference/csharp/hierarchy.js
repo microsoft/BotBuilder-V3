@@ -23,12 +23,21 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataBase< JObject >", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html", [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.JObjectBotData", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Case< string, R >", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.RegexCase< R >", "d0/d38/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_regex_case.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Dialogs.IAwaitable< T >", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IItem< out out T >", "d9/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_item.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IAwaiter< T >", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.ICase< T, R >", "d8/d03/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_case.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.Case< T, R >", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html", [
+        [ "Microsoft.Bot.Builder.Dialogs.DefaultCase< T, R >", "d3/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_default_case.html", null ]
+      ] ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.IDialog< Connector.Message >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< Microsoft.Bot.Builder.Dialogs.IDialog< T > >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< R >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", [
       [ "Microsoft.Bot.Builder.Dialogs.LuisDialog< R >", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html", null ]
@@ -79,6 +88,7 @@ var hierarchy =
     ] ],
     [ "ISerializationSurrogate", null, [
       [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.ISurrogateProvider", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html", [
+        [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.ClosureCaptureErrorSurrogate", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.StoreInstanceByFieldsSurrogate", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.StoreInstanceByTypeSurrogate", "df/d58/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_type_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.SurrogateLogDecorator", "dd/d43/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_log_decorator.html", null ]
@@ -99,6 +109,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Dialogs.Extensions", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IAwaitable< out out T >", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IBotDataBag", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.ICase< in in T, R >", "d8/d03/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_case.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< out out T >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotData", "db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html", [
@@ -132,6 +143,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Dialogs.Internals.IDialogContextInternal", "d8/d66/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_internal.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.ResourceExtensions", "dc/d90/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resource_extensions.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.IField< T >", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", [
@@ -166,6 +178,9 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.NextStep", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.TermMatch", "d3/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_term_match.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.CommandDescription", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.FormCanceledException", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", [
+      [ "Microsoft.Bot.Builder.FormFlow.FormCanceledException< T >", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.FormFlow.FormConfiguration", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.FormDialog", "db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.IForm< T >", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html", null ],
@@ -209,6 +224,10 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Luis.IntentRecommendation", "d7/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_intent_recommendation.html", null ],
     [ "Microsoft.Bot.Builder.Luis.LuisResult", "d5/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_result.html", null ],
+    [ "OperationCanceledException", null, [
+      [ "Microsoft.Bot.Builder.Dialogs.Chain.WhereCanceledException", "de/d53/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain_1_1_where_canceled_exception.html", null ],
+      [ "Microsoft.Bot.Builder.FormFlow.FormCanceledException< T >", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.Prompt< bool >", "d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html", [
       [ "Microsoft.Bot.Builder.Dialogs.PromptDialog.PromptConfirm", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html", null ]
     ] ],
@@ -220,5 +239,8 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.Prompt< string >", "d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html", [
       [ "Microsoft.Bot.Builder.Dialogs.PromptDialog.PromptString", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string.html", null ]
+    ] ],
+    [ "SerializationException", null, [
+      [ "Microsoft.Bot.Builder.Internals.Fibers.ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", null ]
     ] ]
 ];

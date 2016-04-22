@@ -33,6 +33,7 @@ var _attributes_8cs =
       [ "Never", "dc/dfd/_attributes_8cs.html#ac4ead01e3c8eeb1424f886479af0adf5a6e7b34fa59e1bd229b207892956dc41c", null ]
     ] ],
     [ "TemplateUsage", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313", [
+      [ "None", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a6adf97f83acf6453d4a6a4b1070f3754", null ],
       [ "Bool", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313ac26f15e86e3de4c398a8273272aba034", null ],
       [ "BoolHelp", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a198f2413588d42d05091b16b2a105de3", null ],
       [ "Clarify", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a7f6cf09a6c241b092435452bdaa8162e", null ],
