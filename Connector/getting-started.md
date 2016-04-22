@@ -23,15 +23,15 @@ To use the Microsoft Bot Framework Connector, you must have:
 2. An Azure-accessible REST endpoint exposing a callback for the Connector service.
 3. Developer accounts on one or more communication services (such as Skype) where your Bot will communicate. 
 	
-In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot. There are additionally different ways to go about building a Bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .Net, and the Bot Connector .Net template which is what this QuickStart guide demonstrates.
+In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot. There are additionally different ways to go about building a Bot; from scratch, coded directly to the Bot Connector REST API, the Bot Builder SDK's for Node.JS & .NET, and the Bot Connector .NET template which is what this QuickStart guide demonstrates.
 	
-## Getting started in .Net    
-This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Connector SDK .Net template.
+## Getting started in .NET    
+This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Connector SDK .NET template.
 
 1. Install prerequisite software
 
-	* Visual Studio 2015 Update 1 - you can downlodad the community version here for free:
-        https://www.visualstudio.com/
+	* Visual Studio 2015 (latest update) - you can downlodad the community version here for free:
+        [www.visualstudio.com](https://www.visualstudio.com/)
             
 	* Important: Please update all VS extensions to their latest versions
 		Tools->Extensions and Updates->Updates
@@ -220,11 +220,9 @@ Note that the first request after your Bot starts up can take 20-30s as Azure st
 Now that you have a Bot up and running, you'll want to configure it for one or more channels your users are using. Configuring channels is a combination of Microsoft Bot Framework workflow and conversation service workflow, and is unique for each channel you wish to configure.  
 
 1. To configure a channel, go back to the Bot Framework portal at https://www.botframework.com. Sign in, select your Bot, and go to the channels panel.
-
 ![Sign in, select your Bot, and go to the Channels panel.](/images/connector-getstarted-configure-channels.png)
 
 2. Pick the channel you wish to configure, and click add.  You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf.
-
 ![Configuring a channel, for example, Skype.](/images/connector_channel_config_skype.png)
 
 3. Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".  
