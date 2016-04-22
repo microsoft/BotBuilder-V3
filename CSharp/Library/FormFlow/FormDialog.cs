@@ -224,8 +224,9 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                     var input = builder.ToString();
                     await step.DefineAsync(_state);
+                    step.Start(context, _state, _formState);
                     var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input), input);
-                    if (MatchAnalyzer.IsFullMatch(input, matches, 0.5))
+                    if (MatchAnalyzer.IsFullMatch(input, matches, 0.0))
                     {
                         // TODO: In the case of clarification
                         // 1) Go through them while supporting only quit or back and reset
