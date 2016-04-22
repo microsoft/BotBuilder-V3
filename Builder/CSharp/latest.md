@@ -25,6 +25,16 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v1.1.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.1.0)
+
+* __Breaking Change:__ Rename some delegates and methods to be more consistent and to support dynamic field definition. Unless you were using Field or FieldReflector directly this should be transparent.
+* Provide a way to dynamically define fields, confirmations and messages.
+* Add FormCanceledException which provides information on what steps were completed and where the user quit.
+* Add more flexibility on how parenthesis are used when generating prompts.
+* Fix a number of bugs around initial state and LUIS entities.
+* Extend chain model to support branching (Chain.Switch)
+* Add support for resumption of a conversation
+* Add Facebook OAuth Example
 
 ### [v1.0.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.0.2)
 
