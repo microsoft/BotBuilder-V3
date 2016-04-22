@@ -90,6 +90,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class AlwaysSendDirect_BotToUser : IBotToUser
+    {
+        private readonly Message toBot;
+        private readonly IConnectorClient client;
+        public AlwaysSendDirect_BotToUser(Message toBot, IConnectorClient client)
+        {
+            SetField.NotNull(out this.toBot, nameof(toBot), toBot);
+            SetField.NotNull(out this.client, nameof(client), client);
+        }
+
+        Message IBotToUser.MakeMessage()
+        {
+            var toUser = this.toBot.CreateReplyMessage();
+            toUser.BotUserData = this.toBot.BotUserData;
+            toUser.BotConversationData = this.toBot.BotConversationData;
+            toUser.BotPerUserInConversationData = this.toBot.BotPerUserInConversationData;
+            return toUser;
+        }
+
+        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
+        {
+            await this.client.Messages.SendMessageAsync(message, cancellationToken);
+        }
+    }
+
     public sealed class BotToUserQueue : IBotToUser
     {
         private readonly Message toBot;
