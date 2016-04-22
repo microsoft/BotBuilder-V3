@@ -113,10 +113,39 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <returns>A task representing the post operation.</returns>
         public static async Task PostAsync<T, R>(this IDialogContextStore store, T toBot, Func<IDialog<R>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            var context = await LoadAsync(store, MakeRoot);
+            IDialogContextInternal context;
+            if (MakeRoot != null)
+            {
+                context = await LoadAsync(store, MakeRoot);
+            }
+            else
+            {
+                if (!store.TryLoad(out context))
+                {
+                    throw new InvalidOperationException("Cannot resume on an empty call stack!");
+                }
+            }
+
             IPostToBot postToBot = context;
             await postToBot.PostAsync(toBot, token);
             store.Save(context);
+        }
+
+        /// <summary>
+        /// <see cref="PostAsync{T, R}(IDialogContextStore, T, Func{IDialog{R}}, CancellationToken)"/>
+        /// </summary>
+        /// <remarks> 
+        /// This function trys to resume the conversation based on the call stack. 
+        /// It throws <see cref="InvalidOperationException"/> if loading the call stack from context store fails.
+        /// </remarks>
+        /// <typeparam name="T"> The type of the item.</typeparam>
+        /// <param name="store"> The dialog context store.</param>
+        /// <param name="toBot"> The item to be sent to the bot.</param>
+        /// <param name="token"> An optional cancellation token.</param>
+        /// <returns> A task representing the post operation.</returns>
+        public static async Task PostAsync<T>(this IDialogContextStore store, T toBot, CancellationToken token = default(CancellationToken))
+        {
+            await store.PostAsync<T, object>(toBot, null, token);
         }
     }
 }

@@ -184,6 +184,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         public double? Rating;
         public DateTime Available;
+        public string Specials;
 
         public override string ToString()
         {
@@ -218,7 +219,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     builder.AppendFormat("{0}, {1}", Kind, Stuffed);
                     break;
             }
-            builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating.Value);
+            builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating ?? 0.0);
             return builder.ToString();
         }
     };

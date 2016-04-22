@@ -117,4 +117,20 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
         }
     }
+
+    [Serializable]
+    public sealed class ClosureCaptureException : SerializationException
+    {
+        [NonSerialized]
+        public readonly object Instance;
+        public ClosureCaptureException(object instance)
+            : base($"anonymous method closures that capture the environment are not serializable, consider removing environment capture or using a reflection serialization surrogate: {instance}")
+        {
+            this.Instance = instance;
+        }
+        private ClosureCaptureException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }

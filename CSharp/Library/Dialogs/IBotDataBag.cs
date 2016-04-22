@@ -64,6 +64,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add. The value can be null for reference types.</param>
         void SetValue<T>(string key, T value);
+
+        /// <summary>
+        /// Removes the specified key from the bot data bag.
+        /// </summary>
+        /// <param name="key">They key of the element to remove</param>
+        /// <returns>True if removal of the key is successful; otherwise, false</returns>
+        bool RemoveValue(string key);
     }
 
     /// <summary>

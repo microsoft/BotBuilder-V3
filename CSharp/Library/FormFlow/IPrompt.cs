@@ -68,9 +68,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Associated recognizer if any.
         /// </summary>
         /// <returns>Recognizer for matching user input.</returns>
-        IRecognize<T> Recognizer();
+        IRecognize<T> Recognizer { get; }
     }
 
+    #region Documentation
+    /// <summary>   A prompt and recognizer packaged together. </summary>
+    /// <typeparam name="T">    UNderlying form type. </typeparam>
+    #endregion
     public sealed class Prompter<T> : IPrompt<T>
     {
         /// <summary>
@@ -116,6 +120,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
         }
 
+        public IRecognize<T> Recognizer
+        {
+            get { return _recognizer; }
+        }
+
+        #region Documentation
+        /// <summary>   Validate pattern by ensuring they refer to real fields. </summary>
+        /// <param name="form">     The form. </param>
+        /// <param name="pattern">  Specifies the pattern. </param>
+        /// <param name="pathName"> Full pathname of the field. </param>
+        /// <param name="argLimit"> The number of arguments passed to the pattern. </param>
+        /// <returns>   true if it succeeds, false if it fails. </returns>
+        #endregion
         public static bool ValidatePattern(IForm<T> form, string pattern, string pathName, int argLimit = 0)
         {
             bool ok = true;
@@ -399,14 +416,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else
             {
-                result = field.Prompt().Recognizer().ValueDescription(value);
+                result = field.Prompt.Recognizer.ValueDescription(value);
             }
             return result;
-        }
-
-        public IRecognize<T> Recognizer()
-        {
-            return _recognizer;
         }
 
         private TemplateAttribute Template(IField<T> field, TemplateUsage usage)

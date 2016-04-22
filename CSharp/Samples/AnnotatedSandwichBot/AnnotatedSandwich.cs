@@ -1,5 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,10 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Optional]
         public List<SauceOptions> Sauces;
 
+        [Optional]
+        [Template(TemplateUsage.NoPreference, "None")]
+        public string Specials;
+
         public string DeliveryAddress;
 
         [Optional]
@@ -90,20 +95,42 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<SandwichOrder> BuildForm()
         {
-            CompletionDelegate<SandwichOrder> processOrder = async (context, state) =>
+            OnCompletionAsyncDelegate<SandwichOrder> processOrder = async (context, state) =>
                            {
-                               await context.PostAsync("We are currently processing your sandwich. We will message you the status");
+                               await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
                            };
 
             return new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
-                        .Field(nameof(SandwichOrder.Sandwich))
-                        .Field(nameof(SandwichOrder.Length))
-                        .Field(nameof(SandwichOrder.Bread))
-                        .Field(nameof(SandwichOrder.Cheese))
-                        .Field(nameof(SandwichOrder.Toppings))
+                        .Field(nameof(Sandwich))
+                        .Field(nameof(Length))
+                        .Field(nameof(Bread))
+                        .Field(nameof(Cheese))
+                        .Field(nameof(Toppings))
                         .Message("For sandwich toppings you have selected {Toppings}.")
                         .Field(nameof(SandwichOrder.Sauces))
+                        .Field(new FieldReflector<SandwichOrder>(nameof(Specials))
+                            .SetType(null)
+                            .SetActive((state) => state.Length == LengthOptions.FootLong)
+                            .SetDefine(async (state, field) =>
+                                {
+                                    field
+                                        .AddDescription("cookie", "Free cookie")
+                                        .AddTerms("cookie", "cookie", "free cookie")
+                                        .AddDescription("drink", "Free large drink")
+                                        .AddTerms("drink", "drink", "free drink");
+                                    return true;
+                                }))
+                        .Confirm(async (state) =>
+                            {
+                                var cost = 0.0;
+                                switch (state.Length)
+                                {
+                                    case LengthOptions.SixInch: cost = 5.0; break;
+                                    case LengthOptions.FootLong: cost = 6.50; break;
+                                }
+                                return new PromptAttribute($"Total for your sandwich is ${cost:F2} is that ok?");
+                            })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
                             {

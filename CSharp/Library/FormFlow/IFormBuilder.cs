@@ -31,13 +31,22 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System.Collections.Generic;
 using System.Diagnostics;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Threading.Tasks;
+using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
+    #region Documentation
+    /// <summary>   Given <paramref name="state"/> return a <see cref="PromptAttribute"/> with a template for the message to display. </summary>
+    /// <typeparam name="T">    Form state type. </typeparam>
+    /// <param name="state">    Form state. </param>
+    /// <returns>   A PromptAttribute describing the message to display. </returns>
+    #endregion
+    public delegate Task<PromptAttribute> MessageDelegate<T>(T state);
+
     #region Documentation
     /// <summary>   Interface for building a form. </summary>
     /// <remarks>   
@@ -47,7 +56,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <item>A prompt sent to the user where the response is to fill in a form state value.</item>
     /// <item>A confirmation of the current state with the user.</item>
     /// </list>
-    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="PromptAttribute"/> and <see cref="Confirm"/> calls.
+    /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="Field"/> and <see cref="Confirm"/> calls.
     /// If you do not take explicit control, the steps will be executed in the order defined in the 
     /// form state class with a final confirmation.
     /// This interface allows you to flently build a form by composing together fields,
@@ -77,22 +86,33 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="message">A \ref patterns string to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
+        /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(string message, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Show a message with more format control that does not require a response.
         /// </summary>
         /// <param name="prompt">Message to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
+        /// <param name="dependencies">Fields message depends on.</param>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Message(PromptAttribute prompt, ConditionalDelegate<T> condition = null);
+        IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+
+        #region Documentation
+        /// <summary>   Generate a message using a delegate to dynamically build the message. </summary>
+        /// <param name="generateMessage">  Delegate for building message. </param>
+        /// <param name="condition">        Whether or not this step is active. </param>
+        /// <param name="dependencies">Fields message depends on.</param>
+        /// <returns>This form.</returns>
+        #endregion
+        IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
         /// </summary>
         /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
+        /// <param name="condition">Delegate to test form state to see if step is active.</param>
         /// <param name="validate">Delegate to validate the field value.</param>
         /// <remarks>
         /// This step will use reflection to construct everything needed for a dialog from a combination
@@ -101,7 +121,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// override.
         /// </remarks>
         /// <returns>This form.</returns>
-        IFormBuilder<T> Field(string name, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -117,7 +137,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormBuilder<T> Field(string name, string prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Define a step for filling in a particular value in the form state.
@@ -133,7 +153,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
         /// override.
         /// </remarks>
-        IFormBuilder<T> Field(string name, PromptAttribute prompt, ConditionalDelegate<T> condition = null, ValidateDelegate<T> validate = null);
+        IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Derfine a field step by supplying your own field definition.
@@ -141,8 +161,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="field">Field definition to use.</param>
         /// <returns>This form.</returns>
         /// <remarks>
-        /// You can provide your own implementation of <see cref="IField<T>"/> or you can 
-        /// use the <see cref="Field<T>"/> class to provide fluent values or the <see cref="FieldReflector<T>"/>
+        /// You can provide your own implementation of <see cref="IField{T}"/> or you can 
+        /// use the <see cref="Field{T}"/> class to provide fluent values or the <see cref="FieldReflector{T}"/>
         /// to use reflection to provide a base set of values that can be override.  It might 
         /// also make sense to derive from those classes and override the methods you need to 
         /// change.
@@ -155,7 +175,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="exclude">Fields not to include.</param>
         /// <returns>This form.</returns>
         /// <remarks>
-        /// This will add all fields defined in your form state that have not already been
+        /// This will add all fields defined in your forifm state that have not already been
         /// added if the fields are supported.
         /// </remarks>
         IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
@@ -171,7 +191,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// If prompt is not supplied the \ref patterns element {*} will be used to confirm.
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormBuilder<T> Confirm(string prompt = null, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(string prompt = null, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -183,7 +203,16 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
-        IFormBuilder<T> Confirm(PromptAttribute prompt, ConditionalDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+        IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
+
+        #region Documentation
+        /// <summary>   Generate a confirmation using a delegate to dynamically build the message. </summary>
+        /// <param name="generateMessage">  Delegate for building message. </param>
+        /// <param name="condition">        Whether or not this step is active. </param>
+        /// <param name="dependencies">What fields this confirmation depends on.</param>
+        /// <returns>This form.</returns>
+        #endregion
+        IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
         /// Delegate to call when form is completed.
@@ -195,7 +224,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// the form state results.  In any case the completed form state will be passed
         /// to the parent dialog.
         /// </remarks>
-        IFormBuilder<T> OnCompletionAsync(CompletionDelegate<T> callback);
+        IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback);
     }
 
     /// <summary>
@@ -211,22 +240,22 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Default prompt and template format settings.
         /// </summary>
         /// <remarks>
-        /// When you specify a <see cref="PromptAttribute"/> or <see cref="Template"/>, any format 
+        /// When you specify a <see cref="PromptAttribute"/> or <see cref="TemplateAttribute"/>, any format 
         /// value you do not specify will come from this default.
         /// </remarks>
         public PromptAttribute DefaultPrompt = new PromptAttribute("")
         {
             AllowDefault = BoolDefault.True,
             ChoiceCase = CaseNormalization.None,
-            ChoiceFormat = "{0}. {1}",
-            ChoiceLastSeparator = ", or ",
+            ChoiceFormat = Resources.DefaultChoiceFormat,
+            ChoiceLastSeparator = Resources.DefaultChoiceLastSeparator,
             ChoiceParens = BoolDefault.True,
-            ChoiceSeparator = ", ",
+            ChoiceSeparator = Resources.DefaultChoiceSeparator,
             ChoiceStyle = ChoiceStyleOptions.Auto,
             FieldCase = CaseNormalization.Lower,
             Feedback = FeedbackOptions.Auto,
-            LastSeparator = ", and ",
-            Separator = ", ",
+            LastSeparator = Resources.DefaultLastSeparator,
+            Separator = Resources.DefaultSeparator,
             ValueCase = CaseNormalization.InitialUpper
         };
 
@@ -236,7 +265,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>
         /// The first string is also used to describe not having a preference for an optional field.
         /// </remarks>
-        public string[] NoPreference = new string[] { "No Preference", "no", "none", "I don'?t care" };
+        public string[] NoPreference = Resources.MatchNoPreference.SplitList();
 
         /// <summary>
         /// Enumeration of strings for interpreting a user response as asking for the current value.
@@ -244,88 +273,88 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>
         /// The first value is also used to describe the option of keeping the current value.
         /// </remarks>
-        public string[] CurrentChoice = new string[] { "Current Choice", "current" };
+        public string[] CurrentChoice = Resources.MatchCurrentChoice.SplitList();
 
         /// <summary>
         /// Enumeration of values for a "yes" response for boolean fields or confirmations.
         /// </summary>
-        public string[] Yes = new string[] { "Yes", "yes", "y", "sure", "ok" };
+        public string[] Yes = Resources.MatchYes.SplitList();
 
         /// <summary>
         /// Enumeration of values for a "no" response for boolean fields or confirmations.
         /// </summary>
-        public string[] No = new string[] { "No", "n" };
+        public string[] No = Resources.MatchNo.SplitList();
 
         /// <summary>
         /// Default templates to use if not override on the class or field level.
         /// </summary>
         public List<TemplateAttribute> Templates = new List<TemplateAttribute>
         {
-            new TemplateAttribute(TemplateUsage.Bool, "Would you like a {&}? {||}"),
+            new TemplateAttribute(TemplateUsage.Bool, Resources.TemplateBool),
             // {0} is current choice, {1} is no preference
-            new TemplateAttribute(TemplateUsage.BoolHelp, "Please enter 'yes' or 'no'{?, {0}}."),
+            new TemplateAttribute(TemplateUsage.BoolHelp, Resources.TemplateBoolHelp),
 
             // {0} is term being clarified
-            new TemplateAttribute(TemplateUsage.Clarify, "By \"{0}\" {&} did you mean {||}"),
+            new TemplateAttribute(TemplateUsage.Clarify, Resources.TemplateClarify),
 
-            new TemplateAttribute(TemplateUsage.CurrentChoice, "(current choice: {})"),
+            new TemplateAttribute(TemplateUsage.CurrentChoice, Resources.TemplateCurrentChoice),
 
-            new TemplateAttribute(TemplateUsage.DateTime, "Please enter a date and time for {&} {||}"),
+            new TemplateAttribute(TemplateUsage.DateTime, Resources.TemplateDateTime),
             // {0} is current choice, {1} is no preference
             // new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression like 'Monday' or 'July 3rd'{?, {0}}{?, {1}}."),
-            new TemplateAttribute(TemplateUsage.DateTimeHelp, "Please enter a date or time expression {?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.DateTimeHelp, Resources.TemplateDateTimeHelp),
 
             // {0} is min and {1} is max.
-            new TemplateAttribute(TemplateUsage.Double, "Please enter a number {?between {0:F1} and {1:F1}} for {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.Double, Resources.TemplateDouble) { ChoiceFormat = Resources.TemplateDoubleChoiceFormat },
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
-            new TemplateAttribute(TemplateUsage.DoubleHelp, "Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.DoubleHelp, Resources.TemplateDoubleHelp),
 
             // {0} is min, {1} is max and {2} are enumerated descriptions
-            new TemplateAttribute(TemplateUsage.EnumManyNumberHelp, "You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})"),
-            new TemplateAttribute(TemplateUsage.EnumOneNumberHelp, "You can enter a number {0}-{1} or words from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumManyNumberHelp, Resources.TemplateEnumManyNumberHelp),
+            new TemplateAttribute(TemplateUsage.EnumOneNumberHelp, Resources.TemplateEnumOneNumberHelp),
 
             // {2} are the words people can type
-            new TemplateAttribute(TemplateUsage.EnumManyWordHelp, "You can enter in one or more selections from the descriptions. ({2})"),
-            new TemplateAttribute(TemplateUsage.EnumOneWordHelp, "You can enter in any words from the descriptions. ({2})"),
+            new TemplateAttribute(TemplateUsage.EnumManyWordHelp, Resources.TemplateEnumManyWordHelp),
+            new TemplateAttribute(TemplateUsage.EnumOneWordHelp, Resources.TemplateEnumOneWordHelp),
 
-            new TemplateAttribute(TemplateUsage.EnumSelectOne, "Please select a {&} {||}"),
-            new TemplateAttribute(TemplateUsage.EnumSelectMany, "Please select one or more {&} {||}"),
+            new TemplateAttribute(TemplateUsage.EnumSelectOne, Resources.TemplateEnumSelectOne),
+            new TemplateAttribute(TemplateUsage.EnumSelectMany, Resources.TemplateEnumSelectMany),
 
             // {0} is the not understood term
-            new TemplateAttribute(TemplateUsage.Feedback, "For {&} I understood {}. {?\"{0}\" is not an option.}"),
+            new TemplateAttribute(TemplateUsage.Feedback, Resources.TemplateFeedback),
 
             // For {0} is recognizer help and {1} is command help.
-            new TemplateAttribute(TemplateUsage.Help, "You are filling in the {&} field.  Possible responses:\n{0}\n{1}"),
-            new TemplateAttribute(TemplateUsage.HelpClarify, "You are clarifying a {&} value.  Possible responses:\n{0}\n{1}"),
-            new TemplateAttribute(TemplateUsage.HelpConfirm, "Please answer the question.  Possible responses:\n{0}\n{1}"),
-            new TemplateAttribute(TemplateUsage.HelpNavigation, "Choose what field to change.  Possible responses:\n{0}\n{1}"),
+            new TemplateAttribute(TemplateUsage.Help, Resources.TemplateHelp),
+            new TemplateAttribute(TemplateUsage.HelpClarify, Resources.TemplateHelpClarify),
+            new TemplateAttribute(TemplateUsage.HelpConfirm, Resources.TemplateHelpConfirm),
+            new TemplateAttribute(TemplateUsage.HelpNavigation, Resources.TemplateHelpNavigation),
 
             // {0} is min and {1} is max if present
-            new TemplateAttribute(TemplateUsage.Integer, "Please enter a number{? between {0} and {1}} for {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.Integer, Resources.TemplateInteger) { ChoiceFormat = Resources.TemplateIntegerChoiceFormat },
             // {0} is current choice, {1} is no preference
             // {2} is min and {3} is max
-            new TemplateAttribute(TemplateUsage.IntegerHelp, "You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}."),
+            new TemplateAttribute(TemplateUsage.IntegerHelp, Resources.TemplateIntegerHelp),
 
-            new TemplateAttribute(TemplateUsage.Navigation, "What do you want to change? {||}") { FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.Navigation, Resources.TemplateNavigation) { FieldCase = CaseNormalization.None },
             // {0} is list of field names.
-            new TemplateAttribute(TemplateUsage.NavigationCommandHelp, "You can switch to another field by entering its name. ({0})."),
-            new TemplateAttribute(TemplateUsage.NavigationFormat, "{&}({})") {FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.NavigationCommandHelp, Resources.TemplateNavigationCommandHelp),
+            new TemplateAttribute(TemplateUsage.NavigationFormat, Resources.TemplateNavigationFormat) {FieldCase = CaseNormalization.None },
             // {0} is min, {1} is max
-            new TemplateAttribute(TemplateUsage.NavigationHelp, "Choose {?a number from {0}-{1}, or} a field name."),
+            new TemplateAttribute(TemplateUsage.NavigationHelp, Resources.TemplateNavigationHelp),
 
-            new TemplateAttribute(TemplateUsage.NoPreference, "No Preference"),
+            new TemplateAttribute(TemplateUsage.NoPreference, Resources.TemplateNoPreference),
 
             // {0} is the term that is not understood
-            new TemplateAttribute(TemplateUsage.NotUnderstood, @"""{0}"" is not a {&} option."),
+            new TemplateAttribute(TemplateUsage.NotUnderstood, Resources.TemplateNotUnderstood),
 
-            new TemplateAttribute(TemplateUsage.StatusFormat, "{&}: {}") {FieldCase = CaseNormalization.None },
+            new TemplateAttribute(TemplateUsage.StatusFormat, Resources.TemplateStatusFormat) {FieldCase = CaseNormalization.None },
 
-            new TemplateAttribute(TemplateUsage.String, "Please enter {&} {||}") { ChoiceFormat = "{1}" },
+            new TemplateAttribute(TemplateUsage.String, Resources.TemplateString) { ChoiceFormat = Resources.TemplateStringChoiceFormat },
             // {0} is current choice, {1} is no preference
-			new TemplateAttribute(TemplateUsage.StringHelp, "You can enter anything (use \"'s to force string){?, {0}}{?, {1}}."),
+			new TemplateAttribute(TemplateUsage.StringHelp, Resources.TemplateStringHelp),
 
-            new TemplateAttribute(TemplateUsage.Unspecified, "Unspecified")
+            new TemplateAttribute(TemplateUsage.Unspecified, Resources.TemplateUnspecified)
         };
 
         /// <summary>
@@ -333,16 +362,26 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         public Dictionary<FormCommand, CommandDescription> Commands = new Dictionary<FormCommand, CommandDescription>()
         {
-            {FormCommand.Backup, new CommandDescription("Backup", new string[] {"backup", "go back", "back" },
-                "Back: Go back to the previous question.") },
-            {FormCommand.Help, new CommandDescription("Help", new string[] { "help", "choices", @"\?" },
-                "Help: Show the kinds of responses you can enter.") },
-            {FormCommand.Quit, new CommandDescription("Quit", new string[] { "quit", "stop", "finish", "goodbye", "good bye"},
-                "Quit: Quit the form without completing it.") },
-            {FormCommand.Reset, new CommandDescription("Start over", new string[] { "start over", "reset", "clear" },
-                "Reset: Start over filling in the form.  (With defaults of your previous entries.)" ) },
-            {FormCommand.Status, new CommandDescription("status", new string[] {"status", "progress", "so far" },
-                "Status: Show your progress in filling in the form so far.") }
+            {FormCommand.Backup, new CommandDescription(
+                Resources.CommandBackup,
+                Resources.CommandBackupTerms.SplitList(),
+                Resources.CommandBackupHelp) },
+            {FormCommand.Help, new CommandDescription(
+                Resources.CommandHelp,
+                Resources.CommandHelpTerms.SplitList(),
+                Resources.CommandHelpHelp) },
+            {FormCommand.Quit, new CommandDescription(
+                Resources.CommandQuit,
+                Resources.CommandQuitTerms.SplitList(),
+                Resources.CommandQuitHelp) },
+            {FormCommand.Reset, new CommandDescription(
+                Resources.CommandReset,
+                Resources.CommandResetTerms.SplitList(),
+                Resources.CommandResetHelp)},
+            {FormCommand.Status, new CommandDescription(
+                Resources.CommandStatus,
+                Resources.CommandStatusTerms.SplitList(),
+                Resources.CommandStatusHelp) }
         };
 
         /// <summary>

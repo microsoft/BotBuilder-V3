@@ -67,10 +67,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return index;
         }
 
-        internal static IRecognize<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
+        internal static IField<T> BuildCommandRecognizer<T>(this IForm<T> form) where T : class
         {
             var field = new Field<T>("__commands__", FieldRole.Value);
-            field.Form = form;
             field.SetPrompt(new PromptAttribute(""));
             foreach (var entry in form.Configuration.Commands)
             {
@@ -86,8 +85,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     field.AddTerms(nav.Name, fterms.ToArray());
                 }
             }
-            var commands = new RecognizeEnumeration<T>(field);
-            return commands;
+            field.Form = form;
+            return field;
+        }
+
+        internal static IEnumerable<string> Dependencies<T>(this IForm<T> form, int istep)
+        {
+            for(var i = 0; i < istep; ++i)
+            {
+                if (form.Steps[i].Type == StepType.Field)
+                {
+                    yield return form.Steps[i].Name;
+                }
+            }
         }
 
         internal static bool IsICollection(this Type type)

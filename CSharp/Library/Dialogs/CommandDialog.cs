@@ -46,15 +46,31 @@ namespace Microsoft.Bot.Builder.Dialogs
     #region Documentation
     /// <summary> Dialog that dispatches based on a regex matching input. </summary>
     #endregion
-
     [Serializable]
     public class CommandDialog<T> : IDialog<T>
     {
+        #region Documentation
+        /// <summary>   A single command. </summary>
+        #endregion
         [Serializable]
         public class Command
         {
+            #region Documentation
+            /// <summary>   Gets or sets the command ID used for persisting currently running command handler. </summary>
+            /// <value> Command ID. </value>
+            #endregion
             public string CommandId { set; get; }
+
+            #region Documentation
+            /// <summary>   Gets or sets the regular expression for matching command. </summary>
+            /// <value> The regular expression. </value>
+            #endregion
             public Regex Expression { set; get; }
+
+            #region Documentation
+            /// <summary>   Gets or sets the command handler. </summary>
+            /// <value> The command handler. </value>
+            #endregion
             public ResumeAfter<Connector.Message> CommandHandler { set; get; }
         }
 
@@ -67,11 +83,6 @@ namespace Microsoft.Bot.Builder.Dialogs
             context.Wait(MessageReceived);
         }
 
-        #region Documentation
-        /// <summary> Message handler of the command dialog.  </summary>
-        /// <param name="context"> Dialog context. </param>
-        /// <param name="message"> Message from the user. </param>
-        #endregion
         public virtual async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> message)
         {
             var text = (await message).Text;
@@ -176,7 +187,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         private string ComputeHash(string str)
         {
             var algorithm = SHA1.Create();
-            return Convert.ToBase64String(algorithm.ComputeHash(Encoding.UTF8.GetBytes(str))); 
+            return Convert.ToBase64String(algorithm.ComputeHash(Encoding.UTF8.GetBytes(str)));
         }
     }
 }

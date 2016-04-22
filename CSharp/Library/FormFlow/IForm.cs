@@ -32,7 +32,7 @@
 //
 
 using System.Collections.Generic;
-using System.Linq;
+using System.Resources;
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 
@@ -44,10 +44,36 @@ namespace Microsoft.Bot.Builder.FormFlow
     #endregion
     public abstract class IForm<T>
     {
+#if LOCALIZE
+#region Documentation
+        /// <summary>   Save all string resources to binary stream for future localization. </summary>
+        /// <param name="writer">   Where to write resources. </param>
+#endregion
+        public abstract void SaveResources(IResourceWriter writer);
+
+#region Documentation
+        /// <summary>   Localize all string resources from binary stream. </summary>
+        /// <param name="reader">   Where to read resources. </param>
+        /// <param name="missing">  [out] Any values in the form, but missing from the stream. </param>
+        /// <param name="extra">    [out] Any values in the stream, but missing from the form. </param>
+        /// <remarks>When you localize all form string resources will be overridden if present in the stream.
+        ///          Otherwise the value will remain unchanged.
+        /// </remarks>
+#endregion
+        public abstract void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
+#endif
+
+#region Documentation
+        /// <summary>   Gets the resource localizer. </summary>
+        /// <value> Localizer for resources. </value>
+#endregion
+        internal abstract ILocalizer Resources { get; }
+
+        // Internals
         internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
-        internal abstract CompletionDelegate<T> Completion { get; }
+        internal abstract OnCompletionAsyncDelegate<T> Completion { get; }
         internal abstract IFields<T> Fields { get; }
     }   
 }

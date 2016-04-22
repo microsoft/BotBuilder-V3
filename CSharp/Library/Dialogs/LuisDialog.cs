@@ -100,6 +100,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     {
         private readonly ILuisService service;
 
+        /// <summary>   Mapping from intent string to the appropriate handler. </summary>
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
 

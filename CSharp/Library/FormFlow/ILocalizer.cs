@@ -31,53 +31,106 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Resources;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
-    internal interface ILocalizer
+    #region Documentation
+    /// <summary>   Interface for localizing string resources. </summary>
+    #endregion
+#if LOCALIZE
+    public
+#else
+    internal 
+#endif
+        interface ILocalizer
     {
         /// <summary>
         /// Return the localizer culture.
         /// </summary>
         /// <returns>Current culture.</returns>
-        CultureInfo Culture();
+        CultureInfo Culture { get; set; }
+
+        /// <summary>
+        /// Add a key and its translation.
+        /// </summary>
+        /// <param name="key">Key for indexing translation.</param>
+        /// <param name="translation">Translation for key.</param>
+        void Add(string key, string translation);
+
+        /// <summary>
+        /// Add a key and a list of translations seperated by semi-colon.
+        /// </summary>
+        /// <param name="key">Key for indexing translation list.</param>
+        /// <param name="list">List of translated terms.</param>
+        void Add(string key, IEnumerable<string> list);
+
+        #region Documentation
+        /// <summary>   Adds value from dictionary under prefix;object. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="dictionary">   The dictionary to add. </param>
+        #endregion
+        void Add(string prefix, IReadOnlyDictionary<object, string> dictionary);
+
+        #region Documentation
+        /// <summary>   Adds values from dictionary seperated by semi-colons under prefix;object. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="dictionary">   The dictionary to add. </param>
+        #endregion
+        void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary);
+
+        #region Documentation
+        /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage. </summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="templates">    The template dictionary to add. </param>
+        #endregion
+        void Add(string prefix, IReadOnlyDictionary<TemplateUsage, TemplateAttribute> templates);
+
+        #region Documentation
+        /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage.</summary>
+        /// <param name="prefix">       The resource prefix. </param>
+        /// <param name="template">     The template to add. </param>
+        #endregion
+        void Add(string prefix, TemplateAttribute template);
 
         /// <summary>
         /// Translate a key to a translation.
         /// </summary>
         /// <param name="key">Key to lookup.</param>
-        /// <returns>Translation.</returns>
-        string Translate(string key);
+        /// <param name="value">Value to set if present.</param>
+        /// <returns>True if value is found. </returns>
+        bool Lookup(string key, out string value);
 
         /// <summary>
-        /// Translate a key to a list of terms.
+        /// Translate a key to an array of values.
         /// </summary>
         /// <param name="key">Key to lookup.</param>
-        /// <returns>List of translations.</returns>
-        IEnumerable<string> TranslateList(string key);
+        /// <param name="values">Array value to set if present.</param>
+        /// <returns>True if value is found. </returns>
+        bool LookupValues(string key, out string[] values);
 
-        /// <summary>
-        /// Add a key and its translation to the localizer.
-        /// </summary>
-        /// <param name="key">Key for indexing translation.</param>
-        /// <param name="translation">Translation for key.</param>
-        /// <returns>The key.</returns>
-        string Add(string key, string translation);
+        #region Documentation
+        /// <summary>   Look up prefix;object from dictionary and replace value from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="dictionary">   Dictionary with existing values. </param>
+        #endregion
+        void LookupDictionary(string prefix, IDictionary<object, string> dictionary);
 
-        /// <summary>
-        /// Add a key and a list of translations to the localizer.
-        /// </summary>
-        /// <param name="key">Key for indexing translation list.</param>
-        /// <param name="list">List of translated terms.</param>
-        /// <returns>The key.</returns>
-        string Add(string key, IEnumerable<string> list);
+        #region Documentation
+        /// <summary>   Look up prefix;object from dictionary and replace values from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="dictionary">   Dictionary with existing values. </param>
+        #endregion
+        void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary);
+
+        #region Documentation
+        /// <summary>   Looks up prefix;usage and replace patterns in template from localizer. </summary>
+        /// <param name="prefix">       The prefix. </param>
+        /// <param name="templates">    Template dictionary with existing values. </param>
+        #endregion
+        void LookupTemplates(string prefix, IDictionary<TemplateUsage, TemplateAttribute> templates);
 
         /// <summary>
         /// Remove a key from the localizer.
@@ -86,78 +139,30 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Remove(string key);
 
         /// <summary>
-        /// Save the localizer to a stream.
+        /// Save localizer resources to stream.
         /// </summary>
-        /// <param name="stream">Stream to output to.</param>
-        void Save(Stream stream);
+        /// <param name="writer">Where to write resources.</param>
+        /// <remarks>
+        /// Resource values are all strings.  The key and value can have different parts seperated by semi-colons.
+        /// Key | Value | Description
+        /// ----|-------|------------
+        /// CULTURE | cultureName | Values are culture names like en-us.
+        /// VALUE;key | string | Simple value.
+        /// LIST;key | string[;string]* | List of values.
+        /// TEMPLATE;usage;field[;field]* | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
+        /// </remarks>
+        void Save(IResourceWriter writer);
 
         /// <summary>
         /// Load the localizer from a stream.
         /// </summary>
-        /// <param name="culture">Culture being loaded.</param>
-        /// <param name="stream">Stream to load from.</param>
+        /// <param name="reader">Where to load from.</param>
         /// <param name="missing">Keys found in current localizer that are not in loaded localizer.</param>
         /// <param name="extra">Keys found in loaded localizer that were not in current localizer.</param>
-        /// <returns>New localizer for culture.</returns>
-        ILocalizer Load(string culture, Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra);
-    }
-
-    internal class ResourceLocalizer : ILocalizer
-    {
-        public ResourceLocalizer(string culture)
-        {
-            _culture = CultureInfo.GetCultureInfo(culture);
-        }
-
-        public string Add(string key, IEnumerable<string> list)
-        {
-            _listTranslations.Add(key, list.ToArray());
-            return key;
-        }
-
-        public string Add(string key, string translation)
-        {
-            _translations.Add(key, translation);
-            return key;
-        }
-
-        public CultureInfo Culture()
-        {
-            return _culture;
-        }
-
-        public ILocalizer Load(string culture, Stream stream, out IEnumerable<string> missing, out IEnumerable<string> extra)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(string key)
-        {
-            _translations.Remove(key);
-            _listTranslations.Remove(key);
-        }
-
-        public void Save(Stream stream)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Translate(string key)
-        {
-            string translation;
-            _translations.TryGetValue(key, out translation);
-            return translation;
-        }
-
-        public IEnumerable<string> TranslateList(string key)
-        {
-            string[] translation;
-            _listTranslations.TryGetValue(key, out translation);
-            return translation;
-        }
-
-        protected CultureInfo _culture;
-        protected Dictionary<string, string> _translations = new Dictionary<string, string>();
-        protected Dictionary<string, string[]> _listTranslations = new Dictionary<string, string[]>();
+        /// <returns>New localizer from reader.</returns>
+        /// <remarks>
+        /// <see cref="Save(IResourceWriter)"/> to see resource format.
+        /// </remarks>
+        ILocalizer Load(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
     }
 }

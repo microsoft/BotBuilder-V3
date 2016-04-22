@@ -52,13 +52,24 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public static partial class Conversation
     {
-        public static readonly IContainer Container;
+        public static readonly IContainer SendToBotContainer;
+        public static readonly IContainer ResumeContainer; 
 
         static Conversation()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new Internals.DialogModule());
-            Container = builder.Build();
+            var serverBuilder = new ContainerBuilder();
+            serverBuilder.RegisterModule(new Internals.DialogModule());
+            SendToBotContainer = serverBuilder.Build();
+
+            var clientBuilder = new ContainerBuilder();
+            clientBuilder.RegisterModule(new DialogModule());
+
+            clientBuilder
+                .Register((c, p) => new DetectEmulatorFactory(p.TypedAs<ConnectorType>(), new Uri("http://localhost:9000")))
+                .As<IConnectorClientFactory>()
+                .InstancePerLifetimeScope();
+
+            ResumeContainer = clientBuilder.Build(); 
         }
 
         /// <summary>
@@ -66,13 +77,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <remarks>
         /// This method:
-        /// 1. instantiates and composes the required components
-        /// 2. deserializes the dialog state (the dialog stack and each dialog's state) from the <see cref="toBot"/> <see cref="Message"/>
-        /// 3. resumes the conversation processes where the dialog suspended to wait for a <see cref="Message"/>
-        /// 4. queues <see cref="Message"/>s to be sent to the user
-        /// 5. serializes the updated dialog state in the messages to be sent to the user.
+        /// 1. Instantiates and composes the required components.
+        /// 2. Deserializes the dialog state (the dialog stack and each dialog's state) from the <paramref name="toBot"/> <see cref="Message"/>.
+        /// 3. Resumes the conversation processes where the dialog suspended to wait for a <see cref="Message"/>.
+        /// 4. Queues <see cref="Message"/>s to be sent to the user.
+        /// 5. Serializes the updated dialog state in the messages to be sent to the user.
         /// 
-        /// The <see cref="MakeRoot"/> factory method is invoked for new conversations only,
+        /// The <paramref name="MakeRoot"/> factory method is invoked for new conversations only,
         /// because existing conversations have the dialog stack and state serialized in the <see cref="Message"/> data.
         /// </remarks>
         /// <param name="toBot">The message sent to the bot.</param>
@@ -81,14 +92,50 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>A task that represents the message to send inline back to the user.</returns>
         public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-			using (var scope = Container.BeginLifetimeScope())
+            using (var scope = SendToBotContainer.BeginLifetimeScope())
             {
-                var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-                await store.PostAsync(toBot, MakeRoot, token);
-
-                var botToUser = scope.Resolve<SendLastInline_BotToUser>();
-                return botToUser.ToUser;
+                return await SendAsync(scope, toBot, MakeRoot, token);
             }
+        }
+
+        /// <summary>
+        /// Resume a conversation and post the data to the dialog waiting.
+        /// </summary>
+        /// <typeparam name="T"> Type of the data. </typeparam>
+        /// <param name="botId"> The id of the bot.</param>
+        /// <param name="userId"> The id of the user.</param>
+        /// <param name="conversationId"> The id of the conversation that is resumed.</param>
+        /// <param name="toBot"> The data sent to bot.</param>
+        /// <param name="token"> The cancelation token.</param>
+        /// <param name="connectorType"> The type of the connector environment.</param>
+        /// <returns> A task that represent the message to send back to the user after resumption of the coversation.</returns>
+        public static async Task<Message> ResumeAsync<T>(string botId, string userId, string conversationId, T toBot, CancellationToken token = default(CancellationToken), ConnectorType connectorType = ConnectorType.Cloud)
+        {
+            using (var scope = ResumeContainer.BeginLifetimeScope())
+            {
+                return await ResumeAsync(scope, botId, userId, conversationId, toBot, token, connectorType);
+            }
+        }
+
+        internal static async Task<Message> SendAsync<T>(ILifetimeScope scope, Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        {
+            var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+            await store.PostAsync(toBot, MakeRoot, token);
+
+            var botToUser = scope.Resolve<SendLastInline_BotToUser>();
+            return botToUser.ToUser;
+        }
+
+        internal static async Task<Message> ResumeAsync<T>(ILifetimeScope scope, string botId, string userId, string conversationId, T toBot, CancellationToken token = default(CancellationToken), ConnectorType connectorType = ConnectorType.Cloud)
+        {
+            var client = scope.Resolve<IConnectorClient>(TypedParameter.From(connectorType));
+           var message = await client.LoadMessageData(botId, userId, conversationId, token);
+            var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(message));
+            await store.PostAsync(toBot, token);
+
+            var botToUser = scope.Resolve<SendLastInline_BotToUser>();
+            return botToUser.ToUser;
+
         }
     }
 }

@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -50,13 +51,26 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prompt">Confirmation prompt expressed using \ref patterns.</param>
         /// <param name="condition">Delegate for whether confirmation applies.</param>
         /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
-        public Confirmation(PromptAttribute prompt, ConditionalDelegate<T> condition, IEnumerable<string> dependencies)
-            : base(Guid.NewGuid().ToString(), FieldRole.Confirm)
+        /// <param name="form">Form that contains confirmation.</param>
+        public Confirmation(PromptAttribute prompt, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+            : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
         {
             SetPrompt(prompt);
-            _condition = condition;
-            _dependencies = dependencies.ToArray();
-            var noStep = (dependencies.Count() > 0 ? new NextStep(dependencies) : new NextStep());
+            SetType(typeof(bool));
+            SetDependencies(dependencies.ToArray());
+            SetActive(condition);
+            var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
+            _next = (value, state) => value ? new NextStep() : noStep;
+        }
+
+        public Confirmation(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
+            : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
+        {
+            SetDefine(async (state, field) => { field.SetPrompt(await generateMessage(state)); return true; });
+            SetType(typeof(bool));
+            SetDependencies(dependencies.ToArray());
+            SetActive(condition);
+            var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
             _next = (value, state) => value ? new NextStep() : noStep;
         }
 
@@ -81,7 +95,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override NextStep Next(object value, T state)
         {
-            return _next((bool) value, state);
+            return _next((bool)value, state);
         }
 
         public override void SetValue(T state, object value)
@@ -98,22 +112,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             throw new NotImplementedException();
         }
-
-        public override IPrompt<T> Prompt()
-        {
-            if (_prompter == null)
-            {
-                _prompter = new Prompter<T>(_promptDefinition, _form, new RecognizeBool<T>(this));
-            }
-            return _prompter;
-        }
         #endregion
 
         #region Implementation
         private delegate NextStep NextDelegate(bool response, T state);
-        private readonly ConditionalDelegate<T> _condition;
-        private readonly string[] _dependencies;
-        private IPrompt<T> _prompter;
         private readonly NextDelegate _next;
         #endregion
     }

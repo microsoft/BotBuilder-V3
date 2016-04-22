@@ -65,9 +65,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Constructor based on <see cref="IField{T}"/>.
         /// </summary>
         /// <param name="field">Field with enumerated values.</param>
-        public RecognizeEnumeration(IField<T> field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeEnumeration(IField<T> field, FormConfiguration configuration = null)
         {
-            var configuration = field.Form.Configuration;
+            if (configuration == null)
+            {
+                configuration = field.Form.Configuration;
+            }
             _form = field.Form;
             _allowNumbers = field.AllowNumbers;
             _description = field.FieldDescription;
@@ -79,7 +83,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _helpFormat = field.Template(field.AllowNumbers
                 ? (field.AllowsMultiple ? TemplateUsage.EnumManyNumberHelp : TemplateUsage.EnumOneNumberHelp)
                 : (field.AllowsMultiple ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
-            _noPreference = field.Optional ? configuration.NoPreference.ToArray() : null;
+            _noPreference = field.Optional ? configuration.NoPreference : null;
             _currentChoice = configuration.CurrentChoice.FirstOrDefault();
             BuildPerValueMatcher(configuration.CurrentChoice);
         }
@@ -123,7 +127,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
             {
-                values = values.Union(new string[] { _currentChoice + "('c')" });
+                values = values.Union(new string[] { _currentChoice } );
             }
             var args = new List<object>();
             if (_allowNumbers)
@@ -356,8 +360,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Constructor using <see cref="IField{T}"/>.
         /// </summary>
         /// <param name="field">Field to build recognizer for.</param>
-        public RecognizePrimitive(IField<T> field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizePrimitive(IField<T> field, FormConfiguration configuration = null)
         {
+            if (configuration == null)
+            {
+                configuration = field.Form.Configuration;
+            }
             _field = field;
             _currentChoices = new HashSet<string>(from choice in field.Form.Configuration.CurrentChoice
                                                   select choice.Trim().ToLower());
@@ -394,7 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 yield return new TermMatch(0, input.Length, 1.0, null);
             }
-            else if ((defaultValue != null || _noPreference != null) && (matchValue == "" || matchValue == "c" || _currentChoices.Contains(matchValue)))
+            else if ((defaultValue != null || _noPreference != null) && (matchValue == "" || _currentChoices.Contains(matchValue)))
             {
                 yield return new TermMatch(0, input.Length, 1.0, defaultValue);
             }
@@ -434,7 +443,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var args = new List<object>();
             if (defaultValue != null || _field.Optional)
             {
-                args.Add(_field.Form.Configuration.CurrentChoice.First() + "('c')");
+                args.Add(_field.Form.Configuration.CurrentChoice.First());
                 if (_field.Optional)
                 {
                     args.Add(_field.Form.Configuration.NoPreference.First());
@@ -472,8 +481,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Construct a boolean recognizer for a field.
         /// </summary>
         /// <param name="field">Boolean field.</param>
-        public RecognizeBool(IField<T> field)
-            : base(field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeBool(IField<T> field, FormConfiguration configuration = null)
+            : base(field, configuration)
         {
             _yes = new HashSet<string>(from term in field.Form.Configuration.Yes
                                        select term.Trim().ToLower());
@@ -532,8 +542,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Construct a string recognizer for a field.
         /// </summary>
         /// <param name="field">String field.</param>
-        public RecognizeString(IField<T> field)
-            : base(field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeString(IField<T> field, FormConfiguration configuration = null)
+            : base(field, configuration)
         {
         }
 
@@ -578,8 +589,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="field">Numeric field.</param>
         /// <param name="culture">Culture to use for parsing.</param>
-        public RecognizeNumber(IField<T> field, CultureInfo culture)
-            : base(field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeNumber(IField<T> field, CultureInfo culture, FormConfiguration configuration = null)
+            : base(field, configuration)
         {
             _culture = culture;
             double min, max;
@@ -648,8 +660,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="field">Float or double field.</param>
         /// <param name="culture">Culture to use for parsing.</param>
-        public RecognizeDouble(IField<T> field, CultureInfo culture)
-            : base(field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeDouble(IField<T> field, CultureInfo culture, FormConfiguration configuration = null)
+            : base(field, configuration)
         {
             _culture = culture;
             _showLimits = field.Limits(out _min, out _max);
@@ -717,8 +730,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="field">DateTime field.</param>
         /// <param name="culture">Culture to use for parsing.</param>
-        public RecognizeDateTime(IField<T> field, CultureInfo culture)
-            : base(field)
+        /// <param name="configuration">Form configuration to use for choice and no preference.</param>
+        public RecognizeDateTime(IField<T> field, CultureInfo culture, FormConfiguration configuration = null)
+            : base(field, configuration)
         {
             _culture = culture;
             // _parser = new Chronic.Parser();
@@ -756,7 +770,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override string ValueDescription(object value)
         {
-            return ((DateTime)value).ToString(CultureInfo.CurrentCulture.DateTimeFormat);
+            return ((DateTime)value).ToString(_culture.DateTimeFormat);
         }
 
         private CultureInfo _culture;
