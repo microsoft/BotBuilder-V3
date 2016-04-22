@@ -52,6 +52,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// </summary>
     public sealed class DialogModule : Autofac.Module
     {
+        public const string BlobKey = "DialogState";
+
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
@@ -83,8 +85,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf()
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
-
-            const string BlobKey = "DialogState";
 
             builder
                 .Register((c, p) => new DialogContextFactory(new ErrorResilientDialogContextStore(new DialogContextStore(c.Resolve<IFormatter>(p), c.Resolve<IBotData>(p), BlobKey)), c.Resolve<IFrameFactory>(), c.Resolve<IBotToUser>(p), c.Resolve<IBotData>(p)))
