@@ -47,6 +47,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public interface IDialogContextStore
     {
         /// <summary>
+        /// Reset the store.
+        /// </summary>
+        void Reset();
+
+        /// <summary>
         /// Try to load the dialog context.
         /// </summary>
         /// <param name="context">The dialog context.</param>
@@ -127,7 +132,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
 
             IPostToBot postToBot = context;
-            await postToBot.PostAsync(toBot, token);
+            try
+            {
+                await postToBot.PostAsync(toBot, token);
+            }
+            catch
+            {
+                store.Reset();
+                throw;
+            }
+
             store.Save(context);
         }
 

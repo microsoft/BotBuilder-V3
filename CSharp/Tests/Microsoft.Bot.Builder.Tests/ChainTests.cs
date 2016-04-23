@@ -201,7 +201,14 @@ namespace Microsoft.Bot.Builder.Tests
                     };
 
                     var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-                    await store.PostAsync(toBot, () => query);
+                    try
+                    {
+                        await store.PostAsync(toBot, () => query);
+                        Assert.Fail();
+                    }
+                    catch (Chain.WhereCanceledException)
+                    {
+                    }
                 }
 
                 var queue = container.Resolve<BotToUserQueue>();

@@ -56,6 +56,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public IBotDataBag Bag {  get { return this.botData.PerUserInConversationData; } }
 
+        void IDialogContextStore.Reset()
+        {
+            this.Bag.RemoveValue(this.key);
+        }
+
         bool IDialogContextStore.TryLoad(out IDialogContextInternal context)
         {
             byte[] blobOld;
@@ -96,6 +101,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             SetField.NotNull(out this.store, nameof(store), store);
         }
+
+        void IDialogContextStore.Reset()
+        {
+            this.store.Reset();
+        }
+
         bool IDialogContextStore.TryLoad(out IDialogContextInternal context)
         {
             try
@@ -129,6 +140,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.frames, nameof(frames), frames);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.botData, nameof(botData), botData);
+        }
+
+        void IDialogContextStore.Reset()
+        {
+            this.store.Reset();
         }
 
         bool IDialogContextStore.TryLoad(out IDialogContextInternal context)

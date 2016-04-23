@@ -174,6 +174,9 @@ namespace Microsoft.Bot.Builder.Tests
             dialogRoot
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
+            dialogRoot
+                .Setup(d => d.PromptResult(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<T>>()))
+                .Returns<IDialogContext, IAwaitable<T>>(async (c, a) => { c.Done(default(T)); });
 
             Func<IDialog<T>> MakeRoot = () => dialogRoot.Object;
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };

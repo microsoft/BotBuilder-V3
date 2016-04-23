@@ -505,8 +505,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
-            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> ignored)
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
+                await result;
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
         }

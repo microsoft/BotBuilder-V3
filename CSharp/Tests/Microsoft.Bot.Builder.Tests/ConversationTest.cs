@@ -141,6 +141,90 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class ConversationTest : ConversationTestBase
     {
+        public interface IDialogThatFails : IDialog<object>
+        {
+            Task MessageReceived(IDialogContext context, IAwaitable<Message> message);
+            Task Throw(IDialogContext context, IAwaitable<Message> message);
+        }
+
+        [TestMethod]
+        public async Task If_Root_Dialog_Throws_Propagate_Exception_Reset_Store()
+        {
+            var dialog = new Moq.Mock<IDialogThatFails>(MockBehavior.Loose);
+
+            dialog
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async context => { context.Wait(dialog.Object.MessageReceived); });
+
+            dialog
+                .Setup(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()))
+                .Returns<IDialogContext, IAwaitable<Message>>(async (context, result) => { context.Wait(dialog.Object.Throw); });
+
+            dialog
+                .Setup(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()))
+                .Throws<ApplicationException>();
+
+            Func<IDialog<object>> MakeRoot = () => dialog.Object;
+            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
+            using (var container = Build(this, dialog.Object))
+            {
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    await Conversation.SendAsync(scope, toBot, MakeRoot);
+                }
+
+                dialog.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Once);
+                dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
+                dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Never);
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    IDialogContextInternal context;
+                    Assert.IsTrue(store.TryLoad(out context));
+                }
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    try
+                    {
+                        await Conversation.SendAsync(scope, toBot, MakeRoot);
+                        Assert.Fail();
+                    }
+                    catch (ApplicationException)
+                    {
+                    }
+                    catch
+                    {
+                        Assert.Fail();
+                    }
+                }
+
+                dialog.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Once);
+                dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
+                dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    IDialogContextInternal context;
+                    Assert.IsFalse(store.TryLoad(out context));
+                }
+
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    await Conversation.SendAsync(scope, toBot, MakeRoot);
+                }
+
+                dialog.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Exactly(2));
+                dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Exactly(2));
+                dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
+            }
+        }
+
         [TestMethod]
         public async Task SendResumeAsyncTest()
         {
