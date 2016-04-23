@@ -189,15 +189,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             for (var i = 0; i < allMatches.Length; ++i)
             {
                 var confidence = confidences[i];
-                var coverage = allMatches[i].Count();
-                if (confidence > bestConfidence)
+                var coverage = Coverage(allMatches[i]);
+                if (coverage > bestCoverage)
                 {
                     bestConfidence = confidence;
                     bestCoverage = coverage;
                     bestMatch = i;
                 }
-                else if (confidence == bestConfidence && coverage > bestCoverage)
+                else if (coverage == bestCoverage && confidence > bestConfidence)
                 {
+                    bestConfidence = confidence;
                     bestCoverage = coverage;
                     bestMatch = i;
                 }
