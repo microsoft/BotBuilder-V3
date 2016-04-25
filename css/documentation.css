@@ -13,6 +13,36 @@
   top: 4px;
   font-size: 24px;
 }
+.icon-inline:after {
+  font-family: Glyphs;
+  position: static;
+  font-size: inherit;
+  top: initial;
+  left: initial;
+  vertical-align: -0.3ex;
+  margin-left: 1ex;
+}
+.icon-inline-before:before {
+  font-family: Glyphs;
+  position: static;
+  font-size: inherit;
+  top: initial;
+  left: initial;
+  vertical-align: -0.3ex;
+  margin-right: 1ex;
+}
+.icon-inline-after:after {
+  font-family: Glyphs;
+  position: static;
+  font-size: inherit;
+  top: initial;
+  left: initial;
+  vertical-align: -0.3ex;
+  margin-left: 1ex;
+}
+.icon-inline-after:after {
+  margin-left: 1ex;
+}
 .icon-right:after {
   left: 100%;
   top: none;
@@ -38,6 +68,16 @@
 }
 .icon-hamburger:after {
   content: '\E700';
+}
+.icon-left-arrow:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 24px;
+}
+.icon-left-arrow:after {
+  content: '\E0E2';
 }
 .icon-right-arrow:after {
   font-family: Glyphs;
@@ -95,6 +135,18 @@
 }
 .svgicon-meet-the-bots {
   width: 4.8447265625em;
+}
+.danger-button {
+  color: white;
+  background-color: #E81022;
+}
+.danger-button:hover {
+  background-color: #d00e1f;
+}
+.ellipsize {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 @font-face {
   font-family: "Segoe UI";
@@ -193,16 +245,16 @@ button.default-button {
   background-color: #3E92D2;
   color: white;
 }
-input[type="submit"].default-button:hover,
-input[type="button"].default-button:hover,
-button.default-button:hover {
+input[type="submit"].default-button:hover:enabled,
+input[type="button"].default-button:hover:enabled,
+button.default-button:hover:enabled {
   background-color: #307AB3;
 }
-input[type="submit"].default-button:disabled,
-input[type="button"].default-button:disabled,
-button.default-button:disabled {
-  color: #B8B7B7;
-  background-color: #EDE9E9;
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+button:disabled {
+  color: white;
+  background-color: #D6D6D6;
 }
 button.danger {
   background-color: #E81022;
@@ -754,7 +806,8 @@ ul.header-nav li a:visisted {
   margin: 0 auto;
   visibility: hidden;
 }
-.loading-animation.loading {
+.loading-animation.loading,
+.loading-animation.visible {
   visibility: visible;
 }
 body {
@@ -767,7 +820,11 @@ body {
   min-width: 480px;
   margin-left: auto;
   margin-right: auto;
-  overflow: hidden;
+}
+.outline:after {
+  content: '';
+  clear: both;
+  display: block;
 }
 .outline:first-child {
   min-height: 0;
@@ -1029,6 +1086,7 @@ a {
   .page-grid-left .inner-grid {
     margin-left: 0;
     margin-right: 0;
+    clear: both;
   }
   .page-grid .inner-grid > h1,
   .page-grid-right .inner-grid > h1,
@@ -1100,9 +1158,6 @@ a {
     text-align: center;
     margin-bottom: 12px;
     margin-top: 12px;
-  }
-  .bot-webChat {
-    display: none;
   }
   .maximize {
     display: none;
