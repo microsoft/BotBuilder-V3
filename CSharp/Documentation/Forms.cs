@@ -635,6 +635,10 @@
     /// \skip Confirm
     /// \until })
     /// 
+    /// It is also possible to create a %FormFlow experience without any C# class at all.  The easiest way to do that
+    /// is to derive a class from Advanced.Field and implement the Advanced.IFieldState methods to get and set values and unknown values.  
+    /// If you do this, you can use JSON for your state object or use a database directly.
+    /// 
     /// \subsection quitExceptions Handling Quit and Exceptions
     /// When the user types 'quit' or there is an exception while filling in a form using FormDialog it is useful to be able
     /// to know what step the 'quit' or exception happened, the state of the form and and what steps were successfully completed.
@@ -736,7 +740,9 @@
     /// 
     /// \section initialState Passing in Initial Form State and Entities
     /// When you launch a FormDialog, you can optionally pass in an instance of your state.
-    /// If you do that, any step for filling a field is skipped if that field has a value.
+    /// If you do that, any step for filling a field is skipped if that field has a value unless you pass in
+    /// FormOptions.PromptFieldsWithValues which will prompt for fields, but use the passed in state for defaults.
+    /// 
     /// You can also pass in [LUIS] entities to bind to the state.  If the [EntityRecommendation.Type]
     /// is a path to a field in your C# class then the [EntityRecommendation.Entity] will be 
     /// passed through the recognizer to bind to your field.  Just like initial state, any step for 
