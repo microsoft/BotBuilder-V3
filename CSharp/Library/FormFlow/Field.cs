@@ -707,6 +707,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 if (step == last)
                 {
                     object newValue = value;
+                    var utype = Nullable.GetUnderlyingType(ftype) ?? ftype;
                     if (ftype.IsIEnumerable())
                     {
                         if (value != null && ftype != typeof(string))
@@ -723,22 +724,25 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                     else
                     {
-                        if (value == null && (ftype.IsEnum || ftype.IsIntegral() || ftype.IsDouble()))
+                        if (value == null)
                         {
-                            // Default value for numbers and enums
-                            newValue = 0;
+                            if (!ftype.IsNullable() && (ftype.IsEnum || ftype.IsIntegral() || ftype.IsDouble()))
+                            {
+                                // Null value for non-nullable numbers and enums is 0
+                                newValue = 0;
+                            }
                         }
-                        else if (ftype.IsIntegral())
+                        else if (utype.IsIntegral())
                         {
-                            newValue = Convert.ChangeType(value, ftype);
+                            newValue = Convert.ChangeType(value, utype);
                         }
-                        else if (ftype.IsDouble())
+                        else if (utype.IsDouble())
                         {
-                            newValue = Convert.ChangeType(value, ftype);
+                            newValue = Convert.ChangeType(value, utype);
                         }
-                        else if (ftype == typeof(bool))
+                        else if (utype == typeof(bool))
                         {
-                            newValue = Convert.ChangeType(value, typeof(bool));
+                            newValue = Convert.ChangeType(value, utype);
                         }
                     }
                     if (field != null)

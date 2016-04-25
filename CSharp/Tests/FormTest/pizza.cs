@@ -175,8 +175,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         public GourmetDeliteOptions GourmetDelite;
         public StuffedOptions Stuffed;
         public BYOPizza BYO;
-        //         [Optional]
-        // public List<CouponOptions> Coupons;
+        [Optional]
+        public List<CouponOptions> Coupons;
         [Optional]
         public CouponOptions Coupon;
         public string DeliveryAddress;
@@ -184,6 +184,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         public double? Rating;
         public DateTime Available;
+        [Optional]
+        [Numeric(1, 3)]
+        public int? Bottles;
         public string Specials;
 
         public override string ToString()
