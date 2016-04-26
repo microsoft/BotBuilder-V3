@@ -80,7 +80,7 @@ Our C# nuget client library has extension methods for the Message class to make 
     public static void SetBotConversationData(this Message message, string property, object data)
     
     // Set a property on the BotPerUserInConversationData 
-    public static void SetBotPerUserInConversationData(this Message message, object data, string property)
+    public static void SetBotPerUserInConversationData(this Message message, string property, object data)
 
     // Get a property off of the BotUserData 
     public static TypeT GetBotUserData<TypeT>(this Message message, string property)
