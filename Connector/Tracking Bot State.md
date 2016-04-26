@@ -74,10 +74,10 @@ Our C# nuget client library has extension methods for the Message class to make 
 {% highlight C#  %}
 
     // Set a property on the BotUserData 
-    public static void SetBotUserData(this Message message, object data, string property)
+    public static void SetBotUserData(this Message message, string property, object data)
     
     // Set a property on the BotConversationData 
-    public static void SetBotConversationData(this Message message, object data, string property)
+    public static void SetBotConversationData(this Message message, string property, object data)
     
     // Set a property on the BotPerUserInConversationData 
     public static void SetBotPerUserInConversationData(this Message message, object data, string property)
