@@ -104,6 +104,12 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false, bool localize = false)
         {
+#if LOCALIZE
+            if (localize)
+            {
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es");
+            }
+#endif
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
             ActiveDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
@@ -208,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
 #if LOCALIZE
-            if (localize)
+            if (localize && false)
             {
                 using (var stream = new FileStream("pizza.resx", FileMode.Create))
                 using (var writer = new ResXResourceWriter(stream))
