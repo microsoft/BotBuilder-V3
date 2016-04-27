@@ -44,6 +44,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -723,7 +724,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     }
 }
 
-namespace Microsoft.Bot.Builder.Luis
+namespace Microsoft.Bot.Builder.Luis.Models
 {
     [Serializable]
     public partial class EntityRecommendation

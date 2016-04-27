@@ -103,7 +103,6 @@
     <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\LuisModel.cs" />
-    <Compile Include="Luis\LuisResult.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />
@@ -134,8 +133,13 @@
     <Compile Include="FormFlow\IFormDialog.cs" />
     <Compile Include="FormFlow\IPrompt.cs" />
     <Compile Include="FormFlow\IRecognize.cs" />
-    <Compile Include="Luis\EntityRecommendation.cs" />
-    <Compile Include="Luis\IntentRecommendation.cs" />
+    <Compile Include="Luis\Models\Action.cs" />
+    <Compile Include="Luis\Models\ActionParameter.cs" />
+    <Compile Include="Luis\Models\ActionParameterValue.cs" />
+    <Compile Include="Luis\Models\EntityRecommendation.cs" />
+    <Compile Include="Luis\Models\Extensions.cs" />
+    <Compile Include="Luis\Models\IntentRecommendation.cs" />
+    <Compile Include="Luis\Models\LuisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -146,6 +150,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="createpackage.cmd" />
+    <None Include="Luis\generateLuisModels.bat" />
+    <None Include="Luis\Luis-q.json" />
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>
