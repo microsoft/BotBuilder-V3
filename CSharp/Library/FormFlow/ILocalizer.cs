@@ -72,14 +72,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
-        void Add(string prefix, IReadOnlyDictionary<object, string> dictionary);
+        void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Adds values from dictionary seperated by semi-colons under prefix;object. </summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
-        void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary);
+        void Add(string prefix, IReadOnlyDictionary<object, TermsAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage. </summary>
@@ -116,14 +116,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prefix">       The prefix. </param>
         /// <param name="dictionary">   Dictionary with existing values. </param>
         #endregion
-        void LookupDictionary(string prefix, IDictionary<object, string> dictionary);
+        void LookupDictionary(string prefix, IDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Look up prefix;object from dictionary and replace values from localizer. </summary>
         /// <param name="prefix">       The prefix. </param>
         /// <param name="dictionary">   Dictionary with existing values. </param>
         #endregion
-        void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary);
+        void LookupDictionary(string prefix, IDictionary<object, TermsAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Looks up prefix;usage and replace patterns in template from localizer. </summary>

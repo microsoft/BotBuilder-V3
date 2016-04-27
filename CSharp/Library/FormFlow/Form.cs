@@ -69,18 +69,6 @@ namespace Microsoft.Bot.Builder.FormFlow
 #if LOCALIZE
         public override void SaveResources(IResourceWriter writer)
         {
-            foreach (var entry in _configuration.Commands)
-            {
-                var key = entry.Key;
-                var command = entry.Value;
-                _resources.Add(key + nameof(command.Description), command.Description);
-                _resources.Add(key + nameof(command.Help), command.Help);
-                _resources.Add(key + nameof(command.Terms), command.Terms);
-            }
-            _resources.Add(nameof(_configuration.CurrentChoice), _configuration.CurrentChoice);
-            _resources.Add(nameof(_configuration.No), _configuration.No);
-            _resources.Add(nameof(_configuration.NoPreference), _configuration.NoPreference);
-            _resources.Add(nameof(_configuration.Yes), _configuration.Yes);
             foreach (var step in _steps)
             {
                 step.SaveResources();
@@ -91,17 +79,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         public override void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
             _resources = _resources.Load(reader, out missing, out extra);
-            foreach(var entry in _configuration.Commands)
-            {
-                var command = entry.Value;
-                _resources.Lookup(entry.Key + nameof(command.Description), out command.Description);
-                _resources.Lookup(entry.Key + nameof(command.Help), out command.Help);
-                _resources.LookupValues(entry.Key + nameof(command.Terms), out command.Terms);
-            }
-            _resources.LookupValues(nameof(_configuration.CurrentChoice), out _configuration.CurrentChoice);
-            _resources.LookupValues(nameof(_configuration.No), out _configuration.No);
-            _resources.LookupValues(nameof(_configuration.NoPreference), out _configuration.NoPreference);
-            _resources.LookupValues(nameof(_configuration.Yes), out _configuration.Yes);
             foreach (var step in _steps)
             {
                 step.Localize();

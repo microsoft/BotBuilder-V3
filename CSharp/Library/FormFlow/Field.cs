@@ -163,7 +163,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return _description;
+                return _description.Description;
             }
         }
 
@@ -171,25 +171,25 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return _terms;
+                return _terms.Alternatives;
             }
         }
 
         public virtual IEnumerable<string> Terms(object value)
         {
-            return _valueTerms[value];
+            return _valueTerms[value].Alternatives;
         }
 
         public virtual string ValueDescription(object value)
         {
-            return _valueDescriptions[value];
+            return _valueDescriptions[value].Description;
         }
 
         public virtual IEnumerable<string> ValueDescriptions
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Value);
+                return (from entry in _valueDescriptions select entry.Value.Description);
             }
         }
 
@@ -232,11 +232,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void SaveResources()
         {
             var localizer = _form.Resources;
-            localizer.Add(_name + nameof(_description), _description);
-            localizer.Add(_name + nameof(_terms), _terms);
+            if (_description.IsLocalizable)
+            {
+                localizer.Add(_name + nameof(_description), _description.Description);
+            }
+            if (_terms.IsLocalizable)
+            {
+                localizer.Add(_name + nameof(_terms), _terms.Alternatives);
+            }
             localizer.Add(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.Add(_name + nameof(_valueTerms), _valueTerms);
-            if (_promptSet)
+            if (_promptDefinition != null && _promptDefinition.IsLocalizable)
             {
                 localizer.Add(_name + nameof(_promptDefinition), _promptDefinition.Patterns);
             }
@@ -246,17 +252,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void Localize()
         {
             var localizer = _form.Resources;
-            localizer.Lookup(_name + nameof(_description), out _description);
-            localizer.LookupValues(_name + nameof(_terms), out _terms);
+            string description;
+            string[] terms;
+            if (localizer.Lookup(_name + nameof(_description), out description))
+            {
+                _description = new DescribeAttribute(description) { IsLocalizable = true };
+            }
+            if (localizer.LookupValues(_name + nameof(_terms), out terms))
+            {
+                _terms = new TermsAttribute(terms) { IsLocalizable = true };
+            }
             localizer.LookupDictionary(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.LookupDictionary(_name + nameof(_valueTerms), _valueTerms);
-            if (_promptSet)
+            string[] patterns;
+            if (localizer.LookupValues(_name + nameof(_promptDefinition), out patterns))
             {
-                string[] patterns;
-                if (localizer.LookupValues(_name + nameof(_promptDefinition), out patterns))
-                {
-                    _promptDefinition.Patterns = patterns;
-                }
+                _promptDefinition.Patterns = patterns;
             }
             localizer.LookupTemplates(_name, _templates);
             if (!_promptSet)
@@ -344,7 +355,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetFieldDescription(string description)
         {
-            _description = description;
+            _description = new DescribeAttribute(description);
             return this;
         }
 
@@ -353,7 +364,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetFieldTerms(params string[] terms)
         {
-            _terms = terms;
+            _terms = new TermsAttribute(terms);
             return this;
         }
 
@@ -363,7 +374,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> AddDescription(object value, string description)
         {
-            _valueDescriptions[value] = description;
+            _valueDescriptions[value] = new DescribeAttribute(description);
             return this;
         }
 
@@ -373,7 +384,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> AddTerms(object value, params string[] terms)
         {
-            _valueTerms[value] = terms;
+            _valueTerms[value] = new TermsAttribute(terms);
             return this;
         }
 
@@ -628,10 +639,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected bool _optional;
         protected bool _isNullable;
         protected bool _keepZero;
-        protected string _description;
-        protected string[] _terms = new string[0];
-        protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
-        protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
+        protected DescribeAttribute _description = new DescribeAttribute(null);
+        protected TermsAttribute _terms = new TermsAttribute();
+        protected Dictionary<object, DescribeAttribute> _valueDescriptions = new Dictionary<object, DescribeAttribute>();
+        protected Dictionary<object, TermsAttribute> _valueTerms = new Dictionary<object, TermsAttribute>();
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
         protected bool _promptSet;
         protected PromptAttribute _promptDefinition;
@@ -946,7 +957,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 foreach (var attribute in type.GetCustomAttributes(typeof(TemplateAttribute)))
                 {
-                    AddTemplate(attribute as TemplateAttribute);
+                    var template = attribute as TemplateAttribute;
+                    template.IsLocalizable = true;
+                    AddTemplate(template);
                 }
             }
         }
@@ -966,34 +979,44 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var numeric = (field == null ? prop.GetCustomAttribute<NumericAttribute>() : field.GetCustomAttribute<NumericAttribute>());
                 if (describe != null)
                 {
-                    _description = describe.Description;
+                    _description = describe;
                 }
                 else
                 {
-                    _description = Language.CamelCase(name);
+                    _description = new DescribeAttribute(Language.CamelCase(name));
                 }
+                _description.IsLocalizable = true;
+
                 if (terms != null)
                 {
-                    _terms = terms.Alternatives;
+                    _terms = terms;
                 }
                 else
                 {
-                    _terms = Language.GenerateTerms(Language.CamelCase(name), 3);
+                    _terms = new TermsAttribute(Language.GenerateTerms(Language.CamelCase(name), 3));
                 }
+                _terms.IsLocalizable = true;
+
                 if (prompt != null)
                 {
                     _promptDefinition = prompt;
+                    _promptDefinition.IsLocalizable = true;
                 }
+
                 if (numeric != null)
                 {
                     double oldMin, oldMax;
                     Limits(out oldMin, out oldMax);
                     SetLimits(numeric.Min, numeric.Max, numeric.Min != oldMin || numeric.Max != oldMax);
                 }
+
                 _optional = (optional != null);
+
                 foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
                 {
-                    AddTemplate(attribute as TemplateAttribute);
+                    var template = attribute as TemplateAttribute;
+                    template.IsLocalizable = true;
+                    AddTemplate(template);
                 }
             }
         }
@@ -1009,20 +1032,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var terms = enumField.GetCustomAttribute<TermsAttribute>();
                     if (describe != null && !_ignoreAnnotations)
                     {
-                        _valueDescriptions.Add(enumValue, describe.Description);
+                        _valueDescriptions.Add(enumValue, describe);
                     }
                     else
                     {
-                        _valueDescriptions.Add(enumValue, Language.CamelCase(enumValue.ToString()));
+                        _valueDescriptions.Add(enumValue, new DescribeAttribute(Language.CamelCase(enumValue.ToString())));
                     }
+                    _valueDescriptions[enumValue].IsLocalizable = true;
+
                     if (terms != null && !_ignoreAnnotations)
                     {
-                        _valueTerms.Add(enumValue, terms.Alternatives);
+                        _valueTerms.Add(enumValue, terms);
                     }
                     else
                     {
-                        _valueTerms.Add(enumValue, Language.GenerateTerms(Language.CamelCase(enumValue.ToString()), 4));
+                        _valueTerms.Add(enumValue, new TermsAttribute(Language.GenerateTerms(Language.CamelCase(enumValue.ToString()), 4)));
                     }
+                    _valueTerms[enumValue].IsLocalizable = true;
                 }
             }
         }

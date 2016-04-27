@@ -803,7 +803,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             if (_message == null)
             {
-                _form.Resources.Add(_name + ".PROMPT", _promptDefinition.Patterns);
+                _form.Resources.Add(_name, _promptDefinition.Patterns);
             }
         }
 
@@ -812,7 +812,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (_message == null)
             {
                 string[] patterns;
-                _form.Resources.LookupValues(_name + ".PROMPT", out patterns);
+                _form.Resources.LookupValues(_name, out patterns);
                 if (patterns != null) _promptDefinition.Patterns = patterns;
             }
         }

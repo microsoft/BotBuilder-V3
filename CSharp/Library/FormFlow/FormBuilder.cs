@@ -31,12 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {

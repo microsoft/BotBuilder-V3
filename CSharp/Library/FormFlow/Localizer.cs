@@ -37,7 +37,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
-using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
+using static Microsoft.Bot.Builder.Resource.Extensions;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -63,19 +63,25 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _arrayTranslations.Add(key, list.ToArray());
         }
 
-        public void Add(string prefix, IReadOnlyDictionary<object, string> dictionary)
+        public void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary)
         {
             foreach (var entry in dictionary)
             {
-                _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
+                if (entry.Value.IsLocalizable)
+                {
+                    _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
+                }
             }
         }
 
-        public void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary)
+        public void Add(string prefix, IReadOnlyDictionary<object, TermsAttribute> dictionary)
         {
             foreach (var entry in dictionary)
             {
-                _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
+                if (entry.Value.IsLocalizable)
+                {
+                    _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Alternatives);
+                }
             }
         }
 
@@ -83,13 +89,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var template in templates.Values)
             {
-                _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+                Add(prefix, template);
             }
         }
 
         public void Add(string prefix, TemplateAttribute template)
         {
-            _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+            if (template.IsLocalizable)
+            {
+                _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+            }
         }
 
         public bool Lookup(string key, out string value)
@@ -102,26 +111,26 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _arrayTranslations.TryGetValue(key, out values);
         }
 
-        public void LookupDictionary(string prefix, IDictionary<object, string> dictionary)
+        public void LookupDictionary(string prefix, IDictionary<object, DescribeAttribute> dictionary)
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string value;
                 if (_translations.TryGetValue(prefix + SEPARATOR + key, out value))
                 {
-                    dictionary[key] = value;
+                    dictionary[key] = new DescribeAttribute(value) { IsLocalizable = true };
                 }
             }
         }
 
-        public void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary)
+        public void LookupDictionary(string prefix, IDictionary<object, TermsAttribute> dictionary)
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
                 string[] values;
                 if (_arrayTranslations.TryGetValue(prefix + SEPARATOR + key, out values))
                 {
-                    dictionary[key] = values;
+                    dictionary[key] = new TermsAttribute(values) { IsLocalizable = true };
                 }
             }
         }
@@ -171,15 +180,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (type == "TEMPLATE")
                 {
-                    var elements = key.SplitList();
-                    var usage = elements.First();
-                    var fields = elements.Skip(1);
+                    var usage = key.SplitList().Skip(1).First();
                     var patterns = val.SplitList();
-                    var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray());
-                    foreach (var field in fields)
-                    {
-                        newLocalizer.Add(field, template);
-                    }
+                    var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray()) { IsLocalizable = true };
+                    newLocalizer.Add(key, template);
                 }
             }
 
@@ -208,34 +212,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 writer.AddResource("LIST" + SEPARATOR + entry.Key, MakeList(entry.Value));
             }
 
-            // Switch from field;usage -> patterns
-            // to usage;pattern* -> [fields]
-            var byPattern = new Dictionary<string, List<string>>();
             foreach (var entry in _templateTranslations)
             {
-                var names = entry.Key.SplitList().ToArray();
-                var field = names[0];
-                var usage = names[1];
-                var key = MakeList(AddPrefix(usage, entry.Value));
-                List<string> fields;
-                if (byPattern.TryGetValue(key, out fields))
-                {
-                    fields.Add(field);
-                }
-                else
-                {
-                    byPattern.Add(key, new List<string> { field });
-                }
-            }
-
-            // Write out TEMPLATE;usage;field* -> pattern*
-            foreach (var entry in byPattern)
-            {
-                var elements = entry.Key.SplitList().ToArray();
-                var usage = elements[0];
-                var patterns = elements.Skip(1);
-                var key = "TEMPLATE" + SEPARATOR + usage + SEPARATOR + MakeList(entry.Value);
-                writer.AddResource(key, MakeList(patterns));
+                writer.AddResource("TEMPLATE" + SEPARATOR + entry.Key, MakeList(entry.Value));
             }
         }
 

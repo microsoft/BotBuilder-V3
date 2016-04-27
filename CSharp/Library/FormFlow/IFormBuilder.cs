@@ -32,10 +32,10 @@
 //
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {

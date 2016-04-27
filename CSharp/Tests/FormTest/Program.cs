@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 #if LOCALIZE
             if (localize)
             {
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es");
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("it");
             }
 #endif
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
@@ -214,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
 #if LOCALIZE
-            if (localize && false)
+            if (localize)
             {
                 using (var stream = new FileStream("pizza.resx", FileMode.Create))
                 using (var writer = new ResXResourceWriter(stream))
