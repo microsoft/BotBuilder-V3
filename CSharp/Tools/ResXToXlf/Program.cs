@@ -8,19 +8,15 @@ namespace ResXToXlf
     {
         static void Main(string[] args)
         {
-            var resx = string.Format("{0}.resx", filename);
-            var xlf = string.Format("{0}.xlf", filename);
-
+            var resx = args[0];
+            var xlf = args[1];
             var error = false;
-
             var reswDoc = XDocument.Load(resx);
             var sourceEntries = reswDoc.Root.Elements("data").ToDictionary(e => e.Attribute("name").Value,
                                                             e => e.Element("value").Value);
             var xlfDoc = XDocument.Load(xlf);
             var targetEntries = xlfDoc.Descendants().Where(d => d.Name.LocalName == "trans-unit").
-                                 ToDictionary(e => e.Attribute("id").Value.Substring(5).Replace('\', '.'),
-
-
+                                 ToDictionary(e => e.Attribute("id").Value,
                                             e => e.Elements().Skip(1).FirstOrDefault());
 
             foreach (var entry in sourceEntries)
@@ -39,7 +35,9 @@ namespace ResXToXlf
                 target.Attribute("state").Value = "signed-off";
             }
             if (!error)
+            {
                 xlfDoc.Save(xlf);
+            }
         }
     }
 }

@@ -363,9 +363,9 @@ namespace Microsoft.Bot.Builder.FormFlow
         public Dictionary<FormCommand, CommandDescription> Commands = new Dictionary<FormCommand, CommandDescription>()
         {
             {FormCommand.Backup, new CommandDescription(
-                Resources.CommandBackup,
-                Resources.CommandBackupTerms.SplitList(),
-                Resources.CommandBackupHelp) },
+                Resources.CommandBack,
+                Resources.CommandBackTerms.SplitList(),
+                Resources.CommandBackHelp) },
             {FormCommand.Help, new CommandDescription(
                 Resources.CommandHelp,
                 Resources.CommandHelpTerms.SplitList(),

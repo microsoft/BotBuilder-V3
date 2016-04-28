@@ -12,14 +12,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CommandBackup" xml:space="preserve">
-    <value>Indietro</value>
+  <data name="CommandBack" xml:space="preserve">
+    <value>Backup</value>
   </data>
-  <data name="CommandBackupHelp" xml:space="preserve">
+  <data name="CommandBackHelp" xml:space="preserve">
     <value>Indietro: Torna alla domanda precedente.</value>
   </data>
-  <data name="CommandBackupTerms" xml:space="preserve">
-    <value>indietro;torna indietro;torna</value>
+  <data name="CommandBackTerms" xml:space="preserve">
+    <value>backup;go back;back</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
     <value>Aiuto</value>

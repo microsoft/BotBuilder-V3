@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 #if LOCALIZE
             if (localize)
             {
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("it");
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ar");
             }
 #endif
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);

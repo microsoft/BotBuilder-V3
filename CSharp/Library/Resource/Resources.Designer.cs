@@ -61,29 +61,29 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backup.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        internal static string CommandBackup {
+        internal static string CommandBack {
             get {
-                return ResourceManager.GetString("CommandBackup", resourceCulture);
+                return ResourceManager.GetString("CommandBack", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Back: Go back to the previous question..
         /// </summary>
-        internal static string CommandBackupHelp {
+        internal static string CommandBackHelp {
             get {
-                return ResourceManager.GetString("CommandBackupHelp", resourceCulture);
+                return ResourceManager.GetString("CommandBackHelp", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to backup;go back;back.
         /// </summary>
-        internal static string CommandBackupTerms {
+        internal static string CommandBackTerms {
             get {
-                return ResourceManager.GetString("CommandBackupTerms", resourceCulture);
+                return ResourceManager.GetString("CommandBackTerms", resourceCulture);
             }
         }
         
