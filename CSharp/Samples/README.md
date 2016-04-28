@@ -12,7 +12,7 @@ High Level Features:
 [Get started with the Bot Builder!](http://docs.botframework.com/sdkreference/csharp/)
 
 There are six samples in this directory.
-* Microsoft.Bot.Sample.SimpleEchoBot -- Bot Connector example done with the Bot Builder framework.
+* [Microsoft.Bot.Sample.SimpleEchoBot](SimpleEchoBot/) -- Bot Connector example done with the Bot Builder framework.
 * Microsoft.Bot.Sample.EchoBot -- Add state onto the previous example.
 * Microsoft.Bot.Sample.SimpleSandwichBot -- FormFlow example of how easy it is to create a rich dialog with guided conversation, help and clarification. 
 * Microsoft.Bot.Sample.AnnotatedSandwichBot -- Builds on the previous example to add attributes, messages, confirmation and business logic.
