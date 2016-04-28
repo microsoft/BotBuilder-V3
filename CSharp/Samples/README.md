@@ -18,5 +18,4 @@ There are six samples in this directory.
 * [Microsoft.Bot.Sample.AnnotatedSandwichBot](AnnotatedSandwichBot/) -- Builds on the previous example to add attributes, messages, confirmation and business logic.
 * [Microsoft.Bot.Sample.SimpleAlarmBot](SimpleAlarmBot/) -- Integration of http://luis.ai with the dialog system to set alarms.
 * [Microsoft.Bot.Sample.PizzaBot](PizzaBot/) -- Integration of http://luis.ai with FormFlow.
-
-Also included in this folder is the sample application used in the //Build 2016 session [Building a Conversational Bot: From 0 to 60](https://channel9.msdn.com/Events/Build/2016/B821) 
+* [//Build/ 2016](Build-2016/) -- Sample application used in the //Build/ 2016 session [Building a Conversational Bot: From 0 to 60](https://channel9.msdn.com/Events/Build/2016/B821) 
