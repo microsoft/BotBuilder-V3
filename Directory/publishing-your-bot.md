@@ -9,7 +9,7 @@ parent1: Bot Directory
 In order to publish your bot to the Bot Directory, you need to do two things: 
 
 1. Connect your bot to at least one channel which appears in the Bot Directory (note - the Direct Line channel is a special-purpose channel which does not appear in the Directory as of now) , and
-2. Select "Publish to directory" in the bot dashboard, bot header.
+2. Select "Publish to directory" in the bot dashboard.
 
 Below are screen captures which illustrate the flow from tapping "Publish" to visibility in the Bot Directory (note - as of April 29th, 2016 the Bot Directory is open for submission; we do not yet have a date set for the Bot Directory to be open to the general public; stay tuned for a future announcement on that front).
 
@@ -29,4 +29,4 @@ Below are screen captures which illustrate the flow from tapping "Publish" to vi
 <span class="imagecaption">Review status - published</span>
 
 ![Bot in Bot Directory](/images/6-Directory-detail.png)
-<span class="imagecaption">Bot in Bot Directory - users discover, add, try...</span>
+<span class="imagecaption">Bot in Bot Directory - users discover, try, add...</span>
