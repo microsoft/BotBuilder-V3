@@ -48,6 +48,7 @@ To exchange your secret for a token and generate the embed:
 3. The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.
 4. Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.
 
+Example request:
 
     -- connect to webchat.botframework.com --
     GET /api/tokens
