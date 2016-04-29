@@ -48,6 +48,7 @@ To exchange your secret for a token and generate the embed:
 3. The call will return a token good for one conversation. If you want to start a new conversation, you must generate a new token.
 4. Change the "s=" parameter in your iframe embed to "t=". The "t=" form works with tokens and automatically renews them before they expire.
 
+
     -- connect to webchat.botframework.com --
     GET /api/tokens
     Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0
@@ -56,7 +57,7 @@ Note, the above secret is a sample and will not work. Use your own secret.
 
 {% highlight html %}
 
-    <iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?t=YOUR_TOKEN_HERE"></iframe>
+<iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?t=YOUR_TOKEN_HERE"></iframe>
 
 {% endhighlight %}
 
@@ -74,7 +75,7 @@ To embed your bot in your web site by include your secret on your web page:
 
 {% highlight html %}
 
-    <iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?s=YOUR_SECRET_HERE"></iframe>
+<iframe src="https://webchat.botframework.com/embed/YOUR_BOT_ID?s=YOUR_SECRET_HERE"></iframe>
 
 {% endhighlight %}
 
@@ -84,7 +85,7 @@ You may change the chat control's size by adding height and width to the style e
 
 {% highlight html %}
 
-    <iframe style="height:480px; width:402px" src="... SEE ABOVE ..."></iframe>
+<iframe style="height:480px; width:402px" src="... SEE ABOVE ..."></iframe>
 
 {% endhighlight %}
 

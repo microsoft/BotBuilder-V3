@@ -19,15 +19,20 @@ work only for a single conversation and only for a limited amount of time. Token
 although they may be renewed up until their expiration.
 
 The secret or token (depending on the authorization model) are supplied as basic auth with the "BotConnector" scheme
-and no further encoding.
+and no further encoding. Example auth header:
 
-Each conversation on the Direct Line channel must be explicitly started using a POST to the /api/conversations endpoint.
+    -- connect to directline.botframework.com --
+    GET /api/tokens
+    Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0
+
+Each conversation on the Direct Line channel must be explicitly started using a POST to the
+https://directline.botframework.com/api/conversations endpoint.
 If the call was authorized with a token, the conversation ID is the conversation ID in the scoped token. If a
 secret was used to start the conversation, the conversation will be started with a new, random ID.
 
-The client may send messages to the bot by calling POST on /api/messages/conversationId.
+The client may send messages to the bot by calling POST on https://directline.botframework.com/api/messages/conversationId.
 
-The client may retrieve messages sent by the bot by calling GET on /api/messages/conversationId. The JSON structure
+The client may retrieve messages sent by the bot by calling GET on https://directline.botframework.com/api/messages/conversationId. The JSON structure
 returned contains a watermark that can be sent on subsequent requests to skip old messages.
 
 The Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before
