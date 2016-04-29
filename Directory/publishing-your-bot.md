@@ -25,7 +25,7 @@ Below are screen captures which illustrate the flow from tapping "Publish" to vi
 ![Review status - in review](/images/4-reviews_in-review.png)
 <span class="imagecaption">Review status - in review</span>
 
-![Review status - published](images/5-reviews_published.png)
+![Review status - published](/images/5-reviews_published.png)
 <span class="imagecaption">Review status - published</span>
 
 ![Bot in Bot Directory](/images/6-Directory-detail.png)
