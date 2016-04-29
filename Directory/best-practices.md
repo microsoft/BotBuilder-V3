@@ -1,12 +1,38 @@
 ---
 layout: page
-title: Best Practices
+title: Experience Principles and Best Practices
 permalink: /directory/best-practices/
 weight: 710
 parent1: Bot Directory
 ---
 
-Best practices and common patterns for creating engaging conversations with Bots.
+Experience Principles
+
+### Provide as much value to the user as you can in the conversation channel
+
+<u1>
+<u1> Reduce bouncing the user out from the messaging canvas to destination pages & apps during task completion
+</u1>
+
+### Participate in a productive conversation in a natural way with minimal complexity
+
+<u1>
+<u1> Brief but meaningful responses with a bias towards text-based answers that are glanceable, card, image or button answers that are crisp, clear, actionable. Human-like typing speed. 
+</u1>
+
+### Utilize the interaction patterns of the messaging canvas and the mobile OS
+
+<u1>
+<u1> Use themes, UI, and an IA familiar to users. Users should know what to expect when they engage with bot’s responses (e.g., tap on a photo.)
+</u1>
+
+### Have a clear POV on what scenarios the bot will handle brilliantly
+
+<u1>
+<u1> Know the user problem, the value prop of your bot, and how your bot is better than other currently available solutions.
+</u1>
+
+Best Practices
 
 
 ### Craft an engaging welcome message
@@ -26,17 +52,17 @@ Best practices and common patterns for creating engaging conversations with Bots
 ### Be judicious with data and message frequency
 
   <ul>
-  <li>Donâ€™t send out too many messages in sequence when they can be grouped into a single message. </li>
+  <li>Don't send out too many messages in sequence when they can be grouped into a single message. </li>
   <li>Be cognizant of the userâ€™s network-speed and bandwidth charges  when sending images and/or videos. </li>
   <li>If you want to do something out of the ordinary (e.g. send a 100 messages in the next minute, send a large file etc.), then take consent from the user before doing it. </li>
-  <li>Donâ€™t send out messages that might appear as spam (e.g. wishing a user â€œGood nightâ€ at 10 pm every night). </li>
+  <li>Don't send out messages that might appear as spam (e.g. wishing a user â€œGood nightâ€ at 10 pm every night). </li>
   </ul>
 
 ### Give feedback
 
   <ul>
-  <li>Itâ€™s always good to give a sense of awareness to the user. Let the user know if the Bot understood or didnâ€™t understand the userâ€™s response. Paraphrase and/or confirm if the Bot is uncertain about the userâ€™s intent and before performing more involved (or irrevocable) actions like deleting something permanently.  <br>
-  *If the Bot needs to take time in performing time-intensive actions, donâ€™t leave the user hanging.  </li>
+  <li>It's always good to give a sense of awareness to the user. Let the user know if the Bot understood or didn't understand the userâ€™s response. Paraphrase and/or confirm if the Bot is uncertain about the userâ€™s intent and before performing more involved (or irrevocable) actions like deleting something permanently.  <br>
+  *If the Bot needs to take time in performing time-intensive actions, don't leave the user hanging.  </li>
   </ul>
 
 ### Keep the user in control
@@ -55,3 +81,4 @@ Best practices and common patterns for creating engaging conversations with Bots
   <li>Striving for quality; </li>
   <li>Operating with integrity. </li>
   </ul>
+
