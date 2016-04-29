@@ -122,7 +122,7 @@
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">{&amp;} داری؟ {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{&amp;} داری؟ {||}</target>
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
@@ -131,16 +131,16 @@
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
           <source>By "{0}" {&amp;} did you mean {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">توسط "{0}" {&amp;} منظور شما {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">توسط "{0}" {&amp;} منظور شما {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-term being clarified</note>
         </trans-unit>
         <trans-unit id="TemplateCurrentChoice" translate="yes" xml:space="preserve">
           <source>(current choice: {})</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">(انتخاب فعلی: {)</target>
+          <target state="translated">(انتخاب فعلی: {})</target>
         </trans-unit>
         <trans-unit id="TemplateDateTime" translate="yes" xml:space="preserve">
           <source>Please enter a date and time for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا وارد کنید تاریخ و زمان برای {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا وارد کنید تاریخ و زمان برای {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateDateTimeHelp" translate="yes" xml:space="preserve">
           <source>Please enter a date or time expression {?, {0}}{?, {1}}.</source>
@@ -149,7 +149,7 @@
         </trans-unit>
         <trans-unit id="TemplateDouble" translate="yes" xml:space="preserve">
           <source>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا شماره را وارد کنید {آیا بین {0:F1} و {1:F1}} برای {&amp;} {|}</target>
+          <target state="translated">لطفا شماره را وارد کنید {?آیا بین {0:F1} و {1:F1}} برای {&amp;} {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateDoubleChoiceFormat" translate="yes" xml:space="preserve">
@@ -159,7 +159,7 @@
         </trans-unit>
         <trans-unit id="TemplateDoubleHelp" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا شماره را وارد کنید {آیا بین {2:F1} و {3:F1}} {?، {0}} {?, {1}}.</target>
+          <target state="translated">لطفا شماره را وارد کنید {?آیا بین {2:F1} و }3F1:}} {?، {0}} {?, {1}}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyNumberHelp" translate="yes" xml:space="preserve">
@@ -184,11 +184,11 @@
         </trans-unit>
         <trans-unit id="TemplateEnumSelectMany" translate="yes" xml:space="preserve">
           <source>Please select one or more {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا انتخاب یک یا چند {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا انتخاب یک یا چند {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateEnumSelectOne" translate="yes" xml:space="preserve">
           <source>Please select a {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا انتخاب کنید {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا انتخاب کنید {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateFeedback" translate="yes" xml:space="preserve">
           <source>For {&amp;} I understood {}. {?"{0}" is not an option.}</source>
@@ -233,7 +233,7 @@
         </trans-unit>
         <trans-unit id="TemplateInteger" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {0} and {1}} for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا شماره را وارد کنید {آیا بین {0} و {1}} برای {&amp;} {|}</target>
+          <target state="translated">لطفا شماره را وارد کنید {?آیا بین {0} و {1}} برای {&amp;} {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateIntegerChoiceFormat" translate="yes" xml:space="preserve">
@@ -243,12 +243,12 @@
         </trans-unit>
         <trans-unit id="TemplateIntegerHelp" translate="yes" xml:space="preserve">
           <source>You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">می توانید شماره را وارد کنید {آیا بین {2} و {3}} {?، {0}} {?, {1}}.</target>
+          <target state="translated">می توانید شماره را وارد کنید {?آیا بین {2} و {3}} {?، {0}} {?, {1}}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
           <source>What do you want to change? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">چه تغییر دارید؟ {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">چه تغییر دارید؟ {||}</target>
         </trans-unit>
         <trans-unit id="TemplateNavigationCommandHelp" translate="yes" xml:space="preserve">
           <source>You can switch to another field by entering its name. ({0}).</source>
@@ -280,7 +280,7 @@
         </trans-unit>
         <trans-unit id="TemplateString" translate="yes" xml:space="preserve">
           <source>Please enter {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا وارد کنید {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا وارد کنید {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateStringChoiceFormat" translate="yes" xml:space="preserve">
           <source>{1}</source>

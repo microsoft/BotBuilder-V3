@@ -52,6 +52,7 @@ using Microsoft.Bot.Connector;
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
+using System.Text;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -75,6 +76,10 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         static async Task Interactive<T>(IDialog<T> form)
         {
+            // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
+            // But you don't have to reboot.
+            // If you don't want the multi-lingual support just comment this out
+            Console.OutputEncoding = Encoding.GetEncoding(65001);
             var message = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString(),

@@ -99,28 +99,28 @@
     <value>من درک نمی کنند. چیزی در پاسخ می گویند.</value>
   </data>
   <data name="TemplateBool" xml:space="preserve">
-    <value>{&amp;} داری؟ {|}</value>
+    <value>{&amp;} داری؟ {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
     <value>لطفا را وارد کنید "بله" یا "هیچ" {?، {0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
-    <value>توسط "{0}" {&amp;} منظور شما {|}</value>
+    <value>توسط "{0}" {&amp;} منظور شما {||}</value>
     <comment>0-term being clarified</comment>
   </data>
   <data name="TemplateCurrentChoice" xml:space="preserve">
-    <value>(انتخاب فعلی: {)</value>
+    <value>(انتخاب فعلی: {})</value>
   </data>
   <data name="TemplateDateTime" xml:space="preserve">
-    <value>لطفا وارد کنید تاریخ و زمان برای {&amp;} {|}</value>
+    <value>لطفا وارد کنید تاریخ و زمان برای {&amp;} {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
     <value>لطفا وارد کنید تاریخ یا زمان بیان {?، {0}} {?, {1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
-    <value>لطفا شماره را وارد کنید {آیا بین {0:F1} و {1:F1}} برای {&amp;} {|}</value>
+    <value>لطفا شماره را وارد کنید {?آیا بین {0:F1} و {1:F1}} برای {&amp;} {||}</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateDoubleChoiceFormat" xml:space="preserve">
@@ -128,7 +128,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>لطفا شماره را وارد کنید {آیا بین {2:F1} و {3:F1}} {?، {0}} {?, {1}}.</value>
+    <value>لطفا شماره را وارد کنید {?آیا بین {2:F1} و }3F1:}} {?، {0}} {?, {1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -148,10 +148,10 @@
     <comment>2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumSelectMany" xml:space="preserve">
-    <value>لطفا انتخاب یک یا چند {&amp;} {|}</value>
+    <value>لطفا انتخاب یک یا چند {&amp;} {||}</value>
   </data>
   <data name="TemplateEnumSelectOne" xml:space="preserve">
-    <value>لطفا انتخاب کنید {&amp;} {|}</value>
+    <value>لطفا انتخاب کنید {&amp;} {||}</value>
   </data>
   <data name="TemplateFeedback" xml:space="preserve">
     <value>برای {&amp;} من درک {. {? " {0} "گزینه نیست.}</value>
@@ -182,7 +182,7 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateInteger" xml:space="preserve">
-    <value>لطفا شماره را وارد کنید {آیا بین {0} و {1}} برای {&amp;} {|}</value>
+    <value>لطفا شماره را وارد کنید {?آیا بین {0} و {1}} برای {&amp;} {||}</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateIntegerChoiceFormat" xml:space="preserve">
@@ -190,11 +190,11 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>می توانید شماره را وارد کنید {آیا بین {2} و {3}} {?، {0}} {?, {1}}.</value>
+    <value>می توانید شماره را وارد کنید {?آیا بین {2} و {3}} {?، {0}} {?, {1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
-    <value>چه تغییر دارید؟ {|}</value>
+    <value>چه تغییر دارید؟ {||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
     <value>شما با وارد کردن نام آن به میدان دیگری تعویض کنید. ({0}).</value>
@@ -219,7 +219,7 @@
     <value>{&amp;}: {</value>
   </data>
   <data name="TemplateString" xml:space="preserve">
-    <value>لطفا وارد کنید {&amp;} {|}</value>
+    <value>لطفا وارد کنید {&amp;} {||}</value>
   </data>
   <data name="TemplateStringChoiceFormat" xml:space="preserve">
     <value>{1}</value>

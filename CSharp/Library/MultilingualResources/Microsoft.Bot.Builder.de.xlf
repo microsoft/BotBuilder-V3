@@ -102,7 +102,7 @@
         </trans-unit>
         <trans-unit id="MatchCurrentChoice" translate="yes" xml:space="preserve">
           <source>Current Choice('c');current;c;current choice;no change</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aktuelle Auswahl ('c'); Strom; c; aktuelle Auswahl keine Änderung</target>
+          <target state="translated">Aktuelle Auswahl ('a'); Strom; a; aktuelle Auswahl keine Änderung</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope</source>
@@ -122,7 +122,7 @@
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Möchten Sie eine {&amp;}? {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Möchten Sie eine {&amp;}? {||}</target>
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
@@ -131,7 +131,7 @@
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
           <source>By "{0}" {&amp;} did you mean {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Von "{0}" {&amp;} Meinst Du {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Von "{0}" {&amp;} Meinst Du {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-term being clarified</note>
         </trans-unit>
         <trans-unit id="TemplateCurrentChoice" translate="yes" xml:space="preserve">
@@ -140,7 +140,7 @@
         </trans-unit>
         <trans-unit id="TemplateDateTime" translate="yes" xml:space="preserve">
           <source>Please enter a date and time for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie Datum und Uhrzeit für {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie Datum und Uhrzeit für {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateDateTimeHelp" translate="yes" xml:space="preserve">
           <source>Please enter a date or time expression {?, {0}}{?, {1}}.</source>
@@ -149,7 +149,7 @@
         </trans-unit>
         <trans-unit id="TemplateDouble" translate="yes" xml:space="preserve">
           <source>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie eine Zahl {? zwischen {0:F1} und {1:F1}} für {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie eine Zahl {? zwischen {0:F1} und {1:F1}} für {&amp;} {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateDoubleChoiceFormat" translate="yes" xml:space="preserve">
@@ -184,11 +184,11 @@
         </trans-unit>
         <trans-unit id="TemplateEnumSelectMany" translate="yes" xml:space="preserve">
           <source>Please select one or more {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte wählen Sie eine oder mehrere {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte wählen Sie eine oder mehrere {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateEnumSelectOne" translate="yes" xml:space="preserve">
           <source>Please select a {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wählen Sie {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wählen Sie {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateFeedback" translate="yes" xml:space="preserve">
           <source>For {&amp;} I understood {}. {?"{0}" is not an option.}</source>
@@ -233,7 +233,7 @@
         </trans-unit>
         <trans-unit id="TemplateInteger" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {0} and {1}} for {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie eine Zahl {? zwischen {0} und {1}} für {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie eine Zahl {? zwischen {0} und {1}} für {&amp;} {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateIntegerChoiceFormat" translate="yes" xml:space="preserve">
@@ -248,7 +248,7 @@
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
           <source>What do you want to change? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Was möchten Sie ändern? {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Was möchten Sie ändern? {||}</target>
         </trans-unit>
         <trans-unit id="TemplateNavigationCommandHelp" translate="yes" xml:space="preserve">
           <source>You can switch to another field by entering its name. ({0}).</source>
@@ -280,7 +280,7 @@
         </trans-unit>
         <trans-unit id="TemplateString" translate="yes" xml:space="preserve">
           <source>Please enter {&amp;} {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie {&amp;} {|}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bitte geben Sie {&amp;} {||}</target>
         </trans-unit>
         <trans-unit id="TemplateStringChoiceFormat" translate="yes" xml:space="preserve">
           <source>{1}</source>
