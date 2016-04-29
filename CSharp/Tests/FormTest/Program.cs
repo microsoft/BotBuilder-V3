@@ -109,7 +109,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
         }
 
-        private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false, bool localize = false)
+        private static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false)
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
@@ -221,7 +221,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 using (var reader = new ResXResourceReader(stream))
                 {
                     IEnumerable<string> missing, extra;
-                    form.Localize(reader, out missing, out extra);
+                    form.Localize(reader.GetEnumerator(), out missing, out extra);
                 }
             }
 #endif

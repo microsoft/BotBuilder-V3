@@ -31,10 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         ///          Otherwise the value will remain unchanged.
         /// </remarks>
 #endregion
-        public abstract void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
+        public abstract void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
 #endif
 
 #region Documentation

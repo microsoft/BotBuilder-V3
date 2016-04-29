@@ -34,9 +34,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
@@ -591,15 +591,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (_type.IsIntegral())
                 {
-                    _recognizer = new RecognizeNumber<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeNumber<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type.IsDouble())
                 {
-                    _recognizer = new RecognizeDouble<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeDouble<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type == typeof(DateTime))
                 {
-                    _recognizer = new RecognizeDateTime<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeDateTime<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type.IsIEnumerable())
                 {

@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
@@ -146,7 +147,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Resource values are all strings.  The key and value can have different parts seperated by semi-colons.
         /// Key | Value | Description
         /// ----|-------|------------
-        /// CULTURE | cultureName | Values are culture names like en-us.
         /// VALUE;key | string | Simple value.
         /// LIST;key | string[;string]* | List of values.
         /// TEMPLATE;usage;field[;field]* | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
@@ -156,13 +156,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>
         /// Load the localizer from a stream.
         /// </summary>
-        /// <param name="reader">Where to load from.</param>
+        /// <param name="reader">Dictionary with resources.</param>
         /// <param name="missing">Keys found in current localizer that are not in loaded localizer.</param>
         /// <param name="extra">Keys found in loaded localizer that were not in current localizer.</param>
         /// <returns>New localizer from reader.</returns>
         /// <remarks>
         /// <see cref="Save(IResourceWriter)"/> to see resource format.
         /// </remarks>
-        ILocalizer Load(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
+        ILocalizer Load(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
     }
 }

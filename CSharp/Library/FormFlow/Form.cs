@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -69,6 +70,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 #if LOCALIZE
         public override void SaveResources(IResourceWriter writer)
         {
+            _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
             foreach (var step in _steps)
             {
                 step.SaveResources();
@@ -76,7 +78,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             _resources.Save(writer);
         }
 
-        public override void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
+        public override void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
             _resources = _resources.Load(reader, out missing, out extra);
             foreach (var step in _steps)

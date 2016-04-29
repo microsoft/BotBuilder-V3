@@ -37,6 +37,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
+using System.Threading;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -70,6 +72,27 @@ namespace Microsoft.Bot.Builder.FormFlow
                     builder.Field(new FieldReflector<T>(path));
                 }
                 builder.Confirm("Is this your selection?\n{*}");
+            }
+            var assembly = typeof(T).Assembly;
+            var lang = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
+            if (lang != null)
+            {
+                try
+                {
+                    IEnumerable<string> missing, extra;
+                    var name = assembly.GetName().Name + "." + typeof(T).FullName;
+                    var rm = new ResourceManager(name, assembly);
+                    var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
+                    _form.Localize(rs.GetEnumerator(), out missing, out extra);
+                    if (missing.Any())
+                    {
+                        throw new MissingManifestResourceException($"Missing resources {missing}");
+                    }
+                }
+                catch (MissingManifestResourceException)
+                {
+                    // Resource was not localized
+                }
             }
             Validate();
             return this._form;

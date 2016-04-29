@@ -154,23 +154,20 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _templateTranslations.Remove(key);
         }
 
-        public ILocalizer Load(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
+        public ILocalizer Load(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
             var lmissing = new List<string>();
             var lextra = new List<string>();
             var newLocalizer = new Localizer();
-            foreach (DictionaryEntry entry in reader)
+            while (reader.MoveNext())
             {
+                var entry = (DictionaryEntry) reader.Current;
                 var fullKey = (string)entry.Key;
                 var semi = fullKey.IndexOf(SEPARATOR[0]);
                 var type = fullKey.Substring(0, semi);
                 var key = fullKey.Substring(semi + 1);
                 var val = (string)entry.Value;
-                if (type == "CULTURE")
-                {
-                    newLocalizer.Culture = new CultureInfo(val);
-                }
-                else if (type == "VALUE")
+                if (type == "VALUE")
                 {
                     newLocalizer.Add(key, val);
                 }
@@ -206,7 +203,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void Save(IResourceWriter writer)
         {
-            writer.AddResource("CULTURE" + SEPARATOR, Culture.Name);
             foreach (var entry in _translations)
             {
                 writer.AddResource("VALUE" + SEPARATOR + entry.Key, entry.Value);
