@@ -77,5 +77,12 @@ We welcome you and thank you for investing your talents and time in building Bot
             <li>Bot metadata that is too long or verbose (the description should be 8-10 words)  will be rejected.</li>
         </ol>
         <p>Changes made to your bot's metadata may require your bot to be re-reviewed to ensure that it continues to meet the requirements stated here.</p>
+                <p>
+          Although Microsoft will review your bot to confirm it meets certain minimum requirements prior to publication on the Bot Directory, you are solely responsible for: 
+          (1) your bot; (2) its content and actions; (3) compliance with all applicable laws; (4) compliance with any third party terms and conditions; 
+          and (5) compliance with the Microsoft Online Services Agreement, Privacy Statement and Microsoft Bot Framework Code of Conduct.  
+          Microsoft’s review and publication of your bot to the Bot Directory is not an endorsement of your bot.
+        </p>
+
     </ol>
   </section>
