@@ -31,17 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Autofac;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Connector;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-
-using Autofac;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -92,6 +88,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             using (var scope = DialogModule.BeginLifetimeScope(SendToBotContainer, toBot))
             {
+                if (toBot.Language != null)
+                {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(toBot.Language);
+                }
                 return await SendAsync(scope, toBot, MakeRoot, token);
             }
         }
