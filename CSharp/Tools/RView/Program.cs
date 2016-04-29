@@ -16,7 +16,6 @@ namespace RView
             Console.WriteLine("RView <resource file path> [-c <locale>] [-p <prefix>]");
             Console.WriteLine("If -c is not specified will print the resource file on the console.");
             Console.WriteLine("-c <locale> : Will copy resources to a <path-locale.res>.");
-            Console.WriteLine("-p <prefix> : If specified will add prefix to every target string when copying.");
             System.Environment.Exit(-1);
         }
 
@@ -29,7 +28,6 @@ namespace RView
             var path = args[0];
             var isResX = Path.GetExtension(path) == ".resx";
             string locale = null;
-            string prefix = null;
             for (var i = 1; i < args.Length; ++i)
             {
                 var arg = args[i];
@@ -39,12 +37,6 @@ namespace RView
                         if (++i < args.Length)
                         {
                             locale = args[i];
-                        }
-                        break;
-                    case "-p":
-                        if (++i < args.Length)
-                        {
-                            prefix = args[i];
                         }
                         break;
                     default:
@@ -59,10 +51,6 @@ namespace RView
             {
                 var outPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "-" + locale + Path.GetExtension(path));
                 Console.Write($"Copying to {outPath}");
-                if (prefix != null)
-                {
-                    Console.Write($" with prefix {prefix}");
-                }
                 Console.WriteLine();
                 outStream = new FileStream(outPath, FileMode.Create);
                 writer = isResX ? (IResourceWriter)new ResXResourceWriter(outStream) : (IResourceWriter)new ResourceWriter(outStream);
@@ -89,7 +77,7 @@ namespace RView
                     {
                         if (type == "LIST" || type == "TEMPLATE")
                         {
-                            writer.AddResource(fullKey, MakeList(from elt in SplitList(value) select prefix + elt));
+                            writer.AddResource(fullKey, MakeList(from elt in SplitList(value) select "<" + elt + ">"));
                         }
                         else if (type == "CULTURE")
                         {
@@ -97,7 +85,7 @@ namespace RView
                         }
                         else
                         {
-                            writer.AddResource(fullKey, prefix + value);
+                            writer.AddResource(fullKey, "<" + value + ">");
                         }
                     }
                     switch (type)

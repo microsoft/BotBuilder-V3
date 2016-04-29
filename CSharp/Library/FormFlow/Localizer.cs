@@ -180,10 +180,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (type == "TEMPLATE")
                 {
-                    var usage = key.SplitList().Skip(1).First();
+                    var elements = key.SplitList();
+                    var usage = elements.First();
+                    var fields = elements.Skip(1);
                     var patterns = val.SplitList();
-                    var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray()) { IsLocalizable = true };
-                    newLocalizer.Add(key, template);
+                    var template = new TemplateAttribute((TemplateUsage)Enum.Parse(typeof(TemplateUsage), usage), patterns.ToArray());
+                    foreach (var field in fields)
+                    {
+                        newLocalizer.Add(field, template);
+                    }
                 }
             }
 
@@ -212,9 +217,34 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 writer.AddResource("LIST" + SEPARATOR + entry.Key, MakeList(entry.Value));
             }
 
+            // Switch from field;usage -> patterns
+            // to usage;pattern* -> [fields]
+            var byPattern = new Dictionary<string, List<string>>();
             foreach (var entry in _templateTranslations)
             {
-                writer.AddResource("TEMPLATE" + SEPARATOR + entry.Key, MakeList(entry.Value));
+                var names = entry.Key.SplitList().ToArray();
+                var field = names[0];
+                var usage = names[1];
+                var key = MakeList(AddPrefix(usage, entry.Value));
+                List<string> fields;
+                if (byPattern.TryGetValue(key, out fields))
+                {
+                    fields.Add(field);
+                }
+                else
+                {
+                    byPattern.Add(key, new List<string> { field });
+                }
+            }
+
+            // Write out TEMPLATE;usage;field* -> pattern*
+            foreach (var entry in byPattern)
+            {
+                var elements = entry.Key.SplitList().ToArray();
+                var usage = elements[0];
+                var patterns = elements.Skip(1);
+                var key = "TEMPLATE" + SEPARATOR + usage + SEPARATOR + MakeList(entry.Value);
+                writer.AddResource(key, MakeList(patterns));
             }
         }
 

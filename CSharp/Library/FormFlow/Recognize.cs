@@ -288,15 +288,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 if (first)
                 {
-                    word.Append("(qqqq)");
+                    if (allowNumbers)
+                    {
+                        word.AppendFormat(@"({0})", n);
+                    }
+                    else
+                    {
+                        word.Append("(qqqq)");
+                    }
                 }
                 else
                 {
-                    if (n == 0)
-                    {
-                        word.Append("|c");
-                    }
-                    else if (allowNumbers)
+                    if (allowNumbers)
                     {
                         word.AppendFormat(@"|{0}", n);
                     }

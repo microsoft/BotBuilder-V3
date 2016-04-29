@@ -188,11 +188,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>Enumeration of plural word regex.</returns>
         public static IEnumerable<string> OptionalPlurals(IEnumerable<string> words)
         {
+            bool addS = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "en";
             foreach (var original in words)
             {
                 var word = original.ToLower();
                 var newWord = word;
-                if (!NoiseWord(word) && word.Length > 1)
+                if (addS && !NoiseWord(word) && word.Length > 1)
                 {
                     newWord = (word.EndsWith("s") ? word + "?" : word + "s?");
                 }
@@ -245,24 +246,31 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </remarks>
         public static string ANormalization(string input)
         {
-            var builder = new StringBuilder();
-            var last = 0;
-            foreach (Match match in _aOrAn.Matches(input))
+            if (System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "en")
             {
-                var currentWord = match.Groups[1];
-                builder.Append(input.Substring(last, currentWord.Index - last));
-                if (match.Groups[2].Success)
+                var builder = new StringBuilder();
+                var last = 0;
+                foreach (Match match in _aOrAn.Matches(input))
                 {
-                    builder.Append("an");
+                    var currentWord = match.Groups[1];
+                    builder.Append(input.Substring(last, currentWord.Index - last));
+                    if (match.Groups[2].Success)
+                    {
+                        builder.Append("an");
+                    }
+                    else
+                    {
+                        builder.Append("a");
+                    }
+                    last = currentWord.Index + currentWord.Length;
                 }
-                else
-                {
-                    builder.Append("a");
-                }
-                last = currentWord.Index + currentWord.Length;
+                builder.Append(input.Substring(last));
+                return builder.ToString();
             }
-            builder.Append(input.Substring(last));
-            return builder.ToString();
+            else
+            {
+                return input;
+            }
         }
 
         /// <summary>

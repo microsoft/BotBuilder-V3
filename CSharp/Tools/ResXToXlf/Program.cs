@@ -8,6 +8,12 @@ namespace ResXToXlf
     {
         static void Main(string[] args)
         {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("ResXToXlf <source.resx> <destination.xlf>");
+                Console.WriteLine("Will copy source resources to destination and show an error if any resource is not in desination.");
+                System.Environment.Exit(-1);
+            }
             var resx = args[0];
             var xlf = args[1];
             var error = false;

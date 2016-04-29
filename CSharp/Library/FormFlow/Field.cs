@@ -276,8 +276,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             _prompt = null;
             _recognizer = null;
-            DefinePrompt();
-            DefineRecognizer();
+            if (_define == null)
+            {
+                DefinePrompt();
+                DefineRecognizer();
+            }
         }
 
         #endregion

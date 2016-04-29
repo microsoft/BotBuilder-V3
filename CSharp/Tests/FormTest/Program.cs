@@ -34,7 +34,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 #pragma warning disable 649
 
@@ -104,12 +106,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false, bool localize = false)
         {
-#if LOCALIZE
-            if (localize)
-            {
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ar");
-            }
-#endif
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
             ActiveDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
@@ -216,13 +212,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 #if LOCALIZE
             if (localize)
             {
-                using (var stream = new FileStream("pizza.resx", FileMode.Create))
-                using (var writer = new ResXResourceWriter(stream))
-                {
-                    form.SaveResources(writer);
-                }
-                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c en-uk -p t-") { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
-                using (var stream = new FileStream("pizza-en-uk.resx", FileMode.Open))
+                using (var stream = new FileStream("pizza-" + Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName + ".resx", FileMode.Open))
                 using (var reader = new ResXResourceReader(stream))
                 {
                     IEnumerable<string> missing, extra;
@@ -278,7 +268,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
         }
 
-        public static IFormDialog<T> MakeForm<T>(BuildForm<T> buildForm) where T : class, new()
+        public static IFormDialog<T> MakeForm<T>(BuildFormDelegate<T> buildForm) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
@@ -318,7 +308,21 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
 #if LOCALIZE
                         case DebugOptions.Localized:
-                            return MakeForm(() => BuildForm(false, false, true));
+                            return Chain
+                                .From(() => new PromptDialog.PromptString("Locale?", null, 1))
+                                .ContinueWith<string, PizzaOrder>(async (ctx, locale) =>
+                                {
+                                    var loc = await locale;
+                                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(loc);
+                                    var form = BuildForm(false, false);
+                                    using (var stream = new FileStream("pizza.resx", FileMode.Create))
+                                    using (var writer = new ResXResourceWriter(stream))
+                                    {
+                                        form.SaveResources(writer);
+                                    }
+                                    Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c " + loc) { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
+                                    return MakeForm(() => BuildForm(false, false, true));
+                                });
 #endif
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());

@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     public static class FormDialog
     {
         /// <summary>
-        /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildForm{T}"/>.
+        /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildFormDelegate{T}"/>.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="options">The form options.</param>
@@ -65,13 +65,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         }
 
         /// <summary>
-        /// Create an <see cref="IFormDialog{T}"/> using the <see cref="BuildForm{T}"/> parameter.
+        /// Create an <see cref="IFormDialog{T}"/> using the <see cref="BuildFormDelegate{T}"/> parameter.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="buildForm">The delegate to build the form.</param>
         /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
+        public static IFormDialog<T> FromForm<T>(BuildFormDelegate<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options);
         }
@@ -106,7 +106,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         PromptFieldsWithValues
     };
 
-    public delegate IForm<T> BuildForm<T>();
+    /// <summary>
+    /// Delegate for building the form.
+    /// </summary>
+    /// <typeparam name="T">The form state type.</typeparam>
+    /// <returns>An <see cref="IForm{T}"/>.</returns>
+    /// <remarks>This is a delegate so that we can rebuild the form and don't have to serialize
+    /// the form definition with every message.</remarks>
+    public delegate IForm<T> BuildFormDelegate<T>();
 
     /// <summary>
     /// Form dialog to fill in your state.
@@ -114,7 +121,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">The type to fill in.</typeparam>
     /// <remarks>
     /// This is the root class for managing a FormFlow dialog. It is usually created
-    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T}, FormOptions)"/>
+    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildFormDelegate{T}, FormOptions)"/>
     /// or <see cref="FormDialog.FromType{T}"/>. 
     /// </remarks>
     [Serializable]
@@ -123,7 +130,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     {
         // constructor arguments
         private readonly T _state;
-        private readonly BuildForm<T> _buildForm;
+        private readonly BuildFormDelegate<T> _buildForm;
         private readonly IEnumerable<EntityRecommendation> _entities;
         private readonly FormOptions _options;
 
@@ -148,7 +155,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="cultureInfo">  The culture to use. </param>
         /// <remarks>For building forms <see cref="IFormBuilder{T}"/>.</remarks>
         #endregion
-        public FormDialog(T state, BuildForm<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
+        public FormDialog(T state, BuildFormDelegate<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
             buildForm = buildForm ?? BuildDefaultForm;
             entities = entities ?? Enumerable.Empty<EntityRecommendation>();
