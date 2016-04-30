@@ -742,6 +742,9 @@ ul.header-nav li a:visisted {
   padding: 30px;
   background-color: white;
 }
+.dialog h2 + p {
+  margin-top: 1em;
+}
 .dialog .button-panel {
   margin-top: 25px;
   text-align: right;
@@ -814,6 +817,7 @@ body {
   background: #F6F7F8;
   color: #2B2B2B;
   font-size: 15px;
+  letter-spacing: 0.2px;
 }
 .outline {
   max-width: 1366px;
@@ -855,6 +859,9 @@ label {
   margin-bottom: 2px;
   margin-top: 20px;
 }
+.clickable {
+  cursor: pointer;
+}
 body,
 table,
 div,
@@ -879,6 +886,54 @@ dl {
 #side-nav a {
   color: #307AB3;
 }
+#side-nav-right {
+  width: 270px !important;
+  position: relative;
+  float: right;
+  padding: 15px 20px;
+  background-color: #B3DBF2;
+}
+#side-nav-right ul {
+  list-style-type: none;
+  margin: 0;
+}
+#side-nav-right ul li {
+  padding: 4px 0;
+}
+#side-nav-right a {
+  color: #307AB3;
+}
+#side-nav-right .well {
+  margin-bottom: 30px;
+}
+#side-nav-right .well h4 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+#side-nav-right .well ul {
+  list-style-type: disc !important;
+  margin: 0 !important;
+  padding: 0 0 0 20px !important;
+}
+#side-nav-right .well ul li {
+  padding: 2px 0 !important;
+}
+#side-nav-right .well .tag-label {
+  margin-right: 4px;
+}
+#side-nav-right .well input[type="submit"],
+#side-nav-right .well input[type="button"],
+#side-nav-right .well button {
+  height: 30px;
+  min-width: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 0;
+  background-color: #E6E6E6;
+  font-size: 15px;
+  color: #2B2B2B;
+  border-radius: 0;
+}
 #nav-sync {
   display: none;
 }
@@ -892,6 +947,14 @@ dl {
   overflow: auto;
   padding: 0 45px;
   margin-left: 0px !important;
+}
+#blog-content {
+  overflow: auto;
+  padding: 0 45px;
+  margin-left: 0px !important;
+  float: left;
+  max-width: 1050px;
+  width: 70%;
 }
 article:after {
   clear: both;
@@ -987,6 +1050,17 @@ a {
 }
 .post {
   padding: 30px 0;
+}
+.blogpost {
+  padding: 30px 20px 30px 0;
+  background-color: white;
+}
+.imagecaption {
+  margin-top: -25px;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  color: #999999;
 }
 /** media break points based on card-width*/
 @media screen and (max-width: 867px) {
@@ -1433,7 +1507,8 @@ a {
     min-width: 0;
   }
   #side-nav,
-  #doc-content {
+  #doc-content,
+  #blog-content {
     width: 100%;
     float: none;
   }
