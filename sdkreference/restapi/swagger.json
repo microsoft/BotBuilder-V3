@@ -3,6 +3,7 @@
   "info": {
     "version": "v1",
     "title": "Microsoft Bot Connector API - V1.0",
+    "description": "© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -368,7 +369,7 @@
       "post": {
         "tags": [ "Messages" ],
         "summary": "Send a message",
-        "description": "This method allows you to initiate a new conversation message with the user. \r\n         \r\nThe important fields are:\r\n\r\n|Property    | Description                                                                                                                                                                                        |Example                              \r\n|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------\r\n|From        | The ChannelAccount of the Bot you want to send the message from                                                                                                                                    |  SMS:+4255551212 (the bots address) \r\n|To          | The channelAccount of the user you to start a conversation with                                                                                                                                    | SMS:+4255551111 (the users address) \r\n|Text        | The message you want to communicate                                                                                                                                                                | Text: \"Hello world\"                 \r\n|Language    | The language your message is expressed in (important if you have translation enabled) using the [language codes from Microsoft Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) | Language: \"en\"                      \r\n|Attachments | Attachments represent images and attachments that will be rendered on the platform as appropriate                                                                                                  | ...                                 \r\n|ChannelData | You can pass channel specific data to get custom native rendering of your message on a per channel basis. See channel documentation for information on what channels are expecting for this        | ...                                 \r\n         \r\nBots can track state data by User, Conversation and Users within the Conversation by embedding data objects into the message.  \r\nThis data will be stored in persistent storage and reflected back to the bot with all future messages as appropriate to their scope.  \r\n\r\nThe properties you use to for Bot State are:\r\n         \r\n|Property                   | Description                                                                                          | Example                                                         \r\n|-------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------\r\n|BotUserData                |  Bot controlled Object which is tracked on the user regardless of the channel they communicate on    | BotUserData: { 'Welcomed' : true }                              \r\n|BotConversationData        | Bot controlled object which is tracked on the conversation regardless of the user you are talking to | BotConversationData:  'MessageCount':13 }                       \r\n|BotPerUserConversationData | Bot controlled object which is tracked on a user in a given conversation                             | BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }",
+        "description": "This method allows you to initiate a new conversation message with the user. \r\n\r\nThe important fields are:\r\n\r\n|Property    | Description                                                                                                                                                                                        |Example                              \r\n|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------\r\n|From        | The ChannelAccount of the Bot you want to send the message from                                                                                                                                    |  SMS:+4255551212 (the bots address) \r\n|To          | The channelAccount of the user you to start a conversation with                                                                                                                                    | SMS:+4255551111 (the users address) \r\n|Text        | The message you want to communicate                                                                                                                                                                | Text: \"Hello world\"                 \r\n|Language    | The language your message is expressed in (important if you have translation enabled) using the [language codes from Microsoft Translator](https://msdn.microsoft.com/en-us/library/hh456380.aspx) | Language: \"en\"                      \r\n|Attachments | Attachments represent images and attachments that will be rendered on the platform as appropriate                                                                                                  | ...                                 \r\n|ChannelData | You can pass channel specific data to get custom native rendering of your message on a per channel basis. See channel documentation for information on what channels are expecting for this        | ...                                 \r\n\r\nBots can track state data by User, Conversation and Users within the Conversation by embedding data objects into the message.  \r\nThis data will be stored in persistent storage and reflected back to the bot with all future messages as appropriate to their scope.  \r\n\r\nThe properties you use to for Bot State are:\r\n\r\n|Property                   | Description                                                                                          | Example                                                         \r\n|-------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------\r\n|BotUserData                |  Bot controlled Object which is tracked on the user regardless of the channel they communicate on    | BotUserData: { 'Welcomed' : true }                              \r\n|BotConversationData        | Bot controlled object which is tracked on the conversation regardless of the user you are talking to | BotConversationData:  'MessageCount':13 }                       \r\n|BotPerUserConversationData | Bot controlled object which is tracked on a user in a given conversation                             | BotPerUserConversationData : {'LastRequest' : 'FavoriteColor' }",
         "operationId": "Messages_SendMessage",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -585,7 +586,7 @@
         },
         "content": {
           "$ref": "#/definitions/Object",
-          "description": "Content Payload (for example, lat/long for contentype=\"location\""
+          "description": "Content Payload (for example, lat/long for contentype=\"location"
         },
         "fallbackText": {
           "description": "(OPTIONAL-CARD) FallbackText - used for downlevel clients, should be simple markup with links",
@@ -606,6 +607,11 @@
         "thumbnailUrl": {
           "description": "(OPTIONAL-CARD) Thumbnail associated with attachment",
           "type": "string"
+        },
+        "actions": {
+          "description": "(OPTIONAL-Card) Actions associated with attachment",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Action" }
         }
       }
     },
@@ -619,7 +625,7 @@
           "type": "string"
         },
         "channelId": {
-          "description": "Channel Id that the channelAccount is to be communicated with (Example: slack, sms, email, groupme, skype, etc.)",
+          "description": "Channel Id that the channelAccount is to be communicated with (Example: slack, sms, email, groupme, skype, twitter, etc.)",
           "type": "string"
         },
         "address": {
@@ -670,6 +676,28 @@
         },
         "name": {
           "description": "Name for user location when the message was created",
+          "type": "string"
+        }
+      }
+    },
+    "Action": {
+      "description": "Action (button)",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of button",
+          "type": "string"
+        },
+        "image": {
+          "description": "(Optional) Picture which will appear on the button, next to text label.",
+          "type": "string"
+        },
+        "message": {
+          "description": "User defined string which will be posted to chat conversation publicly or privately.",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL which will be opened in the browser built-into Client application",
           "type": "string"
         }
       }
