@@ -144,7 +144,8 @@ Supported channels as of March 30, 2016 are:
 4. [Slack](http://slack.com/)
 5. [GroupMe](http://groupme.com/)
 6. [Telegram](http://telegram.org/)
-7. Web (via the Bot Framework embeddable web chat control).
+7. [Facebook Messenger](http://www.messenger.com/)
+8. Web (via the Bot Framework embeddable web chat control).
 
 ## When will you add more conversation experiences to Bot Connector?
 
@@ -158,7 +159,7 @@ We have not provided a general mechanism for developers to add new channels to t
 
 Any bot with an internet-accessible REST endpoint can be connected to Skype via the Bot Framework Bot Connector. The Bot Framework provides SDKs designed to create text/sms, image and card-capable bots, which constitute the majority of bot interactions today across conversation experiences. The [Skype Bot SDK and APIs](http://www.skype.com/en/developer/signup) enable those interactions plus bot interactions which are Skype-specific and tuned to leverage the unique capabilities found in Skype, among them rich audio and video experiences.
 
-## Why are Facebook Messenger and Google Hangouts missing as channels? Do you intend to support these channels in the future?
+## Why are Google Hangouts and other channels missing? Do you intend to support these channels in the future?
 
 A variety of factors contribute to channel support, among them SDK availability, user demand and schedule. When there is an available SDK for these channels we intend to make them available in the framework.
 
