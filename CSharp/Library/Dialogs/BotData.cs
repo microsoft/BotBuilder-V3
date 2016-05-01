@@ -37,6 +37,7 @@ using Newtonsoft.Json.Linq;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using System.IO;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -207,6 +208,38 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         protected override IBotDataBag WrapData(JObject data)
         {
             return new Bag(data);
+        }
+    }
+
+    public sealed class BotDataBagStream : MemoryStream
+    {
+        private readonly IBotDataBag bag;
+        private readonly string key;
+        public BotDataBagStream(IBotDataBag bag, string key)
+        {
+            SetField.NotNull(out this.bag, nameof(bag), bag);
+            SetField.NotNull(out this.key, nameof(key), key);
+
+            byte[] blob;
+            if (this.bag.TryGetValue(key, out blob))
+            {
+                this.Write(blob, 0, blob.Length);
+                this.Position = 0;
+            }
+        }
+
+        public override void Flush()
+        {
+            base.Flush();
+
+            var blob = this.ToArray();
+            this.bag.SetValue(this.key, blob);
+        }
+
+        public override void Close()
+        {
+            this.Flush();
+            base.Close();
         }
     }
 }
