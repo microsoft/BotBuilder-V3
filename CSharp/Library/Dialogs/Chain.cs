@@ -190,6 +190,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
+        /// </summary>
+        /// <typeparam name="T">The type of the voided dialog.</typeparam>
+        /// <typeparam name="R">The type of the original dialog wait.</typeparam>
+        /// <param name="antecedent">The voided dialog.</param>
+        /// <returns>The dialog that produces the item to satisfy the original wait.</returns>
+        public static IDialog<R> Void<T, R>(this IDialog<T> antecedent)
+        {
+            return new VoidDialog<T, R>(antecedent);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, go through each <see cref="ICase{T, R}"/> 
         /// and run the <see cref="ContextualSelector{T, R}"/>" of the first <see cref="ICase{T, R}"/> that 
         /// the returned value by the antecedent dialog satisfies.
@@ -516,6 +528,29 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        [Serializable]
+        private sealed class VoidDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public VoidDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                var ignore = await result;
+                context.Wait<R>(ItemReceived);
+            }
+            private async Task ItemReceived(IDialogContext context, IAwaitable<R> result)
+            {
+                var item = await result;
+                context.Done(item);
+            }
+        }
 
         [Serializable]
         private sealed class SwitchDialog<T, R> : IDialog<R>
