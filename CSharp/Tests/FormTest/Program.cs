@@ -74,6 +74,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     class Program
     {
 
+        static public string Locale = CultureInfo.CurrentUICulture.Name;
+
         static async Task Interactive<T>(IDialog<T> form)
         {
             // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
@@ -104,6 +106,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 while (true)
                 {
                     message.Text = await Console.In.ReadLineAsync();
+                    message.Language = Locale;
                     await task.PostAsync(message, () => form);
                 }
             }
@@ -283,7 +286,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // TestValidate();
             var callDebug =
                 Chain
-                .From(() => FormDialog.FromType<Choices>(FormOptions.PromptInStart))
+                .From(() => new PromptDialog.PromptString("Locale?", null, 1))
+                .ContinueWith<string, Choices>(async (ctx, locale) =>
+                    {
+                        Locale = await locale;
+                        CultureInfo.CurrentUICulture = new CultureInfo(Locale);
+                        return FormDialog.FromType<Choices>(FormOptions.PromptInStart);
+                    })
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
                     Choices choices;
@@ -313,21 +322,16 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
 #if LOCALIZE
                         case DebugOptions.Localized:
-                            return Chain
-                                .From(() => new PromptDialog.PromptString("Locale?", null, 1))
-                                .ContinueWith<string, PizzaOrder>(async (ctx, locale) =>
+                            {
+                                var form = BuildForm(false, false);
+                                using (var stream = new FileStream("pizza.resx", FileMode.Create))
+                                using (var writer = new ResXResourceWriter(stream))
                                 {
-                                    var loc = await locale;
-                                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(loc);
-                                    var form = BuildForm(false, false);
-                                    using (var stream = new FileStream("pizza.resx", FileMode.Create))
-                                    using (var writer = new ResXResourceWriter(stream))
-                                    {
-                                        form.SaveResources(writer);
-                                    }
-                                    Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c " + loc) { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
-                                    return MakeForm(() => BuildForm(false, false, true));
-                                });
+                                    form.SaveResources(writer);
+                                }
+                                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c " + Locale) { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
+                                return MakeForm(() => BuildForm(false, false, true));
+                            }
 #endif
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());

@@ -343,20 +343,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             public readonly IDialog<T> Antecedent;
             public readonly Continutation<T, R> Continuation;
+
             public ContinueWithDialog(IDialog<T> antecedent, Continutation<T, R> continuation)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Continuation, nameof(continuation), continuation);
             }
+
             async Task IDialog<R>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
+
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
                 var next = await this.Continuation(context, result);
                 context.Call<R>(next, DoneAsync);
             }
+
             private async Task DoneAsync(IDialogContext context, IAwaitable<R> result)
             {
                 context.Done(await result);

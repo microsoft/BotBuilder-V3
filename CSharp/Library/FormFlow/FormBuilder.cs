@@ -80,13 +80,25 @@ namespace Microsoft.Bot.Builder.FormFlow
                 try
                 {
                     IEnumerable<string> missing, extra;
-                    var name = assembly.GetName().Name + "." + typeof(T).FullName;
-                    var rm = new ResourceManager(name, assembly);
-                    var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
-                    _form.Localize(rs.GetEnumerator(), out missing, out extra);
-                    if (missing.Any())
+                    string name = null;
+                    foreach (var resource in assembly.GetManifestResourceNames())
                     {
-                        throw new MissingManifestResourceException($"Missing resources {missing}");
+                        if (resource.Contains(typeof(T).FullName))
+                        {
+                            var pieces = resource.Split('.');
+                            name = string.Join(".", pieces.Take(pieces.Count() - 1));
+                            break;
+                        }
+                    }
+                    if (name != null)
+                    {
+                        var rm = new ResourceManager(name, assembly);
+                        var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
+                        _form.Localize(rs.GetEnumerator(), out missing, out extra);
+                        if (missing.Any())
+                        {
+                            throw new MissingManifestResourceException($"Missing resources {missing}");
+                        }
                     }
                 }
                 catch (MissingManifestResourceException)

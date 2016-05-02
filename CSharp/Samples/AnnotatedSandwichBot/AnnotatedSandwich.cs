@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public enum SandwichOptions
     {
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
-        OverRoastedChicken, RoastBeef,
+        OvenRoastedChicken, RoastBeef,
         [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
         RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
         TurkeyBreast, Veggie

@@ -107,14 +107,19 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
+    <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
     <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />
     <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
+    <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
     <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder.en.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder.resx" />
   </ItemGroup>
   <ItemGroup>
-    <XliffResource Include="MultilingualResources\FormTest.en.xlf" />
+    <XliffResource Include="MultilingualResources\FormTest.en.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
+    <XliffResource Include="MultilingualResources\FormTest.fr.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" />

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en" target-language="en" original="FORMTEST/MICROSOFT.BOT.SAMPLE.ANNOTATEDSANDWICHBOT.SANDWICHORDER.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  <file datatype="xml" source-language="en" target-language="fr" original="FORMTEST/MICROSOFT.BOT.SAMPLE.ANNOTATEDSANDWICHBOT.SANDWICHORDER.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1605.0" tool-company="Microsoft" />
     </header>
@@ -8,488 +8,488 @@
       <group id="FORMTEST/MICROSOFT.BOT.SAMPLE.ANNOTATEDSANDWICHBOT.SANDWICHORDER.RESX" datatype="resx">
         <trans-unit id="VALUE;Sandwich_description" translate="yes" xml:space="preserve">
           <source>Sandwich</source>
-          <target state="new">Sandwich</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">"Sandwich"</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;BLT" translate="yes" xml:space="preserve">
           <source>BLT</source>
-          <target state="new">BLT</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">BLT</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;BlackForestHam" translate="yes" xml:space="preserve">
           <source>Black Forest Ham</source>
-          <target state="new">Black Forest Ham</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Jambon Forêt Noire</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;BuffaloChicken" translate="yes" xml:space="preserve">
           <source>Buffalo Chicken</source>
-          <target state="new">Buffalo Chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet Buffalo</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;ChickenAndBaconRanchMelt" translate="yes" xml:space="preserve">
           <source>Chicken And Bacon Ranch Melt</source>
-          <target state="new">Chicken And Bacon Ranch Melt</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Faire fondre le poulet et Bacon Ranch</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;ColdCutCombo" translate="yes" xml:space="preserve">
           <source>Cold Cut Combo</source>
-          <target state="new">Cold Cut Combo</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Combo de coupe à froid</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;MeatballMarinara" translate="yes" xml:space="preserve">
           <source>Meatball Marinara</source>
-          <target state="new">Meatball Marinara</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Boulette de viande Marinara</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;OverRoastedChicken" translate="yes" xml:space="preserve">
           <source>Over Roasted Chicken</source>
-          <target state="new">Over Roasted Chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sur le poulet rôti</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;RoastBeef" translate="yes" xml:space="preserve">
           <source>Roast Beef</source>
-          <target state="new">Roast Beef</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Rôti de boeuf</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;RotisserieStyleChicken" translate="yes" xml:space="preserve">
           <source>Rotisserie Style Chicken</source>
-          <target state="new">Rotisserie Style Chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Rotisserie poulet</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;SpicyItalian" translate="yes" xml:space="preserve">
           <source>Spicy Italian</source>
-          <target state="new">Spicy Italian</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Italienne piquante</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;SteakAndCheese" translate="yes" xml:space="preserve">
           <source>Steak And Cheese</source>
-          <target state="new">Steak And Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bifteck et fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;SweetOnionTeriyaki" translate="yes" xml:space="preserve">
           <source>Sweet Onion Teriyaki</source>
-          <target state="new">Sweet Onion Teriyaki</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignon doux Teriyaki</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;Tuna" translate="yes" xml:space="preserve">
           <source>Tuna</source>
-          <target state="new">Tuna</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Thon</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;TurkeyBreast" translate="yes" xml:space="preserve">
           <source>Turkey Breast</source>
-          <target state="new">Turkey Breast</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poitrine de dinde</target>
         </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;Veggie" translate="yes" xml:space="preserve">
           <source>Veggie</source>
-          <target state="new">Veggie</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Veggie</target>
         </trans-unit>
         <trans-unit id="VALUE;Length_description" translate="yes" xml:space="preserve">
           <source>Length</source>
-          <target state="new">Length</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Longueur</target>
         </trans-unit>
         <trans-unit id="VALUE;Length_valueDescriptions;SixInch" translate="yes" xml:space="preserve">
           <source>Six Inch</source>
-          <target state="new">Six Inch</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Six pouces</target>
         </trans-unit>
         <trans-unit id="VALUE;Length_valueDescriptions;FootLong" translate="yes" xml:space="preserve">
           <source>Foot Long</source>
-          <target state="new">Foot Long</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pied Long</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_description" translate="yes" xml:space="preserve">
           <source>Bread</source>
-          <target state="new">Bread</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pain</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_valueDescriptions;NineGrainWheat" translate="yes" xml:space="preserve">
           <source>Nine Grain Wheat</source>
-          <target state="new">Nine Grain Wheat</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Neuf grains de blé</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_valueDescriptions;NineGrainHoneyOat" translate="yes" xml:space="preserve">
           <source>Nine Grain Honey Oat</source>
-          <target state="new">Nine Grain Honey Oat</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Neuf grains miel avoine</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_valueDescriptions;Italian" translate="yes" xml:space="preserve">
           <source>Italian</source>
-          <target state="new">Italian</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Italien</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_valueDescriptions;ItalianHerbsAndCheese" translate="yes" xml:space="preserve">
           <source>Italian Herbs And Cheese</source>
-          <target state="new">Italian Herbs And Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fromage et herbes italiennes</target>
         </trans-unit>
         <trans-unit id="VALUE;Bread_valueDescriptions;Flatbread" translate="yes" xml:space="preserve">
           <source>Flatbread</source>
-          <target state="new">Flatbread</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pain plat</target>
         </trans-unit>
         <trans-unit id="VALUE;Cheese_description" translate="yes" xml:space="preserve">
           <source>Cheese</source>
-          <target state="new">Cheese</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;Cheese_valueDescriptions;American" translate="yes" xml:space="preserve">
           <source>American</source>
-          <target state="new">American</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Américain</target>
         </trans-unit>
         <trans-unit id="VALUE;Cheese_valueDescriptions;MontereyCheddar" translate="yes" xml:space="preserve">
           <source>Monterey Cheddar</source>
-          <target state="new">Monterey Cheddar</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cheddar de Monterey</target>
         </trans-unit>
         <trans-unit id="VALUE;Cheese_valueDescriptions;Pepperjack" translate="yes" xml:space="preserve">
           <source>Pepperjack</source>
-          <target state="new">Pepperjack</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Crostini</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_description" translate="yes" xml:space="preserve">
           <source>Toppings</source>
-          <target state="new">Toppings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nappages</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Everything" translate="yes" xml:space="preserve">
           <source>Everything</source>
-          <target state="new">Everything</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tout</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Avocado" translate="yes" xml:space="preserve">
           <source>Avocado</source>
-          <target state="new">Avocado</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Avocat</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;BananaPeppers" translate="yes" xml:space="preserve">
           <source>Banana Peppers</source>
-          <target state="new">Banana Peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Piments bananes</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Cucumbers" translate="yes" xml:space="preserve">
           <source>Cucumbers</source>
-          <target state="new">Cucumbers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Concombres</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;GreenBellPeppers" translate="yes" xml:space="preserve">
           <source>Green Bell Peppers</source>
-          <target state="new">Green Bell Peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poivrons verts</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Jalapenos" translate="yes" xml:space="preserve">
           <source>Jalapenos</source>
-          <target state="new">Jalapenos</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Piments jalapenos</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Lettuce" translate="yes" xml:space="preserve">
           <source>Lettuce</source>
-          <target state="new">Lettuce</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Laitue</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Olives" translate="yes" xml:space="preserve">
           <source>Olives</source>
-          <target state="new">Olives</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Olives</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Pickles" translate="yes" xml:space="preserve">
           <source>Pickles</source>
-          <target state="new">Pickles</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cornichons</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;RedOnion" translate="yes" xml:space="preserve">
           <source>Red Onion</source>
-          <target state="new">Red Onion</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignon rouge</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Spinach" translate="yes" xml:space="preserve">
           <source>Spinach</source>
-          <target state="new">Spinach</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Épinards</target>
         </trans-unit>
         <trans-unit id="VALUE;Toppings_valueDescriptions;Tomatoes" translate="yes" xml:space="preserve">
           <source>Tomatoes</source>
-          <target state="new">Tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tomates</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_description" translate="yes" xml:space="preserve">
           <source>Sauces</source>
-          <target state="new">Sauces</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sauces</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;HoneyMustard" translate="yes" xml:space="preserve">
           <source>Honey Mustard</source>
-          <target state="new">Honey Mustard</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Moutarde au miel</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;LightMayonnaise" translate="yes" xml:space="preserve">
           <source>Light Mayonnaise</source>
-          <target state="new">Light Mayonnaise</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mayonnaise légère</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;RegularMayonnaise" translate="yes" xml:space="preserve">
           <source>Regular Mayonnaise</source>
-          <target state="new">Regular Mayonnaise</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mayonnaise ordinaire</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;Mustard" translate="yes" xml:space="preserve">
           <source>Mustard</source>
-          <target state="new">Mustard</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Moutarde</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;Oil" translate="yes" xml:space="preserve">
           <source>Oil</source>
-          <target state="new">Oil</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Huile</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;Pepper" translate="yes" xml:space="preserve">
           <source>Pepper</source>
-          <target state="new">Pepper</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Poivre</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;Ranch" translate="yes" xml:space="preserve">
           <source>Ranch</source>
-          <target state="new">Ranch</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ranch</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;SweetOnion" translate="yes" xml:space="preserve">
           <source>Sweet Onion</source>
-          <target state="new">Sweet Onion</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignon doux</target>
         </trans-unit>
         <trans-unit id="VALUE;Sauces_valueDescriptions;Vinegar" translate="yes" xml:space="preserve">
           <source>Vinegar</source>
-          <target state="new">Vinegar</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vinaigre</target>
         </trans-unit>
         <trans-unit id="VALUE;Specials_description" translate="yes" xml:space="preserve">
           <source>Specials</source>
-          <target state="new">Specials</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sous-ensemble de caractères spéciaux</target>
         </trans-unit>
         <trans-unit id="VALUE;DeliveryAddress_description" translate="yes" xml:space="preserve">
           <source>Delivery Address</source>
-          <target state="new">Delivery Address</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Adresse de remise</target>
         </trans-unit>
         <trans-unit id="VALUE;DeliveryTime_description" translate="yes" xml:space="preserve">
           <source>Delivery Time</source>
-          <target state="new">Delivery Time</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Délai de livraison</target>
         </trans-unit>
         <trans-unit id="VALUE;Rating_description" translate="yes" xml:space="preserve">
           <source>your experience today</source>
-          <target state="new">your experience today</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">votre expérience aujourd'hui</target>
         </trans-unit>
         <trans-unit id="LIST;message0" translate="yes" xml:space="preserve">
           <source>Welcome to the sandwich order bot!</source>
-          <target state="new">Welcome to the sandwich order bot!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bienvenue sur le bot d'ordre "sandwich" !</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_terms" translate="yes" xml:space="preserve">
           <source>sandwichs?</source>
-          <target state="new">sandwichs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sandwichs?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;BLT" translate="yes" xml:space="preserve">
           <source>blts?</source>
-          <target state="new">blts?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">faux?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;BlackForestHam" translate="yes" xml:space="preserve">
           <source>blacks?;forests?;hams?;blacks? forests?;forests? hams?;blacks? forests? hams?</source>
-          <target state="new">blacks?;forests?;hams?;blacks? forests?;forests? hams?;blacks? forests? hams?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">noirs? ; forêts? ; jambons? ; noirs? forêts? ; forêts? jambons? ; noirs? forêts? jambons?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;BuffaloChicken" translate="yes" xml:space="preserve">
           <source>buffalos?;chickens?;buffalos? chickens?</source>
-          <target state="new">buffalos?;chickens?;buffalos? chickens?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">buffles? ; poulets? ; buffles? poulets?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;ChickenAndBaconRanchMelt" translate="yes" xml:space="preserve">
           <source>chickens?;and;bacons?;ranchs?;melts?;chickens? and;and bacons?;bacons? ranchs?;ranchs? melts?;chickens? and bacons?;and bacons? ranchs?;bacons? ranchs? melts?;chickens? and bacons? ranchs?;and bacons? ranchs? melts?;chicken and bacon ranch melt</source>
-          <target state="new">chickens?;and;bacons?;ranchs?;melts?;chickens? and;and bacons?;bacons? ranchs?;ranchs? melts?;chickens? and bacons?;and bacons? ranchs?;bacons? ranchs? melts?;chickens? and bacons? ranchs?;and bacons? ranchs? melts?;chicken and bacon ranch melt</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">poulets? ; et ; bacons? ; ranchs? ; fond? ; poulets? et ; et bacons? ; bacons? ranchs? ; ranchs? fond? ; poulets? et bacons? ; et bah? ranchs? ; bacons? ranchs? fond? ; poulets? et bah? ranchs? ; et bah? ranchs? fond? ; faire fondre le poulet et bacon ranch</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;ColdCutCombo" translate="yes" xml:space="preserve">
           <source>colds?;cuts?;combos?;colds? cuts?;cuts? combos?;colds? cuts? combos?</source>
-          <target state="new">colds?;cuts?;combos?;colds? cuts?;cuts? combos?;colds? cuts? combos?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">rhumes? ; Coupe? ; combos? ; rhumes? Coupe? ; Cuts? combos? ; rhumes? Cuts? combos?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;MeatballMarinara" translate="yes" xml:space="preserve">
           <source>meatballs?;marinaras?;meatballs? marinaras?</source>
-          <target state="new">meatballs?;marinaras?;meatballs? marinaras?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">boulettes de viande? ; marinaras? ; boulettes de viande? marinaras?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;OverRoastedChicken" translate="yes" xml:space="preserve">
           <source>over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</source>
-          <target state="new">over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">plus ; roasteds? ; poulets?; o ver roasteds? ; roasteds? poulets?; o roasteds ver? poulets?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;RoastBeef" translate="yes" xml:space="preserve">
           <source>roasts?;beefs?;roasts? beefs?</source>
-          <target state="new">roasts?;beefs?;roasts? beefs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">rôtis? ; Beefs? ; rôtis? Beefs?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;RotisserieStyleChicken" translate="yes" xml:space="preserve">
           <source>rotis\w*s?;styles?;chickens?;rotis\w*s? styles?;styles? chickens?;rotis\w*s? styles? chickens?</source>
-          <target state="new">rotis\w*s?;styles?;chickens?;rotis\w*s? styles?;styles? chickens?;rotis\w*s? styles? chickens?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">rotis\w* s? ; styles? ; poulets? ; rotis\w* s? styles? ; styles? poulets? ; rotis\w* s? styles? poulets?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;SpicyItalian" translate="yes" xml:space="preserve">
           <source>spicys?;italians?;spicys? italians?</source>
-          <target state="new">spicys?;italians?;spicys? italians?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">spicys? ; italiens? ; spicys? italiens?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;SteakAndCheese" translate="yes" xml:space="preserve">
           <source>steaks?;and;cheeses?;steaks? and;and cheeses?;steaks? and cheeses?</source>
-          <target state="new">steaks?;and;cheeses?;steaks? and;and cheeses?;steaks? and cheeses?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">biftecks? ; et ; fromages? ; biftecks? et ; et fromages? ; biftecks? et les fromages?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;SweetOnionTeriyaki" translate="yes" xml:space="preserve">
           <source>sweets?;onions?;teriyakis?;sweets? onions?;onions? teriyakis?;sweets? onions? teriyakis?</source>
-          <target state="new">sweets?;onions?;teriyakis?;sweets? onions?;onions? teriyakis?;sweets? onions? teriyakis?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sucreries?; o nions? ; teriyakis? ; sucreries? oignons?; o nions? teriyakis? ; sucreries? oignons? teriyakis?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;Tuna" translate="yes" xml:space="preserve">
           <source>tunas?</source>
-          <target state="new">tunas?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">thons?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;TurkeyBreast" translate="yes" xml:space="preserve">
           <source>turkeys?;breasts?;turkeys? breasts?</source>
-          <target state="new">turkeys?;breasts?;turkeys? breasts?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">dindons? ; seins? ; dindes? seins?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;Veggie" translate="yes" xml:space="preserve">
           <source>veggies?</source>
-          <target state="new">veggies?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">légumes?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_promptDefinition" translate="yes" xml:space="preserve">
           <source>What kind of {&amp;} would you like? {||}</source>
-          <target state="new">What kind of {&amp;} would you like? {||}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de {&amp;} souhaiteriez-vous? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Length_terms" translate="yes" xml:space="preserve">
           <source>lengths?</source>
-          <target state="new">lengths?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">longueurs?</target>
         </trans-unit>
         <trans-unit id="LIST;Length_valueTerms;SixInch" translate="yes" xml:space="preserve">
           <source>six;inchs?;six inchs?</source>
-          <target state="new">six;inchs?;six inchs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">six ; inchs? ; six pouces?</target>
         </trans-unit>
         <trans-unit id="LIST;Length_valueTerms;FootLong" translate="yes" xml:space="preserve">
           <source>foots?;longs?;foots? longs?</source>
-          <target state="new">foots?;longs?;foots? longs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ressuage? ; longs? ; ressuage? Aspire?</target>
         </trans-unit>
         <trans-unit id="LIST;Length_promptDefinition" translate="yes" xml:space="preserve">
           <source>What size of sandwich do you want? {||}</source>
-          <target state="new">What size of sandwich do you want? {||}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quelle est la taille du "sandwich" voulez-vous? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_terms" translate="yes" xml:space="preserve">
           <source>breads?</source>
-          <target state="new">breads?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pains?</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_valueTerms;NineGrainWheat" translate="yes" xml:space="preserve">
           <source>nine;grains?;wheats?;nine grains?;grains? wheats?;nine grains? wheats?</source>
-          <target state="new">nine;grains?;wheats?;nine grains?;grains? wheats?;nine grains? wheats?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">neuf ; céréales? ; blés? ; neuf grains? ; grains? blés? ; neuf grains? blés?</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_valueTerms;NineGrainHoneyOat" translate="yes" xml:space="preserve">
           <source>nine;grains?;honeys?;oats?;nine grains?;grains? honeys?;honeys? oats?;nine grains? honeys?;grains? honeys? oats?;nine grains? honeys? oats?</source>
-          <target state="new">nine;grains?;honeys?;oats?;nine grains?;grains? honeys?;honeys? oats?;nine grains? honeys?;grains? honeys? oats?;nine grains? honeys? oats?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">neuf ; céréales? ; miels?; o ATS? ; neuf grains? ; grains? miels? ; miels? avoine? ; neuf grains? miels? ; grains? miels? avoine? ; neuf grains? miels? avoine?</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_valueTerms;Italian" translate="yes" xml:space="preserve">
           <source>italians?</source>
-          <target state="new">italians?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">italiens?</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_valueTerms;ItalianHerbsAndCheese" translate="yes" xml:space="preserve">
           <source>italians?;herbs?;and;cheeses?;italians? herbs?;herbs? and;and cheeses?;italians? herbs? and;herbs? and cheeses?;italians? herbs? and cheeses?</source>
-          <target state="new">italians?;herbs?;and;cheeses?;italians? herbs?;herbs? and;and cheeses?;italians? herbs? and;herbs? and cheeses?;italians? herbs? and cheeses?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">italiens? ; herbes? ; et ; fromages? ; italiens? herbes? ; fines herbes? et ; et fromages? ; italiens? fines herbes? et ; herbes? fromages et? ; italiens? fines herbes? et les fromages?</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_valueTerms;Flatbread" translate="yes" xml:space="preserve">
           <source>flatbreads?</source>
-          <target state="new">flatbreads?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pains plats?</target>
         </trans-unit>
         <trans-unit id="LIST;Cheese_terms" translate="yes" xml:space="preserve">
           <source>cheeses?</source>
-          <target state="new">cheeses?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">fromages?</target>
         </trans-unit>
         <trans-unit id="LIST;Cheese_valueTerms;American" translate="yes" xml:space="preserve">
           <source>americans?</source>
-          <target state="new">americans?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">américains?</target>
         </trans-unit>
         <trans-unit id="LIST;Cheese_valueTerms;MontereyCheddar" translate="yes" xml:space="preserve">
           <source>montereys?;cheddars?;montereys? cheddars?</source>
-          <target state="new">montereys?;cheddars?;montereys? cheddars?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">montereys? ; cheddars? ; montereys? cheddars?</target>
         </trans-unit>
         <trans-unit id="LIST;Cheese_valueTerms;Pepperjack" translate="yes" xml:space="preserve">
           <source>pepperjacks?</source>
-          <target state="new">pepperjacks?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperjacks?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_terms" translate="yes" xml:space="preserve">
           <source>toppings?</source>
-          <target state="new">toppings?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">garnitures?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Everything" translate="yes" xml:space="preserve">
           <source>except;but;not;no;all;everything</source>
-          <target state="new">except;but;not;no;all;everything</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sauf ; mais ; non ; non ; tous ; tout</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Avocado" translate="yes" xml:space="preserve">
           <source>avocados?</source>
-          <target state="new">avocados?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">avocats?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;BananaPeppers" translate="yes" xml:space="preserve">
           <source>bananas?;peppers?;bananas? peppers?</source>
-          <target state="new">bananas?;peppers?;bananas? peppers?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">bananes? ; poivrons? ; bananes? poivrons?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Cucumbers" translate="yes" xml:space="preserve">
           <source>cucumbers?</source>
-          <target state="new">cucumbers?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">concombres?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;GreenBellPeppers" translate="yes" xml:space="preserve">
           <source>greens?;bells?;peppers?;greens? bells?;bells? peppers?;greens? bells? peppers?</source>
-          <target state="new">greens?;bells?;peppers?;greens? bells?;bells? peppers?;greens? bells? peppers?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">verts? ; cloches? ; poivrons? ; verts? cloches? ; cloches? poivrons? ; verts? cloches? poivrons?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Jalapenos" translate="yes" xml:space="preserve">
           <source>jalapenos?</source>
-          <target state="new">jalapenos?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">piments jalapenos?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Lettuce" translate="yes" xml:space="preserve">
           <source>lettuces?</source>
-          <target state="new">lettuces?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">laitues?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Olives" translate="yes" xml:space="preserve">
           <source>olives?</source>
-          <target state="new">olives?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">olives?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Pickles" translate="yes" xml:space="preserve">
           <source>pickles?</source>
-          <target state="new">pickles?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">cornichons?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;RedOnion" translate="yes" xml:space="preserve">
           <source>reds?;onions?;reds? onions?</source>
-          <target state="new">reds?;onions?;reds? onions?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Reds?; o nions? ; Reds? oignons?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Spinach" translate="yes" xml:space="preserve">
           <source>spinachs?</source>
-          <target state="new">spinachs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">épinards?</target>
         </trans-unit>
         <trans-unit id="LIST;Toppings_valueTerms;Tomatoes" translate="yes" xml:space="preserve">
           <source>tomatoes?</source>
-          <target state="new">tomatoes?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">tomates?</target>
         </trans-unit>
         <trans-unit id="LIST;message6" translate="yes" xml:space="preserve">
           <source>For sandwich toppings you have selected {Toppings}.</source>
-          <target state="new">For sandwich toppings you have selected {Toppings}.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pour les garnitures "sandwich" vous avez sélectionné {garnitures}.</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_terms" translate="yes" xml:space="preserve">
           <source>sauces?</source>
-          <target state="new">sauces?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sauces?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;HoneyMustard" translate="yes" xml:space="preserve">
           <source>honeys?;mustards?;honeys? mustards?</source>
-          <target state="new">honeys?;mustards?;honeys? mustards?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">miels? ; moutardes? ; miels? moutardes?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;LightMayonnaise" translate="yes" xml:space="preserve">
           <source>lights?;mayonnaises?;lights? mayonnaises?</source>
-          <target state="new">lights?;mayonnaises?;lights? mayonnaises?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">lumières? ; mayonnaises? ; lumières? mayonnaises?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;RegularMayonnaise" translate="yes" xml:space="preserve">
           <source>regulars?;mayonnaises?;regulars? mayonnaises?</source>
-          <target state="new">regulars?;mayonnaises?;regulars? mayonnaises?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">les habitués? ; mayonnaises? ; habitués? mayonnaises?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;Mustard" translate="yes" xml:space="preserve">
           <source>mustards?</source>
-          <target state="new">mustards?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">moutardes?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;Oil" translate="yes" xml:space="preserve">
           <source>oils?</source>
-          <target state="new">oils?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">huiles?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;Pepper" translate="yes" xml:space="preserve">
           <source>peppers?</source>
-          <target state="new">peppers?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">poivrons?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;Ranch" translate="yes" xml:space="preserve">
           <source>ranchs?</source>
-          <target state="new">ranchs?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ranchs?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;SweetOnion" translate="yes" xml:space="preserve">
           <source>sweets?;onions?;sweets? onions?</source>
-          <target state="new">sweets?;onions?;sweets? onions?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sucreries?; o nions? ; sucreries? oignons?</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_valueTerms;Vinegar" translate="yes" xml:space="preserve">
           <source>vinegars?</source>
-          <target state="new">vinegars?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">vinaigres?</target>
         </trans-unit>
         <trans-unit id="LIST;Specials_terms" translate="yes" xml:space="preserve">
           <source>specials?</source>
-          <target state="new">specials?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">offres spéciales?</target>
         </trans-unit>
         <trans-unit id="LIST;DeliveryAddress_terms" translate="yes" xml:space="preserve">
           <source>deliverys?;address?;deliverys? address?</source>
-          <target state="new">deliverys?;address?;deliverys? address?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">optimisent? ; adresse? ; optimisent? adresse?</target>
         </trans-unit>
         <trans-unit id="LIST;DeliveryTime_terms" translate="yes" xml:space="preserve">
           <source>deliverys?;times?;deliverys? times?</source>
-          <target state="new">deliverys?;times?;deliverys? times?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">optimisent? ; fois? ; optimisent? fois?</target>
         </trans-unit>
         <trans-unit id="LIST;Rating_terms" translate="yes" xml:space="preserve">
           <source>ratings?</source>
-          <target state="new">ratings?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">notations?</target>
         </trans-unit>
         <trans-unit id="LIST;message14" translate="yes" xml:space="preserve">
           <source>Thanks for ordering a sandwich!</source>
-          <target state="new">Thanks for ordering a sandwich!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Merci de commander un sandwich !</target>
         </trans-unit>
         <trans-unit id="TEMPLATE;NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating" translate="yes" xml:space="preserve">
           <source>I do not understand "{0}".;Try again, I don't get "{0}".</source>
-          <target state="new">I do not understand "{0}".;Try again, I don't get "{0}".</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</target>
         </trans-unit>
         <trans-unit id="TEMPLATE;EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating" translate="yes" xml:space="preserve">
           <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
-          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de {&amp;} vous souhaitez sur votre "sandwich"? {||}</target>
         </trans-unit>
         <trans-unit id="TEMPLATE;NoPreference;Specials" translate="yes" xml:space="preserve">
           <source>None</source>
-          <target state="new">None</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aucun</target>
         </trans-unit>
       </group>
     </body>
   </file>
-  <file datatype="xml" source-language="en" target-language="en" original="FORMTEST/MICROSOFT.BOT.BUILDER.FORMFLOWTEST.PIZZAORDER.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  <file datatype="xml" source-language="en" target-language="fr" original="FORMTEST/MICROSOFT.BOT.BUILDER.FORMFLOWTEST.PIZZAORDER.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1605.0" tool-company="Microsoft" />
     </header>
@@ -497,819 +497,819 @@
       <group id="FORMTEST/MICROSOFT.BOT.BUILDER.FORMFLOWTEST.PIZZAORDER.RESX" datatype="resx">
         <trans-unit id="CULTURE;" translate="yes" xml:space="preserve">
           <source>en-US</source>
-          <target state="new">en-US</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">fr-FR</target>
         </trans-unit>
         <trans-unit id="VALUE;NumberOfPizzas_description" translate="yes" xml:space="preserve">
           <source>Number Of Pizzas</source>
-          <target state="new">Number Of Pizzas</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de Pizzas</target>
         </trans-unit>
         <trans-unit id="VALUE;Size_description" translate="yes" xml:space="preserve">
           <source>Size</source>
-          <target state="new">Size</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Taille</target>
         </trans-unit>
         <trans-unit id="VALUE;Size_valueDescriptions;Medium" translate="yes" xml:space="preserve">
           <source>Medium</source>
-          <target state="new">Medium</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Moyen</target>
         </trans-unit>
         <trans-unit id="VALUE;Size_valueDescriptions;Large" translate="yes" xml:space="preserve">
           <source>Large</source>
-          <target state="new">Large</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">grand</target>
         </trans-unit>
         <trans-unit id="VALUE;Size_valueDescriptions;Family" translate="yes" xml:space="preserve">
           <source>Family</source>
-          <target state="new">Family</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Famille</target>
         </trans-unit>
         <trans-unit id="VALUE;Kind_description" translate="yes" xml:space="preserve">
           <source>Kind of pizza</source>
-          <target state="new">Kind of pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Type de pizza</target>
         </trans-unit>
         <trans-unit id="VALUE;Kind_valueDescriptions;SignaturePizza" translate="yes" xml:space="preserve">
           <source>Signature Pizza</source>
-          <target state="new">Signature Pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pizza de signature</target>
         </trans-unit>
         <trans-unit id="VALUE;Kind_valueDescriptions;GourmetDelitePizza" translate="yes" xml:space="preserve">
           <source>Gourmet Delite Pizza</source>
-          <target state="new">Gourmet Delite Pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet Delite Pizza</target>
         </trans-unit>
         <trans-unit id="VALUE;Kind_valueDescriptions;StuffedPizza" translate="yes" xml:space="preserve">
           <source>Stuffed Pizza</source>
-          <target state="new">Stuffed Pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pizza farcie</target>
         </trans-unit>
         <trans-unit id="VALUE;Kind_valueDescriptions;BYOPizza" translate="yes" xml:space="preserve">
           <source>Build your own</source>
-          <target state="new">Build your own</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Créer la vôtre</target>
         </trans-unit>
         <trans-unit id="VALUE;Specials_description" translate="yes" xml:space="preserve">
           <source>Specials</source>
-          <target state="new">Specials</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sous-ensemble de caractères spéciaux</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfAndHalf_description" translate="yes" xml:space="preserve">
           <source>Half And Half</source>
-          <target state="new">Half And Half</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Moitié-moitié</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_description" translate="yes" xml:space="preserve">
           <source>Crust</source>
-          <target state="new">Crust</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Croûte</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_valueDescriptions;Original" translate="yes" xml:space="preserve">
           <source>Original</source>
-          <target state="new">Original</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Original</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_valueDescriptions;Thin" translate="yes" xml:space="preserve">
           <source>Thin</source>
-          <target state="new">Thin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">fine</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_valueDescriptions;Stuffed" translate="yes" xml:space="preserve">
           <source>Stuffed</source>
-          <target state="new">Stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">En peluche</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_valueDescriptions;FreshPan" translate="yes" xml:space="preserve">
           <source>Fresh Pan</source>
-          <target state="new">Fresh Pan</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Frais Pan</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Crust_valueDescriptions;GlutenFree" translate="yes" xml:space="preserve">
           <source>Gluten Free</source>
-          <target state="new">Gluten Free</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sans gluten</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Sauce_description" translate="yes" xml:space="preserve">
           <source>Sauce</source>
-          <target state="new">Sauce</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sauce</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Sauce_valueDescriptions;Traditional" translate="yes" xml:space="preserve">
           <source>Traditional</source>
-          <target state="new">Traditional</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Traditionnel</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Sauce_valueDescriptions;CreamyGarlic" translate="yes" xml:space="preserve">
           <source>Creamy Garlic</source>
-          <target state="new">Creamy Garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Crémeuse à l'ail</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Sauce_valueDescriptions;OliveOil" translate="yes" xml:space="preserve">
           <source>Olive Oil</source>
-          <target state="new">Olive Oil</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Huile d'olive</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_description" translate="yes" xml:space="preserve">
           <source>Toppings</source>
-          <target state="new">Toppings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nappages</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;All" translate="yes" xml:space="preserve">
           <source>All except</source>
-          <target state="new">All except</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tous sauf</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Beef" translate="yes" xml:space="preserve">
           <source>Beef</source>
-          <target state="new">Beef</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Viande bovine</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;BlackOlives" translate="yes" xml:space="preserve">
           <source>Black Olives</source>
-          <target state="new">Black Olives</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Olives noires</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;CanadianBacon" translate="yes" xml:space="preserve">
           <source>Canadian Bacon</source>
-          <target state="new">Canadian Bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Canadian Bacon</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;CrispyBacon" translate="yes" xml:space="preserve">
           <source>Crispy Bacon</source>
-          <target state="new">Crispy Bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bacon croustillant</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Garlic" translate="yes" xml:space="preserve">
           <source>Garlic</source>
-          <target state="new">Garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ail</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;GreenPeppers" translate="yes" xml:space="preserve">
           <source>Green Peppers</source>
-          <target state="new">Green Peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poivrons verts</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;GrilledChicken" translate="yes" xml:space="preserve">
           <source>Grilled Chicken</source>
-          <target state="new">Grilled Chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet grillé</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;HerbAndCheeseBlend" translate="yes" xml:space="preserve">
           <source>Herb And Cheese Blend</source>
-          <target state="new">Herb And Cheese Blend</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fines herbes et le mélange de fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;ItalianSausage" translate="yes" xml:space="preserve">
           <source>Italian Sausage</source>
-          <target state="new">Italian Sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Saucisse italienne</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;ArtichokeHearts" translate="yes" xml:space="preserve">
           <source>Artichoke Hearts</source>
-          <target state="new">Artichoke Hearts</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cœurs d'artichauts</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;MixedOnions" translate="yes" xml:space="preserve">
           <source>Mixed Onions</source>
-          <target state="new">Mixed Onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignons mélangés</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;MozzarellaCheese" translate="yes" xml:space="preserve">
           <source>Mozzarella Cheese</source>
-          <target state="new">Mozzarella Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fromage mozzarella</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Mushroom" translate="yes" xml:space="preserve">
           <source>Mushroom</source>
-          <target state="new">Mushroom</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">tête bombée</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Onions" translate="yes" xml:space="preserve">
           <source>Onions</source>
-          <target state="new">Onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignons</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;ParmesanCheese" translate="yes" xml:space="preserve">
           <source>Parmesan Cheese</source>
-          <target state="new">Parmesan Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fromage parmesan</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Pepperoni" translate="yes" xml:space="preserve">
           <source>Pepperoni</source>
-          <target state="new">Pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pepperoni</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Pineapple" translate="yes" xml:space="preserve">
           <source>Pineapple</source>
-          <target state="new">Pineapple</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ananas</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;RomaTomatoes" translate="yes" xml:space="preserve">
           <source>Roma Tomatoes</source>
-          <target state="new">Roma Tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tomates Roma</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Salami" translate="yes" xml:space="preserve">
           <source>Salami</source>
-          <target state="new">Salami</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Salami</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Spinach" translate="yes" xml:space="preserve">
           <source>Spinach</source>
-          <target state="new">Spinach</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Épinards</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;SunDriedTomatoes" translate="yes" xml:space="preserve">
           <source>Sun Dried Tomatoes</source>
-          <target state="new">Sun Dried Tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tomates séchées au soleil</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;Zucchini" translate="yes" xml:space="preserve">
           <source>Zucchini</source>
-          <target state="new">Zucchini</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Courgettes</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.Toppings_valueDescriptions;ExtraCheese" translate="yes" xml:space="preserve">
           <source>Extra Cheese</source>
-          <target state="new">Extra Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Extra fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_description" translate="yes" xml:space="preserve">
           <source>Half Toppings</source>
-          <target state="new">Half Toppings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">La moitié des garnitures</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;All" translate="yes" xml:space="preserve">
           <source>All except</source>
-          <target state="new">All except</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tous sauf</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Beef" translate="yes" xml:space="preserve">
           <source>Beef</source>
-          <target state="new">Beef</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Viande bovine</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;BlackOlives" translate="yes" xml:space="preserve">
           <source>Black Olives</source>
-          <target state="new">Black Olives</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Olives noires</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;CanadianBacon" translate="yes" xml:space="preserve">
           <source>Canadian Bacon</source>
-          <target state="new">Canadian Bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Canadian Bacon</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;CrispyBacon" translate="yes" xml:space="preserve">
           <source>Crispy Bacon</source>
-          <target state="new">Crispy Bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bacon croustillant</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Garlic" translate="yes" xml:space="preserve">
           <source>Garlic</source>
-          <target state="new">Garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ail</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;GreenPeppers" translate="yes" xml:space="preserve">
           <source>Green Peppers</source>
-          <target state="new">Green Peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poivrons verts</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;GrilledChicken" translate="yes" xml:space="preserve">
           <source>Grilled Chicken</source>
-          <target state="new">Grilled Chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet grillé</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;HerbAndCheeseBlend" translate="yes" xml:space="preserve">
           <source>Herb And Cheese Blend</source>
-          <target state="new">Herb And Cheese Blend</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fines herbes et le mélange de fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;ItalianSausage" translate="yes" xml:space="preserve">
           <source>Italian Sausage</source>
-          <target state="new">Italian Sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Saucisse italienne</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;ArtichokeHearts" translate="yes" xml:space="preserve">
           <source>Artichoke Hearts</source>
-          <target state="new">Artichoke Hearts</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cœurs d'artichauts</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;MixedOnions" translate="yes" xml:space="preserve">
           <source>Mixed Onions</source>
-          <target state="new">Mixed Onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignons mélangés</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;MozzarellaCheese" translate="yes" xml:space="preserve">
           <source>Mozzarella Cheese</source>
-          <target state="new">Mozzarella Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fromage mozzarella</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Mushroom" translate="yes" xml:space="preserve">
           <source>Mushroom</source>
-          <target state="new">Mushroom</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">tête bombée</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Onions" translate="yes" xml:space="preserve">
           <source>Onions</source>
-          <target state="new">Onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Oignons</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;ParmesanCheese" translate="yes" xml:space="preserve">
           <source>Parmesan Cheese</source>
-          <target state="new">Parmesan Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fromage parmesan</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Pepperoni" translate="yes" xml:space="preserve">
           <source>Pepperoni</source>
-          <target state="new">Pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pepperoni</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Pineapple" translate="yes" xml:space="preserve">
           <source>Pineapple</source>
-          <target state="new">Pineapple</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ananas</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;RomaTomatoes" translate="yes" xml:space="preserve">
           <source>Roma Tomatoes</source>
-          <target state="new">Roma Tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tomates Roma</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Salami" translate="yes" xml:space="preserve">
           <source>Salami</source>
-          <target state="new">Salami</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Salami</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Spinach" translate="yes" xml:space="preserve">
           <source>Spinach</source>
-          <target state="new">Spinach</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Épinards</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;SunDriedTomatoes" translate="yes" xml:space="preserve">
           <source>Sun Dried Tomatoes</source>
-          <target state="new">Sun Dried Tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tomates séchées au soleil</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;Zucchini" translate="yes" xml:space="preserve">
           <source>Zucchini</source>
-          <target state="new">Zucchini</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Courgettes</target>
         </trans-unit>
         <trans-unit id="VALUE;BYO.HalfToppings_valueDescriptions;ExtraCheese" translate="yes" xml:space="preserve">
           <source>Extra Cheese</source>
-          <target state="new">Extra Cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Extra fromage</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_description" translate="yes" xml:space="preserve">
           <source>Gourmet Delite</source>
-          <target state="new">Gourmet Delite</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet Delite</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_valueDescriptions;SpicyFennelSausage" translate="yes" xml:space="preserve">
           <source>Spicy Fennel Sausage</source>
-          <target state="new">Spicy Fennel Sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Saucisse épicée de fenouil</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_valueDescriptions;AngusSteakAndRoastedGarlic" translate="yes" xml:space="preserve">
           <source>Angus Steak And Roasted Garlic</source>
-          <target state="new">Angus Steak And Roasted Garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Steak Angus et ail rôti</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_valueDescriptions;GourmetVegetarian" translate="yes" xml:space="preserve">
           <source>Gourmet Vegetarian</source>
-          <target state="new">Gourmet Vegetarian</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet végétarien</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_valueDescriptions;ChickenBaconArtichoke" translate="yes" xml:space="preserve">
           <source>Chicken Bacon Artichoke</source>
-          <target state="new">Chicken Bacon Artichoke</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet Bacon artichaut</target>
         </trans-unit>
         <trans-unit id="VALUE;GourmetDelite_valueDescriptions;HerbChickenMediterranean" translate="yes" xml:space="preserve">
           <source>Herb Chicken Mediterranean</source>
-          <target state="new">Herb Chicken Mediterranean</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Herb poulet Méditerranée</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_description" translate="yes" xml:space="preserve">
           <source>Signature</source>
-          <target state="new">Signature</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Signature</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_valueDescriptions;Hawaiian" translate="yes" xml:space="preserve">
           <source>Hawaiian</source>
-          <target state="new">Hawaiian</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hawaïen</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_valueDescriptions;Pepperoni" translate="yes" xml:space="preserve">
           <source>Pepperoni</source>
-          <target state="new">Pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pepperoni</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_valueDescriptions;MurphysCombo" translate="yes" xml:space="preserve">
           <source>Murphys Combo</source>
-          <target state="new">Murphys Combo</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Murphys Combo</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_valueDescriptions;ChickenGarlic" translate="yes" xml:space="preserve">
           <source>Chicken Garlic</source>
-          <target state="new">Chicken Garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet ail</target>
         </trans-unit>
         <trans-unit id="VALUE;Signature_valueDescriptions;TheCowboy" translate="yes" xml:space="preserve">
           <source>The Cowboy</source>
-          <target state="new">The Cowboy</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Le Cowboy</target>
         </trans-unit>
         <trans-unit id="VALUE;Stuffed_description" translate="yes" xml:space="preserve">
           <source>Stuffed</source>
-          <target state="new">Stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">En peluche</target>
         </trans-unit>
         <trans-unit id="VALUE;Stuffed_valueDescriptions;ChickenBaconStuffed" translate="yes" xml:space="preserve">
           <source>Chicken Bacon Stuffed</source>
-          <target state="new">Chicken Bacon Stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Poulet Bacon farcie</target>
         </trans-unit>
         <trans-unit id="VALUE;Stuffed_valueDescriptions;ChicagoStyleStuffed" translate="yes" xml:space="preserve">
           <source>Chicago Style Stuffed</source>
-          <target state="new">Chicago Style Stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Style de Chicago en peluche</target>
         </trans-unit>
         <trans-unit id="VALUE;Stuffed_valueDescriptions;FiveMeatStuffed" translate="yes" xml:space="preserve">
           <source>Five Meat Stuffed</source>
-          <target state="new">Five Meat Stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cinq viande farcie</target>
         </trans-unit>
         <trans-unit id="VALUE;DeliveryAddress_description" translate="yes" xml:space="preserve">
           <source>Delivery Address</source>
-          <target state="new">Delivery Address</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Adresse de remise</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupons_description" translate="yes" xml:space="preserve">
           <source>Coupons</source>
-          <target state="new">Coupons</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Coupons</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupons_valueDescriptions;Large20Percent" translate="yes" xml:space="preserve">
           <source>Large 20 Percent</source>
-          <target state="new">Large 20 Percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Grande 20 pour cent</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupons_valueDescriptions;Pepperoni20Percent" translate="yes" xml:space="preserve">
           <source>Pepperoni 20 Percent</source>
-          <target state="new">Pepperoni 20 Percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pepperoni 20 pour cent</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupon_description" translate="yes" xml:space="preserve">
           <source>Coupon</source>
-          <target state="new">Coupon</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Coupon</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupon_valueDescriptions;Large20Percent" translate="yes" xml:space="preserve">
           <source>Large 20 Percent</source>
-          <target state="new">Large 20 Percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Grande 20 pour cent</target>
         </trans-unit>
         <trans-unit id="VALUE;Coupon_valueDescriptions;Pepperoni20Percent" translate="yes" xml:space="preserve">
           <source>Pepperoni 20 Percent</source>
-          <target state="new">Pepperoni 20 Percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pepperoni 20 pour cent</target>
         </trans-unit>
         <trans-unit id="VALUE;Rating_description" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="new">Rating</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Notation</target>
         </trans-unit>
         <trans-unit id="VALUE;Available_description" translate="yes" xml:space="preserve">
           <source>Available</source>
-          <target state="new">Available</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Disponibles</target>
         </trans-unit>
         <trans-unit id="VALUE;Bottles_description" translate="yes" xml:space="preserve">
           <source>Bottles</source>
-          <target state="new">Bottles</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bouteilles</target>
         </trans-unit>
         <trans-unit id="LIST;message0" translate="yes" xml:space="preserve">
           <source>Welcome to the pizza bot!!!</source>
-          <target state="new">Welcome to the pizza bot!!!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bienvenue dans le bot de pizza!!!</target>
         </trans-unit>
         <trans-unit id="LIST;message1" translate="yes" xml:space="preserve">
           <source>Lets make pizza!!!</source>
-          <target state="new">Lets make pizza!!!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Permet de faire une pizza!!!</target>
         </trans-unit>
         <trans-unit id="LIST;NumberOfPizzas_terms" translate="yes" xml:space="preserve">
           <source>number;of;pizzas;number of;of pizzas;number of pizzas</source>
-          <target state="new">number;of;pizzas;number of;of pizzas;number of pizzas</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Numéro ; de ; nombre de ; de pizzas, pizzas ; nombre de pizzas</target>
         </trans-unit>
         <trans-unit id="LIST;Size_terms" translate="yes" xml:space="preserve">
           <source>size</source>
-          <target state="new">size</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">taille</target>
         </trans-unit>
         <trans-unit id="LIST;Size_valueTerms;Medium" translate="yes" xml:space="preserve">
           <source>med;medium</source>
-          <target state="new">med;medium</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">med ; moyen</target>
         </trans-unit>
         <trans-unit id="LIST;Size_valueTerms;Large" translate="yes" xml:space="preserve">
           <source>large</source>
-          <target state="new">large</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">grand</target>
         </trans-unit>
         <trans-unit id="LIST;Size_valueTerms;Family" translate="yes" xml:space="preserve">
           <source>family;extra large</source>
-          <target state="new">family;extra large</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">famille ; extra-large</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_terms" translate="yes" xml:space="preserve">
           <source>kind</source>
-          <target state="new">kind</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">type</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_valueTerms;SignaturePizza" translate="yes" xml:space="preserve">
           <source>signature;pizza;signature pizza</source>
-          <target state="new">signature;pizza;signature pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">signature, pizza, pizza signature</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_valueTerms;GourmetDelitePizza" translate="yes" xml:space="preserve">
           <source>gourmet;delite;pizza;gourmet delite;delite pizza;gourmet delite pizza</source>
-          <target state="new">gourmet;delite;pizza;gourmet delite;delite pizza;gourmet delite pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet, delite ; gourmet delite ; delite pizza ; pizza, pizza delite gourmet</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_valueTerms;StuffedPizza" translate="yes" xml:space="preserve">
           <source>stuffed;pizza;stuffed pizza</source>
-          <target state="new">stuffed;pizza;stuffed pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">farcis ; pizza ; pizza farcie</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_valueTerms;BYOPizza" translate="yes" xml:space="preserve">
           <source>byo;build your own</source>
-          <target state="new">byo;build your own</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">byo ; construire votre propre</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_promptDefinition" translate="yes" xml:space="preserve">
           <source>What kind of pizza do you want? {||}</source>
-          <target state="new">What kind of pizza do you want? {||}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de pizza que vous voulez? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Specials_terms" translate="yes" xml:space="preserve">
           <source>specials</source>
-          <target state="new">specials</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">offres spéciales</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfAndHalf_terms" translate="yes" xml:space="preserve">
           <source>half;and;half;half and;and half;half and half</source>
-          <target state="new">half;and;half;half and;and half;half and half</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">la moitié et moitié ; la moitié et ; et demi ; moitié-moitié</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_terms" translate="yes" xml:space="preserve">
           <source>crust</source>
-          <target state="new">crust</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">croûte</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_valueTerms;Original" translate="yes" xml:space="preserve">
           <source>original</source>
-          <target state="new">original</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">original</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_valueTerms;Thin" translate="yes" xml:space="preserve">
           <source>thin</source>
-          <target state="new">thin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">fine</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_valueTerms;Stuffed" translate="yes" xml:space="preserve">
           <source>stuffed</source>
-          <target state="new">stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">en peluche</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_valueTerms;FreshPan" translate="yes" xml:space="preserve">
           <source>fresh;pan;fresh pan</source>
-          <target state="new">fresh;pan;fresh pan</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">frais ; pan, pan fraîche</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Crust_valueTerms;GlutenFree" translate="yes" xml:space="preserve">
           <source>gluten;free;gluten free</source>
-          <target state="new">gluten;free;gluten free</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">gluten ; libre ; sans gluten</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Sauce_terms" translate="yes" xml:space="preserve">
           <source>sauce</source>
-          <target state="new">sauce</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sauce</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Sauce_valueTerms;Traditional" translate="yes" xml:space="preserve">
           <source>traditional;tomatoe?</source>
-          <target state="new">traditional;tomatoe?</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">traditionnel ; tomate?</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Sauce_valueTerms;CreamyGarlic" translate="yes" xml:space="preserve">
           <source>creamy;garlic;creamy garlic</source>
-          <target state="new">creamy;garlic;creamy garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">crémeux ; ail ; crémeuse à l'ail</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Sauce_valueTerms;OliveOil" translate="yes" xml:space="preserve">
           <source>olive;oil;olive oil</source>
-          <target state="new">olive;oil;olive oil</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">olive, huile, huile d'olive</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_terms" translate="yes" xml:space="preserve">
           <source>toppings</source>
-          <target state="new">toppings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">nappages</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;All" translate="yes" xml:space="preserve">
           <source>except;but;not;no;all;everything</source>
-          <target state="new">except;but;not;no;all;everything</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sauf ; mais ; non ; non ; tous ; tout</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Beef" translate="yes" xml:space="preserve">
           <source>beef</source>
-          <target state="new">beef</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">viande bovine</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;BlackOlives" translate="yes" xml:space="preserve">
           <source>black;olives;black olives</source>
-          <target state="new">black;olives;black olives</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">noir, olives, olives noires</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;CanadianBacon" translate="yes" xml:space="preserve">
           <source>canadian;bacon;canadian bacon</source>
-          <target state="new">canadian;bacon;canadian bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">canadien, lard, bacon canadien</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;CrispyBacon" translate="yes" xml:space="preserve">
           <source>crispy;bacon;crispy bacon</source>
-          <target state="new">crispy;bacon;crispy bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">croustillant ; bacon, bacon croustillant</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Garlic" translate="yes" xml:space="preserve">
           <source>garlic</source>
-          <target state="new">garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ail</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;GreenPeppers" translate="yes" xml:space="preserve">
           <source>green;peppers;green peppers</source>
-          <target state="new">green;peppers;green peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">vert, piments, poivrons verts</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;GrilledChicken" translate="yes" xml:space="preserve">
           <source>grilled;chicken;grilled chicken</source>
-          <target state="new">grilled;chicken;grilled chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">grillé ; poulet, poulet grillé</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;HerbAndCheeseBlend" translate="yes" xml:space="preserve">
           <source>herb &amp; cheese;herb and cheese;herb and cheese blend;herb</source>
-          <target state="new">herb &amp; cheese;herb and cheese;herb and cheese blend;herb</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Herb &amp;fromage, herbes et fromage ; mélange de fines herbes et fromage, herbes</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;ItalianSausage" translate="yes" xml:space="preserve">
           <source>italian;sausage;italian sausage</source>
-          <target state="new">italian;sausage;italian sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">italien, saucisse, saucisse italienne</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;ArtichokeHearts" translate="yes" xml:space="preserve">
           <source>artichoke;hearts;artichoke hearts</source>
-          <target state="new">artichoke;hearts;artichoke hearts</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">artichaut, cœurs, cœurs d'artichauts</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;MixedOnions" translate="yes" xml:space="preserve">
           <source>mixed;onions;mixed onions</source>
-          <target state="new">mixed;onions;mixed onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">mélangé ; oignons ; Oignons mélangés</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;MozzarellaCheese" translate="yes" xml:space="preserve">
           <source>mozzarellacheese</source>
-          <target state="new">mozzarellacheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">mozzarellacheese</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Mushroom" translate="yes" xml:space="preserve">
           <source>mushroom</source>
-          <target state="new">mushroom</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">tête bombée</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Onions" translate="yes" xml:space="preserve">
           <source>onions</source>
-          <target state="new">onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">oignons</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;ParmesanCheese" translate="yes" xml:space="preserve">
           <source>parmesan;cheese;parmesan cheese</source>
-          <target state="new">parmesan;cheese;parmesan cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">parmesan, fromage, fromage parmesan</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Pepperoni" translate="yes" xml:space="preserve">
           <source>pepperoni</source>
-          <target state="new">pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperoni</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Pineapple" translate="yes" xml:space="preserve">
           <source>pineapple</source>
-          <target state="new">pineapple</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ananas</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;RomaTomatoes" translate="yes" xml:space="preserve">
           <source>roma;tomatoes;roma tomatoes</source>
-          <target state="new">roma;tomatoes;roma tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Roma, tomates, tomates roma</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Salami" translate="yes" xml:space="preserve">
           <source>salami</source>
-          <target state="new">salami</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">salami</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Spinach" translate="yes" xml:space="preserve">
           <source>spinach</source>
-          <target state="new">spinach</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">épinards</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;SunDriedTomatoes" translate="yes" xml:space="preserve">
           <source>sun;dried;tomatoes;sun dried;dried tomatoes;sun dried tomatoes</source>
-          <target state="new">sun;dried;tomatoes;sun dried;dried tomatoes;sun dried tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Dim ; séchées ; tomates ; soleil séchées ; tomates séchées au soleil de tomates séchées</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;Zucchini" translate="yes" xml:space="preserve">
           <source>zucchini</source>
-          <target state="new">zucchini</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">courgettes</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.Toppings_valueTerms;ExtraCheese" translate="yes" xml:space="preserve">
           <source>extra;cheese;extra cheese</source>
-          <target state="new">extra;cheese;extra cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">extra ; fromage ; extra fromage</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_terms" translate="yes" xml:space="preserve">
           <source>half;toppings;half toppings</source>
-          <target state="new">half;toppings;half toppings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">moitié, nappages ; moitié nappages</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;All" translate="yes" xml:space="preserve">
           <source>except;but;not;no;all;everything</source>
-          <target state="new">except;but;not;no;all;everything</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">sauf ; mais ; non ; non ; tous ; tout</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Beef" translate="yes" xml:space="preserve">
           <source>beef</source>
-          <target state="new">beef</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">viande bovine</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;BlackOlives" translate="yes" xml:space="preserve">
           <source>black;olives;black olives</source>
-          <target state="new">black;olives;black olives</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">noir, olives, olives noires</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;CanadianBacon" translate="yes" xml:space="preserve">
           <source>canadian;bacon;canadian bacon</source>
-          <target state="new">canadian;bacon;canadian bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">canadien, lard, bacon canadien</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;CrispyBacon" translate="yes" xml:space="preserve">
           <source>crispy;bacon;crispy bacon</source>
-          <target state="new">crispy;bacon;crispy bacon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">croustillant ; bacon, bacon croustillant</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Garlic" translate="yes" xml:space="preserve">
           <source>garlic</source>
-          <target state="new">garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ail</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;GreenPeppers" translate="yes" xml:space="preserve">
           <source>green;peppers;green peppers</source>
-          <target state="new">green;peppers;green peppers</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">vert, piments, poivrons verts</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;GrilledChicken" translate="yes" xml:space="preserve">
           <source>grilled;chicken;grilled chicken</source>
-          <target state="new">grilled;chicken;grilled chicken</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">grillé ; poulet, poulet grillé</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;HerbAndCheeseBlend" translate="yes" xml:space="preserve">
           <source>herb &amp; cheese;herb and cheese;herb and cheese blend;herb</source>
-          <target state="new">herb &amp; cheese;herb and cheese;herb and cheese blend;herb</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Herb &amp;fromage, herbes et fromage ; mélange de fines herbes et fromage, herbes</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;ItalianSausage" translate="yes" xml:space="preserve">
           <source>italian;sausage;italian sausage</source>
-          <target state="new">italian;sausage;italian sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">italien, saucisse, saucisse italienne</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;ArtichokeHearts" translate="yes" xml:space="preserve">
           <source>artichoke;hearts;artichoke hearts</source>
-          <target state="new">artichoke;hearts;artichoke hearts</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">artichaut, cœurs, cœurs d'artichauts</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;MixedOnions" translate="yes" xml:space="preserve">
           <source>mixed;onions;mixed onions</source>
-          <target state="new">mixed;onions;mixed onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">mélangé ; oignons ; Oignons mélangés</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;MozzarellaCheese" translate="yes" xml:space="preserve">
           <source>mozzarellacheese</source>
-          <target state="new">mozzarellacheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">mozzarellacheese</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Mushroom" translate="yes" xml:space="preserve">
           <source>mushroom</source>
-          <target state="new">mushroom</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">tête bombée</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Onions" translate="yes" xml:space="preserve">
           <source>onions</source>
-          <target state="new">onions</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">oignons</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;ParmesanCheese" translate="yes" xml:space="preserve">
           <source>parmesan;cheese;parmesan cheese</source>
-          <target state="new">parmesan;cheese;parmesan cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">parmesan, fromage, fromage parmesan</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Pepperoni" translate="yes" xml:space="preserve">
           <source>pepperoni</source>
-          <target state="new">pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperoni</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Pineapple" translate="yes" xml:space="preserve">
           <source>pineapple</source>
-          <target state="new">pineapple</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ananas</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;RomaTomatoes" translate="yes" xml:space="preserve">
           <source>roma;tomatoes;roma tomatoes</source>
-          <target state="new">roma;tomatoes;roma tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Roma, tomates, tomates roma</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Salami" translate="yes" xml:space="preserve">
           <source>salami</source>
-          <target state="new">salami</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">salami</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Spinach" translate="yes" xml:space="preserve">
           <source>spinach</source>
-          <target state="new">spinach</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">épinards</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;SunDriedTomatoes" translate="yes" xml:space="preserve">
           <source>sun;dried;tomatoes;sun dried;dried tomatoes;sun dried tomatoes</source>
-          <target state="new">sun;dried;tomatoes;sun dried;dried tomatoes;sun dried tomatoes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Dim ; séchées ; tomates ; soleil séchées ; tomates séchées au soleil de tomates séchées</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;Zucchini" translate="yes" xml:space="preserve">
           <source>zucchini</source>
-          <target state="new">zucchini</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">courgettes</target>
         </trans-unit>
         <trans-unit id="LIST;BYO.HalfToppings_valueTerms;ExtraCheese" translate="yes" xml:space="preserve">
           <source>extra;cheese;extra cheese</source>
-          <target state="new">extra;cheese;extra cheese</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">extra ; fromage ; extra fromage</target>
         </trans-unit>
         <trans-unit id="LIST;message11" translate="yes" xml:space="preserve">
           <source>Almost there!!! {*filled}</source>
-          <target state="new">Almost there!!! {*filled}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Près de là!!! {*filled}</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_terms" translate="yes" xml:space="preserve">
           <source>gourmet;delite;gourmet delite</source>
-          <target state="new">gourmet;delite;gourmet delite</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet ; delite ; gourmet delite</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_valueTerms;SpicyFennelSausage" translate="yes" xml:space="preserve">
           <source>spicy;fennel;sausage;spicy fennel;fennel sausage;spicy fennel sausage</source>
-          <target state="new">spicy;fennel;sausage;spicy fennel;fennel sausage;spicy fennel sausage</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">épicé ; fenouil ; fenouil épicé ; saucisses fenouil ; saucisse, saucisse épicée de fenouil</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_valueTerms;AngusSteakAndRoastedGarlic" translate="yes" xml:space="preserve">
           <source>angus;steak;and;roasted;garlic;angus steak;steak and;and roasted;roasted garlic;angus steak and;steak and roasted;and roasted garlic;angus steak and roasted;steak and roasted garlic;angus steak and roasted garlic</source>
-          <target state="new">angus;steak;and;roasted;garlic;angus steak;steak and;and roasted;roasted garlic;angus steak and;steak and roasted;and roasted garlic;angus steak and roasted;steak and roasted garlic;angus steak and roasted garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Angus ; steak ; et ; rôti ; ail ; angus steak, steak et ; et rôties, grillées ail ; steak angus et ; steak et ail rôti ; et torréfié ; steak angus et torréfiées ; steak et ail rôti ; steak angus et ail rôti</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_valueTerms;GourmetVegetarian" translate="yes" xml:space="preserve">
           <source>gourmet;vegetarian;gourmet vegetarian</source>
-          <target state="new">gourmet;vegetarian;gourmet vegetarian</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gourmet, végétarien, végétarien gourmet</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_valueTerms;ChickenBaconArtichoke" translate="yes" xml:space="preserve">
           <source>chicken;bacon;artichoke;chicken bacon;bacon artichoke;chicken bacon artichoke</source>
-          <target state="new">chicken;bacon;artichoke;chicken bacon;bacon artichoke;chicken bacon artichoke</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">poulet, bacon, artichaut ; bacon poulet ; artichaut bacon, artichaut bacon poulet</target>
         </trans-unit>
         <trans-unit id="LIST;GourmetDelite_valueTerms;HerbChickenMediterranean" translate="yes" xml:space="preserve">
           <source>herb;chicken;mediterranean;herb chicken;chicken mediterranean;herb chicken mediterranean</source>
-          <target state="new">herb;chicken;mediterranean;herb chicken;chicken mediterranean;herb chicken mediterranean</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Herb ; poulet ; méditerranéenne ; herbe de poulet, poulet méditerranéen ; herbe poulet méditerranéen</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_terms" translate="yes" xml:space="preserve">
           <source>signature</source>
-          <target state="new">signature</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">signature</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_valueTerms;Hawaiian" translate="yes" xml:space="preserve">
           <source>hawaiian</source>
-          <target state="new">hawaiian</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Hawaiian</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_valueTerms;Pepperoni" translate="yes" xml:space="preserve">
           <source>pepperoni</source>
-          <target state="new">pepperoni</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperoni</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_valueTerms;MurphysCombo" translate="yes" xml:space="preserve">
           <source>murphys;combo;murphys combo</source>
-          <target state="new">murphys;combo;murphys combo</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Murphys, combo, combo murphys</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_valueTerms;ChickenGarlic" translate="yes" xml:space="preserve">
           <source>chicken;garlic;chicken garlic</source>
-          <target state="new">chicken;garlic;chicken garlic</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">poulet, ail, ail poulet</target>
         </trans-unit>
         <trans-unit id="LIST;Signature_valueTerms;TheCowboy" translate="yes" xml:space="preserve">
           <source>cowboy</source>
-          <target state="new">cowboy</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cow-Boy</target>
         </trans-unit>
         <trans-unit id="LIST;Stuffed_terms" translate="yes" xml:space="preserve">
           <source>stuffed</source>
-          <target state="new">stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">en peluche</target>
         </trans-unit>
         <trans-unit id="LIST;Stuffed_valueTerms;ChickenBaconStuffed" translate="yes" xml:space="preserve">
           <source>chicken;bacon;stuffed;chicken bacon;bacon stuffed;chicken bacon stuffed</source>
-          <target state="new">chicken;bacon;stuffed;chicken bacon;bacon stuffed;chicken bacon stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">poulet, bacon ; farcis, poulet, bacon, bacon farcis ; poulet bacon farcie</target>
         </trans-unit>
         <trans-unit id="LIST;Stuffed_valueTerms;ChicagoStyleStuffed" translate="yes" xml:space="preserve">
           <source>chicago;style;stuffed;chicago style;style stuffed;chicago style stuffed</source>
-          <target state="new">chicago;style;stuffed;chicago style;style stuffed;chicago style stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Chicago ; style ; farcis ; style chicago ; style farcis ; style chicago farcies</target>
         </trans-unit>
         <trans-unit id="LIST;Stuffed_valueTerms;FiveMeatStuffed" translate="yes" xml:space="preserve">
           <source>five;meat;stuffed;five meat;meat stuffed;five meat stuffed</source>
-          <target state="new">five;meat;stuffed;five meat;meat stuffed;five meat stuffed</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">cinq ; viande ; farcis ; cinq viande, viande farcie ; cinq viande farcie</target>
         </trans-unit>
         <trans-unit id="LIST;message15" translate="yes" xml:space="preserve">
           <source>What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&amp;Stuffed}} {?{?{BYO.Crust} {&amp;BYO.Crust}} {?{BYO.Sauce} {&amp;BYO.Sauce}} {?{BYO.Toppings}}} pizza</source>
-          <target state="new">What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&amp;Stuffed}} {?{?{BYO.Crust} {&amp;BYO.Crust}} {?{BYO.Sauce} {&amp;BYO.Sauce}} {?{BYO.Toppings}}} pizza</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ce que nous avons est un {? Pizza de signature {Signature}} {? Pizza gourmet de {GourmetDelite}} {?{Stuffed} {&amp;Stuffed}} {?{? {BYO.Crust} {&amp;BYO.Crust}} {?{BYO.Sauce} {&amp;BYO.Sauce}} {?{BYO.Toppings}}}}</target>
         </trans-unit>
         <trans-unit id="LIST;DeliveryAddress_terms" translate="yes" xml:space="preserve">
           <source>delivery;address;delivery address</source>
-          <target state="new">delivery;address;delivery address</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">livraison, adresse, adresse de livraison</target>
         </trans-unit>
         <trans-unit id="LIST;Coupons_terms" translate="yes" xml:space="preserve">
           <source>coupons</source>
-          <target state="new">coupons</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">bons de réduction</target>
         </trans-unit>
         <trans-unit id="LIST;Coupons_valueTerms;Large20Percent" translate="yes" xml:space="preserve">
           <source>large;20;percent;large 20;20 percent;large 20 percent</source>
-          <target state="new">large;20;percent;large 20;20 percent;large 20 percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">grande ; 20 %; 20 grandes ; 20 %; grand 20 pour cent</target>
         </trans-unit>
         <trans-unit id="LIST;Coupons_valueTerms;Pepperoni20Percent" translate="yes" xml:space="preserve">
           <source>pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</source>
-          <target state="new">pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperoni ; 20; % pepperoni 20 ; 20 %, pepperoni 20 %</target>
         </trans-unit>
         <trans-unit id="LIST;Coupon_terms" translate="yes" xml:space="preserve">
           <source>coupon</source>
-          <target state="new">coupon</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">coupon</target>
         </trans-unit>
         <trans-unit id="LIST;Coupon_valueTerms;Large20Percent" translate="yes" xml:space="preserve">
           <source>large;20;percent;large 20;20 percent;large 20 percent</source>
-          <target state="new">large;20;percent;large 20;20 percent;large 20 percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">grande ; 20 %; 20 grandes ; 20 %; grand 20 pour cent</target>
         </trans-unit>
         <trans-unit id="LIST;Coupon_valueTerms;Pepperoni20Percent" translate="yes" xml:space="preserve">
           <source>pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</source>
-          <target state="new">pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">pepperoni ; 20; % pepperoni 20 ; 20 %, pepperoni 20 %</target>
         </trans-unit>
         <trans-unit id="LIST;Rating_terms" translate="yes" xml:space="preserve">
           <source>rating</source>
-          <target state="new">rating</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">évaluation</target>
         </trans-unit>
         <trans-unit id="LIST;Available_terms" translate="yes" xml:space="preserve">
           <source>available</source>
-          <target state="new">available</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">disponible</target>
         </trans-unit>
         <trans-unit id="LIST;Bottles_terms" translate="yes" xml:space="preserve">
           <source>bottles</source>
-          <target state="new">bottles</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">bouteilles</target>
         </trans-unit>
         <trans-unit id="LIST;message24" translate="yes" xml:space="preserve">
           <source>Rating = {Rating:F1} and [{Rating:F2}]</source>
-          <target state="new">Rating = {Rating:F1} and [{Rating:F2}]</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Note = {Rating:F1} et [{Rating:F2}]</target>
         </trans-unit>
         <trans-unit id="TEMPLATE;NotUnderstood;Kind" translate="yes" xml:space="preserve">
           <source>What does "{0}" mean???;Really "{0}"???</source>
-          <target state="new">What does "{0}" mean???;Really "{0}"???</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">« {0} » veut dire quoi??? ; Vraiment « {0} »???</target>
         </trans-unit>
       </group>
     </body>
