@@ -43,11 +43,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public abstract class BotDataBase<T> : IBotData
     {
-        protected readonly Message mesage;
+        protected readonly Message message;
 
         public BotDataBase(Message message)
         {
-            SetField.NotNull(out this.mesage, nameof(mesage), message);
+            SetField.NotNull(out this.message, nameof(BotDataBase<T>.message), message);
         }
 
         protected abstract T MakeData();
@@ -57,11 +57,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotConversationData;
+                var data = (T)this.message.BotConversationData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotConversationData = data;
+                    this.message.BotConversationData = data;
                 }
 
                 return this.WrapData(data);
@@ -72,11 +72,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotPerUserInConversationData;
+                var data = (T)this.message.BotPerUserInConversationData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotPerUserInConversationData = data;
+                    this.message.BotPerUserInConversationData = data;
                 }
 
                 return this.WrapData(data);
@@ -87,11 +87,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotUserData;
+                var data = (T)this.message.BotUserData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotUserData = data;
+                    this.message.BotUserData = data;
                 }
 
                 return this.WrapData(data);
