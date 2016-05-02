@@ -158,11 +158,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
             }
 
-            public static Delegate Map(IFrame<DialogTask> frame)
+            public Delegate Map(int ordinal)
             {
+                var frames = this.task.fiber.Frames;
+                int index = frames.Count - ordinal - 1;
+                var frame = frames[index];
                 var wait = frame.Wait;
                 var rest = wait.Rest;
-                var thunk = rest.Target as IThunk;
+                var thunk = (IThunk) rest.Target;
                 return thunk.Method;
             }
 
@@ -170,7 +173,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 get
                 {
-                    return Map(this.task.fiber.Frames[index]);
+                    return this.Map(index);
                 }
             }
 
@@ -182,7 +185,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             IEnumerator<Delegate> IEnumerable<Delegate>.GetEnumerator()
             {
-                return this.task.fiber.Frames.Select(Map).GetEnumerator();
+                var frames = this.task.fiber.Frames;
+                for (int index = 0; index < frames.Count; ++index)
+                {
+                    yield return this.Map(index);
+                }
             }
         }
 

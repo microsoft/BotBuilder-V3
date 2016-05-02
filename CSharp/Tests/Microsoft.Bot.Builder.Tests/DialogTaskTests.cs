@@ -163,11 +163,10 @@ namespace Microsoft.Bot.Builder.Tests
                     await task.PostAsync(toBot, MakeRoot);
 
                     Assert.AreEqual(3, task.Frames.Count);
+                    Assert.IsInstanceOfType(task.Frames[0].Target, typeof(PromptDialog.PromptString));
                     Assert.IsInstanceOfType(task.Frames[1].Target, dialog.Object.GetType());
-                    Assert.IsInstanceOfType(task.Frames[2].Target, typeof(PromptDialog.PromptString));
                 }
             }
         }
     }
 }
-    
