@@ -35,14 +35,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+
 using Autofac;
 
 namespace Microsoft.Bot.Builder.Dialogs
@@ -92,7 +90,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>A task that represents the message to send inline back to the user.</returns>
         public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            using (var scope = SendToBotContainer.BeginLifetimeScope())
+            using (var scope = DialogModule.BeginLifetimeScope(SendToBotContainer, toBot))
             {
                 return await SendAsync(scope, toBot, MakeRoot, token);
             }
@@ -119,8 +117,8 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         internal static async Task<Message> SendAsync<T>(ILifetimeScope scope, Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-            await store.PostAsync(toBot, MakeRoot, token);
+            var task= scope.Resolve<IDialogTask>();
+            await task.PostAsync(toBot, MakeRoot, token);
 
             var botToUser = scope.Resolve<SendLastInline_BotToUser>();
             return botToUser.ToUser;
@@ -129,13 +127,15 @@ namespace Microsoft.Bot.Builder.Dialogs
         internal static async Task<Message> ResumeAsync<T>(ILifetimeScope scope, string botId, string userId, string conversationId, T toBot, CancellationToken token = default(CancellationToken), ConnectorType connectorType = ConnectorType.Cloud)
         {
             var client = scope.Resolve<IConnectorClient>(TypedParameter.From(connectorType));
-           var message = await client.LoadMessageData(botId, userId, conversationId, token);
-            var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(message));
-            await store.PostAsync(toBot, token);
+            var message = await client.LoadMessageData(botId, userId, conversationId, token);
+            using (var inner = DialogModule.BeginLifetimeScope(scope, message))
+            {
+                var task = inner.Resolve<IDialogTask>();
+                await task.PostAsync(toBot, token);
 
-            var botToUser = scope.Resolve<SendLastInline_BotToUser>();
-            return botToUser.ToUser;
-
+                var botToUser = inner.Resolve<SendLastInline_BotToUser>();
+                return botToUser.ToUser;
+            }
         }
     }
 }

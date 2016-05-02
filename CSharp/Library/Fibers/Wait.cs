@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     {
     }
 
-    public delegate Task<IWait> Rest<in T>(IFiber fiber, IItem<T> item);
+    public delegate Task<IWait<C>> Rest<C, in T>(IFiber<C> fiber, C context, IItem<T> item);
 
     public enum Need { None, Wait, Poll, Call, Done };
 
@@ -57,12 +57,16 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         Delegate Rest { get; }
         void Post<T>(T item);
         void Fail(Exception error);
-        Task<IWait> PollAsync(IFiber fiber);
     }
 
-    public sealed class NullWait : IWait
+    public interface IWait<C> : IWait
     {
-        public static readonly IWait Instance = new NullWait();
+        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context);
+    }
+
+    public sealed class NullWait<C> : IWait<C>
+    {
+        public static readonly IWait<C> Instance = new NullWait<C>();
         private NullWait()
         {
         }
@@ -109,15 +113,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             throw new InvalidNeedException(this, Need.Wait);
         }
 
-        Task<IWait> IWait.PollAsync(IFiber fiber)
+        Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context)
         {
             throw new InvalidNeedException(this, Need.Poll);
         }
     }
 
-    public interface IWait<out T> : IWait
+    public interface IWait<C, out T> : IWait<C>
     {
-        void Wait(Rest<T> rest);
+        void Wait(Rest<C, T> rest);
     }
 
     public interface IPost<in T>
@@ -139,9 +143,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     }
 
     [Serializable]
-    public sealed class Wait<T> : IItem<T>, IWait<T>, IPost<T>, IAwaiter<T>, IEquatable<Wait<T>>, ISerializable
+    public sealed class Wait<C, T> : IItem<T>, IWait<C, T>, IPost<T>, IAwaiter<T>, IEquatable<Wait<C, T>>, ISerializable
     {
-        private Rest<T> rest;
+        private Rest<C, T> rest;
         private Need need;
         private T item;
         private Exception fail;
@@ -175,11 +179,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         public override bool Equals(object other)
         {
-            IEquatable<Wait<T>> wait = this;
-            return wait.Equals(other as Wait<T>);
+            IEquatable<Wait<C, T>> wait = this;
+            return wait.Equals(other as Wait<C, T>);
         }
 
-        bool IEquatable<Wait<T>>.Equals(Wait<T> other)
+        bool IEquatable<Wait<C, T>>.Equals(Wait<C, T> other)
         {
             return other != null
                 && object.Equals(this.rest, other.rest)
@@ -205,7 +209,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 {
                     var method = this.rest.Method;
                     var parameters = method.GetParameters();
-                    var itemType = parameters[1].ParameterType;
+                    var itemType = parameters[2].ParameterType;
                     var type = itemType.GenericTypeArguments.Single();
                     return type;
                 }
@@ -232,14 +236,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        async Task<IWait> IWait.PollAsync(IFiber fiber)
+        async Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context)
         {
             this.ValidateNeed(Need.Poll);
 
             this.need = Need.Call;
             try
             {
-                return await this.rest(fiber, this);
+                return await this.rest(fiber, context, this);
             }
             finally
             {
@@ -293,7 +297,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             this.need = Need.Poll;
         }
 
-        void IWait<T>.Wait(Rest<T> rest)
+        void IWait<C, T>.Wait(Rest<C, T> rest)
         {
             this.ValidateNeed(Need.None);
 
@@ -340,17 +344,17 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         }
     }
 
-    public interface IWaitFactory
+    public interface IWaitFactory<C>
     {
-        IWait<T> Make<T>();
+        IWait<C, T> Make<T>();
     }
 
     [Serializable]
-    public sealed class WaitFactory : IWaitFactory
+    public sealed class WaitFactory<C> : IWaitFactory<C>
     {
-        IWait<T> IWaitFactory.Make<T>()
+        IWait<C, T> IWaitFactory<C>.Make<T>()
         {
-            return new Wait<T>();
+            return new Wait<C, T>();
         }
     }
 }

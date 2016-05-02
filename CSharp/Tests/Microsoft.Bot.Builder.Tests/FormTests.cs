@@ -38,15 +38,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Autofac;
-
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.FormFlow;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+
+using Moq;
+using Autofac;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -74,58 +75,57 @@ namespace Microsoft.Bot.Builder.Tests
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
 
             using (new FiberTests.ResolveMoqAssembly(mock.Object))
-            using (var container = Build(mock.Object))
+            using (var container = Build(Options.ScopedQueue, mock.Object))
             {
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Text), scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     // note: this can not be "text" as that is a navigation command
                     toBot.Text = "words";
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Integer), scope);
                 }
 
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
+
                     // arrange
                     toBot.Text = "3";
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Float), scope);
                 }
 
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     toBot.Text = "3.5";
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     AssertNoMessages(scope);

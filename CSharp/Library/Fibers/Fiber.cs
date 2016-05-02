@@ -37,43 +37,44 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
-    public interface IWaiter
+    public interface IWaiter<C>
     {
-        IWait Wait { get; }
-        IWait<T> NextWait<T>();
+        IWait<C> Wait { get; }
+        IWait<C, T> NextWait<T>();
     }
 
-    public interface IFiber : IWaiter
+    public interface IFiber<C> : IWaiter<C>
     {
+        IEnumerable<IFrame<C>> Frames { get; }
         void Push();
         void Done();
     }
 
-    public interface IFiberLoop : IFiber
+    public interface IFiberLoop<C> : IFiber<C>
     {
-        Task<IWait> PollAsync();
+        Task<IWait<C>> PollAsync(C context);
     }
 
-    public interface IFrameLoop
+    public interface IFrameLoop<C>
     {
-        Task<IWait> PollAsync(IFiber fiber);
+        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context);
     }
 
 
-    public interface IFrame : IWaiter, IFrameLoop
+    public interface IFrame<C> : IWaiter<C>, IFrameLoop<C>
     {
     }
 
     [Serializable]
-    public sealed class Frame : IFrame
+    public sealed class Frame<C> : IFrame<C>
     {
-        private readonly IWaitFactory factory;
-        private IWait wait;
+        private readonly IWaitFactory<C> factory;
+        private IWait<C> wait;
 
-        public Frame(IWaitFactory factory)
+        public Frame(IWaitFactory<C> factory)
         {
             SetField.NotNull(out this.factory, nameof(factory), factory);
-            this.wait = NullWait.Instance;
+            this.wait = NullWait<C>.Instance;
         }
 
         public override string ToString()
@@ -81,14 +82,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return this.wait.ToString();
         }
 
-        IWait IWaiter.Wait
+        IWait<C> IWaiter<C>.Wait
         {
             get { return this.wait; }
         }
 
-        IWait<T> IWaiter.NextWait<T>()
+        IWait<C, T> IWaiter<C>.NextWait<T>()
         {
-            if (this.wait is NullWait)
+            if (this.wait is NullWait<C>)
             {
                 this.wait = null;
             }
@@ -108,45 +109,47 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return wait;
         }
 
-        async Task<IWait> IFrameLoop.PollAsync(IFiber fiber)
+        async Task<IWait<C>> IFrameLoop<C>.PollAsync(IFiber<C> fiber, C context)
         {
-            return await this.wait.PollAsync(fiber);
+            return await this.wait.PollAsync(fiber, context);
         }
     }
 
-    public interface IFrameFactory
+    public interface IFrameFactory<C>
     {
-        IFrame Make();
+        IFrame<C> Make();
     }
 
     [Serializable]
-    public sealed class FrameFactory : IFrameFactory
+    public sealed class FrameFactory<C> : IFrameFactory<C>
     {
-        private readonly IWaitFactory factory;
+        private readonly IWaitFactory<C> factory;
 
-        public FrameFactory(IWaitFactory factory)
+        public FrameFactory(IWaitFactory<C> factory)
         {
             SetField.NotNull(out this.factory, nameof(factory), factory);
         }
 
-        IFrame IFrameFactory.Make()
+        IFrame<C> IFrameFactory<C>.Make()
         {
-            return new Frame(this.factory);
+            return new Frame<C>(this.factory);
         }
     }
 
     [Serializable]
-    public sealed class Fiber : IFiber, IFiberLoop
+    public sealed class Fiber<C> : IFiber<C>, IFiberLoop<C>
     {
-        private readonly Stack<IFrame> stack = new Stack<IFrame>();
-        private readonly IFrameFactory factory;
+        public delegate IFiberLoop<C> Factory();
 
-        public Fiber(IFrameFactory factory)
+        private readonly Stack<IFrame<C>> stack = new Stack<IFrame<C>>();
+        private readonly IFrameFactory<C> factory;
+
+        public Fiber(IFrameFactory<C> factory)
         {
             SetField.NotNull(out this.factory, nameof(factory), factory);
         }
 
-        public IFrameFactory Factory
+        public IFrameFactory<C> FrameFactory
         {
             get
             {
@@ -154,17 +157,25 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        void IFiber.Push()
+        IEnumerable<IFrame<C>> IFiber<C>.Frames
+        {
+            get
+            {
+                return this.stack;
+            }
+        }
+
+        void IFiber<C>.Push()
         {
             this.stack.Push(this.factory.Make());
         }
 
-        void IFiber.Done()
+        void IFiber<C>.Done()
         {
             this.stack.Pop();
         }
 
-        IWait IWaiter.Wait
+        IWait<C> IWaiter<C>.Wait
         {
             get
             {
@@ -175,18 +186,18 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
                 else
                 {
-                    return NullWait.Instance;
+                    return NullWait<C>.Instance;
                 }
             }
         }
 
-        IWait<T> IWaiter.NextWait<T>()
+        IWait<C, T> IWaiter<C>.NextWait<T>()
         {
             var leaf = this.stack.Peek();
             return leaf.NextWait<T>();
         }
 
-        async Task<IWait> IFiberLoop.PollAsync()
+        async Task<IWait<C>> IFiberLoop<C>.PollAsync(C context)
         {
             while (this.stack.Count > 0)
             {
@@ -206,9 +217,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
                 try
                 {
-                    var next = await leaf.PollAsync(this);
+                    var next = await leaf.PollAsync(this, context);
                     var peek = this.stack.Peek();
-                    bool fine = object.ReferenceEquals(next, peek.Wait) || next is NullWait;
+                    bool fine = object.ReferenceEquals(next, peek.Wait) || next is NullWait<C>;
                     if (!fine)
                     {
                         throw new InvalidNextException(next);
@@ -229,7 +240,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            return NullWait.Instance;
+            return NullWait<C>.Instance;
         }
     }
 }

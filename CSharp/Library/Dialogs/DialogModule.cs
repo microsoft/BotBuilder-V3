@@ -34,16 +34,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 using Autofac;
-using System.Diagnostics;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using Microsoft.Bot.Connector;
-using Autofac.Core;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -53,42 +50,64 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class DialogModule : Autofac.Module
     {
         public const string BlobKey = "DialogState";
+        public static readonly object LifetimeScopeTag = typeof(DialogModule);
+        public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, Message message)
+        {
+            var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
+            inner.Resolve<Message>(TypedParameter.From(message));
+            return inner;
+        }
 
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
 
-            builder.RegisterModule(new FiberModule());
+            builder.RegisterModule(new FiberModule<DialogTask>());
 
-            // per-message
-            // http://stackoverflow.com/questions/1211595/autofac-parameter-passing-and-autowiring
+            // every lifetime scope is driven by a message
 
             builder
-                .Register((c, p) => new DetectEmulatorFactory(p.TypedAs<Message>(), new Uri("http://localhost:9000")))
+                .Register((c, p) => p.TypedAs<Message>())
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
+
+            // components not marked as [Serializable]
+
+            builder
+                .Register(c => new DetectEmulatorFactory(c.Resolve<Message>(), new Uri("http://localhost:9000")))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register((c, p) => c.Resolve<IConnectorClientFactory>(p).Make())
+                .Register(c => c.Resolve<IConnectorClientFactory>().Make())
                 .As<IConnectorClient>()
                 .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<JObjectBotData>()
-                .Keyed<IBotData>(FiberModule.Key_DoNotSerialize)
                 .As<IBotData>()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register((c, p) => new SendLastInline_BotToUser(p.TypedAs<Message>(), c.Resolve<IConnectorClient>(p)))
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .Register(c => new BotDataBagStream(c.Resolve<IBotData>().PerUserInConversationData, BlobKey))
+                .As<Stream>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<DialogTask>()
+                .As<IDialogTask>()
+                .As<IDialogStack>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<SendLastInline_BotToUser>()
                 .AsSelf()
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register((c, p) => new DialogContextFactory(new ErrorResilientDialogContextStore(new DialogContextStore(c.Resolve<IFormatter>(p), c.Resolve<IBotData>(p), BlobKey)), c.Resolve<IFrameFactory>(), c.Resolve<IBotToUser>(p), c.Resolve<IBotData>(p)))
-                .As<IDialogContextStore>()
+                .RegisterType<DialogContext>()
+                .As<IDialogContext>()
                 .InstancePerLifetimeScope();
         }
     }

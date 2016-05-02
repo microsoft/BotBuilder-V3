@@ -118,23 +118,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class BotToUserQueue : IBotToUser
     {
         private readonly Message toBot;
-        private readonly Queue<Message> queue = new Queue<Message>();
-        public BotToUserQueue(Message toBot)
+        private readonly Queue<Message> queue;
+        public BotToUserQueue(Message toBot, Queue<Message> queue)
         {
             SetField.NotNull(out this.toBot, nameof(toBot), toBot);
-        }
-       
-        public void Clear()
-        {
-            this.queue.Clear();
-        }
-
-        public IEnumerable<Message> Messages
-        {
-            get
-            {
-                return this.queue;
-            }
+            SetField.NotNull(out this.queue, nameof(queue), queue);
         }
 
         Message IBotToUser.MakeMessage()

@@ -40,10 +40,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Autofac;
-
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
@@ -51,6 +47,11 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Builder.Luis.Models;
+
+using Moq;
+using Autofac;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Sample.Tests
 {
@@ -101,109 +102,107 @@ namespace Microsoft.Bot.Sample.Tests
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
 
             using (new FiberTestBase.ResolveMoqAssembly(luis.Object))
-            using (var container = Build(luis.Object))
+            using (var container = Build(Options.ScopedQueue, luis.Object))
             {
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTitle);
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("created", scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     SetupLuis(luis, a => a.FindAlarm(null, null), entityTitle);
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("found", scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     SetupLuis(luis, a => a.AlarmSnooze(null, null), entityTitle);
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("snoozed", scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     SetupLuis(luis, a => a.TurnOffAlarm(null, null), entityTitle);
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("sure", scope);
                 }
 
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
+
                     // arrange
                     toBot.Text = "blah";
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("sure", scope);
                 }
 
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     toBot.Text = "yes";
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();
                     AssertMentions("disabled", scope);
                 }
 
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     // arrange
                     SetupLuis(luis, a => a.DeleteAlarm(null, null), entityTitle);
 
                     // act
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
 
                     // assert
                     luis.VerifyAll();

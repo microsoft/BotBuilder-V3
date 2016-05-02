@@ -35,25 +35,48 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Autofac;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+
+using Autofac;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
-        public static IContainer Build(params object[] singletons)
+        [Flags]
+        public enum Options { None, Reflection, ScopedQueue };
+
+        public static IContainer Build(Options options, params object[] singletons)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
 
+            if (options.HasFlag(Options.Reflection))
+            {
+                builder.RegisterModule(new ReflectionSurrogateModule());
+            }
+
+            var r =
+                builder
+                .Register<Queue<Message>>(c => new Queue<Message>())
+                .AsSelf();
+
+            if (options.HasFlag(Options.ScopedQueue))
+            {
+                r.InstancePerLifetimeScope();
+            }
+            else
+            {
+                r.SingleInstance();
+            }
+
             builder
                 .RegisterType<BotToUserQueue>()
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
                 .AsSelf()
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
@@ -77,14 +100,14 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static void AssertMentions(string expectedText, ILifetimeScope scope)
         {
-            var queue = scope.Resolve<BotToUserQueue>();
-            AssertMentions(expectedText, queue.Messages);
+            var queue = scope.Resolve<Queue<Message>>();
+            AssertMentions(expectedText, queue);
         }
 
         public static void AssertNoMessages(ILifetimeScope scope)
         {
-            var queue = scope.Resolve<BotToUserQueue>();
-            Assert.AreEqual(0, queue.Messages.Count());
+            var queue = scope.Resolve<Queue<Message>>();
+            Assert.AreEqual(0, queue.Count);
         }
 
         public static string NewID()

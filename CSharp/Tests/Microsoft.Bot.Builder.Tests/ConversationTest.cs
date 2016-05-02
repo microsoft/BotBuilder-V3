@@ -26,23 +26,9 @@ namespace Microsoft.Bot.Builder.Tests
             builder.RegisterModule(new DialogModule());
 
             builder
-                .RegisterType<BotToUserQueue>()
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
-                .AsSelf()
-                .As<IBotToUser>()
-                .InstancePerLifetimeScope();
-
-            builder
                 .Register((c, p) => testContext)
                     .As<IConnectorClientFactory>()
                     .InstancePerLifetimeScope();
-
-            builder
-                .Register((c, p) => new SendLastInline_BotToUser(p.TypedAs<Message>(), c.Resolve<IConnectorClient>()))
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
-                .AsSelf()
-                .As<IBotToUser>()
-                .InstancePerLifetimeScope();
 
             foreach (var singleton in singletons)
             {
@@ -170,8 +156,7 @@ namespace Microsoft.Bot.Builder.Tests
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
             using (var container = Build(this, dialog.Object))
             {
-
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     await Conversation.SendAsync(scope, toBot, MakeRoot);
                 }
@@ -180,14 +165,13 @@ namespace Microsoft.Bot.Builder.Tests
                 dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
                 dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Never);
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-                    IDialogContextInternal context;
-                    Assert.IsTrue(store.TryLoad(out context));
+                    var task = scope.Resolve<IDialogTask>();
+                    Assert.AreNotEqual(0, task.Count);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     try
                     {
@@ -207,14 +191,13 @@ namespace Microsoft.Bot.Builder.Tests
                 dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
                 dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
-                    IDialogContextInternal context;
-                    Assert.IsFalse(store.TryLoad(out context));
+                    var task = scope.Resolve<IDialogTask>();
+                    Assert.AreEqual(0, task.Count);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     await Conversation.SendAsync(scope, toBot, MakeRoot);
                 }
@@ -232,7 +215,6 @@ namespace Microsoft.Bot.Builder.Tests
                 new RegexCase<IDialog<string>>(new Regex("^resume"), (context, data) => { context.UserData.SetValue("resume", true); return Chain.Return("resumed!"); }),
                 new DefaultCase<string, IDialog<string>>((context, data) => { return Chain.Return(data); })).Unwrap().PostToUser();
 
-
             using (new FiberTestBase.ResolveMoqAssembly(chain))
             using (var container = Build(this, chain))
             {
@@ -244,7 +226,7 @@ namespace Microsoft.Bot.Builder.Tests
                     To = new ChannelAccount { Id = "testBot" }
                 };
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, msg))
                 {
                     var reply = await Conversation.SendAsync(scope, msg, () => chain);
 

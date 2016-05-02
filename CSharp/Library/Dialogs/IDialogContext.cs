@@ -31,12 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -107,33 +107,6 @@ namespace Microsoft.Bot.Builder.Dialogs
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
-    /// The stack of dialogs in the conversational process.
-    /// </summary>
-    public interface IDialogStack
-    {
-        /// <summary>
-        /// Suspend the current dialog until the user has sent a message to the bot.
-        /// </summary>
-        /// <param name="resume">The method to resume when the message has been received.</param>
-        void Wait(ResumeAfter<Message> resume);
-
-        /// <summary>
-        /// Call a child dialog and add it to the top of the stack.
-        /// </summary>
-        /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
-        /// <param name="child">The child dialog.</param>
-        /// <param name="resume">The method to resume when the child dialog has completed.</param>
-        void Call<R>(IDialog<R> child, ResumeAfter<R> resume);
-
-        /// <summary>
-        /// Complete the current dialog and return a result to the parent dialog.
-        /// </summary>
-        /// <typeparam name="R">The type of the result dialog.</typeparam>
-        /// <param name="value">The value of the result.</param>
-        void Done<R>(R value);
-    }
-
-    /// <summary>
     /// Methods to send a message from the bot to the user. 
     /// </summary>
     public interface IBotToUser
@@ -151,31 +124,5 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// </summary>
         /// <returns>The new message.</returns>
         Message MakeMessage();
-    }
-
-    /// <summary>
-    /// Methods to send a message from the user to the bot.
-    /// </summary>
-    public interface IPostToBot
-    {
-        /// <summary>
-        /// Post an item (e.g. message or other external event) to the bot.
-        /// </summary>
-        /// <param name="item">The item for the bot.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken));
-    }
-
-    /// <summary>
-    /// Additional internal methods to drive the execution of the dialog context.
-    /// </summary>
-    public interface IDialogContextInternal : IDialogContext, IPostToBot
-    {
-        /// <summary>
-        /// Poll the dialog stack for any work to be done.
-        /// </summary>
-        /// <returns>A task that represents the poll operation.</returns>
-        Task PollAsync();
     }
 }

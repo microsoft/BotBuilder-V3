@@ -35,14 +35,15 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+
+using Moq;
 using Autofac;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -84,23 +85,23 @@ namespace Microsoft.Bot.Builder.Tests
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogRoot.Object))
-            using (var container = Build(dialogRoot.Object))
+            using (var container = Build(Options.ScopedQueue, dialogRoot.Object))
             {
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
                     AssertMentions(PromptText, scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
                     toBot.Text = text;
 
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
                     AssertNoMessages(scope);
                     dialogRoot.Verify(d => d.PromptResult(It.IsAny<IDialogContext>(), It.Is<IAwaitable<T>>(actual => actual.GetAwaiter().GetResult().Equals(expected))), Times.Once);
                 }
@@ -182,29 +183,29 @@ namespace Microsoft.Bot.Builder.Tests
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogRoot.Object))
-            using (var container = Build(dialogRoot.Object))
+            using (var container = Build(Options.ScopedQueue, dialogRoot.Object))
             {
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
                     AssertMentions(PromptText, scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
                     AssertMentions(RetryText, scope);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var store = scope.Resolve<IDialogContextStore>(TypedParameter.From(toBot));
+                    var task = scope.Resolve<IDialogTask>();
 
-                    await store.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, MakeRoot);
                     AssertMentions("too many attempts", scope);
                     dialogRoot.Verify(d => d.PromptResult(It.IsAny<IDialogContext>(), It.Is<IAwaitable<T>>(actual => actual.ToTask().IsFaulted)), Times.Once);
                 }

@@ -44,13 +44,13 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     public static partial class Extensions
     {
         // TODO: split off R to get better type inference on T
-        public static IWait Call<T, R>(this IFiber fiber, Rest<T> invokeHandler, T item, Rest<R> returnHandler)
+        public static IWait<C> Call<C, T, R>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item, Rest<C, R> returnHandler)
         {
             fiber.NextWait<R>().Wait(returnHandler);
-            return fiber.Call<T>(invokeHandler, item);
+            return fiber.Call<C, T>(invokeHandler, item);
         }
 
-        public static IWait Call<T>(this IFiber fiber, Rest<T> invokeHandler, T item)
+        public static IWait<C> Call<C, T>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item)
         {
             fiber.Push();
             var wait = fiber.NextWait<T>();
@@ -59,24 +59,31 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return wait;
         }
 
-        public static IWait Wait<T>(this IFiber fiber, Rest<T> resumeHandler)
+        public static IWait<C> Wait<C, T>(this IFiber<C> fiber, Rest<C, T> resumeHandler)
         {
             var wait = fiber.NextWait<T>();
             wait.Wait(resumeHandler);
             return wait;
         }
 
-        public static IWait Done<T>(this IFiber fiber, T item)
+        public static IWait<C> Done<C, T>(this IFiber<C> fiber, T item)
         {
             fiber.Done();
-            var wait = fiber.Wait;
-            wait.Post(item);
-            return wait;
+            fiber.Wait.Post(item);
+            return fiber.Wait;
         }
 
-        public static void Post<T>(this IFiber fiber, T item)
+        public static IWait<C> Post<C, T>(this IFiber<C> fiber, T item)
         {
             fiber.Wait.Post(item);
+            return fiber.Wait;
+        }
+
+        public static IWait<C> Fail<C>(this IFiber<C> fiber, Exception error)
+        {
+            fiber.Done();
+            fiber.Wait.Fail(error);
+            return fiber.Wait;
         }
 
         public static Task<T> ToTask<T>(this IAwaitable<T> item)

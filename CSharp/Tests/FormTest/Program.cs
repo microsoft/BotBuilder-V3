@@ -82,22 +82,22 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
             builder
-                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message), Console.Out))
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<Message>()), Console.Out))
                 .As<IBotToUser>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
             using (var container = builder.Build())
+            using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {
-                var store = container.Resolve<IDialogContextStore>(TypedParameter.From(message));
+                var task = scope.Resolve<IDialogTask>();
 
                 Func<IDialog<T>> MakeRoot = () => form;
 
-                await store.PollAsync(() => form);
+                await task.PollAsync(() => form);
 
                 while (true)
                 {
                     message.Text = await Console.In.ReadLineAsync();
-                    await store.PostAsync(message, () => form);
+                    await task.PostAsync(message, () => form);
                 }
             }
         }
