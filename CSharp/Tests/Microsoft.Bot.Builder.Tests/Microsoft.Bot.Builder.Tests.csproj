@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="BotDataTests.cs" />
     <Compile Include="ChainTests.cs" />
+    <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="FormTests.cs" />
