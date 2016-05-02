@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<DialogTask>()
+                .Register(c => new LocalizedDialogTask(new DialogTask(c.Resolve<Func<IDialogContext>>(), c.Resolve<IStore<IFiberLoop<DialogTask>>>())))
                 .As<IDialogTask>()
                 .As<IDialogStack>()
                 .InstancePerLifetimeScope();

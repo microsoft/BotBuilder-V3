@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -162,6 +163,52 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             this.fiber.Post(item);
             await this.fiber.PollAsync(this);
+        }
+    }
+
+    public sealed class LocalizedDialogTask : DelegatingDialogTask
+    {
+        public LocalizedDialogTask(IDialogTask inner)
+            : base(inner)
+        {
+        }
+
+        public override async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var previous = Thread.CurrentThread.CurrentUICulture;
+
+            var message = item as Message;
+            if (message != null)
+            {
+                if (!string.IsNullOrWhiteSpace(message.Language))
+                {
+                    CultureInfo found = null;
+                    try
+                    {
+                        found = CultureInfo.GetCultureInfo(message.Language);
+                    }
+                    catch (CultureNotFoundException)
+                    {
+                    }
+
+                    if (found != null)
+                    {
+                        Thread.CurrentThread.CurrentUICulture = found;
+                    }
+                }
+            }
+
+            try
+            {
+                await base.PostAsync<T>(item, cancellationToken);
+            }
+            finally
+            {
+                if (message != null)
+                {
+                    Thread.CurrentThread.CurrentUICulture = previous;
+                }
+            }
         }
     }
 }

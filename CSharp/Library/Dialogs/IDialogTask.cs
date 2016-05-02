@@ -36,6 +36,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -111,7 +112,63 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Save the dialog task to its backing store.
         /// </summary>
         void Save();
+    }
 
+    public abstract class DelegatingDialogTask : IDialogTask
+    {
+        private readonly IDialogTask inner;
+        protected DelegatingDialogTask(IDialogTask inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        public virtual int Count
+        {
+            get
+            {
+                return this.inner.Count;
+            }
+        }
+
+        public virtual void Call<R>(IDialog<R> child, ResumeAfter<R> resume)
+        {
+            this.inner.Call<R>(child, resume);
+        }
+
+        public virtual void Done<R>(R value)
+        {
+            this.inner.Done<R>(value);
+        }
+
+        public virtual void Fail(Exception error)
+        {
+            this.inner.Fail(error);
+        }
+
+        public virtual async Task PollAsync()
+        {
+            await this.inner.PollAsync();
+        }
+
+        public virtual async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await this.inner.PostAsync<T>(item, cancellationToken);
+        }
+
+        public virtual void Reset()
+        {
+            this.inner.Reset();
+        }
+
+        public virtual void Save()
+        {
+            this.inner.Save();
+        }
+
+        public virtual void Wait(ResumeAfter<Message> resume)
+        {
+            this.inner.Wait(resume);
+        }
     }
 
     /// <summary>
