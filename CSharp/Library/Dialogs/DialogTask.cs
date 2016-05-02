@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -49,11 +50,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly Func<IDialogContext> factory;
         private readonly IStore<IFiberLoop<DialogTask>> store;
         private readonly IFiberLoop<DialogTask> fiber;
+        private readonly Frames frames;
         public DialogTask(Func<IDialogContext> factory, IStore<IFiberLoop<DialogTask>> store)
         {
             SetField.NotNull(out this.factory, nameof(factory), factory);
             SetField.NotNull(out this.store, nameof(store), store);
             this.store.TryLoad(out this.fiber);
+            this.frames = new Frames(this);
         }
 
         void IDialogTask.Reset()
@@ -68,14 +71,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         private IWait<DialogTask> wait;
 
+        public interface IThunk
+        {
+            Delegate Method { get; }
+        }
+
         [Serializable]
-        private sealed class ThunkStart
+        private sealed class ThunkStart : IThunk
         {
             private readonly StartAsync start;
             public ThunkStart(StartAsync start)
             {
                 SetField.NotNull(out this.start, nameof(start), start);
             }
+
+            Delegate IThunk.Method
+            {
+                get
+                {
+                    return this.start;
+                }
+            }
+
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item)
             {
                 var result = await item;
@@ -90,13 +107,22 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
 
         [Serializable]
-        private sealed class ThunkResume<T>
+        private sealed class ThunkResume<T> : IThunk
         {
             private readonly ResumeAfter<T> resume;
             public ThunkResume(ResumeAfter<T> resume)
             {
                 SetField.NotNull(out this.resume, nameof(resume), resume);
             }
+
+            Delegate IThunk.Method
+            {
+                get
+                {
+                    return this.resume;
+                }
+            }
+
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item)
             {
                 await this.resume(task.factory(), item);
@@ -116,12 +142,55 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return thunk.Rest;
         }
 
-        int IDialogStack.Count
+        private sealed class Frames : IReadOnlyList<Delegate>
+        {
+            private readonly DialogTask task;
+            public Frames(DialogTask task)
+            {
+                SetField.NotNull(out this.task, nameof(task), task);
+            }
+
+            int IReadOnlyCollection<Delegate>.Count
+            {
+                get
+                {
+                    return this.task.fiber.Frames.Count;
+                }
+            }
+
+            public static Delegate Map(IFrame<DialogTask> frame)
+            {
+                var wait = frame.Wait;
+                var rest = wait.Rest;
+                var thunk = rest.Target as IThunk;
+                return thunk.Method;
+            }
+
+            Delegate IReadOnlyList<Delegate>.this[int index]
+            {
+                get
+                {
+                    return Map(this.task.fiber.Frames[index]);
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                IEnumerable<Delegate> enumerable = this;
+                return enumerable.GetEnumerator();
+            }
+
+            IEnumerator<Delegate> IEnumerable<Delegate>.GetEnumerator()
+            {
+                return this.task.fiber.Frames.Select(Map).GetEnumerator();
+            }
+        }
+
+        IReadOnlyList<Delegate> IDialogStack.Frames
         {
             get
             {
-                // TODO: richer introspection into stack
-                return this.fiber.Frames.Count();
+                return this.frames;
             }
         }
 

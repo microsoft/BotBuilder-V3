@@ -101,5 +101,27 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             return source.Task;
         }
+
+        public static void Push<T>(this IList<T> stack, T item)
+        {
+            stack.Add(item);
+        }
+
+        public static T Pop<T>(this IList<T> stack)
+        {
+            var top = stack.Peek();
+            stack.RemoveAt(stack.Count - 1);
+            return top;
+        }
+  
+        public static T Peek<T>(this IList<T> stack)
+        {
+            if (stack.Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return stack[stack.Count - 1];
+        }
     }
 }

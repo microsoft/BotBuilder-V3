@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.Tests
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     var task = scope.Resolve<IDialogTask>();
-                    Assert.AreNotEqual(0, task.Count);
+                    Assert.AreNotEqual(0, task.Frames.Count);
                 }
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Tests
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     var task = scope.Resolve<IDialogTask>();
-                    Assert.AreEqual(0, task.Count);
+                    Assert.AreEqual(0, task.Frames.Count);
                 }
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
@@ -133,5 +133,41 @@ namespace Microsoft.Bot.Builder.Tests
                 dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
             }
         }
+
+        public interface IDialogFrames : IDialog<object>
+        {
+            Task TextReceived(IDialogContext context, IAwaitable<string> message);
+        }
+
+        [TestMethod]
+        public async Task DialogTask_Frames()
+        {
+            var dialog = new Mock<IDialogFrames>(MockBehavior.Loose);
+
+            dialog
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async context => { PromptDialog.Text(context, dialog.Object.TextReceived, "blah"); });
+
+            Func<IDialog<object>> MakeRoot = () => dialog.Object;
+            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
+            using (var container = Build(Options.None, dialog.Object))
+            {
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var task = scope.Resolve<IDialogTask>();
+
+                    Assert.AreEqual(0, task.Frames.Count);
+
+                    await task.PostAsync(toBot, MakeRoot);
+
+                    Assert.AreEqual(3, task.Frames.Count);
+                    Assert.IsInstanceOfType(task.Frames[1].Target, dialog.Object.GetType());
+                    Assert.IsInstanceOfType(task.Frames[2].Target, typeof(PromptDialog.PromptString));
+                }
+            }
+        }
     }
 }
+    

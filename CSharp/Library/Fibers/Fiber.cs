@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public interface IFiber<C> : IWaiter<C>
     {
-        IEnumerable<IFrame<C>> Frames { get; }
+        IReadOnlyList<IFrame<C>> Frames { get; }
         void Push();
         void Done();
     }
@@ -141,7 +141,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     {
         public delegate IFiberLoop<C> Factory();
 
-        private readonly Stack<IFrame<C>> stack = new Stack<IFrame<C>>();
+        private readonly List<IFrame<C>> stack = new List<IFrame<C>>();
         private readonly IFrameFactory<C> factory;
 
         public Fiber(IFrameFactory<C> factory)
@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        IEnumerable<IFrame<C>> IFiber<C>.Frames
+        IReadOnlyList<IFrame<C>> IFiber<C>.Frames
         {
             get
             {

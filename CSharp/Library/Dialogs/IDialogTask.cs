@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,9 +47,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public interface IDialogStack
     {
         /// <summary>
-        /// The number of dialog frames active on the stack.
+        /// The dialog frames active on the stack.
         /// </summary>
-        int Count { get; }
+        IReadOnlyList<Delegate> Frames { get; }
 
         /// <summary>
         /// Suspend the current dialog until the user has sent a message to the bot.
@@ -122,11 +123,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        public virtual int Count
+        public virtual IReadOnlyList<Delegate> Frames
         {
             get
             {
-                return this.inner.Count;
+                return this.inner.Frames;
             }
         }
 
@@ -186,7 +187,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <returns>A task representing the dialog task load operation.</returns>
         public static async Task LoadAsync<R>(this IDialogTask task, Func<IDialog<R>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            if (task.Count == 0)
+            if (task.Frames.Count == 0)
             {
                 var root = MakeRoot();
                 var loop = root.Loop();

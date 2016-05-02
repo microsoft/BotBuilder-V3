@@ -88,11 +88,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return this.botToUser.MakeMessage();
         }
 
-        int IDialogStack.Count
+        IReadOnlyList<Delegate> IDialogStack.Frames
         {
             get
             {
-                return this.stack.Count;
+                return this.stack.Frames;
             }
         }
 
