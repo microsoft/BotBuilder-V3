@@ -180,9 +180,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// Loop the <see cref="IDialog"/> forever.
+        /// Loop the <see cref="IDialog{T}"/> forever.
         /// </summary>
-        /// <param name="antecedent">The antecedent <see cref="IDialog"/>.</param>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <returns>The looping dialog.</returns>
         public static IDialog<T> Loop<T>(this IDialog<T> antecedent)
         {
