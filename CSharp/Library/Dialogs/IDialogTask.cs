@@ -52,10 +52,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IReadOnlyList<Delegate> Frames { get; }
 
         /// <summary>
-        /// Suspend the current dialog until the user has sent a message to the bot.
+        /// Suspend the current dialog until an external event has been sent to the bot.
         /// </summary>
-        /// <param name="resume">The method to resume when the message has been received.</param>
-        void Wait(ResumeAfter<Message> resume);
+        /// <param name="resume">The method to resume when the event has been received.</param>
+        void Wait<R>(ResumeAfter<R> resume);
 
         /// <summary>
         /// Call a child dialog and add it to the top of the stack.
@@ -166,7 +166,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.inner.Save();
         }
 
-        public virtual void Wait(ResumeAfter<Message> resume)
+        public virtual void Wait<R>(ResumeAfter<R> resume)
         {
             this.inner.Wait(resume);
         }

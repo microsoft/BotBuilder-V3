@@ -93,13 +93,23 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var message = botToUser.MakeMessage();
             message.Text = text;
-            
-            if(!string.IsNullOrEmpty(language))
+
+            if (!string.IsNullOrEmpty(language))
             {
                 message.Language = language;
             }
-            
+
             await botToUser.PostAsync(message, cancellationToken);
+        }
+
+        /// <summary>
+        /// Suspend the current dialog until the user has sent a message to the bot.
+        /// </summary>
+        /// <param name="stack">The dialog stack.</param>
+        /// <param name="resume">The method to resume when the message has been received.</param>
+        public static void Wait(this IDialogStack stack, ResumeAfter<Message> resume)
+        {
+            stack.Wait<Message>(resume);
         }
     }
 }

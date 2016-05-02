@@ -225,9 +225,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Fail(error);
         }
 
-        void IDialogStack.Wait(ResumeAfter<Message> resume)
+        void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
-            this.wait = this.fiber.Wait<DialogTask, Message>(ToRest(resume));
+            this.wait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
         async Task IDialogTask.PollAsync()

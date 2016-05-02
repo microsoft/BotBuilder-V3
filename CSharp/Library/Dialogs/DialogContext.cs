@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.stack.Fail(error);
         }
 
-        void IDialogStack.Wait(ResumeAfter<Message> resume)
+        void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
             this.stack.Wait(resume);
         }
