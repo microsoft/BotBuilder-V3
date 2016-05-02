@@ -237,6 +237,18 @@ namespace Microsoft.Bot.Builder.FormFlow
     {
 
         /// <summary>
+        /// Construct configuration.
+        /// </summary>
+        public FormConfiguration()
+        {
+            DefaultPrompt.IsLocalizable = false;
+            foreach(var template in Templates)
+            {
+                template.IsLocalizable = false;
+            }
+        }
+
+        /// <summary>
         /// Default prompt and template format settings.
         /// </summary>
         /// <remarks>

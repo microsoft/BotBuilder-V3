@@ -138,8 +138,8 @@
   <data name="VALUE;Sandwich_valueDescriptions;MeatballMarinara" xml:space="preserve">
     <value>Meatball Marinara</value>
   </data>
-  <data name="VALUE;Sandwich_valueDescriptions;OverRoastedChicken" xml:space="preserve">
-    <value>Over Roasted Chicken</value>
+  <data name="VALUE;Sandwich_valueDescriptions;OvenRoastedChicken" xml:space="preserve">
+    <value>Oven Roasted Chicken</value>
   </data>
   <data name="VALUE;Sandwich_valueDescriptions;RoastBeef" xml:space="preserve">
     <value>Roast Beef</value>
@@ -276,11 +276,18 @@
   <data name="VALUE;Specials_description" xml:space="preserve">
     <value>Specials</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="VALUE;confirmation9_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="VALUE;DeliveryAddress_description" xml:space="preserve">
     <value>Delivery Address</value>
   </data>
   <data name="VALUE;DeliveryTime_description" xml:space="preserve">
     <value>Delivery Time</value>
+  </data>
+  <data name="VALUE;confirmation12_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="VALUE;Rating_description" xml:space="preserve">
     <value>your experience today</value>
@@ -309,8 +316,8 @@
   <data name="LIST;Sandwich_valueTerms;MeatballMarinara" xml:space="preserve">
     <value>meatballs?;marinaras?;meatballs? marinaras?</value>
   </data>
-  <data name="LIST;Sandwich_valueTerms;OverRoastedChicken" xml:space="preserve">
-    <value>over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</value>
+  <data name="LIST;Sandwich_valueTerms;OvenRoastedChicken" xml:space="preserve">
+    <value>ovens?;roasteds?;chickens?;ovens? roasteds?;roasteds? chickens?;ovens? roasteds? chickens?</value>
   </data>
   <data name="LIST;Sandwich_valueTerms;RoastBeef" xml:space="preserve">
     <value>roasts?;beefs?;roasts? beefs?</value>
@@ -337,7 +344,7 @@
     <value>veggies?</value>
   </data>
   <data name="LIST;Sandwich_promptDefinition" xml:space="preserve">
-    <value>What kind of {&amp;} would you like? {||}</value>
+    <value>What kind of {&amp;} would you like on your sandwich? {||}</value>
   </data>
   <data name="LIST;Length_terms" xml:space="preserve">
     <value>lengths?</value>
@@ -349,7 +356,7 @@
     <value>foots?;longs?;foots? longs?</value>
   </data>
   <data name="LIST;Length_promptDefinition" xml:space="preserve">
-    <value>What size of sandwich do you want? {||}</value>
+    <value>What kind of {&amp;} would you like on your sandwich? {||}</value>
   </data>
   <data name="LIST;Bread_terms" xml:space="preserve">
     <value>breads?</value>
@@ -369,6 +376,9 @@
   <data name="LIST;Bread_valueTerms;Flatbread" xml:space="preserve">
     <value>flatbreads?</value>
   </data>
+  <data name="LIST;Bread_promptDefinition" xml:space="preserve">
+    <value>What kind of {&amp;} would you like on your sandwich? {||}</value>
+  </data>
   <data name="LIST;Cheese_terms" xml:space="preserve">
     <value>cheeses?</value>
   </data>
@@ -380,6 +390,9 @@
   </data>
   <data name="LIST;Cheese_valueTerms;Pepperjack" xml:space="preserve">
     <value>pepperjacks?</value>
+  </data>
+  <data name="LIST;Cheese_promptDefinition" xml:space="preserve">
+    <value>What kind of {&amp;} would you like on your sandwich? {||}</value>
   </data>
   <data name="LIST;Toppings_terms" xml:space="preserve">
     <value>toppings?</value>
@@ -420,6 +433,9 @@
   <data name="LIST;Toppings_valueTerms;Tomatoes" xml:space="preserve">
     <value>tomatoes?</value>
   </data>
+  <data name="LIST;Toppings_promptDefinition" xml:space="preserve">
+    <value>Please select one or more {&amp;} {||}</value>
+  </data>
   <data name="LIST;message6" xml:space="preserve">
     <value>For sandwich toppings you have selected {Toppings}.</value>
   </data>
@@ -453,17 +469,38 @@
   <data name="LIST;Sauces_valueTerms;Vinegar" xml:space="preserve">
     <value>vinegars?</value>
   </data>
+  <data name="LIST;Sauces_promptDefinition" xml:space="preserve">
+    <value>Please select one or more {&amp;} {||}</value>
+  </data>
   <data name="LIST;Specials_terms" xml:space="preserve">
     <value>specials?</value>
+  </data>
+  <data name="LIST;confirmation9_terms" xml:space="preserve">
+    <value />
   </data>
   <data name="LIST;DeliveryAddress_terms" xml:space="preserve">
     <value>deliverys?;address?;deliverys? address?</value>
   </data>
+  <data name="LIST;DeliveryAddress_promptDefinition" xml:space="preserve">
+    <value>Please enter {&amp;} {||}</value>
+  </data>
   <data name="LIST;DeliveryTime_terms" xml:space="preserve">
     <value>deliverys?;times?;deliverys? times?</value>
   </data>
+  <data name="LIST;DeliveryTime_promptDefinition" xml:space="preserve">
+    <value>What time do you want your sandwich delivered? {||}</value>
+  </data>
+  <data name="LIST;confirmation12_terms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIST;confirmation12_promptDefinition" xml:space="preserve">
+    <value>Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</value>
+  </data>
   <data name="LIST;Rating_terms" xml:space="preserve">
     <value>ratings?</value>
+  </data>
+  <data name="LIST;Rating_promptDefinition" xml:space="preserve">
+    <value>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</value>
   </data>
   <data name="LIST;message14" xml:space="preserve">
     <value>Thanks for ordering a sandwich!</value>

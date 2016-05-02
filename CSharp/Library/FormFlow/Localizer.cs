@@ -118,7 +118,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 string value;
                 if (_translations.TryGetValue(prefix + SEPARATOR + key, out value))
                 {
-                    dictionary[key] = new DescribeAttribute(value) { IsLocalizable = true };
+                    dictionary[key] = new DescribeAttribute(value);
                 }
             }
         }
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 string[] values;
                 if (_arrayTranslations.TryGetValue(prefix + SEPARATOR + key, out values))
                 {
-                    dictionary[key] = new TermsAttribute(values) { IsLocalizable = true };
+                    dictionary[key] = new TermsAttribute(values);
                 }
             }
         }

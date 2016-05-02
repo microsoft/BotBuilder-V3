@@ -33,9 +33,6 @@
   <data name="VALUE;Sandwich_valueDescriptions;MeatballMarinara" xml:space="preserve">
     <value>Boulette de viande Marinara</value>
   </data>
-  <data name="VALUE;Sandwich_valueDescriptions;OverRoastedChicken" xml:space="preserve">
-    <value>Sur le poulet rôti</value>
-  </data>
   <data name="VALUE;Sandwich_valueDescriptions;RoastBeef" xml:space="preserve">
     <value>Rôti de boeuf</value>
   </data>
@@ -204,9 +201,6 @@
   <data name="LIST;Sandwich_valueTerms;MeatballMarinara" xml:space="preserve">
     <value>boulettes de viande? ; marinaras? ; boulettes de viande? marinaras?</value>
   </data>
-  <data name="LIST;Sandwich_valueTerms;OverRoastedChicken" xml:space="preserve">
-    <value>plus ; roasteds? ; poulets?; o ver roasteds? ; roasteds? poulets?; o roasteds ver? poulets?</value>
-  </data>
   <data name="LIST;Sandwich_valueTerms;RoastBeef" xml:space="preserve">
     <value>rôtis? ; Beefs? ; rôtis? Beefs?</value>
   </data>
@@ -232,7 +226,7 @@
     <value>légumes?</value>
   </data>
   <data name="LIST;Sandwich_promptDefinition" xml:space="preserve">
-    <value>Quel genre de {&amp;} souhaiteriez-vous? {|}</value>
+    <value>Quel genre de {&amp;} souhaiteriez-vous? {||}</value>
   </data>
   <data name="LIST;Length_terms" xml:space="preserve">
     <value>longueurs?</value>
@@ -244,7 +238,7 @@
     <value>ressuage? ; longs? ; ressuage? Aspire?</value>
   </data>
   <data name="LIST;Length_promptDefinition" xml:space="preserve">
-    <value>Quelle est la taille du "sandwich" voulez-vous? {|}</value>
+    <value>Quelle est la taille du "sandwich" voulez-vous? {||}</value>
   </data>
   <data name="LIST;Bread_terms" xml:space="preserve">
     <value>pains?</value>
@@ -371,5 +365,11 @@
   </data>
   <data name="TEMPLATE;NoPreference;Specials" xml:space="preserve">
     <value>Aucun</value>
+  </data>
+  <data name="VALUE;confirmation9_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
+  </data>
+  <data name="VALUE;confirmation12_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
   </data>
 </root>

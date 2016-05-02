@@ -12,9 +12,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CULTURE;" xml:space="preserve">
-    <value>fr-FR</value>
-  </data>
   <data name="VALUE;NumberOfPizzas_description" xml:space="preserve">
     <value>Nombre de Pizzas</value>
   </data>
@@ -623,5 +620,20 @@
   </data>
   <data name="TEMPLATE;NotUnderstood;Kind" xml:space="preserve">
     <value>« {0} » veut dire quoi??? ; Vraiment « {0} »???</value>
+  </data>
+  <data name="VALUE;confirmation18_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
+  </data>
+  <data name="VALUE;confirmation25_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
+  </data>
+  <data name="VALUE;confirmation26_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
+  </data>
+  <data name="VALUE;confirmation27_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
+  </data>
+  <data name="VALUE;confirmation28_description" xml:space="preserve" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value></value>
   </data>
 </root>

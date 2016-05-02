@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Attributes that are used on classes, fields and properties should have this set.
         /// That way those attributes will be in the localization files that are generated.
         /// </remarks>
-        public bool IsLocalizable{ get; set; }
+        public bool IsLocalizable { get; set; } = true;
     }
 
     /// <summary>

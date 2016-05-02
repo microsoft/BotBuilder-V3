@@ -256,11 +256,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             string[] terms;
             if (localizer.Lookup(_name + nameof(_description), out description))
             {
-                _description = new DescribeAttribute(description) { IsLocalizable = true };
+                _description = new DescribeAttribute(description);
             }
             if (localizer.LookupValues(_name + nameof(_terms), out terms))
             {
-                _terms = new TermsAttribute(terms) { IsLocalizable = true };
+                _terms = new TermsAttribute(terms);
             }
             localizer.LookupDictionary(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.LookupDictionary(_name + nameof(_valueTerms), _valueTerms);
@@ -961,7 +961,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 foreach (var attribute in type.GetCustomAttributes(typeof(TemplateAttribute)))
                 {
                     var template = attribute as TemplateAttribute;
-                    template.IsLocalizable = true;
                     AddTemplate(template);
                 }
             }
@@ -988,7 +987,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     _description = new DescribeAttribute(Language.CamelCase(name));
                 }
-                _description.IsLocalizable = true;
 
                 if (terms != null)
                 {
@@ -998,12 +996,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     _terms = new TermsAttribute(Language.GenerateTerms(Language.CamelCase(name), 3));
                 }
-                _terms.IsLocalizable = true;
 
                 if (prompt != null)
                 {
                     _promptDefinition = prompt;
-                    _promptDefinition.IsLocalizable = true;
                 }
 
                 if (numeric != null)
@@ -1018,7 +1014,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
                 {
                     var template = attribute as TemplateAttribute;
-                    template.IsLocalizable = true;
                     AddTemplate(template);
                 }
             }
@@ -1041,7 +1036,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         _valueDescriptions.Add(enumValue, new DescribeAttribute(Language.CamelCase(enumValue.ToString())));
                     }
-                    _valueDescriptions[enumValue].IsLocalizable = true;
 
                     if (terms != null && !_ignoreAnnotations)
                     {
@@ -1051,7 +1045,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         _valueTerms.Add(enumValue, new TermsAttribute(Language.GenerateTerms(Language.CamelCase(enumValue.ToString()), 4)));
                     }
-                    _valueTerms[enumValue].IsLocalizable = true;
                 }
             }
         }

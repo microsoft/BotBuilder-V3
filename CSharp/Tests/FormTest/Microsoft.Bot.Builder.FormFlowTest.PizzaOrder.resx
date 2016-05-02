@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CULTURE;" xml:space="preserve">
-    <value>en-US</value>
-  </data>
   <data name="VALUE;NumberOfPizzas_description" xml:space="preserve">
     <value>Number Of Pizzas</value>
   </data>
@@ -387,6 +384,10 @@
   <data name="VALUE;DeliveryAddress_description" xml:space="preserve">
     <value>Delivery Address</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="VALUE;confirmation18_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="VALUE;Coupons_description" xml:space="preserve">
     <value>Coupons</value>
   </data>
@@ -414,6 +415,18 @@
   <data name="VALUE;Bottles_description" xml:space="preserve">
     <value>Bottles</value>
   </data>
+  <data name="VALUE;confirmation25_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="VALUE;confirmation26_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="VALUE;confirmation27_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="VALUE;confirmation28_description" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="LIST;message0" xml:space="preserve">
     <value>Welcome to the pizza bot!!!</value>
   </data>
@@ -422,6 +435,9 @@
   </data>
   <data name="LIST;NumberOfPizzas_terms" xml:space="preserve">
     <value>number;of;pizzas;number of;of pizzas;number of pizzas</value>
+  </data>
+  <data name="LIST;NumberOfPizzas_promptDefinition" xml:space="preserve">
+    <value>Please enter a number{? between {0} and {1}} for {&amp;} {||}</value>
   </data>
   <data name="LIST;Size_terms" xml:space="preserve">
     <value>size</value>
@@ -434,6 +450,9 @@
   </data>
   <data name="LIST;Size_valueTerms;Family" xml:space="preserve">
     <value>family;extra large</value>
+  </data>
+  <data name="LIST;Size_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
   </data>
   <data name="LIST;Kind_terms" xml:space="preserve">
     <value>kind</value>
@@ -451,13 +470,16 @@
     <value>byo;build your own</value>
   </data>
   <data name="LIST;Kind_promptDefinition" xml:space="preserve">
-    <value>What kind of pizza do you want? {||}</value>
+    <value>Please select a {&amp;} {||}</value>
   </data>
   <data name="LIST;Specials_terms" xml:space="preserve">
     <value>specials</value>
   </data>
   <data name="LIST;BYO.HalfAndHalf_terms" xml:space="preserve">
     <value>half;and;half;half and;and half;half and half</value>
+  </data>
+  <data name="LIST;BYO.HalfAndHalf_promptDefinition" xml:space="preserve">
+    <value>Would you like a {&amp;}? {||}</value>
   </data>
   <data name="LIST;BYO.Crust_terms" xml:space="preserve">
     <value>crust</value>
@@ -477,6 +499,9 @@
   <data name="LIST;BYO.Crust_valueTerms;GlutenFree" xml:space="preserve">
     <value>gluten;free;gluten free</value>
   </data>
+  <data name="LIST;BYO.Crust_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
+  </data>
   <data name="LIST;BYO.Sauce_terms" xml:space="preserve">
     <value>sauce</value>
   </data>
@@ -488,6 +513,9 @@
   </data>
   <data name="LIST;BYO.Sauce_valueTerms;OliveOil" xml:space="preserve">
     <value>olive;oil;olive oil</value>
+  </data>
+  <data name="LIST;BYO.Sauce_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
   </data>
   <data name="LIST;BYO.Toppings_terms" xml:space="preserve">
     <value>toppings</value>
@@ -564,6 +592,9 @@
   <data name="LIST;BYO.Toppings_valueTerms;ExtraCheese" xml:space="preserve">
     <value>extra;cheese;extra cheese</value>
   </data>
+  <data name="LIST;BYO.Toppings_promptDefinition" xml:space="preserve">
+    <value>Please select one or more {&amp;} {||}</value>
+  </data>
   <data name="LIST;BYO.HalfToppings_terms" xml:space="preserve">
     <value>half;toppings;half toppings</value>
   </data>
@@ -639,6 +670,9 @@
   <data name="LIST;BYO.HalfToppings_valueTerms;ExtraCheese" xml:space="preserve">
     <value>extra;cheese;extra cheese</value>
   </data>
+  <data name="LIST;BYO.HalfToppings_promptDefinition" xml:space="preserve">
+    <value>Please select one or more {&amp;} {||}</value>
+  </data>
   <data name="LIST;message11" xml:space="preserve">
     <value>Almost there!!! {*filled}</value>
   </data>
@@ -660,6 +694,9 @@
   <data name="LIST;GourmetDelite_valueTerms;HerbChickenMediterranean" xml:space="preserve">
     <value>herb;chicken;mediterranean;herb chicken;chicken mediterranean;herb chicken mediterranean</value>
   </data>
+  <data name="LIST;GourmetDelite_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
+  </data>
   <data name="LIST;Signature_terms" xml:space="preserve">
     <value>signature</value>
   </data>
@@ -678,6 +715,9 @@
   <data name="LIST;Signature_valueTerms;TheCowboy" xml:space="preserve">
     <value>cowboy</value>
   </data>
+  <data name="LIST;Signature_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
+  </data>
   <data name="LIST;Stuffed_terms" xml:space="preserve">
     <value>stuffed</value>
   </data>
@@ -690,11 +730,20 @@
   <data name="LIST;Stuffed_valueTerms;FiveMeatStuffed" xml:space="preserve">
     <value>five;meat;stuffed;five meat;meat stuffed;five meat stuffed</value>
   </data>
+  <data name="LIST;Stuffed_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
+  </data>
   <data name="LIST;message15" xml:space="preserve">
     <value>What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&amp;Stuffed}} {?{?{BYO.Crust} {&amp;BYO.Crust}} {?{BYO.Sauce} {&amp;BYO.Sauce}} {?{BYO.Toppings}}} pizza</value>
   </data>
   <data name="LIST;DeliveryAddress_terms" xml:space="preserve">
     <value>delivery;address;delivery address</value>
+  </data>
+  <data name="LIST;DeliveryAddress_promptDefinition" xml:space="preserve">
+    <value>Please enter {&amp;} {||}</value>
+  </data>
+  <data name="LIST;confirmation18_terms" xml:space="preserve">
+    <value />
   </data>
   <data name="LIST;Coupons_terms" xml:space="preserve">
     <value>coupons</value>
@@ -705,6 +754,9 @@
   <data name="LIST;Coupons_valueTerms;Pepperoni20Percent" xml:space="preserve">
     <value>pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</value>
   </data>
+  <data name="LIST;Coupons_promptDefinition" xml:space="preserve">
+    <value>Please select one or more {&amp;} {||}</value>
+  </data>
   <data name="LIST;Coupon_terms" xml:space="preserve">
     <value>coupon</value>
   </data>
@@ -714,17 +766,53 @@
   <data name="LIST;Coupon_valueTerms;Pepperoni20Percent" xml:space="preserve">
     <value>pepperoni;20;percent;pepperoni 20;20 percent;pepperoni 20 percent</value>
   </data>
+  <data name="LIST;Coupon_promptDefinition" xml:space="preserve">
+    <value>Please select a {&amp;} {||}</value>
+  </data>
   <data name="LIST;Rating_terms" xml:space="preserve">
     <value>rating</value>
+  </data>
+  <data name="LIST;Rating_promptDefinition" xml:space="preserve">
+    <value>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</value>
   </data>
   <data name="LIST;Available_terms" xml:space="preserve">
     <value>available</value>
   </data>
+  <data name="LIST;Available_promptDefinition" xml:space="preserve">
+    <value>Please enter a date and time for {&amp;} {||}</value>
+  </data>
   <data name="LIST;Bottles_terms" xml:space="preserve">
     <value>bottles</value>
   </data>
+  <data name="LIST;Bottles_promptDefinition" xml:space="preserve">
+    <value>Please enter a number{? between {0} and {1}} for {&amp;} {||}</value>
+  </data>
   <data name="LIST;message24" xml:space="preserve">
     <value>Rating = {Rating:F1} and [{Rating:F2}]</value>
+  </data>
+  <data name="LIST;confirmation25_terms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIST;confirmation25_promptDefinition" xml:space="preserve">
+    <value>Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</value>
+  </data>
+  <data name="LIST;confirmation26_terms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIST;confirmation26_promptDefinition" xml:space="preserve">
+    <value>Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</value>
+  </data>
+  <data name="LIST;confirmation27_terms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIST;confirmation27_promptDefinition" xml:space="preserve">
+    <value>Would you like a {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?</value>
+  </data>
+  <data name="LIST;confirmation28_terms" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIST;confirmation28_promptDefinition" xml:space="preserve">
+    <value>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</value>
   </data>
   <data name="TEMPLATE;NotUnderstood;Kind" xml:space="preserve">
     <value>What does "{0}" mean???;Really "{0}"???</value>

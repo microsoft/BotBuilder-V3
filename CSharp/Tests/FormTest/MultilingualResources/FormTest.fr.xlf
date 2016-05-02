@@ -34,10 +34,6 @@
           <source>Meatball Marinara</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Boulette de viande Marinara</target>
         </trans-unit>
-        <trans-unit id="VALUE;Sandwich_valueDescriptions;OverRoastedChicken" translate="yes" xml:space="preserve">
-          <source>Over Roasted Chicken</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sur le poulet rôti</target>
-        </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;RoastBeef" translate="yes" xml:space="preserve">
           <source>Roast Beef</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Rôti de boeuf</target>
@@ -262,10 +258,6 @@
           <source>meatballs?;marinaras?;meatballs? marinaras?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">boulettes de viande? ; marinaras? ; boulettes de viande? marinaras?</target>
         </trans-unit>
-        <trans-unit id="LIST;Sandwich_valueTerms;OverRoastedChicken" translate="yes" xml:space="preserve">
-          <source>over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">plus ; roasteds? ; poulets?; o ver roasteds? ; roasteds? poulets?; o roasteds ver? poulets?</target>
-        </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;RoastBeef" translate="yes" xml:space="preserve">
           <source>roasts?;beefs?;roasts? beefs?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">rôtis? ; Beefs? ; rôtis? Beefs?</target>
@@ -299,8 +291,8 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">légumes?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_promptDefinition" translate="yes" xml:space="preserve">
-          <source>What kind of {&amp;} would you like? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de {&amp;} souhaiteriez-vous? {||}</target>
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="translated" state-qualifier="mt-suggestion">Quel genre de {&amp;} souhaiteriez-vous? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Length_terms" translate="yes" xml:space="preserve">
           <source>lengths?</source>
@@ -315,8 +307,8 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">ressuage? ; longs? ; ressuage? Aspire?</target>
         </trans-unit>
         <trans-unit id="LIST;Length_promptDefinition" translate="yes" xml:space="preserve">
-          <source>What size of sandwich do you want? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quelle est la taille du "sandwich" voulez-vous? {||}</target>
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="translated" state-qualifier="mt-suggestion">Quelle est la taille du "sandwich" voulez-vous? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_terms" translate="yes" xml:space="preserve">
           <source>breads?</source>
@@ -412,7 +404,7 @@
         </trans-unit>
         <trans-unit id="LIST;message6" translate="yes" xml:space="preserve">
           <source>For sandwich toppings you have selected {Toppings}.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pour les garnitures "sandwich" vous avez sélectionné {garnitures}.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pour les garnitures "sandwich" vous avez sélectionné {Toppings}.</target>
         </trans-unit>
         <trans-unit id="LIST;Sauces_terms" translate="yes" xml:space="preserve">
           <source>sauces?</source>
@@ -486,6 +478,62 @@
           <source>None</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Aucun</target>
         </trans-unit>
+        <trans-unit id="VALUE;Sandwich_valueDescriptions;OvenRoastedChicken" translate="yes" xml:space="preserve">
+          <source>Oven Roasted Chicken</source>
+          <target state="new">Oven Roasted Chicken</target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation9_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation12_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="LIST;Sandwich_valueTerms;OvenRoastedChicken" translate="yes" xml:space="preserve">
+          <source>ovens?;roasteds?;chickens?;ovens? roasteds?;roasteds? chickens?;ovens? roasteds? chickens?</source>
+          <target state="new">ovens?;roasteds?;chickens?;ovens? roasteds?;roasteds? chickens?;ovens? roasteds? chickens?</target>
+        </trans-unit>
+        <trans-unit id="LIST;Bread_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Cheese_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Toppings_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Sauces_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation9_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;DeliveryAddress_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter {&amp;} {||}</source>
+          <target state="new">Please enter {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;DeliveryTime_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What time do you want your sandwich delivered? {||}</source>
+          <target state="new">What time do you want your sandwich delivered? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation12_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation12_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</source>
+          <target state="new">Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</target>
+        </trans-unit>
+        <trans-unit id="LIST;Rating_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</source>
+          <target state="new">Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
@@ -495,10 +543,6 @@
     </header>
     <body>
       <group id="FORMTEST/MICROSOFT.BOT.BUILDER.FORMFLOWTEST.PIZZAORDER.RESX" datatype="resx">
-        <trans-unit id="CULTURE;" translate="yes" xml:space="preserve">
-          <source>en-US</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">fr-FR</target>
-        </trans-unit>
         <trans-unit id="VALUE;NumberOfPizzas_description" translate="yes" xml:space="preserve">
           <source>Number Of Pizzas</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de Pizzas</target>
@@ -940,8 +984,8 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">byo ; construire votre propre</target>
         </trans-unit>
         <trans-unit id="LIST;Kind_promptDefinition" translate="yes" xml:space="preserve">
-          <source>What kind of pizza do you want? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de pizza que vous voulez? {||}</target>
+          <source>Please select a {&amp;} {||}</source>
+          <target state="translated" state-qualifier="mt-suggestion">Quel genre de pizza que vous voulez? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Specials_terms" translate="yes" xml:space="preserve">
           <source>specials</source>
@@ -1310,6 +1354,126 @@
         <trans-unit id="TEMPLATE;NotUnderstood;Kind" translate="yes" xml:space="preserve">
           <source>What does "{0}" mean???;Really "{0}"???</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">« {0} » veut dire quoi??? ; Vraiment « {0} »???</target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation18_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation25_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation26_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation27_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation28_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="LIST;NumberOfPizzas_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a number{? between {0} and {1}} for {&amp;} {||}</source>
+          <target state="new">Please enter a number{? between {0} and {1}} for {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Size_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;BYO.HalfAndHalf_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Would you like a {&amp;}? {||}</source>
+          <target state="new">Would you like a {&amp;}? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;BYO.Crust_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;BYO.Sauce_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;BYO.Toppings_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;BYO.HalfToppings_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;GourmetDelite_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Signature_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Stuffed_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;DeliveryAddress_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter {&amp;} {||}</source>
+          <target state="new">Please enter {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation18_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;Coupons_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Coupon_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select a {&amp;} {||}</source>
+          <target state="new">Please select a {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Rating_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</source>
+          <target state="new">Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Available_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a date and time for {&amp;} {||}</source>
+          <target state="new">Please enter a date and time for {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Bottles_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a number{? between {0} and {1}} for {&amp;} {||}</source>
+          <target state="new">Please enter a number{? between {0} and {1}} for {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation25_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation25_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</source>
+          <target state="new">Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation26_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation26_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</source>
+          <target state="new">Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation27_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation27_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?</source>
+          <target state="new">Would you like a {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation28_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation28_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</source>
+          <target state="new">Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</target>
         </trans-unit>
       </group>
     </body>

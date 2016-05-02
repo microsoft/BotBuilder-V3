@@ -88,12 +88,6 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             using (var scope = DialogModule.BeginLifetimeScope(SendToBotContainer, toBot))
             {
-                int TODO;
-                // Need to remove this once Will's stuff
-                if (toBot.Language != null)
-                {
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(toBot.Language);
-                }
                 return await SendAsync(scope, toBot, MakeRoot, token);
             }
         }

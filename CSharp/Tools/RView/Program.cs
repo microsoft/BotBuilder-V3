@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RView
 {
@@ -76,10 +74,10 @@ namespace RView
                 var methodName = methodParts.Last();
                 var className = string.Join(".", methodParts.Take(methodParts.Count() - 1));
                 var classType = assembly.GetType(className);
-                var form = classType.InvokeMember(methodName, 
-                    BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy, 
-                    null, null, null);
-                using (var stream = new FileStream(className + ".resx", FileMode.CreateNew))
+                var method = classType.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
+                var methodArgs = new object[method.GetParameters().Length];
+                var form = method.Invoke(null, methodArgs);
+                using (var stream = new FileStream(className + ".resx", FileMode.Create))
                 using (var writer = new ResXResourceWriter(stream))
                 {
                     form.GetType().InvokeMember("SaveResources",

@@ -34,10 +34,6 @@
           <source>Meatball Marinara</source>
           <target state="new">Meatball Marinara</target>
         </trans-unit>
-        <trans-unit id="VALUE;Sandwich_valueDescriptions;OverRoastedChicken" translate="yes" xml:space="preserve">
-          <source>Over Roasted Chicken</source>
-          <target state="new">Over Roasted Chicken</target>
-        </trans-unit>
         <trans-unit id="VALUE;Sandwich_valueDescriptions;RoastBeef" translate="yes" xml:space="preserve">
           <source>Roast Beef</source>
           <target state="new">Roast Beef</target>
@@ -262,10 +258,6 @@
           <source>meatballs?;marinaras?;meatballs? marinaras?</source>
           <target state="new">meatballs?;marinaras?;meatballs? marinaras?</target>
         </trans-unit>
-        <trans-unit id="LIST;Sandwich_valueTerms;OverRoastedChicken" translate="yes" xml:space="preserve">
-          <source>over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</source>
-          <target state="new">over;roasteds?;chickens?;over roasteds?;roasteds? chickens?;over roasteds? chickens?</target>
-        </trans-unit>
         <trans-unit id="LIST;Sandwich_valueTerms;RoastBeef" translate="yes" xml:space="preserve">
           <source>roasts?;beefs?;roasts? beefs?</source>
           <target state="new">roasts?;beefs?;roasts? beefs?</target>
@@ -299,8 +291,8 @@
           <target state="new">veggies?</target>
         </trans-unit>
         <trans-unit id="LIST;Sandwich_promptDefinition" translate="yes" xml:space="preserve">
-          <source>What kind of {&amp;} would you like? {||}</source>
-          <target state="new">What kind of {&amp;} would you like? {||}</target>
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Length_terms" translate="yes" xml:space="preserve">
           <source>lengths?</source>
@@ -315,8 +307,8 @@
           <target state="new">foots?;longs?;foots? longs?</target>
         </trans-unit>
         <trans-unit id="LIST;Length_promptDefinition" translate="yes" xml:space="preserve">
-          <source>What size of sandwich do you want? {||}</source>
-          <target state="new">What size of sandwich do you want? {||}</target>
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
         </trans-unit>
         <trans-unit id="LIST;Bread_terms" translate="yes" xml:space="preserve">
           <source>breads?</source>
@@ -485,6 +477,62 @@
         <trans-unit id="TEMPLATE;NoPreference;Specials" translate="yes" xml:space="preserve">
           <source>None</source>
           <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="VALUE;Sandwich_valueDescriptions;OvenRoastedChicken" translate="yes" xml:space="preserve">
+          <source>Oven Roasted Chicken</source>
+          <target state="new">Oven Roasted Chicken</target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation9_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="VALUE;confirmation12_description" translate="yes" xml:space="preserve" extype="System.Resources.ResXNullRef, System.Windows.Forms">
+          <source></source>
+          <target state="needs-review-translation"></target>
+        </trans-unit>
+        <trans-unit id="LIST;Sandwich_valueTerms;OvenRoastedChicken" translate="yes" xml:space="preserve">
+          <source>ovens?;roasteds?;chickens?;ovens? roasteds?;roasteds? chickens?;ovens? roasteds? chickens?</source>
+          <target state="new">ovens?;roasteds?;chickens?;ovens? roasteds?;roasteds? chickens?;ovens? roasteds? chickens?</target>
+        </trans-unit>
+        <trans-unit id="LIST;Bread_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Cheese_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Toppings_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;Sauces_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please select one or more {&amp;} {||}</source>
+          <target state="new">Please select one or more {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation9_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;DeliveryAddress_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter {&amp;} {||}</source>
+          <target state="new">Please enter {&amp;} {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;DeliveryTime_promptDefinition" translate="yes" xml:space="preserve">
+          <source>What time do you want your sandwich delivered? {||}</source>
+          <target state="new">What time do you want your sandwich delivered? {||}</target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation12_terms" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+        </trans-unit>
+        <trans-unit id="LIST;confirmation12_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</source>
+          <target state="new">Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</target>
+        </trans-unit>
+        <trans-unit id="LIST;Rating_promptDefinition" translate="yes" xml:space="preserve">
+          <source>Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</source>
+          <target state="new">Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}</target>
         </trans-unit>
       </group>
     </body>
