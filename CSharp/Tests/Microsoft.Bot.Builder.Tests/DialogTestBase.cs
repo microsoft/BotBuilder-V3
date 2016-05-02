@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 builder
                     .Register(c => singleton)
-                    .Keyed<object>(FiberModule.Key_DoNotSerialize);
+                    .Keyed(FiberModule.Key_DoNotSerialize, singleton.GetType());
             }
 
             return builder.Build();
