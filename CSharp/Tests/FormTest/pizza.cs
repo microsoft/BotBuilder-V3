@@ -31,15 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using FormTest.Resource;
+using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder.FormFlow;
 using System.IO;
-using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Linq;
 using System.Resources;
+using System.Text;
 using System.Threading;
 #pragma warning disable 649
 
@@ -270,7 +271,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     case SizeOptions.Family: cost = 20; break;
                 }
                 cost *= state.NumberOfPizzas;
-                return new PromptAttribute($"Your pizza will cost ${cost}");
+                return new PromptAttribute(string.Format(DynamicPizza.Cost, cost));
             };
             var form = builder
                 .Message("Welcome to the pizza bot!!!")
@@ -283,19 +284,19 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     .SetDefine(async (state, field) =>
                     {
                         var specials = field
-                        .SetFieldDescription("Specials")
-                        .SetFieldTerms("specials")
+                        .SetFieldDescription(DynamicPizza.Special)
+                        .SetFieldTerms(DynamicPizza.SpecialTerms.SplitList())
                         .RemoveValues();
                         if (state.NumberOfPizzas > 1)
                         {
                             specials
                                 .SetAllowsMultiple(true)
-                                .AddDescription("special1", "Free drink")
-                                .AddTerms("special1", "drink");
+                                .AddDescription("special1", DynamicPizza.Special1)
+                                .AddTerms("special1", DynamicPizza.Special1Terms.SplitList());
                         }
                         specials
-                            .AddDescription("special2", "Free garlic bread")
-                            .AddTerms("special2", "bread", "garlic");
+                            .AddDescription("special2", DynamicPizza.Special2)
+                            .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
                         return true;
                     }))
                 .Field("BYO.HalfAndHalf", isBYO)
@@ -316,17 +317,20 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         var str = value as string;
                         if (str.Length == 0 || str[0] < '1' || str[0] > '9')
                         {
-                            result.Feedback = "Address must start with number.";
+                            result.Feedback = DynamicPizza.AddressHelp;
                             result.IsValid = false;
                         }
                         else
                         {
-                            result.Feedback = "Your address is fine.";
+                            result.Feedback = DynamicPizza.AddressFine;
                         }
                         return result;
                     })
-                 .Message(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost}"); })
-                 .Confirm(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost} is that OK?"); })
+                .Message(costDelegate)
+                .Confirm(async (state) => {
+                    var cost = computeCost(state);
+                    return new PromptAttribute(string.Format(DynamicPizza.CostConfirm, cost));
+                })
                 .AddRemainingFields()
                 .Message("Rating = {Rating:F1} and [{Rating:F2}]")
                 .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)

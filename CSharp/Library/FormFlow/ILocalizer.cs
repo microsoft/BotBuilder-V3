@@ -69,14 +69,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Add(string key, IEnumerable<string> list);
 
         #region Documentation
-        /// <summary>   Adds value from dictionary under prefix;object. </summary>
+        /// <summary>   Adds value from dictionary under object if enumeration and prefix;object otherwise. </summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
         void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
-        /// <summary>   Adds values from dictionary seperated by semi-colons under prefix;object. </summary>
+        /// <summary>   Adds values from dictionary seperated by semi-colons under object if enumeration and prefix;object otherwise.</summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
@@ -147,9 +147,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Resource values are all strings.  The key and value can have different parts seperated by semi-colons.
         /// Key | Value | Description
         /// ----|-------|------------
-        /// VALUE;key | string | Simple value.
-        /// LIST;key | string[;string]* | List of values.
-        /// TEMPLATE;usage;field[;field]* | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
+        /// key;VALUE | string | Simple value.
+        /// key;LIST | string[;string]* | List of values.
+        /// usage;field[;field]*;TEMPLATE | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
         /// </remarks>
         void Save(IResourceWriter writer);
 

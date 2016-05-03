@@ -248,6 +248,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public PromptAttribute(TemplateAttribute pattern)
             : base(pattern)
         {
+            IsLocalizable = false;
         }
     }
 

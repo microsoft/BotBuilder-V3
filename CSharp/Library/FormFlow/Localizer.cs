@@ -55,12 +55,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void Add(string key, string translation)
         {
-            _translations.Add(key, translation);
+            if (translation != null)
+            {
+                _translations.Add(key, translation);
+            }
         }
 
         public void Add(string key, IEnumerable<string> list)
         {
-            _arrayTranslations.Add(key, list.ToArray());
+            if (list.Any())
+            {
+                _arrayTranslations.Add(key, list.ToArray());
+            }
         }
 
         public void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary)
@@ -69,7 +75,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 if (entry.Value.IsLocalizable)
                 {
-                    _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
+                    if (entry.Key.GetType().IsEnum)
+                    {
+                        var key = entry.Key.GetType().Name + "." + entry.Key;
+                        if (!_translations.ContainsKey(key))
+                        {
+                            _translations.Add(key, entry.Value.Description);
+                        }
+                    }
+                    else
+                    {
+                        _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
+                    }
                 }
             }
         }
@@ -80,7 +97,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 if (entry.Value.IsLocalizable)
                 {
-                    _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Alternatives);
+                    if (entry.Key.GetType().IsEnum)
+                    {
+                        var key = entry.Key.GetType().Name + "." + entry.Key;
+                        if (!_arrayTranslations.ContainsKey(key))
+                        {
+                            _arrayTranslations.Add(key, entry.Value.Alternatives);
+                        }
+                    }
+                    else
+                    {
+                        _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Alternatives);
+                    }
                 }
             }
         }
@@ -115,8 +143,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
+                string skey;
+                if (key.GetType().IsEnum)
+                {
+                    skey = key.GetType().Name + "." + key;
+                }
+                else
+                {
+                    skey = prefix + SEPARATOR + key;
+                }
                 string value;
-                if (_translations.TryGetValue(prefix + SEPARATOR + key, out value))
+                if (_translations.TryGetValue(skey, out value))
                 {
                     dictionary[key] = new DescribeAttribute(value);
                 }
@@ -127,8 +164,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
+                string skey;
+                if (key.GetType().IsEnum)
+                {
+                    skey = key.GetType().Name + "." + key;
+                }
+                else
+                {
+                    skey = prefix + SEPARATOR + key;
+                }
                 string[] values;
-                if (_arrayTranslations.TryGetValue(prefix + SEPARATOR + key, out values))
+                if (_arrayTranslations.TryGetValue(skey, out values))
                 {
                     dictionary[key] = new TermsAttribute(values);
                 }
@@ -163,9 +209,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 var entry = (DictionaryEntry) reader.Current;
                 var fullKey = (string)entry.Key;
-                var semi = fullKey.IndexOf(SEPARATOR[0]);
-                var type = fullKey.Substring(0, semi);
-                var key = fullKey.Substring(semi + 1);
+                var semi = fullKey.LastIndexOf(SEPARATOR[0]);
+                var key = fullKey.Substring(0, semi);
+                var type = fullKey.Substring(semi + 1);
                 var val = (string)entry.Value;
                 if (type == "VALUE")
                 {
@@ -205,12 +251,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var entry in _translations)
             {
-                writer.AddResource("VALUE" + SEPARATOR + entry.Key, entry.Value);
+                writer.AddResource(entry.Key + SEPARATOR + "VALUE", entry.Value);
             }
 
             foreach (var entry in _arrayTranslations)
             {
-                writer.AddResource("LIST" + SEPARATOR + entry.Key, MakeList(entry.Value));
+                writer.AddResource(entry.Key + SEPARATOR + "LIST", MakeList(entry.Value));
             }
 
             // Switch from field;usage -> patterns
@@ -239,7 +285,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var elements = entry.Key.SplitList().ToArray();
                 var usage = elements[0];
                 var patterns = elements.Skip(1);
-                var key = "TEMPLATE" + SEPARATOR + usage + SEPARATOR + MakeList(entry.Value);
+                var key = usage + SEPARATOR + MakeList(entry.Value) + SEPARATOR + "TEMPLATE";
                 writer.AddResource(key, MakeList(patterns));
             }
         }

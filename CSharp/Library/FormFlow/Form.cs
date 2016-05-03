@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             _fields = fields ?? new Fields<T>();
             _steps = steps ?? new List<IStep<T>>();
             _completion = completion;
-            _resources = new Localizer() { Culture = CultureInfo.CurrentCulture };
+            _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture};
         }
 
         internal override ILocalizer Resources

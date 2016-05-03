@@ -90,6 +90,11 @@
     <Compile Include="pizza.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\DynamicPizza.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicPizza.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -105,18 +110,23 @@
       <Name>RView</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
-    <EmbeddedResource Include="Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx" />
+    <EmbeddedResource Include="Resource\DynamicPizza.en.resx" />
+    <EmbeddedResource Include="Resource\DynamicPizza.fr.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx" />
+    <EmbeddedResource Include="Resource\DynamicPizza.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DynamicPizza.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <XliffResource Include="MultilingualResources\FormTest.en.xlf">
-      <SubType>Designer</SubType>
-    </XliffResource>
+    <XliffResource Include="MultilingualResources\FormTest.en.xlf" />
     <XliffResource Include="MultilingualResources\FormTest.fr.xlf">
       <SubType>Designer</SubType>
     </XliffResource>

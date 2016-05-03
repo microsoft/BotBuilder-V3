@@ -171,7 +171,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .ContinueWith<string, Choices>(async (ctx, locale) =>
                     {
                         Locale = await locale;
-                        CultureInfo.CurrentUICulture = new CultureInfo(Locale);
+                        CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(Locale);
+                        CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture;
                         return FormDialog.FromType<Choices>(FormOptions.PromptInStart);
                     })
                 .ContinueWith<Choices, object>(async (context, result) =>
