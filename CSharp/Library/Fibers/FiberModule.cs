@@ -111,6 +111,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             builder
+                .Register(c => Comparer<double>.Default)
+                .As<IComparer<double>>();
+
+            builder
+                .RegisterType<NormalizedTraits>()
+                .As<ITraits<double>>()
+                .SingleInstance();
+
+            builder
                 .Register(c => new Serialization.StoreInstanceByTypeSurrogate(priority: int.MaxValue))
                 .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
                 .SingleInstance();

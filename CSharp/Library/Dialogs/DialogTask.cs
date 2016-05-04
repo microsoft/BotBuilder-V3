@@ -293,4 +293,102 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
     }
+
+    public interface IScorable<Score>
+    {
+        Task<object> PrepareAsync<T>(T item, Delegate method);
+        bool TryScore(object state, out Score score);
+        Task PostAsync<T>(IDialogTask task, T item, object state);
+    }
+
+    public sealed class ScoringDialogTask<Score> : DelegatingDialogTask
+    {
+        private readonly IComparer<Score> comparer;
+        private readonly ITraits<Score> traits;
+        private readonly IScorable<Score>[] scorables;
+        public ScoringDialogTask(IDialogTask inner, IComparer<Score> comparer, ITraits<Score> traits, params IScorable<Score>[] scorables)
+            : base(inner)
+        {
+            SetField.NotNull(out this.comparer, nameof(comparer), comparer);
+            SetField.NotNull(out this.traits, nameof(traits), traits);
+            SetField.NotNull(out this.scorables, nameof(scorables), scorables);
+        }
+
+        public override async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            Score maximumScore = default(Score);
+            object maximumState = null;
+            IScorable<Score> maximumScorable = null;
+
+            Func<IScorable<Score>, Delegate, Task<bool>> UpdateAsync = async (scorable, frame) =>
+            {
+                var state = await scorable.PrepareAsync(item, frame);
+                Score score;
+                if (scorable.TryScore(state, out score))
+                {
+                    if (this.comparer.Compare(score, this.traits.Minimum) < 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(score));
+                    }
+
+                    if (this.comparer.Compare(score, this.traits.Maximum) > 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(score));
+                    }
+
+                    var compare = this.comparer.Compare(score, maximumScore);
+                    if (maximumScorable == null || compare > 0)
+                    {
+                        maximumScore = score;
+                        maximumState = state;
+                        maximumScorable = scorable;
+
+                        if (this.comparer.Compare(score, this.traits.Maximum) == 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            };
+
+            bool more = true;
+
+            foreach (var frame in this.Frames)
+            {
+                var scorable = frame.Target as IScorable<Score>;
+                if (scorable != null)
+                {
+                    more = await UpdateAsync(scorable, frame);
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (more)
+            {
+                foreach (var scorable in this.scorables)
+                {
+                    more = await UpdateAsync(scorable, null);
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (maximumScorable != null)
+            {
+                await maximumScorable.PostAsync<T>(this.inner, item, maximumState);
+                await base.PollAsync();
+            }
+            else
+            {
+                await base.PostAsync<T>(item, cancellationToken);
+            }
+        }
+    }
 }

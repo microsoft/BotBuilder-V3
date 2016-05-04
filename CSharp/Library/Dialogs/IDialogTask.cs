@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public abstract class DelegatingDialogTask : IDialogTask
     {
-        private readonly IDialogTask inner;
+        protected readonly IDialogTask inner;
         protected DelegatingDialogTask(IDialogTask inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
