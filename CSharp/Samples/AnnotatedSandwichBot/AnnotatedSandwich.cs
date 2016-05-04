@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     [Serializable]
     [Template(TemplateUsage.NotUnderstood, "I do not understand \"{0}\".", "Try again, I don't get \"{0}\".")]
     [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
-    class SandwichOrder
+    public class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
         // [Prompt("What kind of {&} would you like? {||}", ChoiceFormat ="{1}")]
@@ -95,10 +96,68 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Describe("your experience today")]
         public double? Rating;
 
+        public static IForm<SandwichOrder> BuildForm()
+        {
+            OnCompletionAsyncDelegate<SandwichOrder> processOrder = async (context, state) =>
+            {
+                await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
+            };
+
+            return new FormBuilder<SandwichOrder>()
+                        .Message("Welcome to the sandwich order bot!")
+                        .Field(nameof(Sandwich))
+                        .Field(nameof(Length))
+                        .Field(nameof(Bread))
+                        .Field(nameof(Cheese))
+                        .Field(nameof(Toppings))
+                        .Message("For sandwich toppings you have selected {Toppings}.")
+                        .Field(nameof(SandwichOrder.Sauces))
+                        .Field(new FieldReflector<SandwichOrder>(nameof(Specials))
+                            .SetType(null)
+                            .SetActive((state) => state.Length == LengthOptions.FootLong)
+                            .SetDefine(async (state, field) =>
+                            {
+                                field
+                                    .AddDescription("cookie", "Free cookie")
+                                    .AddTerms("cookie", "cookie", "free cookie")
+                                    .AddDescription("drink", "Free large drink")
+                                    .AddTerms("drink", "drink", "free drink");
+                                return true;
+                            }))
+                        .Confirm(async (state) =>
+                        {
+                            var cost = 0.0;
+                            switch (state.Length)
+                            {
+                                case LengthOptions.SixInch: cost = 5.0; break;
+                                case LengthOptions.FootLong: cost = 6.50; break;
+                            }
+                            return new PromptAttribute($"Total for your sandwich is ${cost:F2} is that ok?");
+                        })
+                        .Field(nameof(SandwichOrder.DeliveryAddress),
+                            validate: async (state, response) =>
+                            {
+                                var result = new ValidateResult { IsValid = true };
+                                var address = (response as string).Trim();
+                                if (address.Length > 0 && address[0] < '0' || address[0] > '9')
+                                {
+                                    result.Feedback = "Address must start with a number.";
+                                    result.IsValid = false;
+                                }
+                                return result;
+                            })
+                        .Field(nameof(SandwichOrder.DeliveryTime), "What time do you want your sandwich delivered? {||}")
+                        .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
+                        .AddRemainingFields()
+                        .Message("Thanks for ordering a sandwich!")
+                        .OnCompletionAsync(processOrder)
+                        .Build();
+        }
+
         // Cache of culture specific forms. 
         private static ConcurrentDictionary<string, IForm<SandwichOrder>> _forms = new ConcurrentDictionary<string, IForm<SandwichOrder>>();
 
-        public static IForm<SandwichOrder> BuildForm()
+        public static IForm<SandwichOrder> BuildLocalizedForm()
         {
             string culture = Thread.CurrentThread.CurrentUICulture.Name;
             IForm<SandwichOrder> form;
@@ -106,7 +165,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
             {
                 OnCompletionAsyncDelegate<SandwichOrder> processOrder = async (context, state) =>
                                 {
-                                    await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
+                                    await context.PostAsync(DynamicSandwich.Processing);
                                 };
                 form = new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
@@ -123,10 +182,10 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                             .SetDefine(async (state, field) =>
                                 {
                                     field
-                                        .AddDescription("cookie", "Free cookie")
-                                        .AddTerms("cookie", "cookie", "free cookie")
-                                        .AddDescription("drink", "Free large drink")
-                                        .AddTerms("drink", "drink", "free drink");
+                                        .AddDescription("cookie", DynamicSandwich.FreeCookie)
+                                        .AddTerms("cookie", "cookie", DynamicSandwich.FreeCookie)
+                                        .AddDescription("drink", DynamicSandwich.FreeDrink)
+                                        .AddTerms("drink", "drink", DynamicSandwich.FreeDrink);
                                     return true;
                                 }))
                         .Confirm(async (state) =>
@@ -137,7 +196,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                     case LengthOptions.SixInch: cost = 5.0; break;
                                     case LengthOptions.FootLong: cost = 6.50; break;
                                 }
-                                return new PromptAttribute($"Total for your sandwich is ${cost:F2} is that ok?");
+                                return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost));
                             })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
@@ -146,7 +205,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 var address = (response as string).Trim();
                                 if (address.Length > 0 && address[0] < '0' || address[0] > '9')
                                 {
-                                    result.Feedback = "Address must start with a number.";
+                                    result.Feedback = DynamicSandwich.BadAddress;
                                     result.IsValid = false;
                                 }
                                 return result;

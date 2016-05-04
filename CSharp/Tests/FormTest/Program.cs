@@ -218,7 +218,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:
-                            return MakeForm(() => AnnotatedSandwichOrder.BuildForm());
+                            return MakeForm(() => AnnotatedSandwichOrder.BuildLocalizedForm());
                         default:
                             throw new NotImplementedException();
                     }

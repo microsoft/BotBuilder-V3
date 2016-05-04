@@ -13,8 +13,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -81,12 +80,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Samples\AnnotatedSandwichBot\AnnotatedSandwich.cs">
-      <Link>AnnotatedSandwich.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Samples\SimpleSandwichBot\Sandwich.cs">
-      <Link>Sandwich.cs</Link>
-    </Compile>
     <Compile Include="pizza.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,6 +98,14 @@
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj">
+      <Project>{2e4d097f-8e3d-4223-9b39-1b29ea5e5e75}</Project>
+      <Name>Microsoft.Bot.Sample.AnnotatedSandwichBot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Samples\SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj">
+      <Project>{d51f252d-4041-4440-a3f5-da515e50b7d3}</Project>
+      <Name>Microsoft.Bot.Sample.SimpleSandwichBot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\RView\RView.csproj">
       <Project>{12cae029-7b8d-4928-8504-28746c36adb3}</Project>
       <Name>RView</Name>
@@ -117,9 +118,6 @@
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />
-    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
-    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
-    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx" />
     <EmbeddedResource Include="Resource\DynamicPizza.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DynamicPizza.Designer.cs</LastGenOutput>

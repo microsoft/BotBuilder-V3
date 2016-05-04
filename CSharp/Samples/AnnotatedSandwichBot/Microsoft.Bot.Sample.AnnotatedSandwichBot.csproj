@@ -145,6 +145,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AnnotatedSandwich.cs" />
+    <Compile Include="Resource\DynamicSandwich.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicSandwich.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -163,6 +168,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="Resource\DynamicSandwich.en.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.fr.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DynamicSandwich.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx" />

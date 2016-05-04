@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     };
 
     [Serializable]
-    class SandwichOrder
+    public class SandwichOrder
     {
         public SandwichOptions? Sandwich;
         public LengthOptions? Length;

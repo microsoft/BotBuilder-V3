@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     {
         internal static IDialog<SandwichOrder> MakeRootDialog()
         {
-            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildForm))
+            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildLocalizedForm))
                 .Do(async (context, order) =>
                 {
                     try
