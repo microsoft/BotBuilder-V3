@@ -12,10 +12,10 @@ namespace RView
     {
         static void Usage()
         {
-            Console.WriteLine("RView <resource file path> [-c <locale>] [-p <prefix>]");
+            Console.WriteLine("RView [<resource file path> [-c <locale>]] [-g <assembly> <static form method>]");
             Console.WriteLine("If -c is not specified will print the resource file on the console.");
             Console.WriteLine("-c <locale> : Will copy resources to a <path-locale> resource file in same format as input.");
-            Console.WriteLine("-g <assembly> <Static form building method name>: ");
+            Console.WriteLine("-g <assembly> <static form building method>: ");
             Console.WriteLine("   Will load assembly and invoke static method for building a FormFlow");
             Console.WriteLine("   form and then call SaveResources on it to generate a resource file for the form.");
             Console.WriteLine("   Example: RView -g Formtest.exe Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.BuildForm");
@@ -77,13 +77,15 @@ namespace RView
                 var method = classType.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
                 var methodArgs = new object[method.GetParameters().Length];
                 var form = method.Invoke(null, methodArgs);
-                using (var stream = new FileStream(className + ".resx", FileMode.Create))
+                var formPath = className + ".resx";
+                using (var stream = new FileStream(formPath, FileMode.Create))
                 using (var writer = new ResXResourceWriter(stream))
                 {
                     form.GetType().InvokeMember("SaveResources",
                         BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy,
                         null, form, new object[] { writer });
                 }
+                Console.WriteLine($"Generated {formPath} by calling {methodPath} in {assemblyPath}.");
             }
             else
             {
@@ -111,7 +113,7 @@ namespace RView
                         var fullKey = (string)entry.Key;
                         var value = (string)entry.Value;
                         var typeAndKey = fullKey.Split(SEPERATOR);
-                        var type = typeAndKey[0];
+                        var type = typeAndKey.Last();
                         if (writer == null)
                         {
                             Console.WriteLine($"{fullKey}: {value}");
