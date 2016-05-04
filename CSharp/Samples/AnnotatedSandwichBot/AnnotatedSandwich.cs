@@ -2,8 +2,10 @@
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 #pragma warning disable 649
 
 // The SandwichOrder is the simple form you want to fill out.  It must be serializable so the bot can be stateless.
@@ -93,14 +95,20 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Describe("your experience today")]
         public double? Rating;
 
+        // Cache of culture specific forms. 
+        private static ConcurrentDictionary<string, IForm<SandwichOrder>> _forms = new ConcurrentDictionary<string, IForm<SandwichOrder>>();
+
         public static IForm<SandwichOrder> BuildForm()
         {
-            OnCompletionAsyncDelegate<SandwichOrder> processOrder = async (context, state) =>
-                           {
-                               await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
-                           };
-
-            return new FormBuilder<SandwichOrder>()
+            string culture = Thread.CurrentThread.CurrentUICulture.Name;
+            IForm<SandwichOrder> form;
+            if (!_forms.TryGetValue(culture, out form))
+            {
+                OnCompletionAsyncDelegate<SandwichOrder> processOrder = async (context, state) =>
+                                {
+                                    await context.PostAsync("We are currently processing your sandwich. We will message you the status.");
+                                };
+                form = new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(Sandwich))
                         .Field(nameof(Length))
@@ -149,6 +157,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Message("Thanks for ordering a sandwich!")
                         .OnCompletionAsync(processOrder)
                         .Build();
+                _forms[culture] = form;
+            }
+            return form;
         }
     };
 }
