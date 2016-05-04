@@ -166,6 +166,42 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public struct LocalizedScope : IDisposable
+    {
+        private readonly CultureInfo previousCulture;
+        private readonly CultureInfo previousUICulture;
+
+        public LocalizedScope(string language)
+        {
+            this.previousCulture = Thread.CurrentThread.CurrentCulture;
+            this.previousUICulture = Thread.CurrentThread.CurrentUICulture;
+
+            if (!string.IsNullOrWhiteSpace(language))
+            {
+                CultureInfo found = null;
+                try
+                {
+                    found = CultureInfo.GetCultureInfo(language);
+                }
+                catch (CultureNotFoundException)
+                {
+                }
+
+                if (found != null)
+                {
+                    Thread.CurrentThread.CurrentCulture = found;
+                    Thread.CurrentThread.CurrentUICulture = found;
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            Thread.CurrentThread.CurrentCulture = previousCulture;
+            Thread.CurrentThread.CurrentUICulture = previousUICulture;
+        }
+    }
+
     public sealed class LocalizedDialogTask : DelegatingDialogTask
     {
         public LocalizedDialogTask(IDialogTask inner)
@@ -175,39 +211,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public override async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var previous = Thread.CurrentThread.CurrentUICulture;
-
-            var message = item as Message;
-            if (message != null)
-            {
-                if (!string.IsNullOrWhiteSpace(message.Language))
-                {
-                    CultureInfo found = null;
-                    try
-                    {
-                        found = CultureInfo.GetCultureInfo(message.Language);
-                    }
-                    catch (CultureNotFoundException)
-                    {
-                    }
-
-                    if (found != null)
-                    {
-                        Thread.CurrentThread.CurrentUICulture = found;
-                    }
-                }
-            }
-
-            try
+            using (new LocalizedScope((item as Message)?.Language))
             {
                 await base.PostAsync<T>(item, cancellationToken);
-            }
-            finally
-            {
-                if (message != null)
-                {
-                    Thread.CurrentThread.CurrentUICulture = previous;
-                }
             }
         }
     }

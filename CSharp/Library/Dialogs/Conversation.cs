@@ -117,17 +117,23 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         internal static async Task<Message> SendAsync<T>(ILifetimeScope scope, Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
-            var task= scope.Resolve<IDialogTask>();
-            await task.PostAsync(toBot, MakeRoot, token);
+            using (new LocalizedScope(toBot.Language))
+            {
+                var task = scope.Resolve<IDialogTask>();
+                await task.PostAsync(toBot, MakeRoot, token);
 
-            var botToUser = scope.Resolve<SendLastInline_BotToUser>();
-            return botToUser.ToUser;
+                var botToUser = scope.Resolve<SendLastInline_BotToUser>();
+                return botToUser.ToUser;
+            }
         }
 
         internal static async Task<Message> ResumeAsync<T>(ILifetimeScope scope, string botId, string userId, string conversationId, T toBot, CancellationToken token = default(CancellationToken), ConnectorType connectorType = ConnectorType.Cloud)
         {
             var client = scope.Resolve<IConnectorClient>(TypedParameter.From(connectorType));
             var message = await client.LoadMessageData(botId, userId, conversationId, token);
+
+            // TODO: resumption cookie likely does not preserve Message.Language
+            using (new LocalizedScope(message.Language))
             using (var inner = DialogModule.BeginLifetimeScope(scope, message))
             {
                 var task = inner.Resolve<IDialogTask>();
