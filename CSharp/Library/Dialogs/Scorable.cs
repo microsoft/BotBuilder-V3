@@ -142,4 +142,45 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
     }
+
+
+    public partial class Extensions
+    {
+        public static IDialog<T> WithScorable<T, Score>(this IDialog<T> antecedent, IScorable<Score> scorable)
+        {
+            return new WithScorableDialog<T, Score>(antecedent, scorable);
+        }
+
+        [Serializable]
+        private sealed class WithScorableDialog<T, Score> : IDialog<T>, IScorable<Score>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly IScorable<Score> Scorable;
+            public WithScorableDialog(IDialog<T> antecedent, IScorable<Score> scorable)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Scorable, nameof(scorable), scorable);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                context.Done(await result);
+            }
+            async Task<object> IScorable<Score>.PrepareAsync<Item>(Item item, Delegate method)
+            {
+                return await this.Scorable.PrepareAsync(item, method);
+            }
+            bool IScorable<Score>.TryScore(object state, out Score score)
+            {
+                return this.Scorable.TryScore(state, out score);
+            }
+            async Task IScorable<Score>.PostAsync<Item>(IDialogTask task, Item item, object state)
+            {
+                await this.Scorable.PostAsync(task, item, state);
+            }
+        }
+    }
 }
