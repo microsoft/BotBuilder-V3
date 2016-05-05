@@ -18,6 +18,9 @@
   <data name="CommandBackHelp" xml:space="preserve">
     <value>ارجع: ارجع إلى السؤال السابق</value>
   </data>
+  <data name="CommandBackTerms" xml:space="preserve">
+    <value>ارجع</value>
+  </data>
   <data name="CommandHelp" xml:space="preserve">
     <value>مساعدة</value>
   </data>

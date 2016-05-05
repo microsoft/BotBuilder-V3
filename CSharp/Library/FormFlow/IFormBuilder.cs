@@ -64,6 +64,11 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// like fields being based on your state class, but you can also build up your
     /// own definition of a form by using <see cref="Field{T}"/>, <see cref="FieldReflector{T}"/>
     /// or your own implementation of <see cref="IField{T}"/>.
+    /// 
+    /// Forms are sensitive to the current thread UI culture.  The Microsoft.Bot.Builder strings will localize
+    /// to that culture if available.  You can also localize the strings generated for your form by calling <see cref="Form{T}.SaveResources(System.Resources.IResourceWriter)"/>
+    /// or by using the RView tool and adding that resource to your project.  For strings in dynamic fields, messages or confirmations you will
+    /// need to use the normal C# mechanisms to localize them.  Look in the overview documentation for more information.
     /// </remarks>
     /// <typeparam name="T">    Form state. </typeparam>
     #endregion

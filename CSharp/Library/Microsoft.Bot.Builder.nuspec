@@ -1,30 +1,45 @@
 ﻿<?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-		<id>$id$</id>
+		<id>Microsoft.Bot.Builder</id>
 		<version>$version$</version>
 		<authors>Microsoft</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>
-Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write bots.
+			Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write bots.
 
-High Level Features:
-* Powerful dialog system with dialogs that are isolated and composable.
-* Built-in dialogs for simple things like Yes/No, strings, numbers, enumerations.
-* Built-in dialogs that utilize powerful AI frameworks like LUIS http://luis.ai.
-* Bots are stateless which helps them scale.
-* Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
-See http://docs.botframework.com/sdkreference/csharp/ for documentation.
+			High Level Features:
+			* Powerful dialog system with dialogs that are isolated and composable.
+			* Built-in dialogs for simple things like Yes/No, strings, numbers, enumerations.
+			* Built-in dialogs that utilize powerful AI frameworks like LUIS http://luis.ai.
+			* Bots are stateless which helps them scale.
+			* Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
+			See http://docs.botframework.com/sdkreference/csharp/ for documentation.
 		</description>
 		<summary>Microsoft.Bot.Builder is a framework for easily building stateless bots that span from regular expressions to AI based natural language.</summary>
 		<language>en-US</language>
 		<dependencies>
+			<dependency id="Autofac" version="3.5.2"/>
+			<dependency id="autorest" version="0.15.0"/>
 			<dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
 			<dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
-			<dependency id="Microsoft.Bot.Connector" version="1.0.0.0" />
+			<dependency id="Microsoft.Bot.Connector" version="1.1.0" />
 			<dependency id="Microsoft.Rest.ClientRuntime" version="1.8.2" />
-			<dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1.0" />
-			<dependency id="Newtonsoft.Json" version="7.0.1" />
+			<dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2.1" />
+			<dependency id="Newtonsoft.Json" version="8.0.3" />
 		</dependencies>
 	</metadata>
+	<files>
+		<file src="bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
+		<file src="bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
+		<file src="..\tools\rview\bin\release\RView.exe" target="tools"/>
+		<file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
+		<file src="bin\release\en\*.dll" target="lib\net46\en"/>
+		<file src="bin\release\es\*.dll" target="lib\net46\es"/>
+		<file src="bin\release\fa\*.dll" target="lib\net46\fa"/>
+		<file src="bin\release\fr\*.dll" target="lib\net46\fr"/>
+		<file src="bin\release\ja\*.dll" target="lib\net46\ja"/>
+		<file src="bin\release\ru\*.dll" target="lib\net46\ru"/>
+		<file src="bin\release\zh-hans\*.dll" target="lib\net46\zh-hans"/>
+	</files>
 </package>
