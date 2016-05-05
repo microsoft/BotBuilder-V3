@@ -159,6 +159,10 @@ We have not provided a general mechanism for developers to add new channels to t
 
 Any bot with an internet-accessible REST endpoint can be connected to Skype via the Bot Framework Bot Connector. The Bot Framework provides SDKs designed to create text/sms, image and card-capable bots, which constitute the majority of bot interactions today across conversation experiences. The [Skype Bot SDK and APIs](http://www.skype.com/en/developer/signup) enable those interactions plus bot interactions which are Skype-specific and tuned to leverage the unique capabilities found in Skype, among them rich audio and video experiences.
 
+## Is Facebook Messenger a supported channel?
+
+Yes! With the addition of Facebook Messenger as a supported channel, your text, image, card, and button capable bots may reach more people across an even broader variety of the world’s top conversation experiences.
+
 ## Why are Google Hangouts and other channels missing? Do you intend to support these channels in the future?
 
 A variety of factors contribute to channel support, among them SDK availability, user demand and schedule. When there is an available SDK for these channels we intend to make them available in the framework.
@@ -183,6 +187,10 @@ At its core, a bot is simply a piece of code that exposes a REST endpoint that m
 
 The [Bot Directory](http://bots.botframework.com) (coming soon) is a publicly accessible list of all the bots registered with Bot Connector that have been approved to appear in the directory. Each Bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
 The Bot Directory includes featured bots and is searchable to aid discovery. Developers can choose whether or not to list their bot in the directory during bot registration.
+
+## Can I submit my bot to the Bot Directory?
+
+The Bot Directory, the public directory of bots registered with Bot Framework, is now open to developers for bot submission and review. The Bot Directory itself isn’t live yet, but when it is available, users will be able to discover, try and add bots to their favorite conversation experiences.
 
 ## You state that the Bot Directory is “coming soon” – when will it be available?
 
