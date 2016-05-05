@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
             var assembly = typeof(T).Assembly;
             var lang = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
-            if (lang != null)
+            if (lang != null && !string.IsNullOrWhiteSpace(lang.CultureName))
             {
                 try
                 {

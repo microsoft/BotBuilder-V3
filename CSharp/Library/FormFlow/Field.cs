@@ -483,6 +483,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary> Sets the recognizer for the field. </summary>
         /// <param name="recognizer">   The recognizer for the field. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
+        /// <remarks>
+        /// This should only be called when you are dynamically defining a field using a <see cref="DefineAsyncDelegate{T}"/> because
+        /// recognizers usually require the field and often change if the localization changes.
+        /// </remarks>
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             _recognizer = recognizer;
