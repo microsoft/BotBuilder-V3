@@ -43,6 +43,23 @@ Or you can pass in the appId appSecret to the attribute directly:
 {% endhighlight %}
 
 
+### Implementing your own caller validation
+To implement your own caller validation you are simply implementing basic authentication check against values in the 
+the header.
+
+1. Verify authorization schema is basic
+2. Verify base64 decoded value of the authorization parameter is the AppId and AppSecret for your bot 
+
+Sample C# code:
+
+{% highlight C# %}
+    if (req?.Headers?.Authorization?.Scheme != "Basic" || req?.Headers?.Authorization?.Parameter == null)
+        return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+    string[] parts = Encoding.Default.GetString(Convert.FromBase64String(req?.Headers?.Authorization?.Parameter)).Split(':').Select(s => s.Trim()).ToArray();
+    if ((parts.Length != 2) || (parts[0] != AppId ) || (parts[1] != AppSecret ))
+        return req.CreateResponse(HttpStatusCode.Forbidden);
+{% endhighlight %}
 
 ### Debugging access issues
 
