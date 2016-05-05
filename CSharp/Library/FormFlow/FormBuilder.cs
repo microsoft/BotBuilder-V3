@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 {
                     builder.Field(new FieldReflector<T>(path));
                 }
-                builder.Confirm("Is this your selection?\n{*}");
+                builder.Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
             }
             var assembly = typeof(T).Assembly;
             var lang = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
@@ -242,6 +242,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             {TemplateUsage.Bool, 0 },
             { TemplateUsage.BoolHelp, 1},
             { TemplateUsage.Clarify, 1},
+            { TemplateUsage.Confirmation, 0 },
             { TemplateUsage.CurrentChoice, 0},
             { TemplateUsage.DateTime, 0},
             { TemplateUsage.DateTimeHelp, 2},

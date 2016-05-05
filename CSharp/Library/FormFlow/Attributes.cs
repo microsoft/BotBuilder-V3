@@ -283,6 +283,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         Clarify,
 
         /// <summary>
+        /// Default confirmation.
+        /// </summary>
+        Confirmation,
+
+        /// <summary>
         /// Show the current choice.
         /// </summary>
         /// <remarks>

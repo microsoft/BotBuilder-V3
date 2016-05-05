@@ -234,4 +234,8 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>Не определено</value>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>Это ваш выбор? 
+{*}</value>
+  </data>
 </root>

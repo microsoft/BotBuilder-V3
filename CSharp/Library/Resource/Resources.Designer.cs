@@ -340,6 +340,16 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is this your selection?
+        ///{*}.
+        /// </summary>
+        internal static string TemplateConfirmation {
+            get {
+                return ResourceManager.GetString("TemplateConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (current choice: {}).
         /// </summary>
         internal static string TemplateCurrentChoice {

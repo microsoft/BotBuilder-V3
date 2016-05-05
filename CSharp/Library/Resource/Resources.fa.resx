@@ -232,4 +232,8 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>نامشخص</value>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>این انتخاب شما است؟ 
+{*}</value>
+  </data>
 </root>

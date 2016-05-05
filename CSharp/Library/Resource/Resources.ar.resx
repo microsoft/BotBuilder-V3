@@ -232,4 +232,8 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>غير محدد</value>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>هذا هو التحديد الخاص بك؟ 
+{*}</value>
+  </data>
 </root>

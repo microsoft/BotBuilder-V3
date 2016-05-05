@@ -297,6 +297,12 @@
           <source>Unspecified</source>
           <target state="final" state-qualifier="tm-suggestion">指定なし</target>
         </trans-unit>
+        <trans-unit id="TemplateConfirmation" translate="yes" xml:space="preserve">
+          <source>Is this your selection?
+{*}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">これはあなたの選択ですか。
+{*}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

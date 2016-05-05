@@ -314,6 +314,8 @@ namespace Microsoft.Bot.Builder.FormFlow
             // {0} is term being clarified
             new TemplateAttribute(TemplateUsage.Clarify, Resources.TemplateClarify),
 
+            new TemplateAttribute(TemplateUsage.Confirmation, Resources.TemplateConfirmation),
+
             new TemplateAttribute(TemplateUsage.CurrentChoice, Resources.TemplateCurrentChoice),
 
             new TemplateAttribute(TemplateUsage.DateTime, Resources.TemplateDateTime),

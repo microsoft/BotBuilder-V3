@@ -296,6 +296,12 @@
           <source>Unspecified</source>
           <target state="final">随便</target>
         </trans-unit>
+        <trans-unit id="TemplateConfirmation" translate="yes" xml:space="preserve">
+          <source>Is this your selection?
+{*}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">这是您的选择吗？
+{*}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

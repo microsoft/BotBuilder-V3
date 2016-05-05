@@ -214,6 +214,10 @@
     <value>By "{0}" {&amp;} did you mean {||}</value>
     <comment>0-term being clarified</comment>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>Is this your selection?
+{*}</value>
+  </data>
   <data name="TemplateCurrentChoice" xml:space="preserve">
     <value>(current choice: {})</value>
   </data>

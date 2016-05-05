@@ -232,4 +232,8 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>随便</value>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>这是您的选择吗？
+{*}</value>
+  </data>
 </root>

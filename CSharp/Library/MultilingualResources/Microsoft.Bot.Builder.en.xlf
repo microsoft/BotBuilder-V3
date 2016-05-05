@@ -14,11 +14,11 @@
           <source>Back: Go back to the previous question.</source>
           <target state="final">Back: Go back to the previous question.</target>
         </trans-unit>
-				<trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
+        <trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
           <source>backup;go back;back</source>
           <target state="new">backup;go back;back</target>
         </trans-unit>
-				<trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
+        <trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
           <source>Help</source>
           <target state="final">Help</target>
         </trans-unit>
@@ -295,6 +295,12 @@
         <trans-unit id="TemplateUnspecified" translate="yes" xml:space="preserve">
           <source>Unspecified</source>
           <target state="final">Unspecified</target>
+        </trans-unit>
+        <trans-unit id="TemplateConfirmation" translate="yes" xml:space="preserve">
+          <source>Is this your selection?
+{*}</source>
+          <target state="new">Is this your selection?
+{*}</target>
         </trans-unit>
       </group>
     </body>

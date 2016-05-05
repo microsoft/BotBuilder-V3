@@ -233,4 +233,8 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>Sin especificar</value>
   </data>
+  <data name="TemplateConfirmation" xml:space="preserve">
+    <value>¿Es la selección? 
+{*}</value>
+  </data>
 </root>
