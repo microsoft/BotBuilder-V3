@@ -96,7 +96,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c => new ScoringDialogTask<double>(
                                 new LocalizedDialogTask(
-                                    new DialogTask(c.Resolve<Func<IDialogContext>>(), c.Resolve<IStore<IFiberLoop<DialogTask>>>())), c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>()))
+                                    new DialogTask(c.Resolve<Func<IDialogContext>>(), c.Resolve<IStore<IFiberLoop<DialogTask>>>())
+                                    ),
+                                c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), c.Resolve<IScorable<double>[]>()))
                 .As<IDialogTask>()
                 .As<IDialogStack>()
                 .InstancePerLifetimeScope();
