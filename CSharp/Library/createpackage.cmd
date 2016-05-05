@@ -1,4 +1,4 @@
-@echo off
+rem @echo off
 setlocal
 setlocal enabledelayedexpansion
 setlocal enableextensions
@@ -6,9 +6,6 @@ set errorlevel=0
 erase /s *.nupkg
 msbuild /property:Configuration=release Microsoft.Bot.Builder.csproj 
 msbuild /property:Configuration=release ..\tools\rview\rview.csproj
-for /f "skip=1 tokens=3-6 delims=:. " %%i in ('version bin\release\Microsoft.Bot.Builder.dll') do (
-	set version=%%i.%%j.%%k.%%l
-	goto skip
-)
-:skip
+for /f %%v in ('powershell -noprofile "(Get-Command .\bin\release\Microsoft.Bot.Builder.dll).FileVersionInfo.FileVersion"') do set version=%%v
 ..\packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe pack Microsoft.Bot.Builder.nuspec -symbols -properties version=%version%
+

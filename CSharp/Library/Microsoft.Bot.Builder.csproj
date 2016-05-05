@@ -103,6 +103,7 @@
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
+    <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\LuisModel.cs" />
     <Compile Include="Luis\LuisService.cs" />
@@ -193,9 +194,6 @@
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ja.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ru.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.zh-Hans.xlf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="version.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" />
