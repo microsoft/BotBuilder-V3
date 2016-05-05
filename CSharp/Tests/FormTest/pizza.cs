@@ -339,7 +339,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
                 .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
-#if LOCALIZE
             if (localize)
             {
                 using (var stream = new FileStream("pizza-" + Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName + ".resx", FileMode.Open))
@@ -349,7 +348,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     form.Localize(reader.GetEnumerator(), out missing, out extra);
                 }
             }
-#endif
             return form;
         }
     };

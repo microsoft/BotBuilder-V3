@@ -14,11 +14,11 @@
           <source>Back: Go back to the previous question.</source>
           <target state="final">ارجع: ارجع إلى السؤال السابق</target>
         </trans-unit>
-				<trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
+        <trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
           <source>backup;go back;back</source>
-          <target state="new">backup;go back;back</target>
+          <target state="translated">ارجع</target>
         </trans-unit>
-				<trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
+        <trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
           <source>Help</source>
           <target state="final">مساعدة</target>
         </trans-unit>

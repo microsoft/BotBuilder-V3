@@ -67,7 +67,6 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-#if LOCALIZE
         public override void SaveResources(IResourceWriter writer)
         {
             _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
@@ -86,7 +85,6 @@ namespace Microsoft.Bot.Builder.FormFlow
                 step.Localize();
             }
         }
-#endif
 
         internal override bool IgnoreAnnotations
         {

@@ -41,12 +41,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     #region Documentation
     /// <summary>   Interface for localizing string resources. </summary>
     #endregion
-#if LOCALIZE
-    public
-#else
-    internal 
-#endif
-        interface ILocalizer
+    public interface ILocalizer
     {
         /// <summary>
         /// Return the localizer culture.

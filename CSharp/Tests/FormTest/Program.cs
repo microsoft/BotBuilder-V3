@@ -36,7 +36,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 #pragma warning disable 649
 
@@ -46,7 +45,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
@@ -60,9 +58,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     {
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
         WithState,
-#if LOCALIZE
         Localized,
-#endif
         SimpleSandwichBot, AnnotatedSandwichBot
     };
     [Serializable]
@@ -202,7 +198,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
                             () => PizzaOrder.BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
-#if LOCALIZE
                         case DebugOptions.Localized:
                             {
                                 var form = PizzaOrder.BuildForm(false, false);
@@ -214,7 +209,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c " + Locale) { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
                                 return MakeForm(() => PizzaOrder.BuildForm(false, false, true));
                             }
-#endif
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:

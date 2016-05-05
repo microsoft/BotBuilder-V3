@@ -44,7 +44,6 @@ namespace Microsoft.Bot.Builder.FormFlow
     #endregion
     public abstract class IForm<T>
     {
-#if LOCALIZE
 #region Documentation
         /// <summary>   Save all string resources to binary stream for future localization. </summary>
         /// <param name="writer">   Where to write resources. </param>
@@ -61,7 +60,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </remarks>
 #endregion
         public abstract void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
-#endif
 
 #region Documentation
         /// <summary>   Gets the resource localizer. </summary>

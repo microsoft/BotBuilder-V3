@@ -82,7 +82,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-#if LOCALIZE
         public void SaveResources()
         {
             _field.SaveResources();
@@ -92,7 +91,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _field.Localize();
         }
-#endif
 
         public bool Active(T state)
         {
@@ -484,7 +482,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-#if LOCALIZE
         public void SaveResources()
         {
             _field.SaveResources();
@@ -494,7 +491,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _field.Localize();
         }
-#endif
 
         public bool Active(T state)
         {
@@ -679,7 +675,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
         }
 
-#if LOCALIZE
         public void SaveResources()
         {
         }
@@ -687,7 +682,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public void Localize()
         {
         }
-#endif
 
         public IEnumerable<string> Dependencies
         {
@@ -798,7 +792,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return prompt.Prompt(state, "");
         }
 
-#if LOCALIZE
         public void SaveResources()
         {
             if (_message == null)
@@ -816,7 +809,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 if (patterns != null) _promptDefinition.Patterns = patterns;
             }
         }
-#endif
 
         public StepType Type
         {

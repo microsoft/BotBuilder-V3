@@ -5,6 +5,7 @@ using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 #pragma warning disable 649
@@ -155,11 +156,11 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         }
 
         // Cache of culture specific forms. 
-        private static ConcurrentDictionary<string, IForm<SandwichOrder>> _forms = new ConcurrentDictionary<string, IForm<SandwichOrder>>();
+        private static ConcurrentDictionary<CultureInfo, IForm<SandwichOrder>> _forms = new ConcurrentDictionary<CultureInfo, IForm<SandwichOrder>>();
 
         public static IForm<SandwichOrder> BuildLocalizedForm()
         {
-            string culture = Thread.CurrentThread.CurrentUICulture.Name;
+            var culture = Thread.CurrentThread.CurrentUICulture;
             IForm<SandwichOrder> form;
             if (!_forms.TryGetValue(culture, out form))
             {
@@ -167,6 +168,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 {
                                     await context.PostAsync(DynamicSandwich.Processing);
                                 };
+                // Form builder uses the thread culture to automatically switch framework strings
+                // and also your static strings as well.  Dynamically defined fields must do their own localization.
                 form = new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(Sandwich))

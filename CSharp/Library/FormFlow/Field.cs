@@ -226,7 +226,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
         #endregion
 
-#if LOCALIZE
         #region IFieldResources
 
         public virtual void SaveResources()
@@ -284,7 +283,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         #endregion
-#endif
 
         #region IFieldPrompt
 
@@ -960,8 +958,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 foreach (var attribute in type.GetCustomAttributes(typeof(TemplateAttribute)))
                 {
-                    var template = attribute as TemplateAttribute;
-                    AddTemplate(template);
+                    AddTemplate((TemplateAttribute) attribute);
                 }
             }
         }
