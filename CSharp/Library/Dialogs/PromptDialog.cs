@@ -42,6 +42,32 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    /// <summary>
+    /// The style of generated prompt
+    /// </summary>
+    public enum PromptSyle
+    {
+        /// <summary>
+        /// Generate buttons for choices and let connector generate the right style based on channel capabilities
+        /// </summary>
+        Auto,
+        
+        /// <summary>
+        /// Show choices on the same line.
+        /// </summary>
+        Inline,
+
+        /// <summary>
+        /// Show choices with one per line.
+        /// </summary>
+        PerLine,
+
+        /// <summary>
+        /// Do not show possible choices in the prompt
+        /// </summary>
+        None
+    }
+
     /// <summary>   Dialog factory for simple prompts. </summary>
     public class PromptDialog
     {
@@ -63,9 +89,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt">   The prompt to show to the user. </param>
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
-        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3)
+        /// <param name="promptStyle"> Style of the param <see cref="PromptSyle" /> </param>
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3, PromptSyle promptStyle = PromptSyle.Auto)
         {
-            var child = new PromptConfirm(prompt, retry, attempts);
+            var child = new PromptConfirm(prompt, retry, attempts, promptStyle);
             context.Call<bool>(child, resume);
         }
 
@@ -100,9 +127,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt">   The prompt to show to the user. </param>
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
-        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3)
+        /// <param name="promptStyle"> Style of the param <see cref="PromptSyle" /> </param>
+        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3, PromptSyle promptStyle = PromptSyle.Auto)
         {
-            var child = new PromptChoice<T>(options, prompt, retry, attempts);
+            var child = new PromptChoice<T>(options, prompt, retry, attempts, promptStyle);
             context.Call<T>(child, resume);
         }
 
@@ -144,7 +172,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a confirmation. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int)"/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int, PromptSyle)"/>.</remarks>
         [Serializable]
         public sealed class PromptConfirm : Prompt<bool>
         {
@@ -152,8 +180,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
-            public PromptConfirm(string prompt, string retry, int attempts)
-                : base(prompt, retry, attempts)
+            /// <param name="promptStyle"> Style of the param <see cref="PromptSyle" /> </param>
+            public PromptConfirm(string prompt, string retry, int attempts, PromptSyle promptStyle = PromptSyle.Auto)
+                : base(prompt, retry, attempts, promptStyle)
             {
             }
 
@@ -176,6 +205,14 @@ namespace Microsoft.Bot.Builder.Dialogs
                     }
                 }
                 return found;
+            }
+
+            protected override Message MakePrompt(IDialogContext context, string prompt)
+            {
+                var msg = context.MakeMessage();
+                var options = new String[] { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+                msg.MakePrompt(prompt, options, promptStyle);
+                return msg;
             }
 
             protected override string DefaultRetry
@@ -220,7 +257,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 : base(prompt, retry, attempts)
             {
             }
-
+            
             protected override bool TryParse(Message message, out double result)
             {
                 return double.TryParse(message.Text, out result);
@@ -228,7 +265,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a choice from a set of choices. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int)"/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int, PromptSyle)"/>.</remarks>
         [Serializable]
         public class PromptChoice<T> : Prompt<T>
         {
@@ -239,8 +276,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
-            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts)
-                : base(prompt, retry, attempts)
+            /// <param name="promptStyle"> Style of the param <see cref="PromptSyle" /> </param>
+            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptSyle promptStyle = PromptSyle.Auto)
+                : base(prompt, retry, attempts, promptStyle)
             {
                 SetField.NotNull(out this.options, nameof(options), options);
             }
@@ -248,6 +286,13 @@ namespace Microsoft.Bot.Builder.Dialogs
             public virtual bool IsMatch(T option, string text)
             {
                 return option.ToString().IndexOf(text.Trim(), StringComparison.CurrentCultureIgnoreCase) >= 0;
+            }
+
+            protected override Message MakePrompt(IDialogContext context, string prompt)
+            {
+                var msg = context.MakeMessage();
+                msg.MakePrompt(prompt, options, promptStyle);
+                return msg; 
             }
 
             protected override bool TryParse(Message message, out T result)
@@ -268,28 +313,85 @@ namespace Microsoft.Bot.Builder.Dialogs
                 return false;
             }
         }
+
+    }
+
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// Generates buttons from options and add them to the message.
+        /// </summary>
+        /// <remarks>
+        /// <typeparamref name="T"/> should implement ToString().
+        /// </remarks>
+        /// <typeparam name="T"> Type of the options.</typeparam>
+        /// <param name="message"> The message that the buttons will be added to.</param>
+        /// <param name="options"> The options that cause generation of buttons.</param>
+        public static void AddButtons<T>(this Message message, IEnumerable<T> options)
+        {
+            var actions = new List<Connector.Action>();
+            foreach (var option in options)
+            {
+                actions.Add(new Connector.Action
+                {
+                    Title = option.ToString(),
+                    Message = option.ToString()
+                });
+            }
+            message.Attachments = new Attachment[]
+            {
+                new Attachment
+                {
+                    Actions  = actions
+                }
+            };
+        }
+
+        internal static void MakePrompt<T>(this Message message, string prompt, IEnumerable<T> options = null, PromptSyle promptStyle = PromptSyle.Auto)
+        {
+            switch (promptStyle)
+            {
+                case PromptSyle.Auto:
+                    message.Text = prompt;
+                    message.AddButtons(options);
+                    break;
+                case PromptSyle.Inline:
+                    message.Text = $"{prompt} {FormFlow.Advanced.Language.BuildList(options.Select(option => option.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
+                    break;
+                case PromptSyle.PerLine:
+                    message.Text = $"{prompt}\n{FormFlow.Advanced.Language.BuildList(options.Select(option => $"* {option.ToString()}"), "\n", "\n")}";
+                    break;
+                case PromptSyle.None:
+                default:
+                    message.Text = prompt;
+                    break;
+            }
+        }
     }
 }
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    
     [Serializable]
     public abstract class Prompt<T> : IDialog<T>
     {
         protected readonly string prompt;
         protected readonly string retry;
         protected int attempts;
+        protected readonly PromptSyle promptStyle; 
 
-        public Prompt(string prompt, string retry, int attempts)
+        public Prompt(string prompt, string retry, int attempts, PromptSyle promptStyle = PromptSyle.Auto)
         {
             SetField.NotNull(out this.prompt, nameof(prompt), prompt);
             SetField.NotNull(out this.retry, nameof(retry), retry ?? prompt);
+            this.promptStyle = promptStyle;
             this.attempts = attempts;
         }
-
+        
         async Task IDialog<T>.StartAsync(IDialogContext context)
         {
-            await context.PostAsync(this.prompt);
+            await context.PostAsync(this.MakePrompt(context, this.prompt)); 
             context.Wait(MessageReceived);
         }
 
@@ -306,7 +408,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 if (this.attempts > 0)
                 {
                     var retry = this.retry ?? this.DefaultRetry;
-                    await context.PostAsync(retry);
+                    await context.PostAsync(this.MakePrompt(context, this.retry));
                     context.Wait(MessageReceived);
                 }
                 else
@@ -318,6 +420,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
 
         protected abstract bool TryParse(Message message, out T result);
+
+        protected virtual Message MakePrompt(IDialogContext context, string prompt)
+        {
+            var msg = context.MakeMessage();
+            msg.Text = prompt;
+            return msg; 
+        }
 
         protected virtual string DefaultRetry
         {
