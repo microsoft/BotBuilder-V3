@@ -14,17 +14,17 @@ parent2: Messages
 The  default message with markdown gives you a pretty rich pallete to describe your response in way that allows your message to "just work" across
 a variety of channels.  Most of the heavy lifting is done by the channel adapter, adapating your message to the way it is expressed on that channel.
 
-If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native 
-metadata to that channel giving you much deeper control over how your bot interacts on a channel.  The way you do this is to pass 
+If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
+metadata to that channel giving you much deeper control over how your bot interacts on a channel.  The way you do this is to pass
 extra properties via the *ChannelData* property.
 
->NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal message. 
+>NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal message.
 
 
 ## Custom Email Messages
 The Email channel optionally supports the ability to send custom properties to take advantage of what you can do with email.
 
-When you receive a message via email the channelData will have metadata from the source message.  
+When you receive a message via email the channelData will have metadata from the source message.
 
 When you reply to a message via the email channel you can specify the following properties:
 
@@ -39,10 +39,10 @@ Example Message:
 
 {% highlight json %}
     {
-        "type": "Message", 
-        "language": "en", 
-        "text": "I send you awesome message", 
-        "channelData": 
+        "type": "Message",
+        "language": "en",
+        "text": "I send you awesome message",
+        "channelData":
         {
             "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
             "subject":"Super awesome mesage subject",
@@ -66,16 +66,16 @@ that go into the attachments property
 |*unfurl_media*  | true or false *See [Slack unfurling](https://api.slack.com/docs/unfurling)*
 
 When slack processes a bot connector message it will use the normal message properties to create a slack message, and
-then it will merge in the values from the *channelData* property if they are provided by the sender. 
+then it will merge in the values from the *channelData* property if they are provided by the sender.
 
 Example Message:
 
 {% highlight json %}
     {
-        "type": "Message", 
-        "language": "en", 
-        "text": "This is a test", 
-        "channelData": 
+        "type": "Message",
+        "language": "en",
+        "text": "This is a test",
+        "channelData":
         {
             "attachments": [
                 {
@@ -105,11 +105,11 @@ Example Message:
                     "image_url": "http://my-website.com/path/to/image.jpg",
                     "thumb_url": "http://example.com/path/to/thumb.png"
                 }
-            ],   
+            ],
             "unfurl_links":false,
             "unfurl_media":false,
         },
-        ... 
+        ...
     }
 {% endhighlight %}
 
@@ -128,13 +128,13 @@ Example Message:
 {% highlight json %}
 
     {
-        "type": "Message", 
-        "language": "en", 
-        "text": "This is a test", 
-        "channelData": 
+        "type": "Message",
+        "language": "en",
+        "text": "This is a test",
+        "channelData":
         {
             "notification_type" : "NO_PUSH",
-            "attachment": 
+            "attachment":
             {
                 "type":"template",
                 "payload":
@@ -143,9 +143,9 @@ Example Message:
                     "recipient_name":"Stephane Crozatier",
                     "order_number":"12345678902",
                     "currency":"USD",
-                    "payment_method":"Visa 2345",        
+                    "payment_method":"Visa 2345",
                     "order_url":"http://petersapparel.parseapp.com/order?order_id=123456",
-                    "timestamp":"1428444852", 
+                    "timestamp":"1428444852",
                     "elements":
                     [
                         {
@@ -197,3 +197,51 @@ Example Message:
         }
     }
 {% endhighlight %}
+
+## Custom Telegram Messages
+
+The Telegram channel supports calling Telegram Bot API methods via the channelData field.  This allows your bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
+
+|**Property** | **Description**
+|---------|  -----
+|*method* | The Telegram Bot API method to call. See below for supported methods.
+|*parameters* | Associative array containing method parameters. Parameters are method-specific.
+
+>See the [Telegram Bot API Documentation](https://core.telegram.org/bots/api) for a description of all available methods, parameters, and types.
+
+Special Notes:
+
+1. The `chat_id` parameter is common to all Telegram methods. If not provided, the framework will fill in this value for you.
+2. The Bot Framework expresses Telegram's `InputFile` type differently than Telegram does. Rather than containing the contents of the file itself, your bot should pass a `url` to the file, and associated `mediaType`. This is shown in the example message below.
+
+Example Message:
+
+{% highlight json %}
+{
+    "type": "Message",
+    "channelData":
+    {
+        "method": "sendSticker",
+        "parameters":
+        {
+            "sticker":
+            {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/3/33/LittleCarron.gif",
+                "mediaType": "image/gif"
+            }
+        }
+    }
+}
+{% endhighlight %}
+
+Supported Methods:
+
+
+|---------|---------|---------
+| [sendMessage](https://core.telegram.org/bots/api#sendmessage) | [forwardMessage](https://core.telegram.org/bots/api#forwardmessage) | [sendPhoto](https://core.telegram.org/bots/api#sendphoto)
+| [sendAudio](https://core.telegram.org/bots/api#sendaudio) | [sendDocument](https://core.telegram.org/bots/api#senddocument) | [sendSticker](https://core.telegram.org/bots/api#sendsticker)
+| [sendVideo](https://core.telegram.org/bots/api#sendvideo) | [sendVoice](https://core.telegram.org/bots/api#sendvoice) | [sendLocation](https://core.telegram.org/bots/api#sendlocation)
+| [sendVenue](https://core.telegram.org/bots/api#sendvenue) | [sendContact](https://core.telegram.org/bots/api#sendcontact) | [sendChatAction](https://core.telegram.org/bots/api#sendchataction)
+| [kickChatMember](https://core.telegram.org/bots/api#kickchatmember) | [unbanChatMember](https://core.telegram.org/bots/api#unbanchatmember) | [answerInlineQuery](https://core.telegram.org/bots/api#answerinlinequery)
+| [editMessageText](https://core.telegram.org/bots/api#editmessagetext) | [editMessageCaption](https://core.telegram.org/bots/api#editmessagecaption) | [editMessageReplyMarkup](https://core.telegram.org/bots/api#editmessagereplymarkup)
+
