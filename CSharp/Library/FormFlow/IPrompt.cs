@@ -81,26 +81,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// The prompt that is returned by form prompter. 
     /// </summary>
     [Serializable]
-    public sealed class FormPrompt 
+    public sealed class FormPrompt : ICloneable
     {
-        /// <summary>
-        /// Constructs an empty form prompt.
-        /// </summary>
-        public FormPrompt()
-        {
-            Prompt = string.Empty;
-            Buttons = new List<FormButton>(); 
-        }
-
         /// <summary>
         /// The text prompt that corresponds to Message.Text.
         /// </summary>
-        public string  Prompt { set; get; }
+        public string Prompt { set; get; } = string.Empty;
 
         /// <summary>
         /// The buttons that will be mapped to Message.Attachments.
         /// </summary>
-        public IList<FormButton> Buttons { set; get; }
+        public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
         
         public override string ToString()
         {
@@ -108,20 +99,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         /// <summary>
-        /// Creates a Deep clone of FormPrompt.
+        /// Deep clone the FormPrompt.
         /// </summary>
         /// <returns> A deep cloned instance of FormPrompt.</returns>
-        public FormPrompt DeepCopy()
+        public object Clone()
         {
-            using (var stream = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, this);
-                stream.Seek(0, SeekOrigin.Begin);
-                var result = (FormPrompt)formatter.Deserialize(stream);
-                stream.Close();
-                return result;
-            }
+            var newPrompt = new FormPrompt();
+            newPrompt.Prompt = this.Prompt;
+            newPrompt.Buttons = this.Buttons.Clone();
+            return newPrompt;
         }
     }
 
@@ -129,27 +115,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// A Form button that will be mapped to Connector.Action.
     /// </summary>
     [Serializable]
-    public sealed class FormButton
+    public sealed class FormButton : ICloneable
     {
-        public FormButton()
-        {
-        }
-
-        /// <summary>
-        /// Constructs a From Button
-        /// </summary>
-        /// <param name="title"> Label of the button.</param>
-        /// <param name="image"> Picture which will appear on the button.</param>
-        /// <param name="message"> Message that will be sent to bot when this button is clicked.</param>
-        /// <param name="url"> URL which will be opened in the browser built-into Client application.</param>
-        public FormButton(string title = null, string image = null, string message = null, string url = null)
-        {
-            this.Title = title;
-            this.Message = message;
-            this.Image = image;
-            this.Url = url; 
-        }
-
         /// <summary>
         /// Picture which will appear on the button.
         /// </summary>
@@ -169,6 +136,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// URL which will be opened in the browser built-into Client application.
         /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// Clone the FormButton
+        /// </summary>
+        /// <returns> A new cloned instance of object.</returns>
+        public object Clone()
+        {
+            return new FormButton
+            {
+                Image = this.Image,
+                Message = this.Message,
+                Title = this.Title,
+                Url = this.Url
+            };
+        }
 
         /// <summary>
         /// ToString() override. 
@@ -215,6 +197,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 collection.Add(cur);
             }
+        }
+
+        internal static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable
+        {
+            return listToClone.Select(item => (T)item.Clone()).ToList();
         }
     }
 
@@ -349,6 +336,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             int numeric;
             var response = new StringBuilder();
             var field = _fields.Field(pathName);
+
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
@@ -482,7 +470,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                             var value = eltDesc.GetValue(state);
                             if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                             {
-                                foreach (var elt in (System.Collections.IEnumerable)value)
+                                var eltValues = (value as System.Collections.IEnumerable);
+                                foreach (var elt in eltValues)
                                 {
                                     values.Add(Tuple.Create(eltDesc, elt, format));
                                 }
@@ -546,7 +535,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var value = pathDesc.GetValue(state);
                         if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                         {
-                            var values = (System.Collections.IEnumerable)value;
+                            var values = (value as System.Collections.IEnumerable);
                             substitute = Language.BuildList(from elt in values.Cast<object>()
                                                             select Language.Normalize(ValueDescription(pathDesc, elt, "0"), _annotation.ValueCase),
                                 _annotation.Separator, _annotation.LastSeparator);

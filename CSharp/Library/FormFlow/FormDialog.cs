@@ -478,8 +478,8 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         if (requirePrompt)
                         {
-                            _formState.LastPrompt = prompt != null ? prompt.DeepCopy() : new FormPrompt();
-                            if(prompt == null)
+                            _formState.LastPrompt = prompt != null ? (FormPrompt)prompt.Clone() : new FormPrompt();
+                            if (prompt == null)
                             {
                                 prompt = new FormPrompt();
                             }
@@ -505,7 +505,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                     else
                     {
-                        _formState.LastPrompt = prompt?.DeepCopy();
+                        _formState.LastPrompt = (FormPrompt)prompt?.Clone();
                     }
 
                     var msg = context.MakeMessage();

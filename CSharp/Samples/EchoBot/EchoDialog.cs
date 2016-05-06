@@ -11,14 +11,14 @@ namespace Microsoft.Bot.Sample.EchoBot
     [Serializable]
     public class EchoDialog : IDialog<object>
     {
-        private int count = 1;
+        protected int count = 1;
 
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
         }
 
-        public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
+        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
         {
             var message = await argument;
             if (message.Text == "reset")
@@ -28,37 +28,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                     AfterResetAsync,
                     "Are you sure you want to reset the count?",
                     "Didn't get that!",
-                    promptStyle: PromptSyle.None);
-            }
-            else if (message.Text.ToLower() == "makeattachment")
-            {
-                var reply = context.MakeMessage();
-                reply.Text = string.Format("{0}: You said {1}", this.count++, message.Text);
-
-                reply.Attachments = new List<Attachment>();
-
-                var actions = new List<Microsoft.Bot.Connector.Action>();
-                for (int i = 0; i < 3; i++)
-                {
-                    actions.Add(new Microsoft.Bot.Connector.Action
-                    {
-                        Title = $"Button:{i}",
-                        Message = $"Action:{i}"
-                    });
-                }
-
-                for (int i = 0; i < 10; i++)
-                {
-                    reply.Attachments.Add(new Attachment
-                    {
-                        Title = $"title{i}",
-                        ContentType = "image/jpeg",
-                        ContentUrl = $"https://placeholdit.imgix.net/~text?txtsize=35&txt=image{i}&w=120&h=120",
-                        Actions = actions
-                    });
-                }
-                await context.PostAsync(reply);
-                context.Wait(MessageReceivedAsync);
+                    promptStyle: PromptStyle.None);
             }
             else
             {

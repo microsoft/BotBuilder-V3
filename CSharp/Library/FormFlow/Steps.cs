@@ -587,7 +587,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 var svalue = (string)value;
                 var prompter = new Prompter<T>(fieldPrompt, form, form.Fields.Field(svalue).Prompt.Recognizer);
-                AddDescription(value, prompter.Prompt(state, svalue));
+                AddDescription(value, prompter.Prompt(state, svalue).Prompt);
                 AddTerms(value, form.Fields.Field(svalue).FieldTerms.ToArray());
             }
             var template = field.Template(TemplateUsage.Navigation);
@@ -696,8 +696,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public FormPrompt Help(T state, FormState form, string commandHelp)
         {
-            var recognizer = _prompt.Recognizer;
-            var prompt = new Prompter<T>(Field.Template(TemplateUsage.HelpNavigation), _form, recognizer, _fields);
+            var recognizer = _field.Prompt.Recognizer;
+            var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpNavigation), _field.Form, recognizer, _fields);
             var help = prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
             return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }

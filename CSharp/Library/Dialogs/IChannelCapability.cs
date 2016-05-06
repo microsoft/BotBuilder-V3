@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// True if the channel support buttons, false otherwise.
         /// </summary>
-        bool SupportButtons(); 
+        bool SupportButtons { get; } 
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         public IChannelCapability Detect()
         {
             var isEmulator = channel?.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
-            var capability = new ChannelCapability(!isEmulator.Value);
+            var capability = new ChannelCapability(!(isEmulator.HasValue && isEmulator.Value));
             return capability;
         }
     }
@@ -60,9 +60,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             this.supportButtons = supportButtons; 
         }
         
-        public bool SupportButtons()
+        public bool SupportButtons
         {
-            return supportButtons; 
+            get
+            {
+                return supportButtons;
+            }
         }
     }
 }

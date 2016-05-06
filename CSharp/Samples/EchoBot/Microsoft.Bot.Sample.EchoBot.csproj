@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="EchoAttachmentDialog.cs" />
     <Compile Include="EchoChainDialog.cs" />
     <Compile Include="EchoCommandDialog.cs" />
     <Compile Include="EchoDialog.cs" />

@@ -17,6 +17,7 @@ namespace Microsoft.Bot.Sample.EchoBot
         {
             //return await Conversation.SendAsync(message, () => new EchoDialog());
             //return await Conversation.SendAsync(message, () => EchoCommandDialog.dialog);
+            //return await Conversation.SendAsync(message, () => new EchoAttachmentDialog());
             return await Conversation.SendAsync(message, () => EchoChainDialog.dialog);
         }
     }
