@@ -212,7 +212,7 @@ The Telegram channel supports calling Telegram Bot API methods via the channelDa
 Special Notes:
 
 1. The `chat_id` parameter is common to all Telegram methods. If not provided, the framework will fill in this value for you.
-2. The Bot Framework expresses Telegram's `InputFile` type differently than Telegram does. Rather than containing the contents of the file itself, your bot should pass a `url` to the file, and associated `mediaType`. This is shown in the example message below.
+2. The Bot Framework expresses Telegram's `InputFile` type differently than Telegram does. Rather than sending the contents of the file itself, your bot should pass a `url` to the file, and associated `mediaType`. This is shown in the example message below.
 
 Example Message:
 
