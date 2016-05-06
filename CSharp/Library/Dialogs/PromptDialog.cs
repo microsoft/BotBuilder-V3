@@ -329,6 +329,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="options"> The options that cause generation of buttons.</param>
         public static void AddButtons<T>(this Message message, IEnumerable<T> options)
         {
+            message.Attachments = new List<Attachment>();
+            message.Attachments = options.GenerateButtons();
+        }
+
+        internal static IList<Attachment> GenerateButtons<T>(this IEnumerable<T> options)
+        {
             var actions = new List<Connector.Action>();
             foreach (var option in options)
             {
@@ -338,15 +344,18 @@ namespace Microsoft.Bot.Builder.Dialogs
                     Message = option.ToString()
                 });
             }
-            message.Attachments = new Attachment[]
+
+            var attachments = new List<Attachment>
             {
                 new Attachment
                 {
                     Actions  = actions
                 }
             };
-        }
 
+            return attachments; 
+        }
+        
         internal static void MakePrompt<T>(this Message message, string prompt, IEnumerable<T> options = null, PromptSyle promptStyle = PromptSyle.Auto)
         {
             switch (promptStyle)

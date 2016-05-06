@@ -299,7 +299,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 var toBotText = toBot != null ? (await toBot).Text : null;
                 string message = null;
-                string prompt = null;
+                FormPrompt prompt = null;
                 bool useLastPrompt = false;
                 bool requirePrompt = false;
                 // Ensure we have initial definition for field steps
@@ -324,7 +324,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         stepInput = stepInput.Substring(0, stepInput.Length - 1);
                     }
-                    string feedback = null;
+                    FormPrompt feedback = null;
                     if (next.Direction == StepDirection.Named && next.Names.Count() > 1)
                     {
                         // We need to choose between multiple next steps
@@ -439,7 +439,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     next = ActiveSteps(next, _state);
                     if (feedback != null)
                     {
-                        message = (message == null ? feedback : message + "\n\n" + feedback);
+                        message = (message == null ? feedback.Prompt : message + "\n\n" + feedback.Prompt);
                     }
                 }
                 if (next.Direction == StepDirection.Complete || next.Direction == StepDirection.Quit)
@@ -478,24 +478,40 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         if (requirePrompt)
                         {
-                            _formState.LastPrompt = prompt;
-                            prompt = message + "\n\n" + prompt;
+                            _formState.LastPrompt = prompt != null ? prompt.DeepCopy() : new FormPrompt();
+                            if(prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message + "\n\n" + prompt.Prompt;
                         }
                         else if (useLastPrompt)
                         {
-                            prompt = message + "\n\n" + _formState.LastPrompt;
+                            if (prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message + "\n\n" + _formState.LastPrompt.Prompt;
+                            prompt.Buttons.AddRange(_formState.LastPrompt.Buttons);
                         }
                         else
                         {
-                            prompt = message;
+                            if (prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message;
                         }
                     }
                     else
                     {
-                        _formState.LastPrompt = prompt;
+                        _formState.LastPrompt = prompt?.DeepCopy();
                     }
 
-                    await context.PostAsync(prompt);
+                    var msg = context.MakeMessage();
+                    msg.Text = prompt.Prompt;
+                    msg.Attachments = prompt.Buttons.GenerateAttachments();
+                    await context.PostAsync(msg);
                     context.Wait(MessageReceived);
                 }
             }
@@ -671,7 +687,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return found;
         }
 
-        private NextStep DoCommand(IDialogContext context, T state, FormState form, IStep<T> step, IEnumerable<TermMatch> matches, out string feedback)
+        private NextStep DoCommand(IDialogContext context, T state, FormState form, IStep<T> step, IEnumerable<TermMatch> matches, out FormPrompt feedback)
         {
             // TODO: What if there are more than one command?
             feedback = null;

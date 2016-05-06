@@ -98,6 +98,7 @@
     <Compile Include="Dialogs\Scorable.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
+    <Compile Include="Dialogs\IChannelCapability.cs" />
     <Compile Include="Dialogs\IConnectorClientFactory.cs" />
     <Compile Include="Dialogs\IDialogTask.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />

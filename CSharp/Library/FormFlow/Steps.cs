@@ -102,7 +102,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return await _field.DefineAsync(state);
         }
 
-        public string Start(IDialogContext context, T state, FormState form)
+        public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
             form.SetPhase(StepPhase.Responding);
             form.StepState = new FieldStepState(FieldStepStates.SentPrompt);
@@ -142,7 +142,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
             string feedback = null;
-            string prompt = null;
+            FormPrompt prompt = null;
+            FormPrompt feedbackPrompt = null; 
             var iprompt = _field.Prompt;
             var fieldState = (FieldStepState)form.StepState;
             object response = null;
@@ -287,21 +288,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     if (fieldState.Unmatched != "")
                     {
-                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
                     }
                     else
                     {
-                        feedback = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
                     }
                 }
             }
             var next = _field.Next(response, state);
-            return new StepResult(next, feedback, prompt);
+            return new StepResult(next, feedbackPrompt ?? new FormPrompt { Prompt = feedback }, prompt);
         }
 
-        public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
+        public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
-            string feedback = null;
+            FormPrompt feedback = null;
             var iprompt = _field.Prompt;
             var fieldState = (FieldStepState)form.StepState;
             if (fieldState.State == FieldStepStates.SentPrompt)
@@ -336,7 +337,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return backedUp;
         }
 
-        public string Help(T state, FormState form, string commandHelp)
+        public FormPrompt Help(T state, FormState form, string commandHelp)
         {
             var fieldState = (FieldStepState)form.StepState;
             IPrompt<T> template;
@@ -350,7 +351,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 template = Template(TemplateUsage.Help, _field.Prompt.Recognizer);
             }
-            return "* " + template.Prompt(state, _name, "* " + template.Recognizer.Help(state, _field.GetValue(state)), commandHelp);
+            var help = template.Prompt(state, _name, "* " + template.Recognizer.Help(state, _field.GetValue(state)), commandHelp);
+            return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
         public IEnumerable<string> Dependencies
@@ -516,7 +518,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
+        public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
             var prompter = new Prompter<T>(template, _field.Form, null);
@@ -537,17 +539,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return await _field.DefineAsync(state);
         }
 
-        public string Start(IDialogContext context, T state, FormState form)
+        public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
             form.SetPhase(StepPhase.Responding);
             return _field.Prompt.Prompt(state, _field.Name);
         }
 
-        public string Help(T state, FormState form, string commandHelp)
+        public FormPrompt Help(T state, FormState form, string commandHelp)
         {
             var template = _field.Template(TemplateUsage.HelpConfirm);
             var prompt = new Prompter<T>(template, _field.Form, _field.Prompt.Recognizer);
-            return "* " + prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer.Help(state, null), commandHelp);
+            var help = prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer.Help(state, null), commandHelp);
+            return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
         public StepType Type
@@ -651,7 +654,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
+        public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
             return new Prompter<T>(template, _field.Form, _field.Prompt.Recognizer, _fields).Prompt(state, _name, input);
@@ -678,7 +681,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             throw new NotImplementedException();
         }
 
-        public string Start(IDialogContext context, T state, FormState form)
+        public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
             return _field.Prompt.Prompt(state, _name);
         }
@@ -691,11 +694,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public string Help(T state, FormState form, string commandHelp)
+        public FormPrompt Help(T state, FormState form, string commandHelp)
         {
-            var recognizer = _field.Prompt.Recognizer;
-            var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpNavigation), _field.Form, recognizer, _fields);
-            return "* " + prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
+            var recognizer = _prompt.Recognizer;
+            var prompt = new Prompter<T>(Field.Template(TemplateUsage.HelpNavigation), _form, recognizer, _fields);
+            var help = prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
+            return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
         public void SaveResources()
@@ -748,7 +752,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return false;
         }
 
-        public string Help(T state, FormState form, string commandHelp)
+        public FormPrompt Help(T state, FormState form, string commandHelp)
         {
             return null;
         }
@@ -787,7 +791,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             get { return _promptDefinition; }
         }
 
-        public string NotUnderstood(IDialogContext context, T state, FormState form, string input)
+        public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             throw new NotImplementedException();
         }
@@ -806,7 +810,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return true;
         }
 
-        public string Start(IDialogContext context, T state, FormState form)
+        public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
             form.SetPhase(StepPhase.Completed);
             var prompt = new Prompter<T>(_promptDefinition, _form, null);

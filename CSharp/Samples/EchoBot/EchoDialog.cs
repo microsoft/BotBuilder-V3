@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                     {
                         Title = $"title{i}",
                         ContentType = "image/jpeg",
-                        ContentUrl = $"https://placeholdit.imgix.net/~text?txtsize=15&txt=image{i}&w=120&h=120",
+                        ContentUrl = $"https://placeholdit.imgix.net/~text?txtsize=35&txt=image{i}&w=120&h=120",
                         Actions = actions
                     });
                 }
