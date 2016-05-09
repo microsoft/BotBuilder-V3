@@ -72,8 +72,8 @@ Regardless, a user can perform the action by clicking on a button or typing in t
     ...
     Attachment attachment = new Attachment()
     {
-        Actions = new List<Bot.Action>(),
-        Text = "Pick one:"
+        Text = "Pick one:",
+        Actions = new List<Bot.Action>()
     }           
     attachment.Actions.Add(new Bot.Action("Willy's Cheeseburger", "CB"));
     attachment.Actions.Add(new Bot.Action("Curley Fries", "F"));
