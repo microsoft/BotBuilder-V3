@@ -67,7 +67,7 @@ as multiple rich cards, but some channels (like Facebook) will render them as a 
         Title = "Bender",
         TitleLink = "https://en.wikipedia.org/wiki/Bender_(Futurama)",
         ThumbnailUrl  = "http://www.theoldrobots.com/images62/Bender-18.JPG",
-        Text = "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+        Text = "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama.",
         FallbackText = "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
     });
 {% endhighlight %}
@@ -78,7 +78,7 @@ as multiple rich cards, but some channels (like Facebook) will render them as a 
             {
                 "title": "Bender",
                 "titleLink": "https://en.wikipedia.org/wiki/Bender_(Futurama)",
-                "text": "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+                "text": "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama.",
                 "thumbnailUrl": "http://www.theoldrobots.com/images62/Bender-18.JPG",
                 "fallbackText": "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
             }
