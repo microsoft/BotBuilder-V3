@@ -236,4 +236,7 @@
     <value>这是您的选择吗？
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>字段名称</value>
+  </data>
 </root>

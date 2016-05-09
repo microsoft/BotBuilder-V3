@@ -200,6 +200,9 @@
   <data name="MatchYes" xml:space="preserve">
     <value>Yes;y;sure;ok;yep</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Field Name</value>
+  </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>I didn't understand. Say something in reply.</value>
   </data>

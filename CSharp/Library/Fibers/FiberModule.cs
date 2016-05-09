@@ -130,6 +130,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             builder
+                .Register(c => new Serialization.JObjectSurrogate(priority: 1))
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+
+            builder
                 .RegisterDecorator<Serialization.ISurrogateProvider>((c, inner) => new Serialization.SurrogateLogDecorator(inner, c.Resolve<TraceListener>()), fromKey: Key_SurrogateProvider);
 
             builder

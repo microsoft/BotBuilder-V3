@@ -16,7 +16,7 @@
     <value>Adresse doit commencer par un nombre.</value>
   </data>
   <data name="Cost" xml:space="preserve">
-    <value>Total pour votre "sandwich" est {0:C2} est ce correct ?</value>
+    <value>Total pour votre "sandwich" est {0:C2} est ce correct?</value>
   </data>
   <data name="FreeCookie" xml:space="preserve">
     <value>Cookie gratuit</value>

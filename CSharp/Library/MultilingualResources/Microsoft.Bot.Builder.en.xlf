@@ -302,6 +302,10 @@
           <target state="new">Is this your selection?
 {*}</target>
         </trans-unit>
+        <trans-unit id="Navigation" translate="yes" xml:space="preserve">
+          <source>Field Name</source>
+          <target state="new">Field Name</target>
+        </trans-unit>
       </group>
     </body>
   </file>

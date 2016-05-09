@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             _form = new Form<T>(ignoreAnnotations);
         }
 
-        public IForm<T> Build()
+        public IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
         {
             if (!_form._steps.Any((step) => step.Type == StepType.Field))
             {
@@ -73,17 +73,24 @@ namespace Microsoft.Bot.Builder.FormFlow
                 }
                 builder.Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
             }
-            var assembly = typeof(T).Assembly;
-            var lang = assembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
+            if (resourceAssembly == null)
+            {
+                resourceAssembly = typeof(T).Assembly;
+            }
+            if (resourceName == null)
+            {
+                resourceName = typeof(T).FullName;
+            }
+            var lang = resourceAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
             if (lang != null && !string.IsNullOrWhiteSpace(lang.CultureName))
             {
                 try
                 {
                     IEnumerable<string> missing, extra;
                     string name = null;
-                    foreach (var resource in assembly.GetManifestResourceNames())
+                    foreach (var resource in resourceAssembly.GetManifestResourceNames())
                     {
-                        if (resource.Contains(typeof(T).FullName))
+                        if (resource.Contains(resourceName))
                         {
                             var pieces = resource.Split('.');
                             name = string.Join(".", pieces.Take(pieces.Count() - 1));
@@ -92,7 +99,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                     if (name != null)
                     {
-                        var rm = new ResourceManager(name, assembly);
+                        var rm = new ResourceManager(name, resourceAssembly);
                         var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
                         _form.Localize(rs.GetEnumerator(), out missing, out extra);
                         if (missing.Any())
@@ -128,38 +135,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             _form._steps.Add(new MessageStep<T>(generateMessage, condition, dependencies, _form));
             return this;
-        }
-
-        public IFormBuilder<T> Field(string name, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null)
-        {
-            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            return AddField(field);
-        }
-
-        public IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null)
-        {
-            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            field.SetPrompt(new PromptAttribute(prompt));
-            return AddField(field);
-        }
-
-        public IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null)
-        {
-            var field = (condition == null ? new FieldReflector<T>(name) : new Conditional<T>(name, condition));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            field.SetPrompt(prompt);
-            return AddField(field);
         }
 
         public IFormBuilder<T> Field(IField<T> field)
@@ -218,6 +193,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             _form._completion = callback;
             return this;
+        }
+
+        public bool HasField(string name)
+        {
+            return _form.Fields.Field(name) != null;
         }
 
         private IFormBuilder<T> AddField(IField<T> field)

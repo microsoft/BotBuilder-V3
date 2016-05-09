@@ -238,4 +238,7 @@
     <value>Это ваш выбор? 
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Имя поля</value>
+  </data>
 </root>

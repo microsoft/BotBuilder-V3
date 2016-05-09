@@ -60,10 +60,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return value is SpecialValues && (SpecialValues)value == SpecialValues.Field;
         }
 
-        // Collapse together subsequent matches for same value
+        // Collapse together subsequent matches for same value or value has same range as no preference
         internal static IEnumerable<TermMatch> Coalesce(IEnumerable<TermMatch> matches, string input)
         {
-            var sorted = (from match in matches orderby match.Start ascending, match.End ascending select match).ToList();
+            var sorted = (from match in matches
+                          orderby match.Start ascending
+                          , match.End ascending
+                          , match.Value == null ascending
+                          select match).ToList();
             while (sorted.Count() > 0)
             {
                 var current = sorted.First();
@@ -88,11 +92,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         }
                         else if (current.Value == next.Value || IsSpecial(current.Value) || IsSpecial(next.Value))
                         {
-                            // Comptabile, extend current match
+                            // Compatible, extend current match
                             current = new TermMatch(current.Start, next.End - current.Start, Math.Max(current.Confidence, next.Confidence),
                                         IsSpecial(current.Value) ? next.Value : current.Value);
                             sorted.Remove(next);
                         }
+                    }
+                    else if (next.Value == null && current.Overlaps(next))
+                    {
+                        // Remove no preference if there is any overlapping meaning
+                        sorted.Remove(next);
                     }
                 }
                 if (emit && !IsSpecial(current.Value))
@@ -218,8 +227,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     if (current.Same(match))
                     {
-                        // Ambiguous match
-                        currentGroup.Add(match);
+                        // No preference loses to everything
+                        if (current.Value == null)
+                        {
+                            current = match;
+                        }
+                        else if (match != null)
+                        {
+                            // Ambiguous match
+                            currentGroup.Add(match);
+                        }
                     }
                     else if (!current.Overlaps(match))
                     // TODO: We are not really handling partial overlap.  To do so we need a lattice.

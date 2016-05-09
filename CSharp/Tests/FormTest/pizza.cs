@@ -313,7 +313,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Field("DeliveryAddress", validate:
                     async (state, value) =>
                     {
-                        var result = new ValidateResult { IsValid = true };
+                        var result = new ValidateResult { IsValid = true, Value = value };
                         var str = value as string;
                         if (str.Length == 0 || str[0] < '1' || str[0] > '9')
                         {

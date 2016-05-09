@@ -30,6 +30,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -243,7 +244,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var prop = type.GetProperty(step, BindingFlags.Public | BindingFlags.Instance);
                     if (prop == null)
                     {
-                        throw new ArgumentException(step + " is not a field or property in your type");
+                        throw new MissingFieldException(step + " is not a field or property in your type.");
                     }
                     field = prop;
                     ftype = prop.PropertyType;
@@ -445,6 +446,85 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             : base(name, ignoreAnnotations)
         {
             SetActive(condition);
+        }
+    }
+}
+
+namespace Microsoft.Bot.Builder.FormFlow
+{
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="builder">Form builder.</param>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        /// <returns>This form.</returns>
+        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+            where T : class
+        {
+            var field = (active == null ? new FieldReflector<T>(name) : new Conditional<T>(name, active));
+            if (validate != null)
+            {
+                field.SetValidate(validate);
+            }
+            return builder.Field(field);
+        }
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="builder">Form builder.</param>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+                where T : class
+        {
+            return builder.Field(name, new PromptAttribute(prompt), active, validate);
+        }
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="builder">Form builder.</param>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+                where T : class
+        {
+            var field = (active == null ? new FieldReflector<T>(name) : new Conditional<T>(name, active));
+            if (validate != null)
+            {
+                field.SetValidate(validate);
+            }
+            field.SetPrompt(prompt);
+            return builder.Field(field);
         }
     }
 }

@@ -304,6 +304,10 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Это ваш выбор? 
 {*}</target>
         </trans-unit>
+        <trans-unit id="Navigation" translate="yes" xml:space="preserve">
+          <source>Field Name</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Имя поля</target>
+        </trans-unit>
       </group>
     </body>
   </file>

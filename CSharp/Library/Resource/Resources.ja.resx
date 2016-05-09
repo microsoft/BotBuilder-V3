@@ -237,4 +237,7 @@
     <value>これはあなたの選択ですか。
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>フィールド名</value>
+  </data>
 </root>

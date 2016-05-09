@@ -35,6 +35,7 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Resource;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
@@ -77,8 +78,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Build the form based on the methods called on the builder.
         /// </summary>
+        /// <param name="resourceAssembly">Assembly for localization resources.</param>
+        /// <param name="resourceName">Name of resources to use for localization.</param>
         /// <returns>The constructed form.</returns>
-        IForm<T> Build();
+        /// <remarks>
+        /// The default assembly is the one that contains <typeparamref name="T"/>
+        /// and the default resourceName if the name of that type.
+        /// </remarks>
+        IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null);
 
         /// <summary>
         /// The form configuration supplies default templates and settings.
@@ -112,53 +119,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <returns>This form.</returns>
         #endregion
         IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        /// <returns>This form.</returns>
-        IFormBuilder<T> Field(string name, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
         /// Derfine a field step by supplying your own field definition.
@@ -230,6 +190,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// to the parent dialog.
         /// </remarks>
         IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback);
+
+        /// <summary>
+        /// Test to see if there is already a field with <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if field is already present.</returns>
+        bool HasField(string name);
     }
 
     /// <summary>
@@ -301,6 +268,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Enumeration of values for a "no" response for boolean fields or confirmations.
         /// </summary>
         public string[] No = Resources.MatchNo.SplitList();
+
+        /// <summary>
+        /// String for naming the "navigation" field.
+        /// </summary>
+        public string Navigation = Resources.Navigation;
 
         /// <summary>
         /// Default templates to use if not override on the class or field level.

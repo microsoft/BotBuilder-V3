@@ -51,6 +51,9 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -59,7 +62,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
         WithState,
         Localized,
-        SimpleSandwichBot, AnnotatedSandwichBot
+        SimpleSandwichBot, AnnotatedSandwichBot, JSONSandwichBot
     };
     [Serializable]
     public class Choices
@@ -213,6 +216,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:
                             return MakeForm(() => AnnotatedSandwichOrder.BuildLocalizedForm());
+                        case DebugOptions.JSONSandwichBot:
+                            return MakeForm(() => AnnotatedSandwichOrder.BuildJsonForm());
                         default:
                             throw new NotImplementedException();
                     }

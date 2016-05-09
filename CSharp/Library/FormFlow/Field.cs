@@ -65,6 +65,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _name = name;
             _role = role;
+            _min = double.MinValue;
+            _max = double.MaxValue;
+            _limited = false;
         }
 
         #region IField
@@ -400,7 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         /// <summary>   Removes all values and their associated descriptions and terms. </summary>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/>.</returns>
         public Field<T> RemoveValues()
         {
             _valueDescriptions.Clear();
@@ -410,7 +413,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Sets the type of the underlying field state. </summary>
         /// <param name="type"> The field type. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetType(Type type)
         {
             _type = type;
@@ -635,7 +638,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected FieldRole _role;
         protected ActiveDelegate<T> _condition = new ActiveDelegate<T>((state) => true);
         protected DefineAsyncDelegate<T> _define = null;
-        protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
+        protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
         protected double _min, _max;
         protected bool _limited;
         protected string[] _dependencies = new string[0];

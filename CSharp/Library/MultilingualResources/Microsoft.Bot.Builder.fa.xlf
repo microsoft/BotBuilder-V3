@@ -302,6 +302,10 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">این انتخاب شما است؟ 
 {*}</target>
         </trans-unit>
+        <trans-unit id="Navigation" translate="yes" xml:space="preserve">
+          <source>Field Name</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">نام قسمت</target>
+        </trans-unit>
       </group>
     </body>
   </file>

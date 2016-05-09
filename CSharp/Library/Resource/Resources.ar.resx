@@ -236,4 +236,7 @@
     <value>هذا هو التحديد الخاص بك؟ 
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>اسم الحقل</value>
+  </data>
 </root>

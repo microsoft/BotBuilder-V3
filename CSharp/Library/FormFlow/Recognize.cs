@@ -530,6 +530,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 : _field.Form.Configuration.No).First();
         }
 
+        public override IEnumerable<string> ValueDescriptions()
+        {
+            return new string[] { ValueDescription(true), ValueDescription(false) };
+        }
+
         private HashSet<string> _yes;
         private HashSet<string> _no;
     }
@@ -624,7 +629,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             long number;
             if (long.TryParse(input, out number))
             {
-                if (number >= _min && number <= _max)
+                if (!_showLimits || (number >= _min && number <= _max))
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }
@@ -692,7 +697,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             double number;
             if (double.TryParse(input, out number))
             {
-                if (number >= _min && number <= _max)
+                if (!_showLimits || (number >= _min && number <= _max))
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }

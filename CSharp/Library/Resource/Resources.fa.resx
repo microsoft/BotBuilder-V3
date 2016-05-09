@@ -236,4 +236,7 @@
     <value>این انتخاب شما است؟ 
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>نام قسمت</value>
+  </data>
 </root>

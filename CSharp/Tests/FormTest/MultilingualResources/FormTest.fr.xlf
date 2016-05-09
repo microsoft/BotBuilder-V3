@@ -69,7 +69,7 @@
         </trans-unit>
         <trans-unit id="SizeOptions.Large;VALUE" translate="yes" xml:space="preserve">
           <source>Large</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">grand</target>
+          <target state="translated">Grande</target>
         </trans-unit>
         <trans-unit id="SizeOptions.Family;VALUE" translate="yes" xml:space="preserve">
           <source>Family</source>

@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -216,6 +217,36 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                     var message = $"{this.inner.GetType().Name}: visiting {type}";
                     this.trace.WriteLine(message);
                 }
+            }
+        }
+
+        public sealed class JObjectSurrogate : ISurrogateProvider
+        {
+            private readonly int priority;
+
+            public JObjectSurrogate(int priority)
+            {
+                this.priority = priority;
+            }
+
+            bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
+            {
+                bool handles = type == typeof(JObject);
+                priority = handles ? this.priority : 0;
+                return handles;
+            }
+
+            void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
+            {
+                var instance = (JObject) obj;
+                info.AddValue(typeof(JObject).Name, instance.ToString(Newtonsoft.Json.Formatting.None));
+            }
+
+            object ISerializationSurrogate.SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            {
+                var instance = (JObject)obj;
+                instance = JObject.Parse((string)info.GetValue(typeof(JObject).Name, typeof(string)));
+                return obj;
             }
         }
 

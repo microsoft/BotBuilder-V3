@@ -83,11 +83,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
         /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBaseAttribute annotation, IForm<T> form, IRecognize<T> recognizer)
+        /// <param name="fields">Fields name lookup.  (Defaults to forms.)</param>
+        public Prompter(TemplateBaseAttribute annotation, IForm<T> form, IRecognize<T> recognizer, IFields<T> fields = null)
         {
             annotation.ApplyDefaults(form.Configuration.DefaultPrompt);
             _annotation = annotation;
             _form = form;
+            _fields = fields ?? form.Fields;
             _recognizer = recognizer;
         }
 
@@ -105,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             string noValue = null;
             if (pathName != "")
             {
-                var field = _form.Fields.Field(pathName);
+                var field = _fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional)
                 {
@@ -195,7 +197,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             int last = 0;
             int numeric;
             var response = new StringBuilder();
-            var field = _form.Fields.Field(pathName);
+            var field = _fields.Field(pathName);
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
@@ -204,13 +206,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var name = expr.Substring(1);
                     if (name == "") name = pathName;
-                    var pathField = _form.Fields.Field(name);
+                    var pathField = _fields.Field(name);
                     substitute = Language.Normalize(pathField == null ? pathName : pathField.FieldDescription, _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {
                     var builder = new StringBuilder();
-                    var defaultValue = field.GetValue(state);
                     var values = _recognizer.ValueDescriptions();
                     if (_annotation.AllowDefault != BoolDefault.False && field.Optional && !field.IsUnknown(state))
                     {
@@ -291,7 +292,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         builder.Append("\n");
                     }
-                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
+                    foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {
                         builder.Append("* ").AppendLine(format.Prompt(state, entry.Name));
                     }
@@ -312,7 +313,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var name = formatArgs[0];
                         if (name == "") name = pathName;
                         var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
-                        var eltDesc = _form.Fields.Field(name);
+                        var eltDesc = _fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
                             var value = eltDesc.GetValue(state);
@@ -368,7 +369,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
                     if (name == "") name = pathName;
-                    var pathDesc = _form.Fields.Field(name);
+                    var pathDesc = _fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {
                         if (noValue == null)
@@ -432,6 +433,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private static readonly Regex _spaces = new Regex(@"(\S)( {2,})", RegexOptions.Compiled);
         private static readonly Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
         private IForm<T> _form;
+        private IFields<T> _fields;
         private TemplateBaseAttribute _annotation;
         private IRecognize<T> _recognizer;
     }

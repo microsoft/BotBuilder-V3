@@ -303,6 +303,10 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">¿Es la selección? 
 {*}</target>
         </trans-unit>
+        <trans-unit id="Navigation" translate="yes" xml:space="preserve">
+          <source>Field Name</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de campo</target>
+        </trans-unit>
       </group>
     </body>
   </file>

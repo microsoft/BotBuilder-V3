@@ -236,4 +236,7 @@
     <value>Est-ce votre sélection ? 
 {*}</value>
   </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Nom du champ</value>
+  </data>
 </root>
