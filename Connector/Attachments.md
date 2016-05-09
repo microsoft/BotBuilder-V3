@@ -67,6 +67,18 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 
 # Example
 
+{% highlight c# %}
+    using Bot=Microsoft.Bot.Connector;
+    ...
+    Attachment attachment = new Attachment();
+    attachment.Text = "Pick one:";
+    attachment.Actions.Add(new Bot.Action("Willy's Cheeseburger", "CB"));
+    attachment.Actions.Add(new Bot.Action("Curley Fries", "F"));
+    attachment.Actions.Add(new Bot.Action("Chocolate Shake", "S"));
+    replyMessage.Attachments.Add(attachment);   
+{% endhighlight %}
+
+
 {% highlight json %}
     {
         "type": "Message",
@@ -74,9 +86,9 @@ Regardless, a user can perform the action by clicking on a button or typing in t
         "conversationId": "BlgBB8EPV4729VPDri3bHCCTFpdEN3CWB3Bn2kwAAA8fxA9Q",
         "created": "2016-05-03T21:46:18.8338576Z",
         "language": "en",
-        "text": "Pick one:",
         "attachments": [
             {
+               "text": "Pick one:",
                 "actions": [
                     {
                         "title": "Willy's Cheeseburger",
