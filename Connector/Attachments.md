@@ -45,7 +45,7 @@ displayed to the user.
 
 Regardless, a user can perform the action by clicking on a button or typing in the content as a response.
 
-> The Actions field requires you to upgrade to latest published Nuget package.
+> The Actions field requires you to upgrade to > 1.1 published Nuget package.
 
 Action object:
 
