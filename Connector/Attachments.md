@@ -41,7 +41,6 @@ allows the image to be displayed.  If it is a file then it will simply come thro
                 "contentUrl": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png"
             }
         ]
-        ...
     }
 {% endhighlight %}
 
