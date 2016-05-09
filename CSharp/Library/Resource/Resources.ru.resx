@@ -241,4 +241,7 @@
   <data name="Navigation" xml:space="preserve">
     <value>Имя поля</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>слишком много попыток</value>
+  </data>
 </root>

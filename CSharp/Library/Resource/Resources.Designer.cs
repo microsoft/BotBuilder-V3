@@ -644,5 +644,14 @@ namespace Microsoft.Bot.Builder.Resource {
                 return ResourceManager.GetString("TemplateUnspecified", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to too many attempts.
+        /// </summary>
+        internal static string TooManyAttempts {
+            get {
+                return ResourceManager.GetString("TooManyAttempts", resourceCulture);
+            }
+        }
     }
 }

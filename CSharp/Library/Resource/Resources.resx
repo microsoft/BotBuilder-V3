@@ -344,4 +344,7 @@
   <data name="TemplateUnspecified" xml:space="preserve">
     <value>Unspecified</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>too many attempts</value>
+  </data>
 </root>

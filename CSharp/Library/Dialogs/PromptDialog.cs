@@ -91,6 +91,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         public readonly string Retry;
 
         /// <summary>
+        /// What to display when user didn't say a valid response after <see cref="attempts"/>.
+        /// </summary>
+        public readonly string TooManyAttempts;
+
+        /// <summary>
         /// Maximum number of attempts.
         /// </summary>
         public int attempts;
@@ -101,21 +106,31 @@ namespace Microsoft.Bot.Builder.Dialogs
         public readonly PromptStyle PromptStyle;
 
         /// <summary>
-        /// Default retry prompt that is used if <see cref="Retry"/> in null.
+        /// Default retry prompt that is used if <see cref="Retry"/> is null.
         /// </summary>
         public string DefaultRetry { get; set; }
+
+        /// <summary>
+        /// Default <see cref="TooManyAttempts"/> string that is used if <see cref="TooManyAttempts"/> is null.
+        /// </summary>
+        protected string DefaultTooManyAttempts
+        {
+            get { return Resources.TooManyAttempts; }
+        }
 
         /// <summary>
         /// Constructs the prompt builder.
         /// </summary>
         /// <param name="prompt"> The prompt.</param>
         /// <param name="retry"> What to display on retry.</param>
+        /// <param name="tooManyAttempts"> What to display when user didn't say a valid response after <see cref="attempts"/>.</param>
         /// <param name="attempts"> Maximum number of attempts.</param>
         /// <param name="promptStyle"> Style of the prompt <see cref="Dialogs.PromptStyle"/>.</param>
-        public PromptBuilder(string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
+        public PromptBuilder(string prompt, string retry = null, string tooManyAttempts = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
         {
             SetField.NotNull(out this.Prompt, nameof(this.Prompt), prompt);
             this.Retry = retry;
+            this.TooManyAttempts = tooManyAttempts;
             this.attempts = attempts;
             this.PromptStyle = promptStyle;
             this.DefaultRetry = prompt;
@@ -139,7 +154,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             else
             {
-                msg.Text = this.Retry ?? DefaultRetry;
+                if (attempts > 0)
+                {
+                    msg.Text = this.Retry ?? DefaultRetry;
+                }
+                else
+                {
+                    msg.Text = this.TooManyAttempts ?? DefaultTooManyAttempts;
+                }
             }
             return msg;
         }
@@ -160,9 +182,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns></returns>
         public virtual Message Build<T>(IDialogContext context, IList<T> options, bool retry = false)
         {
-            var msg = context.MakeMessage();
-            msg.MakePrompt(retry ? this.Retry ?? DefaultRetry : Prompt, options, this.PromptStyle);
-            return msg;
+            if (attempts > 0)
+            {
+                var msg = context.MakeMessage();
+                msg.MakePrompt(retry ? this.Retry ?? DefaultRetry : Prompt, options, this.PromptStyle);
+                return msg;
+            }
+            else
+            {
+                return Build(context, true);
+            }
         }
     }
 
@@ -190,7 +219,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
         public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
         {
-            Confirm(context, resume, new PromptBuilder(prompt, retry, attempts, promptStyle));
+            Confirm(context, resume, new PromptBuilder(prompt, retry, attempts: attempts, promptStyle: promptStyle));
         }
 
         /// <summary>
@@ -239,7 +268,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
         {
-            Choice(context, resume, options, new PromptBuilder(prompt, retry, attempts, promptStyle));
+            Choice(context, resume, options, new PromptBuilder(prompt, retry, attempts: attempts, promptStyle: promptStyle));
             
         }
 
@@ -268,7 +297,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptString(string prompt, string retry, int attempts)
-                : base(new PromptBuilder(prompt, retry, attempts))
+                : base(new PromptBuilder(prompt, retry, attempts: attempts))
             {
                 this.promptBuilder.DefaultRetry = this.DefaultRetry;
             }
@@ -307,7 +336,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
             public PromptConfirm(string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
-                : this(new PromptBuilder(prompt, retry, attempts, promptStyle))
+                : this(new PromptBuilder(prompt, retry, attempts: attempts, promptStyle: promptStyle))
             {
             }
 
@@ -345,7 +374,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             protected override Message MakePrompt(IDialogContext context, bool retry)
             {
-                var options = new String[] { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+                string[] options = { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
                 return this.promptBuilder.Build(context, options.ToList(), retry);
             }
 
@@ -368,7 +397,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptInt64(string prompt, string retry, int attempts)
-                : base(new PromptBuilder(prompt, retry, attempts))
+                : base(new PromptBuilder(prompt, retry, attempts: attempts))
             {
             }
 
@@ -388,7 +417,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptDouble(string prompt, string retry, int attempts)
-                : base(new PromptBuilder(prompt, retry, attempts))
+                : base(new PromptBuilder(prompt, retry, attempts: attempts))
             {
             }
             
@@ -412,7 +441,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
             public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
-                : this(options, new PromptBuilder(prompt, retry, attempts, promptStyle))
+                : this(options, new PromptBuilder(prompt, retry, attempts: attempts, promptStyle: promptStyle))
             {   
             }
 
@@ -509,6 +538,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     message.MakePrompt(prompt, options, options.Count() > 4 ? PromptStyle.PerLine : PromptStyle.Inline);
                     break;
                 case PromptStyle.Inline:
+                    //TODO: Refactor buildlist function to a more generic namespace when changing prompt to use recognizers.
                     message.Text = $"{prompt} {FormFlow.Advanced.Language.BuildList(options.Select(option => option.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
                     break;
                 case PromptStyle.PerLine:
@@ -552,15 +582,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             else
             {
                 --promptBuilder.attempts;
+                await context.PostAsync(this.MakePrompt(context, true));
                 if (promptBuilder.attempts > 0)
-                {
-                    await context.PostAsync(this.MakePrompt(context, true));
+                {   
                     context.Wait(MessageReceived);
                 }
                 else
-                {
-                    await context.PostAsync("too many attempts");
-                    throw new Exception();
+                {   
+                    //too many attempts, throw.
+                    throw new Exception(Resources.TooManyAttempts);
                 }
             }
         }

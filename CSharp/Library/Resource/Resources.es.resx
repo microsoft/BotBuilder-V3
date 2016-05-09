@@ -240,4 +240,7 @@
   <data name="Navigation" xml:space="preserve">
     <value>Nombre de campo</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>demasiados intentos de</value>
+  </data>
 </root>

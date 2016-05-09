@@ -306,6 +306,10 @@
           <source>Field Name</source>
           <target state="new">Field Name</target>
         </trans-unit>
+        <trans-unit id="TooManyAttempts" translate="yes" xml:space="preserve">
+          <source>too many attempts</source>
+          <target state="new">too many attempts</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -239,4 +239,7 @@
   <data name="Navigation" xml:space="preserve">
     <value>نام قسمت</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>تلاش های زیادی</value>
+  </data>
 </root>

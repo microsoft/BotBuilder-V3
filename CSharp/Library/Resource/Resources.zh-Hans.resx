@@ -239,4 +239,7 @@
   <data name="Navigation" xml:space="preserve">
     <value>字段名称</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>太多的尝试</value>
+  </data>
 </root>

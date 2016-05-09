@@ -239,4 +239,7 @@
   <data name="Navigation" xml:space="preserve">
     <value>Nom du champ</value>
   </data>
+  <data name="TooManyAttempts" xml:space="preserve">
+    <value>trop de tentatives</value>
+  </data>
 </root>

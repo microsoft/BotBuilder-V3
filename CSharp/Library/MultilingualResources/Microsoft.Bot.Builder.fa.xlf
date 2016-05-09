@@ -306,6 +306,10 @@
           <source>Field Name</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">نام قسمت</target>
         </trans-unit>
+        <trans-unit id="TooManyAttempts" translate="yes" xml:space="preserve">
+          <source>too many attempts</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">تلاش های زیادی</target>
+        </trans-unit>
       </group>
     </body>
   </file>
