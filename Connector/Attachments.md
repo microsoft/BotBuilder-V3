@@ -47,7 +47,7 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 
 > The Actions field requires you to upgrade to > 1.1 published Nuget package.
 
-Action object:
+## Action object
 
 | Property | Description |
 |-----|------|
@@ -56,7 +56,7 @@ Action object:
 | url | instead of a message when someone clicks on a button it should take them to a Url |
 | image  | url to an image to put on the card (Not all channels will show an image) |
 
-Channel support
+## Channel support for actions
 
 | Channel | Behavior |
 |-----|------|
