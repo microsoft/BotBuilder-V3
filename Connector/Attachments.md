@@ -53,6 +53,7 @@ We also have the ability to render rich cards as attachments.
 | Title | Title of card|
 | TitleLink | Link for the title |
 | Text | Text of the card |
+| FallbackText | text to use if we can't render the card |
 | ThumbnailUrl | image to put on the card|
 
 You can send multiple rich card attachments in a single message.  On most channels they will be sent
@@ -63,12 +64,11 @@ as multiple rich cards, but some channels (like Facebook) will render them as a 
 
     replyMessage.Attachments.Add(new Attachment()
     {
-        ContentUrl = "http://www.theoldrobots.com/images62/Bender-18.JPG",
-        ContentType = "image/jpeg",
-        FallbackText = "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
         Title = "Bender",
         TitleLink = "https://en.wikipedia.org/wiki/Bender_(Futurama)",
+        ThumbnailUrl  = "http://www.theoldrobots.com/images62/Bender-18.JPG",
         Text = "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+        FallbackText = "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
     });
 {% endhighlight %}
 
@@ -76,12 +76,11 @@ as multiple rich cards, but some channels (like Facebook) will render them as a 
     {
         "attachments": [
             {
-                "contentType": "image/jpeg",
-                "contentUrl": "http://www.theoldrobots.com/images62/Bender-18.JPG",
-                "fallbackText": "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
                 "title": "Bender",
                 "titleLink": "https://en.wikipedia.org/wiki/Bender_(Futurama)",
                 "text": "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+                "thumbnailUrl": "http://www.theoldrobots.com/images62/Bender-18.JPG",
+                "fallbackText": "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
             }
         ]
         ...
