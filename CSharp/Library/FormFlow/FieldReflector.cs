@@ -75,7 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    var prop = step as PropertyInfo;
+                    var prop = (PropertyInfo)step;
                     current = prop.GetValue(current);
                 }
                 if (current == null)
@@ -112,7 +112,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                             // Build list and coerce elements
                             var list = Activator.CreateInstance(ftype);
                             var addMethod = list.GetType().GetMethod("Add");
-                            foreach (var elt in value as System.Collections.IEnumerable)
+                            foreach (var elt in (System.Collections.IEnumerable)value)
                             {
                                 addMethod.Invoke(list, new object[] { elt });
                             }
@@ -194,7 +194,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (ftype.IsIEnumerable())
                 {
-                    unknown = !(value as System.Collections.IEnumerable).GetEnumerator().MoveNext();
+                    unknown = !((System.Collections.IEnumerable)value).GetEnumerator().MoveNext();
                 }
             }
             return unknown;
@@ -244,7 +244,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var prop = type.GetProperty(step, BindingFlags.Public | BindingFlags.Instance);
                     if (prop == null)
                     {
-                        throw new MissingFieldException(step + " is not a field or property in your type.");
+                        throw new MissingFieldException($"{step} is not a field or property in your type.");
                     }
                     field = prop;
                     ftype = prop.PropertyType;
@@ -395,7 +395,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
                 foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
                 {
-                    var template = attribute as TemplateAttribute;
+                    var template = (TemplateAttribute)attribute;
                     AddTemplate(template);
                 }
             }

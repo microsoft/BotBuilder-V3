@@ -244,9 +244,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             object ISerializationSurrogate.SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
             {
-                var instance = (JObject)obj;
-                instance = JObject.Parse((string)info.GetValue(typeof(JObject).Name, typeof(string)));
-                return obj;
+                return obj = JObject.Parse((string)info.GetValue(typeof(JObject).Name, typeof(string)));
             }
         }
 

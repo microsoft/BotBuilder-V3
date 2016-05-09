@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _name = name;
             _role = role;
-            _min = double.MinValue;
+            _min = -double.MaxValue;
             _max = double.MaxValue;
             _limited = false;
         }
@@ -567,7 +567,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    throw new ArgumentException(_name + " is not a type FormFlow understands.");
+                    throw new ArgumentException($"{_name} is not a type FormFlow understands.");
                 }
                 if (usage != TemplateUsage.None)
                 {

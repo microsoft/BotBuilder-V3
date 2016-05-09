@@ -558,12 +558,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override IEnumerable<string> ValidInputs(object value)
         {
-            yield return value as string;
+            yield return (string)value;
         }
 
         public override string ValueDescription(object value)
         {
-            return value as string;
+            return (string)value;
         }
 
         public override TermMatch Parse(string input)

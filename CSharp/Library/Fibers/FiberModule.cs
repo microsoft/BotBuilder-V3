@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             builder
-                .Register(c => new Serialization.JObjectSurrogate(priority: 1))
+                .Register(c => new Serialization.JObjectSurrogate(priority: 3))
                 .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
                 .SingleInstance();
 

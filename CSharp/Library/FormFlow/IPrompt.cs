@@ -319,8 +319,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                             var value = eltDesc.GetValue(state);
                             if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                             {
-                                var eltValues = (value as System.Collections.IEnumerable);
-                                foreach (var elt in eltValues)
+                                foreach (var elt in (System.Collections.IEnumerable)value)
                                 {
                                     values.Add(Tuple.Create(eltDesc, elt, format));
                                 }
@@ -384,7 +383,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var value = pathDesc.GetValue(state);
                         if (value.GetType() != typeof(string) && value.GetType().IsIEnumerable())
                         {
-                            var values = (value as System.Collections.IEnumerable);
+                            var values = (System.Collections.IEnumerable)value;
                             substitute = Language.BuildList(from elt in values.Cast<object>()
                                                             select Language.Normalize(ValueDescription(pathDesc, elt, "0"), _annotation.ValueCase),
                                 _annotation.Separator, _annotation.LastSeparator);

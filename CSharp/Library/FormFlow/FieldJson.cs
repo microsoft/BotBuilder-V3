@@ -158,7 +158,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                     else
                     {
-                        step = next as JObject;
+                        step = (JObject)next;
                     }
                 }
                 step.Add(steps.Last(), jvalue);
@@ -195,7 +195,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 optional = !schema.Required.Contains(part);
                 if (!schema.Properties.TryGetValue(part, out schema))
                 {
-                    throw new MissingFieldException(part + " is not a property in your schema.");
+                    throw new MissingFieldException($"{part} is not a property in your schema.");
                 }
             }
             return schema;
@@ -224,7 +224,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             if (type == null)
             {
-                throw new ArgumentException(schema.Id + " does not have a valid C# type.");
+                throw new ArgumentException($"{schema.Id} does not have a valid C# type.");
             }
             return type;
         }
@@ -288,12 +288,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             if (schema.Minimum.HasValue || schema.Maximum.HasValue)
             {
-                SetLimits(schema.Minimum.HasValue ? schema.Minimum.Value : double.MinValue,
-                    schema.Maximum.HasValue ? schema.Maximum.Value : double.MaxValue);
+                SetLimits(schema.Minimum ?? -double.MaxValue,
+                    schema.Maximum ?? double.MaxValue);
             }
         }
 
-        // Value: {<value>:{Description:<description>, Terms:[<term> ...]}, ...}
         protected void ProcessEnum(JSchema schema)
         {
             var enums = (from val in schema.Enum select (string)val);
@@ -314,17 +313,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     JToken description;
                     if (desc.TryGetValue("Describe", out description))
                     {
-                        toDescription[key] = (string)description;
+                        toDescription.Add(key, (string)description);
                     }
                     JToken terms;
                     if (desc.TryGetValue("Terms", out terms))
                     {
-                        toTerms[key] = terms.ToObject<string[]>();
+                        toTerms.Add(key, terms.ToObject<string[]>());
                     }
                     JToken maxPhrase;
                     if (desc.TryGetValue("MaxPhrase", out maxPhrase))
                     {
-                        toMaxPhrase[key] = (int)maxPhrase;
+                        toMaxPhrase.Add(key, (int)maxPhrase);
                     }
                 }
             }
@@ -373,7 +372,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected T ProcessEnum<T>(JToken template, string name)
         {
-            T result = (T)Enum.Parse(typeof(T), "0");
+            T result = default(T);
             var value = template[name];
             if (value != null)
             {
@@ -395,19 +394,19 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             foreach (var property in schema.Properties)
             {
-                var path = (prefix == null ? property.Key : prefix + "." + property.Key);
+                var path = (prefix == null ? property.Key : $"{prefix}.{property.Key}");
                 var childSchema = property.Value;
-                if (IsPrimitiveType(childSchema))
-                {
-                    fields.Add(path);
-                }
-                else if (childSchema.Type.HasValue && childSchema.Type.Value == JSchemaType.Array)
+                if (childSchema.Type.HasValue && childSchema.Type.Value.HasFlag(JSchemaType.Array))
                 {
                     if (childSchema.Items.Count() > 0
                         && IsPrimitiveType(childSchema.Items.First()))
                     {
                         fields.Add(path);
                     }
+                }
+                else if (IsPrimitiveType(childSchema))
+                {
+                    fields.Add(path);
                 }
                 else
                 {
@@ -423,10 +422,10 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 var type = schema.Type.Value;
                 isPrimitive =
-                    type == JSchemaType.Boolean
-                    || type == JSchemaType.Integer
-                    || type == JSchemaType.Number
-                    || type == JSchemaType.String;
+                    type.HasFlag(JSchemaType.Boolean)
+                    || type.HasFlag(JSchemaType.Integer)
+                    || type.HasFlag(JSchemaType.Number)
+                    || type.HasFlag(JSchemaType.String);
             }
             return isPrimitive;
         }

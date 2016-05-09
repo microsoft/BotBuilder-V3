@@ -395,7 +395,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 ? new TermMatch[0]
                                 : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(toBotText), toBotText)
                                    where (command.Value is FormCommand
-                                       || _form.Fields.Field(command.Value as string).Active(_state))
+                                       || _form.Fields.Field((string)command.Value).Active(_state))
                                    select command).ToArray();
                             if (MatchAnalyzer.IsFullMatch(toBotText, commands))
                             {
@@ -717,7 +717,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
             else
             {
-                var name = value as string;
+                var name = (string)value;
                 var istep = _form.Step(name);
                 if (istep != null && istep.Active(state))
                 {
