@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Attachments
+title: Attachments, Cards and Buttons
 permalink: /connector/message-actions/
 weight: 206
 parent1: Bot Connector
@@ -35,7 +35,10 @@ We also have the ability to render rich cards as attachments.
 | Text | Text of the card |
 | ThumbnailUrl | image to put on the card|
 
-# Actions
+You can send multiple rich card attachments in a single message.  On most channels they will be sent
+as multiple rich cards, but some channels (like Facebook) will render them as a carosel of rich cards.
+
+# Actions on attachments
 An action is a representation of information that a user can use to take action.  On many channels
 actions get mapped to buttons, while on other channels they simply become a list of options
 displayed to the user.
@@ -44,11 +47,21 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 
 > The Actions field requires you to upgrade to latest published Nuget package.
 
+Action object:
+| Property | Description |
+|-----|------|
+| title | label of the action (button) |
+| message | message which will be sent for the user when they click the button |
+| url | instead of a message when someone clicks on a button it should take them to a Url |
+| image  | url to an image to put on the card (Not all channels will show an image) |
+
+Channel support
+
 | Channel | Behavior |
 |-----|------|
-| Facebook | turned into facebook card buttons. If more than 3 buttons multiple cards will be issued |
-| Kik | Turned into Kik input buttons |
-| Telegram | Turned into Telegram keyboard input buttons |
+| Facebook | turned into buttons. If more than 3 buttons multiple cards will be issued |
+| Telegram | Turned into buttons |
+| Kik | Turned into buttons |
 | All others | Displayed as list of options |
 
 # Example
