@@ -64,14 +64,21 @@ interface IBotConnectorMessage extends IMessage {
 }
 
 interface IAttachment {
-    contentType: string;
+    actions?: IAction[];
+    contentType?: string;
     contentUrl?: string;
-    content?: any;
     fallbackText?: string;
     title?: string;
     titleLink?: string;
     text?: string;
     thumbnailUrl?: string;
+}
+
+interface IAction {
+    title?: string;
+    message?: string;
+    url?: string;
+    image?: string;    
 }
 
 interface IChannelAccount {

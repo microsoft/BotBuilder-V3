@@ -76,31 +76,87 @@ export interface IMessage {
     eTag?: string;
 }
 
-/** An attachment. */
+/** 
+ * Many messaging channels provide the ability to attach richer objects. You can pass these 
+ * attachments to the Bot Connector Service using the cross channel format below and the 
+ * Bot Connector will do its best render them using the channels native format. If you aren't
+ * satisfied with the Bot Connectors cross channel rendering or would like more control you can
+ * always pass attachments in the channels native format using [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata).  
+ * 
+ * Three types of message attachments are currently supported (_action_, _image/file_,
+ * and _card_.) The valid fields very by attachment type:
+ * * __action:__ An action for the user to take (typically rendered as a button.) Valid fields: [actions](#actions).
+ * * __image/file:__ An image or a file to send the user. Valid fields: [contentType](#contenttype), [contentUrl](#contenturl).
+ * * __card:__ A rich card displayed to the user. Valid fields: [actions](#actions), [fallbackText](#fallbacktext), [title](#title), [titleLink](#titlelink), [text](#text), [thumbnailUrl](#thumbnailurl).  
+ *
+ * Cross channel attachments can easily be sent to the user using the [Message.addAttachment()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html#addattachment) method. 
+ * 
+ * Sending an image:
+ * <pre><code>var msg = new Message().addAttachment({
+ *     contentType: 'image/png',
+ *     contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'
+ * });
+ * session.send(msg);
+ * </code></pre>
+ * 
+ * Sending a card with actions:
+ * <pre><code>var msg = new Message().addAttachment({
+ *     text: 'Pick one:',
+ *     actions: [
+ *         { title: "Willy's Cheeseburger", message: "CB" },
+ *         { title: "Curley Fries", message: "F" },
+ *         { title: "Chocolate Shake", message: "S" }
+ *     ]
+ * });
+ * session.send(msg);
+ * </code></pre>
+ */
 export interface IAttachment {
-    /** (REQUIRED) mimetype/Contenttype for the file, either ContentUrl or Content must be set depending on the mimetype. */
-    contentType: string;
+    /** List of actions to map to buttons in the clients UI. Valid for _action_ & _card_ attachments. */
+    actions?: IAction[];
+    
+    /** The mimetype/ContentType of the [contentUrl](#contenturl). Valid for _image/file_ attachments. */
+    contentType?: string;
 
-    /** Url to content. */
+    /** A link to the actual file. Valid for _image/file_ attachments. */
     contentUrl?: string;
 
-    /** Content Payload (for example, lat/long for contentype="location". */
-    content?: any;
-
-    /** (OPTIONAL-CARD) FallbackText - used for downlevel clients, should be simple markup with links. */
+    /** Fallback text used for downlevel clients, should be simple markup with links. Valid for _card_ attachments. */
     fallbackText?: string;
-
-    /** (OPTIONAL-CARD) Title. */
+    
+    /** Title of the card. Valid for _card_ attachments. */
     title?: string;
 
-    /** (OPTIONAL-CARD) link to use for the title. */
+    /** Link for the [title](#title). Valid for _card_ attachments. */
     titleLink?: string;
 
-    /** (OPTIONAL-CARD) The Text description the attachment. */
+    /** Text of the card. Valid for _card_ attachments. */
     text?: string;
 
-    /** (OPTIONAL-CARD) Thumbnail associated with attachment. */
+    /** Image to put on the card. Valid for _card_ attachments. */
     thumbnailUrl?: string;
+}
+
+/**
+ * An action is a representation of information that a user can use to take action. On many channels 
+ * actions get mapped to buttons, while on other channels they simply become a list of options 
+ * displayed to the user.
+ * 
+ * Regardless, a user can perform the action by clicking on a button or typing in the content as a 
+ * response.
+ */
+export interface IAction {
+    /** Label of the action (button.) */
+    title?: string;
+    
+    /** Message which will be sent for the user when they click the button. */
+    message?: string;
+    
+    /** Instead of a message when someone clicks on a button it should take them to a Url (Not all channels support URL based actions.) */
+    url?: string;
+    
+    /** Url to an image to put on the card (Not all channels will show an image.) */
+    image?: string;
 }
 
 /** Information needed to route a message. */
@@ -918,8 +974,8 @@ export class Message implements IMessage {
     composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
     /**
-     * Adds an attachment to the message.
-     * @param attachment The attachment to add.  
+     * Adds an attachment to the message. See [IAttachment](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html) for examples.
+     * @param attachment The attachment to add.   
      */    
     addAttachment(attachment: IAttachment): Message;
     
