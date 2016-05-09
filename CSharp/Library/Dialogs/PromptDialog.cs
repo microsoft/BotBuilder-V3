@@ -247,7 +247,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             public virtual bool IsMatch(T option, string text)
             {
-                return option.ToString().IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0;
+                return option.ToString().IndexOf(text.Trim(), StringComparison.CurrentCultureIgnoreCase) >= 0;
             }
 
             protected override bool TryParse(Message message, out T result)
