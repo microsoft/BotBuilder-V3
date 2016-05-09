@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Attachments, Cards and Buttons
+title: Attachments, Cards and Actions
 permalink: /connector/message-actions/
 weight: 206
 parent1: Bot Connector
