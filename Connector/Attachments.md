@@ -48,6 +48,7 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 > The Actions field requires you to upgrade to latest published Nuget package.
 
 Action object:
+
 | Property | Description |
 |-----|------|
 | title | label of the action (button) |
