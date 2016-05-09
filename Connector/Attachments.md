@@ -82,7 +82,6 @@ as multiple rich cards, but some channels (like Facebook) will render them as a 
                 "fallbackText": "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG"
             }
         ]
-        ...
     }
 {% endhighlight %}
 
