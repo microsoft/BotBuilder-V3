@@ -75,9 +75,9 @@ Regardless, a user can perform the action by clicking on a button or typing in t
         Text = "Pick one:",
         Actions = new List<Bot.Action>()
     }           
-    attachment.Actions.Add(new Bot.Action("Willy's Cheeseburger", "CB"));
-    attachment.Actions.Add(new Bot.Action("Curley Fries", "F"));
-    attachment.Actions.Add(new Bot.Action("Chocolate Shake", "S"));
+    attachment.Actions.Add(new Bot.Action() { Title="Willy's Cheeseburger",  Message="CB" });
+    attachment.Actions.Add(new Bot.Action() { Title = "Curley Fries", Message="F" } );
+    attachment.Actions.Add(new Bot.Action() { Title = "Chocolate Shake", Message="S"} );
     replyMessage.Attachments.Add(attachment);   
 {% endhighlight %}
 
