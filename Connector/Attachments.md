@@ -25,6 +25,26 @@ content.
 If the content type is a image or media content type then it will be passed to the channel in a way that 
 allows the image to be displayed.  If it is a file then it will simply come through as a link.
 
+{% highlight C# %}
+    replyMessage.Attachments.Add(new Attachment()
+    {
+        ContentUrl = "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
+        ContentType = "image/png"
+    });
+{% endhighlight %}
+
+{% highlight json %}
+    {
+        "attachments": [
+            {
+                "contentType": "image/png",
+                "contentUrl": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png"
+            }
+        ]
+        ...
+    }
+{% endhighlight %}
+
 # Rich card attachments
 We also have the ability to render rich cards as attachments.  
 
@@ -37,6 +57,38 @@ We also have the ability to render rich cards as attachments.
 
 You can send multiple rich card attachments in a single message.  On most channels they will be sent
 as multiple rich cards, but some channels (like Facebook) will render them as a carosel of rich cards.
+
+{% highlight C# %}
+    replyMessage.Attachments = new List<Attachment>();
+
+    replyMessage.Attachments.Add(new Attachment()
+    {
+        ContentUrl = "http://www.theoldrobots.com/images62/Bender-18.JPG",
+        ContentType = "image/jpeg",
+        FallbackText = "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
+        Title = "Bender",
+        TitleLink = "https://en.wikipedia.org/wiki/Bender_(Futurama)",
+        Text = "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+    });
+{% endhighlight %}
+
+{% highlight json %}
+    {
+        "attachments": [
+            {
+                "contentType": "image/jpeg",
+                "contentUrl": "http://www.theoldrobots.com/images62/Bender-18.JPG",
+                "fallbackText": "Bender: http://www.theoldrobots.com/images62/Bender-18.JPG",
+                "title": "Bender",
+                "titleLink": "https://en.wikipedia.org/wiki/Bender_(Futurama)",
+                "text": "Bender Bending Rodríguez, commonly known as Bender, is a main character in the animated television series Futurama."
+            }
+        ]
+        ...
+    }
+{% endhighlight %}
+
+![Example rich card on slack](/images/bender.png)
 
 # Actions on attachments
 An action is a representation of information that a user can use to take action.  On many channels
@@ -85,10 +137,6 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 {% highlight json %}
     {
         "type": "Message",
-        "id": "LQR6NUF4kwv",
-        "conversationId": "BlgBB8EPV4729VPDri3bHCCTFpdEN3CWB3Bn2kwAAA8fxA9Q",
-        "created": "2016-05-03T21:46:18.8338576Z",
-        "language": "en",
         "attachments": [
             {
                "text": "Pick one:",
@@ -108,13 +156,7 @@ Regardless, a user can perform the action by clicking on a button or typing in t
                 ]
             }
         ],
-        "from": {... },
-        "to": {...},
-        "replyToMessageId": "5a6L8DCxLpH",
-        "participants": [ ... ]
-        "totalParticipants": 2,
-        "mentions": [],
-        "channelConversationId": "TestBot",
+        ...
     }
 {% endhighlight %}
 
