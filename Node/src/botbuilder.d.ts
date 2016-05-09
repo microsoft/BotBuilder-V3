@@ -1384,7 +1384,7 @@ export class LuisDialog extends IntentDialog {
     constructor(serviceUri: string);
 
     /**
-     * Performs the step of recognizing intents & entities when a message is recieved vy the dialog. Called by IntentDialog.
+     * Performs the step of recognizing intents & entities when a message is recieved by the dialog. Called by IntentDialog.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
      * @param callback.err Error that occured during the recognition step.

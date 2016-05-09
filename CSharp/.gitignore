@@ -233,3 +233,7 @@ Documentation/Doxygen_warnings.txt
 
 # Build results
 Documentation/docs/
+
+# Azure publish profiles
+*.pubxml
+PublishProfiles/
