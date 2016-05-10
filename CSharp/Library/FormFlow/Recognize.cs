@@ -627,7 +627,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             TermMatch result = null;
             long number;
-            if (long.TryParse(input, out number))
+            if (long.TryParse(input, NumberStyles.Integer, _culture.NumberFormat, out number))
             {
                 if (!_showLimits || (number >= _min && number <= _max))
                 {
@@ -695,7 +695,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             TermMatch result = null;
             double number;
-            if (double.TryParse(input, out number))
+            if (double.TryParse(input, NumberStyles.Float, _culture.NumberFormat, out number))
             {
                 if (!_showLimits || (number >= _min && number <= _max))
                 {
@@ -760,7 +760,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (_culture.TwoLetterISOLanguageName != "en")
             {
                 DateTime dt;
-                if (DateTime.TryParse(input, out dt))
+                if (DateTime.TryParse(input, _culture.DateTimeFormat, DateTimeStyles.None, out dt))
                 {
                     match = new TermMatch(0, input.Length, 1.0, dt);
                 }

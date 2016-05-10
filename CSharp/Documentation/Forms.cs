@@ -645,16 +645,16 @@
     /// is to derive a class from Advanced.Field and implement the Advanced.IFieldState methods to get and set values and unknown values.  
     ///  
     /// \subsection localizingSection Localization
-    /// Once you have your bot working in a single language, you might want to enable it in other languages.
-    /// The localization language is determined by the current threads [CurrentUICulture] and [CurrentCulture].  
-    /// By default the cultures come from Language field of the current message, but you can change that if you wish. 
+    /// Once you have a great bot working in a single language, you might want to enable it in other languages.
+    /// The localization language is determined by the current thread's [CurrentUICulture] and [CurrentCulture].  
+    /// By default the culture comes from the Language field of the current message, but you can change that if you wish. 
     /// Depending on your bot, there can be up to 3 different sources of localized information including:
     /// * The built-in localization for PromptDialog and %FormFlow.  
     /// * A resource file generated from the static strings found in your form.
     /// * A resource file you create with strings for dynamically computed fields, messages or confirmations.
     /// 
     /// The static strings in a form include strings that are generated from the information in your C# class and from the strings you supply as prompts, 
-    /// templates, messages or confirmations. It does not include strings generated from built-in templates since those are already localized.  Since strings 
+    /// templates, messages or confirmations. It does not include strings generated from built-in templates since those are already localized.  Since many strings 
     /// are automatically generated, it is not easy to use normal C# resource strings directly.  For this reason we have provided the code to easily
     /// extract all of the static strings in a form by either:
     /// 1. Call IFormBuilder.SaveResource on your form to save a .resx file.
@@ -777,7 +777,7 @@
     /// \include AnnotatedSandwichBot/AnnotatedSandwich.json
     /// 
     /// In order to make use of your [JSON Schema] you use FormBuilder over a [JObject] and can make use of the same
-    /// kind of methods as you would with C# parameterized by the schema.  
+    /// kind of methods as you would with a C# class only parameterized by the JSON schema.  
     /// The Advanced.FieldJson class is the underlying implementation of Advanced.Field and it 
     /// can be used and localized in exactly the same way as Advanced.FieldReflector.  Here is a static method for 
     /// building a [JSON Schema] form that has exactly the same functionality we have defined so far:
