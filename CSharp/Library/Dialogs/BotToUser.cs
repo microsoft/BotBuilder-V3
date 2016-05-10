@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq; 
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -158,7 +158,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
         {
             await this.inner.PostAsync(message, cancellationToken);
-            await this.writer.WriteLineAsync(message.Text);
+            await this.writer.WriteLineAsync($"{message.Text}\n{ActionsToText(message.Attachments)}");
+        }
+
+        private static string ActionsToText(IList<Attachment> attachments)
+        {
+            var buttonAttachments = attachments?.Where(attachment => attachment.Actions?.Count > 0);
+            string text = string.Empty;
+            if (buttonAttachments != null)
+            {
+                foreach (var attachment in buttonAttachments)
+                {
+                    if (attachment != null && attachment.Actions != null && attachment.Actions.Count() > 0)
+                    {
+                        text = "";
+                        foreach (var action in attachment.Actions)
+                        {
+                            if (!string.IsNullOrEmpty(action.Message))
+                                text += $"* ({action.Message}) {action.Title}\n";
+                            else
+                                text += $"* {action.Title}\n";
+                        }
+                    }
+                    text += "\n";
+                }
+            }
+            return text;
         }
     }
 }
