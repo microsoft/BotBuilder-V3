@@ -1465,6 +1465,17 @@ export class LuisDialog extends IntentDialog {
      * @param callback.entities List of entities that were recognized.
      */
     protected recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
+
+    /**
+     * Calls LUIS to recognizing intents & entities in a users utterance.
+     * @param utterance The text to pass to LUIS for recognition.
+     * @param serviceUri URI for LUIS App hosted on http://luis.ai.
+     * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
+     */
+    static recognize(utterance: string, serviceUri: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
 
 /**
