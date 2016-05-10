@@ -142,25 +142,6 @@ namespace Microsoft.Bot.Builder.FormFlow
             return AddField(field);
         }
 
-        public IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
-        {
-            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
-            var paths = new List<string>();
-            FieldPaths(typeof(T), "", paths);
-            foreach (var path in paths)
-            {
-                if (!exclusions.Contains(path))
-                {
-                    IField<T> field = _form._fields.Field(path);
-                    if (field == null)
-                    {
-                        AddField(new FieldReflector<T>(path));
-                    }
-                }
-            }
-            return this;
-        }
-
         public IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             IFormBuilder<T> builder = this;

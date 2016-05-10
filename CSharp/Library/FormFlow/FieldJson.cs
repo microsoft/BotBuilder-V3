@@ -435,18 +435,20 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="builder">Where to add any defined fields.</param>
         /// <param name="schema">JSON Schema that defines fields.</param>
+        /// <param name="exclude">Fields not to include.</param>
         /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
         /// for defining your fields.
         /// </remarks>
-        public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JSchema schema)
+        public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JSchema schema, IEnumerable<string> exclude = null)
         {
+            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
             var fields = new List<string>();
             Fields(schema, null, fields);
             foreach (var field in fields)
             {
-                if (!builder.HasField(field))
+                if (!exclusions.Contains(field) && !builder.HasField(field))
                 {
                     builder.Field(schema, field);
                 }

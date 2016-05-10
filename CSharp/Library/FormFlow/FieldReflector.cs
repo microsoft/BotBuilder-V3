@@ -526,5 +526,31 @@ namespace Microsoft.Bot.Builder.FormFlow
             field.SetPrompt(prompt);
             return builder.Field(field);
         }
+
+        /// <summary>
+        /// Add all fields not already added to the form.
+        /// </summary>
+        /// <param name="builder">Where to add fields.</param>
+        /// <param name="exclude">Fields not to include.</param>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
+        /// <remarks>
+        /// This will add all fields defined in your form that have not already been
+        /// added if the fields are supported.
+        /// </remarks>
+        public static IFormBuilder<T> AddRemainingFields<T>(this IFormBuilder<T> builder, IEnumerable<string> exclude = null)
+            where T : class
+        {
+            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
+            var paths = new List<string>();
+            FormBuilder<T>.FieldPaths(typeof(T), "", paths);
+            foreach (var path in paths)
+            {
+                if (!exclusions.Contains(path) && !builder.HasField(path))
+                {
+                    builder.Field(new FieldReflector<T>(path));
+                }
+            }
+            return builder;
+        }
     }
 }

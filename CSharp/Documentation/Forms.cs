@@ -28,6 +28,8 @@
     /// [XLF]: https://en.wikipedia.org/wiki/XLIFF
     /// [CurrentUICulture]: https://msdn.microsoft.com/en-us/library/system.threading.thread.currentuiculture(v=vs.110).aspx
     /// [CurrentCulture]: https://msdn.microsoft.com/en-us/library/system.threading.thread.currentculture(v=vs.110).aspx
+    /// [JSON Schema]: http://json-schema.org/documentation.html
+    /// [JObject]: http://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
     /// 
     /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
@@ -736,6 +738,54 @@
     /// ...
     /// ~~~
     /// 
+    /// \subsection jsonForms JSON Schema FormFlow 
+    /// In the examples we have seen so far, forms have been defined by a C# class. 
+    /// An alternative way to define your forms is to use [JObject] as your state and define the schema
+    /// through [JSON Schema].  The schema provides a way of describing the fields that make up your [JObject] 
+    /// and also allow annotations similar to C# attributes for controlling prompts, templates and terms.  
+    /// The advantage of using a [JObject] for your state is that the form definition is entirely driven by data
+    /// rather than the static definition of your type in C#.
+    /// 
+    /// %FormFlow makes use of a number of standard [JSON Schema] keywords including:
+    /// * `type` -- Defines the fields type.
+    /// * `enum` -- Defines the possible field values.
+    /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
+    /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
+    /// * `required` -- Defines what fields are required.
+    /// 
+    /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
+    /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
+    /// For example to define a template to override the <see cref="TemplateUsage.NotUnderstood"/> template
+    /// and specify a [ChoiceStyle], you would put this in your schema:
+    /// ~~~
+    /// "Templates":{ "NotUnderstood": { Patterns: ["I don't get it"], "ChoiceStyle":"Auto"}}
+    /// ~~~
+    /// 
+    /// %FormFlow %Extensions defined at the root of a schema or as a peer of the `type` property.  
+    /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
+    /// * `Prompt: { Patterns:[string, ...] &lt;args&gt;}` -- Define a prompt.
+    /// 
+    /// %FormFlow %Extensions found in a property description as peers to the `type` property of a JSON Schema.
+    /// * `DateTime:bool` -- Marks a field as being a DateTime field.
+    /// * `Describe:string` -- Description of a field.
+    /// * `Terms:[string ,...]` -- Regular expressions for matching a field.
+    /// * `MaxPhrase:int` -- This will run your terms through Advanced.Language.GenerateTerms to expand them.
+    /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
+    /// 
+    /// The simplest way to define your form is to just call Extensions.AddRemainingFields, but you can also define each field
+    /// explicitly.  Here for example is the [JSON Schema] that corresponds to the Annotated Sandwich %Bot we have defined so far.
+    /// \include AnnotatedSandwichBot/AnnotatedSandwich.json
+    /// 
+    /// In order to make use of your [JSON Schema] you use FormBuilder over a [JObject] and can make use of the same
+    /// kind of methods as you would with C# parameterized by the schema.  
+    /// The Advanced.FieldJson class is the underlying implementation of Advanced.Field and it 
+    /// can be used and localized in exactly the same way as Advanced.FieldReflector.  Here is a static method for 
+    /// building a [JSON Schema] form that has exactly the same functionality we have defined so far:
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip BuildJsonForm
+    /// \until .Build
+    /// \until }
+    ///
     /// \subsection quitExceptions Handling Quit and Exceptions
     /// When the user types 'quit' or there is an exception while filling in a form using FormDialog it is useful to be able
     /// to know what step the 'quit' or exception happened, the state of the form and and what steps were successfully completed.

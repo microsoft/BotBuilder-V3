@@ -135,17 +135,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         IFormBuilder<T> Field(IField<T> field);
 
         /// <summary>
-        /// Add all fields not already added to the form.
-        /// </summary>
-        /// <param name="exclude">Fields not to include.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This will add all fields defined in your forifm state that have not already been
-        /// added if the fields are supported.
-        /// </remarks>
-        IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
-
-        /// <summary>
         /// Add a confirmation step.
         /// </summary>
         /// <param name="prompt">Prompt to use for confirmation.</param>
