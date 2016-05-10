@@ -37,8 +37,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
-// using Chronic;
+using Chronic;
+using System.Threading;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -728,7 +728,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     /// <remarks>
-    /// Expressions recognized are based the C# DateTime parser.
+    /// Expressions recognized are based the C# Chronic parser for English and
+    /// the C# DateTime parser otherwise.
     /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
         where T : class
@@ -743,7 +744,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             : base(field, configuration)
         {
             _culture = culture;
-            // _parser = new Chronic.Parser();
+            _parser = new Chronic.Parser();
         }
 
         public override string Help(T state, object defaultValue)
@@ -756,18 +757,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public override TermMatch Parse(string input)
         {
             TermMatch match = null;
-            DateTime dt;
-            if (DateTime.TryParse(input, out dt))
+            if (_culture.TwoLetterISOLanguageName != "en")
             {
-                match = new TermMatch(0, input.Length, 1.0, dt);
+                DateTime dt;
+                if (DateTime.TryParse(input, out dt))
+                {
+                    match = new TermMatch(0, input.Length, 1.0, dt);
+                }
             }
-            /*
-            var parse = _parser.Parse(input);
-            if (parse != null && parse.Start.HasValue)
+            else
             {
-                match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+                var parse = _parser.Parse(input);
+                if (parse != null && parse.Start.HasValue)
+                {
+                    match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+                }
             }
-            */
             return match;
         }
 
@@ -782,6 +787,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         private CultureInfo _culture;
-        // private Parser _parser;
+        private Parser _parser;
     }
 }

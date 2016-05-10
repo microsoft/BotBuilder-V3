@@ -383,7 +383,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected JSchema _schema;
     }
-
 }
 
 namespace Microsoft.Bot.Builder.FormFlow
