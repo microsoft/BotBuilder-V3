@@ -187,9 +187,11 @@ namespace Microsoft.Bot.Builder.Tests
                     await PersistMessageData(client, msg.To.Id, msg.From.Id, msg.ConversationId, reply);
                 }
 
-                using (var scope = container.BeginLifetimeScope())
-                {
-                    var reply = await Conversation.ResumeAsync(scope, msg.To.Id, msg.From.Id, msg.ConversationId, new Message { Text = "resume" });
+                var resumptionCookie = new ResumptionCookie(msg);
+                var continuationMessage = resumptionCookie.GetMessage(); 
+                using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
+                {   
+                    var reply = await Conversation.ResumeAsync(scope, continuationMessage, new Message { Text = "resume" });
                     Assert.AreEqual("resumed!", reply.Text);
 
                     var client = scope.Resolve<IConnectorClient>();

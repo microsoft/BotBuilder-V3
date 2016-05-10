@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Bot.Builder.Dialogs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Authentication;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -48,14 +50,14 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         // The Facebook App Secret
         public static readonly string FacebookAppSecret = "YOUR_FACEBOOK_APP_SECRET";
 
-        public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(string userId, string conversationId, string code, string facebookOauthCallback)
+        public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(ResumptionCookie resumptionCookie, string code, string facebookOauthCallback)
         {
-            var redirectUri = GetOAuthCallBack(userId, conversationId, facebookOauthCallback);
+            var redirectUri = GetOAuthCallBack(resumptionCookie, facebookOauthCallback);
             var uri = GetUri("https://graph.facebook.com/v2.3/oauth/access_token",
                 Tuple.Create("client_id", FacebookAppId),
+                Tuple.Create("redirect_uri", redirectUri),
                 Tuple.Create("client_secret", FacebookAppSecret),
-                Tuple.Create("code", code),
-                Tuple.Create("redirect_uri", redirectUri)
+                Tuple.Create("code", code)
                 );
 
             return await FacebookRequest<FacebookAcessToken>(uri);
@@ -81,18 +83,22 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             return res.Name;
         }
 
-        private static string GetOAuthCallBack(string userId, string conversationId, string facebookOauthCallback)
+        private static string GetOAuthCallBack(ResumptionCookie resumptionCookie, string facebookOauthCallback)
         {
+            // because of a limitation on the characters in Facebook redirect_uri, we don't use the serialization of the cookie.
+            // http://stackoverflow.com/questions/4386691/facebook-error-error-validating-verification-code
             var uri = GetUri(facebookOauthCallback,
-                Tuple.Create("userId", userId),
-                Tuple.Create("conversationId", conversationId));
-
+                Tuple.Create("userId", resumptionCookie.UserId),
+                Tuple.Create("conversationId", resumptionCookie.ConversationId),
+                Tuple.Create("channelId", resumptionCookie.UserChannelId),
+                Tuple.Create("language", resumptionCookie.Language ?? "en")
+                );
             return uri.ToString();
         }
 
-        public static string GetFacebookLoginURL(PendingMessage pendingMessage, string facebookOauthCallback)
+        public static string GetFacebookLoginURL(ResumptionCookie resumptionCookie, string facebookOauthCallback)
         {
-            var redirectUri = GetOAuthCallBack(pendingMessage.userId, pendingMessage.conversationId, facebookOauthCallback);
+            var redirectUri = GetOAuthCallBack(resumptionCookie, facebookOauthCallback);
             var uri = GetUri("https://www.facebook.com/dialog/oauth",
                 Tuple.Create("client_id", FacebookAppId),
                 Tuple.Create("redirect_uri", redirectUri),
@@ -100,7 +106,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("scope", "public_profile,email"),
                 Tuple.Create("state", Convert.ToString(new Random().Next(9999)))
                 );
-
+            
             return uri.ToString();
         }
 
@@ -119,7 +125,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             }
             catch (JsonException ex)
             {
-                throw new ArgumentException("Unable to deserialize the facebook response.", ex);
+                throw new ArgumentException("Unable to deserialize the Facebook response.", ex);
             }
         }
 
