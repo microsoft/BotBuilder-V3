@@ -59,17 +59,17 @@ If the Bot needs to take time in performing time-intensive actions, don't leave 
 ### Keep the user in control
 
   
-  * The user must not feel constrained or forced by the Bot's script. Let the user tailor the Bot to suit their needs, for example, if the Bot sends updates on five categories of something but the user is only interested in two, let the user turn off updates for the other three. 
-  * Let the user select from options in your script wherever appropriate.  
+* The user must not feel constrained or forced by the Bot's script. Let the user tailor the Bot to suit their needs, for example, if the Bot sends updates on five categories of something but the user is only interested in two, let the user turn off updates for the other three. 
+* Let the user select from options in your script wherever appropriate.  
   
 
 ### Be nice and do the right things including but not limited to: 
 
   
-  * Being respectful and considerate of everyone; 
-  * Respecting user privacy; 
-  * Not being be rude in conversations; 
-  * Striving for quality; 
-  * Operating with integrity. 
+* Being respectful and considerate of everyone; 
+* Respecting user privacy; 
+* Not being be rude in conversations; 
+* Striving for quality; 
+* Operating with integrity. 
   
 
