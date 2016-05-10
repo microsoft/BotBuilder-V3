@@ -202,6 +202,29 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, stop the propagation of an exception of <typeparamref name="E"/>.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <typeparam name="E">The type of exception to swallow.</typeparam>
+        /// <param name="antecedent"> The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <returns>The default value of <typeparamref name="T"/> if there is an exception of type <typeparamref name="E"/>.</returns>
+        public static IDialog<T> DefaultIfException<T, E>(this IDialog<T> antecedent) where E : Exception
+        {
+            return new DefaultIfExceptionDialog<T, E>(antecedent);
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, stop the propagation of Exception.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <param name="antecedent"> The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <returns>The default value of <typeparamref name="T"/> if there is an Exception.</returns>
+        public static IDialog<T> DefaultIfException<T>(this IDialog<T> antecedent)
+        {
+            return new DefaultIfExceptionDialog<T, Exception>(antecedent);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, go through each <see cref="ICase{T, R}"/> 
         /// and run the <see cref="ContextualSelector{T, R}"/>" of the first <see cref="ICase{T, R}"/> that 
         /// the returned value by the antecedent dialog satisfies.
@@ -549,6 +572,31 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 var item = await result;
                 context.Done(item);
+            }
+        }
+
+        [Serializable]
+        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E: Exception
+        {
+            public readonly IDialog<T> Antecedent;
+            public DefaultIfExceptionDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                try
+                {
+                    context.Done(await result);
+                }
+                catch (E)
+                {
+                    context.Done(default(T));
+                }
             }
         }
 

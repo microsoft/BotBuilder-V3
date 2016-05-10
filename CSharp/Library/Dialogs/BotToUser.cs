@@ -158,7 +158,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
         {
             await this.inner.PostAsync(message, cancellationToken);
-            await this.writer.WriteLineAsync($"{message.Text}\n{ActionsToText(message.Attachments)}");
+            await this.writer.WriteLineAsync($"{message.Text}{ActionsToText(message.Attachments)}");
         }
 
         private static string ActionsToText(IList<Attachment> attachments)
@@ -171,16 +171,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     if (attachment != null && attachment.Actions != null && attachment.Actions.Count() > 0)
                     {
-                        text = "";
                         foreach (var action in attachment.Actions)
                         {
                             if (!string.IsNullOrEmpty(action.Message))
-                                text += $"* ({action.Message}) {action.Title}\n";
+                            {
+                                text += $"\n{action.Message}. {action.Title}";
+                            }
                             else
-                                text += $"* {action.Title}\n";
+                            { 
+                                text += $"\n* {action.Title}";
+                            }
                         }
                     }
-                    text += "\n";
                 }
             }
             return text;

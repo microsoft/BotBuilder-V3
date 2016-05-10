@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, AnnotationsAndText, NoAnnotations, NoFieldOrder,
         WithState,
         Localized,
         SimpleSandwichBot, AnnotatedSandwichBot, JSONSandwichBot
@@ -193,6 +193,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => PizzaOrder.BuildForm(noNumbers: false));
                         case DebugOptions.AnnotationsAndNoNumbers:
                             return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true));
+                        case DebugOptions.AnnotationsAndText:
+                            return MakeForm(() => PizzaOrder.BuildForm(style: ChoiceStyleOptions.AutoText));
                         case DebugOptions.NoAnnotations:
                             return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true, ignoreAnnotations: true));
                         case DebugOptions.NoFieldOrder:
@@ -241,8 +243,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         }
                     }
                 })
+                .DefaultIfException()
                 .Loop();
-
             Interactive(callDebug).GetAwaiter().GetResult();
         }
     }

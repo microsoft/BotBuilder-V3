@@ -129,9 +129,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         Default,
 
         /// <summary>
-        /// Automatically switch between the <see cref="Inline"/> and <see cref="PerLine"/> styles based on the number of choices.
+        /// Automatically choose how to render choices.
         /// </summary>
         Auto,
+
+        /// <summary>
+        /// Automatically generate text and switch between the <see cref="Inline"/> and <see cref="PerLine"/> styles based on the number of choices.
+        /// </summary>
+        AutoText,
 
         /// <summary>
         /// Show choices on the same line.

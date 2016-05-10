@@ -374,16 +374,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         if (!field.AllowsMultiple && _annotation.ChoiceStyle == ChoiceStyleOptions.Auto)
                         {
-                            if (buttons == null)
+                            // Buttons do not support multiple selection so we fall back to text
+                            int i = 1;
+                            foreach(var value in values)
                             {
-                                buttons = new List<FormButton>();
+                                var button = new FormButton() { Title = value };
+                                if (_annotation.AllowNumbers)
+                                {
+                                    button.Message = i.ToString();
+                                }
+                                buttons.Add(button);
+                                ++i;
                             }
-                            
-                            buttons.AddRange(values.GenerateButtons());
                         }
                         else
                         {
-                            if ((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto && values.Count() < 4)
+                            if (((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto || _annotation.ChoiceStyle == ChoiceStyleOptions.AutoText)
+                                && values.Count() < 4)
                                 || (_annotation.ChoiceStyle == ChoiceStyleOptions.Inline))
                             {
                                 // Inline choices

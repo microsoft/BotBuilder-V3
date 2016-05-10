@@ -231,7 +231,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return builder.ToString();
         }
 
-        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false)
+        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.Auto)
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
@@ -250,6 +250,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             {
                 builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
             }
+            builder.Configuration.DefaultPrompt.ChoiceStyle = style;
             Func<PizzaOrder, double> computeCost = (order) =>
             {
                 double cost = 0.0;
