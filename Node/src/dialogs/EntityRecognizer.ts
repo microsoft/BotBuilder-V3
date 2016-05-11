@@ -102,6 +102,7 @@ export class EntityRecognizer {
         entities.forEach((entity: ILuisDateTimeEntity) => {
             if (entity.resolution) {
                 switch (entity.resolution.resolution_type || entity.type) {
+                    case 'builtin.datetime':
                     case 'builtin.datetime.date':
                     case 'builtin.datetime.time':
                         var parts = (entity.resolution.date || entity.resolution.time).split('T');
@@ -173,14 +174,12 @@ export class EntityRecognizer {
         return response;
     }
 
-    static parseNumber(utterance: string): number;
-    static parseNumber(entities: IEntity[]): number;
-    static parseNumber(entities: any): number {
+    static parseNumber(entities: string | IEntity[]): number {
         var entity: IEntity;
         if (typeof entities == 'string') {
-            entity = { type: 'text', entity: entities.trim() };
+            entity = { type: 'text', entity: (<string>entities).trim() };
         } else {
-            entity = EntityRecognizer.findEntity(entities, 'builtin.number');
+            entity = EntityRecognizer.findEntity(<IEntity[]>entities, 'builtin.number');
         }
         if (entity) {
             var match = this.numberExp.exec(entity.entity);
@@ -201,10 +200,7 @@ export class EntityRecognizer {
         return undefined;
     }
 
-    static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
-    static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
-    static findBestMatch(choices: string[], utterance: string, threshold?: number): IFindMatchResult;
-    static findBestMatch(choices: any, utterance: string, threshold = 0.6): IFindMatchResult {
+    static findBestMatch(choices: string | Object | string[], utterance: string, threshold = 0.6): IFindMatchResult {
         var best: IFindMatchResult;
         var matches = EntityRecognizer.findAllMatches(choices, utterance, threshold);
         matches.forEach((value) => {
@@ -215,10 +211,7 @@ export class EntityRecognizer {
         return best;
     }
     
-    static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
-    static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
-    static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
-    static findAllMatches(choices: any, utterance: string, threshold = 0.6): IFindMatchResult[] {
+    static findAllMatches(choices: string | Object | string[], utterance: string, threshold = 0.6): IFindMatchResult[] {
         var matches: IFindMatchResult[] = [];
         utterance = utterance.trim().toLowerCase();
         var tokens = utterance.split(' ');
@@ -245,16 +238,13 @@ export class EntityRecognizer {
         return matches;
     }
     
-    static expandChoices(choices: string): string[];
-    static expandChoices(choices: Object): string[];
-    static expandChoices(choices: string[]): string[];
-    static expandChoices(choices: any): string[] {
+    static expandChoices(choices: string | Object | string[]): string[] {
         if (!choices) {
             return [];
         } else if (Array.isArray(choices)) {
             return choices;
         } else if (typeof choices == 'string') {
-            return choices.split('|');
+            return (<string>choices).split('|');
         } else if (typeof choices == 'object') {
             var list: string[] = [];
             for (var key in choices) {
