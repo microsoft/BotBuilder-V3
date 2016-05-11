@@ -645,7 +645,7 @@
     /// is to derive a class from Advanced.Field and implement the Advanced.IFieldState methods to get and set values and unknown values.  
     ///  
     /// \subsection localizingSection Localization
-    /// Once you have a great bot working in a single language, you might want to enable it in other languages.
+    /// Once you have a great bot working in a single language, you might want to enable it in other languages.  
     /// The localization language is determined by the current thread's [CurrentUICulture] and [CurrentCulture].  
     /// By default the culture comes from the Language field of the current message, but you can change that if you wish. 
     /// Depending on your bot, there can be up to 3 different sources of localized information including:
@@ -662,14 +662,19 @@
     /// ~~~~
     /// rview -g Microsoft.Bot.Sample.AnnotatedSandwichBot.dll Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.BuildForm
     /// ~~~~
-    /// 
-    /// In either case the resulting resource file can then be included in your project. When your form is created the IFormBuilder.Build method will automatically
-    /// look for resources that contain your form type name and use them to localize all of the static strings in your form.  Here for example are a few lines from
-    /// an automatically generated .resx file:
+    /// Here for example are a few lines from the automatically generated .resx file:
     /// \dontinclude AnnotatedSandwichBot/Resource/Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx
     /// \skip Specials_description;VALUE
     /// \until sandwichs?
     /// \until data
+    /// 
+    /// In order to make use of a generated resource file, add it to your project and then set the neutral language by:
+    /// 1. Right-click on your project and select the 'Appliction' tab.
+    /// 2. Click on the 'Assembly Information' button.
+    /// 3. Select the language you developed your bot in from the `Neutral Language` drop down.
+    /// 
+    /// With these changes, when your form is created the IFormBuilder.Build method will automatically
+    /// look for resources that contain your form type name and use them to localize all of the static strings in your form. 
     /// 
     /// Dynamic fields defined using Advanced.Field.SetDefine cannot be localized since the strings in them are used to dynamically construct values when
     /// actually filling out a form.  To localize these you can make use of the normal C# localization where a C# class for string resources 
