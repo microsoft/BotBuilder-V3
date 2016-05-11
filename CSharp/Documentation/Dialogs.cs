@@ -90,12 +90,6 @@
     /// response and perform the action including sending a message back to the user.  The final step is to do IDialogContext.Wait 
     /// with a continuation back to MessageReceivedAsync on the next message.
     /// 
-    /// \section echoButton Echo Bot with Buttons
-    /// A number of communication channels are starting to support [Buttons] as well as text.  The %Bot %Builder provides
-    /// buttons in both PromptDialog and in %FormFlow.  Depending on the channel, buttons may differ in how they are
-    /// rendered including just rendering as text.  The easiest way to use buttons is to make use of the PromptBuilder class
-    /// to create your prompts or messages. 
-    /// 
     /// \section alarmBot Alarm Bot
     /// This example is more complex and shows how to integrate [LUIS] together with PromptDialog to create an alarm 
     /// system you can interact with through natural language.  
