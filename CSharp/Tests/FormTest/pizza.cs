@@ -31,12 +31,17 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using FormTest.Resource;
+using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder.FormFlow;
+using System.Threading;
 #pragma warning disable 649
 
 namespace Microsoft.Bot.Builder.FormFlowTest
@@ -98,7 +103,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         ArtichokeHearts,
         MixedOnions,
 
-        [Terms("MozzarellaCheese", MaxPhrase = 2)]
+        [Terms("Mozzarella Cheese", MaxPhrase = 2)]
         MozzarellaCheese,
         Mushroom,
         Onions,
@@ -175,8 +180,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         public GourmetDeliteOptions GourmetDelite;
         public StuffedOptions Stuffed;
         public BYOPizza BYO;
-        //         [Optional]
-        // public List<CouponOptions> Coupons;
+        [Optional]
+        public List<CouponOptions> Coupons;
         [Optional]
         public CouponOptions Coupon;
         public string DeliveryAddress;
@@ -184,6 +189,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         public double? Rating;
         public DateTime Available;
+        [Optional]
+        [Numeric(1, 3)]
+        public int? Bottles;
         public string Specials;
 
         public override string ToString()
@@ -222,5 +230,127 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             builder.AppendFormat(", {0}, {1}, {2})", DeliveryAddress, Coupon, Rating ?? 0.0);
             return builder.ToString();
         }
+
+        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.Auto)
+        {
+            var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
+
+            ActiveDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
+            ActiveDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
+            ActiveDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
+            ActiveDelegate<PizzaOrder> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
+            // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
+            if (noNumbers)
+            {
+                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
+                builder.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
+                builder.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
+            }
+            else
+            {
+                builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
+            }
+            builder.Configuration.DefaultPrompt.ChoiceStyle = style;
+            Func<PizzaOrder, double> computeCost = (order) =>
+            {
+                double cost = 0.0;
+                switch (order.Size)
+                {
+                    case SizeOptions.Medium: cost = 10; break;
+                    case SizeOptions.Large: cost = 15; break;
+                    case SizeOptions.Family: cost = 20; break;
+                }
+                return cost;
+            };
+            MessageDelegate<PizzaOrder> costDelegate = async (state) =>
+            {
+                double cost = 0.0;
+                switch (state.Size)
+                {
+                    case SizeOptions.Medium: cost = 10; break;
+                    case SizeOptions.Large: cost = 15; break;
+                    case SizeOptions.Family: cost = 20; break;
+                }
+                cost *= state.NumberOfPizzas;
+                return new PromptAttribute(string.Format(DynamicPizza.Cost, cost));
+            };
+            var form = builder
+                .Message("Welcome to the pizza bot!!!")
+                .Message("Lets make pizza!!!")
+                .Field(nameof(PizzaOrder.NumberOfPizzas))
+                .Field(nameof(PizzaOrder.Size))
+                .Field(nameof(PizzaOrder.Kind))
+                .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Specials))
+                    .SetType(null)
+                    .SetDefine(async (state, field) =>
+                    {
+                        var specials = field
+                        .SetFieldDescription(DynamicPizza.Special)
+                        .SetFieldTerms(DynamicPizza.SpecialTerms.SplitList())
+                        .RemoveValues();
+                        if (state.NumberOfPizzas > 1)
+                        {
+                            specials
+                                .SetAllowsMultiple(true)
+                                .AddDescription("special1", DynamicPizza.Special1)
+                                .AddTerms("special1", DynamicPizza.Special1Terms.SplitList());
+                        }
+                        specials
+                            .AddDescription("special2", DynamicPizza.Special2)
+                            .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
+                        return true;
+                    }))
+                .Field("BYO.HalfAndHalf", isBYO)
+                .Field("BYO.Crust", isBYO)
+                .Field("BYO.Sauce", isBYO)
+                .Field("BYO.Toppings", isBYO)
+                .Field("BYO.HalfToppings", (pizza) => isBYO(pizza) && pizza.BYO != null && pizza.BYO.HalfAndHalf)
+                .Message("Almost there!!! {*filled}", isBYO)
+                .Field(nameof(PizzaOrder.GourmetDelite), isGourmet)
+                .Field(nameof(PizzaOrder.Signature), isSignature)
+                .Field(nameof(PizzaOrder.Stuffed), isStuffed)
+
+                .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
+                .Field("DeliveryAddress", validate:
+                    async (state, value) =>
+                    {
+                        var result = new ValidateResult { IsValid = true, Value = value };
+                        var str = value as string;
+                        if (str.Length == 0 || str[0] < '1' || str[0] > '9')
+                        {
+                            result.Feedback = DynamicPizza.AddressHelp;
+                            result.IsValid = false;
+                        }
+                        else
+                        {
+                            result.Feedback = DynamicPizza.AddressFine;
+                        }
+                        return result;
+                    })
+                .Message(costDelegate)
+                .Confirm(async (state) => {
+                    var cost = computeCost(state);
+                    return new PromptAttribute(string.Format(DynamicPizza.CostConfirm, cost));
+                })
+                .AddRemainingFields()
+                .Message("Rating = {Rating:F1} and [{Rating:F2}]")
+                .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
+                .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
+                .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
+                .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
+                .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
+                .Build();
+            if (localize)
+            {
+                using (var stream = new FileStream("pizza-" + Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName + ".resx", FileMode.Open))
+                using (var reader = new ResXResourceReader(stream))
+                {
+                    IEnumerable<string> missing, extra;
+                    form.Localize(reader.GetEnumerator(), out missing, out extra);
+                }
+            }
+            return form;
+        }
     };
+
 }

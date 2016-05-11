@@ -31,9 +31,14 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -62,13 +67,141 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="path">Current field being processed.</param>
         /// <param name="args">Optional arguments.</param>
         /// <returns>Message to user.</returns>
-        string Prompt(T state, string path, params object[] args);
+        FormPrompt Prompt(T state, string path, params object[] args);
 
         /// <summary>
         /// Associated recognizer if any.
         /// </summary>
         /// <returns>Recognizer for matching user input.</returns>
         IRecognize<T> Recognizer { get; }
+    }
+
+    /// <summary>
+    /// The prompt that is returned by form prompter. 
+    /// </summary>
+    [Serializable]
+    public sealed class FormPrompt : ICloneable
+    {
+        /// <summary>
+        /// The text prompt that corresponds to Message.Text.
+        /// </summary>
+        public string Prompt { set; get; } = string.Empty;
+
+        /// <summary>
+        /// The buttons that will be mapped to Message.Attachments.
+        /// </summary>
+        public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
+        
+        public override string ToString()
+        {
+            return $"{Prompt} {Language.BuildList(Buttons.Select(button => button.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
+        }
+
+        /// <summary>
+        /// Deep clone the FormPrompt.
+        /// </summary>
+        /// <returns> A deep cloned instance of FormPrompt.</returns>
+        public object Clone()
+        {
+            var newPrompt = new FormPrompt();
+            newPrompt.Prompt = this.Prompt;
+            newPrompt.Buttons = this.Buttons.Clone();
+            return newPrompt;
+        }
+    }
+
+    /// <summary>
+    /// A Form button that will be mapped to Connector.Action.
+    /// </summary>
+    [Serializable]
+    public sealed class FormButton : ICloneable
+    {
+        /// <summary>
+        /// Picture which will appear on the button.
+        /// </summary>
+        public string Image { get; set; }
+
+        /// <summary>
+        /// Message that will be sent to bot when this button is clicked.
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Label of the button.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// URL which will be opened in the browser built-into Client application.
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
+        /// Clone the FormButton
+        /// </summary>
+        /// <returns> A new cloned instance of object.</returns>
+        public object Clone()
+        {
+            return new FormButton
+            {
+                Image = this.Image,
+                Message = this.Message,
+                Title = this.Title,
+                Url = this.Url
+            };
+        }
+
+        /// <summary>
+        /// ToString() override. 
+        /// </summary>
+        /// <returns> Title of the button.</returns>
+        public override string ToString()
+        {
+            return Title; 
+        }
+    }
+
+    public static partial class Extensions
+    {
+        internal static IList<FormButton> GenerateButtons<T>(this IEnumerable<T> options)
+        {
+            var buttons = new List<FormButton>();
+            foreach (var option in options)
+            {
+                buttons.Add(new FormButton
+                {
+                    Title = option.ToString(),
+                    Message = option.ToString()
+                });
+            }
+            return buttons; 
+        }
+
+        internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons)
+        {
+            var attachments = new List<Attachment>();
+            var actions = new List<Connector.Action>(); 
+            foreach(var button in buttons)
+            {
+                actions.Add(new Connector.Action(button.Title, button.Image, button.Message, button.Url));
+            }
+
+            attachments.Add(new Attachment { Actions = actions });
+            return attachments;
+        }
+
+        internal static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        {
+            foreach (var cur in enumerable)
+            {
+                collection.Add(cur);
+            }
+        }
+
+        internal static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable
+        {
+            return listToClone.Select(item => (T)item.Clone()).ToList();
+        }
     }
 
     #region Documentation
@@ -83,11 +216,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="annotation">Annotation describing the \ref patterns and formatting for prompt.</param>
         /// <param name="form">Current form.</param>
         /// <param name="recognizer">Recognizer if any.</param>
-        public Prompter(TemplateBaseAttribute annotation, IForm<T> form, IRecognize<T> recognizer)
+        /// <param name="fields">Fields name lookup.  (Defaults to forms.)</param>
+        public Prompter(TemplateBaseAttribute annotation, IForm<T> form, IRecognize<T> recognizer, IFields<T> fields = null)
         {
             annotation.ApplyDefaults(form.Configuration.DefaultPrompt);
             _annotation = annotation;
             _form = form;
+            _fields = fields ?? form.Fields;
             _recognizer = recognizer;
         }
 
@@ -99,13 +234,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public string Prompt(T state, string pathName, params object[] args)
+        public FormPrompt Prompt(T state, string pathName, params object[] args)
         {
             string currentChoice = null;
             string noValue = null;
             if (pathName != "")
             {
-                var field = _form.Fields.Field(pathName);
+                var field = _fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional)
                 {
@@ -116,8 +251,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args);
-            return (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1"));
+            IList<FormButton> buttons = new List<FormButton>(); 
+            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args, ref buttons);
+            return new FormPrompt {
+                Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
+                Buttons = buttons
+            };
         }
 
         public IRecognize<T> Recognizer
@@ -189,13 +328,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return ok;
         }
 
-        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args, ref IList<FormButton> buttons)
         {
             bool foundUnspecified = false;
             int last = 0;
             int numeric;
             var response = new StringBuilder();
-            var field = _form.Fields.Field(pathName);
+            var field = _fields.Field(pathName);
+
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
@@ -204,13 +344,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var name = expr.Substring(1);
                     if (name == "") name = pathName;
-                    var pathField = _form.Fields.Field(name);
+                    var pathField = _fields.Field(name);
                     substitute = Language.Normalize(pathField == null ? pathName : pathField.FieldDescription, _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {
                     var builder = new StringBuilder();
-                    var defaultValue = field.GetValue(state);
                     var values = _recognizer.ValueDescriptions();
                     if (_annotation.AllowDefault != BoolDefault.False && field.Optional && !field.IsUnknown(state))
                     {
@@ -223,54 +362,73 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         {
                             if (!field.IsUnknown(state))
                             {
-                                current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args);
+                                current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args, ref buttons);
                             }
                         }
                         else
                         {
-                            current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args);
+                            current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args, ref buttons);
                         }
                     }
                     if (values.Count() > 0)
                     {
-                        if ((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto && values.Count() < 4)
-                            || (_annotation.ChoiceStyle == ChoiceStyleOptions.Inline))
+                        if (!field.AllowsMultiple && _annotation.ChoiceStyle == ChoiceStyleOptions.Auto)
                         {
-                            // Inline choices
-                            if (_annotation.ChoiceParens == BoolDefault.True) builder.Append('(');
-                            var choices = new List<string>();
-                            var i = 1;
-                            foreach (var value in values)
+                            // Buttons do not support multiple selection so we fall back to text
+                            int i = 1;
+                            foreach(var value in values)
                             {
-                                choices.Add(string.Format(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase)));
+                                var button = new FormButton() { Title = value };
+                                if (_annotation.AllowNumbers)
+                                {
+                                    button.Message = i.ToString();
+                                }
+                                buttons.Add(button);
                                 ++i;
-                            }
-                            builder.Append(Language.BuildList(choices, _annotation.ChoiceSeparator, _annotation.ChoiceLastSeparator));
-                            if (_annotation.ChoiceParens == BoolDefault.True) builder.Append(')');
-                            if (current != null)
-                            {
-                                builder.Append(" ");
-                                builder.Append(current);
                             }
                         }
                         else
                         {
-                            // Separate line choices
-                            if (current != null)
+                            if (((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto || _annotation.ChoiceStyle == ChoiceStyleOptions.AutoText)
+                                && values.Count() < 4)
+                                || (_annotation.ChoiceStyle == ChoiceStyleOptions.Inline))
                             {
-                                builder.Append(current);
-                                builder.Append(" ");
-                            }
-                            var i = 1;
-                            foreach (var value in values)
-                            {
-                                builder.Append("\n  ");
-                                if (!_annotation.AllowNumbers)
+                                // Inline choices
+                                if (_annotation.ChoiceParens == BoolDefault.True) builder.Append('(');
+                                var choices = new List<string>();
+                                var i = 1;
+                                foreach (var value in values)
                                 {
-                                    builder.Append("* ");
+                                    choices.Add(string.Format(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase)));
+                                    ++i;
                                 }
-                                builder.AppendFormat(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase));
-                                ++i;
+                                builder.Append(Language.BuildList(choices, _annotation.ChoiceSeparator, _annotation.ChoiceLastSeparator));
+                                if (_annotation.ChoiceParens == BoolDefault.True) builder.Append(')');
+                                if (current != null)
+                                {
+                                    builder.Append(" ");
+                                    builder.Append(current);
+                                }
+                            }
+                            else
+                            {
+                                // Separate line choices
+                                if (current != null)
+                                {
+                                    builder.Append(current);
+                                    builder.Append(" ");
+                                }
+                                var i = 1;
+                                foreach (var value in values)
+                                {
+                                    builder.Append("\n  ");
+                                    if (!_annotation.AllowNumbers)
+                                    {
+                                        builder.Append("* ");
+                                    }
+                                    builder.AppendFormat(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase));
+                                    ++i;
+                                }
                             }
                         }
                     }
@@ -291,9 +449,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         builder.Append("\n");
                     }
-                    foreach (var entry in (from step in _form.Fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
+                    foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {
-                        builder.Append("* ").AppendLine(format.Prompt(state, entry.Name));
+                        builder.Append("* ").AppendLine(format.Prompt(state, entry.Name).Prompt);
                     }
                     substitute = builder.ToString();
                 }
@@ -312,7 +470,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var name = formatArgs[0];
                         if (name == "") name = pathName;
                         var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
-                        var eltDesc = _form.Fields.Field(name);
+                        var eltDesc = _fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
                         {
                             var value = eltDesc.GetValue(state);
@@ -340,7 +498,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 else if (expr.StartsWith("?"))
                 {
                     // Conditional template
-                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args);
+                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args, ref buttons);
                     if (subValue == null)
                     {
                         substitute = "";
@@ -368,7 +526,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
                     if (name == "") name = pathName;
-                    var pathDesc = _form.Fields.Field(name);
+                    var pathDesc = _fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {
                         if (noValue == null)
@@ -432,6 +590,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private static readonly Regex _spaces = new Regex(@"(\S)( {2,})", RegexOptions.Compiled);
         private static readonly Regex _spacesPunc = new Regex(@"(?:\s+)(\.|\?)", RegexOptions.Compiled);
         private IForm<T> _form;
+        private IFields<T> _fields;
         private TemplateBaseAttribute _annotation;
         private IRecognize<T> _recognizer;
     }

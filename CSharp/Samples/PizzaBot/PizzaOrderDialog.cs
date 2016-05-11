@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Luis;
 using Newtonsoft.Json;
+using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
@@ -14,9 +15,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
     [Serializable]
     class PizzaOrderDialog : LuisDialog<PizzaOrder>
     {
-        private readonly BuildForm<PizzaOrder> MakePizzaForm;
+        private readonly BuildFormDelegate<PizzaOrder> MakePizzaForm;
 
-        internal PizzaOrderDialog(BuildForm<PizzaOrder> makePizzaForm)
+        internal PizzaOrderDialog(BuildFormDelegate<PizzaOrder> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
         }

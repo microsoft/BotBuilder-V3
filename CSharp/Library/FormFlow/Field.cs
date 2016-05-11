@@ -34,9 +34,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
@@ -65,6 +65,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _name = name;
             _role = role;
+            _min = -double.MaxValue;
+            _max = double.MaxValue;
+            _limited = false;
         }
 
         #region IField
@@ -163,7 +166,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return _description;
+                return _description.Description;
             }
         }
 
@@ -171,25 +174,25 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return _terms;
+                return _terms.Alternatives;
             }
         }
 
         public virtual IEnumerable<string> Terms(object value)
         {
-            return _valueTerms[value];
+            return _valueTerms[value].Alternatives;
         }
 
         public virtual string ValueDescription(object value)
         {
-            return _valueDescriptions[value];
+            return _valueDescriptions[value].Description;
         }
 
         public virtual IEnumerable<string> ValueDescriptions
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Value);
+                return (from entry in _valueDescriptions select entry.Value.Description);
             }
         }
 
@@ -226,17 +229,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
         #endregion
 
-#if LOCALIZE
         #region IFieldResources
 
         public virtual void SaveResources()
         {
             var localizer = _form.Resources;
-            localizer.Add(_name + nameof(_description), _description);
-            localizer.Add(_name + nameof(_terms), _terms);
+            if (_description.IsLocalizable)
+            {
+                localizer.Add(_name + nameof(_description), _description.Description);
+            }
+            if (_terms.IsLocalizable)
+            {
+                localizer.Add(_name + nameof(_terms), _terms.Alternatives);
+            }
             localizer.Add(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.Add(_name + nameof(_valueTerms), _valueTerms);
-            if (_promptSet)
+            if (_promptDefinition != null && _promptDefinition.IsLocalizable)
             {
                 localizer.Add(_name + nameof(_promptDefinition), _promptDefinition.Patterns);
             }
@@ -246,17 +254,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void Localize()
         {
             var localizer = _form.Resources;
-            localizer.Lookup(_name + nameof(_description), out _description);
-            localizer.LookupValues(_name + nameof(_terms), out _terms);
+            string description;
+            string[] terms;
+            if (localizer.Lookup(_name + nameof(_description), out description))
+            {
+                _description = new DescribeAttribute(description);
+            }
+            if (localizer.LookupValues(_name + nameof(_terms), out terms))
+            {
+                _terms = new TermsAttribute(terms);
+            }
             localizer.LookupDictionary(_name + nameof(_valueDescriptions), _valueDescriptions);
             localizer.LookupDictionary(_name + nameof(_valueTerms), _valueTerms);
-            if (_promptSet)
+            string[] patterns;
+            if (localizer.LookupValues(_name + nameof(_promptDefinition), out patterns))
             {
-                string[] patterns;
-                if (localizer.LookupValues(_name + nameof(_promptDefinition), out patterns))
-                {
-                    _promptDefinition.Patterns = patterns;
-                }
+                _promptDefinition.Patterns = patterns;
             }
             localizer.LookupTemplates(_name, _templates);
             if (!_promptSet)
@@ -265,12 +278,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             _prompt = null;
             _recognizer = null;
-            DefinePrompt();
-            DefineRecognizer();
+            if (_define == null)
+            {
+                DefinePrompt();
+                DefineRecognizer();
+            }
         }
 
         #endregion
-#endif
 
         #region IFieldPrompt
 
@@ -344,7 +359,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetFieldDescription(string description)
         {
-            _description = description;
+            _description = new DescribeAttribute(description);
             return this;
         }
 
@@ -353,7 +368,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetFieldTerms(params string[] terms)
         {
-            _terms = terms;
+            _terms = new TermsAttribute(terms);
             return this;
         }
 
@@ -363,7 +378,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> AddDescription(object value, string description)
         {
-            _valueDescriptions[value] = description;
+            _valueDescriptions[value] = new DescribeAttribute(description);
             return this;
         }
 
@@ -373,7 +388,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> AddTerms(object value, params string[] terms)
         {
-            _valueTerms[value] = terms;
+            _valueTerms[value] = new TermsAttribute(terms);
             return this;
         }
 
@@ -388,7 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         /// <summary>   Removes all values and their associated descriptions and terms. </summary>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/>.</returns>
         public Field<T> RemoveValues()
         {
             _valueDescriptions.Clear();
@@ -398,7 +413,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         /// <summary>   Sets the type of the underlying field state. </summary>
         /// <param name="type"> The field type. </param>
-        /// <returns>   A Field&lt;T&gt; </returns>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetType(Type type)
         {
             _type = type;
@@ -471,6 +486,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary> Sets the recognizer for the field. </summary>
         /// <param name="recognizer">   The recognizer for the field. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
+        /// <remarks>
+        /// This should only be called when you are dynamically defining a field using a <see cref="DefineAsyncDelegate{T}"/> because
+        /// recognizers usually require the field and often change if the localization changes.
+        /// </remarks>
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             _recognizer = recognizer;
@@ -548,7 +567,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    throw new ArgumentException(_name + " is not a type FormFlow understands.");
+                    throw new ArgumentException($"{_name} is not a type FormFlow understands.");
                 }
                 if (usage != TemplateUsage.None)
                 {
@@ -577,15 +596,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (_type.IsIntegral())
                 {
-                    _recognizer = new RecognizeNumber<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeNumber<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type.IsDouble())
                 {
-                    _recognizer = new RecognizeDouble<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeDouble<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type == typeof(DateTime))
                 {
-                    _recognizer = new RecognizeDateTime<T>(this, _form.Resources.Culture);
+                    _recognizer = new RecognizeDateTime<T>(this, Thread.CurrentThread.CurrentUICulture);
                 }
                 else if (_type.IsIEnumerable())
                 {
@@ -619,7 +638,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected FieldRole _role;
         protected ActiveDelegate<T> _condition = new ActiveDelegate<T>((state) => true);
         protected DefineAsyncDelegate<T> _define = null;
-        protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true });
+        protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
         protected double _min, _max;
         protected bool _limited;
         protected string[] _dependencies = new string[0];
@@ -628,10 +647,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected bool _optional;
         protected bool _isNullable;
         protected bool _keepZero;
-        protected string _description;
-        protected string[] _terms = new string[0];
-        protected Dictionary<object, string> _valueDescriptions = new Dictionary<object, string>();
-        protected Dictionary<object, string[]> _valueTerms = new Dictionary<object, string[]>();
+        protected DescribeAttribute _description = new DescribeAttribute(null);
+        protected TermsAttribute _terms = new TermsAttribute();
+        protected Dictionary<object, DescribeAttribute> _valueDescriptions = new Dictionary<object, DescribeAttribute>();
+        protected Dictionary<object, TermsAttribute> _valueTerms = new Dictionary<object, TermsAttribute>();
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
         protected bool _promptSet;
         protected PromptAttribute _promptDefinition;
@@ -641,407 +660,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
     }
 
-    #region Documentation
-    /// <summary>   Fill in field information through reflection.</summary>
-    /// <remarks>   The resulting information can be overriden through the fluent interface.</remarks>
-    /// <typeparam name="T">    The form state. </typeparam>
-    #endregion
-    public class FieldReflector<T> : Field<T>
-        where T : class
-    {
-        #region Documentation
-        /// <summary>   Construct an <see cref="IField{T}"/> through reflection. </summary>
-        /// <param name="name">                 Path to the field in your form state. </param>
-        /// <param name="ignoreAnnotations">    True to ignore annotations. </param>
-        #endregion
-        public FieldReflector(string name, bool ignoreAnnotations = false)
-            : base(name, FieldRole.Value)
-        {
-            _ignoreAnnotations = ignoreAnnotations;
-            AddField(typeof(T), _name.Split('.'), 0);
-        }
-
-        #region IField
-
-        #region IFieldState
-        public override object GetValue(T state)
-        {
-            object current = state;
-            Type ftype = null;
-            foreach (var step in _path)
-            {
-                ftype = StepType(step);
-                var field = step as FieldInfo;
-                if (field != null)
-                {
-                    current = field.GetValue(current);
-                }
-                else
-                {
-                    var prop = step as PropertyInfo;
-                    current = prop.GetValue(current);
-                }
-                if (current == null)
-                {
-                    break;
-                }
-            }
-            // Convert value types to null if appropriate
-            return (ftype.IsEnum
-                ? ((int)current == 0 ? null : current)
-                : (ftype == typeof(DateTime) && ((DateTime)current) == DateTime.MinValue)
-                    ? null
-                    : current);
-        }
-
-        public override void SetValue(T state, object value)
-        {
-            object current = state;
-            object lastClass = state;
-            var last = _path.Last();
-            foreach (var step in _path)
-            {
-                var field = step as FieldInfo;
-                var prop = step as PropertyInfo;
-                Type ftype = StepType(step);
-                if (step == last)
-                {
-                    object newValue = value;
-                    if (ftype.IsIEnumerable())
-                    {
-                        if (value != null && ftype != typeof(string))
-                        {
-                            // Build list and coerce elements
-                            var list = Activator.CreateInstance(ftype);
-                            var addMethod = list.GetType().GetMethod("Add");
-                            foreach (var elt in value as System.Collections.IEnumerable)
-                            {
-                                addMethod.Invoke(list, new object[] { elt });
-                            }
-                            newValue = list;
-                        }
-                    }
-                    else
-                    {
-                        if (value == null && (ftype.IsEnum || ftype.IsIntegral() || ftype.IsDouble()))
-                        {
-                            // Default value for numbers and enums
-                            newValue = 0;
-                        }
-                        else if (ftype.IsIntegral())
-                        {
-                            newValue = Convert.ChangeType(value, ftype);
-                        }
-                        else if (ftype.IsDouble())
-                        {
-                            newValue = Convert.ChangeType(value, ftype);
-                        }
-                        else if (ftype == typeof(bool))
-                        {
-                            newValue = Convert.ChangeType(value, typeof(bool));
-                        }
-                    }
-                    if (field != null)
-                    {
-                        field.SetValue(lastClass, newValue);
-                    }
-                    else
-                    {
-                        prop.SetValue(lastClass, newValue);
-                    }
-                }
-                else
-                {
-                    current = (field == null ? prop.GetValue(current) : field.GetValue(current));
-                    if (current == null)
-                    {
-                        var obj = Activator.CreateInstance(ftype);
-                        current = obj;
-                        if (field != null)
-                        {
-                            field.SetValue(lastClass, current);
-                        }
-                        else
-                        {
-                            prop.SetValue(lastClass, current);
-                        }
-                    }
-                    lastClass = current;
-                }
-            }
-        }
-
-        public override bool IsUnknown(T state)
-        {
-            var unknown = false;
-            var value = GetValue(state);
-            if (value == null)
-            {
-                unknown = true;
-            }
-            else
-            {
-                var step = _path.Last();
-                var ftype = StepType(step);
-                if (ftype.IsValueType && ftype.IsEnum)
-                {
-                    unknown = ((int)value == 0);
-                }
-                else if (ftype == typeof(DateTime))
-                {
-                    unknown = ((DateTime)value) == default(DateTime);
-                }
-                else if (ftype.IsIEnumerable())
-                {
-                    unknown = !(value as System.Collections.IEnumerable).GetEnumerator().MoveNext();
-                }
-            }
-            return unknown;
-        }
-
-        public override void SetUnknown(T state)
-        {
-            var step = _path.Last();
-            var field = step as FieldInfo;
-            var prop = step as PropertyInfo;
-            var ftype = StepType(step);
-            if (ftype.IsEnum)
-            {
-                SetValue(state, 0);
-            }
-            else if (ftype == typeof(DateTime))
-            {
-                SetValue(state, default(DateTime));
-            }
-            else
-            {
-                SetValue(state, null);
-            }
-        }
-
-        #endregion
-        #endregion
-
-        #region Internals
-        protected Type StepType(object step)
-        {
-            var field = step as FieldInfo;
-            var prop = step as PropertyInfo;
-            return (step == null ? null : (field == null ? prop.PropertyType : field.FieldType));
-        }
-
-        protected void AddField(Type type, string[] path, int ipath)
-        {
-            if (ipath < path.Length)
-            {
-                ProcessTemplates(type);
-                var step = path[ipath];
-                object field = type.GetField(step, BindingFlags.Public | BindingFlags.Instance);
-                Type ftype;
-                if (field == null)
-                {
-                    var prop = type.GetProperty(step, BindingFlags.Public | BindingFlags.Instance);
-                    if (prop == null)
-                    {
-                        throw new ArgumentException(step + " is not a field or property in your type");
-                    }
-                    field = prop;
-                    ftype = prop.PropertyType;
-                    _path.Add(prop);
-                }
-                else
-                {
-                    ftype = (field as FieldInfo).FieldType;
-                    _path.Add(field);
-                }
-                if (ftype.IsNullable())
-                {
-                    _isNullable = true;
-                    _keepZero = true;
-                    ftype = Nullable.GetUnderlyingType(ftype);
-                }
-                else if (ftype.IsEnum || ftype.IsClass)
-                {
-                    _isNullable = true;
-                }
-                if (ftype.IsClass)
-                {
-                    if (ftype == typeof(string))
-                    {
-                        _type = ftype;
-                        ProcessFieldAttributes(field);
-                    }
-                    else if (ftype.IsIEnumerable())
-                    {
-                        var elt = ftype.GetGenericElementType();
-                        if (elt.IsEnum)
-                        {
-                            _type = elt;
-                            _allowsMultiple = true;
-                            ProcessFieldAttributes(field);
-                            ProcessEnumAttributes(elt);
-                        }
-                        else
-                        {
-                            // TODO: What to do about enumerations of things other than enums?
-                            throw new NotImplementedException();
-                        }
-                    }
-                    else
-                    {
-                        AddField(ftype, path, ipath + 1);
-                    }
-                }
-                else
-                {
-                    if (ftype.IsEnum)
-                    {
-                        ProcessFieldAttributes(field);
-                        ProcessEnumAttributes(ftype);
-                    }
-                    else if (ftype == typeof(bool))
-                    {
-                        ProcessFieldAttributes(field);
-                    }
-                    else if (ftype.IsIntegral())
-                    {
-                        long min = long.MinValue;
-                        long max = long.MaxValue;
-                        if (ftype == typeof(sbyte)) { min = sbyte.MinValue; max = sbyte.MaxValue; }
-                        else if (ftype == typeof(byte)) { min = byte.MinValue; max = byte.MaxValue; }
-                        else if (ftype == typeof(short)) { min = short.MinValue; max = short.MaxValue; }
-                        else if (ftype == typeof(ushort)) { min = ushort.MinValue; max = ushort.MaxValue; }
-                        else if (ftype == typeof(int)) { min = int.MinValue; max = int.MaxValue; }
-                        else if (ftype == typeof(uint)) { min = uint.MinValue; max = uint.MaxValue; }
-                        else if (ftype == typeof(long)) { min = long.MinValue; max = long.MaxValue; }
-                        else if (ftype == typeof(ulong)) { min = long.MinValue; max = long.MaxValue; }
-                        SetLimits(min, max, false);
-                        ProcessFieldAttributes(field);
-                    }
-                    else if (ftype.IsDouble())
-                    {
-                        double min = long.MinValue;
-                        double max = long.MaxValue;
-                        if (ftype == typeof(float)) { min = float.MinValue; max = float.MaxValue; }
-                        else if (ftype == typeof(double)) { min = double.MinValue; max = double.MaxValue; }
-                        SetLimits(min, max, false);
-                        ProcessFieldAttributes(field);
-                    }
-                    else if (ftype == typeof(DateTime))
-                    {
-                        ProcessFieldAttributes(field);
-                    }
-                    _type = ftype;
-                }
-            }
-        }
-
-        protected void ProcessTemplates(Type type)
-        {
-            if (!_ignoreAnnotations)
-            {
-                foreach (var attribute in type.GetCustomAttributes(typeof(TemplateAttribute)))
-                {
-                    AddTemplate(attribute as TemplateAttribute);
-                }
-            }
-        }
-
-        protected void ProcessFieldAttributes(object step)
-        {
-            _optional = false;
-            if (!_ignoreAnnotations)
-            {
-                var field = step as FieldInfo;
-                var prop = step as PropertyInfo;
-                var name = (field == null ? prop.Name : field.Name);
-                var describe = (field == null ? prop.GetCustomAttribute<DescribeAttribute>() : field.GetCustomAttribute<DescribeAttribute>());
-                var terms = (field == null ? prop.GetCustomAttribute<TermsAttribute>() : field.GetCustomAttribute<TermsAttribute>());
-                var prompt = (field == null ? prop.GetCustomAttribute<PromptAttribute>() : field.GetCustomAttribute<PromptAttribute>());
-                var optional = (field == null ? prop.GetCustomAttribute<OptionalAttribute>() : field.GetCustomAttribute<OptionalAttribute>());
-                var numeric = (field == null ? prop.GetCustomAttribute<NumericAttribute>() : field.GetCustomAttribute<NumericAttribute>());
-                if (describe != null)
-                {
-                    _description = describe.Description;
-                }
-                else
-                {
-                    _description = Language.CamelCase(name);
-                }
-                if (terms != null)
-                {
-                    _terms = terms.Alternatives;
-                }
-                else
-                {
-                    _terms = Language.GenerateTerms(Language.CamelCase(name), 3);
-                }
-                if (prompt != null)
-                {
-                    _promptDefinition = prompt;
-                }
-                if (numeric != null)
-                {
-                    double oldMin, oldMax;
-                    Limits(out oldMin, out oldMax);
-                    SetLimits(numeric.Min, numeric.Max, numeric.Min != oldMin || numeric.Max != oldMax);
-                }
-                _optional = (optional != null);
-                foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
-                {
-                    AddTemplate(attribute as TemplateAttribute);
-                }
-            }
-        }
-
-        protected void ProcessEnumAttributes(Type type)
-        {
-            foreach (var enumField in type.GetFields(BindingFlags.Static | BindingFlags.Public))
-            {
-                var enumValue = enumField.GetValue(null);
-                if (_keepZero || (int)enumValue > 0)
-                {
-                    var describe = enumField.GetCustomAttribute<DescribeAttribute>();
-                    var terms = enumField.GetCustomAttribute<TermsAttribute>();
-                    if (describe != null && !_ignoreAnnotations)
-                    {
-                        _valueDescriptions.Add(enumValue, describe.Description);
-                    }
-                    else
-                    {
-                        _valueDescriptions.Add(enumValue, Language.CamelCase(enumValue.ToString()));
-                    }
-                    if (terms != null && !_ignoreAnnotations)
-                    {
-                        _valueTerms.Add(enumValue, terms.Alternatives);
-                    }
-                    else
-                    {
-                        _valueTerms.Add(enumValue, Language.GenerateTerms(Language.CamelCase(enumValue.ToString()), 4));
-                    }
-                }
-            }
-        }
-
-        /// <summary>   True to ignore annotations. </summary>
-        protected bool _ignoreAnnotations;
-
-        /// <summary>   Path to field value in state. </summary>
-        protected List<object> _path = new List<object>();
-        #endregion
-    }
-
-    public class Conditional<T> : FieldReflector<T>
-        where T : class
-    {
-        public Conditional(string name, ActiveDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, ignoreAnnotations)
-        {
-            SetActive(condition);
-        }
-    }
-
-    public class Fields<T> : IFields<T>
+     public class Fields<T> : IFields<T>
     {
         public IField<T> Field(string name)
         {

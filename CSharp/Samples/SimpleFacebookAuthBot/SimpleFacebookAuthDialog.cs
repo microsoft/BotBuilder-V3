@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         /// The pending message that is written to the <see cref="Microsoft.Bot.Builder.Dialogs.Internals.IBotData.PerUserInConversationData"/>
         /// when bot is waiting for the response from the callback
         /// </summary>
-        public readonly PendingMessage pendingMessage;
+        public readonly ResumptionCookie ResumptionCookie;
 
         /// <summary>
         /// Constructs an instance of the SimpleFacebookAuthDialog
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         /// <param name="msg"></param>
         public SimpleFacebookAuthDialog(Message msg)
         {
-            pendingMessage = new PendingMessage(msg);
+            ResumptionCookie = new ResumptionCookie(msg);
         }
         
         /// <summary>
@@ -141,8 +141,8 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             string token;
             if (!context.PerUserInConversationData.TryGetValue(AuthTokenKey, out token))
             {
-                context.PerUserInConversationData.SetValue("pendingMessage", pendingMessage);
-                var fbLogin = $"Go to: {FacebookHelpers.GetFacebookLoginURL(pendingMessage, FacebookOauthCallback.ToString())}";
+                context.PerUserInConversationData.SetValue("persistedCookie", ResumptionCookie);
+                var fbLogin = $"Go to: {FacebookHelpers.GetFacebookLoginURL(ResumptionCookie, FacebookOauthCallback.ToString())}";
 
                 await context.PostAsync(fbLogin);
                 context.Wait(MessageReceivedAsync);

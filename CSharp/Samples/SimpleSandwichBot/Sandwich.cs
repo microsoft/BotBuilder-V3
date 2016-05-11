@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     public enum SandwichOptions
     {
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
-        OverRoastedChicken, RoastBeef, RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
+        OvenRoastedChicken, RoastBeef, RotisserieStyleChicken, SpicyItalian, SteakAndCheese, SweetOnionTeriyaki, Tuna,
         TurkeyBreast, Veggie
     };
     public enum LengthOptions { SixInch, FootLong };
@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
     };
 
     [Serializable]
-    class SandwichOrder
+    public class SandwichOrder
     {
         public SandwichOptions? Sandwich;
         public LengthOptions? Length;

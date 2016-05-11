@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <param name="botId"> Id of the bot.</param>
         /// <param name="userId"> Id of the user.</param>
         /// <param name="conversationId"> Id of the conversation.</param>
-        /// <param name="token"> The cancelation token.</param>
+        /// <param name="token"> The cancellation token.</param>
         /// <returns> A message with appropriate data fields.</returns>
         public static async Task<Message> LoadMessageData(this IConnectorClient client, string botId, string userId, string conversationId, CancellationToken token = default(CancellationToken))
         {
@@ -122,15 +122,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     Id = userId
                 }
             };
+            return await client.LoadMessageData(continuationMessage, token);
+        }
 
+        /// <summary>
+        /// Loads the message data from connector.
+        /// </summary>
+        /// <param name="client"> The connector client.</param>
+        /// <param name="continuationMessage"> The continuation message based on <see cref="ResumptionCookie"/>.</param>
+        /// <param name="token"> The cancellation token.</param>
+        /// <returns> A message with appropriate data fields.</returns>
+        public static async Task<Message> LoadMessageData(this IConnectorClient client, Message continuationMessage, CancellationToken token = default(CancellationToken))
+        {
+            var botId = continuationMessage.To.Id;
+            var userId = continuationMessage.From.Id;
+            var conversationId = continuationMessage.ConversationId; 
             var dataRetrievalTasks = new List<Task<BotData>> {
                 client.Bots.GetConversationDataAsync(botId, conversationId, token),
                 client.Bots.GetUserDataAsync(botId, userId, token),
                 client.Bots.GetPerUserConversationDataAsync(botId, conversationId, userId, token)
-            } ;
+            };
 
-
-            await Task.WhenAll(dataRetrievalTasks); 
+            await Task.WhenAll(dataRetrievalTasks);
 
             continuationMessage.BotConversationData = dataRetrievalTasks[0].Result?.Data;
             continuationMessage.BotUserData = dataRetrievalTasks[1].Result?.Data;

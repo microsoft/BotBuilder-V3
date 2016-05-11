@@ -37,16 +37,17 @@ using Newtonsoft.Json.Linq;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using System.IO;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public abstract class BotDataBase<T> : IBotData
     {
-        protected readonly Message mesage;
+        protected readonly Message message;
 
         public BotDataBase(Message message)
         {
-            SetField.NotNull(out this.mesage, nameof(mesage), message);
+            SetField.NotNull(out this.message, nameof(BotDataBase<T>.message), message);
         }
 
         protected abstract T MakeData();
@@ -56,11 +57,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotConversationData;
+                var data = (T)this.message.BotConversationData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotConversationData = data;
+                    this.message.BotConversationData = data;
                 }
 
                 return this.WrapData(data);
@@ -71,11 +72,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotPerUserInConversationData;
+                var data = (T)this.message.BotPerUserInConversationData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotPerUserInConversationData = data;
+                    this.message.BotPerUserInConversationData = data;
                 }
 
                 return this.WrapData(data);
@@ -86,11 +87,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                var data = (T)this.mesage.BotUserData;
+                var data = (T)this.message.BotUserData;
                 if (data == null)
                 {
                     data = this.MakeData();
-                    this.mesage.BotUserData = data;
+                    this.message.BotUserData = data;
                 }
 
                 return this.WrapData(data);
@@ -207,6 +208,38 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         protected override IBotDataBag WrapData(JObject data)
         {
             return new Bag(data);
+        }
+    }
+
+    public sealed class BotDataBagStream : MemoryStream
+    {
+        private readonly IBotDataBag bag;
+        private readonly string key;
+        public BotDataBagStream(IBotDataBag bag, string key)
+        {
+            SetField.NotNull(out this.bag, nameof(bag), bag);
+            SetField.NotNull(out this.key, nameof(key), key);
+
+            byte[] blob;
+            if (this.bag.TryGetValue(key, out blob))
+            {
+                this.Write(blob, 0, blob.Length);
+                this.Position = 0;
+            }
+        }
+
+        public override void Flush()
+        {
+            base.Flush();
+
+            var blob = this.ToArray();
+            this.bag.SetValue(this.key, blob);
+        }
+
+        public override void Close()
+        {
+            this.Flush();
+            base.Close();
         }
     }
 }

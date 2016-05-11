@@ -1,0 +1,571 @@
+{
+  "luis_schema_version": "1.2.0",
+  "name": "PizzaBot",
+  "desc": "Sample Pizza Bot",
+  "culture": "en-us",
+  "intents": [
+    {
+      "Name": "OrderPizza",
+      "Children": []
+    },
+    {
+      "Name": "StoreHours",
+      "Children": []
+    },
+    {
+      "Name": "None",
+      "Children": []
+    },
+    {
+      "Name": "UseCoupon",
+      "Children": []
+    },
+    {
+      "Name": "DeliveryAddress",
+      "Children": []
+    },
+    {
+      "Name": "DeliveryTime",
+      "Children": []
+    }
+  ],
+  "entities": [
+    {
+      "Name": "Stuffed",
+      "Children": []
+    },
+    {
+      "Name": "BYO.Crust",
+      "Children": []
+    },
+    {
+      "Name": "Signature",
+      "Children": []
+    },
+    {
+      "Name": "BYO.Toppings",
+      "Children": []
+    },
+    {
+      "Name": "Kind",
+      "Children": []
+    },
+    {
+      "Name": "Available",
+      "Children": []
+    },
+    {
+      "Name": "Size",
+      "Children": []
+    },
+    {
+      "Name": "Address",
+      "Children": []
+    },
+    {
+      "Name": "GourmetDelite",
+      "Children": []
+    },
+    {
+      "Name": "BYO.Sauce",
+      "Children": []
+    }
+  ],
+  "bing_entities": [],
+  "actions": [],
+  "model_features": [
+    {
+      "name": "SizeOptions",
+      "mode": true,
+      "words": "med,medium,lrg,large,family,extra large",
+      "activated": true
+    },
+    {
+      "name": "PizzaOptions",
+      "mode": true,
+      "words": "signature,signature pizza,gourmet delite,gourmet delite pizza,stuffed,stuffed pizza,byo,build your own,build my own,custom,make my own",
+      "activated": true
+    },
+    {
+      "name": "SignatureOptions",
+      "mode": true,
+      "words": "Hawaiian,Pepperoni,Murphys Combo,Chicken Garlic,The Cowboy,Cowboy",
+      "activated": true
+    },
+    {
+      "name": "GourmetDeliteOptions",
+      "mode": true,
+      "words": "Spicy Fennel Sausage,Angus Steak And Roasted Garlic,Gourmet Vegetarian,Chicken Bacon Artichoke,Herb Chicken Mediterranean",
+      "activated": true
+    },
+    {
+      "name": "StuffedOptions",
+      "mode": true,
+      "words": "Chicken Bacon Stuffed,Chicago Style Stuffed,Five Meat Stuffed",
+      "activated": true
+    },
+    {
+      "name": "CrustOptions",
+      "mode": true,
+      "words": "Original,Thin,Stuffed,Pan,Fresh Pan,Gluten Free",
+      "activated": true
+    },
+    {
+      "name": "SauceOptions",
+      "mode": true,
+      "words": "Traditional,Creamy Garlic,Olive Oil",
+      "activated": true
+    },
+    {
+      "name": "ToppingOptions",
+      "mode": true,
+      "words": "Beef,Black Olives,Olives,Canadian Bacon,Bacon,Crispy Bacon,Garlic,Green Peppers,Peppers,Grilled Chicken,Chicken,Herb And Cheese Blend,Herb,Herb & Cheese,Herb And Cheese,Italian Sausage,Sausage,Artichoke Hearts,Artichoke,Mixed Onions,Onions,Mozzarella Cheese,Mozzarella,Cheese,Mushroom,Parmesan Cheese,Parmesan,Pepperoni,Pineapple,Roma Tomatoes,Tomatoes,Salami,Spinach,Sun Dried Tomatoes,Zucchini,Extra Cheese",
+      "activated": true
+    },
+    {
+      "name": "Coupon",
+      "mode": true,
+      "words": "Large 20 Percent,Large 20 %,20 % off,Pepperoni 20 Percent,Pepperoni 20 %",
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "i'd like to use my 20% off cupon",
+      "intent": "UseCoupon",
+      "entities": []
+    },
+    {
+      "text": "whats the earliest you deliver?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "when are you open?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "whats the latest you deliver?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "pizza please",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "are you open late?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "can i get a pizza?",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "i'd like to order a pizza",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "what are your hours?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "how late are you open?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "when do you open?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "send this tomorrow at 9pm",
+      "intent": "DeliveryTime",
+      "entities": [
+        {
+          "entity": "Available",
+          "startPos": 2,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "deliver to 34918 se moffat st, snoqualmie, wa 98065",
+      "intent": "DeliveryAddress",
+      "entities": [
+        {
+          "entity": "Address",
+          "startPos": 2,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "a large pepperoni pizza please",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 1,
+          "endPos": 1
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "i'd like a medium hawaiian",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
+        },
+        {
+          "entity": "Signature",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "send this to my home address",
+      "intent": "DeliveryAddress",
+      "entities": [
+        {
+          "entity": "Address",
+          "startPos": 3,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "i'd like a large sausage pizza for 7:30pm",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Available",
+          "startPos": 9,
+          "endPos": 11
+        },
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "can i get a thin crust hawaiian at 8:30pm",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "BYO.Crust",
+          "startPos": 4,
+          "endPos": 4
+        },
+        {
+          "entity": "Available",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Signature",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "do you have any coupons?",
+      "intent": "UseCoupon",
+      "entities": []
+    },
+    {
+      "text": "i'd like a pepperoni pizza using my 20% off coupon",
+      "intent": "UseCoupon",
+      "entities": [
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "i have a 20% off coupon for a large hawaiian pizza",
+      "intent": "UseCoupon",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 9,
+          "endPos": 9
+        },
+        {
+          "entity": "Signature",
+          "startPos": 10,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "we want a family size pepperoni with thin crust and traditional sauce",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "BYO.Sauce",
+          "startPos": 10,
+          "endPos": 10
+        },
+        {
+          "entity": "BYO.Crust",
+          "startPos": 7,
+          "endPos": 7
+        },
+        {
+          "entity": "Size",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "i have a 20% off coupon for a large hawaiian",
+      "intent": "UseCoupon",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 9,
+          "endPos": 9
+        },
+        {
+          "entity": "Signature",
+          "startPos": 10,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i want to use my coupon",
+      "intent": "UseCoupon",
+      "entities": []
+    },
+    {
+      "text": "send a large pepperoni pizza to my house",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 3,
+          "endPos": 3
+        },
+        {
+          "entity": "Address",
+          "startPos": 6,
+          "endPos": 6
+        },
+        {
+          "entity": "Address",
+          "startPos": 7,
+          "endPos": 7
+        }
+      ]
+    },
+    {
+      "text": "store hours",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "torder pizza",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "what are the store hours?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "test",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "order",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "i order large pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "i want to order a large pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "what are the store hours today?",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "large cheese and pepperoni pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 1,
+          "endPos": 1
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "i order pizza",
+      "intent": "OrderPizza",
+      "entities": []
+    },
+    {
+      "text": "large beef and onion pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 1,
+          "endPos": 1
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "order large pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 1,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "order a large pepperoni pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "i want to order a large pepperoni pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
+        },
+        {
+          "entity": "BYO.Toppings",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "large hawaiian",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
+        },
+        {
+          "entity": "Signature",
+          "startPos": 1,
+          "endPos": 1
+        }
+      ]
+    },
+    {
+      "text": "order a large pizza",
+      "intent": "OrderPizza",
+      "entities": [
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    }
+  ]
+}

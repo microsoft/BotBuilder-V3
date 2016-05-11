@@ -39,21 +39,28 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Dialogs;
+
 using Moq;
 using Autofac;
 
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Tests
 {
     [TestClass]
     public abstract class FiberTestBase
     {
+        public struct C
+        {
+        }
+
+        public static readonly C Context = default(C);
+
         public interface IMethod
         {
-            Task<IWait> CodeAsync<T>(IFiber fiber, IAwaitable<T> item);
+            Task<IWait<C>> CodeAsync<T>(IFiber<C> fiber, C context, IAwaitable<T> item);
         }
 
         public static Moq.Mock<IMethod> MockMethod()
@@ -93,12 +100,12 @@ namespace Microsoft.Bot.Builder.Tests
             return item => ExceptionOfType<T, E>(item);
         }
 
-        public static async Task PollAsync(IFiberLoop fiber)
+        public static async Task PollAsync(IFiberLoop<C> fiber)
         {
             IWait wait;
             do
             {
-                wait = await fiber.PollAsync();
+                wait = await fiber.PollAsync(Context);
             }
             while (wait.Need != Need.None && wait.Need != Need.Done);
         }
@@ -106,7 +113,7 @@ namespace Microsoft.Bot.Builder.Tests
         public static IContainer Build()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new FiberModule());
+            builder.RegisterModule(new FiberModule<C>());
             return builder.Build();
         }
 
@@ -160,21 +167,21 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = (Fiber) container.Resolve<IFiberLoop>();
+                var fiber = (Fiber<C>) container.Resolve<IFiberLoop<C>>();
                 // assert
                 var previous = fiber;
                 AssertSerializable(container, ref fiber);
                 Assert.IsFalse(object.ReferenceEquals(previous, fiber));
-                Assert.IsTrue(object.ReferenceEquals(previous.Factory, fiber.Factory));
+                Assert.IsTrue(object.ReferenceEquals(previous.FrameFactory, fiber.FrameFactory));
             }
         }
 
         [Serializable]
         private sealed class SerializableMethod : IMethod
         {
-            async Task<IWait> IMethod.CodeAsync<T>(IFiber fiber, IAwaitable<T> item)
+            async Task<IWait<C>> IMethod.CodeAsync<T>(IFiber<C> fiber, C context, IAwaitable<T> item)
             {
-                return NullWait.Instance;
+                return NullWait<C>.Instance;
             }
         }
 
@@ -184,7 +191,7 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 IMethod method = new SerializableMethod();
 
                 // act
@@ -193,7 +200,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                 // assert
                 AssertSerializable(container, ref fiber);
-                var next = await fiber.PollAsync();
+                var next = await fiber.PollAsync(Context);
                 Assert.AreEqual(Need.Done, next.Need);
             }
         }
@@ -205,10 +212,10 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
 
                 // assert
-                var next = await fiber.PollAsync();
+                var next = await fiber.PollAsync(Context);
                 Assert.AreEqual(Need.None, next.Need);
             }
         }
@@ -219,18 +226,18 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = 42;
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(method.Object.CodeAsync, value);
 
                 // assert
-                var next = await fiber.PollAsync();
+                var next = await fiber.PollAsync(Context);
                 Assert.AreEqual(Need.Done, next.Need);
                 method.VerifyAll();
             }
@@ -243,10 +250,10 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.IsAny<IAwaitable<int>>()))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.IsAny<IAwaitable<int>>()))
                     .Returns(async () => { return fiber.Done(42); });
 
                 // act
@@ -264,12 +271,12 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = 42;
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(method.Object.CodeAsync, value);
@@ -286,16 +293,16 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var valueOne = 42;
                 var valueTwo = "hello world";
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueOne))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(valueOne))))
                     .Returns(async () => { return fiber.Call(method.Object.CodeAsync, valueTwo); });
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueTwo))))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(valueTwo))))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(method.Object.CodeAsync, valueOne);
@@ -312,21 +319,21 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var methodOne = MockMethod();
                 var methodTwo = MockMethod();
                 var value1 = 42;
                 var value2 = "hello world";
                 var value3 = Guid.NewGuid();
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<C, string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
                 methodTwo
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value2))))
                     .Returns(async () => { return fiber.Done(value3); });
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value3))))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value3))))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(methodOne.Object.CodeAsync, value1);
@@ -344,17 +351,17 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var methodOne = MockMethod();
                 var methodTwo = MockMethod();
                 var value1 = 42;
                 var value2 = "hello world";
                 var value3 = Guid.NewGuid();
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                    .Returns(async () => { return fiber.Call<string>(methodTwo.Object.CodeAsync, value2); });
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<C, string>(methodTwo.Object.CodeAsync, value2); });
                 methodTwo
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value2))))
                     .Returns(async () => { return fiber.Done(value3); });
 
                 // act
@@ -373,11 +380,11 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = 42;
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
                     .Returns(async () => { throw new CodeException(); });
 
                 // act
@@ -397,21 +404,21 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var methodOne = MockMethod();
                 var methodTwo = MockMethod();
                 var value1 = 42;
                 var value2 = "hello world";
                 var value3 = Guid.NewGuid();
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<C, string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
                 methodTwo
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value2))))
                     .Returns(async () => { throw new CodeException(); });
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, CodeException>())))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(ExceptionOfType<Guid, CodeException>())))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(methodOne.Object.CodeAsync, value1);
@@ -428,21 +435,21 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var methodOne = MockMethod();
                 var methodTwo = MockMethod();
                 var value1 = 42;
                 var value2 = "hello world";
                 var value3 = Guid.NewGuid();
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value1))))
-                    .Returns(async () => { return fiber.Call<string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value1))))
+                    .Returns(async () => { return fiber.Call<C, string, Guid>(methodTwo.Object.CodeAsync, value2, methodOne.Object.CodeAsync); });
                 methodTwo
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value2))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value2))))
                     .Returns(async () => { return fiber.Done("not a guid"); });
                 methodOne
-                    .Setup(m => m.CodeAsync(fiber, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(ExceptionOfType<Guid, InvalidTypeException>())))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(methodOne.Object.CodeAsync, value1);
@@ -459,13 +466,13 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 string valueAsString = "hello world";
                 object valueAsObject = valueAsString;
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(valueAsObject))))
-                    .ReturnsAsync(NullWait.Instance);
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(valueAsObject))))
+                    .ReturnsAsync(NullWait<C>.Instance);
 
                 // act
                 fiber.Call(method.Object.CodeAsync, valueAsString);
@@ -483,12 +490,12 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = 42;
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
-                    .Returns(async () => { await fiber.PollAsync(); return null; });
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
+                    .Returns(async () => { await fiber.PollAsync(Context); return null; });
 
                 // act
                 fiber.Call(method.Object.CodeAsync, value);
@@ -505,20 +512,20 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = "hello world";
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
                     .Returns(async () => fiber.Done(42));
 
                 // act
-                var loop = Methods.Void<string>(method.Object.CodeAsync);
+                var loop = Methods.Void<C, string>(method.Object.CodeAsync);
                 fiber.Call(loop, value);
                 await PollAsync(fiber);
 
                 // assert
-                method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(1));
+                method.Verify(m => m.CodeAsync(fiber, Context, It.Is(Item(value))), Times.Exactly(1));
             }
         }
 
@@ -528,21 +535,21 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = container.Resolve<IFiberLoop>();
+                var fiber = container.Resolve<IFiberLoop<C>>();
                 var method = MockMethod();
                 var value = "hello world";
                 method
-                    .Setup(m => m.CodeAsync(fiber, It.Is(Item(value))))
+                    .Setup(m => m.CodeAsync(fiber, Context, It.Is(Item(value))))
                     .Returns(async () => fiber.Done(42));
 
                 // act
                 const int CallCount = 5;
-                var loop = Methods.Void(Methods.Loop<string>(method.Object.CodeAsync, CallCount));
+                var loop = Methods.Void(Methods.Loop<C, string>(method.Object.CodeAsync, CallCount));
                 fiber.Call(loop, value);
                 await PollAsync(fiber);
 
                 // assert
-                method.Verify(m => m.CodeAsync(fiber, It.Is(Item(value))), Times.Exactly(CallCount));
+                method.Verify(m => m.CodeAsync(fiber, Context, It.Is(Item(value))), Times.Exactly(CallCount));
             }
         }
     }

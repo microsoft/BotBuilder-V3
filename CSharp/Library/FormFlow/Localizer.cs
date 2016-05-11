@@ -37,45 +37,74 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
-using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
+using static Microsoft.Bot.Builder.Resource.Extensions;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     #region Documentation
     /// <summary>   A resource localizer. </summary>
     #endregion
-#if LOCALIZE
-    public
-#else
-    internal 
-#endif
-        class Localizer : ILocalizer
+    public class Localizer : ILocalizer
     {
         public CultureInfo Culture { get; set; }
 
         public void Add(string key, string translation)
         {
-            _translations.Add(key, translation);
+            if (translation != null)
+            {
+                _translations.Add(key, translation);
+            }
         }
 
         public void Add(string key, IEnumerable<string> list)
         {
-            _arrayTranslations.Add(key, list.ToArray());
-        }
-
-        public void Add(string prefix, IReadOnlyDictionary<object, string> dictionary)
-        {
-            foreach (var entry in dictionary)
+            if (list.Any())
             {
-                _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
+                _arrayTranslations.Add(key, list.ToArray());
             }
         }
 
-        public void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary)
+        public void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary)
         {
             foreach (var entry in dictionary)
             {
-                _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value);
+                if (entry.Value.IsLocalizable)
+                {
+                    if (entry.Key.GetType().IsEnum)
+                    {
+                        var key = entry.Key.GetType().Name + "." + entry.Key;
+                        if (!_translations.ContainsKey(key))
+                        {
+                            _translations.Add(key, entry.Value.Description);
+                        }
+                    }
+                    else
+                    {
+                        _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
+                    }
+                }
+            }
+        }
+
+        public void Add(string prefix, IReadOnlyDictionary<object, TermsAttribute> dictionary)
+        {
+            foreach (var entry in dictionary)
+            {
+                if (entry.Value.IsLocalizable)
+                {
+                    if (entry.Key.GetType().IsEnum)
+                    {
+                        var key = entry.Key.GetType().Name + "." + entry.Key;
+                        if (!_arrayTranslations.ContainsKey(key))
+                        {
+                            _arrayTranslations.Add(key, entry.Value.Alternatives);
+                        }
+                    }
+                    else
+                    {
+                        _arrayTranslations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Alternatives);
+                    }
+                }
             }
         }
 
@@ -83,13 +112,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             foreach (var template in templates.Values)
             {
-                _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+                Add(prefix, template);
             }
         }
 
         public void Add(string prefix, TemplateAttribute template)
         {
-            _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+            if (template.IsLocalizable)
+            {
+                _templateTranslations.Add(MakeList(prefix, template.Usage.ToString()), template.Patterns);
+            }
         }
 
         public bool Lookup(string key, out string value)
@@ -102,26 +134,44 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _arrayTranslations.TryGetValue(key, out values);
         }
 
-        public void LookupDictionary(string prefix, IDictionary<object, string> dictionary)
+        public void LookupDictionary(string prefix, IDictionary<object, DescribeAttribute> dictionary)
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
-                string value;
-                if (_translations.TryGetValue(prefix + SEPARATOR + key, out value))
+                string skey;
+                if (key.GetType().IsEnum)
                 {
-                    dictionary[key] = value;
+                    skey = key.GetType().Name + "." + key;
+                }
+                else
+                {
+                    skey = prefix + SEPARATOR + key;
+                }
+                string value;
+                if (_translations.TryGetValue(skey, out value))
+                {
+                    dictionary[key] = new DescribeAttribute(value);
                 }
             }
         }
 
-        public void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary)
+        public void LookupDictionary(string prefix, IDictionary<object, TermsAttribute> dictionary)
         {
             foreach (var key in dictionary.Keys.ToArray())
             {
-                string[] values;
-                if (_arrayTranslations.TryGetValue(prefix + SEPARATOR + key, out values))
+                string skey;
+                if (key.GetType().IsEnum)
                 {
-                    dictionary[key] = values;
+                    skey = key.GetType().Name + "." + key;
+                }
+                else
+                {
+                    skey = prefix + SEPARATOR + key;
+                }
+                string[] values;
+                if (_arrayTranslations.TryGetValue(skey, out values))
+                {
+                    dictionary[key] = new TermsAttribute(values);
                 }
             }
         }
@@ -145,23 +195,20 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _templateTranslations.Remove(key);
         }
 
-        public ILocalizer Load(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
+        public ILocalizer Load(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
             var lmissing = new List<string>();
             var lextra = new List<string>();
             var newLocalizer = new Localizer();
-            foreach (DictionaryEntry entry in reader)
+            while (reader.MoveNext())
             {
+                var entry = (DictionaryEntry) reader.Current;
                 var fullKey = (string)entry.Key;
-                var semi = fullKey.IndexOf(SEPARATOR[0]);
-                var type = fullKey.Substring(0, semi);
-                var key = fullKey.Substring(semi + 1);
+                var semi = fullKey.LastIndexOf(SEPARATOR[0]);
+                var key = fullKey.Substring(0, semi);
+                var type = fullKey.Substring(semi + 1);
                 var val = (string)entry.Value;
-                if (type == "CULTURE")
-                {
-                    newLocalizer.Culture = new CultureInfo(val);
-                }
-                else if (type == "VALUE")
+                if (type == "VALUE")
                 {
                     newLocalizer.Add(key, val);
                 }
@@ -197,15 +244,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void Save(IResourceWriter writer)
         {
-            writer.AddResource("CULTURE" + SEPARATOR, Culture.Name);
             foreach (var entry in _translations)
             {
-                writer.AddResource("VALUE" + SEPARATOR + entry.Key, entry.Value);
+                writer.AddResource(entry.Key + SEPARATOR + "VALUE", entry.Value);
             }
 
             foreach (var entry in _arrayTranslations)
             {
-                writer.AddResource("LIST" + SEPARATOR + entry.Key, MakeList(entry.Value));
+                writer.AddResource(entry.Key + SEPARATOR + "LIST", MakeList(entry.Value));
             }
 
             // Switch from field;usage -> patterns
@@ -234,7 +280,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var elements = entry.Key.SplitList().ToArray();
                 var usage = elements[0];
                 var patterns = elements.Skip(1);
-                var key = "TEMPLATE" + SEPARATOR + usage + SEPARATOR + MakeList(entry.Value);
+                var key = usage + SEPARATOR + MakeList(entry.Value) + SEPARATOR + "TEMPLATE";
                 writer.AddResource(key, MakeList(patterns));
             }
         }
