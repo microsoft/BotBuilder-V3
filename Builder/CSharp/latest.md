@@ -21,9 +21,26 @@ High Level Features:
 To install Microsoft.Bot.Builder, run the following command in the [Package Manager Console](http://docs.nuget.org/consume/package-manager-console)
 
     PM> Install-Package Microsoft.Bot.Builder
-
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### [v1.2.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.0)
+
+#### Breaking Changes
+* Target framework is now .Net 4.6.  This change was necessary to reliably support using the thread culture for localization.
+* FormFlow ValidateAsyncDelegate now needs to return the value to set in the field.  This was in order to support programmatic value transformations.
+* The signature of Conversation.Resume has changed in order to support a resumption cookie to maintain conversation state across dialog resumption.
+* Moved to the latest Nuget packages including for the Bot Framework Connector.
+
+#### New Features
+* System dialogs and FormFlow will now generate buttons for channels that support them. 
+* FormFlow can now be driven by an extended JSON Schema that allows doing attributes in a similar way to C#.  This allows forms to be generated at run-time from data rather than C# reflection.
+* System dialogs and FormFlow are localized to nine languages.  (Contributions for more languages would be welcome.) We also provide tools to help generate the resource files required to localize your FormFlow state classes.
+* DateTime parsing in English now uses Chronic which supports more natural Date/Time expressions like "tomorrow at 4".
+* The LuisDialog now supports the full LUIS schema including actions.
+
+#### Bugs
+* Fixed lots of bugs as reported by developers--thanks!
 
 ### [v1.1.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.1.0)
 
