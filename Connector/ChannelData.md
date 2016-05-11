@@ -245,3 +245,37 @@ Supported Methods:
 | [kickChatMember](https://core.telegram.org/bots/api#kickchatmember) | [unbanChatMember](https://core.telegram.org/bots/api#unbanchatmember) | [answerInlineQuery](https://core.telegram.org/bots/api#answerinlinequery)
 | [editMessageText](https://core.telegram.org/bots/api#editmessagetext) | [editMessageCaption](https://core.telegram.org/bots/api#editmessagecaption) | [editMessageReplyMarkup](https://core.telegram.org/bots/api#editmessagereplymarkup)
 
+## Custom Kik Messages
+
+The Kik adapter supports sending native Kik messages via the channelData field.  This allows you to do anything
+natively that Kik supports.
+
+|**Property** | **Description**
+|---------|  -----
+|*message*  | An array of messages. *See [Kik Messages](https://dev.kik.com/#/docs/messaging#message-formats)*
+
+Example Message:
+
+{% highlight json %} 
+	{
+		"messages": [
+		{
+			"chatId": "c6dd81652051b8f02796e152422cce678a40d0fb6ad83acd8f91cae71d12f1e0",
+			"type": "link",
+			"to": "kikhandle",
+			"title": "My Webpage",
+			"text": "Some text to display",
+			"url": "http://botframework.com",
+			"picUrl": "http://lorempixel.com/400/200/",
+			"attribution": {
+				"name": "My App",
+				"iconUrl": "http://lorempixel.com/50/50/"
+			 },
+			"noForward": true,
+			"kikJsData": {
+			  "key": "value"
+			}
+		}
+		]
+	}
+{% endhighlight %}
