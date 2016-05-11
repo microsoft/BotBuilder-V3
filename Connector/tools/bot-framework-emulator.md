@@ -48,7 +48,7 @@ See an example of use in the [Getting started page](/connector/getstarted/).
 ## Using ConnectorClient library with emulator
 If you need access to the SendMessageAsync API from the connector client you can use localhost:9000 
 
-{% highlight C# %}
+{% highlight csharp %}
     var connector = new ConnectorClient(new Uri("http://localhost:9000"), new ConnectorClientCredentials());
 {% endhighlight %}
 
@@ -63,7 +63,7 @@ To install
 3. Install [Mono](http://www.mono-project.com/download/#download-mac)
 4. mono BFEmulator.exe 
 
-{% highlight console %}
+{% highlight vctreestatus %}
 Microsoft Framework Emulator
 
 /exit or /quit to exit

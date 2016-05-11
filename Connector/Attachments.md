@@ -25,7 +25,7 @@ content.
 If the content type is a image or media content type then it will be passed to the channel in a way that 
 allows the image to be displayed.  If it is a file then it will simply come through as a link.
 
-{% highlight C# %}
+{% highlight csharp %}
     replyMessage.Attachments.Add(new Attachment()
     {
         ContentUrl = "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
@@ -58,7 +58,7 @@ We also have the ability to render rich cards as attachments.
 You can send multiple rich card attachments in a single message.  On most channels they will be sent
 as multiple rich cards, but some channels (like Facebook) will render them as a carosel of rich cards.
 
-{% highlight C# %}
+{% highlight csharp %}
     replyMessage.Attachments = new List<Attachment>();
 
     replyMessage.Attachments.Add(new Attachment()
@@ -116,7 +116,7 @@ Regardless, a user can perform the action by clicking on a button or typing in t
 
 # Example
 
-{% highlight c# %}
+{% highlight csharp %}
     using Bot=Microsoft.Bot.Connector;
     ...
     Attachment attachment = new Attachment()
