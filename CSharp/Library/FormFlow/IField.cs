@@ -219,12 +219,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     #region Documentation
     /// <summary>   Interface for saving/localizing generated resources. </summary>
     #endregion
-#if LOCALIZE
-    public
-#else
-    internal 
-#endif
-        interface IFieldResources
+    public interface IFieldResources
     {
         /// <summary>   Adds any string resources to form localizer. </summary>
         void SaveResources();
@@ -398,10 +393,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// Interface for all the information about a specific field.
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
-    public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>
-#if LOCALIZE
-    , IFieldResources
-#endif
+    public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>, IFieldResources
     {
         /// <summary>
         /// Name of this field.

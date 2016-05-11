@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Builder {
+namespace Microsoft.Bot.Builder.Resource {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Builder {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Builder.Resource.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,29 @@ namespace Microsoft.Bot.Builder {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backup.
+        ///   Looks up a localized string similar to Back.
         /// </summary>
-        internal static string CommandBackup {
+        internal static string CommandBack {
             get {
-                return ResourceManager.GetString("CommandBackup", resourceCulture);
+                return ResourceManager.GetString("CommandBack", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Back: Go back to the previous question..
         /// </summary>
-        internal static string CommandBackupHelp {
+        internal static string CommandBackHelp {
             get {
-                return ResourceManager.GetString("CommandBackupHelp", resourceCulture);
+                return ResourceManager.GetString("CommandBackHelp", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to backup;go back;back.
         /// </summary>
-        internal static string CommandBackupTerms {
+        internal static string CommandBackTerms {
             get {
-                return ResourceManager.GetString("CommandBackupTerms", resourceCulture);
+                return ResourceManager.GetString("CommandBackTerms", resourceCulture);
             }
         }
         
@@ -277,7 +277,7 @@ namespace Microsoft.Bot.Builder {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No;n.
+        ///   Looks up a localized string similar to No;n;nope.
         /// </summary>
         internal static string MatchNo {
             get {
@@ -295,11 +295,20 @@ namespace Microsoft.Bot.Builder {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes;y;sure;ok.
+        ///   Looks up a localized string similar to Yes;y;sure;ok;yep.
         /// </summary>
         internal static string MatchYes {
             get {
                 return ResourceManager.GetString("MatchYes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Name.
+        /// </summary>
+        internal static string Navigation {
+            get {
+                return ResourceManager.GetString("Navigation", resourceCulture);
             }
         }
         
@@ -336,6 +345,16 @@ namespace Microsoft.Bot.Builder {
         internal static string TemplateClarify {
             get {
                 return ResourceManager.GetString("TemplateClarify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is this your selection?
+        ///{*}.
+        /// </summary>
+        internal static string TemplateConfirmation {
+            get {
+                return ResourceManager.GetString("TemplateConfirmation", resourceCulture);
             }
         }
         
@@ -623,6 +642,15 @@ namespace Microsoft.Bot.Builder {
         internal static string TemplateUnspecified {
             get {
                 return ResourceManager.GetString("TemplateUnspecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to too many attempts.
+        /// </summary>
+        internal static string TooManyAttempts {
+            get {
+                return ResourceManager.GetString("TooManyAttempts", resourceCulture);
             }
         }
     }

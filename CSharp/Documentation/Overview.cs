@@ -89,3 +89,8 @@ namespace Microsoft.Bot.Builder.Internals.Fibers { }
 /// <summary>Namespace for the machinery needed to talk to http://luis.ai.</summary>
 /// <remarks>This namespace is not useful for most developers.</remarks>
 namespace Microsoft.Bot.Builder.Luis { }
+
+/// <summary>
+/// Namespace for resources.
+/// </summary>
+namespace Microsoft.Bot.Builder.Resource { }

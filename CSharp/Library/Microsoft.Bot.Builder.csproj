@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Bot.Builder</RootNamespace>
     <AssemblyName>Microsoft.Bot.Builder</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LOCALIZE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>CS1998;CS1591;CS0419</NoWarn>
@@ -37,17 +37,21 @@
     <NoWarn>CS1998;CS1591;CS0419</NoWarn>
     <DocumentationFile>bin\Release\Microsoft.Bot.Builder.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Connector.1.0.0.0\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
+    <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Bot.Connector.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bot.Connector.1.0.0.0\lib\net45\Microsoft.Bot.Connector.Utilities.dll</HintPath>
+    <Reference Include="Microsoft.Bot.Connector, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Connector.1.1.0.0\lib\net45\Microsoft.Bot.Connector.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -60,6 +64,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Schema, Version=2.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Schema.2.0.2\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -88,22 +96,29 @@
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
-    <Compile Include="Dialogs\Conversations.cs" />
+    <Compile Include="Dialogs\Conversation.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
-    <Compile Include="Dialogs\DialogContextStore.cs" />
     <Compile Include="Dialogs\Chain.cs" />
+    <Compile Include="Dialogs\ResumptionCookie.cs" />
+    <Compile Include="Dialogs\Scorable.cs" />
+    <Compile Include="Dialogs\DialogTask.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
+    <Compile Include="Dialogs\IChannelCapability.cs" />
     <Compile Include="Dialogs\IConnectorClientFactory.cs" />
-    <Compile Include="Dialogs\IDialogContextStore.cs" />
+    <Compile Include="Dialogs\IDialogTask.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Store.cs" />
+    <Compile Include="Fibers\IStore.cs" />
     <Compile Include="Fibers\SetField.cs" />
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
+    <Compile Include="FormFlow\FieldJson.cs" />
+    <Compile Include="FormFlow\FieldReflector.cs" />
+    <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\LuisModel.cs" />
-    <Compile Include="Luis\LuisResult.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />
@@ -134,10 +149,16 @@
     <Compile Include="FormFlow\IFormDialog.cs" />
     <Compile Include="FormFlow\IPrompt.cs" />
     <Compile Include="FormFlow\IRecognize.cs" />
-    <Compile Include="Luis\EntityRecommendation.cs" />
-    <Compile Include="Luis\IntentRecommendation.cs" />
+    <Compile Include="Luis\Models\Action.cs" />
+    <Compile Include="Luis\Models\ActionParameter.cs" />
+    <Compile Include="Luis\Models\ActionParameterValue.cs" />
+    <Compile Include="Luis\Models\EntityRecommendation.cs" />
+    <Compile Include="Luis\Models\Extensions.cs" />
+    <Compile Include="Luis\Models\IntentRecommendation.cs" />
+    <Compile Include="Luis\Models\LuisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.Designer.cs">
+    <Compile Include="Resource\Extensions.cs" />
+    <Compile Include="Resource\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -146,6 +167,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="createpackage.cmd" />
+    <None Include="Luis\generateLuisModels.bat" />
+    <None Include="Luis\Luis-q.json" />
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>
@@ -153,18 +176,48 @@
     <None Include="pushpackage.cmd" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
+    <EmbeddedResource Include="Resource\Resources.ar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Resources.en.resx" />
+    <EmbeddedResource Include="Resource\Resources.es.resx" />
+    <EmbeddedResource Include="Resource\Resources.fa.resx" />
+    <EmbeddedResource Include="Resource\Resources.fr.resx" />
+    <EmbeddedResource Include="Resource\Resources.it.resx" />
+    <EmbeddedResource Include="Resource\Resources.ja.resx" />
+    <EmbeddedResource Include="Resource\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Resources.ru.resx" />
+    <EmbeddedResource Include="Resource\Resources.zh-Hans.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ar.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.en.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.es.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.fa.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.fr.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.it.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ja.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ru.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.zh-Hans.xlf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

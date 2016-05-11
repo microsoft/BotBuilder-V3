@@ -32,10 +32,11 @@
 //
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
-using static Microsoft.Bot.Builder.Dialogs.ResourceExtensions;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -64,6 +65,11 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// like fields being based on your state class, but you can also build up your
     /// own definition of a form by using <see cref="Field{T}"/>, <see cref="FieldReflector{T}"/>
     /// or your own implementation of <see cref="IField{T}"/>.
+    /// 
+    /// Forms are sensitive to the current thread UI culture.  The Microsoft.Bot.Builder strings will localize
+    /// to that culture if available.  You can also localize the strings generated for your form by calling <see cref="Form{T}.SaveResources(System.Resources.IResourceWriter)"/>
+    /// or by using the RView tool and adding that resource to your project.  For strings in dynamic fields, messages or confirmations you will
+    /// need to use the normal C# mechanisms to localize them.  Look in the overview documentation for more information.
     /// </remarks>
     /// <typeparam name="T">    Form state. </typeparam>
     #endregion
@@ -72,8 +78,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <summary>
         /// Build the form based on the methods called on the builder.
         /// </summary>
+        /// <param name="resourceAssembly">Assembly for localization resources.</param>
+        /// <param name="resourceName">Name of resources to use for localization.</param>
         /// <returns>The constructed form.</returns>
-        IForm<T> Build();
+        /// <remarks>
+        /// The default assembly is the one that contains <typeparamref name="T"/>
+        /// and the default resourceName if the name of that type.
+        /// </remarks>
+        IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null);
 
         /// <summary>
         /// The form configuration supplies default templates and settings.
@@ -109,53 +121,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        /// <returns>This form.</returns>
-        IFormBuilder<T> Field(string name, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
-        /// <param name="condition">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> condition = null, ValidateAsyncDelegate<T> validate = null);
-
-        /// <summary>
         /// Derfine a field step by supplying your own field definition.
         /// </summary>
         /// <param name="field">Field definition to use.</param>
@@ -168,17 +133,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// change.
         /// </remarks>
         IFormBuilder<T> Field(IField<T> field);
-
-        /// <summary>
-        /// Add all fields not already added to the form.
-        /// </summary>
-        /// <param name="exclude">Fields not to include.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This will add all fields defined in your forifm state that have not already been
-        /// added if the fields are supported.
-        /// </remarks>
-        IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
 
         /// <summary>
         /// Add a confirmation step.
@@ -225,6 +179,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// to the parent dialog.
         /// </remarks>
         IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback);
+
+        /// <summary>
+        /// Test to see if there is already a field with <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if field is already present.</returns>
+        bool HasField(string name);
     }
 
     /// <summary>
@@ -235,6 +196,18 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </remarks>
     public class FormConfiguration
     {
+
+        /// <summary>
+        /// Construct configuration.
+        /// </summary>
+        public FormConfiguration()
+        {
+            DefaultPrompt.IsLocalizable = false;
+            foreach(var template in Templates)
+            {
+                template.IsLocalizable = false;
+            }
+        }
 
         /// <summary>
         /// Default prompt and template format settings.
@@ -286,6 +259,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         public string[] No = Resources.MatchNo.SplitList();
 
         /// <summary>
+        /// String for naming the "navigation" field.
+        /// </summary>
+        public string Navigation = Resources.Navigation;
+
+        /// <summary>
         /// Default templates to use if not override on the class or field level.
         /// </summary>
         public List<TemplateAttribute> Templates = new List<TemplateAttribute>
@@ -296,6 +274,8 @@ namespace Microsoft.Bot.Builder.FormFlow
 
             // {0} is term being clarified
             new TemplateAttribute(TemplateUsage.Clarify, Resources.TemplateClarify),
+
+            new TemplateAttribute(TemplateUsage.Confirmation, Resources.TemplateConfirmation),
 
             new TemplateAttribute(TemplateUsage.CurrentChoice, Resources.TemplateCurrentChoice),
 
@@ -363,9 +343,9 @@ namespace Microsoft.Bot.Builder.FormFlow
         public Dictionary<FormCommand, CommandDescription> Commands = new Dictionary<FormCommand, CommandDescription>()
         {
             {FormCommand.Backup, new CommandDescription(
-                Resources.CommandBackup,
-                Resources.CommandBackupTerms.SplitList(),
-                Resources.CommandBackupHelp) },
+                Resources.CommandBack,
+                Resources.CommandBackTerms.SplitList(),
+                Resources.CommandBackHelp) },
             {FormCommand.Help, new CommandDescription(
                 Resources.CommandHelp,
                 Resources.CommandHelpTerms.SplitList(),
