@@ -58,12 +58,12 @@ For folks who are developing on Mac and Linux we have created a console only ver
 
 To install
 
-1. download [Console Emulator Zip](http://aka.ms/bfemulator)
-2. unzip it
+1. Download [Console Emulator Zip](http://aka.ms/bfemulator)
+2. Unzip it
 3. Install [Mono](http://www.mono-project.com/download/#download-mac)
 4. mono BFEmulator.exe 
 
-```
+{% highlight console %}
 Microsoft Framework Emulator
 
 /exit or /quit to exit
@@ -128,7 +128,7 @@ Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
     "counter": 1
   }
 }
-```
+{% endhighlight %}
 
 
 
