@@ -20,3 +20,6 @@ Here are step by step instructions:
 3. Download and install from the [Mscgen Windows Installer](http://www.mcternan.me.uk/mscgen/software/mscgen_0.20.exe)
 
 If versions have changed you can find the latest through the core pages above, although you may need to update the Doxygen config file with the appropriate version of tools.
+
+If you want to do localization you should also install the [Multilingual App Toolkit](https://developer.microsoft.com/en-us/windows/develop/multilingual-app-toolkit) which
+allows you to edit the localization files and make use of tools like automatic translation.
