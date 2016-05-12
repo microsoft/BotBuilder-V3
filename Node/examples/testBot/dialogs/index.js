@@ -3,6 +3,7 @@ var prompts = require('../prompts');
 var list = require('./list');
 var run = require('./run');
 var runAsync = require('./run-async');
+var runPost = require('./run-post');
 var tests = require('../tests/index');
 
 module.exports = {
@@ -22,17 +23,19 @@ module.exports = {
 function addDialogs(bot, addressConverter) {
     // Add the main dialog
     bot.add('/', new builder.CommandDialog()
-        .matches('^\/help', builder.DialogAction.send(prompts.helpMessage))
-        .matches('^\/list', '/list')
-        .matches('^\/run-async', '/run-async')
-        .matches('^\/run', '/run')
-        .matches('^\/quit', builder.DialogAction.endDialog(prompts.goodbye))
+        .matches('^(help|hello|hi)', builder.DialogAction.send(prompts.helpMessage))
+        .matches('^list', '/list')
+        .matches('^run-async', '/run-async')
+        .matches('^run-post', '/run-post')
+        .matches('^run', '/run')
+        .matches('^quit', builder.DialogAction.endDialog(prompts.goodbye))
         .onDefault(builder.DialogAction.send(prompts.unknown)));
     
     // Add dialogs for commands
     list.addDialogs(bot);
     run.addDialogs(bot);
     runAsync.addDialogs(bot, addressConverter);
+    runPost.addDialogs(bot, addressConverter);
     
     // Add tests
     for (var key in tests) {

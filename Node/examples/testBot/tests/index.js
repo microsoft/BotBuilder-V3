@@ -10,7 +10,7 @@ for (var i = 0; i < files.length; i++) {
         var f = path.join(__dirname, fn);
         var m = require(f);
         if (m.addDialogs && m.run) {
-            tests[fn.substr(0, fn.length - 3)] = require(f);
+            tests[fn.substr(0, fn.length - 3)] = m;
         }
     }
 }
