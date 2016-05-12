@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.9.2
+title: BotBuilder v0.10.0
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -20,6 +20,16 @@ Get the latest version of BotBuilder using npm.
 
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v0.10.0
+* Added logic to automatically detect messages from the emulator. This removes the need to manually set an environment variable to configure talking to the emulator.
+* Added support for new Action attachment type (buttons.)
+* Exposed static LuisDialog.recognize() method. Can be used to manually call a LUIS model.
+* Added support to Prompts.choice() to render choices as buttons using ListStyle.button.
+* Added new ListStyle.auto option to Prompts.choice() which automatically selects the appropriate rendering option based on the channel and number of choices. This is the new default style.
+* Added support to all Prompts for passing in an array of prompt & re-prompt strings. A prompt will be selected at random.
+* Added support to all Prompts for passing in an IMessage. This lets you specify prompts containing images and other future attachment types.
+* Updated LKG build and package.json version.
 
 ### v0.9.2
 * Fixed an undefined bug in Message.setText()
