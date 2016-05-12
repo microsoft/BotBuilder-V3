@@ -148,6 +148,7 @@ var BotConnectorBot = (function (_super) {
                     };
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     _this.saveData(userId, sessionId, data, reply, function (err) {
+                        var settings = ses.message.to.channelId == 'emulator' ? { endpoint: 'http://localhost:9000' } : _this.options;
                         if (res) {
                             _this.emit('reply', reply);
                             res.send(200, reply);
@@ -163,7 +164,7 @@ var BotConnectorBot = (function (_super) {
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
                             _this.emit('reply', reply);
-                            post(_this.options, '/bot/v1.0/messages', reply, function (err) {
+                            post(settings, '/bot/v1.0/messages', reply, function (err) {
                                 if (err) {
                                     _this.emit('error', err);
                                 }
@@ -173,7 +174,7 @@ var BotConnectorBot = (function (_super) {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             _this.emit('send', reply);
-                            post(_this.options, '/bot/v1.0/messages', reply, function (err) {
+                            post(settings, '/bot/v1.0/messages', reply, function (err) {
                                 if (err) {
                                     _this.emit('error', err);
                                 }
