@@ -170,16 +170,14 @@
 								<a name="add" class="tsd-anchor"></a>
 								<h3>add</h3>
 								<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-									<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialog<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></li>
-									<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialog<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></li>
-									<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialog<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></li>
+									<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialog<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></li>
 									<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1017">botbuilder.d.ts:1017</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1198">botbuilder.d.ts:1198</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -199,22 +197,12 @@
 												</div>
 											</li>
 											<li>
-												<h5>dialog: <a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></h5>
+												<h5>dialog: <a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h5>
 												<div class="tsd-comment tsd-typography">
 													<ul>
 														<li><strong>dialog:</strong> <em>{Dialog}</em> - Dialog to add.</li>
-														<li><strong>dialog:</strong> <em>{IDialogWaterfallStep[]}</em> - Waterfall of steps to execute. See <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall">DialogAction.waterfall()</a> for details.</li>
-														<li><strong>dialog:</strong> <em>{Function}</em> - Closure to base dialog on. The closure will be called anytime a message is recieved
-															from the user or when the dialog is being resumed. You can check for <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed">args.resumed</a>
-															to tell that the dialog is being resumed.<blockquote>
-																<p><code>(session: Session, args?: any): void</code></p>
-																<ul>
-																	<li><strong>session:</strong> <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html">Session</a> - Session object for the current conversation.</li>
-																	<li><strong>args:</strong> <em>{any}</em> - Any arguments passed to the dialog when <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog">beginDialog()</a> is called.</li>
-																	<li><strong>args:</strong> <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html">IDialogResult</a> - If the closure initiates a <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog">beginDialog()</a> call the results will be returned via a second call to the closure.</li>
-																</ul>
-															</blockquote>
-														</li>
+														<li><strong>dialog:</strong> <em>{IDialogWaterfallStep[]}</em> - Waterfall of steps to execute. See <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html">IDialogWaterfallStep</a> for details.</li>
+														<li><strong>dialog:</strong> <em>{IDialogHandler}</em> - Closure to base the dialog on. See <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialoghandler.html">IDialogHandler</a> for details.</li>
 													</ul>
 												</div>
 											</li>
@@ -224,62 +212,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1018">botbuilder.d.ts:1018</a></li>
-											</ul>
-										</aside>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>id: <span class="tsd-signature-type">string</span></h5>
-											</li>
-											<li>
-												<h5>dialog: <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></h4>
-									</li>
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1019">botbuilder.d.ts:1019</a></li>
-											</ul>
-										</aside>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>id: <span class="tsd-signature-type">string</span></h5>
-											</li>
-											<li>
-												<h5>dialog: <span class="tsd-signature-type">function</span></h5>
-												<ul class="tsd-parameters">
-													<li class="tsd-parameter-siganture">
-														<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-															<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-														</ul>
-														<ul class="tsd-descriptions">
-															<li class="tsd-description">
-																<h4 class="tsd-parameters-title">Parameters</h4>
-																<ul class="tsd-parameters">
-																	<li>
-																		<h5>session: <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
-																	</li>
-																	<li>
-																		<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span></h5>
-																	</li>
-																</ul>
-																<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.dialogcollection.html" class="tsd-signature-type">DialogCollection</a></h4>
-									</li>
-									<li class="tsd-description">
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1020">botbuilder.d.ts:1020</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1199">botbuilder.d.ts:1199</a></li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -307,7 +240,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L999">botbuilder.d.ts:999</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1186">botbuilder.d.ts:1186</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -344,7 +277,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1026">botbuilder.d.ts:1026</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1205">botbuilder.d.ts:1205</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -375,7 +308,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1032">botbuilder.d.ts:1032</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1211">botbuilder.d.ts:1211</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -419,7 +352,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1038">botbuilder.d.ts:1038</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1217">botbuilder.d.ts:1217</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -450,7 +383,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1046">botbuilder.d.ts:1046</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1225">botbuilder.d.ts:1225</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">

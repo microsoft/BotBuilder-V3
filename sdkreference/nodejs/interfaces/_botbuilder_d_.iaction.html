@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ILocation | Bot Builder SDK Reference Library | Bot Framework</title>
+	<title>IAction | Bot Builder SDK Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -108,10 +108,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.ilocation.html">ILocation</a>
+								<a href="_botbuilder_d_.iaction.html">IAction</a>
 							</li>
 						</ul>
-						<h1>Interface ILocation</h1>
+						<h1>Interface IAction</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -120,15 +120,19 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>A GEO location.</p>
+									<p>An action is a representation of information that a user can use to take action. On many channels
+										actions get mapped to buttons, while on other channels they simply become a list of options
+									displayed to the user.</p>
 								</div>
+								<p>Regardless, a user can perform the action by clicking on a button or typing in the content as a
+								response.</p>
 							</div>
 						</section>
 						<section class="tsd-panel tsd-hierarchy">
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">ILocation</span>
+									<span class="target">IAction</span>
 								</li>
 							</ul>
 						</section>
@@ -139,9 +143,10 @@
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocation.html#altitude" class="tsd-kind-icon">altitude</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocation.html#latitude" class="tsd-kind-icon">latitude</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocation.html#longitude" class="tsd-kind-icon">longitude</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iaction.html#image" class="tsd-kind-icon">image</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iaction.html#message" class="tsd-kind-icon">message</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iaction.html#title" class="tsd-kind-icon">title</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iaction.html#url" class="tsd-kind-icon">url</a></li>
 										</ul>
 									</section>
 								</div>
@@ -150,47 +155,62 @@
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="altitude" class="tsd-anchor"></a>
-								<h3><span class="tsd-flag ts-flagOptional">Optional</span> altitude</h3>
-								<div class="tsd-signature tsd-kind-icon">altitude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<a name="image" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> image</h3>
+								<div class="tsd-signature tsd-kind-icon">image<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L192">botbuilder.d.ts:192</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L159">botbuilder.d.ts:159</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Altitude.</p>
+										<p>Url to an image to put on the card (Not all channels will show an image.)</p>
 									</div>
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="latitude" class="tsd-anchor"></a>
-								<h3>latitude</h3>
-								<div class="tsd-signature tsd-kind-icon">latitude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<a name="message" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> message</h3>
+								<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L195">botbuilder.d.ts:195</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L153">botbuilder.d.ts:153</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Latitude for the user when the message was created.</p>
+										<p>Message which will be sent for the user when they click the button.</p>
 									</div>
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="longitude" class="tsd-anchor"></a>
-								<h3>longitude</h3>
-								<div class="tsd-signature tsd-kind-icon">longitude<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<a name="title" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> title</h3>
+								<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L198">botbuilder.d.ts:198</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L150">botbuilder.d.ts:150</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Longitude for the user when the message was created.</p>
+										<p>Label of the action (button.)</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+								<a name="url" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
+								<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L156">botbuilder.d.ts:156</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Instead of a message when someone clicks on a button it should take them to a Url (Not all channels support URL based actions.)</p>
 									</div>
 								</div>
 							</section>
@@ -212,16 +232,19 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.ilocation.html" class="tsd-kind-icon">ILocation</a>
+									<a href="_botbuilder_d_.iaction.html" class="tsd-kind-icon">IAction</a>
 									<ul>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.ilocation.html#altitude" class="tsd-kind-icon">altitude</a>
+											<a href="_botbuilder_d_.iaction.html#image" class="tsd-kind-icon">image</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.ilocation.html#latitude" class="tsd-kind-icon">latitude</a>
+											<a href="_botbuilder_d_.iaction.html#message" class="tsd-kind-icon">message</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.ilocation.html#longitude" class="tsd-kind-icon">longitude</a>
+											<a href="_botbuilder_d_.iaction.html#title" class="tsd-kind-icon">title</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface">
+											<a href="_botbuilder_d_.iaction.html#url" class="tsd-kind-icon">url</a>
 										</li>
 									</ul>
 								</li>

@@ -120,8 +120,46 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Signature for function passed as a step to DialogAction.waterfall().</p>
+									<p>Signature for functions passed as steps to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall">DialogAction.waterfall()</a>.</p>
 								</div>
+								<p>Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
+									waterfall can either execute one of the built-in <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html">Prompts</a>,
+									start a new dialog by calling <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog">session.beginDialog()</a>,
+								advance to the next step of the waterfall manually using <code>skip()</code>, or terminate the waterfall.</p>
+								<p>When either a dialog or built-in prompt is called from a waterfall step, the results from that
+									dialog or prompt will be passed via the <code>results</code> parameter to the next step of the waterfall.
+									Users can say things like &quot;nevermind&quot; to cancel the built-in prompts so you should guard against
+									that by at least checking for <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response">results.response</a>
+									before proceeding. A more detailed explination of why the waterfall is being continued can be
+									determined by looking at the <a href="http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html">code</a>
+								returned for <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed">results.resumed</a>.</p>
+								<p>You can manually advance to the next step of the waterfall using the <code>skip()</code> function passed
+									in. Calling <code>skip({ response: &quot;some text&quot; })</code> with an <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html">IDialogResult</a>
+									lets you more accurately mimic the results from a built-in prompt and can simplify your overall
+								waterfall logic.</p>
+								<p>You can terminate a waterfall early by either falling through every step of the waterfall using
+								calls to <code>skip()</code> or simply not starting another prompt or dialog.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code>
+var bot = new builder.BotConnectorBot();
+bot.add('/', [
+    function (session) {
+        builder.Prompts.text(session, "Hi! What's your name?");
+    },
+    function (session, results) {
+        if (results && results.response) {
+            // User answered question.
+            session.send("Hello %s.", results.response);
+        } else {
+            // User said nevermind.
+            session.send("OK. Goodbye.");
+        }
+    }
+]);
+</code></pre>
+									</dd>
+								</dl>
 							</div>
 						</section>
 						<section class="tsd-panel tsd-hierarchy">
@@ -135,19 +173,36 @@
 						<section class="tsd-panel">
 							<h3 class="tsd-before-signature">Callable</h3>
 							<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-								<li class="tsd-signature tsd-kind-icon">__call&lt;T&gt;<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, result<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, skip<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+								<li class="tsd-signature tsd-kind-icon">__call&lt;T&gt;<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, result<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, skip<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
 									<aside class="tsd-sources">
 										<ul>
-											<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L629">botbuilder.d.ts:629</a></li>
+											<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L741">botbuilder.d.ts:741</a></li>
 										</ul>
 									</aside>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Signature for function passed as a step to DialogAction.waterfall().</p>
+											<p>Signature for functions passed as steps to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall">DialogAction.waterfall()</a>.</p>
 										</div>
+										<p>Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
+											waterfall can either execute one of the built-in <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html">Prompts</a>,
+											start a new dialog by calling <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog">session.beginDialog()</a>,
+										advance to the next step of the waterfall manually using <code>skip()</code>, or terminate the waterfall.</p>
+										<p>When either a dialog or built-in prompt is called from a waterfall step, the results from that
+											dialog or prompt will be passed via the <code>results</code> parameter to the next step of the waterfall.
+											Users can say things like &quot;nevermind&quot; to cancel the built-in prompts so you should guard against
+											that by at least checking for <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response">results.response</a>
+											before proceeding. A more detailed explination of why the waterfall is being continued can be
+											determined by looking at the <a href="http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html">code</a>
+										returned for <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed">results.resumed</a>.</p>
+										<p>You can manually advance to the next step of the waterfall using the <code>skip()</code> function passed
+											in. Calling <code>skip({ response: &quot;some text&quot; })</code> with an <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html">IDialogResult</a>
+											lets you more accurately mimic the results from a built-in prompt and can simplify your overall
+										waterfall logic.</p>
+										<p>You can terminate a waterfall early by either falling through every step of the waterfall using
+										calls to <code>skip()</code> or simply not starting another prompt or dialog.</p>
 									</div>
 									<h4 class="tsd-type-parameters-title">Type parameters</h4>
 									<ul class="tsd-type-parameters">
@@ -159,12 +214,24 @@
 									<ul class="tsd-parameters">
 										<li>
 											<h5>session: <a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
+											<div class="tsd-comment tsd-typography">
+												<p>Session object for the current conversation.</p>
+											</div>
 										</li>
 										<li>
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											<div class="tsd-comment tsd-typography">
+												<ul>
+													<li><strong>result:</strong> <em>{any}</em> - For the first step of the waterfall this will be <em>null</em> or the value of any arguments passed to the handler.</li>
+													<li><strong>result:</strong> <em>{IDialogResult}</em> - For subsequent waterfall steps this will be the result of the prompt or dialog called in the previous step.</li>
+												</ul>
+											</div>
 										</li>
 										<li>
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> skip: <span class="tsd-signature-type">function</span></h5>
+											<div class="tsd-comment tsd-typography">
+												<p>Fuction used to manually skip to the next step of the waterfall.</p>
+											</div>
 											<ul class="tsd-parameters">
 												<li class="tsd-parameter-siganture">
 													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -176,6 +243,9 @@
 															<ul class="tsd-parameters">
 																<li>
 																	<h5><span class="tsd-flag ts-flagOptional">Optional</span> results: <a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+																	<div class="tsd-comment tsd-typography">
+																		<p>Optional results to pass to the next waterfall step. This lets you more accurately mimic the results returned from a prompt or dialog.</p>
+																	</div>
 																</li>
 															</ul>
 															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

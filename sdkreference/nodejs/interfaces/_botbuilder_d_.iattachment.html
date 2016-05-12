@@ -120,8 +120,38 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>An attachment.</p>
+									<p>Many messaging channels provide the ability to attach richer objects. You can pass these
+										attachments to the Bot Connector Service using the cross channel format below and the
+										Bot Connector will do its best render them using the channels native format. If you aren&#39;t
+										satisfied with the Bot Connectors cross channel rendering or would like more control you can
+									always pass attachments in the channels native format using <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata">IMessage.channelData</a>.</p>
 								</div>
+								<p>Three types of message attachments are currently supported (<em>action</em>, <em>image/file</em>,
+								and <em>card</em>.) The valid fields very by attachment type:</p>
+								<ul>
+									<li><strong>action:</strong> An action for the user to take (typically rendered as a button.) Valid fields: <a href="#actions">actions</a>.</li>
+									<li><strong>image/file:</strong> An image or a file to send the user. Valid fields: <a href="#contenttype">contentType</a>, <a href="#contenturl">contentUrl</a>.</li>
+									<li><strong>card:</strong> A rich card displayed to the user. Valid fields: <a href="#actions">actions</a>, <a href="#fallbacktext">fallbackText</a>, <a href="#title">title</a>, <a href="#titlelink">titleLink</a>, <a href="#text">text</a>, <a href="#thumbnailurl">thumbnailUrl</a>.</li>
+								</ul>
+								<p>Cross channel attachments can easily be sent to the user using the <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html#addattachment">Message.addAttachment()</a> method.</p>
+								<p>Sending an image:</p>
+								<pre><code>var msg = new Message().addAttachment({
+    contentType: 'image/png',
+    contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'
+});
+session.send(msg);
+</code></pre>
+								<p>Sending a card with actions:</p>
+								<pre><code>var msg = new Message().addAttachment({
+    text: 'Pick one:',
+    actions: [
+        { title: "Willy's Cheeseburger", message: "CB" },
+        { title: "Curley Fries", message: "F" },
+        { title: "Chocolate Shake", message: "S" }
+    ]
+});
+session.send(msg);
+</code></pre>
 							</div>
 						</section>
 						<section class="tsd-panel tsd-hierarchy">
@@ -139,7 +169,7 @@
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iattachment.html#content" class="tsd-kind-icon">content</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iattachment.html#actions" class="tsd-kind-icon">actions</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iattachment.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iattachment.html#contenturl" class="tsd-kind-icon">content<wbr>Url</a></li>
 											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iattachment.html#fallbacktext" class="tsd-kind-icon">fallback<wbr>Text</a></li>
@@ -155,32 +185,32 @@
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="content" class="tsd-anchor"></a>
-								<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
-								<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+								<a name="actions" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> actions</h3>
+								<div class="tsd-signature tsd-kind-icon">actions<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iaction.html" class="tsd-signature-type">IAction</a><span class="tsd-signature-symbol">[]</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L88">botbuilder.d.ts:88</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L116">botbuilder.d.ts:116</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Content Payload (for example, lat/long for contentype=&quot;location&quot;.</p>
+										<p>List of actions to map to buttons in the clients UI. Valid for <em>action</em> &amp; <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 								<a name="contenttype" class="tsd-anchor"></a>
-								<h3>content<wbr>Type</h3>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Type</h3>
 								<div class="tsd-signature tsd-kind-icon">content<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L82">botbuilder.d.ts:82</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L119">botbuilder.d.ts:119</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(REQUIRED) mimetype/Contenttype for the file, either ContentUrl or Content must be set depending on the mimetype.</p>
+										<p>The mimetype/ContentType of the <a href="#contenturl">contentUrl</a>. Valid for <em>image/file</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -190,12 +220,12 @@
 								<div class="tsd-signature tsd-kind-icon">content<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L85">botbuilder.d.ts:85</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L122">botbuilder.d.ts:122</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Url to content.</p>
+										<p>A link to the actual file. Valid for <em>image/file</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -205,12 +235,12 @@
 								<div class="tsd-signature tsd-kind-icon">fallback<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L91">botbuilder.d.ts:91</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L125">botbuilder.d.ts:125</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(OPTIONAL-CARD) FallbackText - used for downlevel clients, should be simple markup with links.</p>
+										<p>Fallback text used for downlevel clients, should be simple markup with links. Valid for <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -220,12 +250,12 @@
 								<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L100">botbuilder.d.ts:100</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L134">botbuilder.d.ts:134</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(OPTIONAL-CARD) The Text description the attachment.</p>
+										<p>Text of the card. Valid for <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -235,12 +265,12 @@
 								<div class="tsd-signature tsd-kind-icon">thumbnail<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L103">botbuilder.d.ts:103</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L137">botbuilder.d.ts:137</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(OPTIONAL-CARD) Thumbnail associated with attachment.</p>
+										<p>Image to put on the card. Valid for <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -250,12 +280,12 @@
 								<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L94">botbuilder.d.ts:94</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L128">botbuilder.d.ts:128</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(OPTIONAL-CARD) Title.</p>
+										<p>Title of the card. Valid for <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -265,12 +295,12 @@
 								<div class="tsd-signature tsd-kind-icon">title<wbr>Link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L97">botbuilder.d.ts:97</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L131">botbuilder.d.ts:131</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>(OPTIONAL-CARD) link to use for the title.</p>
+										<p>Link for the <a href="#title">title</a>. Valid for <em>card</em> attachments.</p>
 									</div>
 								</div>
 							</section>
@@ -295,7 +325,7 @@
 									<a href="_botbuilder_d_.iattachment.html" class="tsd-kind-icon">IAttachment</a>
 									<ul>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.iattachment.html#content" class="tsd-kind-icon">content</a>
+											<a href="_botbuilder_d_.iattachment.html#actions" class="tsd-kind-icon">actions</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
 											<a href="_botbuilder_d_.iattachment.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a>
