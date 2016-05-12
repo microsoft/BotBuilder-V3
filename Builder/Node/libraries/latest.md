@@ -1,6 +1,6 @@
 ---
 layout: page
-title: BotBuilder v0.10.0
+title: BotBuilder v0.10.1
 permalink: /builder/node/libraries/latest/
 weight: 690
 parent1: Bot Builder for Node.js
@@ -20,6 +20,11 @@ Get the latest version of BotBuilder using npm.
 
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v0.10.1
+* Fixed a bug preventing BotConnectorBot configured greeting messages from being delivered.
+* Fixed a couple of issues with Prompts.choice() when not using ListStyle.auto.
+* Updated LKG build and package.json version.
 
 ### v0.10.0
 * Added logic to automatically detect messages from the emulator. This removes the need to manually set an environment variable to configure talking to the emulator.
