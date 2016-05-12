@@ -49,40 +49,31 @@ parent1: Bot Directory
 
     </style>
 
-We welcome you and thank you for investing your talents and time in building Bots for Skype. We have published our Bot Review Guidelines to give you an understanding of the approval process that is involved after you submit your bot and the criteria we use to evaluate Bots in Skype.
-
+We welcome you and thank you for investing your talents and time in building Bots using Microsoft's Bot Framework. Microsoft will review your bot submission to make sure it meets certain minimum requirements before it is publicly available on the Bot Directory. Following are some criteria we use to evaluate your bot before publication to the Bot Directory:  
 
 <section>
     <ol class="list-counter">
-      <li>Functionality</li>
-        <ol>
-          <li>Bot thats does not do something meaningful that adds value to the user (e.g., respond to basic commands, have at least some level of communication etc.) will be rejected.</li>
-          <li>Bot that does not operate as described in its bot description, profile, terms and use and privacy policy will be rejected</li>
-          <p>You must notify Microsoft in advance if you make any material change to your bot. Microsoft has the right, in its sole discretion, to remove your bot from the Bot Directory without notice.</p>        
-        </ol>
-      <li>Terms of Serivces</li>
-        <ol>
-            <li>Bot that does not provide Terms of Service and Privacy Policy links will be rejected</li>
-            <li>Bot that does not operate in accordance with the requirements set forth in the Microsoft <a href="//aka.ms/bf-terms">Online Service Agreement</a> and Microsoft Bot Framework <a href="//aka.ms/bf-conduct">Code of Conduct</a> will be rejected.</li>
-            <li>Bot with inactive publisher email account (we will use that for all bot-related communication with you) will be rejected. </li>
-        </ol> 
-      <li>Metadata (name, description, icons, tags, etc)</li>
-        <ol>
-            <li>Bot metadata that doesn't reflect its functionality will be rejected.</li>
-            <li>Bot metadata that is offensive or explicit will be rejected.</li>
-            <li>Bot metadata that includes third party trademarks, service marks or logos will be rejected.</li>
-            <li>Bot metadata that impersonates or implies endorsement by a third party will be rejected.</li>
-            <li>Bot metadata that uses names unrelated to the bot will be rejected.</li>
-            <li>Bot metadata that uses Microsoft logos, trademarks or service marks unless you have permission from Microsoft will be rejected.</li>
-            <li>Bot metadata that is too long or verbose (the description should be 8-10 words)  will be rejected.</li>
-        </ol>
-        <p>Changes made to your bot's metadata may require your bot to be re-reviewed to ensure that it continues to meet the requirements stated here.</p>
-                <p>
-          Although Microsoft will review your bot to confirm it meets certain minimum requirements prior to publication on the Bot Directory, you are solely responsible for: 
-          (1) your bot; (2) its content and actions; (3) compliance with all applicable laws; (4) compliance with any third party terms and conditions; 
-          and (5) compliance with the Microsoft Online Services Agreement, Privacy Statement and Microsoft Bot Framework Code of Conduct.  
-          Microsoft’s review and publication of your bot to the Bot Directory is not an endorsement of your bot.
-        </p>
+<li>Your bot must do something meaningful that adds value to the user (e.g., respond to basic commands, have at least some level of communication etc.)</li>
 
+<li>The bot profile image, name, keywords and description must NOT:</li>
+<ol>
+<li>Be offensive or explicit;</li>
+<li>Include third party trademarks, service marks or logos;</li>
+<li>Impersonate or imply endorsement by a third party; </li>
+<li>Use names unrelated to the bot;</li>
+<li>Use Microsoft logos, trademarks or service marks unless you have permission from Microsoft;</li>
+<li>Be too long or verbose. The description should be 8-10 words.</li>
+</ol>
+<li>Your Terms of Service and Privacy Policy links are required for submission and publication to the Bot Directory. In addition, you will need to ensure that you follow the privacy notice requirements as communicated in the Microsoft Bot Framework Code of Conduct referenced here: <a href="https://aka.ms/bf-conduct">https://aka.ms/bf-conduct</a></li>
+
+<li>The bot must operate as described in its bot description, profile, terms of use and privacy policy. You must notify Microsoft in advance if you make any material changes to your bot.  Microsoft has the right, in its sole discretion, to remove your bot from the Bot Directory without notice. </li>
+
+<li>Your bot must operate in accordance with the requirements set forth in the Microsoft Online Services Agreement and Microsoft Bot Framework Code of Conduct.</li>
+
+<li>Changes made to your bot's registration may require your bot to be re-reviewed to ensure that it continues to meet the requirements stated here.</li>
+
+<li>Although Microsoft will review your bot to confirm it meets certain minimum requirements prior to publication on the Bot Directory, you are solely responsible for: (1) your bot; (2) its content and actions; (3) compliance with all applicable laws; (4) compliance with any third party terms and conditions; and (5) compliance with the Microsoft Online Services Agreement, Privacy Statement and Microsoft Bot Framework Code of Conduct.  Microsoft's review and publication of your bot to the Bot Directory is not an endorsement of your bot.  </lI>
+ 
+<li>Keep your Microsoft Account email active as we will use that for all bot-related communication with you.</li>
     </ol>
   </section>
