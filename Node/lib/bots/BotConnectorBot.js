@@ -218,13 +218,13 @@ var BotConnectorBot = (function (_super) {
             else if (res) {
                 var msg;
                 switch (message.type) {
-                    case "botAddedToConversation":
+                    case "BotAddedToConversation":
                         msg = this.options.groupWelcomeMessage;
                         break;
-                    case "userAddedToConversation":
+                    case "UserAddedToConversation":
                         msg = this.options.userWelcomeMessage;
                         break;
-                    case "endOfConversation":
+                    case "EndOfConversation":
                         msg = this.options.goodbyeMessage;
                         break;
                 }
