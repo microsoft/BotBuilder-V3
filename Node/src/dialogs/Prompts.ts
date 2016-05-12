@@ -233,7 +233,7 @@ export class Prompts extends dialog.Dialog {
             var msg = new mb.Message();
             if (args.promptType == PromptType.choice) {
                 // Determine list style to render
-                var style = args.listStyle || ListStyle.auto;
+                var style = args.listStyle;
                 if (style == ListStyle.auto) {
                     var maxBtns = Channel.maxButtons(session);
                     if (maxBtns > 0 && args.enumValues.length <= maxBtns) {
@@ -328,32 +328,7 @@ export class Prompts extends dialog.Dialog {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.enumValues = entities.EntityRecognizer.expandChoices(choices);
-        args.listStyle = args.listStyle || ListStyle.auto;
-        
-        // Format list
-        var connector = '', list: string;
-        switch (args.listStyle) {
-            case ListStyle.list:
-                list = '\n   ';
-                args.enumValues.forEach((value, index) => {
-                    list += connector + (index + 1) + '. ' + value;
-                    connector = '\n   ';
-                });
-                args.prompt += list;
-                break;
-            case ListStyle.inline:
-                list = ' ';
-                args.enumValues.forEach((value, index) => {
-                    list += connector + (index + 1) + '. ' + value;
-                    if (index == args.enumValues.length - 2) {
-                        connector = index == 0 ? ' or ' : ', or ';
-                    } else {
-                        connector = ', ';
-                    } 
-                });
-                args.prompt += list;
-                break;
-        }
+        args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     }
 
