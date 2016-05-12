@@ -301,10 +301,17 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Options passed to  */
+/** Options passed to built-in prompts. */
 export interface IPromptOptions {
-    /** Optional retry prompt to send if the users response isn't understood. Default is to just reprompt with "I Didn't understand." plus the original prompt. */
-    retryPrompt?: string;
+    /** 
+     * Optional retry prompt to send if the users response isn't understood. Default is to just 
+     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) plus the original prompt. Note that if the original 
+     * prompt is an _IMessage_ the default behaviour is to simply re-send the original prompt.
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     */
+    retryPrompt?: string|string[]|IMessage;
 
     /** Optional maximum number of times to reprompt the user. Default value is 2. */
     maxRetries?: number;
@@ -312,7 +319,7 @@ export interface IPromptOptions {
     /** Optional reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
     refDate?: number;
 
-    /** Optional type of list to render for PromptType.choice. Default value is ListStyle.list. */
+    /** Optional type of list to render for PromptType.choice. Default value is ListStyle.auto. */
     listStyle?: ListStyle;
 }
 
@@ -321,8 +328,13 @@ export interface IPromptArgs extends IPromptOptions {
     /** Type of prompt invoked. */
     promptType: PromptType;
 
-    /** Initial message to send to user. */
-    prompt: string;
+    /** 
+     * Initial message to send to user. 
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     */
+    prompt: string|string[]|IMessage;
 
     /** Enum values for a choice prompt. */
     enumsValues?: string[];
@@ -400,6 +412,9 @@ export interface IPromptRecognizerArgs {
 export interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
+
+    /** The default retry prompt to use. The default value is "I didn't understand." */    
+    defaultRetryPrompt?: string;
 }
 
 /** A recognized intent. */
@@ -861,7 +876,13 @@ export enum ListStyle {
     inline, 
     
     /** Choices are rendered as a numbered list. */
-    list 
+    list,
+    
+    /** Choices are rendered as buttons for channels that support buttons. For other channels they will be rendered as text. */
+    button,
+    
+    /** The style is selected automatically based on the channel and number of options. */
+    auto
 }
 
 //=============================================================================
@@ -1283,45 +1304,60 @@ export class Prompts extends Dialog {
     /**
      * Captures from the user a raw string of text. 
      * @param session Session object for the current conversation.
-     * @param prompt Message to send to the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      */
-    static text(session: Session, prompt: string): void;
+    static text(session: Session, prompt: string|string[]|IMessage): void;
 
     /**
      * Prompts the user to enter a number.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static number(session: Session, prompt: string, options?: IPromptOptions): void;
+    static number(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to confirm an action with a yes/no response.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static confirm(session: Session, prompt: string, options?: IPromptOptions): void;
+    static confirm(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
      * @param choices 
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
      * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string, choices: string | Object | string[], options?: IPromptOptions): void;
+    static choice(session: Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a time.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static time(session: Session, prompt: string, options?: IPromptOptions): void;
+    static time(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 }
 
 /**

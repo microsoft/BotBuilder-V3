@@ -32,16 +32,18 @@
 //
 
 import dialog = require('./Dialog');
-import session = require('../Session');
+import ses = require('../Session');
 import consts = require('../consts');
 import entities = require('./EntityRecognizer');
+import mb = require('../Message');
+import Channel = require('../Channel');
 
 export enum PromptType { text, number, confirm, choice, time }
 
-export enum ListStyle { none, inline, list }
+export enum ListStyle { none, inline, list, button, auto }
 
 export interface IPromptOptions {
-    retryPrompt?: string;
+    retryPrompt?: string | string[] | IMessage;
     maxRetries?: number;
     refDate?: number;
     listStyle?: ListStyle;
@@ -49,7 +51,7 @@ export interface IPromptOptions {
 
 export interface IPromptArgs extends IPromptOptions {
     promptType: PromptType;
-    prompt: string;
+    prompt: string | string[] | IMessage;
     enumValues?: string[];
 }
 
@@ -75,7 +77,8 @@ export interface IPromptRecognizerArgs {
 }
 
 export interface IPromptsOptions {
-    recognizer?: IPromptRecognizer
+    recognizer?: IPromptRecognizer,
+    defaultRetryPrompt?: string;
 }
 
 export interface IChronoDuration extends IEntity {
@@ -167,10 +170,11 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
 
 export class Prompts extends dialog.Dialog {
     private static options: IPromptsOptions = {
-        recognizer: new SimplePromptRecognizer()
+        recognizer: new SimplePromptRecognizer(),
+        defaultRetryPrompt: "I didn't understand."
     };
 
-    public begin(session: ISession, args: IPromptArgs): void {
+    public begin(session: ses.Session, args: IPromptArgs): void {
         args = <any>args || {};
         args.maxRetries = args.maxRetries || 1; 
         for (var key in args) {
@@ -178,10 +182,10 @@ export class Prompts extends dialog.Dialog {
                 session.dialogData[key] = (<any>args)[key];
             }
         }
-        session.send(args.prompt);
+        session.send(this.formatPrompt(session, args));
     }
 
-    public replyReceived(session: ISession): void {
+    public replyReceived(session: ses.Session): void {
         var args: IPromptArgs = session.dialogData;
         Prompts.options.recognizer.recognize(
             {
@@ -201,10 +205,91 @@ export class Prompts extends dialog.Dialog {
                         session.endDialog(result);
                     } else {
                         args.maxRetries--;
-                        session.send(args.retryPrompt || "I didn't understand. " + args.prompt);
+                        session.send(this.formatPrompt(session, args, true));
                     }
                 }
             });
+    }
+    
+    private formatPrompt(session: ses.Session, args: IPromptArgs, retry = false): IMessage {
+        // Calculate base prompt to send.
+        var prompt = args.prompt;
+        if (Array.isArray(prompt)) {
+            prompt = mb.Message.randomPrompt(<string[]>prompt);
+        }
+        if (retry) {
+            if (args.retryPrompt) {
+                prompt = args.retryPrompt;
+                if (Array.isArray(prompt)) {
+                    prompt = mb.Message.randomPrompt(<string[]>prompt);
+                }
+            } else if (typeof prompt == 'string') {
+                prompt = Prompts.options.defaultRetryPrompt + ' ' + prompt;
+            }
+        }
+        
+        // Add prompt options.
+        if (typeof prompt == 'string') {
+            var msg = new mb.Message();
+            if (args.promptType == PromptType.choice) {
+                // Determine list style to render
+                var style = args.listStyle || ListStyle.auto;
+                if (style == ListStyle.auto) {
+                    var maxBtns = Channel.maxButtons(session);
+                    if (maxBtns > 0 && args.enumValues.length <= maxBtns) {
+                        style = ListStyle.button;
+                    } else if (args.enumValues.length < 4) {
+                        style = ListStyle.inline;
+                    } else {
+                        style = ListStyle.list;
+                    }
+                }
+                
+                // Render list
+                var connector = '', list: string;
+                switch (style) {
+                    case ListStyle.button:
+                        var a: IAttachment = { actions: [] };
+                        for (var i = 0; i < session.dialogData.enumValues.length; i++) {
+                            var action = session.dialogData.enumValues[i];
+                            a.actions.push({ title: action, message: action });
+                        }
+                        msg.setText(session, <string>prompt)
+                           .addAttachment(a);
+                        break;
+                    case ListStyle.inline:
+                        list = ' ';
+                        args.enumValues.forEach((value, index) => {
+                            list += connector + (index + 1) + '. ' + value;
+                            if (index == args.enumValues.length - 2) {
+                                connector = index == 0 ? ' or ' : ', or ';
+                            } else {
+                                connector = ', ';
+                            } 
+                        });
+                        msg.setText(session, prompt + '%s', list);
+                        break;
+                    case ListStyle.list:
+                        list = '\n   ';
+                        args.enumValues.forEach((value, index) => {
+                            list += connector + (index + 1) + '. ' + value;
+                            connector = '\n   ';
+                        });
+                        msg.setText(session, prompt + '%s', list);
+                        break;
+                    default:
+                        msg.setText(session, <string>prompt);
+                        break;
+                }
+                
+            } else {
+                msg.setText(session, <any>prompt);
+            }
+            return msg;
+        } else {
+            // Prompt is a message so just send that.
+            return <IMessage>prompt;
+        }
     }
 
     static configure(options: IPromptsOptions): void {
@@ -217,36 +302,33 @@ export class Prompts extends dialog.Dialog {
         }
     }
 
-    static text(ses: session.Session, prompt: string): void {
-        beginPrompt(ses, {
+    static text(session: ses.Session, prompt: string | string[] | IMessage): void {
+        beginPrompt(session, {
             promptType: PromptType.text,
             prompt: prompt
         });
     }
 
-    static number(ses: session.Session, prompt: string, options?: IPromptOptions): void {
+    static number(session: ses.Session, prompt: string | string[] | IMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
-        beginPrompt(ses, args);
+        beginPrompt(session, args);
     }
 
-    static confirm(ses: session.Session, prompt: string, options?: IPromptOptions): void {
+    static confirm(session: ses.Session, prompt: string | string[] | IMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        beginPrompt(ses, args);
+        beginPrompt(session, args);
     }
 
-    static choice(ses: session.Session, prompt: string, choices: string, options?: IPromptOptions): void;
-    static choice(ses: session.Session, prompt: string, choices: Object, options?: IPromptOptions): void;
-    static choice(ses: session.Session, prompt: string, choices: string[], options?: IPromptOptions): void;
-    static choice(ses: session.Session, prompt: string, choices: any, options?: IPromptOptions): void {
+    static choice(session: ses.Session, prompt: string | string[] | IMessage, choices: string | Object | string[], options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.enumValues = entities.EntityRecognizer.expandChoices(choices);
-        args.listStyle = args.listStyle || ListStyle.list;
+        args.listStyle = args.listStyle || ListStyle.auto;
         
         // Format list
         var connector = '', list: string;
@@ -272,17 +354,17 @@ export class Prompts extends dialog.Dialog {
                 args.prompt += list;
                 break;
         }
-        beginPrompt(ses, args);
+        beginPrompt(session, args);
     }
 
-    static time(ses: session.Session, prompt: string, options?: IPromptOptions): void {
+    static time(session: ses.Session, prompt: string, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
-        beginPrompt(ses, args);
+        beginPrompt(session, args);
     }
 }
 
-function beginPrompt(ses: session.Session, args: IPromptArgs) {
-    ses.beginDialog(consts.DialogId.Prompts, args);
+function beginPrompt(session: ses.Session, args: IPromptArgs) {
+    session.beginDialog(consts.DialogId.Prompts, args);
 }
