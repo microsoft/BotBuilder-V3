@@ -112,7 +112,7 @@ export class CommandDialog extends dialog.Dialog {
         var handler = session.dialogData[consts.Data.Handler];
         if (handler >= 0 && handler < this.commands.length) {
             cur = this.commands[handler];
-        } else if (handler > this.commands.length && this.default) {
+        } else if (handler >= this.commands.length && this.default) {
             cur = this.default;
         }
         if (cur) {

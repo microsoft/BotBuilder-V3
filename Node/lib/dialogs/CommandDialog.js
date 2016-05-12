@@ -76,7 +76,7 @@ var CommandDialog = (function (_super) {
         if (handler >= 0 && handler < this.commands.length) {
             cur = this.commands[handler];
         }
-        else if (handler > this.commands.length && this.default) {
+        else if (handler >= this.commands.length && this.default) {
             cur = this.default;
         }
         if (cur) {
