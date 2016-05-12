@@ -13,7 +13,6 @@ parent1: Bot Directory
         list-style-position: inside;
       }
       ol.list-counter > li {
-        font-size: larger;
         margin-top: 1rem;
         margin-bottom: 1rem;
         counter-increment: category;
