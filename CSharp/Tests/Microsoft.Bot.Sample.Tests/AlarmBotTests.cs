@@ -32,19 +32,15 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Linq.Expressions;
-using System.Text;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Builder.Luis.Models;
 
@@ -95,8 +91,8 @@ namespace Microsoft.Bot.Sample.Tests
             // arrange
             var now = DateTime.UtcNow;
             var entityTitle = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Title, "title");
-            var entityDate = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Date, now.ToShortDateString());
-            var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToShortTimeString());
+            var entityDate = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Date, now.ToString("d", DateTimeFormatInfo.InvariantInfo));
+            var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
 
             Func<IDialog<object>> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
             var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
@@ -109,7 +105,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IDialogTask>();
 
                     // arrange
-                    SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTitle);
+                    SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTime);
 
                     // act
                     await task.PostAsync(toBot, MakeRoot);
