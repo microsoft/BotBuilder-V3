@@ -1,15 +1,15 @@
-﻿// 
+﻿//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
-// 
+//
 // Microsoft Bot Framework: http://botframework.com
-// 
+//
 // Bot Builder SDK Github:
 // https://github.com/Microsoft/BotBuilder
-// 
+//
 // Copyright (c) Microsoft Corporation
 // All rights reserved.
-// 
+//
 // MIT License:
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -18,10 +18,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -184,7 +184,7 @@ export class BotConnectorBot extends collection.DialogCollection {
         // Dispatch message
         this.dispatchMessage(message.to.id, message, { dialogId: dialogId, dialogArgs: dialogArgs });
     }
-    
+
     /** IN DEVELOPMENT
     public continueDialog(message: IBotConnectorMessage, replyToDialogId?: string): void {
         // Validate args
@@ -192,7 +192,7 @@ export class BotConnectorBot extends collection.DialogCollection {
         if (!message.from || !message.conversationId) {
             throw new Error('Invalid message passed to BotConnectorBot.continueDialog().');
         }
-        
+
         // Calculate storage paths
         var userId = message.from.id;
         var botPath = '/' + this.options.appId;
@@ -233,7 +233,7 @@ export class BotConnectorBot extends collection.DialogCollection {
         load(convoPath, 'botConversationData');
     }
     */
-    
+
     private dispatchMessage(userId: string, message: IBotConnectorMessage, options: IDispatchOptions, res?: IResponse) {
         try {
             // Validate message
@@ -249,7 +249,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                     return  res ? res.send(400) : null;
                 }
             }
-            
+
             // Generate a session ID
             // - We're storing this at the conversation level because we're using it in
             //   place of the Bot Connectors conversationId for storage purposes. We just
@@ -291,8 +291,16 @@ export class BotConnectorBot extends collection.DialogCollection {
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     this.saveData(userId, sessionId, data, reply, (err) =>{
                         // Check for emulator
-                        var settings = ses.message.to.channelId == 'emulator' ? { endpoint: 'http://localhost:9000' } : this.options;
-                        
+                        if (ses.message.to.channelId == 'emulator') {
+                          if (this.options.endpoint) {
+                            var settings = this.options;
+                          } else {
+                            var settings = { endpoint: 'http://localhost:9000' };
+                          }
+                        } else {
+                          var settings = this.options;
+                        }
+
                         // Send message
                         if (res) {
                             this.emit('reply', reply);
@@ -347,15 +355,15 @@ export class BotConnectorBot extends collection.DialogCollection {
                         ses.perUserInConversationData = data.perUserConversationData || {};
                         if (ses.perUserInConversationData.hasOwnProperty(consts.Data.SessionState)) {
                             sessionState = ses.perUserInConversationData[consts.Data.SessionState];
-                            delete ses.perUserInConversationData[consts.Data.SessionState];    
+                            delete ses.perUserInConversationData[consts.Data.SessionState];
                         }
-                        
+
                         // Dispatch message
                         if (options.replyToDialogId) {
                             // Enforce that the required dialog is active
                             if (sessionState && sessionState.callstack[sessionState.callstack.length - 1].id == options.replyToDialogId) {
                                 ses.dispatch(sessionState, message);
-                            }                            
+                            }
                         } else {
                             ses.dispatch(sessionState, message);
                         }
@@ -383,14 +391,14 @@ export class BotConnectorBot extends collection.DialogCollection {
             res.send(500);
         }
     }
-    
+
     private getData(userId: string, sessionId: string, msg: IBotConnectorMessage, callback?: (err: Error, data: IStoredData) => void): void {
         // Calculate storage paths
         var botPath = '/' + this.options.appId;
         var userPath = botPath + '/users/' + userId;
         var convoPath = botPath + '/conversations/' + sessionId;
         var perUserConvoPath = botPath + '/conversations/' + sessionId + '/users/' + userId;
-        
+
         // Load data
         var ops = 3;
         var data = <IStoredData>{};
@@ -418,14 +426,14 @@ export class BotConnectorBot extends collection.DialogCollection {
         load(convoPath, 'conversationData', this.options.conversationStore, msg.botConversationData);
         load(perUserConvoPath, 'perUserConversationData', this.options.perUserInConversationStore, msg.botPerUserInConversationData);
     }
-    
+
     private saveData(userId: string, sessionId: string, data: IStoredData, msg: IBotConnectorMessage, callback: (err: Error) => void): void {
         // Calculate storage paths
         var botPath = '/' + this.options.appId;
         var userPath = botPath + '/users/' + userId;
         var convoPath = botPath + '/conversations/' + sessionId;
         var perUserConvoPath = botPath + '/conversations/' + sessionId + '/users/' + userId;
-        
+
         // Save data
         var ops = 3;
         function save(id: string, field: string, store: storage.IStorage, botData: any) {
