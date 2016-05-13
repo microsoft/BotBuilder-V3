@@ -37,8 +37,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
-// using Chronic;
+using Chronic;
+using System.Threading;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -141,7 +141,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(null);
             }
             args.Add(Language.BuildList(from val in values select Language.Normalize(val, _helpFormat.ChoiceCase), _helpFormat.ChoiceSeparator, _helpFormat.ChoiceLastSeparator));
-            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray());
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray()).Prompt;
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -288,15 +288,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 if (first)
                 {
-                    word.Append("(qqqq)");
+                    if (allowNumbers)
+                    {
+                        word.AppendFormat(@"({0})", n);
+                    }
+                    else
+                    {
+                        word.Append("(qqqq)");
+                    }
                 }
                 else
                 {
-                    if (n == 0)
-                    {
-                        word.Append("|c");
-                    }
-                    else if (allowNumbers)
+                    if (allowNumbers)
                     {
                         word.AppendFormat(@"|{0}", n);
                     }
@@ -510,7 +513,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray());
+            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
         }
 
         public override IEnumerable<string> ValidInputs(object value)
@@ -525,6 +528,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return ((bool)value
                 ? _field.Form.Configuration.Yes
                 : _field.Form.Configuration.No).First();
+        }
+
+        public override IEnumerable<string> ValueDescriptions()
+        {
+            return new string[] { ValueDescription(true), ValueDescription(false) };
         }
 
         private HashSet<string> _yes;
@@ -550,12 +558,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override IEnumerable<string> ValidInputs(object value)
         {
-            yield return value as string;
+            yield return (string)value;
         }
 
         public override string ValueDescription(object value)
         {
-            return value as string;
+            return (string)value;
         }
 
         public override TermMatch Parse(string input)
@@ -573,7 +581,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray());
+            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
         }
     }
 
@@ -619,9 +627,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             TermMatch result = null;
             long number;
-            if (long.TryParse(input, out number))
+            if (long.TryParse(input, NumberStyles.Integer, _culture.NumberFormat, out number))
             {
-                if (number >= _min && number <= _max)
+                if (!_showLimits || (number >= _min && number <= _max))
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }
@@ -638,7 +646,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(_min);
                 args.Add(_max);
             }
-            return prompt.Prompt(state, _field.Name, args.ToArray());
+            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
         }
 
         private long _min;
@@ -687,9 +695,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             TermMatch result = null;
             double number;
-            if (double.TryParse(input, out number))
+            if (double.TryParse(input, NumberStyles.Float, _culture.NumberFormat, out number))
             {
-                if (number >= _min && number <= _max)
+                if (!_showLimits || (number >= _min && number <= _max))
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }
@@ -706,7 +714,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(_min);
                 args.Add(_max);
             }
-            return prompt.Prompt(state, _field.Name, args.ToArray());
+            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
         }
 
         private double _min;
@@ -720,7 +728,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state.</typeparam>
     /// <remarks>
-    /// Expressions recognized are based the C# DateTime parser.
+    /// Expressions recognized are based the C# Chronic parser for English and
+    /// the C# DateTime parser otherwise.
     /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
         where T : class
@@ -735,31 +744,35 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             : base(field, configuration)
         {
             _culture = culture;
-            // _parser = new Chronic.Parser();
+            _parser = new Chronic.Parser();
         }
 
         public override string Help(T state, object defaultValue)
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray());
+            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
         }
 
         public override TermMatch Parse(string input)
         {
             TermMatch match = null;
-            DateTime dt;
-            if (DateTime.TryParse(input, out dt))
+            if (_culture.TwoLetterISOLanguageName != "en")
             {
-                match = new TermMatch(0, input.Length, 1.0, dt);
+                DateTime dt;
+                if (DateTime.TryParse(input, _culture.DateTimeFormat, DateTimeStyles.None, out dt))
+                {
+                    match = new TermMatch(0, input.Length, 1.0, dt);
+                }
             }
-            /*
-            var parse = _parser.Parse(input);
-            if (parse != null && parse.Start.HasValue)
+            else
             {
-                match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+                var parse = _parser.Parse(input);
+                if (parse != null && parse.Start.HasValue)
+                {
+                    match = new TermMatch(0, input.Length, 1.0, parse.Start.Value);
+                }
             }
-            */
             return match;
         }
 
@@ -774,6 +787,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         private CultureInfo _culture;
-        // private Parser _parser;
+        private Parser _parser;
     }
 }

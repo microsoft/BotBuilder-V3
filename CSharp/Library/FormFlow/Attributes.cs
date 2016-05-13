@@ -39,10 +39,25 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 namespace Microsoft.Bot.Builder.FormFlow
 {
     /// <summary>
+    /// Abstract base class for FormFlow attributes.
+    /// </summary>
+    public abstract class FormFlowAttribute : Attribute
+    {
+        /// <summary>
+        /// True if attribute is localizable.
+        /// </summary>
+        /// <remarks>
+        /// Attributes that are used on classes, fields and properties should have this set.
+        /// That way those attributes will be in the localization files that are generated.
+        /// </remarks>
+        public bool IsLocalizable { get; set; } = true;
+    }
+
+    /// <summary>
     /// Attribute to override the default description of a field, property or enum value.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum | AttributeTargets.Property)]
-    public class DescribeAttribute : Attribute
+    public class DescribeAttribute : FormFlowAttribute
     {
         public readonly string Description;
 
@@ -66,7 +81,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// maximum phrase length you specify.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class TermsAttribute : Attribute
+    public class TermsAttribute : FormFlowAttribute
     {
         /// <summary>
         /// Regular expressions for matching user input.
@@ -114,9 +129,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         Default,
 
         /// <summary>
-        /// Automatically switch between the <see cref="Inline"/> and <see cref="PerLine"/> styles based on the number of choices.
+        /// Automatically choose how to render choices.
         /// </summary>
         Auto,
+
+        /// <summary>
+        /// Automatically generate text and switch between the <see cref="Inline"/> and <see cref="PerLine"/> styles based on the number of choices.
+        /// </summary>
+        AutoText,
 
         /// <summary>
         /// Show choices on the same line.
@@ -218,10 +238,6 @@ namespace Microsoft.Bot.Builder.FormFlow
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class PromptAttribute : TemplateBaseAttribute
     {
-        public PromptAttribute(TemplateBaseAttribute other) : base(other)
-        {
-        }
-
         /// <summary>
         /// Define a prompt with one or more \ref patterns patterns to choose from randomly.
         /// </summary>
@@ -237,6 +253,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public PromptAttribute(TemplateAttribute pattern)
             : base(pattern)
         {
+            IsLocalizable = false;
         }
     }
 
@@ -269,6 +286,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <remarks>This template can use {0} to capture the term that was ambiguous.</remarks>
         Clarify,
+
+        /// <summary>
+        /// Default confirmation.
+        /// </summary>
+        Confirmation,
 
         /// <summary>
         /// Show the current choice.
@@ -572,7 +594,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <summary>
     /// Abstract base class used by all attributes that use \ref patterns.
     /// </summary>
-    public abstract class TemplateBaseAttribute : Attribute
+    public abstract class TemplateBaseAttribute : FormFlowAttribute
     {
         private static Random _generator = new Random();
 

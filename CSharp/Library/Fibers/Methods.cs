@@ -38,59 +38,59 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public static class Methods
     {
-        public static Rest<T> Identity<T>()
+        public static Rest<C, T> Identity<C, T>()
         {
-            return IdentityMethod<T>.Instance.IdentityAsync;
+            return IdentityMethod<C, T>.Instance.IdentityAsync;
         }
 
-        public static Rest<T> Loop<T>(Rest<T> rest, int count)
+        public static Rest<C, T> Loop<C, T>(Rest<C, T> rest, int count)
         {
-            var loop = new LoopMethod<T>(rest, count);
+            var loop = new LoopMethod<C, T>(rest, count);
             return loop.LoopAsync;
         }
 
-        public static Rest<T> Void<T>(Rest<T> rest)
+        public static Rest<C, T> Void<C, T>(Rest<C, T> rest)
         {
-            var root = new VoidMethod<T>(rest);
+            var root = new VoidMethod<C, T>(rest);
             return root.RootAsync;
         }
 
         [Serializable]
-        private sealed class IdentityMethod<T>
+        private sealed class IdentityMethod<C, T>
         {
-            public static readonly IdentityMethod<T> Instance = new IdentityMethod<T>();
+            public static readonly IdentityMethod<C, T> Instance = new IdentityMethod<C, T>();
 
             private IdentityMethod()
             {
             }
 
-            public async Task<IWait> IdentityAsync(IFiber fiber, IItem<T> item)
+            public async Task<IWait<C>> IdentityAsync(IFiber<C> fiber, C context, IItem<T> item)
             {
                 return fiber.Done(await item);
             }
         }
 
         [Serializable]
-        private sealed class LoopMethod<T>
+        private sealed class LoopMethod<C, T>
         {
-            private readonly Rest<T> rest;
+            private readonly Rest<C, T> rest;
             private int count;
             private T item;
 
-            public LoopMethod(Rest<T> rest, int count)
+            public LoopMethod(Rest<C, T> rest, int count)
             {
                 SetField.NotNull(out this.rest, nameof(rest), rest);
                 this.count = count;
             }
 
-            public async Task<IWait> LoopAsync(IFiber fiber, IItem<T> item)
+            public async Task<IWait<C>> LoopAsync(IFiber<C> fiber, C context, IItem<T> item)
             {
                 this.item = await item;
 
                 --this.count;
                 if (this.count >= 0)
                 {
-                    return fiber.Call<T, object>(this.rest, this.item, NextAsync);
+                    return fiber.Call<C, T, object>(this.rest, this.item, NextAsync);
                 }
                 else
                 {
@@ -98,12 +98,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            public async Task<IWait> NextAsync(IFiber fiber, IItem<object> ignore)
+            public async Task<IWait<C>> NextAsync(IFiber<C> fiber, C context, IItem<object> ignore)
             {
                 --this.count;
                 if (this.count >= 0)
                 {
-                    return fiber.Call<T, object>(this.rest, this.item, NextAsync);
+                    return fiber.Call<C, T, object>(this.rest, this.item, NextAsync);
                 }
                 else
                 {
@@ -113,23 +113,23 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         }
 
         [Serializable]
-        private sealed class VoidMethod<T>
+        private sealed class VoidMethod<C, T>
         {
-            private readonly Rest<T> rest;
+            private readonly Rest<C, T> rest;
 
-            public VoidMethod(Rest<T> rest)
+            public VoidMethod(Rest<C, T> rest)
             {
                 SetField.NotNull(out this.rest, nameof(rest), rest);
             }
 
-            public async Task<IWait> RootAsync(IFiber fiber, IItem<T> item)
+            public async Task<IWait<C>> RootAsync(IFiber<C> fiber, C context, IItem<T> item)
             {
-                return fiber.Call<T, object>(this.rest, await item, DoneAsync);
+                return fiber.Call<C, T, object>(this.rest, await item, DoneAsync);
             }
 
-            public async Task<IWait> DoneAsync(IFiber fiber, IItem<object> ignore)
+            public async Task<IWait<C>> DoneAsync(IFiber<C> fiber, C context, IItem<object> ignore)
             {
-                return NullWait.Instance;
+                return NullWait<C>.Instance;
             }
         }
     }

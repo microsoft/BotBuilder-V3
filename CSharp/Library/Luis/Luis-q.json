@@ -1,0 +1,199 @@
+// The swagger file that is used to generate Luis models.
+// Look at autorest, https://github.com/Azure/AutoRest, for more information.
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "Luis Query API"
+  },
+  "host": "api.projectoxford.ai",
+  "basePath": "/luis/v1/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/application": {
+      "get": {
+        "operationId": "GetIntentsAndEntities",
+        "description": "Query Luis for intents and entities.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "description": "Luis model Id.",
+            "format": "guid",
+            "required": true
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "type": "string",
+            "description": "Luis subscription key.",
+            "format": "string",
+            "required": true
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "description": "Query submitted to LUIS service.",
+            "format": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "intents and entities extracted.",
+            "schema": {
+              "$ref": "#/definitions/LuisResult"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LuisResult": {
+      "type": "object",
+      "required": [
+        "query",
+        "intents",
+        "entities"
+      ],
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "The query sent to LUIS."
+        },
+        "intents": {
+          "type": "array",
+          "description": "The intents found in the query text.",
+          "items": {
+            "$ref": "#/definitions/IntentRecommendation"
+          }
+        },
+        "entities": {
+          "type": "array",
+          "description": "The entities found in the query text.",
+          "items": {
+            "$ref": "#/definitions/EntityRecommendation"
+          }
+        }
+      }
+    },
+    "IntentRecommendation": {
+      "description": "LUIS intent recommendation. Look at https://www.luis.ai/Help for more information.",
+      "properties": {
+        "intent": {
+          "type": "string",
+          "description": "The LUIS intent detected by LUIS service in response to a query."
+        },
+        "score": {
+          "type": "number",
+          "description": "The score for the detected intent."
+        },
+        "actions": {
+          "type": "array",
+          "description": "The action associated with this Luis intent.",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        }
+      }
+    },
+    "Action": {
+      "properties": {
+        "triggered": {
+          "type": "boolean",
+          "description": "True if the Luis action is triggered, false otherwise."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the action."
+        },
+        "parameters": {
+          "type": "array",
+          "description": "The parameters for the action.",
+          "items": {
+            "$ref": "#/definitions/ActionParameter"
+          }
+        }
+      }
+    },
+    "ActionParameter": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the parameter."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "True if the parameter is required, false otherwise."
+        },
+        "value": {
+          "type": "array",
+          "description": "Value of extracted entities for this parameter.",
+          "items": {
+            "$ref": "#/definitions/ActionParameterValue"
+          }
+        }
+      }
+    },
+    "ActionParameterValue": {
+      "properties": {
+        "entity": {
+          "type": "string",
+          "description": "Entity extracted by LUIS."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the entity."
+        },
+        "score": {
+          "type": "number",
+          "description": "Score assigned by LUIS to detected entity."
+        }
+      }
+    },
+    "EntityRecommendation": {
+      "description": "Luis entity recommendation. Look at https://www.luis.ai/Help for more information.",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Role of the entity."
+        },
+        "entity": {
+          "type": "string",
+          "description": "Entity extracted by LUIS."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the entity."
+        },
+        "startIndex": {
+          "type": "integer",
+          "description": "Start index of the entity in the LUIS query string."
+        },
+        "endIndex": {
+          "type": "integer",
+          "description": "End index of the entity in the LUIS query string."
+        },
+        "score": {
+          "type": "number",
+          "description": "Score assigned by LUIS to detected entity."
+        },
+        "resolution": {
+          "type": "object",
+          "description": "A machine readable dictionary with more information about the entity Look at builtin.datetime for an example in the https://www.luis.ai/Help#PreBuiltEntities.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

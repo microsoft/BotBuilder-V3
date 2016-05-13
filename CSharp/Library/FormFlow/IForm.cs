@@ -31,10 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.FormFlow.Advanced;
+using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
-
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -44,7 +44,6 @@ namespace Microsoft.Bot.Builder.FormFlow
     #endregion
     public abstract class IForm<T>
     {
-#if LOCALIZE
 #region Documentation
         /// <summary>   Save all string resources to binary stream for future localization. </summary>
         /// <param name="writer">   Where to write resources. </param>
@@ -60,8 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         ///          Otherwise the value will remain unchanged.
         /// </remarks>
 #endregion
-        public abstract void Localize(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
-#endif
+        public abstract void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
 
 #region Documentation
         /// <summary>   Gets the resource localizer. </summary>

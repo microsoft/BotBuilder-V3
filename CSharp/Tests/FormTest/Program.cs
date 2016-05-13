@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 #pragma warning disable 649
@@ -44,23 +45,24 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
+using System.Text;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, NoAnnotations, NoFieldOrder,
+        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, AnnotationsAndText, NoAnnotations, NoFieldOrder,
         WithState,
-#if LOCALIZE
         Localized,
-#endif
-        SimpleSandwichBot, AnnotatedSandwichBot
+        SimpleSandwichBot, AnnotatedSandwichBot, JSONSandwichBot
     };
     [Serializable]
     public class Choices
@@ -71,8 +73,14 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     class Program
     {
 
+        static public string Locale = CultureInfo.CurrentUICulture.Name;
+
         static async Task Interactive<T>(IDialog<T> form)
         {
+            // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
+            // But you don't have to reboot.
+            // If you don't want the multi-lingual support just comment this out
+            Console.OutputEncoding = Encoding.GetEncoding(65001);
             var message = new Message()
             {
                 ConversationId = Guid.NewGuid().ToString(),
@@ -82,149 +90,25 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule());
             builder
-                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message), Console.Out))
-                .Keyed<IBotToUser>(FiberModule.Key_DoNotSerialize)
+                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<Message>()), Console.Out))
                 .As<IBotToUser>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
             using (var container = builder.Build())
+            using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {
-                var store = container.Resolve<IDialogContextStore>(TypedParameter.From(message));
+                var task = scope.Resolve<IDialogTask>();
 
                 Func<IDialog<T>> MakeRoot = () => form;
 
-                await store.PollAsync(() => form);
+                await task.PollAsync(() => form);
 
                 while (true)
                 {
                     message.Text = await Console.In.ReadLineAsync();
-                    await store.PostAsync(message, () => form);
+                    message.Language = Locale;
+                    await task.PostAsync(message, () => form);
                 }
             }
-        }
-
-        private static IForm<PizzaOrder> BuildForm(bool noNumbers, bool ignoreAnnotations = false, bool localize = false)
-        {
-            var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
-
-            ActiveDelegate<PizzaOrder> isBYO = (pizza) => pizza.Kind == PizzaOptions.BYOPizza;
-            ActiveDelegate<PizzaOrder> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
-            ActiveDelegate<PizzaOrder> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
-            ActiveDelegate<PizzaOrder> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
-            // form.Configuration().DefaultPrompt.Feedback = FeedbackOptions.Always;
-            if (noNumbers)
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{1}";
-                builder.Configuration.DefaultPrompt.ChoiceCase = CaseNormalization.Lower;
-                builder.Configuration.DefaultPrompt.ChoiceParens = BoolDefault.False;
-            }
-            else
-            {
-                builder.Configuration.DefaultPrompt.ChoiceFormat = "{0}. {1}";
-            }
-            Func<PizzaOrder, double> computeCost = (order) =>
-            {
-                double cost = 0.0;
-                switch (order.Size)
-                {
-                    case SizeOptions.Medium: cost = 10; break;
-                    case SizeOptions.Large: cost = 15; break;
-                    case SizeOptions.Family: cost = 20; break;
-                }
-                return cost;
-            };
-            MessageDelegate<PizzaOrder> costDelegate = async (state) =>
-                 {
-                     double cost = 0.0;
-                     switch (state.Size)
-                     {
-                         case SizeOptions.Medium: cost = 10; break;
-                         case SizeOptions.Large: cost = 15; break;
-                         case SizeOptions.Family: cost = 20; break;
-                     }
-                     cost *= state.NumberOfPizzas;
-                     return new PromptAttribute($"Your pizza will cost ${cost}");
-                 };
-            var form = builder
-                .Message("Welcome to the pizza bot!!!")
-                .Message("Lets make pizza!!!")
-                .Field(nameof(PizzaOrder.NumberOfPizzas))
-                .Field(nameof(PizzaOrder.Size))
-                .Field(nameof(PizzaOrder.Kind))
-                .Field(new FieldReflector<PizzaOrder>(nameof(PizzaOrder.Specials))
-                    .SetType(null)
-                    .SetDefine(async (state, field) =>
-                    {
-                        var specials = field
-                        .SetFieldDescription("Specials")
-                        .SetFieldTerms("specials")
-                        .RemoveValues();
-                        if (state.NumberOfPizzas > 1)
-                        {
-                            specials
-                                .SetAllowsMultiple(true)
-                                .AddDescription("special1", "Free drink")
-                                .AddTerms("special1", "drink");
-                        }
-                        specials
-                            .AddDescription("special2", "Free garlic bread")
-                            .AddTerms("special2", "bread", "garlic");
-                        return true;
-                    }))
-                .Field("BYO.HalfAndHalf", isBYO)
-                .Field("BYO.Crust", isBYO)
-                .Field("BYO.Sauce", isBYO)
-                .Field("BYO.Toppings", isBYO)
-                .Field("BYO.HalfToppings", (pizza) => isBYO(pizza) && pizza.BYO != null && pizza.BYO.HalfAndHalf)
-                .Message("Almost there!!! {*filled}", isBYO)
-                .Field(nameof(PizzaOrder.GourmetDelite), isGourmet)
-                .Field(nameof(PizzaOrder.Signature), isSignature)
-                .Field(nameof(PizzaOrder.Stuffed), isStuffed)
-
-                .Message("What we have is a {?{Signature} signature pizza} {?{GourmetDelite} gourmet pizza} {?{Stuffed} {&Stuffed}} {?{?{BYO.Crust} {&BYO.Crust}} {?{BYO.Sauce} {&BYO.Sauce}} {?{BYO.Toppings}}} pizza")
-                .Field("DeliveryAddress", validate:
-                    async (state, value) =>
-                    {
-                        var result = new ValidateResult { IsValid = true };
-                        var str = value as string;
-                        if (str.Length == 0 || str[0] < '1' || str[0] > '9')
-                        {
-                            result.Feedback = "Address must start with number.";
-                            result.IsValid = false;
-                        }
-                        else
-                        {
-                            result.Feedback = "Your address is fine.";
-                        }
-                        return result;
-                    })
-                 .Message(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost}"); })
-                 .Confirm(async (state) => { var cost = computeCost(state); return new PromptAttribute($"Your pizza will cost ${cost} is that OK?"); })
-                .AddRemainingFields()
-                .Message("Rating = {Rating:F1} and [{Rating:F2}]")
-                .Confirm("Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?", isBYO)
-                .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
-                .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
-                .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
-                .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
-                .Build();
-#if LOCALIZE
-            if (localize)
-            {
-                using (var stream = new FileStream("pizza.resx", FileMode.Create))
-                using (var writer = new ResXResourceWriter(stream))
-                {
-                    form.SaveResources(writer);
-                }
-                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c en-uk -p t-") { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
-                using (var stream = new FileStream("pizza-en-uk.resx", FileMode.Open))
-                using (var reader = new ResXResourceReader(stream))
-                {
-                    IEnumerable<string> missing, extra;
-                    form.Localize(reader, out missing, out extra);
-                }
-            }
-#endif
-            return form;
         }
 
         public static void TestValidate()
@@ -272,7 +156,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
         }
 
-        public static IFormDialog<T> MakeForm<T>(BuildForm<T> buildForm) where T : class, new()
+        public static IFormDialog<T> MakeForm<T>(BuildFormDelegate<T> buildForm) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
@@ -282,7 +166,14 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // TestValidate();
             var callDebug =
                 Chain
-                .From(() => FormDialog.FromType<Choices>(FormOptions.PromptInStart))
+                .From(() => new PromptDialog.PromptString("Locale?", null, 1))
+                .ContinueWith<string, Choices>(async (ctx, locale) =>
+                    {
+                        Locale = await locale;
+                        CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(Locale);
+                        CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture;
+                        return FormDialog.FromType<Choices>(FormOptions.PromptInStart);
+                    })
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
                     Choices choices;
@@ -299,25 +190,36 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     switch (choices.Choice)
                     {
                         case DebugOptions.AnnotationsAndNumbers:
-                            return MakeForm(() => BuildForm(noNumbers: false));
+                            return MakeForm(() => PizzaOrder.BuildForm(noNumbers: false));
                         case DebugOptions.AnnotationsAndNoNumbers:
-                            return MakeForm(() => BuildForm(noNumbers: true));
+                            return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true));
+                        case DebugOptions.AnnotationsAndText:
+                            return MakeForm(() => PizzaOrder.BuildForm(style: ChoiceStyleOptions.AutoText));
                         case DebugOptions.NoAnnotations:
-                            return MakeForm(() => BuildForm(noNumbers: true, ignoreAnnotations: true));
+                            return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true, ignoreAnnotations: true));
                         case DebugOptions.NoFieldOrder:
                             return MakeForm(() => new FormBuilder<PizzaOrder>().Build());
                         case DebugOptions.WithState:
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
-                            () => BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
-#if LOCALIZE
+                            () => PizzaOrder.BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
                         case DebugOptions.Localized:
-                            return MakeForm(() => BuildForm(false, false, true));
-#endif
+                            {
+                                var form = PizzaOrder.BuildForm(false, false);
+                                using (var stream = new FileStream("pizza.resx", FileMode.Create))
+                                using (var writer = new ResXResourceWriter(stream))
+                                {
+                                    form.SaveResources(writer);
+                                }
+                                Process.Start(new ProcessStartInfo(@"RView.exe", "pizza.resx -c " + Locale) { UseShellExecute = false, CreateNoWindow = true }).WaitForExit();
+                                return MakeForm(() => PizzaOrder.BuildForm(false, false, true));
+                            }
                         case DebugOptions.SimpleSandwichBot:
                             return MakeForm(() => SimpleSandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:
-                            return MakeForm(() => AnnotatedSandwichOrder.BuildForm());
+                            return MakeForm(() => AnnotatedSandwichOrder.BuildLocalizedForm());
+                        case DebugOptions.JSONSandwichBot:
+                            return MakeForm(() => AnnotatedSandwichOrder.BuildJsonForm());
                         default:
                             throw new NotImplementedException();
                     }
@@ -341,8 +243,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         }
                     }
                 })
+                .DefaultIfException()
                 .Loop();
-
             Interactive(callDebug).GetAwaiter().GetResult();
         }
     }

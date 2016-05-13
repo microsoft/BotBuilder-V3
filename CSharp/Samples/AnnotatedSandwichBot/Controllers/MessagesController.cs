@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Connector.Utilities;
 
 namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
@@ -15,7 +12,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     {
         internal static IDialog<SandwichOrder> MakeRootDialog()
         {
-            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildForm))
+            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildLocalizedForm))
                 .Do(async (context, order) =>
                 {
                     try

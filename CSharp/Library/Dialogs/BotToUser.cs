@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq; 
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -90,26 +90,39 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class AlwaysSendDirect_BotToUser : IBotToUser
+    {
+        private readonly Message toBot;
+        private readonly IConnectorClient client;
+        public AlwaysSendDirect_BotToUser(Message toBot, IConnectorClient client)
+        {
+            SetField.NotNull(out this.toBot, nameof(toBot), toBot);
+            SetField.NotNull(out this.client, nameof(client), client);
+        }
+
+        Message IBotToUser.MakeMessage()
+        {
+            var toUser = this.toBot.CreateReplyMessage();
+            toUser.BotUserData = this.toBot.BotUserData;
+            toUser.BotConversationData = this.toBot.BotConversationData;
+            toUser.BotPerUserInConversationData = this.toBot.BotPerUserInConversationData;
+            return toUser;
+        }
+
+        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
+        {
+            await this.client.Messages.SendMessageAsync(message, cancellationToken);
+        }
+    }
+
     public sealed class BotToUserQueue : IBotToUser
     {
         private readonly Message toBot;
-        private readonly Queue<Message> queue = new Queue<Message>();
-        public BotToUserQueue(Message toBot)
+        private readonly Queue<Message> queue;
+        public BotToUserQueue(Message toBot, Queue<Message> queue)
         {
             SetField.NotNull(out this.toBot, nameof(toBot), toBot);
-        }
-       
-        public void Clear()
-        {
-            this.queue.Clear();
-        }
-
-        public IEnumerable<Message> Messages
-        {
-            get
-            {
-                return this.queue;
-            }
+            SetField.NotNull(out this.queue, nameof(queue), queue);
         }
 
         Message IBotToUser.MakeMessage()
@@ -145,7 +158,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
         {
             await this.inner.PostAsync(message, cancellationToken);
-            await this.writer.WriteLineAsync(message.Text);
+            await this.writer.WriteLineAsync($"{message.Text}{ActionsToText(message.Attachments)}");
+        }
+
+        private static string ActionsToText(IList<Attachment> attachments)
+        {
+            var buttonAttachments = attachments?.Where(attachment => attachment.Actions?.Count > 0);
+            string text = string.Empty;
+            if (buttonAttachments != null)
+            {
+                foreach (var attachment in buttonAttachments)
+                {
+                    if (attachment != null && attachment.Actions != null && attachment.Actions.Count() > 0)
+                    {
+                        foreach (var action in attachment.Actions)
+                        {
+                            if (!string.IsNullOrEmpty(action.Message))
+                            {
+                                text += $"\n{action.Message}. {action.Title}";
+                            }
+                            else
+                            { 
+                                text += $"\n* {action.Title}";
+                            }
+                        }
+                    }
+                }
+            }
+            return text;
         }
     }
 }

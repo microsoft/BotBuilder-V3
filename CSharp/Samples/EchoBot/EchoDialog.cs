@@ -11,14 +11,14 @@ namespace Microsoft.Bot.Sample.EchoBot
     [Serializable]
     public class EchoDialog : IDialog<object>
     {
-        private int count = 1;
+        protected int count = 1;
 
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
         }
 
-        public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
+        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
         {
             var message = await argument;
             if (message.Text == "reset")
@@ -27,11 +27,12 @@ namespace Microsoft.Bot.Sample.EchoBot
                     context,
                     AfterResetAsync,
                     "Are you sure you want to reset the count?",
-                    "Didn't get that!");
+                    "Didn't get that!",
+                    promptStyle: PromptStyle.None);
             }
             else
             {
-                await context.PostAsync(string.Format("{0}: You said {1}", this.count++, message.Text));
+                await context.PostAsync(string.Format("{0}: You said {1}", this.count++, message.Text)); 
                 context.Wait(MessageReceivedAsync);
             }
         }

@@ -180,13 +180,48 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// Loop the <see cref="IDialog"/> forever.
+        /// Loop the <see cref="IDialog{T}"/> forever.
         /// </summary>
-        /// <param name="antecedent">The antecedent <see cref="IDialog"/>.</param>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <returns>The looping dialog.</returns>
         public static IDialog<T> Loop<T>(this IDialog<T> antecedent)
         {
             return new LoopDialog<T>(antecedent);
+        }
+
+        /// <summary>
+        /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
+        /// </summary>
+        /// <typeparam name="T">The type of the voided dialog.</typeparam>
+        /// <typeparam name="R">The type of the original dialog wait.</typeparam>
+        /// <param name="antecedent">The voided dialog.</param>
+        /// <returns>The dialog that produces the item to satisfy the original wait.</returns>
+        public static IDialog<R> Void<T, R>(this IDialog<T> antecedent)
+        {
+            return new VoidDialog<T, R>(antecedent);
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, stop the propagation of an exception of <typeparamref name="E"/>.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <typeparam name="E">The type of exception to swallow.</typeparam>
+        /// <param name="antecedent"> The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <returns>The default value of <typeparamref name="T"/> if there is an exception of type <typeparamref name="E"/>.</returns>
+        public static IDialog<T> DefaultIfException<T, E>(this IDialog<T> antecedent) where E : Exception
+        {
+            return new DefaultIfExceptionDialog<T, E>(antecedent);
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, stop the propagation of Exception.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <param name="antecedent"> The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <returns>The default value of <typeparamref name="T"/> if there is an Exception.</returns>
+        public static IDialog<T> DefaultIfException<T>(this IDialog<T> antecedent)
+        {
+            return new DefaultIfExceptionDialog<T, Exception>(antecedent);
         }
 
         /// <summary>
@@ -343,20 +378,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             public readonly IDialog<T> Antecedent;
             public readonly Continutation<T, R> Continuation;
+
             public ContinueWithDialog(IDialog<T> antecedent, Continutation<T, R> continuation)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Continuation, nameof(continuation), continuation);
             }
+
             async Task IDialog<R>.StartAsync(IDialogContext context)
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
+
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
                 var next = await this.Continuation(context, result);
                 context.Call<R>(next, DoneAsync);
             }
+
             private async Task DoneAsync(IDialogContext context, IAwaitable<R> result)
             {
                 context.Done(await result);
@@ -505,12 +544,61 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
-            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> ignored)
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
+                await result;
                 context.Call<T>(this.Antecedent, ResumeAsync);
             }
         }
 
+        [Serializable]
+        private sealed class VoidDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public VoidDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                var ignore = await result;
+                context.Wait<R>(ItemReceived);
+            }
+            private async Task ItemReceived(IDialogContext context, IAwaitable<R> result)
+            {
+                var item = await result;
+                context.Done(item);
+            }
+        }
+
+        [Serializable]
+        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E: Exception
+        {
+            public readonly IDialog<T> Antecedent;
+            public DefaultIfExceptionDialog(IDialog<T> antecedent)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                try
+                {
+                    context.Done(await result);
+                }
+                catch (E)
+                {
+                    context.Done(default(T));
+                }
+            }
+        }
 
         [Serializable]
         private sealed class SwitchDialog<T, R> : IDialog<R>

@@ -366,13 +366,13 @@ export class BotConnectorBot extends collection.DialogCollection {
             } else if (res) {
                 var msg: string;
                 switch (message.type) {
-                    case "botAddedToConversation":
+                    case "BotAddedToConversation":
                         msg = this.options.groupWelcomeMessage;
                         break;
-                    case "userAddedToConversation":
+                    case "UserAddedToConversation":
                         msg = this.options.userWelcomeMessage;
                         break;
-                    case "endOfConversation":
+                    case "EndOfConversation":
                         msg = this.options.goodbyeMessage;
                         break;
                 }

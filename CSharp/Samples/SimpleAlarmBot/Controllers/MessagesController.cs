@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Newtonsoft.Json;
-
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Connector.Utilities;
 
 namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {

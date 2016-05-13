@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
@@ -40,12 +41,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     #region Documentation
     /// <summary>   Interface for localizing string resources. </summary>
     #endregion
-#if LOCALIZE
-    public
-#else
-    internal 
-#endif
-        interface ILocalizer
+    public interface ILocalizer
     {
         /// <summary>
         /// Return the localizer culture.
@@ -68,18 +64,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Add(string key, IEnumerable<string> list);
 
         #region Documentation
-        /// <summary>   Adds value from dictionary under prefix;object. </summary>
+        /// <summary>   Adds value from dictionary under object if enumeration and prefix;object otherwise. </summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
-        void Add(string prefix, IReadOnlyDictionary<object, string> dictionary);
+        void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
-        /// <summary>   Adds values from dictionary seperated by semi-colons under prefix;object. </summary>
+        /// <summary>   Adds values from dictionary seperated by semi-colons under object if enumeration and prefix;object otherwise.</summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
-        void Add(string prefix, IReadOnlyDictionary<object, string[]> dictionary);
+        void Add(string prefix, IReadOnlyDictionary<object, TermsAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage. </summary>
@@ -116,14 +112,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="prefix">       The prefix. </param>
         /// <param name="dictionary">   Dictionary with existing values. </param>
         #endregion
-        void LookupDictionary(string prefix, IDictionary<object, string> dictionary);
+        void LookupDictionary(string prefix, IDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Look up prefix;object from dictionary and replace values from localizer. </summary>
         /// <param name="prefix">       The prefix. </param>
         /// <param name="dictionary">   Dictionary with existing values. </param>
         #endregion
-        void LookupDictionary(string prefix, IDictionary<object, string[]> dictionary);
+        void LookupDictionary(string prefix, IDictionary<object, TermsAttribute> dictionary);
 
         #region Documentation
         /// <summary>   Looks up prefix;usage and replace patterns in template from localizer. </summary>
@@ -146,23 +142,22 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Resource values are all strings.  The key and value can have different parts seperated by semi-colons.
         /// Key | Value | Description
         /// ----|-------|------------
-        /// CULTURE | cultureName | Values are culture names like en-us.
-        /// VALUE;key | string | Simple value.
-        /// LIST;key | string[;string]* | List of values.
-        /// TEMPLATE;usage;field[;field]* | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
+        /// key;VALUE | string | Simple value.
+        /// key;LIST | string[;string]* | List of values.
+        /// usage;field[;field]*;TEMPLATE | pattern[;pattern]* | List of template patterns.  Key includes fields that use template.
         /// </remarks>
         void Save(IResourceWriter writer);
 
         /// <summary>
         /// Load the localizer from a stream.
         /// </summary>
-        /// <param name="reader">Where to load from.</param>
+        /// <param name="reader">Dictionary with resources.</param>
         /// <param name="missing">Keys found in current localizer that are not in loaded localizer.</param>
         /// <param name="extra">Keys found in loaded localizer that were not in current localizer.</param>
         /// <returns>New localizer from reader.</returns>
         /// <remarks>
         /// <see cref="Save(IResourceWriter)"/> to see resource format.
         /// </remarks>
-        ILocalizer Load(IResourceReader reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
+        ILocalizer Load(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
     }
 }

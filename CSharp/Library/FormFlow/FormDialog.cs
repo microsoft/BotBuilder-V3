@@ -44,6 +44,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -53,7 +54,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     public static class FormDialog
     {
         /// <summary>
-        /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildForm{T}"/>.
+        /// Create an <see cref="IFormDialog{T}"/> using the default <see cref="BuildFormDelegate{T}"/>.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="options">The form options.</param>
@@ -64,13 +65,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         }
 
         /// <summary>
-        /// Create an <see cref="IFormDialog{T}"/> using the <see cref="BuildForm{T}"/> parameter.
+        /// Create an <see cref="IFormDialog{T}"/> using the <see cref="BuildFormDelegate{T}"/> parameter.
         /// </summary>
         /// <typeparam name="T">The form type.</typeparam>
         /// <param name="buildForm">The delegate to build the form.</param>
         /// <param name="options">The form options.</param>
         /// <returns>The form dialog.</returns>
-        public static IFormDialog<T> FromForm<T>(BuildForm<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
+        public static IFormDialog<T> FromForm<T>(BuildFormDelegate<T> buildForm, FormOptions options = FormOptions.None) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options);
         }
@@ -105,7 +106,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         PromptFieldsWithValues
     };
 
-    public delegate IForm<T> BuildForm<T>();
+    /// <summary>
+    /// Delegate for building the form.
+    /// </summary>
+    /// <typeparam name="T">The form state type.</typeparam>
+    /// <returns>An <see cref="IForm{T}"/>.</returns>
+    /// <remarks>This is a delegate so that we can rebuild the form and don't have to serialize
+    /// the form definition with every message.</remarks>
+    public delegate IForm<T> BuildFormDelegate<T>();
 
     /// <summary>
     /// Form dialog to fill in your state.
@@ -113,7 +121,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">The type to fill in.</typeparam>
     /// <remarks>
     /// This is the root class for managing a FormFlow dialog. It is usually created
-    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildForm{T}, FormOptions)"/>
+    /// through the factory methods <see cref="FormDialog.FromForm{T}(BuildFormDelegate{T}, FormOptions)"/>
     /// or <see cref="FormDialog.FromType{T}"/>. 
     /// </remarks>
     [Serializable]
@@ -122,7 +130,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     {
         // constructor arguments
         private readonly T _state;
-        private readonly BuildForm<T> _buildForm;
+        private readonly BuildFormDelegate<T> _buildForm;
         private readonly IEnumerable<EntityRecommendation> _entities;
         private readonly FormOptions _options;
 
@@ -147,7 +155,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="cultureInfo">  The culture to use. </param>
         /// <remarks>For building forms <see cref="IFormBuilder{T}"/>.</remarks>
         #endregion
-        public FormDialog(T state, BuildForm<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
+        public FormDialog(T state, BuildFormDelegate<T> buildForm = null, FormOptions options = FormOptions.None, IEnumerable<EntityRecommendation> entities = null, CultureInfo cultureInfo = null)
         {
             buildForm = buildForm ?? BuildDefaultForm;
             entities = entities ?? Enumerable.Empty<EntityRecommendation>();
@@ -291,7 +299,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 var toBotText = toBot != null ? (await toBot).Text : null;
                 string message = null;
-                string prompt = null;
+                FormPrompt prompt = null;
                 bool useLastPrompt = false;
                 bool requirePrompt = false;
                 // Ensure we have initial definition for field steps
@@ -316,7 +324,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         stepInput = stepInput.Substring(0, stepInput.Length - 1);
                     }
-                    string feedback = null;
+                    FormPrompt feedback = null;
                     if (next.Direction == StepDirection.Named && next.Names.Count() > 1)
                     {
                         // We need to choose between multiple next steps
@@ -387,7 +395,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 ? new TermMatch[0]
                                 : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(toBotText), toBotText)
                                    where (command.Value is FormCommand
-                                       || _form.Fields.Field(command.Value as string).Active(_state))
+                                       || _form.Fields.Field((string)command.Value).Active(_state))
                                    select command).ToArray();
                             if (MatchAnalyzer.IsFullMatch(toBotText, commands))
                             {
@@ -431,7 +439,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     next = ActiveSteps(next, _state);
                     if (feedback != null)
                     {
-                        message = (message == null ? feedback : message + "\n\n" + feedback);
+                        message = (message == null ? feedback.Prompt : message + "\n\n" + feedback.Prompt);
                     }
                 }
                 if (next.Direction == StepDirection.Complete || next.Direction == StepDirection.Quit)
@@ -470,24 +478,40 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         if (requirePrompt)
                         {
-                            _formState.LastPrompt = prompt;
-                            prompt = message + "\n\n" + prompt;
+                            _formState.LastPrompt = prompt != null ? (FormPrompt)prompt.Clone() : new FormPrompt();
+                            if (prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message + "\n\n" + prompt.Prompt;
                         }
                         else if (useLastPrompt)
                         {
-                            prompt = message + "\n\n" + _formState.LastPrompt;
+                            if (prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message + "\n\n" + _formState.LastPrompt.Prompt;
+                            prompt.Buttons.AddRange(_formState.LastPrompt.Buttons);
                         }
                         else
                         {
-                            prompt = message;
+                            if (prompt == null)
+                            {
+                                prompt = new FormPrompt();
+                            }
+                            prompt.Prompt = message;
                         }
                     }
                     else
                     {
-                        _formState.LastPrompt = prompt;
+                        _formState.LastPrompt = (FormPrompt)prompt?.Clone();
                     }
 
-                    await context.PostAsync(prompt);
+                    var msg = context.MakeMessage();
+                    msg.Text = prompt.Prompt;
+                    msg.Attachments = prompt.Buttons.GenerateAttachments();
+                    await context.PostAsync(msg);
                     context.Wait(MessageReceived);
                 }
             }
@@ -663,7 +687,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return found;
         }
 
-        private NextStep DoCommand(IDialogContext context, T state, FormState form, IStep<T> step, IEnumerable<TermMatch> matches, out string feedback)
+        private NextStep DoCommand(IDialogContext context, T state, FormState form, IStep<T> step, IEnumerable<TermMatch> matches, out FormPrompt feedback)
         {
             // TODO: What if there are more than one command?
             feedback = null;
@@ -709,7 +733,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
             else
             {
-                var name = value as string;
+                var name = (string)value;
                 var istep = _form.Step(name);
                 if (istep != null && istep.Active(state))
                 {
@@ -723,7 +747,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     }
 }
 
-namespace Microsoft.Bot.Builder.Luis
+namespace Microsoft.Bot.Builder.Luis.Models
 {
     [Serializable]
     public partial class EntityRecommendation

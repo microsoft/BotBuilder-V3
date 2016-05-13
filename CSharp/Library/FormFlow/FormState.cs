@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     internal class FormState
     {
         // Last sent prompt which is used when feedback is supplied
-        public string LastPrompt;
+        public FormPrompt LastPrompt;
 
         // Used when navigating to reflect choices for next
         public NextStep Next;
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public void Reset()
         {
-            LastPrompt = "";
+            LastPrompt = new FormPrompt();
             Next = null;
             Step = 0;
             History = new Stack<int>();

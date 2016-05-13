@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import storage = require('./Storage');
+import storage = require('./BotStorage');
 import request = require('request');
 
 export interface IBotConnectorStorageOptions {
@@ -40,53 +40,104 @@ export interface IBotConnectorStorageOptions {
     appSecret: string;
 }
 
-export class BotConnectorStorage implements storage.IStorage {
+export interface IBotConnectorStorageData extends storage.IBotStorageData {
+    userDataHash?: string;
+    conversationDataHash?: string;    
+}
+
+export class BotConnectorStorage implements storage.IBotStorage {
     constructor(private options: IBotConnectorStorageOptions) {
         
     }
 
-    public get(id: string, callback: (err: Error, data: any) => void): void {
+    public get(address: storage.IBotStorageAddress, callback: (err: Error, data: storage.IBotStorageData) => void): void {
+        var ops = 2;
         var settings = this.options;
-        var options: request.Options = {
-            url: settings.endpoint + '/bot/v1.0/bots' + id
-        };
-        if (settings.appId && settings.appSecret) {
-            options.auth = {
-                username: settings.appId,
-                password: settings.appSecret
-            };
-            options.headers = {
-                'Ocp-Apim-Subscription-Key': settings.appSecret
-            };
-        }
-        request.get(options, (err, response, body) => {
-            try {
-                var data: any;
-                if (!err && typeof body === 'string') {
-                    data = JSON.parse(body);
+        var data: storage.IBotStorageData = {};
+        function read(path: string, field: string) {
+            if (path) {
+                var options: request.Options = {
+                    url: settings.endpoint + '/bot/v1.0/bots' + path
+                };
+                if (settings.appId && settings.appSecret) {
+                    options.auth = {
+                        username: settings.appId,
+                        password: settings.appSecret
+                    };
+                    options.headers = {
+                        'Ocp-Apim-Subscription-Key': settings.appSecret
+                    };
                 }
-                callback(err, data);
-            } catch (e) {
-                callback(e instanceof Error ? e : new Error(e.toString()), null);
+                request.get(options, (err, response, body) => {
+                    if (!err) {
+                        try {
+                            (<any>data)[field + 'Hash'] = body;
+                            (<any>data)[field] = typeof body === 'string' ? JSON.parse(body) : null;
+                        } catch (e) {
+                            err = e instanceof Error ? e : new Error(e.toString()); 
+                        }
+                    }
+                    if (callback && (err || --ops == 0)) {
+                        callback(err, data);
+                        callback = null;
+                    }
+                });
+            } else if (callback && --ops == 0) {
+                callback(null, data);
             }
-        });
+        }
+        var userPath = address.userId ? '/users/' + address.userId : null;
+        var convoPath = address.conversationId ? '/conversations/' + address.conversationId + userPath : null;
+        read(userPath, 'userData');
+        read(convoPath, 'conversationData');
     }
 
-    public save(id: string, data: any, callback?: (err: Error) => void): void {
+    public save(address: storage.IBotStorageAddress, data: storage.IBotStorageData, callback?: (err: Error) => void): void {
+        var ops = 2;
         var settings = this.options;
-        var options: request.Options = {
-            url: settings.endpoint + '/bot/v1.0/bots' + id,
-            body: data
-        };
-        if (settings.appId && settings.appSecret) {
-            options.auth = {
-                username: settings.appId,
-                password: settings.appSecret
-            };
-            options.headers = {
-                'Ocp-Apim-Subscription-Key': settings.appSecret
-            };
+        function write(path: string, field: string) {
+            if (path) {
+                var err: Error;
+                var body: string;
+                var hashField = field + 'Hash';
+                try {
+                    body = JSON.stringify((<any>data)[field]);
+                } catch (e) {
+                    err = e instanceof Error ? e : new Error(e.toString());
+                }
+                if (!err && (!(<any>data)[hashField] || body !== (<any>data)[hashField])) {
+                    (<any>data)[hashField] = body;
+                    var options: request.Options = {
+                        url: settings.endpoint + '/bot/v1.0/bots' + path,
+                        body: body
+                    };
+                    if (settings.appId && settings.appSecret) {
+                        options.auth = {
+                            username: settings.appId,
+                            password: settings.appSecret
+                        };
+                        options.headers = {
+                            'Ocp-Apim-Subscription-Key': settings.appSecret
+                        };
+                    }
+                    request.post(options, (err) => {
+                        if (callback && (err || --ops == 0)) {
+                            callback(err);
+                            callback = null;
+                        }
+                    });
+                } else if (callback && (err || --ops == 0)) {
+                    callback(err);
+                    callback = null;
+                }
+            } else if (callback && --ops == 0) {
+                callback(null);
+            }
         }
-        request.post(options, callback);
+        var userPath = address.userId ? '/users/' + address.userId : null;
+        var convoPath = address.conversationId ? '/conversations/' + address.conversationId + userPath : null;
+        write(userPath, 'userData');
+        write(convoPath, 'conversationData');
+        
     }
 }

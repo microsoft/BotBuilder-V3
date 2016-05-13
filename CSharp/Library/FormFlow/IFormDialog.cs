@@ -54,6 +54,12 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         /// <summary>   True if value is a valid response. </summary>
         public bool IsValid;
+
+        /// <summary>
+        /// Value to put in the field if result is valid.
+        /// </summary>
+        /// <remarks>This provides an opportunity for validation to compute the final value.</remarks>
+        public object Value;
     }
 
     /// <summary>

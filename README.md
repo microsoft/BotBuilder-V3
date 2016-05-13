@@ -10,4 +10,6 @@ Bots (or conversation agents) are rapidly becoming an integral part of one’s d
 
 **[Review the documentation](http://docs.botframework.com)** to get started with the Bot Builder SDK!
 
-Join the conversation on Gitter : https://gitter.im/Microsoft/BotBuilder
+Join the conversation on **[Gitter] (https://gitter.im/Microsoft/BotBuilder)**.
+
+Create and vote on suggestions for improvement on **[User Voice] (https://feedback.botframework.com/forums/354222-bot-builder-sdk)**.

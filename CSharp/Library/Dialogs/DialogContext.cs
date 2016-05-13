@@ -33,7 +33,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,39 +41,24 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    [Serializable]
-    public sealed class DialogContext : IDialogContextInternal, ISerializable
+    public sealed class DialogContext : IDialogContext
     {
         private readonly IBotToUser botToUser;
-        private readonly IBotData data;
-        private readonly IFiberLoop fiber;
+        private readonly IBotData botData;
+        private readonly IDialogStack stack;
 
-        public DialogContext(IBotToUser botToUser, IBotData data, IFiberLoop fiber)
+        public DialogContext(IBotToUser botToUser, IBotData botData, IDialogStack stack)
         {
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
-            SetField.NotNull(out this.data, nameof(data), data);
-            SetField.NotNull(out this.fiber, nameof(fiber), fiber);
-        }
-
-        public DialogContext(SerializationInfo info, StreamingContext context)
-        {
-            SetField.NotNullFrom(out this.botToUser, nameof(botToUser), info);
-            SetField.NotNullFrom(out this.data, nameof(data), info);
-            SetField.NotNullFrom(out this.fiber, nameof(fiber), info);
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(this.botToUser), this.botToUser);
-            info.AddValue(nameof(this.data), this.data);
-            info.AddValue(nameof(this.fiber), this.fiber);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.NotNull(out this.stack, nameof(stack), stack);
         }
 
         IBotDataBag IBotData.ConversationData
         {
             get
             {
-                return this.data.ConversationData;
+                return this.botData.ConversationData;
             }
         }
 
@@ -82,7 +66,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                return this.data.PerUserInConversationData;
+                return this.botData.PerUserInConversationData;
             }
         }
 
@@ -90,96 +74,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             get
             {
-                return this.data.UserData;
+                return this.botData.UserData;
             }
-        }
-
-        private IWait wait;
-
-        [Serializable]
-        private sealed class ThunkStart
-        {
-            private DialogContext context;
-            private StartAsync start;
-
-            public ThunkStart(DialogContext context, StartAsync start)
-            {
-                SetField.NotNull(out this.context, nameof(context), context);
-                SetField.NotNull(out this.start, nameof(start), start);
-            }
-
-            public async Task<IWait> Rest(IFiber fiber, IItem<object> item)
-            {
-                var result = await item;
-                if (result != null)
-                {
-                    throw new ArgumentException(nameof(item));
-                }
-
-                await this.start(this.context);
-                return this.context.wait;
-            }
-        }
-
-        [Serializable]
-        private sealed class ThunkResume<T>
-        {
-            private DialogContext context;
-            private ResumeAfter<T> resume;
-
-            public ThunkResume(DialogContext context, ResumeAfter<T> resume)
-            {
-                SetField.NotNull(out this.context, nameof(context), context);
-                SetField.NotNull(out this.resume, nameof(resume), resume);
-            }
-
-            public async Task<IWait> Rest(IFiber fiber, IItem<T> item)
-            {
-                await this.resume(this.context, item);
-                return this.context.wait;
-            }
-        }
-
-        internal Rest<object> ToRest(StartAsync start)
-        {
-            var thunk = new ThunkStart(this, start);
-            return thunk.Rest;
-        }
-
-        internal Rest<T> ToRest<T>(ResumeAfter<T> resume)
-        {
-            var thunk = new ThunkResume<T>(this, resume);
-            return thunk.Rest;
-        }
-
-        void IDialogStack.Call<R>(IDialog<R> child, ResumeAfter<R> resume)
-        {
-            var callRest = ToRest(child.StartAsync);
-            if (resume != null)
-            {
-                var doneRest = ToRest(resume);
-                this.wait = this.fiber.Call<object, R>(callRest, null, doneRest);
-            }
-            else
-            {
-                this.wait = this.fiber.Call<object>(callRest, null);
-            }
-        }
-
-        void IDialogStack.Done<R>(R value)
-        {
-            this.wait = this.fiber.Done(value);
-        }
-
-        void IDialogStack.Wait(ResumeAfter<Message> resume)
-        {
-            this.wait = this.fiber.Wait<Message>(ToRest(resume));
-        }
-
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken cancellationToken)
-        {
-            this.fiber.Post(item);
-            await this.fiber.PollAsync();
         }
 
         async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
@@ -192,9 +88,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return this.botToUser.MakeMessage();
         }
 
-        async Task IDialogContextInternal.PollAsync()
+        IReadOnlyList<Delegate> IDialogStack.Frames
         {
-            await this.fiber.PollAsync();
+            get
+            {
+                return this.stack.Frames;
+            }
+        }
+
+        void IDialogStack.Call<R>(IDialog<R> child, ResumeAfter<R> resume)
+        {
+            this.stack.Call<R>(child, resume);
+        }
+
+        void IDialogStack.Done<R>(R value)
+        {
+            this.stack.Done<R>(value);
+        }
+
+        void IDialogStack.Fail(Exception error)
+        {
+            this.stack.Fail(error);
+        }
+
+        void IDialogStack.Wait<R>(ResumeAfter<R> resume)
+        {
+            this.stack.Wait(resume);
         }
     }
 }

@@ -1,0 +1,164 @@
+{
+  "type": "object",
+  "Templates": {
+    "NotUnderstood": {
+      "Patterns": [ "I do not understand \"{0}\".", "Try again, I don't get \"{0}\"." ]
+    },
+    "EnumSelectOne": {
+      "Patterns": [ "What kind of {&} would you like on your sandwich? {||}" ],
+      "ChoiceStyle": "PerLine"
+    }
+  },
+  "properties": {
+    "Sandwich": {
+      "Prompt": { "Patterns": [ "What kind of {&} would you like? {||}" ] },
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "BLT",
+        "BlackForestHam",
+        "BuffaloChicken",
+        "ChickenAndBaconRanchMelt",
+        "ColdCutCombo",
+        "MeatballMarinara",
+        "OvenRoastedChicken",
+        "RoastBeef",
+        "RotisserieStyleChicken",
+        "SpicyItalian",
+        "SteakAndCheese",
+        "SweetOnionTeriyaki",
+        "Tuna",
+        "TurkeyBreast",
+        "Veggie"
+      ],
+      "Values": {
+        "RotisserieStyleChicken": {
+          "Terms": [ "rotis\\w* style chicken" ],
+          "MaxPhrase": 3
+        }
+      }
+    },
+    "Length": {
+      "Prompt": {
+        "Patterns": [ "What size of sandwich do you want? {||}" ]
+      },
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "SixInch",
+        "FootLong"
+      ]
+    },
+    "Bread": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "NineGrainWheat",
+        "NineGrainHoneyOat",
+        "Italian",
+        "ItalianHerbsAndCheese",
+        "Flatbread"
+      ]
+    },
+    "Cheese": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "American",
+        "MontereyCheddar",
+        "Pepperjack"
+      ]
+    },
+    "Toppings": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "integer",
+        "enum": [
+          "Everything",
+          "Avocado",
+          "BananaPeppers",
+          "Cucumbers",
+          "GreenBellPeppers",
+          "Jalapenos",
+          "Lettuce",
+          "Olives",
+          "Pickles",
+          "RedOnion",
+          "Spinach",
+          "Tomatoes"
+        ],
+        "Values": {
+          "Everything": { "Terms": [ "except", "but", "not", "no", "all", "everything" ] }
+        }
+      }
+    },
+    "Sauces": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string",
+        "enum": [
+          "ChipotleSouthwest",
+          "HoneyMustard",
+          "LightMayonnaise",
+          "RegularMayonnaise",
+          "Mustard",
+          "Oil",
+          "Pepper",
+          "Ranch",
+          "SweetOnion",
+          "Vinegar"
+        ]
+      }
+    },
+    "Specials": {
+      "Templates": {
+        "NoPreference": { "Patterns": [ "None" ] }
+      },
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "DeliveryAddress": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "DeliveryTime": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "Rating": {
+      "Describe": "your experience today",
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 5
+    }
+  },
+  "required": [
+    "Sandwich",
+    "Length",
+    "Bread",
+    "DeliveryAddress"
+  ]
+}

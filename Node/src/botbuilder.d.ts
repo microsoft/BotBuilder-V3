@@ -76,31 +76,87 @@ export interface IMessage {
     eTag?: string;
 }
 
-/** An attachment. */
+/** 
+ * Many messaging channels provide the ability to attach richer objects. You can pass these 
+ * attachments to the Bot Connector Service using the cross channel format below and the 
+ * Bot Connector will do its best render them using the channels native format. If you aren't
+ * satisfied with the Bot Connectors cross channel rendering or would like more control you can
+ * always pass attachments in the channels native format using [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata).  
+ * 
+ * Three types of message attachments are currently supported (_action_, _image/file_,
+ * and _card_.) The valid fields very by attachment type:
+ * * __action:__ An action for the user to take (typically rendered as a button.) Valid fields: [actions](#actions).
+ * * __image/file:__ An image or a file to send the user. Valid fields: [contentType](#contenttype), [contentUrl](#contenturl).
+ * * __card:__ A rich card displayed to the user. Valid fields: [actions](#actions), [fallbackText](#fallbacktext), [title](#title), [titleLink](#titlelink), [text](#text), [thumbnailUrl](#thumbnailurl).  
+ *
+ * Cross channel attachments can easily be sent to the user using the [Message.addAttachment()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html#addattachment) method. 
+ * 
+ * Sending an image:
+ * <pre><code>var msg = new Message().addAttachment({
+ *     contentType: 'image/png',
+ *     contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'
+ * });
+ * session.send(msg);
+ * </code></pre>
+ * 
+ * Sending a card with actions:
+ * <pre><code>var msg = new Message().addAttachment({
+ *     text: 'Pick one:',
+ *     actions: [
+ *         { title: "Willy's Cheeseburger", message: "CB" },
+ *         { title: "Curley Fries", message: "F" },
+ *         { title: "Chocolate Shake", message: "S" }
+ *     ]
+ * });
+ * session.send(msg);
+ * </code></pre>
+ */
 export interface IAttachment {
-    /** (REQUIRED) mimetype/Contenttype for the file, either ContentUrl or Content must be set depending on the mimetype. */
-    contentType: string;
+    /** List of actions to map to buttons in the clients UI. Valid for _action_ & _card_ attachments. */
+    actions?: IAction[];
+    
+    /** The mimetype/ContentType of the [contentUrl](#contenturl). Valid for _image/file_ attachments. */
+    contentType?: string;
 
-    /** Url to content. */
+    /** A link to the actual file. Valid for _image/file_ attachments. */
     contentUrl?: string;
 
-    /** Content Payload (for example, lat/long for contentype="location". */
-    content?: any;
-
-    /** (OPTIONAL-CARD) FallbackText - used for downlevel clients, should be simple markup with links. */
+    /** Fallback text used for downlevel clients, should be simple markup with links. Valid for _card_ attachments. */
     fallbackText?: string;
-
-    /** (OPTIONAL-CARD) Title. */
+    
+    /** Title of the card. Valid for _card_ attachments. */
     title?: string;
 
-    /** (OPTIONAL-CARD) link to use for the title. */
+    /** Link for the [title](#title). Valid for _card_ attachments. */
     titleLink?: string;
 
-    /** (OPTIONAL-CARD) The Text description the attachment. */
+    /** Text of the card. Valid for _card_ attachments. */
     text?: string;
 
-    /** (OPTIONAL-CARD) Thumbnail associated with attachment. */
+    /** Image to put on the card. Valid for _card_ attachments. */
     thumbnailUrl?: string;
+}
+
+/**
+ * An action is a representation of information that a user can use to take action. On many channels 
+ * actions get mapped to buttons, while on other channels they simply become a list of options 
+ * displayed to the user.
+ * 
+ * Regardless, a user can perform the action by clicking on a button or typing in the content as a 
+ * response.
+ */
+export interface IAction {
+    /** Label of the action (button.) */
+    title?: string;
+    
+    /** Message which will be sent for the user when they click the button. */
+    message?: string;
+    
+    /** Instead of a message when someone clicks on a button it should take them to a Url (Not all channels support URL based actions.) */
+    url?: string;
+    
+    /** Url to an image to put on the card (Not all channels will show an image.) */
+    image?: string;
 }
 
 /** Information needed to route a message. */
@@ -245,10 +301,17 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Options passed to  */
+/** Options passed to built-in prompts. */
 export interface IPromptOptions {
-    /** Optional retry prompt to send if the users response isn't understood. Default is to just reprompt with "I Didn't understand." plus the original prompt. */
-    retryPrompt?: string;
+    /** 
+     * Optional retry prompt to send if the users response isn't understood. Default is to just 
+     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) plus the original prompt. Note that if the original 
+     * prompt is an _IMessage_ the default behaviour is to simply re-send the original prompt.
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     */
+    retryPrompt?: string|string[]|IMessage;
 
     /** Optional maximum number of times to reprompt the user. Default value is 2. */
     maxRetries?: number;
@@ -256,7 +319,7 @@ export interface IPromptOptions {
     /** Optional reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
     refDate?: number;
 
-    /** Optional type of list to render for PromptType.choice. Default value is ListStyle.list. */
+    /** Optional type of list to render for PromptType.choice. Default value is ListStyle.auto. */
     listStyle?: ListStyle;
 }
 
@@ -265,8 +328,13 @@ export interface IPromptArgs extends IPromptOptions {
     /** Type of prompt invoked. */
     promptType: PromptType;
 
-    /** Initial message to send to user. */
-    prompt: string;
+    /** 
+     * Initial message to send to user. 
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     */
+    prompt: string|string[]|IMessage;
 
     /** Enum values for a choice prompt. */
     enumsValues?: string[];
@@ -344,6 +412,9 @@ export interface IPromptRecognizerArgs {
 export interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
+
+    /** The default retry prompt to use. The default value is "I didn't understand." */    
+    defaultRetryPrompt?: string;
 }
 
 /** A recognized intent. */
@@ -625,11 +696,126 @@ export interface ITextBotOptions {
     defaultDialogArgs?: any;
 }
 
-/** Signature for function passed as a step to DialogAction.waterfall(). */
+/** 
+ * Signature for functions passed as steps to [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall). 
+ * 
+ * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
+ * waterfall can either execute one of the built-in [Prompts](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html),
+ * start a new dialog by calling [session.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog),
+ * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
+ * 
+ * When either a dialog or built-in prompt is called from a waterfall step, the results from that 
+ * dialog or prompt will be passed via the `results` parameter to the next step of the waterfall. 
+ * Users can say things like "nevermind" to cancel the built-in prompts so you should guard against
+ * that by at least checking for [results.response](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) 
+ * before proceeding. A more detailed explination of why the waterfall is being continued can be 
+ * determined by looking at the [code](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html) 
+ * returned for [results.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed).
+ * 
+ * You can manually advance to the next step of the waterfall using the `skip()` function passed
+ * in. Calling `skip({ response: "some text" })` with an [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html)
+ * lets you more accurately mimic the results from a built-in prompt and can simplify your overall
+ * waterfall logic.
+ * 
+ * You can terminate a waterfall early by either falling through every step of the waterfall using
+ * calls to `skip()` or simply not starting another prompt or dialog.
+ * @example
+ * <pre><code>
+ * var bot = new builder.BotConnectorBot();
+ * bot.add('/', [
+ *     function (session) {
+ *         builder.Prompts.text(session, "Hi! What's your name?");
+ *     },
+ *     function (session, results) {
+ *         if (results && results.response) {
+ *             // User answered question.
+ *             session.send("Hello %s.", results.response);
+ *         } else {
+ *             // User said nevermind.
+ *             session.send("OK. Goodbye.");
+ *         }
+ *     }
+ * ]);
+ * </code></pre>
+ */
 export interface IDialogWaterfallStep {
-    <T>(session: Session, result?: IDialogResult<T>, skip?: (results?: IDialogResult<any>) => void): any;
+    /**
+     * @param session Session object for the current conversation.
+     * @param result 
+     * * __result:__ _{any}_ - For the first step of the waterfall this will be _null_ or the value of any arguments passed to the handler.
+     * * __result:__ _{IDialogResult}_ - For subsequent waterfall steps this will be the result of the prompt or dialog called in the previous step.
+     * @param skip Fuction used to manually skip to the next step of the waterfall.  
+     * @param skip.results Optional results to pass to the next waterfall step. This lets you more accurately mimic the results returned from a prompt or dialog.
+     */
+    <T>(session: Session, result?: any | IDialogResult<T>, skip?: (results?: IDialogResult<any>) => void): any;
 }
 
+/** 
+ * Signature for function passed as a dialog handler. 
+ *
+ * __WARNING:__ The dialog handler will be called a second time if the initial call invokes one of the
+ * built-in [Prompts](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html) 
+ * or [session.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+ * Your handler should guard against situations which could result in starting a dialog a second time:
+ * @example
+ * <pre><code>
+ * var bot = new builder.BotConnectorBot();
+ * bot.add('/', function (session, results) {
+ *     if (results && results.resumed) {
+ *         // Second call to handler returning results from prompt.
+ *         session.send("Hello %s.", results.response);
+ *     } else {
+ *         // First call to handler.
+ *         builder.Prompts.text(session, "Hi! What's your name?");
+ *     }
+ * });
+ * </code></pre>
+ */
+export interface IDialogHandler {
+    /**
+     * @param session Session object for the current conversation.
+     * @param args 
+     * * __args:__ _{any}_ - For the first call to the handler this will be either _null_ or the value of any arguments passed to [Session.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * * __args:__ _{IDialogResult}_ - If the handler takes an action that results in a new dialog being started those results will be returned via subsequent calls to the handler.
+     */
+    <T>(session: Session, args?: any | IDialogResult<T>): void;
+}
+
+/** 
+ * Signature for function passed as a handler to an [IntentDialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). 
+ *
+ * __WARNING:__ The dialog handler will be called a second time if the initial call invokes one of the
+ * built-in [Prompts](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html) 
+ * or [session.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+ * Your handler should guard against situations which could result in starting a dialog a second time:
+ */
+export interface IIntentDialogHandler {
+    /**
+     * @param session Session object for the current conversation.
+     * @param args 
+     * * __args:__ _{IIntentArgs}_ - The full list of intents and entities that were recognized.
+     * * __args:__ _{IDialogResult}_ - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     */
+    <T>(session: Session, args?: IIntentArgs | IDialogResult<T>): void;
+}
+
+/** 
+ * Signature for function passed as a handler to a [CommandDialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.commanddialog.html). 
+ *
+ * __WARNING:__ The dialog handler will be called a second time if the initial call invokes one of the
+ * built-in [Prompts](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html) 
+ * or [session.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+ * Your handler should guard against situations which could result in starting a dialog a second time:
+ */
+export interface ICommandDialogHandler {
+    /**
+     * @param session Session object for the current conversation.
+     * @param args 
+     * * __args:__ _{ICommandArgs}_ - The compiled expression and any matches for the pattern that was matched.
+     * * __args:__ _{IDialogResult}_ - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     */
+    <T>(session: Session, args?: ICommandArgs | IDialogResult<T>): void;
+}
 
 //=============================================================================
 //
@@ -690,7 +876,13 @@ export enum ListStyle {
     inline, 
     
     /** Choices are rendered as a numbered list. */
-    list 
+    list,
+    
+    /** Choices are rendered as buttons for channels that support buttons. For other channels they will be rendered as text. */
+    button,
+    
+    /** The style is selected automatically based on the channel and number of options. */
+    auto
 }
 
 //=============================================================================
@@ -785,9 +977,7 @@ export class Session {
      * * __msg:__ _{IMessage}_ - Message to send. 
      * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
      */
-    send(msg: string, ...args: any[]): Session;
-    send(msg: IMessage): Session;
-    send(): Session;
+    send(msg?: string|IMessage, ...args: any[]): Session;
 
     /** Returns a native message the bot received. This message is pulled from the [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) received. */
     getMessageReceived(): any;
@@ -837,9 +1027,7 @@ export class Session {
      * reason of [completed](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
      * @param args Optional arguments used to format the final output text when __result__ is a _{string}_.
      */
-    endDialog(result: string, ...args: any[]): Session;
-    endDialog(result: IMessage): Session;
-    endDialog(result?: IDialogResult<any>): Session;
+    endDialog(result: string|IMessage|IDialogResult<any>, ...args: any[]): Session;
 
     /**
      * Lets a dialog compare its confidence that it understood an utterance with it's parent. The
@@ -882,8 +1070,7 @@ export class Message implements IMessage {
      * @param prompt Text or template string for the reply. If an array is passed the reply will be chosen at random. The reply will be localized using session.gettext().
      * @param args Optional arguments used to format the message text when Text is a template.  
      */
-    setText(session: Session, prompt: string, ...args: any[]): Message;
-    setText(session: Session, prompt: string[], ...args: any[]): Message;
+    setText(session: Session, prompt: string|string[], ...args: any[]): Message;
 
     /**
      * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
@@ -918,8 +1105,8 @@ export class Message implements IMessage {
     composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
     /**
-     * Adds an attachment to the message.
-     * @param attachment The attachment to add.  
+     * Adds an attachment to the message. See [IAttachment](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html) for examples.
+     * @param attachment The attachment to add.   
      */    
     addAttachment(attachment: IAttachment): Message;
     
@@ -1005,18 +1192,10 @@ export class DialogCollection {
      * * __id:__ _{Object}_ - Map of [Dialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
      * @param dialog
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __dialog:__ _{Function}_ - Closure to base dialog on. The closure will be called anytime a message is recieved 
-     * from the user or when the dialog is being resumed. You can check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
-     * to tell that the dialog is being resumed.
-     * > `(session: Session, args?: any): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ _{any}_ - Any arguments passed to the dialog when [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) is called.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the closure initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the closure.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogHandler}_ - Closure to base the dialog on. See [IDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialoghandler.html) for details. 
      */
-    add(id: string, dialog: Dialog): DialogCollection;
-    add(id: string, dialog: IDialogWaterfallStep[]): DialogCollection;
-    add(id: string, dialog: (session: Session, args?: any) => void): DialogCollection;
+    add(id: string, dialog: Dialog | IDialogWaterfallStep[] | IDialogHandler ): DialogCollection;
     add(id: { [id: string]: Dialog; }): DialogCollection;
 
     /**
@@ -1053,40 +1232,29 @@ export class DialogAction {
      * @param msg Text of the message to send. The message will be localized using the sessions configured [localizer](#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see the docs for details.)
      * @param args Optional arguments used to format the final output string. 
      */
-    static send(msg: string, ...args: any[]): (session: Session) => void;
+    static send(msg: string, ...args: any[]): IDialogHandler;
 
     /**
      * Returns a closure that will passes control of the conversation to a new dialog.  
      * @param id Unique ID of the dialog to start.
      * @param args Optional arguments to pass to the dialogs begin() method.
      */
-    static beginDialog<T>(id: string, args?: T): (session: Session, args: T) => void; 
+    static beginDialog<T>(id: string, args?: T): IDialogHandler; 
 
     /**
      * Returns a closure that will end the current dialog.
      * @param result Optional results to pass to the parent dialog.
      */
-    static endDialog(result?: any): (session: Session) => void;
+    static endDialog(result?: any): IDialogHandler;
 
     /**
      * Returns a closure that will prompt the user for information in an async waterfall like 
      * sequence. When the closure is first invoked it will execute the first function in the
      * waterfall and the results of that prompt will be passed as input to the second function
-     * and the result of the second passed to the third and so on.  
-     *
-     * Each step within the waterfall may optionally return a [ResumeReson](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to influence the flow 
-     * of the waterfall:
-     * - [ResumeReason.forward](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#forward): skips the next function in the waterfall.
-     * - [ResumeReason.back](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#back): returns to the previous function in the waterfall.
-     * - [ResumeReason.canceled](http://docs.botframework.com/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#canceled): ends the waterfall all together.
-     * 
-     * Calling other dialogs like built-in prompts can influence the flow as well. If a child dialog
-     * returns either ResumeReason.forward or ResumeReason.back it will automatically be handled.
-     * If ResumeReason.canceled is returnd it will be handed to the step for processing which can
-     * then decide to cancel the action or not.
-     * @param steps Steps of a waterfall.
+     * and the result of the second passed to the third and so on. 
+     * @param steps Steps of a waterfall. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      */
-    static waterfall(steps: IDialogWaterfallStep[]): (session: Session, args: any) => void;
+    static waterfall(steps: IDialogWaterfallStep[]): IDialogHandler;
 
     /**
      * Returns a closure that wraps a built-in prompt with validation logic. The closure should be used
@@ -1114,7 +1282,7 @@ export class DialogAction {
      * }));
      * </code></pre>
      */    
-    static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): (session: Session, args: any) => void;
+    static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): IDialogHandler;
 }
 
 /**
@@ -1136,47 +1304,60 @@ export class Prompts extends Dialog {
     /**
      * Captures from the user a raw string of text. 
      * @param session Session object for the current conversation.
-     * @param prompt Message to send to the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      */
-    static text(session: Session, prompt: string): void;
+    static text(session: Session, prompt: string|string[]|IMessage): void;
 
     /**
      * Prompts the user to enter a number.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static number(session: Session, prompt: string, options?: IPromptOptions): void;
+    static number(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to confirm an action with a yes/no response.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static confirm(session: Session, prompt: string, options?: IPromptOptions): void;
+    static confirm(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to choose from a list of options.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
      * @param choices 
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
      * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string, choices: string, options?: IPromptOptions): void;
-    static choice(session: Session, prompt: string, choices: Object, options?: IPromptOptions): void;
-    static choice(session: Session, prompt: string, choices: string[], options?: IPromptOptions): void;
+    static choice(session: Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a time.
      * @param session Session object for the current conversation.
-     * @param prompt Initial message to send the user.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options Optional flags parameters to control the behaviour of the prompt.
      */
-    static time(session: Session, prompt: string, options?: IPromptOptions): void;
+    static time(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 }
 
 /**
@@ -1227,17 +1408,11 @@ export abstract class IntentDialog extends Dialog {
      * @param intent Intent to trigger on.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
-     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args?: any): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __handler:__ _{IIntentDialogHandler}_ - Handler to invoke when the intent is recognized. See [IIntentDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentdialoghandler.html) for details.
      * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
-    on(intent: string, handler: IDialogWaterfallStep[]): IntentDialog;
-    on(intent: string, handler: (session: Session, args?: any) => void): IntentDialog;
+    on(intent: string, handler: string | IDialogWaterfallStep[] | IIntentDialogHandler, dialogArgs?: any): IntentDialog;
 
     /**
      * Executes a block of code when there are no handlers registered for the intent that was 
@@ -1245,17 +1420,11 @@ export abstract class IntentDialog extends Dialog {
      * methods to implement common actions.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
-     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __handler:__ _{Function}_ - Handler to invoke. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args?: any): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __handler:__ _{IIntentDialogHandler}_ - Handler to invoke when the intent is recognized. See [IIntentDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentdialoghandler.html) for details.
      * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
-    onDefault(handler: string, dialogArgs?: any): IntentDialog;
-    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
-    onDefault(handler: (session: Session, args?: any) => void): IntentDialog;
+    onDefault(handler: string | IDialogWaterfallStep[] | IIntentDialogHandler, dialogArgs?: any): IntentDialog;
 
     /** Returns the minimum score needed for an intent to be triggered. */
     getThreshold(): number;
@@ -1302,12 +1471,8 @@ export class IntentGroup {
      * @param intent Intent to trigger on.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
-     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __handler:__ _{Function}_ - Handler to invoke when the intent is recognized. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args?: any): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ [IIntentArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentargs.html) - The full list of intents and entities that were recognized.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __handler:__ _{IIntentDialogHandler}_ - Handler to invoke when the intent is recognized. See [IIntentDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentdialoghandler.html) for details.
      * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{IIntentArgs}_ args passed to the handler.
      */
     on(intent: string, handler: string, dialogArgs?: any): IntentDialog;
@@ -1328,7 +1493,7 @@ export class LuisDialog extends IntentDialog {
     constructor(serviceUri: string);
 
     /**
-     * Performs the step of recognizing intents & entities when a message is recieved vy the dialog. Called by IntentDialog.
+     * Performs the step of recognizing intents & entities when a message is recieved by the dialog. Called by IntentDialog.
      * @param session Session object for the current conversation.
      * @param callback Callback to invoke with the results of the intent recognition step.
      * @param callback.err Error that occured during the recognition step.
@@ -1336,6 +1501,17 @@ export class LuisDialog extends IntentDialog {
      * @param callback.entities List of entities that were recognized.
      */
     protected recognizeIntents(session: Session, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
+
+    /**
+     * Calls LUIS to recognizing intents & entities in a users utterance.
+     * @param utterance The text to pass to LUIS for recognition.
+     * @param serviceUri URI for LUIS App hosted on http://luis.ai.
+     * @param callback Callback to invoke with the results of the intent recognition step.
+     * @param callback.err Error that occured during the recognition step.
+     * @param callback.intents List of intents that were recognized.
+     * @param callback.entities List of entities that were recognized.
+     */
+    static recognize(utterance: string, serviceUri: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
 
 /**
@@ -1363,8 +1539,7 @@ export class EntityRecognizer {
      * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
      * @returns A valid Date object if the user spoke a time otherwise _null_.
      */   
-    static parseTime(value: string): Date;
-    static parseTime(value: IEntity[]): Date;
+    static parseTime(value: string | IEntity[]): Date;
 
     /**
      * Calculates a Date from a set of datetime entities.
@@ -1388,8 +1563,7 @@ export class EntityRecognizer {
      * * __value:__ _{IEntity[]}_ - Set of entities to resolve.
      * @returns A valid number otherwise _Number.NaN_. 
      */
-    static parseNumber(value: string): number;
-    static parseNumber(value: IEntity[]): number;
+    static parseNumber(value: string | IEntity[]): number;
 
     /**
      * Parses a boolean from a users utterance.
@@ -1407,9 +1581,7 @@ export class EntityRecognizer {
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
-    static findBestMatch(choices: string, utterance: string, threshold?: number): IFindMatchResult;
-    static findBestMatch(choices: Object, utterance: string, threshold?: number): IFindMatchResult;
-    static findBestMatch(choices: string[], utterance: string, threshold?: number): IFindMatchResult;
+    static findBestMatch(choices: string | Object | string[], utterance: string, threshold?: number): IFindMatchResult;
 
     /**
      * Finds all possible matches for a users utterance given a list of choices.
@@ -1420,9 +1592,7 @@ export class EntityRecognizer {
      * @param utterance Text utterance to parse.
      * @param threshold Optional minimum score needed for a match to be considered. The default value is 0.6.
      */
-    static findAllMatches(choices: string, utterance: string, threshold?: number): IFindMatchResult[];
-    static findAllMatches(choices: Object, utterance: string, threshold?: number): IFindMatchResult[];
-    static findAllMatches(choices: string[], utterance: string, threshold?: number): IFindMatchResult[];
+    static findAllMatches(choices: string | Object | string[], utterance: string, threshold?: number): IFindMatchResult[];
 
     /**
      * Converts a set of choices into an expanded array.
@@ -1431,9 +1601,7 @@ export class EntityRecognizer {
      * * __choices:__ _{Object}_ - Object used to generate the list of choices. The objects field names will be used to build the list of choices. 
      * * __choices:__ _{string[]}_ - Array of strings. This will just be echoed back as the output. 
      */
-    static expandChoices(choices: string): string[];
-    static expandChoices(choices: Object): string[];
-    static expandChoices(choices: string[]): string[];
+    static expandChoices(choices: string | Object | string[]): string[];
 }
 
 /**
@@ -1464,37 +1632,22 @@ export class CommandDialog extends Dialog {
      * * __patern:__ _{string[]}_ - Array of regular expressions to match against. All comparisons are case insensitive.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
-     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args?: any): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __handler:__ _{ICommandDialogHandler}_ - Handler to invoke when the pattern is matched. See [ICommandDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommanddialoghandler.html) for details.
      * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
-    matches(pattern: string, handler: string, dialogArgs?: any): CommandDialog;
-    matches(pattern: string[], handler: string, dialogArgs?: any): CommandDialog;
-    matches(pattern: string, handler: (session: Session, args?: any) => void): CommandDialog;
-    matches(pattern: string[], handler: (session: Session, args?: any) => void): CommandDialog;
-    matches(pattern: string, handler: IDialogWaterfallStep[]): IntentDialog;
-    matches(pattern: string[], handler: IDialogWaterfallStep[]): IntentDialog;
+    matches(pattern: string | string[], handler: string | IDialogWaterfallStep[] | ICommandDialogHandler, dialogArgs?: any): CommandDialog;
 
     /**
      * Triggers a handler when an unknown pattern is received. Use [DialogAction](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html) 
      * methods to implement common actions.
      * @param handler 
      * * __handler:__ _{string}_ - The ID of a dialog to begin. 
-     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [DialogAction.waterfall()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall) for details.
-     * * __handler:__ _{Function}_ - Handler to invoke when the pattern is matched. The handler will also be invoked when a dialog started by the handler returns. Check for [args.resumed](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) to detect that the handler is being resumed.
-     * > `(session: Session, args: ICommandArgs|IDialogResult): void`
-     * > * __session:__ [Session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) - Session object for the current conversation.
-     * > * __args:__ [ICommandArgs](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommandargs.html) - The compiled expression and any matches for the pattern that was matched.
-     * > * __args:__ [IDialogResult](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html) - If the handler initiates a [beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog) call the results will be returned via a second call to the handler.
+     * * __handler:__ _{IDialogWaterfallStep[]}_ - An array of waterfall steps to execute. See [IDialogWaterfallStep](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __handler:__ _{ICommandDialogHandler}_ - Handler to invoke when the pattern is matched. See [ICommandDialogHandler](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.icommanddialoghandler.html) for details.
      * @param dialogArgs Optional arguments to pass to the dialog when __handler__ is type _{string}_. They will be merged with the _{ICommandArgs}_ args passed to the handler.
      */
-    onDefault(handler: string, dialogArgs?: any): CommandDialog;
-    onDefault(handler: IDialogWaterfallStep[]): IntentDialog;
-    onDefault(handler: (session: Session, args?: ICommandArgs) => void): CommandDialog;
+    onDefault(handler: string | IDialogWaterfallStep[] | ICommandDialogHandler, dialogArgs?: any): CommandDialog;
 }
 
 /** Default in memory storage implementation for storing user & session state data. */
