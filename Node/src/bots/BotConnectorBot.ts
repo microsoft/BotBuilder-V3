@@ -91,7 +91,7 @@ interface IDispatchOptions {
 
 export class BotConnectorBot extends collection.DialogCollection {
     private options: IBotConnectorOptions = {
-        endpoint: process.env['endpoint'] || 'https://api.botframework.com',
+        endpoint: process.env['endpoint'],
         appId: process.env['appId'] || '',
         appSecret: process.env['appSecret'] || '',
         defaultDialogId: '/',
@@ -291,16 +291,13 @@ export class BotConnectorBot extends collection.DialogCollection {
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     this.saveData(userId, sessionId, data, reply, (err) =>{
                         // Check for emulator
+                        var endpoint: string;
                         if (ses.message.to.channelId == 'emulator') {
-                          if (this.options.endpoint) {
-                            var settings = this.options;
-                          } else {
-                            var settings = { endpoint: 'http://localhost:9000' };
-                          }
+                            endpoint = this.options.endpoint || 'http://localhost:9000';
                         } else {
-                          var settings = this.options;
+                            endpoint = 'https://api.botframework.com';
                         }
-
+                        
                         // Send message
                         if (res) {
                             this.emit('reply', reply);
@@ -317,7 +314,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
                             this.emit('reply', reply);
-                            post(settings, '/bot/v1.0/messages', reply, (err) => {
+                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err) => {
                                 if (err) {
                                     this.emit('error', err);
                                 }
@@ -327,7 +324,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             this.emit('send', reply);
-                            post(settings, '/bot/v1.0/messages', reply, (err) => {
+                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err) => {
                                 if (err) {
                                     this.emit('error', err);
                                 }
@@ -466,10 +463,10 @@ export class BotConnectorSession extends session.Session {
     public perUserInConversationData: any;
 }
 
-function post(settings: IBotConnectorOptions, path: string, body: any, callback?: (error: any) => void): void {
+function post(settings: IBotConnectorOptions, endpoint: string, path: string, body: any, callback?: (error: any) => void): void {
     var options: request.Options = {
         method: 'POST',
-        url: settings.endpoint + path,
+        url: endpoint + path,
         body: body,
         json: true
     };
