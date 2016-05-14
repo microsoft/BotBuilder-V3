@@ -148,7 +148,15 @@ var BotConnectorBot = (function (_super) {
                     };
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     _this.saveData(userId, sessionId, data, reply, function (err) {
-                        var settings = ses.message.to.channelId == 'emulator' ? { endpoint: 'http://localhost:9000' } : _this.options;
+                        if (ses.message.to.channelId == 'emulator') {
+                            if (_this.options.endpoint) {
+                                var settings = _this.options;
+                            } else {
+                                var settings = { endpoint: 'http://localhost:9000' };
+                            }
+                        } else {
+                            var settings = _this.options;
+                        }
                         if (res) {
                             _this.emit('reply', reply);
                             res.send(200, reply);
