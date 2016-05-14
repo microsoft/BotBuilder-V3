@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 #pragma warning disable 649
 
@@ -75,7 +76,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         static public string Locale = CultureInfo.CurrentUICulture.Name;
 
-        static async Task Interactive<T>(IDialog<T> form)
+        static async Task Interactive<T>(IDialog<T> form) where T: class
         {
             // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
             // But you don't have to reboot.
@@ -88,7 +89,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             };
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule());
+            builder.RegisterModule(new DialogModule_MakeRoot());
             builder
                 .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<Message>()), Console.Out))
                 .As<IBotToUser>()
@@ -96,17 +97,20 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             using (var container = builder.Build())
             using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {
-                var task = scope.Resolve<IDialogTask>();
+                Func<IDialog<object>> MakeRoot = () => form;
+                DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                Func<IDialog<T>> MakeRoot = () => form;
+                var task = scope.Resolve<IPostToBot>();
+                var stack = scope.Resolve<IDialogStack>();
 
-                await task.PollAsync(() => form);
+                stack.Call(MakeRoot(), null);
+                await stack.PollAsync(CancellationToken.None);
 
                 while (true)
                 {
                     message.Text = await Console.In.ReadLineAsync();
                     message.Language = Locale;
-                    await task.PostAsync(message, () => form);
+                    await task.PostAsync(message, CancellationToken.None);
                 }
             }
         }

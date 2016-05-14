@@ -90,10 +90,12 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     Assert.AreEqual(current, CurrentCulture);
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
                     Assert.AreEqual(current, CurrentCulture);
                     Assert.AreEqual(actual, expected);
                 }

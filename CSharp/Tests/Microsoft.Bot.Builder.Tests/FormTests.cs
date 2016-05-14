@@ -79,10 +79,12 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Text), scope);
@@ -90,14 +92,16 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     // note: this can not be "text" as that is a navigation command
                     toBot.Text = "words";
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Integer), scope);
@@ -105,13 +109,15 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     toBot.Text = "3";
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     AssertMentions(nameof(mock.Object.Float), scope);
@@ -119,13 +125,15 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     toBot.Text = "3.5";
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     AssertNoMessages(scope);

@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Builder.Tests
         public static IContainer Build(ConversationTestBase testContext, params object[] singletons)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule());
+            builder.RegisterModule(new DialogModule_MakeRoot());
 
             builder
                 .Register((c, p) => testContext)
@@ -180,7 +180,10 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, msg))
                 {
-                    var reply = await Conversation.SendAsync(scope, msg, () => chain);
+                    Func<IDialog<object>> MakeRoot = () => chain;
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+
+                    var reply = await Conversation.SendAsync(scope, msg);
 
                     // storing data in mocked connector client
                     var client = scope.Resolve<IConnectorClient>();
@@ -190,7 +193,10 @@ namespace Microsoft.Bot.Builder.Tests
                 var resumptionCookie = new ResumptionCookie(msg);
                 var continuationMessage = resumptionCookie.GetMessage(); 
                 using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
-                {   
+                {
+                    Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+
                     var reply = await Conversation.ResumeAsync(scope, continuationMessage, new Message { Text = "resume" });
                     Assert.AreEqual("resumed!", reply.Text);
 

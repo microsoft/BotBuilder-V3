@@ -45,28 +45,20 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class DialogTask : IDialogTask
+    public sealed class DialogTask : IDialogStack, IPostToBot
     {
-        private readonly Func<IDialogContext> factory;
+        private readonly Func<IDialog<object>> makeRoot;
+        private readonly Func<IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<IDialogContext> factory, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<IDialog<object>> makeRoot, Func<IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
         {
-            SetField.NotNull(out this.factory, nameof(factory), factory);
+            SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
+            SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
             this.store.TryLoad(out this.fiber);
             this.frames = new Frames(this);
-        }
-
-        void IDialogTask.Reset()
-        {
-            this.store.Reset();
-        }
-
-        void IDialogTask.Save()
-        {
-            this.store.Save(this.fiber);
         }
 
         private IWait<DialogTask> wait;
@@ -101,7 +93,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     throw new ArgumentException(nameof(item));
                 }
 
-                await this.start(task.factory());
+                await this.start(task.makeContext());
                 return task.wait;
             }
         }
@@ -125,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item)
             {
-                await this.resume(task.factory(), item);
+                await this.resume(task.makeContext(), item);
                 return task.wait;
             }
         }
@@ -230,15 +222,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.wait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
-        async Task IDialogTask.PollAsync()
+        async Task IDialogStack.PollAsync(CancellationToken token)
         {
             await this.fiber.PollAsync(this);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken cancellationToken)
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            this.fiber.Post(item);
-            await this.fiber.PollAsync(this);
+            try
+            {
+                if (this.fiber.Frames.Count == 0)
+                {
+                    var root = this.makeRoot();
+                    var loop = root.Loop();
+                    IDialogStack stack = this;
+                    stack.Call(loop, null);
+                    await this.fiber.PollAsync(this);
+                }
+
+                this.fiber.Post(item);
+                await this.fiber.PollAsync(this);
+            }
+            catch
+            {
+                this.store.Reset();
+                throw;
+            }
+
+            this.store.Save(this.fiber);
         }
     }
 
@@ -278,18 +289,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class LocalizedDialogTask : DelegatingDialogTask
+    public sealed class LocalizedDialogTask : IPostToBot
     {
-        public LocalizedDialogTask(IDialogTask inner)
-            : base(inner)
+        private readonly IPostToBot inner;
+
+        public LocalizedDialogTask(IPostToBot inner)
         {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        public override async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
             using (new LocalizedScope((item as Message)?.Language))
             {
-                await base.PostAsync<T>(item, cancellationToken);
+                await this.inner.PostAsync<T>(item, token);
             }
         }
     }

@@ -37,6 +37,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
@@ -92,12 +93,14 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                     {
-                        var task = scope.Resolve<IDialogTask>();
+                        DialogModule_MakeRoot.Register(scope, MakeSelectManyQuery);
+
+                        var task = scope.Resolve<IPostToBot>();
                         toBot.Text = word;
                         // if we inline the query from MakeQuery into this method, and we use an anonymous method to return that query as MakeRoot
                         // then because in C# all anonymous functions in the same method capture all variables in that method, query will be captured
                         // with the linq anonymous methods, and the serializer gets confused trying to deserialize it all.
-                        await task.PostAsync(toBot, MakeSelectManyQuery);
+                        await task.PostAsync(toBot, CancellationToken.None);
                     }
                 }
 
@@ -134,8 +137,10 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
-                    await task.PostAsync(toBot, MakeSelectQuery);
+                    DialogModule_MakeRoot.Register(scope, MakeSelectQuery);
+
+                    var task = scope.Resolve<IPostToBot>();
+                    await task.PostAsync(toBot, CancellationToken.None);
                 }
 
                 var expected = new string(Phrase.Reverse().ToArray());
@@ -158,8 +163,10 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
-                    await task.PostAsync(toBot, () => query);
+                    DialogModule_MakeRoot.Register(scope, () => query);
+
+                    var task = scope.Resolve<IPostToBot>();
+                    await task.PostAsync(toBot, CancellationToken.None);
                 }
 
                 var queue = container.Resolve<Queue<Message>>();
@@ -184,10 +191,12 @@ namespace Microsoft.Bot.Builder.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, () => query);
+
+                    var task = scope.Resolve<IPostToBot>();
                     try
                     {
-                        await task.PostAsync(toBot, () => query);
+                        await task.PostAsync(toBot, CancellationToken.None);
                         Assert.Fail();
                     }
                     catch (Chain.WhereCanceledException)
@@ -246,9 +255,11 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                     {
-                        var task = scope.Resolve<IDialogTask>();
+                        DialogModule_MakeRoot.Register(scope, MakeSwitchDialog);
+
+                        var task = scope.Resolve<IPostToBot>();
                         toBot.Text = word;
-                        await task.PostAsync(toBot, MakeSwitchDialog);
+                        await task.PostAsync(toBot, CancellationToken.None);
                     }
                 }
 
@@ -281,9 +292,11 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                     {
-                        var task = scope.Resolve<IDialogTask>();
+                        DialogModule_MakeRoot.Register(scope, MakeUnwrapQuery);
+
+                        var task = scope.Resolve<IPostToBot>();
                         toBot.Text = word;
-                        await task.PostAsync(toBot, MakeUnwrapQuery);
+                        await task.PostAsync(toBot, CancellationToken.None);
                     }
                 }
 
@@ -315,9 +328,11 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                     {
-                        var task = scope.Resolve<IDialogTask>();
+                        DialogModule_MakeRoot.Register(scope, () => query);
+
+                        var task = scope.Resolve<IPostToBot>();
                         toBot.Text = word;
-                        await task.PostAsync(toBot, () => query);
+                        await task.PostAsync(toBot, CancellationToken.None);
                     }
                 }
 
@@ -389,9 +404,11 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                     {
-                        var task = scope.Resolve<IDialogTask>();
+                        DialogModule_MakeRoot.Register(scope, () => joke);
+
+                        var task = scope.Resolve<IPostToBot>();
                         toBot.Text = word;
-                        await task.PostAsync(toBot, () => joke);
+                        await task.PostAsync(toBot, CancellationToken.None);
                     }
                 }
 

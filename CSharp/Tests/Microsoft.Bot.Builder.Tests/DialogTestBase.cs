@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
@@ -42,7 +43,6 @@ using Microsoft.Bot.Connector;
 using Autofac;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Tests
         public static IContainer Build(Options options, params object[] singletons)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule());
+            builder.RegisterModule(new DialogModule_MakeRoot());
 
             if (options.HasFlag(Options.Reflection))
             {

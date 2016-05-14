@@ -47,25 +47,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public interface IScorable<Score>
     {
-        Task<object> PrepareAsync<Item>(Item item, Delegate method);
+        Task<object> PrepareAsync<Item>(Item item, Delegate method, CancellationToken token);
         bool TryScore(object state, out Score score);
-        Task PostAsync<Item>(IDialogTask task, Item item, object state);
+        Task PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token);
     }
 
-    public sealed class ScoringDialogTask<Score> : DelegatingDialogTask
+    public sealed class ScoringDialogTask<Score> : IPostToBot
     {
+        private readonly IPostToBot inner;
+        private readonly IDialogStack stack;
         private readonly IComparer<Score> comparer;
         private readonly ITraits<Score> traits;
         private readonly IScorable<Score>[] scorables;
-        public ScoringDialogTask(IDialogTask inner, IComparer<Score> comparer, ITraits<Score> traits, params IScorable<Score>[] scorables)
-            : base(inner)
+        public ScoringDialogTask(IPostToBot inner, IDialogStack stack, IComparer<Score> comparer, ITraits<Score> traits, params IScorable<Score>[] scorables)
         {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.stack, nameof(stack), stack);
             SetField.NotNull(out this.comparer, nameof(comparer), comparer);
             SetField.NotNull(out this.traits, nameof(traits), traits);
             SetField.NotNull(out this.scorables, nameof(scorables), scorables);
         }
 
-        public override async Task PostAsync<T>(T item, CancellationToken cancellationToken = default(CancellationToken))
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
             Score maximumScore = default(Score);
             object maximumState = null;
@@ -73,7 +76,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             Func<IScorable<Score>, Delegate, Task<bool>> UpdateAsync = async (scorable, frame) =>
             {
-                var state = await scorable.PrepareAsync(item, frame);
+                var state = await scorable.PrepareAsync(item, frame, token);
                 Score score;
                 if (scorable.TryScore(state, out score))
                 {
@@ -106,7 +109,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             bool more = true;
 
-            foreach (var frame in this.Frames)
+            foreach (var frame in this.stack.Frames)
             {
                 var scorable = frame.Target as IScorable<Score>;
                 if (scorable != null)
@@ -133,12 +136,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             if (maximumScorable != null)
             {
-                await maximumScorable.PostAsync<T>(this.inner, item, maximumState);
-                await base.PollAsync();
+                await maximumScorable.PostAsync<T>(this.inner, item, maximumState, token);
             }
             else
             {
-                await base.PostAsync<T>(item, cancellationToken);
+                await this.inner.PostAsync<T>(item, token);
             }
         }
     }
@@ -169,17 +171,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 context.Done(await result);
             }
-            async Task<object> IScorable<Score>.PrepareAsync<Item>(Item item, Delegate method)
+            async Task<object> IScorable<Score>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
             {
-                return await this.Scorable.PrepareAsync(item, method);
+                return await this.Scorable.PrepareAsync(item, method, token);
             }
             bool IScorable<Score>.TryScore(object state, out Score score)
             {
                 return this.Scorable.TryScore(state, out score);
             }
-            async Task IScorable<Score>.PostAsync<Item>(IDialogTask task, Item item, object state)
+            async Task IScorable<Score>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
             {
-                await this.Scorable.PostAsync(task, item, state);
+                await this.Scorable.PostAsync(inner, item, state, token);
             }
         }
     }

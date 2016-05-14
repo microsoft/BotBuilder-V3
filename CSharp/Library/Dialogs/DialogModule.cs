@@ -47,10 +47,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// <summary>
     /// Autofac module for Dialog components.
     /// </summary>
-    public sealed class DialogModule : Autofac.Module
+    public sealed class DialogModule : Module
     {
         public const string BlobKey = "DialogState";
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
+
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, Message message)
         {
             var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
@@ -103,14 +104,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<Stream>()
                 .InstancePerLifetimeScope();
 
+            var key_PostToBot = new object();
+
             builder
-                .Register(c => new ScoringDialogTask<double>(
-                                new LocalizedDialogTask(
-                                    new DialogTask(c.Resolve<Func<IDialogContext>>(), c.Resolve<IStore<IFiberLoop<DialogTask>>>())
-                                    ),
-                                c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), c.Resolve<IScorable<double>[]>()))
-                .As<IDialogTask>()
+                .RegisterType<DialogTask>()
                 .As<IDialogStack>()
+                .Keyed<IPostToBot>(key_PostToBot)
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterDecorator<IPostToBot>(
+                    (c, inner) => new ScoringDialogTask<double>(new LocalizedDialogTask(inner), c.Resolve<IDialogStack>(), c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>()),
+                    key_PostToBot)
                 .InstancePerLifetimeScope();
 
             builder
@@ -123,6 +128,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .RegisterType<DialogContext>()
                 .As<IDialogContext>()
                 .InstancePerLifetimeScope();
+        }
+    }
+
+    public sealed class DialogModule_MakeRoot : Module
+    {
+        protected override void Load(ContainerBuilder builder)
+        {
+            base.Load(builder);
+
+            builder.RegisterModule(new DialogModule());
+
+            // TODO: let dialog resolve its dependencies from container
+            builder
+                .Register((c, p) => p.TypedAs<Func<IDialog<object>>>())
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+        }
+
+        public static void Register(ILifetimeScope scope, Func<IDialog<object>> MakeRoot)
+        {
+            // TODO: let dialog resolve its dependencies from container
+            scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
         }
     }
 }

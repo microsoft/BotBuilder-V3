@@ -115,5 +115,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             this.stack.Wait(resume);
         }
+
+        async Task IDialogStack.PollAsync(CancellationToken token)
+        {
+            await this.stack.PollAsync(token);
+        }
     }
 }
