@@ -302,28 +302,28 @@ export class Prompts extends dialog.Dialog {
         }
     }
 
-    static text(session: ses.Session, prompt: string | string[] | IMessage): void {
+    static text(session: ses.Session, prompt: string|string[]|IMessage): void {
         beginPrompt(session, {
             promptType: PromptType.text,
             prompt: prompt
         });
     }
 
-    static number(session: ses.Session, prompt: string | string[] | IMessage, options?: IPromptOptions): void {
+    static number(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
         beginPrompt(session, args);
     }
 
-    static confirm(session: ses.Session, prompt: string | string[] | IMessage, options?: IPromptOptions): void {
+    static confirm(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
         beginPrompt(session, args);
     }
 
-    static choice(session: ses.Session, prompt: string | string[] | IMessage, choices: string | Object | string[], options?: IPromptOptions): void {
+    static choice(session: ses.Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
@@ -332,7 +332,7 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(session, args);
     }
 
-    static time(session: ses.Session, prompt: string, options?: IPromptOptions): void {
+    static time(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
