@@ -1,5 +1,3 @@
 <map id="Microsoft.Bot.Builder.Dialogs.Internals.IDialogContextStore" name="Microsoft.Bot.Builder.Dialogs.Internals.IDialogContextStore">
-<area shape="rect" id="node2" href="$dc/d11/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context_factory.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContextFactory" alt="" coords="281,5,481,47"/>
-<area shape="rect" id="node3" href="$d7/d41/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context_store.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContextStore" alt="" coords="283,71,478,112"/>
-<area shape="rect" id="node4" href="$d1/d12/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_error_resilient_dialog_context_store.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ErrorResilientDialogContextStore" alt="" coords="248,136,513,177"/>
+<area shape="rect" id="node2" href="$d7/d41/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context_store.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContextStore" alt="" coords="5,95,200,136"/>
 </map>

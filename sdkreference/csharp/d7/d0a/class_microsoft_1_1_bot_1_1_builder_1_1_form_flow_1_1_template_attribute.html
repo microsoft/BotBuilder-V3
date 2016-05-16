@@ -113,7 +113,8 @@ Inheritance diagram for Microsoft.Bot.Builder.FormFlow.TemplateAttribute:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d5/da2/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_form_flow_8_template_attribute_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_form_flow_8_template_attribute_inherit__map" id="_microsoft_8_bot_8_builder_8_form_flow_8_template_attribute_inherit__map">
-<area shape="rect" id="node2" href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html" title="Abstract base class used by all attributes that use Pattern Language. " alt="" coords="17,80,171,107"/>
+<area shape="rect" id="node2" href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html" title="Abstract base class used by all attributes that use Pattern Language. " alt="" coords="17,155,171,181"/>
+<area shape="rect" id="node3" href="../../d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute.html" title="Abstract base class for FormFlow attributes. " alt="" coords="30,80,158,107"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -167,6 +168,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a2325d2ddd4dd311a57af57d2039c1950"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a4b3fef3ebd0b6d6f84591f4430ae2fd5">CaseNormalization</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html#a2325d2ddd4dd311a57af57d2039c1950">FieldCase</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a2325d2ddd4dd311a57af57d2039c1950"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control case when showing {&amp;} field name references in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string.  <a href="#a2325d2ddd4dd311a57af57d2039c1950">More...</a><br /></td></tr>
 <tr class="separator:a2325d2ddd4dd311a57af57d2039c1950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6da1ef72de238185d21005b01fb0231b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute.html#a6da1ef72de238185d21005b01fb0231b">IsLocalizable</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a6da1ef72de238185d21005b01fb0231b"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if attribute is localizable.  <a href="#a6da1ef72de238185d21005b01fb0231b">More...</a><br /></td></tr>
+<tr class="separator:a6da1ef72de238185d21005b01fb0231b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72a59330fcdc04cf70b922c6d217d44c"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html#a72a59330fcdc04cf70b922c6d217d44c">LastSeparator</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a72a59330fcdc04cf70b922c6d217d44c"><td class="mdescLeft">&#160;</td><td class="mdescRight">When constructing lists using {[]} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, the string used before the last value in the list.  <a href="#a72a59330fcdc04cf70b922c6d217d44c">More...</a><br /></td></tr>
 <tr class="separator:a72a59330fcdc04cf70b922c6d217d44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,7 +188,7 @@ Properties</h2></td></tr>
 <div class="textblock"><p>Define a template for generating strings. </p>
 <p>Templates provide a pattern that uses the template language defined in <a class="el" href="../../forms.html#patterns">Pattern Language</a>. See <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a28ef6a551a3611e4a6abe06659797313" title="All of the built-in templates. ">TemplateUsage</a> to see a description of all the different kinds of templates. You can also look at <a class="el" href="../../de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a40fe1b7c1bb62d7ae2accb8501a597a5" title="Default templates to use if not override on the class or field level. ">FormConfiguration.Templates</a> to see all the default templates that are provided. Templates can be overriden at the form, class/struct of field level. They also support randomly selecting between templates which is a good way to introduce some variation in your responses. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00493">493</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00515">515</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aaeca2b5e2db66d5626352ceec0a726fb"></a>
 <div class="memitem">
@@ -227,7 +231,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00505">505</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00527">527</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -261,7 +265,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00515">515</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00537">537</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -296,7 +300,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00677">677</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00699">699</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -325,7 +329,7 @@ Properties</h2></td></tr>
 <p>If multiple patterns were specified, then each call to this function will return a random pattern.</p>
 <dl class="section return"><dt>Returns</dt><dd>Pattern to use.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00654">654</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00676">676</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -342,7 +346,7 @@ Properties</h2></td></tr>
 
 <p>What kind of template this is. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00498">498</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00520">520</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -367,7 +371,7 @@ Properties</h2></td></tr>
 
 <p>When processing choices {||} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, provide a choice for the default value if present. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00582">582</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00604">604</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -391,7 +395,7 @@ Properties</h2></td></tr>
 
 <p>Control case when showing choices in {||} references in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00587">587</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00609">609</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -416,7 +420,7 @@ Properties</h2></td></tr>
 <p>Format string used for presenting each choice when showing {||} choices in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string. </p>
 <p>The choice format is passed two arguments, {0} is the number of the choice and {1} is the field name.</p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00593">593</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00615">615</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -440,7 +444,7 @@ Properties</h2></td></tr>
 
 <p>When constructing inline lists of choices using {||} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, the string used before the last choice. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00598">598</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00620">620</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -464,7 +468,7 @@ Properties</h2></td></tr>
 
 <p>When constructing inline choice lists for {||} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string controls whether to include parentheses around choices. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00603">603</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00625">625</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -488,7 +492,7 @@ Properties</h2></td></tr>
 
 <p>When constructing inline lists using {||} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, the string used between all choices except the last. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00608">608</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00630">630</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -512,7 +516,7 @@ Properties</h2></td></tr>
 
 <p>How to display choices {||} when processed in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00613">613</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00635">635</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -536,7 +540,7 @@ Properties</h2></td></tr>
 
 <p>Control what kind of feedback the user gets after each input. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00618">618</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00640">640</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -560,7 +564,32 @@ Properties</h2></td></tr>
 
 <p>Control case when showing {&amp;} field name references in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00623">623</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00645">645</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6da1ef72de238185d21005b01fb0231b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Microsoft.Bot.Builder.FormFlow.FormFlowAttribute.IsLocalizable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>True if attribute is localizable. </p>
+<p>Attributes that are used on classes, fields and properties should have this set. That way those attributes will be in the localization files that are generated. </p>
+
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00053">53</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -584,7 +613,7 @@ Properties</h2></td></tr>
 
 <p>When constructing lists using {[]} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, the string used before the last value in the list. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00628">628</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00650">650</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -609,7 +638,7 @@ Properties</h2></td></tr>
 <p>All possible templates. </p>
 <dl class="section return"><dt>Returns</dt><dd>The possible templates.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00671">671</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00693">693</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -633,7 +662,7 @@ Properties</h2></td></tr>
 
 <p>When constructing lists using {[]} in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string, the string used between all values except the last. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00633">633</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00655">655</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>
@@ -657,7 +686,7 @@ Properties</h2></td></tr>
 
 <p>Control case when showing {} value references in a <a class="el" href="../../forms.html#patterns">Pattern Language</a> string. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00638">638</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dfd/_attributes_8cs_source.html#l00660">660</a> of file <a class="el" href="../../dc/dfd/_attributes_8cs_source.html">Attributes.cs</a>.</p>
 
 </div>
 </div>

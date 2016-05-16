@@ -2,6 +2,7 @@ var _attributes_8cs =
 [
     [ "TemplateBaseAttribute", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html", "d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute" ],
     [ "DescribeAttribute", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html", "dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute" ],
+    [ "FormFlowAttribute", "d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute.html", "d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute" ],
     [ "NumericAttribute", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html", "df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute" ],
     [ "OptionalAttribute", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute" ],
     [ "PromptAttribute", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html", "d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute" ],
@@ -22,6 +23,7 @@ var _attributes_8cs =
     [ "ChoiceStyleOptions", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9", [
       [ "Default", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a7a1920d61156abc05a60135aefe8bc67", null ],
       [ "Auto", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a06b9281e396db002010bde1de57262eb", null ],
+      [ "AutoText", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9abd9d9e10eacd88dd09fcaad70374197d", null ],
       [ "Inline", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a0125cf5f3ca38b312ca5d3b511c45a13", null ],
       [ "PerLine", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a2f15de9c45e5a145af424ac64d617aa0", null ],
       [ "InlineNoParen", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a8ad4c9438cf3f547d613a734885a0d76", null ]
@@ -37,6 +39,7 @@ var _attributes_8cs =
       [ "Bool", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313ac26f15e86e3de4c398a8273272aba034", null ],
       [ "BoolHelp", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a198f2413588d42d05091b16b2a105de3", null ],
       [ "Clarify", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a7f6cf09a6c241b092435452bdaa8162e", null ],
+      [ "Confirmation", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313af4d1ea475eaa85102e2b4e6d95da84bd", null ],
       [ "CurrentChoice", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a800c17cac7f40e8ca99b9c8c6221a73f", null ],
       [ "DateTime", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a8cf10d2341ed01492506085688270c1e", null ],
       [ "DateTimeHelp", "dc/dfd/_attributes_8cs.html#a28ef6a551a3611e4a6abe06659797313a53e89aba842d7596a52073544c0c13b9", null ],

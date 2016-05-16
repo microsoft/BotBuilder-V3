@@ -1,8 +1,8 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait =
 [
-    [ "Instance", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#aa8d7456319e98746ea73a3926304c671", null ],
-    [ "ItemType", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#ad1a05a0b6dbb4d25176fa2b97dd5b4e9", null ],
-    [ "Need", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#a2cb26738011f31c82a0441c36ab14fdf", null ],
-    [ "NeedType", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#a30f50ef7b46a3d045162faf1d37d4539", null ],
-    [ "Rest", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#aa04a7d50e4e4e2fd1468999dd9504841", null ]
+    [ "Instance", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#ab8c6ad1ad8139a76ff4e3b93b4d94baf", null ],
+    [ "ItemType", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#a26eab07169c2b4d72a0e0a613c6dce3a", null ],
+    [ "Need", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#ae8898d19251607473dce27a6c46d2413", null ],
+    [ "NeedType", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#ad29a03c798fd167efcc7251b7d24eded", null ],
+    [ "Rest", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html#a9d83a5e96d9eae522f803b3de42ca102", null ]
 ];

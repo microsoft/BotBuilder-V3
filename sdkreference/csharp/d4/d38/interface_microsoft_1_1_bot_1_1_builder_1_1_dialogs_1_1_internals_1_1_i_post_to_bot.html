@@ -111,8 +111,11 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot:</div
 <div class="dyncontent">
 <div class="center"><img src="../../d9/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_post_to_bot_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_post_to_bot_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_post_to_bot_inherit__map">
-<area shape="rect" id="node2" href="../../d8/d66/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_internal.html" title="Additional internal methods to drive the execution of the dialog context. " alt="" coords="5,95,207,136"/>
-<area shape="rect" id="node3" href="../../de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="9,184,203,225"/>
+<area shape="rect" id="node2" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html" title="A dialog stack and a method to communicate from the outside world to the dialogs running on the stack..." alt="" coords="248,76,443,117"/>
+<area shape="rect" id="node3" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DelegatingDialogTask" alt="" coords="491,43,691,84"/>
+<area shape="rect" id="node6" href="../../db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogTask" alt="" coords="493,108,688,149"/>
+<area shape="rect" id="node4" href="../../d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.LocalizedDialogTask" alt="" coords="739,5,933,47"/>
+<area shape="rect" id="node5" href="../../d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ScoringDialogTask\l\&lt; Score \&gt;" alt="" coords="739,71,933,127"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -125,7 +128,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Methods to send a message from the user to the bot. </p>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00159">159</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00085">85</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5c2e1e2e0380f9cad99f2235cd7f5f06"></a>
 <div class="memitem">
@@ -161,10 +164,12 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A task that represents the post operation.</dd></dl>
 
+<p>Implemented in <a class="el" href="../../d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html#a3ef196fda1750f9e8c172376d039763b">Microsoft.Bot.Builder.Dialogs.Internals.LocalizedDialogTask</a>, <a class="el" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html#a146e61e53250c150124bfb198e00dc26">Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask</a>, and <a class="el" href="../../d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html#a33fc12e3b168ad4f4b42e7f669ba2e49">Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask&lt; Score &gt;</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a></li>
+<li><a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -98,7 +98,6 @@ $(document).ready(function(){initNavTree('d1/dcc/class_microsoft_1_1_bot_1_1_bui
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#properties">Properties</a> &#124;
 <a href="../../dc/ddc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Microsoft.Bot.Builder.Dialogs.Internals.BotToUserQueue Class Reference</div>  </div>
@@ -115,21 +114,14 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.BotToUserQueue:<
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a779a77df89ed665d058e7b3b723db6d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html#a779a77df89ed665d058e7b3b723db6d4">BotToUserQueue</a> (Message toBot)</td></tr>
-<tr class="separator:a779a77df89ed665d058e7b3b723db6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b4b52cbafed91cfb308b7fce62e6b6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html#a8b4b52cbafed91cfb308b7fce62e6b6a">Clear</a> ()</td></tr>
-<tr class="separator:a8b4b52cbafed91cfb308b7fce62e6b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
-Properties</h2></td></tr>
-<tr class="memitem:a525cb5d9534826c0cccf2232954569a3"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html#a525cb5d9534826c0cccf2232954569a3">Messages</a><code> [get]</code></td></tr>
-<tr class="separator:a525cb5d9534826c0cccf2232954569a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9d6304600d7c120a7861788c1129276"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html#ac9d6304600d7c120a7861788c1129276">BotToUserQueue</a> (Message toBot, Queue&lt; Message &gt; queue)</td></tr>
+<tr class="separator:ac9d6304600d7c120a7861788c1129276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00093">93</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00118">118</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a779a77df89ed665d058e7b3b723db6d4"></a>
+<a class="anchor" id="ac9d6304600d7c120a7861788c1129276"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -140,8 +132,18 @@ Properties</h2></td></tr>
           <td class="memname">Microsoft.Bot.Builder.Dialogs.Internals.BotToUserQueue.BotToUserQueue </td>
           <td>(</td>
           <td class="paramtype">Message&#160;</td>
-          <td class="paramname"><em>toBot</em></td><td>)</td>
+          <td class="paramname"><em>toBot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Queue&lt; Message &gt;&#160;</td>
+          <td class="paramname"><em>queue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -151,56 +153,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00097">97</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8b4b52cbafed91cfb308b7fce62e6b6a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Microsoft.Bot.Builder.Dialogs.Internals.BotToUserQueue.Clear </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00102">102</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Property Documentation</h2>
-<a class="anchor" id="a525cb5d9534826c0cccf2232954569a3"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">IEnumerable&lt;Message&gt; Microsoft.Bot.Builder.Dialogs.Internals.BotToUserQueue.Messages</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00108">108</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html#l00122">122</a> of file <a class="el" href="../../de/dfc/_bot_to_user_8cs_source.html">BotToUser.cs</a>.</p>
 
 </div>
 </div>

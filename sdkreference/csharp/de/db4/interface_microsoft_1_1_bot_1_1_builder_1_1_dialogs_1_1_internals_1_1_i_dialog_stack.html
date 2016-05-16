@@ -98,6 +98,7 @@ $(document).ready(function(){initNavTree('de/db4/interface_microsoft_1_1_bot_1_1
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="../../d0/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack Interface Reference</div>  </div>
@@ -111,9 +112,13 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack:</d
 <div class="dyncontent">
 <div class="center"><img src="../../d7/d1d/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_stack_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_stack_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_stack_inherit__map">
-<area shape="rect" id="node2" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html" title="The context for the execution of a dialog&#39;s conversational process. " alt="" coords="9,95,203,136"/>
-<area shape="rect" id="node3" href="../../d8/d66/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_context_internal.html" title="Additional internal methods to drive the execution of the dialog context. " alt="" coords="5,184,207,225"/>
-<area shape="rect" id="node4" href="../../de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="9,273,203,315"/>
+<area shape="rect" id="node2" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html" title="The context for the execution of a dialog&#39;s conversational process. " alt="" coords="248,5,443,47"/>
+<area shape="rect" id="node4" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html" title="A dialog stack and a method to communicate from the outside world to the dialogs running on the stack..." alt="" coords="248,71,443,112"/>
+<area shape="rect" id="node3" href="../../de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext" alt="" coords="493,5,688,47"/>
+<area shape="rect" id="node5" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DelegatingDialogTask" alt="" coords="491,71,691,112"/>
+<area shape="rect" id="node8" href="../../db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogTask" alt="" coords="493,136,688,177"/>
+<area shape="rect" id="node6" href="../../d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.LocalizedDialogTask" alt="" coords="739,33,933,75"/>
+<area shape="rect" id="node7" href="../../d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ScoringDialogTask\l\&lt; Score \&gt;" alt="" coords="739,99,933,155"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -125,14 +130,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac925ad5a83a7d931925c575d31eb9575"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ac925ad5a83a7d931925c575d31eb9575">Done&lt; R &gt;</a> (R value)</td></tr>
 <tr class="memdesc:ac925ad5a83a7d931925c575d31eb9575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Complete the current dialog and return a result to the parent dialog.  <a href="#ac925ad5a83a7d931925c575d31eb9575">More...</a><br /></td></tr>
 <tr class="separator:ac925ad5a83a7d931925c575d31eb9575"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a419d2ed7293dbe9d958f74090503f488"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#a419d2ed7293dbe9d958f74090503f488">Wait</a> (ResumeAfter&lt; Message &gt; resume)</td></tr>
-<tr class="memdesc:a419d2ed7293dbe9d958f74090503f488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend the current dialog until the user has sent a message to the bot.  <a href="#a419d2ed7293dbe9d958f74090503f488">More...</a><br /></td></tr>
-<tr class="separator:a419d2ed7293dbe9d958f74090503f488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a597a36d4fa386a395eee948d6646fb06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#a597a36d4fa386a395eee948d6646fb06">Fail</a> (Exception error)</td></tr>
+<tr class="memdesc:a597a36d4fa386a395eee948d6646fb06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fail the current dialog and return an exception to the parent dialog.  <a href="#a597a36d4fa386a395eee948d6646fb06">More...</a><br /></td></tr>
+<tr class="separator:a597a36d4fa386a395eee948d6646fb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dfd22a60abc345faa6ab57a42ec38fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#a4dfd22a60abc345faa6ab57a42ec38fa">Wait&lt; R &gt;</a> (ResumeAfter&lt; R &gt; resume)</td></tr>
+<tr class="memdesc:a4dfd22a60abc345faa6ab57a42ec38fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend the current dialog until an external event has been sent to the bot.  <a href="#a4dfd22a60abc345faa6ab57a42ec38fa">More...</a><br /></td></tr>
+<tr class="separator:a4dfd22a60abc345faa6ab57a42ec38fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:ad06f75504f5af0a3079137b635cfbf64"><td class="memItemLeft" align="right" valign="top">IReadOnlyList&lt; Delegate &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ad06f75504f5af0a3079137b635cfbf64">Frames</a><code> [get]</code></td></tr>
+<tr class="memdesc:ad06f75504f5af0a3079137b635cfbf64"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dialog frames active on the stack.  <a href="#ad06f75504f5af0a3079137b635cfbf64">More...</a><br /></td></tr>
+<tr class="separator:ad06f75504f5af0a3079137b635cfbf64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The stack of dialogs in the conversational process. </p>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00112">112</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a49c6523645f574c7712e5155fb3b4973"></a>
 <div class="memitem">
@@ -173,6 +187,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html#a2d7e865e3304dad80933cdd83c99382f">Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ac925ad5a83a7d931925c575d31eb9575"></a>
@@ -203,34 +219,89 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html#af00ee48b0df0149b503433b06f054a3c">Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a419d2ed7293dbe9d958f74090503f488"></a>
+<a class="anchor" id="a597a36d4fa386a395eee948d6646fb06"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.Wait </td>
+          <td class="memname">void Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.Fail </td>
           <td>(</td>
-          <td class="paramtype">ResumeAfter&lt; Message &gt;&#160;</td>
+          <td class="paramtype">Exception&#160;</td>
+          <td class="paramname"><em>error</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fail the current dialog and return an exception to the parent dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">error</td><td>The error.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html#a040042ee274ef7b7636a035550f51ace">Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4dfd22a60abc345faa6ab57a42ec38fa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.Wait&lt; R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">ResumeAfter&lt; R &gt;&#160;</td>
           <td class="paramname"><em>resume</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Suspend the current dialog until the user has sent a message to the bot. </p>
+<p>Suspend the current dialog until an external event has been sent to the bot. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">resume</td><td>The method to resume when the message has been received.</td></tr>
+    <tr><td class="paramname">resume</td><td>The method to resume when the event has been received.</td></tr>
   </table>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="../../db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html#a109ada0e80f33c88b4eb7753204e2ce9">Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="ad06f75504f5af0a3079137b635cfbf64"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">IReadOnlyList&lt;Delegate&gt; Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.Frames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The dialog frames active on the stack. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00052">52</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a></li>
+<li><a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

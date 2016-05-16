@@ -4,6 +4,7 @@ var _wait_8cs =
     [ "IPost", "dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post.html", "dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post" ],
     [ "IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait" ],
     [ "IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
+    [ "IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "IWaitFactory", "d2/da8/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait_factory.html", "d2/da8/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait_factory" ],
     [ "NullWait", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait" ],
     [ "PostStruct", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct" ],
@@ -16,5 +17,5 @@ var _wait_8cs =
       [ "Call", "dc/dfe/_wait_8cs.html#ade48f20e4b061b5614ade8fea7d3394aac3755e61202abd74da5885d2e9c9160e", null ],
       [ "Done", "dc/dfe/_wait_8cs.html#ade48f20e4b061b5614ade8fea7d3394aaf92965e2c8a7afb3c1b9a5c09a263636", null ]
     ] ],
-    [ "Rest< in T >", "dc/dfe/_wait_8cs.html#aa08701eb81b3ab1a696c69d2693785ce", null ]
+    [ "Rest< C, in T >", "dc/dfe/_wait_8cs.html#a1fd4c7f9ed18510ff63ab8a13f88145f", null ]
 ];

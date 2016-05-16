@@ -1,0 +1,4 @@
+var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_always_send_direct___bot_to_user =
+[
+    [ "AlwaysSendDirect_BotToUser", "dc/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_always_send_direct___bot_to_user.html#a97fd1e62a1b18a81bb70ac0c69b65f4b", null ]
+];

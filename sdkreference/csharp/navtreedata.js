@@ -25,6 +25,8 @@ var NAVTREE =
         [ "Adding Business Logic", "forms.html#logic", null ],
         [ "Using the Form Builder", "forms.html#controlFlow", null ],
         [ "Dynamically Defined Fields, Confirmations and Messages", "forms.html#dynamicFields", null ],
+        [ "Localization", "forms.html#localizingSection", null ],
+        [ "JSON Schema FormFlow", "forms.html#jsonForms", null ],
         [ "Handling Quit and Exceptions", "forms.html#quitExceptions", null ],
         [ "Final Sandwich Bot", "forms.html#finalBot", null ]
       ] ],
@@ -59,11 +61,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#aa9005546e1af60f5fda0c3293d2a77b8",
-"d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html",
-"d9/db9/_i_prompt_8cs_source.html",
-"dc/d90/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resource_extensions.html",
-"de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html#aedf4f474bf5299cd34fdf5875b2f4018"
+"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a352eed4df8f7d42c3e1e902a6c240c7b",
+"d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception.html#a0b35b965806543fe81a40f2728ae5cac",
+"d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json.html#a2399eeaef64663f0a847ffe6067947f0",
+"da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html#ad50c152ca494c0bde8ca644938343081",
+"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a51bc86a1b08f5a61be052ea7c5c0ae55",
+"de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#aff177fb3bba43e7a756231b6e3395ffb"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

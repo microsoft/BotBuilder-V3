@@ -97,14 +97,25 @@ $(document).ready(function(){initNavTree('d8/d45/class_microsoft_1_1_bot_1_1_bui
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../d5/da3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Microsoft.Bot.Builder.FormFlow.IForm&lt; T &gt; Class Template Reference</div>  </div>
+<div class="title">Microsoft.Bot.Builder.FormFlow.IForm&lt; T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Form definition interface.  
  <a href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:af0fbf23cf6b864cae7f23e3aadbdda42"><td class="memItemLeft" align="right" valign="top">abstract void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html#af0fbf23cf6b864cae7f23e3aadbdda42">Localize</a> (IDictionaryEnumerator reader, out IEnumerable&lt; string &gt; missing, out IEnumerable&lt; string &gt; extra)</td></tr>
+<tr class="memdesc:af0fbf23cf6b864cae7f23e3aadbdda42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Localize all string resources from binary stream.  <a href="#af0fbf23cf6b864cae7f23e3aadbdda42">More...</a><br /></td></tr>
+<tr class="separator:af0fbf23cf6b864cae7f23e3aadbdda42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d6737133a2dcae9ffbb713db8d3399f"><td class="memItemLeft" align="right" valign="top">abstract void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html#a6d6737133a2dcae9ffbb713db8d3399f">SaveResources</a> (IResourceWriter writer)</td></tr>
+<tr class="memdesc:a6d6737133a2dcae9ffbb713db8d3399f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save all string resources to binary stream for future localization.  <a href="#a6d6737133a2dcae9ffbb713db8d3399f">More...</a><br /></td></tr>
+<tr class="separator:a6d6737133a2dcae9ffbb713db8d3399f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Form definition interface. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -115,7 +126,91 @@ $(document).ready(function(){initNavTree('d8/d45/class_microsoft_1_1_bot_1_1_bui
 </dl>
 
 <p>Definition at line <a class="el" href="../../d8/dd7/_i_form_8cs_source.html#l00045">45</a> of file <a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af0fbf23cf6b864cae7f23e3aadbdda42"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract void <a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html">Microsoft.Bot.Builder.FormFlow.IForm</a>&lt; T &gt;.Localize </td>
+          <td>(</td>
+          <td class="paramtype">IDictionaryEnumerator&#160;</td>
+          <td class="paramname"><em>reader</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramname"><em>missing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramname"><em>extra</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Localize all string resources from binary stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reader</td><td>Where to read resources. </td></tr>
+    <tr><td class="paramname">missing</td><td>[out] Any values in the form, but missing from the stream. </td></tr>
+    <tr><td class="paramname">extra</td><td>[out] Any values in the stream, but missing from the form. </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>When you localize all form string resources will be overridden if present in the stream. Otherwise the value will remain unchanged. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6d6737133a2dcae9ffbb713db8d3399f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract void <a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html">Microsoft.Bot.Builder.FormFlow.IForm</a>&lt; T &gt;.SaveResources </td>
+          <td>(</td>
+          <td class="paramtype">IResourceWriter&#160;</td>
+          <td class="paramname"><em>writer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Save all string resources to binary stream for future localization. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>Where to write resources. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="../../d8/dd7/_i_form_8cs_source.html">IForm.cs</a></li>
 </ul>
 </div><!-- contents -->

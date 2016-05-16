@@ -6,6 +6,8 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain =
     [ "ContinueWith< T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#abbc544481cb6905c2291dba1fb00869c", null ],
     [ "Continutation< in T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac7448242b29f2a929a0ca948ab92f891", null ],
     [ "Default< T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a52b64ffa5be6e1fada89cb42d6703785", null ],
+    [ "DefaultIfException< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac5242e4a112e55a87c5a793cb238a6af", null ],
+    [ "DefaultIfException< T, E >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac09b5f5912bd3d9ce416d42fcd773a12", null ],
     [ "Do< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a38785ee72a3958e9e3d7454f9140afb7", null ],
     [ "From< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a27ee84c4646d5b5dbb4497d6da1409ec", null ],
     [ "Loop< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af1213116d6b46a88b675b691bb357d7a", null ],
@@ -16,6 +18,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain =
     [ "SelectMany< T, C, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a16e083616c5e63f0ad458de058ab9cb2", null ],
     [ "Switch< T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a0bf3925e4c00fac9bf86b560584b4f24", null ],
     [ "Unwrap< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aaf8d9d3e7c407f91044625a3e4e6c9f5", null ],
+    [ "Void< T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aec5105f97b69f2f71923796781a58f4b", null ],
     [ "WaitToBot< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af56437de1c229b461816559c2350810c", null ],
     [ "Where< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac5dde1f48f907314b6f346e8786aced6", null ]
 ];

@@ -1,8 +1,9 @@
 var interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop =
 [
-    [ "Done", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a6753be6c92d33adeeb6427faf5d01a75", null ],
-    [ "NextWait< T >", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a5c292eeef4db26a676f4684ac7b2d177", null ],
-    [ "PollAsync", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a318d300ed7aaf938f73f3899e8d259b2", null ],
-    [ "Push", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#af9421f95c8098ca240316b3292084ed2", null ],
-    [ "Wait", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a492527472e53f6c8f05371f4892870a0", null ]
+    [ "Done", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a08a823af87145e1ed38c69a3a3a1dbfb", null ],
+    [ "NextWait< T >", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a781a0c89d3b3baaa0c2eb49915880512", null ],
+    [ "PollAsync", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#ad87fb4ab73013f106058aa1fd457c1a4", null ],
+    [ "Push", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a0c94b41796ce117665fbf212288cb93b", null ],
+    [ "Frames", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a6eeb6585e7075c2c724b5d538750596f", null ],
+    [ "Wait", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html#a31716120c39d4e39418c18f2fdd094e8", null ]
 ];

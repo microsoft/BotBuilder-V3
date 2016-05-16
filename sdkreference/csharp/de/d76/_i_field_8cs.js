@@ -3,6 +3,7 @@ var _i_field_8cs =
     [ "IField", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field" ],
     [ "IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description" ],
     [ "IFieldPrompt", "d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt.html", "d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt" ],
+    [ "IFieldResources", "d8/d0e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_resources.html", "d8/d0e/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_resources" ],
     [ "IFields", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields.html", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields" ],
     [ "IFieldState", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state" ],
     [ "NextStep", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step" ],

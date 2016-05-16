@@ -14,6 +14,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute =
     [ "ChoiceStyle", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#a897a99309a7705ccb35a723904593745", null ],
     [ "Feedback", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#af025c76078551917a3ee3f0d67ce4cfc", null ],
     [ "FieldCase", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#a2325d2ddd4dd311a57af57d2039c1950", null ],
+    [ "IsLocalizable", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#a6da1ef72de238185d21005b01fb0231b", null ],
     [ "LastSeparator", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#a72a59330fcdc04cf70b922c6d217d44c", null ],
     [ "Patterns", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#a563bd7dae9ea1b38f97a3bd477e5afe8", null ],
     [ "Separator", "d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html#aa55384cb431ff75190efe7abd2fdb6a7", null ],

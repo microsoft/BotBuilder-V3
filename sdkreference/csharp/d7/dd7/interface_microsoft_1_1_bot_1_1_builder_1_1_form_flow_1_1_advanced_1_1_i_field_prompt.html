@@ -156,7 +156,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00327">327</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00322">322</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ab19c7eca32bba515a28736a0afd4247b"></a>
 <div class="memitem">
@@ -174,7 +174,7 @@ Properties</h2></td></tr>
 
 <p>Test to see if field is currently active based on the current state. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if field is active.</dd></dl>
-<p>One way to control this is to supply a <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a57eb7d0d6ae989ff3b92757b486a0995" title="A delegate for testing a form state to see if a particular step is active. ">ActiveDelegate&lt;T&gt;</a> to the <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a37192e416cf264d3f3300e07d3824d58" title="Define a step for filling in a particular value in the form state. ">IFormBuilder&lt;T&gt;.Field</a> or <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a1453a32529281e4d8dfd310fc35698c1" title="Add a confirmation step. ">IFormBuilder&lt;T&gt;.Confirm</a> steps. </p>
+<p>One way to control this is to supply a <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a57eb7d0d6ae989ff3b92757b486a0995" title="A delegate for testing a form state to see if a particular step is active. ">ActiveDelegate&lt;T&gt;</a> to the <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#ad7881ee9b6a31bcd4acf2033eca8d097" title="Derfine a field step by supplying your own field definition. ">IFormBuilder&lt;T&gt;.Field</a> or <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a1453a32529281e4d8dfd310fc35698c1" title="Add a confirmation step. ">IFormBuilder&lt;T&gt;.Confirm</a> steps. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#af8bf4f90bd6ff403bd4540742a3bed0c">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>, and <a class="el" href="../../db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#ac3f4b28b0b736854c1361c5a5e443bcb">Microsoft.Bot.Builder.FormFlow.Advanced.Confirmation&lt; T &gt;</a>.</p>
 
@@ -300,7 +300,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Result including feedback and if valid.</dd></dl>
-<p>One way to control this is to supply a <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a16f7d21641b3a46056244217e94f3aeb" title="A delegate for validating a particular response to a prompt. ">ValidateAsyncDelegate&lt;T&gt;</a> to the <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a37192e416cf264d3f3300e07d3824d58" title="Define a step for filling in a particular value in the form state. ">IFormBuilder&lt;T&gt;.Field</a> or <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a1453a32529281e4d8dfd310fc35698c1" title="Add a confirmation step. ">IFormBuilder&lt;T&gt;.Confirm</a> steps. </p>
+<p>One way to control this is to supply a <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a16f7d21641b3a46056244217e94f3aeb" title="A delegate for validating a particular response to a prompt. ">ValidateAsyncDelegate&lt;T&gt;</a> to the <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#ad7881ee9b6a31bcd4acf2033eca8d097" title="Derfine a field step by supplying your own field definition. ">IFormBuilder&lt;T&gt;.Field</a> or <a class="el" href="../../d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a1453a32529281e4d8dfd310fc35698c1" title="Add a confirmation step. ">IFormBuilder&lt;T&gt;.Confirm</a> steps. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#abb00f7460745d3808f915004bd449782">Microsoft.Bot.Builder.FormFlow.Advanced.Field&lt; T &gt;</a>.</p>
 
@@ -329,7 +329,7 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The prompt to use for generating help.</dd></dl>
 <p>Help is a mixture of field specific help, what a recognizer understands and available commands. </p>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00386">386</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00381">381</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 
 </div>
 </div>
@@ -355,7 +355,7 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>An IPrompt&lt;T&gt; describing prompt and recognizer. </dd></dl>
 <p>If a prompt is dyhamically computed this should be null until <a class="el" href="../../d7/dd7/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_prompt.html#abe3d85876aa77be0c77aa12a5aff4852" title="Build the prompt and recognizer for dynamically defined fields. ">DefineAsync(T)</a> is called.</p>
 
-<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00351">351</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00346">346</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 
 </div>
 </div>
