@@ -114,7 +114,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterDecorator<IPostToBot>(
-                    (c, inner) => new ScoringDialogTask<double>(new LocalizedDialogTask(inner), c.Resolve<IDialogStack>(), c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>()),
+                    (c, inner) =>
+                        new ScoringDialogTask<double>(
+                            new LocalizedDialogTask(
+                                new ReactiveDialogTask(inner, c.Resolve<IDialogStack>(), c.Resolve<IStore<IFiberLoop<DialogTask>>>(), c.Resolve<Func<IDialog<object>>>())
+                                ),
+                            c.Resolve<IDialogStack>(), c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>()),
                     key_PostToBot)
                 .InstancePerLifetimeScope();
 

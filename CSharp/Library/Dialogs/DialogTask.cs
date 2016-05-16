@@ -47,14 +47,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public sealed class DialogTask : IDialogStack, IPostToBot
     {
-        private readonly Func<IDialog<object>> makeRoot;
         private readonly Func<IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<IDialog<object>> makeRoot, Func<IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
         {
-            SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
             SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
             this.store.TryLoad(out this.fiber);
@@ -231,15 +229,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             try
             {
-                if (this.fiber.Frames.Count == 0)
-                {
-                    var root = this.makeRoot();
-                    var loop = root.Loop();
-                    IDialogStack stack = this;
-                    stack.Call(loop, null);
-                    await this.fiber.PollAsync(this);
-                }
-
                 this.fiber.Post(item);
                 await this.fiber.PollAsync(this);
             }
@@ -252,6 +241,44 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.store.Save(this.fiber);
         }
     }
+
+    public sealed class ReactiveDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IDialogStack stack;
+        private readonly IStore<IFiberLoop<DialogTask>> store;
+        private readonly Func<IDialog<object>> makeRoot;
+
+        public ReactiveDialogTask(IPostToBot inner, IDialogStack stack, IStore<IFiberLoop<DialogTask>> store, Func<IDialog<object>> makeRoot)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.stack, nameof(stack), stack);
+            SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                if (this.stack.Frames.Count == 0)
+                {
+                    var root = this.makeRoot();
+                    var loop = root.Loop();
+                    this.stack.Call(loop, null);
+                    await this.stack.PollAsync(token);
+                }
+
+                await this.inner.PostAsync(item, token);
+            }
+            catch
+            {
+                this.store.Reset();
+                throw;
+            }
+        }
+    }
+
 
     public struct LocalizedScope : IDisposable
     {
