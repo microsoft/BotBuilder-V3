@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ICommandArgs | Bot Builder SDK Reference Library | Bot Framework</title>
+	<title>IFieldOptions | Bot Builder SDK Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -124,10 +124,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.icommandargs.html">ICommandArgs</a>
+								<a href="_botbuilder_d_.ifieldoptions.html">IFieldOptions</a>
 							</li>
 						</ul>
-						<h1>Interface ICommandArgs</h1>
+						<h1>Interface IFieldOptions</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -136,7 +136,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Arguments passed to command handlers when invoked.</p>
+									<p>Options passed to form fields.</p>
 								</div>
 							</div>
 						</section>
@@ -144,7 +144,12 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">ICommandArgs</span>
+									<a href="_botbuilder_d_.ipromptoptions.html" class="tsd-signature-type">IPromptOptions</a>
+									<ul class="tsd-hierarchy">
+										<li>
+											<span class="target">IFieldOptions</span>
+										</li>
+									</ul>
 								</li>
 							</ul>
 						</section>
@@ -155,8 +160,11 @@
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ifieldoptions.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ifieldoptions.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ifieldoptions.html#onprompt" class="tsd-kind-icon">on<wbr>Prompt</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ifieldoptions.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ifieldoptions.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a></li>
 										</ul>
 									</section>
 								</div>
@@ -164,33 +172,92 @@
 						</section>
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="expression" class="tsd-anchor"></a>
-								<h3>expression</h3>
-								<div class="tsd-signature tsd-kind-icon">expression<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="liststyle" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> list<wbr>Style</h3>
+								<div class="tsd-signature tsd-kind-icon">list<wbr>Style<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.liststyle.html" class="tsd-signature-type">ListStyle</a></div>
 								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#liststyle">listStyle</a></p>
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L490">botbuilder.d.ts:490</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L323">botbuilder.d.ts:323</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>Compiled expression that was matched.</p>
+										<p>Optional type of list to render for PromptType.choice. Default value is ListStyle.auto.</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="maxretries" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Retries</h3>
+								<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#maxretries">maxRetries</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L317">botbuilder.d.ts:317</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional maximum number of times to reprompt the user. Default value is 2.</p>
 									</div>
 								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="matches" class="tsd-anchor"></a>
-								<h3>matches</h3>
-								<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExpExecArray</span></div>
+								<a name="onprompt" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Prompt</h3>
+								<div class="tsd-signature tsd-kind-icon">on<wbr>Prompt<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.ifieldprompthandler.html" class="tsd-signature-type">IFieldPromptHandler</a></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L493">botbuilder.d.ts:493</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L448">botbuilder.d.ts:448</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>List of values that matched the expression.</p>
+										<p>Called anytime a given field is about to invoke the prompt. This function lets the
+										developer progromatically determine if a prompt should be skipped or not.</p>
+									</div>
+									<p>The handler can also manipulate the forms current values. For instance a fields value
+									could be pulled from context.userData if not already specified on the form.</p>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="refdate" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> ref<wbr>Date</h3>
+								<div class="tsd-signature tsd-kind-icon">ref<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#refdate">refDate</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L320">botbuilder.d.ts:320</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional reference date when recognizing times. Date expressed in ticks using Date.getTime().</p>
+									</div>
+								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a name="retryprompt" class="tsd-anchor"></a>
+								<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Prompt</h3>
+								<div class="tsd-signature tsd-kind-icon">retry<wbr>Prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></div>
+								<aside class="tsd-sources">
+									<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryprompt">retryPrompt</a></p>
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L314">botbuilder.d.ts:314</a></li>
+									</ul>
+								</aside>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Optional retry prompt to send if the users response isn&#39;t understood. Default is to just
+											reprompt with the configured <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt">defaultRetryPrompt</a> plus the original prompt. Note that if the original
+										prompt is an <em>IMessage</em> the default behaviour is to simply re-send the original prompt.</p>
+										<ul>
+											<li><em>{string}</em> - Initial message to send the user.</li>
+											<li><em>{string[]}</em> - Array of possible messages to send user. One will be chosen at random.</li>
+											<li><em>{IMessage}</em> - Initial message to send the user. Message can contain attachments.</li>
+										</ul>
 									</div>
 								</div>
 							</section>
@@ -212,13 +279,22 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.icommandargs.html" class="tsd-kind-icon">ICommand<wbr>Args</a>
+									<a href="_botbuilder_d_.ifieldoptions.html" class="tsd-kind-icon">IField<wbr>Options</a>
 									<ul>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a>
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+											<a href="_botbuilder_d_.ifieldoptions.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+											<a href="_botbuilder_d_.ifieldoptions.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a>
+											<a href="_botbuilder_d_.ifieldoptions.html#onprompt" class="tsd-kind-icon">on<wbr>Prompt</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+											<a href="_botbuilder_d_.ifieldoptions.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+											<a href="_botbuilder_d_.ifieldoptions.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a>
 										</li>
 									</ul>
 								</li>

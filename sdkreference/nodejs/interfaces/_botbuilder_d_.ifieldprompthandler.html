@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ICommandArgs | Bot Builder SDK Reference Library | Bot Framework</title>
+	<title>IFieldPromptHandler | Bot Builder SDK Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -124,10 +124,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.icommandargs.html">ICommandArgs</a>
+								<a href="_botbuilder_d_.ifieldprompthandler.html">IFieldPromptHandler</a>
 							</li>
 						</ul>
-						<h1>Interface ICommandArgs</h1>
+						<h1>Interface IFieldPromptHandler</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -136,7 +136,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Arguments passed to command handlers when invoked.</p>
+									<p>Handler that gets called anytime a field is about to invoke a prompt.</p>
 								</div>
 							</div>
 						</section>
@@ -144,56 +144,64 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">ICommandArgs</span>
+									<span class="target">IFieldPromptHandler</span>
 								</li>
 							</ul>
 						</section>
-						<section class="tsd-panel-group tsd-index-group">
-							<h2>Index</h2>
-							<section class="tsd-panel tsd-index-panel">
-								<div class="tsd-index-content">
-									<section class="tsd-index-section ">
-										<h3>Properties</h3>
-										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a></li>
+						<section class="tsd-panel">
+							<h3 class="tsd-before-signature">Callable</h3>
+							<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-external-module">
+								<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.ifieldconext.html" class="tsd-signature-type">IFieldConext</a>, next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							</ul>
+							<ul class="tsd-descriptions">
+								<li class="tsd-description">
+									<aside class="tsd-sources">
+										<ul>
+											<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L430">botbuilder.d.ts:430</a></li>
 										</ul>
-									</section>
-								</div>
-							</section>
-						</section>
-						<section class="tsd-panel-group tsd-member-group ">
-							<h2>Properties</h2>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="expression" class="tsd-anchor"></a>
-								<h3>expression</h3>
-								<div class="tsd-signature tsd-kind-icon">expression<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
-								<aside class="tsd-sources">
-									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L490">botbuilder.d.ts:490</a></li>
-									</ul>
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Compiled expression that was matched.</p>
+									</aside>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Handler that gets called anytime a field is about to invoke a prompt.</p>
+										</div>
 									</div>
-								</div>
-							</section>
-							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="matches" class="tsd-anchor"></a>
-								<h3>matches</h3>
-								<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExpExecArray</span></div>
-								<aside class="tsd-sources">
-									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L493">botbuilder.d.ts:493</a></li>
+									<h4 class="tsd-parameters-title">Parameters</h4>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>context: <a href="_botbuilder_d_.ifieldconext.html" class="tsd-signature-type">IFieldConext</a></h5>
+											<div class="tsd-comment tsd-typography">
+												<p>Contextual information related to the current field.</p>
+											</div>
+										</li>
+										<li>
+											<h5>next: <span class="tsd-signature-type">function</span></h5>
+											<div class="tsd-comment tsd-typography">
+												<p>Function to call to continue execution of the prompt.
+												Passing <em>true</em> for <strong>skip</strong> will cause the current field to be skipped.</p>
+											</div>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>skip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>skip: <span class="tsd-signature-type">boolean</span></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
 									</ul>
-								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>List of values that matched the expression.</p>
-									</div>
-								</div>
-							</section>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								</li>
+							</ul>
 						</section>
 					</div>
 					<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -212,15 +220,7 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.icommandargs.html" class="tsd-kind-icon">ICommand<wbr>Args</a>
-									<ul>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a>
-										</li>
-										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a>
-										</li>
-									</ul>
+									<a href="_botbuilder_d_.ifieldprompthandler.html" class="tsd-kind-icon">IField<wbr>Prompt<wbr>Handler</a>
 								</li>
 							</ul>
 							<ul class="after-current">

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ICommandArgs | Bot Builder SDK Reference Library | Bot Framework</title>
+	<title>IFieldConext | Bot Builder SDK Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -124,10 +124,10 @@
 								<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 							</li>
 							<li>
-								<a href="_botbuilder_d_.icommandargs.html">ICommandArgs</a>
+								<a href="_botbuilder_d_.ifieldconext.html">IFieldConext</a>
 							</li>
 						</ul>
-						<h1>Interface ICommandArgs</h1>
+						<h1>Interface IFieldConext</h1>
 					</div>
 				</div>
 				</header>				<div class="container container-main">
@@ -136,7 +136,7 @@
 						<section class="tsd-panel tsd-comment">
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Arguments passed to command handlers when invoked.</p>
+									<p>Context information passed to field related handlers.</p>
 								</div>
 							</div>
 						</section>
@@ -144,7 +144,7 @@
 							<h3>Hierarchy</h3>
 							<ul class="tsd-hierarchy">
 								<li>
-									<span class="target">ICommandArgs</span>
+									<span class="target">IFieldConext</span>
 								</li>
 							</ul>
 						</section>
@@ -155,8 +155,9 @@
 									<section class="tsd-index-section ">
 										<h3>Properties</h3>
 										<ul class="tsd-index-list">
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a></li>
-											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ifieldconext.html#field" class="tsd-kind-icon">field</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ifieldconext.html#form" class="tsd-kind-icon">form</a></li>
+											<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ifieldconext.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
 										</ul>
 									</section>
 								</div>
@@ -165,34 +166,34 @@
 						<section class="tsd-panel-group tsd-member-group ">
 							<h2>Properties</h2>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="expression" class="tsd-anchor"></a>
-								<h3>expression</h3>
-								<div class="tsd-signature tsd-kind-icon">expression<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+								<a name="field" class="tsd-anchor"></a>
+								<h3>field</h3>
+								<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L490">botbuilder.d.ts:490</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L424">botbuilder.d.ts:424</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Compiled expression that was matched.</p>
-									</div>
-								</div>
 							</section>
 							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-								<a name="matches" class="tsd-anchor"></a>
-								<h3>matches</h3>
-								<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExpExecArray</span></div>
+								<a name="form" class="tsd-anchor"></a>
+								<h3>form</h3>
+								<div class="tsd-signature tsd-kind-icon">form<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L493">botbuilder.d.ts:493</a></li>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L423">botbuilder.d.ts:423</a></li>
 									</ul>
 								</aside>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>List of values that matched the expression.</p>
-									</div>
-								</div>
+							</section>
+							<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+								<a name="userdata" class="tsd-anchor"></a>
+								<h3>user<wbr>Data</h3>
+								<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+								<aside class="tsd-sources">
+									<ul>
+										<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L422">botbuilder.d.ts:422</a></li>
+									</ul>
+								</aside>
 							</section>
 						</section>
 					</div>
@@ -212,13 +213,16 @@
 							</ul>
 							<ul class="current">
 								<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-									<a href="_botbuilder_d_.icommandargs.html" class="tsd-kind-icon">ICommand<wbr>Args</a>
+									<a href="_botbuilder_d_.ifieldconext.html" class="tsd-kind-icon">IField<wbr>Conext</a>
 									<ul>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#expression" class="tsd-kind-icon">expression</a>
+											<a href="_botbuilder_d_.ifieldconext.html#field" class="tsd-kind-icon">field</a>
 										</li>
 										<li class=" tsd-kind-property tsd-parent-kind-interface">
-											<a href="_botbuilder_d_.icommandargs.html#matches" class="tsd-kind-icon">matches</a>
+											<a href="_botbuilder_d_.ifieldconext.html#form" class="tsd-kind-icon">form</a>
+										</li>
+										<li class=" tsd-kind-property tsd-parent-kind-interface">
+											<a href="_botbuilder_d_.ifieldconext.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
 										</li>
 									</ul>
 								</li>
