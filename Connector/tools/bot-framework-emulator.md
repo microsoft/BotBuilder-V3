@@ -63,7 +63,7 @@ To install
 3. Install [Mono](http://www.mono-project.com/download/#download-mac)
 4. mono BFEmulator.exe 
 
-{% highlight vctreestatus %}
+~~~RubyConsoleLexer
 Microsoft Framework Emulator
 
 /exit or /quit to exit
@@ -128,8 +128,4 @@ Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
     "counter": 1
   }
 }
-{% endhighlight %}
-
-
-
-
+~~~
