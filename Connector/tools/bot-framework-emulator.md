@@ -61,71 +61,72 @@ To install
 1. Download [Console Emulator Zip](http://aka.ms/bfemulator)
 2. Unzip it
 3. Install [Mono](http://www.mono-project.com/download/#download-mac)
-4. mono BFEmulator.exe 
+4. mono BFEmulator.exe
 
-~~~RubyConsoleLexer
-Microsoft Framework Emulator
+{% comment %}adding tabs for codeblocks after a list, embeds them in the last list item. adding &nbsp; to break it.{% endcomment %}
+&nbsp;
 
-/exit or /quit to exit
-/settings to change endpoint, appId and appSecret settings
-/dump [#] to show contents of last # messages (default: 1)
-/attachment [path] <- to add a file to your message
-Current settings:
-Endpoint: http://localhost:8002/api/messages
-AppId: TestBot
-AppSecret: 12345678901234567890123456789012
-           
+    Microsoft Framework Emulator
+    
+    /exit or /quit to exit
+    /settings to change endpoint, appId and appSecret settings
+    /dump [#] to show contents of last # messages (default: 1)
+    /attachment [path] <- to add a file to your message
+    Current settings:
+    Endpoint: http://localhost:8002/api/messages
+    AppId: TestBot
+    AppSecret: 12345678901234567890123456789012
+              
 
-> hello
-Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
+    > hello
+    Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
 
 
-> /dump
+    > /dump
 
-TestBot said:
-Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
-==== raw BOT Content ====
-{
-  "type": "Message",
-  "conversationId": "8a684db8",
-  "language": "en",
-  "text": "Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello",
-  "from": {
-    "name": "TestBot",
-    "channelId": "emulator",
-    "address": "TestBot",
-    "isBot": true
-  },
-  "to": {
-    "name": "User1",
-    "channelId": "emulator",
-    "address": "User1",
-    "isBot": false
-  },
-  "replyToMessageId": "8c0aa5205b374a6d8f58145e4dec041b",
-  "participants": [
+    TestBot said:
+    Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello
+    ==== raw BOT Content ====
     {
-      "name": "User1",
-      "channelId": "emulator",
-      "address": "User1"
-    },
-    {
-      "name": "TestBot",
-      "channelId": "emulator",
-      "address": "TestBot"
+      "type": "Message",
+      "conversationId": "8a684db8",
+      "language": "en",
+      "text": "Cookie:1 User:1 Conversation:1 PerUser:1 You said:hello",
+      "from": {
+        "name": "TestBot",
+        "channelId": "emulator",
+        "address": "TestBot",
+        "isBot": true
+      },
+      "to": {
+        "name": "User1",
+        "channelId": "emulator",
+        "address": "User1",
+        "isBot": false
+      },
+      "replyToMessageId": "8c0aa5205b374a6d8f58145e4dec041b",
+      "participants": [
+        {
+          "name": "User1",
+          "channelId": "emulator",
+          "address": "User1"
+        },
+        {
+          "name": "TestBot",
+          "channelId": "emulator",
+          "address": "TestBot"
+        }
+      ],
+      "totalParticipants": 2,
+      "channelMessageId": "cc693595f3e046ecb9c02bda9de603c0",
+      "channelConversationId": "Conv1",
+      "botUserData": {
+        "counter": 1
+      },
+      "botConversationData": {
+        "counter": 1
+      },
+      "botPerUserInConversationData": {
+        "counter": 1
+      }
     }
-  ],
-  "totalParticipants": 2,
-  "channelMessageId": "cc693595f3e046ecb9c02bda9de603c0",
-  "channelConversationId": "Conv1",
-  "botUserData": {
-    "counter": 1
-  },
-  "botConversationData": {
-    "counter": 1
-  },
-  "botPerUserInConversationData": {
-    "counter": 1
-  }
-}
-~~~
