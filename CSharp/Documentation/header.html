@@ -13,7 +13,7 @@ $search
 $mathjax
 <link href="$relpath^$stylesheet" rel="stylesheet" type="text/css" />
 $extrastylesheet
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -49,7 +49,7 @@ $extrastylesheet
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
 			var navtreecontents = $('#nav-tree-contents');
-			navtreecontents.prepend('<div class="label"><a href="/">&lt; Documentation Home</a></div>');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
