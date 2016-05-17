@@ -1,3 +1,5 @@
+---
+---
 <!doctype html>
 <html class="default no-js">
 <head>
@@ -6,10 +8,11 @@
     <title>{{#ifCond model.name '==' project.name}}{{project.name}}{{else}}{{model.name}} | {{project.name}}{{/ifCond}} | Bot Framework</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
     <link rel="stylesheet" href="{{relativeURL "assets/css/main.css"}}">
     <script src="{{relativeURL "assets/js/modernizr.js"}}"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
+	<script src="/css/documents.js"></script>	
   <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
   <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
   <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -33,6 +36,12 @@
 
 			{{> header}}
 			<div class="outline">
+				<article class="post">
+				<div id="side-nav">
+				{% include leftnav.html %}
+				</div>
+				<div id="doc-content">
+
 			{{> docs-header}}
 				<div class="container container-main">
 					<div class="row">
@@ -59,6 +68,8 @@
 					</div>
 				</div>
 			{{> footer}}
+				</div>
+				</article>
 			</div>
 			{{> ms-footer}}
 

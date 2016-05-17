@@ -1479,7 +1479,6 @@ tr.heading h2 {
 #side-nav {
     position: relative;
     float:left;
-    background-color: transparent !important;
 }
 
 #nav-path {
