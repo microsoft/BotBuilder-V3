@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -58,6 +58,8 @@
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -134,7 +136,7 @@ $(document).ready(function(){initNavTree('d5/def/_form_dialog_8cs_source.html','
 <div class="ttc" id="namespace_microsoft_html"><div class="ttname"><a href="../../d7/d4e/namespace_microsoft.html">Microsoft</a></div></div>
 <div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_html"><div class="ttname"><a href="../../d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html">Microsoft.Bot.Builder.FormFlow.Advanced.IField</a></div><div class="ttdoc">Interface for all the information about a specific field. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d76/_i_field_8cs_source.html#l00396">IField.cs:396</a></div></div>
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step_html_a8c43d6003c42a2ec370738825b93b88f"><div class="ttname"><a href="../../da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html#a8c43d6003c42a2ec370738825b93b88f">Microsoft.Bot.Builder.FormFlow.Advanced.NextStep.Direction</a></div><div class="ttdeci">StepDirection Direction</div><div class="ttdoc">Direction for next step. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d76/_i_field_8cs_source.html#l00310">IField.cs:310</a></div></div>
-<div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt_html"><div class="ttname"><a href="../../d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html">Microsoft.Bot.Builder.Dialogs.Internals.Prompt</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00556">PromptDialog.cs:556</a></div></div>
+<div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt_html"><div class="ttname"><a href="../../d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html">Microsoft.Bot.Builder.Dialogs.Internals.Prompt</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00564">PromptDialog.cs:564</a></div></div>
 <div class="ttc" id="namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow_html_a27be39918296ad3536d6a5c8d6ed5394aa796e574d8cf50f288b2e44ecd64764a"><div class="ttname"><a href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#a27be39918296ad3536d6a5c8d6ed5394aa796e574d8cf50f288b2e44ecd64764a">Microsoft.Bot.Builder.FormFlow.FormOptions.PromptFieldsWithValues</a></div><div class="ttdoc">Prompt for fields that already have a value in the initial state when processing form. </div></div>
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute_html_a0791502822c338ac00b85e6de46e4d6f"><div class="ttname"><a href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html#a0791502822c338ac00b85e6de46e4d6f">Microsoft.Bot.Builder.FormFlow.Advanced.TemplateBaseAttribute.ChoiceSeparator</a></div><div class="ttdeci">string ChoiceSeparator</div><div class="ttdoc">When constructing inline lists using {||} in a Pattern Language string, the string used between all c...</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dfd/_attributes_8cs_source.html#l00630">Attributes.cs:630</a></div></div>
 <div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_html_ab6a0d32e90f29420d8f7e5819f98d9db"><div class="ttname"><a href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html#ab6a0d32e90f29420d8f7e5819f98d9db">Microsoft.Bot.Builder.Dialogs.IDialog.StartAsync</a></div><div class="ttdeci">Task StartAsync(IDialogContext context)</div><div class="ttdoc">The start of the code that represents the conversational dialog. </div></div>

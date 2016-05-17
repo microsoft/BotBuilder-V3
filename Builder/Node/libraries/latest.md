@@ -1,8 +1,8 @@
 ---
 layout: page
-title: BotBuilder v0.10.2
+title: Release Notes
 permalink: /builder/node/libraries/latest/
-weight: 690
+weight: 695
 parent1: Bot Builder for Node.js
 parent2: Libraries
 ---

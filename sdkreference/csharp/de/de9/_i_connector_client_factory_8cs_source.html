@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -58,6 +58,8 @@
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -119,7 +121,7 @@ $(document).ready(function(){initNavTree('de/de9/_i_connector_client_factory_8cs
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory_html_ac548866252ae39ecb04b3655ca65c35a"><div class="ttname"><a href="../../d3/d70/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory.html#ac548866252ae39ecb04b3655ca65c35a">Microsoft.Bot.Builder.Dialogs.Internals.DetectEmulatorFactory.DetectEmulatorFactory</a></div><div class="ttdeci">DetectEmulatorFactory(Message message, Uri emulator)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00070">IConnectorClientFactory.cs:70</a></div></div>
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field_html"><div class="ttname"><a href="../../d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field.html">Microsoft.Bot.Builder.Internals.Fibers.SetField</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/df9/_set_field_8cs_source.html#l00043">SetField.cs:43</a></div></div>
 <div class="ttc" id="namespace_microsoft_html"><div class="ttname"><a href="../../d7/d4e/namespace_microsoft.html">Microsoft</a></div></div>
-<div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions_html"><div class="ttname"><a href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html">Microsoft.Bot.Builder.Dialogs.Internals.Extensions</a></div><div class="ttdoc">connector client extensions. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00040">Dialogs/Extensions.cs:40</a></div></div>
+<div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions_html"><div class="ttname"><a href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html">Microsoft.Bot.Builder.Dialogs.Internals.Extensions</a></div><div class="ttdoc">connector client extensions. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00041">Dialogs/Extensions.cs:41</a></div></div>
 <div class="ttc" id="class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions_html_ab59af762289432a6f4cef743fdd86b6a"><div class="ttname"><a href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#ab59af762289432a6f4cef743fdd86b6a">Microsoft.Bot.Builder.Dialogs.Internals.Extensions.LoadMessageData</a></div><div class="ttdeci">static async Task&lt; Message &gt; LoadMessageData(this IConnectorClient client, string botId, string userId, string conversationId, CancellationToken token=default(CancellationToken))</div><div class="ttdoc">Loads the message data from connector. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00111">IConnectorClientFactory.cs:111</a></div></div>
 <div class="ttc" id="namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_html"><div class="ttname"><a href="../../d4/dc9/namespace_microsoft_1_1_bot_1_1_builder_1_1_internals.html">Microsoft.Bot.Builder.Internals</a></div><div class="ttdoc">Namespace for internal machinery that is not useful for most developers.</div></div>
 <div class="ttc" id="interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory_html_a86ff898bbcde12a79b9afefdb9cce7eb"><div class="ttname"><a href="../../db/de6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory.html#a86ff898bbcde12a79b9afefdb9cce7eb">Microsoft.Bot.Builder.Dialogs.Internals.IConnectorClientFactory.Make</a></div><div class="ttdeci">IConnectorClient Make()</div><div class="ttdoc">Make the IConnectorClient implementation. </div></div>

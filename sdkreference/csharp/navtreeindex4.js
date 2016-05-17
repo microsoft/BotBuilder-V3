@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"da/d14/_resumption_cookie_8cs_source.html":[5,0,62],
+"da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html":[4,0,0,0,0,2,0,8],
 "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html#ad50c152ca494c0bde8ca644938343081":[4,0,0,0,0,2,0,8,0],
 "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html":[4,0,0,0,0,2,0,26],
 "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html#a03363d157e36e273ba452dd7c7805d3b":[4,0,0,0,0,2,0,26,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html#ac67cd3b6bbee6fd5a4f62c9f7d85e5b4":[4,0,0,0,0,0,1,2],
 "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html#adcc2857a41d2408a998d7acf87272459":[4,0,0,0,0,0,1,0],
 "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html":[4,0,0,0,0,0,24],
-"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a02039d5650160bcdfc84a28d1a0cdb02":[4,0,0,0,0,0,24,4],
-"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a35d5b83a95566cd06b1616a28882f50c":[4,0,0,0,0,0,24,5],
-"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a4e6d71300004d42873ca941a8ecd904a":[4,0,0,0,0,0,24,12]
+"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a02039d5650160bcdfc84a28d1a0cdb02":[4,0,0,0,0,0,24,4]
 };

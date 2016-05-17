@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Getting started
 permalink: /builder/csharp/overview/
 weight: 500

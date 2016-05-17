@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -58,6 +58,8 @@
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -116,6 +118,9 @@ $(document).ready(function(){initNavTree('functions_func_b.html','');});
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>BeginLifetimeScope()
 : <a class="el" href="d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html#a28376debb27d1f81e1c049ec96604c1b">Microsoft.Bot.Builder.Dialogs.Internals.DialogModule</a>
+</li>
+<li>BestIntentFrom()
+: <a class="el" href="d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a011fd0c1d2f2a3c17804b5738a1b3617">Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; R &gt;</a>
 </li>
 <li>BotDataBagStream()
 : <a class="el" href="d4/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_bag_stream.html#aa67a4486e763e213f1b9bf51a63f1622">Microsoft.Bot.Builder.Dialogs.Internals.BotDataBagStream</a>

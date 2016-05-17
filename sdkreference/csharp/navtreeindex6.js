@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad2ad8e2b29dcb5cbe7d95fbd08fb6701":[4,0,0,0,0,2,0,2,2],
+"de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad6923af3201d79ef7bd0c2aad9e11ba6":[4,0,0,0,0,2,0,2,1],
 "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#aff177fb3bba43e7a756231b6e3395ffb":[4,0,0,0,0,2,0,2,0],
 "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html":[4,0,0,0,0,1,4],
 "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a169a5e846642058d323c6f7a3a49e491":[4,0,0,0,0,1,4,9],
@@ -158,8 +160,8 @@ var NAVTREEINDEX6 =
 "functions_d.html":[4,3,0,4],
 "functions_e.html":[4,3,0,5],
 "functions_f.html":[4,3,0,6],
-"functions_func.html":[4,3,1,0],
 "functions_func.html":[4,3,1],
+"functions_func.html":[4,3,1,0],
 "functions_func_b.html":[4,3,1,1],
 "functions_func_c.html":[4,3,1,2],
 "functions_func_d.html":[4,3,1,3],
@@ -202,8 +204,8 @@ var NAVTREEINDEX6 =
 "functions_w.html":[4,3,0,23],
 "functions_y.html":[4,3,0,24],
 "hierarchy.html":[4,2],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "index.html#debugging":[0,2],
 "index.html#install":[0,1],
 "index.html#overview":[0,0],

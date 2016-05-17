@@ -1342,18 +1342,14 @@ a {
   }
   .bot-overview .ul-vert-bar {
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: start;
-    -webkit-justify-content: flex-start;
         -ms-flex-pack: start;
             justify-content: flex-start;
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     -webkit-box-align: start;
-    -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
   }
@@ -1540,4 +1536,12 @@ a {
   .post-content .post-header {
     margin-bottom: 25px;
   }
+}
+.level0.backToHome li {
+  margin-left: -12px;
+}
+#nav-tree .label {
+  margin: 0px;
+  padding: 0px;
+  font: 15px "Segoe UI", sans-serif;
 }

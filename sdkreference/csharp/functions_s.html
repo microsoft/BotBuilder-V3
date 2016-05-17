@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -58,6 +58,8 @@
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -133,6 +135,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="d6/d90/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action_parameter_value.html#ac1aec13e8bbd7e5b4ada144ca13c8118">Microsoft.Bot.Builder.Luis.Models.ActionParameterValue</a>
 , <a class="el" href="d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html#abcc75f8dbdd67cab2bf956ccd2c7600e">Microsoft.Bot.Builder.Luis.Models.EntityRecommendation</a>
 , <a class="el" href="dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html#afe808cb7609cad1ffef46ae5c8908b6f">Microsoft.Bot.Builder.Luis.Models.IntentRecommendation</a>
+</li>
+<li>ScoreMatch()
+: <a class="el" href="dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_choice.html#a2cd42d415cd26fad1beed0a75495d8bc">Microsoft.Bot.Builder.Dialogs.PromptDialog.PromptChoice&lt; T &gt;</a>
 </li>
 <li>ScoringDialogTask()
 : <a class="el" href="d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html#a6950414fb7688f3e24881eab4b276dd6">Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask&lt; Score &gt;</a>

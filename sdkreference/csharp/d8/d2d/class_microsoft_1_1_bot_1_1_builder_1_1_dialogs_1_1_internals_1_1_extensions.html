@@ -24,7 +24,7 @@
 </script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css">
+<link rel="stylesheet" href="http://docs.botframework.com/css/documentation.css?1">
     <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
     <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
     <script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -58,6 +58,8 @@
 			fullwidth.append($('.footer'));
 			var appbody = $('#app-body');
 			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -136,6 +138,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aff9383af16e0f49efa8d800615811e5c"><td class="memItemLeft" align="right" valign="top">static async Task&lt; Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#aff9383af16e0f49efa8d800615811e5c">LoadMessageData</a> (this IConnectorClient client, Message continuationMessage, CancellationToken token=default(CancellationToken))</td></tr>
 <tr class="memdesc:aff9383af16e0f49efa8d800615811e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the message data from connector.  <a href="#aff9383af16e0f49efa8d800615811e5c">More...</a><br /></td></tr>
 <tr class="separator:aff9383af16e0f49efa8d800615811e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57fb4a558e4abcb702f1208352ef5e92"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a57fb4a558e4abcb702f1208352ef5e92">MaxBy&lt; T, R &gt;</a> (this IEnumerable&lt; T &gt; items, Func&lt; T, R &gt; selectRank, IComparer&lt; R &gt; comparer=null)</td></tr>
+<tr class="separator:a57fb4a558e4abcb702f1208352ef5e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abae85330a1ee118a10d4659d02ded16a"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#abae85330a1ee118a10d4659d02ded16a">PollAsync&lt; R &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
 <tr class="memdesc:abae85330a1ee118a10d4659d02ded16a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the dialog task for any work to be done.  <a href="#abae85330a1ee118a10d4659d02ded16a">More...</a><br /></td></tr>
 <tr class="separator:abae85330a1ee118a10d4659d02ded16a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,7 +156,7 @@ Static Public Member Functions</h2></td></tr>
 <div class="textblock"><p>connector client extensions. </p>
 <p>Helper methods for dialog contexts. </p>
 
-<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00040">40</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00041">41</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a99f2d99ced27f0db05cd89081cee3eda"></a>
 <div class="memitem">
@@ -186,7 +190,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00042">42</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00043">43</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
 
 </div>
 </div>
@@ -366,6 +370,48 @@ Static Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A message with appropriate data fields.</dd></dl>
 
 <p>Definition at line <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00135">135</a> of file <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a57fb4a558e4abcb702f1208352ef5e92"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T Microsoft.Bot.Builder.Dialogs.Internals.Extensions.MaxBy&lt; T, R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this IEnumerable&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>items</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; T, R &gt;&#160;</td>
+          <td class="paramname"><em>selectRank</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IComparer&lt; R &gt;&#160;</td>
+          <td class="paramname"><em>comparer</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00048">48</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
 
 </div>
 </div>

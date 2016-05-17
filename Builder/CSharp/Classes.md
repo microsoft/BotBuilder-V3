@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Classes
 permalink: /builder/csharp/classes/
 weight: 530

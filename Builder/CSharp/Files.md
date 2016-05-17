@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Files
 permalink: /builder/csharp/files/
 weight: 540

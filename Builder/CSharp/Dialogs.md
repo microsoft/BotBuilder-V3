@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Dialogs
 permalink: /builder/csharp/dialogs/
 weight: 503
