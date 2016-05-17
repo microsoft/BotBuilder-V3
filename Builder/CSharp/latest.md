@@ -30,10 +30,14 @@ The framework is still in preview mode so developers should expect breaking chan
 * Ensure that LUIS service queries are encoded with UTF8
 * Fixed a Choice prompt bug to rank complete matches higher than partial matches
 
+* * *
+
 ### [v1.2.0.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.0.1)
 
 #### Changes
 * Fixed missing dependencies for Microsoft.Bot.Builder 1.2.0.0 nuget
+
+* * *
 
 ### [v1.2.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.0)
 
@@ -53,6 +57,8 @@ The framework is still in preview mode so developers should expect breaking chan
 #### Bugs
 * Fixed lots of bugs as reported by developers--thanks!
 
+* * *
+
 ### [v1.1.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.1.0)
 
 * __Breaking Change:__ Rename some delegates and methods to be more consistent and to support dynamic field definition. Unless you were using Field or FieldReflector directly this should be transparent.
@@ -64,6 +70,8 @@ The framework is still in preview mode so developers should expect breaking chan
 * Add support for resumption of a conversation
 * Add Facebook OAuth Example
 
+* * *
+
 ### [v1.0.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.0.2)
 
 * Move to IDialog<T> typed for result type
@@ -74,6 +82,8 @@ The framework is still in preview mode so developers should expect breaking chan
 * Fix CommandDialog<T>
 * Update LUIS Models
 * Add ChoiceCase, ChoiceParens to Form template attributes
+
+* * *
 
 ### [v1.0.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.0.1)
 * Fixed LuisDialog to handle null score returned by Luis. This is because of a behavior change in Cortana pre-built apps by [Luis](http://luis.ai)
