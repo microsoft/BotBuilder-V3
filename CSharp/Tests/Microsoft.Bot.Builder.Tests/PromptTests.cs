@@ -156,6 +156,20 @@ namespace Microsoft.Bot.Builder.Tests
             var choices = new[] { "one", "two", "three" };
             await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "two", "two");
         }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Overlapping()
+        {
+            var choices = new[] { "9", "19", "else" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "9", "9");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Overlapping_Reverse()
+        {
+            var choices = new[] { "19", "9", "else" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "9", "9");
+        }
     }
 
     [TestClass]

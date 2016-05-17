@@ -483,21 +483,29 @@ namespace Microsoft.Bot.Builder.Dialogs
                 SetField.CheckNull(nameof(promptOptions.Options), promptOptions.Options);
             }
 
-            public virtual bool IsMatch(T option, string text)
+            public virtual Tuple<bool, int> ScoreMatch(T option, string input)
             {
-                return option.ToString().IndexOf(text.Trim(), StringComparison.CurrentCultureIgnoreCase) >= 0;
+                var trimmed = input.Trim();
+                var text = option.ToString();
+                bool occurs = text.IndexOf(trimmed, StringComparison.CurrentCultureIgnoreCase) >= 0;
+                bool equals = text == trimmed;
+                return occurs
+                    ? Tuple.Create(equals, trimmed.Length)
+                    : null;
             }
 
             protected override bool TryParse(Message message, out T result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
-                    var selected = this.promptOptions.Options
-                        .Where(option => IsMatch(option, message.Text))
-                        .ToArray();
-                    if (selected.Length == 1)
+                    var scores = from option in this.promptOptions.Options
+                                 let score = ScoreMatch(option, message.Text)
+                                 select new { score, option };
+
+                    var winner = scores.MaxBy(s => s.score);
+                    if (winner.score != null)
                     {
-                        result = selected[0];
+                        result = winner.option;
                         return true;
                     }
                 }

@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -42,6 +43,35 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public static T GetValue<T>(this SerializationInfo info, string name)
         {
             return (T)info.GetValue(name, typeof(T));
+        }
+
+        public static T MaxBy<T, R>(this IEnumerable<T> items, Func<T, R> selectRank, IComparer<R> comparer = null)
+        {
+            comparer = comparer ?? Comparer<R>.Default;
+
+            var bestItem = default(T);
+            var bestRank = default(R);
+            using (var item = items.GetEnumerator())
+            {
+                if (item.MoveNext())
+                {
+                    bestItem = item.Current;
+                    bestRank = selectRank(item.Current);
+                }
+
+                while (item.MoveNext())
+                {
+                    var rank = selectRank(item.Current);
+                    var compare = comparer.Compare(rank, bestRank);
+                    if (compare > 0)
+                    {
+                        bestItem = item.Current;
+                        bestRank = rank;
+                    }
+                }
+            }
+
+            return bestItem;
         }
     }
 }
