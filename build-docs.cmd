@@ -10,7 +10,7 @@ GOTO :end
 cls
 ECHO [Building docs and serving them locally]
 ECHO [Wait until the localhost url is ready (it might take a while), then copy the url and visit it with the browser]
-call bundle exec jekyll serve --watch
+call bundle exec jekyll serve --watch --incremental
 GOTO :end
 
 :fuseserver01
