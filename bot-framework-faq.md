@@ -12,7 +12,7 @@ parent1: none
 
 ## What is the Microsoft Bot Framework?
 
-The Microsoft Bot Framework provides just what you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+The Microsoft Bot Framework provides just what you need to build and connect intelligent bots that interact naturally wherever your users are talking, from text/sms to Skype, Slack, Facebook Messenger, Kik, Office 365 mail and other popular services.
 
 ![Bot Framework Diagram](/images/bot_framework_wht_bgrnd.png)
 
@@ -23,7 +23,7 @@ The Bot Framework has a number of components including the Bot Connector, Bot Bu
 ### Bot Connector
 {:.no_toc}
 
-The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 365 mail, Skype, Slack, and other services. Simply register your bot, configure desired channels and publish in the Bot Directory. 
+The Bot Connector lets you connect your bot(s) seamlessly to text/sms, Office 365 mail, Skype, Slack, Facebook Messenger, Kik, and other services. Simply register your bot, configure desired channels and publish in the Bot Directory. 
 
 ![Bot Connector Diagram](/images/bot_connector_diagram.png)
 
@@ -54,7 +54,7 @@ The Conversational User Interface, or CUI, has arrived.
 
 A plethora of chit-chat bots are offering to do things for us in our various communication channels like Skype and GroupMe. A series of personal agent services have emerged that leverage machines, humans or both to complete tasks for us (x.ai, Clara Labs, Fancy Hands, Task Rabbit, Facebook “M” to name a few). 
 
-The primary interface for these experiences is email, text or voice. Conversation-driven UI now enables us to do everything from grabbing a taxi, to paying the electric bill or sending money to a friend. Offerings such as Siri, Google Now and Cortana demonstrate value to millions of people every day, particularly on mobile devices where the CUI is often superior to the GUI or complements it. 
+The primary interface for these experiences is email, text, buttons or voice. Conversation-driven UI now enables us to do everything from grabbing a taxi, to paying the electric bill or sending money to a friend. Offerings such as Siri, Google Now and Cortana demonstrate value to millions of people every day, particularly on mobile devices where the CUI is often superior to the GUI or complements it. 
 
 Bots and conversation agents are rapidly becoming an integral part of one’s digital experience – they are as vital a way for users to interact with a service or application as is a web site or a mobile experience. 
 
@@ -145,7 +145,8 @@ Supported channels as of March 30, 2016 are:
 5. [GroupMe](http://groupme.com/)
 6. [Telegram](http://telegram.org/)
 7. [Facebook Messenger](http://www.messenger.com/)
-8. Web (via the Bot Framework embeddable web chat control).
+8. [Kik](https://www.kik.com/)
+9. Web (via the Bot Framework embeddable web chat control).
 
 ## When will you add more conversation experiences to Bot Connector?
 
@@ -169,7 +170,7 @@ A variety of factors contribute to channel support, among them SDK availability,
 
 ## Bot Connector sounds a little too good to be true. I've heard the promise of write once, run anywhere before. Does Bot Connector really just provide a lowest common denominator solution that won't be satisfying in the end?
 
-For the vast majority of bot interactions (text/sms, image, or card) Bot Connector provides high quality and broad reach to many of the world’s top conversation experiences while also providing a way to configure, manage and make your bot discoverable through the Bot Framework website and Bot Directory. Additionally, by participating in the framework your bot is enabled with additional capabilities via other Microsoft services, such as translation.
+For the vast majority of bot interactions (text/sms, image, button, or card) Bot Connector provides high quality and broad reach to many of the world’s top conversation experiences while also providing a way to configure, manage and make your bot discoverable through the Bot Framework website and Bot Directory. Additionally, by participating in the framework your bot is enabled with additional capabilities via other Microsoft services, such as translation. Of course, both the Bot Connector and Bot Builder SDKs provide reach and complete control; if you wish to tailor your bot for a particular channel's capabilities you can, providing you with the flexibility you need to deliver the best bot experience to your customers, wherever they're conversing.
 
 ## What does the Bot Builder SDK provide to developers? How does it work?
 
@@ -194,7 +195,7 @@ The Bot Directory, the public directory of bots registered with Bot Framework, i
 
 ## You state that the Bot Directory is “coming soon” – when will it be available?
 
-Effective immediately, developers can elect to make their bots public and submit them for approval during bot registration. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
+Effective immediately, developers can elect to make their bots public and submit them for review during bot registration. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
 
 ## How does Microsoft Bot Framework compare with other bot development tools?
 
