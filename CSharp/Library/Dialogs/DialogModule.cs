@@ -75,7 +75,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // components not marked as [Serializable]
 
             builder
-                .Register(c => new DetectEmulatorFactory(c.Resolve<Message>(), new Uri("http://localhost:9000")))
+                .RegisterType<ConnectorClientCredentials>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder
+                .Register(c => new DetectEmulatorFactory(c.Resolve<Message>(), new Uri("http://localhost:9000"), c.Resolve<ConnectorClientCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 

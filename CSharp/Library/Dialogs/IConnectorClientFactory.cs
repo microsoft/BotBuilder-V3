@@ -54,42 +54,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IConnectorClient Make();
     }
 
-    /// <summary>
-    /// Type of the connector deployment that the bot is talking to.
-    /// </summary>
-    public enum ConnectorType
-    {
-        Emulator, 
-        Cloud
-    }
-
     public sealed class DetectEmulatorFactory : IConnectorClientFactory
     {
         private readonly Uri emulator;
-        private readonly bool? isEmulator; 
-        public DetectEmulatorFactory(Message message, Uri emulator)
+        private readonly bool? isEmulator;
+        private readonly ConnectorClientCredentials credentials;
+        public DetectEmulatorFactory(Message message, Uri emulator, ConnectorClientCredentials credentials)
         {
             SetField.CheckNull(nameof(message), message);
             var channel = message.From;
             this.isEmulator = channel?.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
             SetField.NotNull(out this.emulator, nameof(emulator), emulator);
-        }
-
-        public DetectEmulatorFactory(ConnectorType connectorType, Uri emulator)
-        {
-            this.isEmulator = connectorType == ConnectorType.Emulator; 
-            SetField.NotNull(out this.emulator, nameof(emulator), emulator);
+            SetField.NotNull(out this.credentials, nameof(credentials), credentials);
         }
 
         IConnectorClient IConnectorClientFactory.Make()
         {
             if (isEmulator ?? false)
             {
-                return new ConnectorClient(this.emulator, new ConnectorClientCredentials());
+                return new ConnectorClient(this.emulator, this.credentials);
             }
             else
             {
-                return new ConnectorClient();
+                var client = new ConnectorClient();
+                client.Credentials = this.credentials;
+                return client;
             }
         }
     }
