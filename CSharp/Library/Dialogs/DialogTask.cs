@@ -205,6 +205,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
+        async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
+        {
+            IDialogStack stack = this;
+            stack.Call(child, resume);
+            await stack.PollAsync(token);
+            await (this as IPostToBot).PostAsync(item, token);
+        }
+
         void IDialogStack.Done<R>(R value)
         {
             this.wait = this.fiber.Done(value);

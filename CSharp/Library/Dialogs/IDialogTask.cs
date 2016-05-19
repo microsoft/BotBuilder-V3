@@ -63,6 +63,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void Call<R>(IDialog<R> child, ResumeAfter<R> resume);
 
         /// <summary>
+        /// Call a child dialog, add it to the top of the stack and post the item to the child dialog.
+        /// </summary>
+        /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
+        /// <typeparam name="T">The type of the item posted to child dialog.</typeparam>
+        /// <param name="child">The child dialog.</param>
+        /// <param name="resume">The method to resume when the child dialog has completed.</param>
+        /// <param name="item">The item that will be posted to child dialog.</param>
+        /// <param name="token">A cancellation token.</param>
+        /// <returns>A task representing the Forward operation.</returns>
+        Task Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token);
+
+        /// <summary>
         /// Complete the current dialog and return a result to the parent dialog.
         /// </summary>
         /// <typeparam name="R">The type of the result dialog.</typeparam>
