@@ -41,7 +41,9 @@ Example Message:
     {
         "type": "Message",
         "language": "en",
-        "text": "I send you awesome message",
+        "from": { "ChannelID":"email", "Address":"mybot@gmail.com"}"
+        "to": { "ChannelID":"email", "Address":"joe@gmail.com"}"
+        "conversationId":"123123123123",
         "channelData":
         {
             "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
@@ -75,6 +77,9 @@ Example Message:
         "type": "Message",
         "language": "en",
         "text": "This is a test",
+        "conversationId":"123123123123",
+        "from": { "ChannelID":"slack", "Address":"12345"}
+        "to": { "ChannelID":"slack", "Address":"67890"}
         "channelData":
         {
             "attachments": [
@@ -131,6 +136,9 @@ Example Message:
         "type": "Message",
         "language": "en",
         "text": "This is a test",
+        "conversationId":"123123123123",
+        "from": { "ChannelID":"facebook", "Address":"12345"}
+        "to": { "ChannelID":"facebook", "Address":"67890"}
         "channelData":
         {
             "notification_type" : "NO_PUSH",
@@ -220,6 +228,9 @@ Example Message:
 {% highlight json %}
 {
     "type": "Message",
+    "from": { "ChannelID":"telegram", "Address":"12345"}
+    "to": { "ChannelID":"telegram", "Address":"67890"}
+    "conversationId":"123123123123",
     "channelData":
     {
         "method": "sendSticker",
