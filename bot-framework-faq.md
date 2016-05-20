@@ -193,6 +193,10 @@ The Bot Directory includes featured bots and is searchable to aid discovery. Dev
 
 The Bot Directory, the public directory of bots registered with Bot Framework, is now open to developers for bot submission and review. The Bot Directory itself isn’t live yet, but when it is available, users will be able to discover, try and add bots to their favorite conversation experiences.
 
+## Do I have to publish my bot to the Bot Directory in order for my bot to be available to users?
+
+No, publishing your bot is an optional process. Certain channels do limit the number of users allowed to interact with a bot until a review process has been completed - this process is managed by the channel, not Microsoft Bot Framework.
+
 ## You state that the Bot Directory is “coming soon” – when will it be available?
 
 Effective immediately, developers can elect to make their bots public and submit them for review during bot registration. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
