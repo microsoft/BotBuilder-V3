@@ -52,9 +52,6 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {

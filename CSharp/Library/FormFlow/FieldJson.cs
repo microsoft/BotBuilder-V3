@@ -32,7 +32,6 @@
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +78,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="schema">Schema for object.</param>
         /// <param name="name">Name of field within schema.</param>
-        public FieldJson(JSchema schema, string name)
+        public FieldJson(JObject schema, string name)
             : base(name, FieldRole.Value)
         {
             _schema = schema;
@@ -89,19 +88,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             ProcessAnnotations(schema, fieldSchema, eltSchema);
             var fieldName = name.Split('.').Last();
             JToken date;
-            if (eltSchema.ExtensionData.TryGetValue("DateTime", out date) && date.Value<bool>())
+            if (eltSchema.TryGetValue("DateTime", out date) && date.Value<bool>())
             {
                 SetType(typeof(DateTime));
             }
             else
             {
-                SetType(eltSchema.Enum.Any() ? null : ToType(eltSchema));
+                SetType(eltSchema["enum"] != null && eltSchema["enum"].Any() ? null : ToType(eltSchema));
             }
-            SetAllowsMultiple(fieldSchema.Type.HasValue && fieldSchema.Type.Value.HasFlag(JSchemaType.Array));
+            SetAllowsMultiple(IsType(fieldSchema, "array"));
             SetFieldDescription(AString(fieldSchema, "Describe") ?? Language.CamelCase(fieldName));
             var terms = Strings(fieldSchema, "Terms");
             JToken maxPhrase;
-            if (terms != null && fieldSchema.ExtensionData.TryGetValue("MaxPhrase", out maxPhrase))
+            if (terms != null && fieldSchema.TryGetValue("MaxPhrase", out maxPhrase))
             {
                 terms = (from seed in terms
                          from gen in Language.GenerateTerms(seed, (int)maxPhrase)
@@ -110,7 +109,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetFieldTerms(terms ?? Language.GenerateTerms(Language.CamelCase(fieldName), 3));
             ProcessEnum(eltSchema);
             SetOptional(optional);
-            SetIsNullable(fieldSchema.Type.HasValue && fieldSchema.Type.Value.HasFlag(JSchemaType.Null));
+            SetIsNullable(IsType(fieldSchema, "null"));
         }
 
         #region IFieldState
@@ -185,15 +184,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         #endregion
 
-        protected JSchema FieldSchema(string path, out bool optional)
+        protected JObject FieldSchema(string path, out bool optional)
         {
             var schema = _schema;
             var parts = path.Split('.');
             optional = true;
             foreach (var part in parts)
             {
-                optional = !schema.Required.Contains(part);
-                if (!schema.Properties.TryGetValue(part, out schema))
+                optional = schema["required"] != null && schema["required"].Contains(part);
+                schema = (JObject)((JObject)schema["properties"])[part];
+                if (part == null)
                 {
                     throw new MissingFieldException($"{part} is not a property in your schema.");
                 }
@@ -201,57 +201,43 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return schema;
         }
 
-        protected JSchema ElementSchema(JSchema schema)
-        {
-            JSchema result = schema;
-            if (schema.Type.HasValue && schema.Type.Value.HasFlag(JSchemaType.Array)
-                && schema.Items.Count() == 1 && schema.Items.First().Type.HasValue)
-            {
-                result = schema.Items.First();
-            }
-            return result;
-        }
-
-        protected Type ToType(JSchema schema)
+        protected Type ToType(JObject schema)
         {
             Type type = null;
-            if (schema.Type.HasValue)
+            if (IsType(schema, "boolean")) type = typeof(bool);
+            else if (IsType(schema, "integer")) type = typeof(long);
+            else if (IsType(schema, "number")) type = typeof(double);
+            else if (IsType(schema, "string")) type = typeof(string);
+            else
             {
-                if (schema.Type.Value.HasFlag(JSchemaType.Boolean)) type = typeof(bool);
-                else if (schema.Type.Value.HasFlag(JSchemaType.Integer)) type = typeof(long);
-                else if (schema.Type.Value.HasFlag(JSchemaType.Number)) type = typeof(double);
-                else if (schema.Type.Value.HasFlag(JSchemaType.String)) type = typeof(string);
-            }
-            if (type == null)
-            {
-                throw new ArgumentException($"{schema.Id} does not have a valid C# type.");
+                throw new ArgumentException($"{schema} does not have a valid C# type.");
             }
             return type;
         }
 
-        protected string[] Strings(JSchema schema, string field)
+        protected string[] Strings(JObject schema, string field)
         {
             string[] result = null;
             JToken array;
-            if (schema.ExtensionData.TryGetValue(field, out array))
+            if (schema.TryGetValue(field, out array))
             {
                 result = array.ToObject<string[]>();
             }
             return result;
         }
 
-        protected string AString(JSchema schema, string field)
+        protected string AString(JObject schema, string field)
         {
             string result = null;
             JToken astring;
-            if (schema.ExtensionData.TryGetValue(field, out astring))
+            if (schema.TryGetValue(field, out astring))
             {
                 result = (string)astring;
             }
             return result;
         }
 
-        protected void ProcessAnnotations(JSchema schema, JSchema fieldSchema, JSchema eltSchema)
+        protected void ProcessAnnotations(JObject schema, JObject fieldSchema, JObject eltSchema)
         {
             ProcessTemplates(schema);
             ProcessTemplates(fieldSchema);
@@ -259,10 +245,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             ProcessNumeric(fieldSchema);
         }
 
-        protected void ProcessTemplates(JSchema schema)
+        protected void ProcessTemplates(JObject schema)
         {
             JToken templates;
-            if (schema.ExtensionData.TryGetValue("Templates", out templates))
+            if (schema.TryGetValue("Templates", out templates))
             {
                 foreach (JProperty template in templates.Children())
                 {
@@ -275,80 +261,86 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        protected void ProcessPrompt(JSchema schema)
+        protected void ProcessPrompt(JObject schema)
         {
             JToken prompt;
-            if (schema.ExtensionData.TryGetValue("Prompt", out prompt))
+            if (schema.TryGetValue("Prompt", out prompt))
             {
                 SetPrompt((PromptAttribute)ProcessTemplate(prompt, new PromptAttribute()));
             }
         }
 
-        protected void ProcessNumeric(JSchema schema)
+        protected void ProcessNumeric(JObject schema)
         {
-            if (schema.Minimum.HasValue || schema.Maximum.HasValue)
+            JToken token;
+            double min = -double.MaxValue, max = double.MaxValue;
+            if (schema.TryGetValue("minimum", out token)) min = (double)token;
+            if (schema.TryGetValue("maximum", out token)) max = (double)token;
+            if (min != -double.MaxValue || max != double.MaxValue)
             {
-                SetLimits(schema.Minimum ?? -double.MaxValue,
-                    schema.Maximum ?? double.MaxValue);
+                SetLimits(min, max);
             }
         }
 
-        protected void ProcessEnum(JSchema schema)
+        protected void ProcessEnum(JObject schema)
         {
-            var enums = (from val in schema.Enum select (string)val);
-            var toDescription = new Dictionary<string, string>();
-            var toTerms = new Dictionary<string, string[]>();
-            var toMaxPhrase = new Dictionary<string, int>();
-            JToken values;
-            if (schema.ExtensionData.TryGetValue("Values", out values))
+            if (schema["enum"] != null)
             {
-                foreach (JProperty prop in values.Children())
+                var enums = (from val in (JArray)schema["enum"] select (string)val);
+                var toDescription = new Dictionary<string, string>();
+                var toTerms = new Dictionary<string, string[]>();
+                var toMaxPhrase = new Dictionary<string, int>();
+                JToken values;
+                if (schema.TryGetValue("Values", out values))
                 {
-                    var key = prop.Name;
-                    if (!enums.Contains(key))
+                    foreach (JProperty prop in values.Children())
                     {
-                        throw new ArgumentException($"{key} is not in enumeration.");
-                    }
-                    var desc = (JObject)prop.Value;
-                    JToken description;
-                    if (desc.TryGetValue("Describe", out description))
-                    {
-                        toDescription.Add(key, (string)description);
-                    }
-                    JToken terms;
-                    if (desc.TryGetValue("Terms", out terms))
-                    {
-                        toTerms.Add(key, terms.ToObject<string[]>());
-                    }
-                    JToken maxPhrase;
-                    if (desc.TryGetValue("MaxPhrase", out maxPhrase))
-                    {
-                        toMaxPhrase.Add(key, (int)maxPhrase);
+                        var key = prop.Name;
+                        if (!enums.Contains(key))
+                        {
+                            throw new ArgumentException($"{key} is not in enumeration.");
+                        }
+                        var desc = (JObject)prop.Value;
+                        JToken description;
+                        if (desc.TryGetValue("Describe", out description))
+                        {
+                            toDescription.Add(key, (string)description);
+                        }
+                        JToken terms;
+                        if (desc.TryGetValue("Terms", out terms))
+                        {
+                            toTerms.Add(key, terms.ToObject<string[]>());
+                        }
+                        JToken maxPhrase;
+                        if (desc.TryGetValue("MaxPhrase", out maxPhrase))
+                        {
+                            toMaxPhrase.Add(key, (int)maxPhrase);
+                        }
                     }
                 }
-            }
-            foreach (var key in enums)
-            {
-                string description;
-                if (!toDescription.TryGetValue(key, out description))
+                foreach (var key in enums)
                 {
-                    description = Language.CamelCase(key);
-                }
-                AddDescription(key, description);
+                    string description;
+                    if (!toDescription.TryGetValue(key, out description))
+                    {
+                        description = Language.CamelCase(key);
+                    }
+                    AddDescription(key, description);
 
-                string[] terms;
-                int maxPhrase;
-                if (!toTerms.TryGetValue(key, out terms))
-                {
-                    terms = Language.GenerateTerms(description, 3);
+                    string[] terms;
+                    int maxPhrase;
+                    if (!toTerms.TryGetValue(key, out terms))
+                    {
+                        terms = Language.GenerateTerms(description, 3);
+                    }
+                    else if (toMaxPhrase.TryGetValue(key, out maxPhrase))
+                    {
+                        terms = (from seed in terms
+                                 from gen in Language.GenerateTerms(seed, maxPhrase)
+                                 select gen).ToArray<string>();
+                    }
+                    AddTerms(key, terms);
                 }
-                else if (toMaxPhrase.TryGetValue(key, out maxPhrase))
-                {
-                    terms = (from seed in terms
-                             from gen in Language.GenerateTerms(seed, maxPhrase)
-                             select gen).ToArray<string>();
-                }
-                AddTerms(key, terms);
             }
         }
 
@@ -381,7 +373,59 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return result;
         }
 
-        protected JSchema _schema;
+
+        internal static bool IsType(JObject schema, string type)
+        {
+            bool isType = false;
+            var jtype = schema["type"];
+            if (jtype != null)
+            {
+                if (jtype is JArray)
+                {
+                    isType = jtype.Values().Contains(type);
+                }
+                else
+                {
+                    isType = (string)jtype == type;
+                }
+            }
+            return isType;
+        }
+
+        internal static bool IsPrimitiveType(JObject schema)
+        {
+            var isPrimitive = schema["enum"] != null && schema["enum"].Any();
+            if (!isPrimitive)
+            {
+                isPrimitive =
+                    IsType(schema, "boolean")
+                    || IsType(schema, "integer")
+                    || IsType(schema, "number")
+                    || IsType(schema, "string")
+                    || (schema["DateTime"] != null && (bool)schema["DateTime"]);
+            }
+            return isPrimitive;
+        }
+
+        internal static JObject ElementSchema(JObject schema)
+        {
+            JObject result = schema;
+            if (IsType(schema, "array"))
+            {
+                var items = schema["items"];
+                if (items is JArray)
+                {
+                    result = (JObject)((JArray)items).First();
+                }
+                else
+                {
+                    result = (JObject)items;
+                }
+            }
+            return result;
+        }
+
+        protected JObject _schema;
     }
 }
 
@@ -389,44 +433,25 @@ namespace Microsoft.Bot.Builder.FormFlow
 {
     public static partial class Extensions
     {
-        internal static void Fields(JSchema schema, string prefix, IList<string> fields)
+        internal static void Fields(JObject schema, string prefix, IList<string> fields)
         {
-            foreach (var property in schema.Properties)
+            if (schema["properties"] != null)
             {
-                var path = (prefix == null ? property.Key : $"{prefix}.{property.Key}");
-                var childSchema = property.Value;
-                if (childSchema.Type.HasValue && childSchema.Type.Value.HasFlag(JSchemaType.Array))
+                foreach (JProperty property in schema["properties"])
                 {
-                    if (childSchema.Items.Count() > 0
-                        && IsPrimitiveType(childSchema.Items.First()))
+                    var path = (prefix == null ? property.Name : $"{prefix}.{property.Name}");
+                    var childSchema = (JObject)property.Value;
+                    var eltSchema = FieldJson.ElementSchema(childSchema);
+                    if (FieldJson.IsPrimitiveType(eltSchema))
                     {
                         fields.Add(path);
                     }
-                }
-                else if (IsPrimitiveType(childSchema))
-                {
-                    fields.Add(path);
-                }
-                else
-                {
-                    Fields(childSchema, path, fields);
+                    else
+                    {
+                        Fields(childSchema, path, fields);
+                    }
                 }
             }
-        }
-
-        internal static bool IsPrimitiveType(JSchema schema)
-        {
-            var isPrimitive = schema.Enum.Any();
-            if (!isPrimitive && schema.Type.HasValue)
-            {
-                var type = schema.Type.Value;
-                isPrimitive =
-                    type.HasFlag(JSchemaType.Boolean)
-                    || type.HasFlag(JSchemaType.Integer)
-                    || type.HasFlag(JSchemaType.Number)
-                    || type.HasFlag(JSchemaType.String);
-            }
-            return isPrimitive;
         }
 
         /// <summary>
@@ -440,7 +465,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
         /// for defining your fields.
         /// </remarks>
-        public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JSchema schema, IEnumerable<string> exclude = null)
+        public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JObject schema, IEnumerable<string> exclude = null)
         {
             var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
             var fields = new List<string>();
@@ -468,7 +493,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
         /// for defining your fields.
         /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JSchema schema, string name, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
+        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
         {
             var field = new FieldJson(schema, name);
             if (active != null)
@@ -496,7 +521,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
         /// for defining your fields.
         /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JSchema schema, string name, string prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
+        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, string prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
         {
             return builder.Field(schema, name, new PromptAttribute(prompt), active, validate);
         }
@@ -515,7 +540,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
         /// for defining your fields.
         /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JSchema schema, string name, PromptAttribute prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
+        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, PromptAttribute prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
         {
             var field = new FieldJson(schema, name);
             field.SetPrompt(prompt);
