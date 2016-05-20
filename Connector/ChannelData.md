@@ -41,8 +41,8 @@ Example Message:
     {
         "type": "Message",
         "language": "en",
-        "from": { "channelID":"email", "address":"mybot@gmail.com"}",
-        "to": { "channelID":"email", "address":"joe@gmail.com"}",
+        "from": { "channelID":"email", "address":"mybot@gmail.com"},
+        "to": { "channelID":"email", "address":"joe@gmail.com"},
         "conversationId":"123123123123",
         "channelData":
         {
