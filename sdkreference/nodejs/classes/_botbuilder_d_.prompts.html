@@ -173,6 +173,7 @@
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.prompts.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.prompts.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_botbuilder_d_.prompts.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.prompts.html#attachment" class="tsd-kind-icon">attachment</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.prompts.html#choice" class="tsd-kind-icon">choice</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.prompts.html#configure" class="tsd-kind-icon">configure</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.prompts.html#confirm" class="tsd-kind-icon">confirm</a></li>
@@ -197,7 +198,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#begin">begin</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1178">botbuilder.d.ts:1178</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1151">botbuilder.d.ts:1151</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -241,7 +242,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#compareconfidence">compareConfidence</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1205">botbuilder.d.ts:1205</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1178">botbuilder.d.ts:1178</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -294,7 +295,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#dialogresumed">dialogResumed</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1193">botbuilder.d.ts:1193</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1166">botbuilder.d.ts:1166</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -338,7 +339,7 @@
 												<aside class="tsd-sources">
 													<p>Overwrites <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#replyreceived">replyReceived</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1327">botbuilder.d.ts:1327</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1300">botbuilder.d.ts:1300</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -360,6 +361,53 @@
 										</ul>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+										<a name="attachment" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagStatic">Static</span> attachment</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+											<li class="tsd-signature tsd-kind-icon">attachment<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, prompt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.ipromptoptions.html" class="tsd-signature-type">IPromptOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1375">botbuilder.d.ts:1375</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Prompts the user to upload a file attachment.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>session: <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Session object for the current conversation.</p>
+														</div>
+													</li>
+													<li>
+														<h5>prompt: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<ul>
+																<li><strong>prompt:</strong> <em>{string}</em> - Initial message to send the user.</li>
+																<li><strong>prompt:</strong> <em>{string[]}</em> - Array of possible messages to send user. One will be chosen at random.</li>
+																<li><strong>prompt:</strong> <em>{IMessage}</em> - Initial message to send the user. Message can contain attachments.</li>
+															</ul>
+														</div>
+													</li>
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_botbuilder_d_.ipromptoptions.html" class="tsd-signature-type">IPromptOptions</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Optional parameters to control the behaviour of the prompt.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 										<a name="choice" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagStatic">Static</span> choice</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -369,7 +417,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1380">botbuilder.d.ts:1380</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1353">botbuilder.d.ts:1353</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -426,7 +474,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1333">botbuilder.d.ts:1333</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1306">botbuilder.d.ts:1306</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -457,7 +505,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1365">botbuilder.d.ts:1365</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1338">botbuilder.d.ts:1338</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -504,7 +552,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1354">botbuilder.d.ts:1354</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1327">botbuilder.d.ts:1327</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -551,7 +599,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1343">botbuilder.d.ts:1343</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1316">botbuilder.d.ts:1316</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -592,7 +640,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1391">botbuilder.d.ts:1391</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1364">botbuilder.d.ts:1364</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -660,6 +708,9 @@
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 													<a href="_botbuilder_d_.prompts.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+													<a href="_botbuilder_d_.prompts.html#attachment" class="tsd-kind-icon">attachment</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 													<a href="_botbuilder_d_.prompts.html#choice" class="tsd-kind-icon">choice</a>
