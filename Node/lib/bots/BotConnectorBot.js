@@ -13,7 +13,7 @@ var BotConnectorBot = (function (_super) {
     function BotConnectorBot(options) {
         _super.call(this);
         this.options = {
-            endpoint: process.env['endpoint'] || 'https://api.botframework.com',
+            endpoint: process.env['endpoint'],
             appId: process.env['appId'] || '',
             appSecret: process.env['appSecret'] || '',
             defaultDialogId: '/',
@@ -148,14 +148,12 @@ var BotConnectorBot = (function (_super) {
                     };
                     data.perUserConversationData[consts.Data.SessionState] = ses.sessionState;
                     _this.saveData(userId, sessionId, data, reply, function (err) {
+                        var endpoint;
                         if (ses.message.to.channelId == 'emulator') {
-                            if (_this.options.endpoint) {
-                                var settings = _this.options;
-                            } else {
-                                var settings = { endpoint: 'http://localhost:9000' };
-                            }
-                        } else {
-                            var settings = _this.options;
+                            endpoint = _this.options.endpoint || 'http://localhost:9000';
+                        }
+                        else {
+                            endpoint = _this.options.endpoint || 'https://api.botframework.com';
                         }
                         if (res) {
                             _this.emit('reply', reply);
@@ -172,7 +170,7 @@ var BotConnectorBot = (function (_super) {
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
                             _this.emit('reply', reply);
-                            post(settings, '/bot/v1.0/messages', reply, function (err) {
+                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err) {
                                 if (err) {
                                     _this.emit('error', err);
                                 }
@@ -182,7 +180,7 @@ var BotConnectorBot = (function (_super) {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             _this.emit('send', reply);
-                            post(settings, '/bot/v1.0/messages', reply, function (err) {
+                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err) {
                                 if (err) {
                                     _this.emit('error', err);
                                 }
@@ -319,10 +317,10 @@ var BotConnectorSession = (function (_super) {
     return BotConnectorSession;
 })(session.Session);
 exports.BotConnectorSession = BotConnectorSession;
-function post(settings, path, body, callback) {
+function post(settings, endpoint, path, body, callback) {
     var options = {
         method: 'POST',
-        url: settings.endpoint + path,
+        url: endpoint + path,
         body: body,
         json: true
     };

@@ -1,13 +1,18 @@
-function maxButtons(session) {
-    var account = session.message.from || session.message.to;
-    switch (account.channelId.toLowerCase()) {
+function preferButtons(session, choiceCnt, rePrompt) {
+    switch (getChannelId(session)) {
         case 'facebook':
-            return 3;
+            return (choiceCnt <= 3);
         case 'telegram':
+            return !rePrompt;
         case 'kik':
-            return 100;
+            return true;
         default:
-            return 0;
+            return false;
     }
 }
-exports.maxButtons = maxButtons;
+exports.preferButtons = preferButtons;
+function getChannelId(session) {
+    var account = session.message.from || session.message.to;
+    return account.channelId.toLowerCase();
+}
+exports.getChannelId = getChannelId;

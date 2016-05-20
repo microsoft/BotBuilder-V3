@@ -417,6 +417,37 @@ export interface IPromptsOptions {
     defaultRetryPrompt?: string;
 }
 
+/** Context information passed to field related handlers. */
+export interface IFieldConext {
+    userData: any;
+    form: any;
+    field: string;
+}
+
+/**
+ * Handler that gets called anytime a field is about to invoke a prompt.
+ */
+export interface IFieldPromptHandler {
+    /**
+     * @param context Contextual information related to the current field.
+     * @param next Function to call to continue execution of the prompt. 
+     * Passing _true_ for __skip__ will cause the current field to be skipped.
+     */
+    (context: IFieldConext, next: (skip: boolean) => void): void;
+}
+
+/** Options passed to form fields. */
+export interface IFieldOptions extends IPromptOptions {
+    /** 
+     * Called anytime a given field is about to invoke the prompt. This function lets the 
+     * developer progromatically determine if a prompt should be skipped or not. 
+     * 
+     * The handler can also manipulate the forms current values. For instance a fields value 
+     * could be pulled from context.userData if not already specified on the form.
+     */
+    onPrompt?: IFieldPromptHandler;
+}
+
 /** A recognized intent. */
 export interface IIntent {
     /** Intent that was recognized. */
@@ -1318,7 +1349,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static number(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
@@ -1329,7 +1360,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static confirm(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
@@ -1344,7 +1375,7 @@ export class Prompts extends Dialog {
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
      * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static choice(session: Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void;
 
@@ -1355,9 +1386,87 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static time(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
+}
+
+/**
+ * 
+ */
+export class Fields {
+    /**
+     * Captures from the user a raw string of text and saves it to a field on a form. 
+     * @param field Name of the field to save the users response to.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * @param options Optional parameters to control the behaviour of the field.
+     */
+    static text(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
+    
+    /**
+     * Prompts the user to enter a number and saves it to a field on a form.
+     * @param field Name of the field to save the users response to.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * @param options Optional parameters to control the behaviour of the field.
+     */
+    static number(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
+
+    /**
+     * Prompts the user to enter a boolean yes/no response and saves their answer to a field on a form.
+     * @param field Name of the field to save the users response to.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * @param options Optional parameters to control the behaviour of the field.
+     */
+    static confirm(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
+
+    /**
+     * Prompts the user to choose from a list of options and saves their selection to a field on a form.
+     * @param field Name of the field to save the users response to.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * @param choices 
+     * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
+     * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
+     * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
+     * @param options Optional parameters to control the behaviour of the field.
+     */
+    static choice(field: string, prompt: string|string[], choices: string|Object|string[], options?: IFieldOptions): IDialogWaterfallStep;
+
+    /**
+     * Prompts the user to enter a time saves it to a field on a form as a timestamp.
+     * @param field Name of the field to save the users response to.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * @param options Optional parameters to control the behaviour of the field.
+     */
+    static time(field: string, prompt: string|string[], options?: IPromptOptions): IDialogWaterfallStep;
+    
+    /** 
+     * Finalizes the form by saving the response from the last prompt and then passes the completed
+     * form to the next step of the waterfall for processing. 
+     */
+    static endForm(): IDialogWaterfallStep;
+    
+    /** 
+     * Finalizes the form by saving the response from the last prompt and then returns the completed
+     * form to the parent dialog by calling [endDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
+     */
+    static returnForm(): IDialogWaterfallStep;
+
+    /**
+     * Handler for IFieldOptions.onPrompt that will copy a default value from Session.userData if 
+     * a field is empty. The default value must be in a property with the same name as the field. 
+     * If successfully copied the prompt will be skipped. 
+     */
+    static onPromptUseDefault(): IFieldPromptHandler
 }
 
 /**

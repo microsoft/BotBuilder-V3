@@ -2,7 +2,7 @@
   "name": "botbuilder",
   "author": "Microsoft Corp.",
   "description": "Bot Builder is a dialog system for building rich bots on virtually any platform.",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "license": "MIT",
   "keywords": [
     "botbuilder",

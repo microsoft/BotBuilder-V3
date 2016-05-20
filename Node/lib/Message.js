@@ -47,8 +47,13 @@ var Message = (function () {
         return this;
     };
     Message.randomPrompt = function (prompts) {
-        var i = Math.floor(Math.random() * prompts.length);
-        return prompts[i];
+        if (Array.isArray(prompts)) {
+            var i = Math.floor(Math.random() * prompts.length);
+            return prompts[i];
+        }
+        else {
+            return prompts;
+        }
     };
     Message.composePrompt = function (ses, prompts, args) {
         var connector = '';
