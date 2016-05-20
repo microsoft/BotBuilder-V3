@@ -105,16 +105,18 @@
           <target state="translated">Le choix actuel ("c"); courant; c; choix actuel</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
-          <target state="translated">non;pas;rien</target>
+          <source>No;n;nope;2</source>
+          <target state="needs-review-translation">non;pas;rien;2</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
           <target state="translated">Pas de préférence;non; pas; aucun; aucune;tout de même;ça m'est égal</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
-          <target state="translated">Oui;bien sûr;ok; si</target>
+          <source>Yes;y;sure;ok;yep;1</source>
+          <target state="needs-review-translation">Oui;bien sûr;ok; si;1</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

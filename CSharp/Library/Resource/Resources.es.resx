@@ -88,13 +88,13 @@
     <value>Opción actual ('a'); corriente; a; elección actual, sin cambios</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>No; n;</value>
+    <value>No; n;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Sin preferencia; no; no; nada; no me importa</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>Sí;claro;seguro;ok; sí;si</value>
+    <value>Sí;claro;seguro;ok; sí;si;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>No entendí. Di algo como respuesta.</value>

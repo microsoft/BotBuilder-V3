@@ -277,7 +277,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No;n;nope.
+        ///   Looks up a localized string similar to No;n;nope;2.
         /// </summary>
         internal static string MatchNo {
             get {
@@ -295,7 +295,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes;y;sure;ok;yep.
+        ///   Looks up a localized string similar to Yes;y;sure;ok;yep;1.
         /// </summary>
         internal static string MatchYes {
             get {

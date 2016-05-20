@@ -87,13 +87,13 @@
     <value>Текущий выбор(т)</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>Нет; неа</value>
+    <value>Нет; неа;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Нет предпочтения;нет;все равно;без разницы</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>Да;конечно;ОК;ладно;ага;ну да;разумеется;точно;правда</value>
+    <value>Да;конечно;ОК;ладно;ага;ну да;разумеется;точно;правда;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>Я не понимаю. Ответь что-нибудь.</value>

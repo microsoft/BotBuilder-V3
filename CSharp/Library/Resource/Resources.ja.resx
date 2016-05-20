@@ -87,13 +87,13 @@
     <value>現在の選択('c'); 現在; c; 現在の選択;変更なし</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>いいえ</value>
+    <value>いいえ;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>どちらとも言えない; いいえ; なし; どちらでも良い</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>はい; もちろん; ok</value>
+    <value>はい; もちろん; ok;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>わからない。何か返答して下さい。</value>

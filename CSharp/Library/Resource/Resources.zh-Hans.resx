@@ -87,13 +87,13 @@
     <value>照样('c');原样;一样;老样子;照旧;老规矩</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>不;不是;不对;不要</value>
+    <value>不;不是;不对;不要;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>随便;不足道;都可以;随意</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>是;好;行;ok;k;对</value>
+    <value>是;好;行;ok;k;对;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>不好意思，我没听懂. 请换一种表达</value>

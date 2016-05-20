@@ -84,13 +84,13 @@
     <value>Current Choice('c');current;c;current choice;no change</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>No;n;nope</value>
+    <value>No;n;nope;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>No Preference;no;none;I don'?t care</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>Yes;y;sure;ok;yep</value>
+    <value>Yes;y;sure;ok;yep;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>I didn't understand. Say something in reply.</value>
