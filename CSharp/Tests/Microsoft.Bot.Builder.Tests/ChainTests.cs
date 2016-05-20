@@ -80,10 +80,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task LinqQuerySyntax_SelectMany()
         {
-            var toBot = new Message()
-            {
-                ConversationId = Guid.NewGuid().ToString()
-            };
+            var toBot = MakeTestMessage();
 
             var words = new[] { "hello", "world", "!" };
 
@@ -129,12 +126,9 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var container = Build(Options.Reflection))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString(),
-                    Text = Phrase
-                };
-
+                var toBot = MakeTestMessage();
+                toBot.Text = Phrase;
+                
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, MakeSelectQuery);
@@ -155,12 +149,9 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var container = Build(Options.Reflection))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString(),
-                    Text = true.ToString()
-                };
-
+                var toBot = MakeTestMessage();
+                toBot.Text = true.ToString();
+                
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -183,12 +174,9 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var container = Build(Options.Reflection))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString(),
-                    Text = false.ToString()
-                };
-
+                var toBot = MakeTestMessage();
+                toBot.Text = false.ToString();
+                
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -241,10 +229,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Switch_Case()
         {
-            var toBot = new Message()
-            {
-                ConversationId = Guid.NewGuid().ToString()
-            };
+            var toBot = MakeTestMessage();
 
             var words = new[] { "hello", "world", "echo" };
             var expectedReply = new[] { "world!", "!", "echo" };
@@ -279,10 +264,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Linq_Unwrap()
         {
-            var toBot = new Message()
-            {
-                ConversationId = Guid.NewGuid().ToString()
-            };
+            var toBot = MakeTestMessage();
 
             var words = new[] { "hello", "world" };
 
@@ -319,10 +301,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var container = Build(Options.None))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString()
-                };
+                var toBot = MakeTestMessage();
 
                 foreach (var word in words)
                 {
@@ -388,10 +367,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var container = Build(Options.None))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString()
-                };
+                var toBot = MakeTestMessage();
 
                 var toBotTexts = new[]
                 {

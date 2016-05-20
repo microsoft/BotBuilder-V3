@@ -58,13 +58,10 @@ namespace Microsoft.Bot.Builder.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
 
-            if (options.HasFlag(Options.MockConnectorFactory))
-            {
-                builder
-               .Register((c, p) => mockConnectorFactory)
-                   .As<IConnectorClientFactory>()
-                   .InstancePerLifetimeScope();
-            }
+            builder
+           .Register((c, p) => mockConnectorFactory)
+               .As<IConnectorClientFactory>()
+               .InstancePerLifetimeScope();
 
             if (options.HasFlag(Options.Reflection))
             {
@@ -99,6 +96,15 @@ namespace Microsoft.Bot.Builder.Tests
             }
 
             return builder.Build();
+        }
+
+        protected static Message MakeTestMessage()
+        {
+            return new Message() {
+                From = new ChannelAccount { Id = "testUser" },
+                ConversationId = Guid.NewGuid().ToString(),
+                To = new ChannelAccount { Id = "testBot", IsBot = true}
+            };
         }
 
         public static void AssertMentions(string expectedText, IEnumerable<Message> actualToUser)

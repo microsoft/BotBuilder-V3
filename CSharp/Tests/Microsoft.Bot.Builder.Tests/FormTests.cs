@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Tests
             Func<IDialog<IFormTarget>> MakeRoot = () => new FormDialog<IFormTarget>(mock.Object);
 
             // arrange
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTests.ResolveMoqAssembly(mock.Object))
             using (var container = Build(Options.ScopedQueue, mock.Object))

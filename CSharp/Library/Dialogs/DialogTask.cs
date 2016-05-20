@@ -383,23 +383,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         private async Task PersistBotData(CancellationToken token)
         {
-            if (!string.IsNullOrEmpty(message.To?.Id) &&
-                    !string.IsNullOrEmpty(message.ConversationId) &&
-                    !string.IsNullOrEmpty(message.From?.Id))
-            {
-                var task1 = client.Bots.SetConversationDataAsync(message.To.Id, message.ConversationId,
-                    new BotData(message.BotConversationData, DateTime.UtcNow.ToString()),
-                    token);
-                var task2 = client.Bots.SetPerUserInConversationDataAsync(message.To.Id, message.ConversationId, message.From.Id,
-                    new BotData(message.BotPerUserInConversationData, DateTime.UtcNow.ToString()),
-                    token);
-                var task3 = client.Bots.SetUserDataAsync(message.To.Id, message.From.Id,
-                    new BotData(message.BotUserData, DateTime.UtcNow.ToString()),
-                    token);
-                await task1;
-                await task2;
-                await task3;
-            }
+            var etag = DateTime.UtcNow.ToString();
+            var task1 = client.Bots.SetConversationDataAsync(message.To.Id, message.ConversationId,
+                new BotData(message.BotConversationData, etag),
+                token);
+            var task2 = client.Bots.SetPerUserInConversationDataAsync(message.To.Id, message.ConversationId, message.From.Id,
+                new BotData(message.BotPerUserInConversationData, etag),
+                token);
+            var task3 = client.Bots.SetUserDataAsync(message.To.Id, message.From.Id,
+                new BotData(message.BotUserData, etag),
+                token);
+            await task1;
+            await task2;
+            await task3;
         }
     }
 }

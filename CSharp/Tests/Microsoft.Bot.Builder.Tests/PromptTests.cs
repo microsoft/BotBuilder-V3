@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
 
             Func<IDialog<object>> MakeRoot = () => dialogRoot.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogRoot.Object))
             using (var container = Build(Options.ScopedQueue, dialogRoot.Object))
@@ -199,7 +199,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext, IAwaitable<T>>(async (c, a) => { c.Done(default(T)); });
 
             Func<IDialog<object>> MakeRoot = () => dialogRoot.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogRoot.Object))
             using (var container = Build(Options.ScopedQueue, dialogRoot.Object))

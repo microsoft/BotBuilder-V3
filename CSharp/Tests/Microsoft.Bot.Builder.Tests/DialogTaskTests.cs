@@ -133,11 +133,17 @@ namespace Microsoft.Bot.Builder.Tests
                 dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
 
                 //make sure that data is persisted with connector
-                var botData = await mockConnectorFactory.Make().Bots.GetPerUserConversationDataAsync(botId, toBot.ConversationId, userId);
-                toBot.BotPerUserInConversationData = botData.Data;
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var connectorFactory = scope.Resolve<IConnectorClientFactory>();
+                    var botData = await connectorFactory.Make().Bots.GetPerUserConversationDataAsync(botId, toBot.ConversationId, userId);
+                    toBot.BotPerUserInConversationData = botData.Data;
+                }
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
+                    
+
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var stack = scope.Resolve<IDialogStack>();
@@ -173,7 +179,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext>(async context => { PromptDialog.Text(context, dialog.Object.ItemReceived, "blah"); });
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage(); 
 
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
             using (var container = Build(Options.None, dialog.Object))
@@ -238,7 +244,7 @@ namespace Microsoft.Bot.Builder.Tests
                 });
 
             Func<IDialog<object>> MakeRoot = () => dialogOne.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogOne.Object, dialogTwo.Object))
             using (var container = Build(Options.None, dialogOne.Object, dialogTwo.Object))
@@ -331,7 +337,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<Message, double>((m, s) => m.Text == TriggerTextNew);
 
             Func<IDialog<object>> MakeRoot = () => dialogOne.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogOne.Object, dialogTwo.Object, dialogNew.Object))
             using (var container = Build(Options.None, dialogOne.Object, dialogTwo.Object, dialogNew.Object))

@@ -96,7 +96,7 @@ namespace Microsoft.Bot.Sample.Tests
             var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
 
             Func<IDialog<object>> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(luis.Object))
             using (var container = Build(Options.ScopedQueue, luis.Object))
