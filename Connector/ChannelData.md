@@ -41,8 +41,8 @@ Example Message:
     {
         "type": "Message",
         "language": "en",
-        "from": { "ChannelID":"email", "Address":"mybot@gmail.com"}"
-        "to": { "ChannelID":"email", "Address":"joe@gmail.com"}"
+        "from": { "channelID":"email", "address":"mybot@gmail.com"}",
+        "to": { "channelID":"email", "address":"joe@gmail.com"}",
         "conversationId":"123123123123",
         "channelData":
         {
@@ -78,8 +78,8 @@ Example Message:
         "language": "en",
         "text": "This is a test",
         "conversationId":"123123123123",
-        "from": { "ChannelID":"slack", "Address":"12345"}
-        "to": { "ChannelID":"slack", "Address":"67890"}
+        "from": { "channelID":"slack", "address":"12345"},
+        "to": { "channelID":"slack", "ddress":"67890"},
         "channelData":
         {
             "attachments": [
@@ -137,8 +137,8 @@ Example Message:
         "language": "en",
         "text": "This is a test",
         "conversationId":"123123123123",
-        "from": { "ChannelID":"facebook", "Address":"12345"}
-        "to": { "ChannelID":"facebook", "Address":"67890"}
+        "from": { "channelID":"facebook", "address":"12345"},
+        "to": { "channelID":"facebook", "address":"67890"},
         "channelData":
         {
             "notification_type" : "NO_PUSH",
@@ -228,8 +228,8 @@ Example Message:
 {% highlight json %}
 {
     "type": "Message",
-    "from": { "ChannelID":"telegram", "Address":"12345"}
-    "to": { "ChannelID":"telegram", "Address":"67890"}
+    "from": { "channelID":"telegram", "address":"12345"},
+    "to": { "channelID":"telegram", "address":"67890"},
     "conversationId":"123123123123",
     "channelData":
     {
@@ -251,6 +251,9 @@ You may pass multiple Telegram methods as an array:
 {% highlight json %}
 {
     "type": "Message",
+    "from": { "channelID":"telegram", "address":"12345"},
+    "to": { "channelID":"telegram", "address":"67890"},
+    "conversationId":"123123123123",
     "channelData":
     [
         {
@@ -295,12 +298,17 @@ natively that Kik supports.
 
 |**Property** | **Description**
 |---------|  -----
-|*message*  | An array of messages. *See [Kik Messages](https://dev.kik.com/#/docs/messaging#message-formats)*
+|*messages*  | An array of messages. *See [Kik Messages](https://dev.kik.com/#/docs/messaging#message-formats)*
 
 Example Message:
 
 {% highlight json %} 
-	{
+{
+    "type": "Message",
+    "from": { "channelID":"kik", "address":"12345"},
+    "to": { "channelID":"kik", "address":"67890"},
+    "conversationId":"123123123123",
+	"channelData": {
 		"messages": [
 		{
 			"chatId": "c6dd81652051b8f02796e152422cce678a40d0fb6ad83acd8f91cae71d12f1e0",
@@ -321,4 +329,5 @@ Example Message:
 		}
 		]
 	}
+}
 {% endhighlight %}
