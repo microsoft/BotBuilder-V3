@@ -61,6 +61,9 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task If_Root_Dialog_Throws_Propagate_Exception_Reset_Store()
         {
+            const string userId = "testUser";
+            const string botId = "testBot";
+
             var dialog = new Mock<IDialogThatFails>(MockBehavior.Loose);
 
             dialog
@@ -76,10 +79,14 @@ namespace Microsoft.Bot.Builder.Tests
                 .Throws<ApplicationException>();
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = new Message() {
+                From = new ChannelAccount { Id = userId },
+                ConversationId = Guid.NewGuid().ToString(),
+                To = new ChannelAccount { Id = botId }
+            };
 
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
-            using (var container = Build(Options.None, dialog.Object))
+            using (var container = Build(Options.MockConnectorFactory, dialog.Object))
             {
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
@@ -124,6 +131,10 @@ namespace Microsoft.Bot.Builder.Tests
                 dialog.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Once);
                 dialog.Verify(d => d.MessageReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
                 dialog.Verify(d => d.Throw(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()), Times.Once);
+
+                //make sure that data is persisted with connector
+                var botData = await mockConnectorFactory.Make().Bots.GetPerUserConversationDataAsync(botId, toBot.ConversationId, userId);
+                toBot.BotPerUserInConversationData = botData.Data;
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {

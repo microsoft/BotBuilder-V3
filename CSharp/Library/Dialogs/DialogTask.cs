@@ -245,8 +245,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 this.store.Reset();
                 throw;
             }
-
-            this.store.Save(this.fiber);
+            finally
+            {
+                this.store.Save(this.fiber);
+                this.store.Flush(); 
+            }
         }
     }
 
@@ -338,6 +341,64 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             using (new LocalizedScope((item as Message)?.Language))
             {
                 await this.inner.PostAsync<T>(item, token);
+            }
+        }
+    }
+
+    public sealed class PersistentDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IConnectorClient client;
+        private readonly Message message;
+        private readonly IBotToUser botToUser;
+
+        public PersistentDialogTask(IPostToBot inner, Message message, IConnectorClient client, IBotToUser botToUser)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.message, nameof(message), message);
+            SetField.NotNull(out this.client, nameof(client), client);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                await this.inner.PostAsync<T>(item, token);
+            }
+            catch
+            {
+                await PersistBotData(token);
+                throw;
+
+            }
+
+            // if botToUser is SendLastInline_BotToUser, we don't need to persist.
+            // Inline reply will set the data
+            if (!(botToUser is SendLastInline_BotToUser))
+            {
+                await PersistBotData(token);
+            }
+        }
+
+        private async Task PersistBotData(CancellationToken token)
+        {
+            if (!string.IsNullOrEmpty(message.To?.Id) &&
+                    !string.IsNullOrEmpty(message.ConversationId) &&
+                    !string.IsNullOrEmpty(message.From?.Id))
+            {
+                var task1 = client.Bots.SetConversationDataAsync(message.To.Id, message.ConversationId,
+                    new BotData(message.BotConversationData, DateTime.UtcNow.ToString()),
+                    token);
+                var task2 = client.Bots.SetPerUserInConversationDataAsync(message.To.Id, message.ConversationId, message.From.Id,
+                    new BotData(message.BotPerUserInConversationData, DateTime.UtcNow.ToString()),
+                    token);
+                var task3 = client.Bots.SetUserDataAsync(message.To.Id, message.From.Id,
+                    new BotData(message.BotUserData, DateTime.UtcNow.ToString()),
+                    token);
+                await task1;
+                await task2;
+                await task3;
             }
         }
     }

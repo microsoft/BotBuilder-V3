@@ -48,13 +48,23 @@ namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
+        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(); 
+
         [Flags]
-        public enum Options { None, Reflection, ScopedQueue };
+        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
+
+            if (options.HasFlag(Options.MockConnectorFactory))
+            {
+                builder
+               .Register((c, p) => mockConnectorFactory)
+                   .As<IConnectorClientFactory>()
+                   .InstancePerLifetimeScope();
+            }
 
             if (options.HasFlag(Options.Reflection))
             {
