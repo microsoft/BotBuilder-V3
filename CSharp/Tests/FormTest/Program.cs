@@ -202,8 +202,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return MakeForm(() => new FormBuilder<PizzaOrder>().Build());
                         case DebugOptions.WithState:
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
-                            { Size = SizeOptions.Large, DeliveryAddress = "123 State", Kind = PizzaOptions.BYOPizza },
-                            () => PizzaOrder.BuildForm(noNumbers: false), options: FormOptions.PromptInStart);
+                            { Size = SizeOptions.Large, Kind = PizzaOptions.BYOPizza },
+                            () => PizzaOrder.BuildForm(noNumbers: false),
+                            options: FormOptions.PromptInStart,
+                            entities: new Luis.Models.EntityRecommendation[] { new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress") }
+                            );
                         case DebugOptions.Localized:
                             {
                                 var form = PizzaOrder.BuildForm(false, false);

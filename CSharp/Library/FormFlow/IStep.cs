@@ -43,8 +43,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     internal struct StepResult
     {
-        internal StepResult(NextStep next, FormPrompt feedback, FormPrompt prompt)
+        internal StepResult(bool success, NextStep next, FormPrompt feedback, FormPrompt prompt)
         {
+            this.Success = success;
             this.Next = next;
             this.Feedback = feedback;
             this.Prompt = prompt;
@@ -53,6 +54,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         internal NextStep Next { get; set; }
         internal FormPrompt Feedback { get; set; }
         internal FormPrompt Prompt { get; set; }
+        internal bool Success { get; set; }
     }
 
     internal interface IStep<T>
