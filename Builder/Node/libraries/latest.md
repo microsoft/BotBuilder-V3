@@ -21,6 +21,10 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v0.11.1
+* Fixed a bug causing multiple messages to get rejected by the live servers.
+* Updated LKG build and package.json version.
+
 ### v0.11.0
 * Added Prompts.attachment() method. 
 * Updated Message.randomPrompt() to take a string or an array.
