@@ -169,10 +169,16 @@ var BotConnectorBot = (function (_super) {
                             reply.channelMessageId = ses.message.channelMessageId;
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
+                            if (!reply.language && ses.message.language) {
+                                reply.language = ses.message.language;
+                            }
                             _this.emit('reply', reply);
-                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err) {
+                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err, response) {
                                 if (err) {
                                     _this.emit('error', err);
+                                }
+                                else if (response.statusCode >= 400) {
+                                    console.error(response.statusMessage);
                                 }
                             });
                         }
@@ -180,9 +186,12 @@ var BotConnectorBot = (function (_super) {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             _this.emit('send', reply);
-                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err) {
+                            post(_this.options, endpoint, '/bot/v1.0/messages', reply, function (err, response) {
                                 if (err) {
                                     _this.emit('error', err);
+                                }
+                                else if (response.statusCode >= 400) {
+                                    console.error(response.statusMessage);
                                 }
                             });
                         }

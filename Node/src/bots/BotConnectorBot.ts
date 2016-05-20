@@ -39,6 +39,7 @@ import request = require('request');
 import storage = require('../storage/Storage');
 import bcStorage = require('../storage/BotConnectorStorage');
 import uuid = require('node-uuid');
+import http = require('http');
 
 export interface IBotConnectorOptions {
     endpoint?: string;
@@ -313,10 +314,15 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.channelMessageId = ses.message.channelMessageId;
                             reply.participants = ses.message.participants;
                             reply.totalParticipants = ses.message.totalParticipants;
+                            if (!reply.language && ses.message.language) {
+                                reply.language = ses.message.language;
+                            }
                             this.emit('reply', reply);
-                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err) => {
+                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err, response) => {
                                 if (err) {
                                     this.emit('error', err);
+                                } else if (response.statusCode >= 400) {
+                                    console.error(response.statusMessage);
                                 }
                             });
                         } else {
@@ -324,9 +330,11 @@ export class BotConnectorBot extends collection.DialogCollection {
                             reply.from = ses.message.from;
                             reply.to = ses.message.to;
                             this.emit('send', reply);
-                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err) => {
+                            post(this.options, endpoint, '/bot/v1.0/messages', reply, (err, response) => {
                                 if (err) {
                                     this.emit('error', err);
+                                } else if (response.statusCode >= 400) {
+                                    console.error(response.statusMessage);
                                 }
                             });
                         }
@@ -463,7 +471,7 @@ export class BotConnectorSession extends session.Session {
     public perUserInConversationData: any;
 }
 
-function post(settings: IBotConnectorOptions, endpoint: string, path: string, body: any, callback?: (error: any) => void): void {
+function post(settings: IBotConnectorOptions, endpoint: string, path: string, body: any, callback?: (error: any, response?: http.IncomingMessage, body?: any) => void): void {
     var options: request.Options = {
         method: 'POST',
         url: endpoint + path,
