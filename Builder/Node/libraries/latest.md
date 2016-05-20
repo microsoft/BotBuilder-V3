@@ -21,6 +21,18 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v0.11.0
+* Added Prompts.attachment() method. 
+* Updated Message.randomPrompt() to take a string or an array.
+* Updated Session to clone() raw IMessage entries before sending (fixes a serialization bug)
+* Fixed issue where configured BotConnectorBot endpoint wasn't getting used in production.
+* Tweaked the way built-in dialogs get registered.
+* Added support for showing Prompts.confirm() using buttons.
+* Improved the way re-prompting works.
+* Created type specific default re-prompts.
+* Minor tweak to the way the emulators callback URL is calculated.
+* Updated LKG build and package.json version.
+
 ### v0.10.2
 * Fixed a bug in CommandDialog preventing onDefault() handlers from resuming properly.
 * Updated LKG build and package.json version.
