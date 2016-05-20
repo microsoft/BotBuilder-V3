@@ -295,7 +295,7 @@ export class BotConnectorBot extends collection.DialogCollection {
                         if (ses.message.to.channelId == 'emulator') {
                             endpoint = this.options.endpoint || 'http://localhost:9000';
                         } else {
-                            endpoint = 'https://api.botframework.com';
+                            endpoint = this.options.endpoint || 'https://api.botframework.com';
                         }
                         
                         // Send message

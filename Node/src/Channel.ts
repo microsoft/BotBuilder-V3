@@ -33,15 +33,20 @@
 
 import ses = require('./Session');
 
-export function maxButtons(session: ses.Session): number {
-    var account = session.message.from || session.message.to;
-    switch (account.channelId.toLowerCase()) {
+export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt: boolean): boolean {
+    switch (getChannelId(session)) {
         case 'facebook':
-            return 3;
+            return (choiceCnt <= 3);
         case 'telegram':
+            return !rePrompt;
         case 'kik':
-            return 100;
+            return true;
         default:
-            return 0;
+            return false;
     }
+}
+
+export function getChannelId(session: ses.Session): string {
+    var account = session.message.from || session.message.to;
+    return account.channelId.toLowerCase();    
 }

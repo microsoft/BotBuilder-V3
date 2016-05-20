@@ -305,8 +305,12 @@ export interface IDialogResult<T> {
 export interface IPromptOptions {
     /** 
      * Optional retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) plus the original prompt. Note that if the original 
-     * prompt is an _IMessage_ the default behaviour is to simply re-send the original prompt.
+     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
+     * plus the original prompt. 
+     * 
+     * Note that if the original prompt is an _IMessage_ the retry prompt will be sent as a seperate 
+     * message followed by the original message. If the retryPrompt is also an _IMessage_ it will 
+     * instead be sent in place of the original message. 
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
@@ -367,6 +371,9 @@ export interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
 /** Strongly typed Time Prompt Result. */
 export interface IPromptTimeResult extends IPromptResult<IEntity> { }
 
+/** Strongly typed Attachment Prompt Result. */
+export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
+
 /** Plugin for recognizing prompt responses recieved by a user. */
 export interface IPromptRecognizer {
     /**
@@ -412,40 +419,6 @@ export interface IPromptRecognizerArgs {
 export interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
-
-    /** The default retry prompt to use. The default value is "I didn't understand." */    
-    defaultRetryPrompt?: string;
-}
-
-/** Context information passed to field related handlers. */
-export interface IFieldConext {
-    userData: any;
-    form: any;
-    field: string;
-}
-
-/**
- * Handler that gets called anytime a field is about to invoke a prompt.
- */
-export interface IFieldPromptHandler {
-    /**
-     * @param context Contextual information related to the current field.
-     * @param next Function to call to continue execution of the prompt. 
-     * Passing _true_ for __skip__ will cause the current field to be skipped.
-     */
-    (context: IFieldConext, next: (skip: boolean) => void): void;
-}
-
-/** Options passed to form fields. */
-export interface IFieldOptions extends IPromptOptions {
-    /** 
-     * Called anytime a given field is about to invoke the prompt. This function lets the 
-     * developer progromatically determine if a prompt should be skipped or not. 
-     * 
-     * The handler can also manipulate the forms current values. For instance a fields value 
-     * could be pulled from context.userData if not already specified on the form.
-     */
-    onPrompt?: IFieldPromptHandler;
 }
 
 /** A recognized intent. */
@@ -1149,9 +1122,9 @@ export class Message implements IMessage {
     
     /**
      * Selects a prompt at random.
-     * @param prompts Array of prompts to choose from.
+     * @param prompts Array of prompts to choose from. When prompts is type _string_ the prompt will simply be returned unmodified.
      */
-    static randomPrompt(prompts: string[]): string;
+    static randomPrompt(prompts: string|string[]): string;
     
     /**
      * Combines an array of prompts into a single localized prompt and then optionally fills the
@@ -1389,84 +1362,17 @@ export class Prompts extends Dialog {
      * @param options Optional parameters to control the behaviour of the prompt.
      */
     static time(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
-}
 
-/**
- * Fields that can be added as setps to a waterfall to create a form.
- */
-export class Fields {
     /**
-     * Captures from the user a raw string of text and saves it to a field on a form. 
-     * @param field Name of the field to save the users response to.
+     * Prompts the user to upload a file attachment.
+     * @param session Session object for the current conversation.
      * @param prompt 
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * @param options Optional parameters to control the behaviour of the field.
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
-    static text(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
-    
-    /**
-     * Prompts the user to enter a number and saves it to a field on a form.
-     * @param field Name of the field to save the users response to.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * @param options Optional parameters to control the behaviour of the field.
-     */
-    static number(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
-
-    /**
-     * Prompts the user to enter a boolean yes/no response and saves their answer to a field on a form.
-     * @param field Name of the field to save the users response to.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * @param options Optional parameters to control the behaviour of the field.
-     */
-    static confirm(field: string, prompt: string|string[], options?: IFieldOptions): IDialogWaterfallStep;
-
-    /**
-     * Prompts the user to choose from a list of options and saves their selection to a field on a form.
-     * @param field Name of the field to save the users response to.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * @param choices 
-     * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
-     * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
-     * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
-     * @param options Optional parameters to control the behaviour of the field.
-     */
-    static choice(field: string, prompt: string|string[], choices: string|Object|string[], options?: IFieldOptions): IDialogWaterfallStep;
-
-    /**
-     * Prompts the user to enter a time saves it to a field on a form as a timestamp.
-     * @param field Name of the field to save the users response to.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * @param options Optional parameters to control the behaviour of the field.
-     */
-    static time(field: string, prompt: string|string[], options?: IPromptOptions): IDialogWaterfallStep;
-    
-    /** 
-     * Finalizes the form by saving the response from the last prompt and then passes the completed
-     * form to the next step of the waterfall for processing. 
-     */
-    static endForm(): IDialogWaterfallStep;
-    
-    /** 
-     * Finalizes the form by saving the response from the last prompt and then returns the completed
-     * form to the parent dialog by calling [endDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
-     */
-    static returnForm(): IDialogWaterfallStep;
-
-    /**
-     * Handler for IFieldOptions.onPrompt that will copy a default value from Session.userData if 
-     * a field is empty. The default value must be in a property with the same name as the field. 
-     * If successfully copied the prompt will be skipped. 
-     */
-    static onPromptUseDefault(): IFieldPromptHandler
+    static attachment(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 }
 
 /**
