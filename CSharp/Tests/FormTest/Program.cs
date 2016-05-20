@@ -81,7 +81,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             Console.OutputEncoding = Encoding.GetEncoding(65001);
             var message = new Message()
             {
+                From = new ChannelAccount { Id = "Console" },
                 ConversationId = Guid.NewGuid().ToString(),
+                To = new ChannelAccount { Id = "FormTest", IsBot = true },
                 Text = ""
             };
 

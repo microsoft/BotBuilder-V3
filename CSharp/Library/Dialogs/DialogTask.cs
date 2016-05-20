@@ -375,7 +375,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             // if botToUser is SendLastInline_BotToUser, we don't need to persist.
             // Inline reply will set the data
-            if (!(botToUser is SendLastInline_BotToUser))
+            bool inline = botToUser is SendLastInline_BotToUser || botToUser is BotToUserTextWriter;
+            if (!inline)
             {
                 await PersistBotData(token);
             }
