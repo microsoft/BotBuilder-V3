@@ -78,9 +78,13 @@ export class Message implements IMessage {
         return this;
     }
     
-    static randomPrompt(prompts: string[]): string {
-        var i = Math.floor(Math.random() * prompts.length);
-        return prompts[i];
+    static randomPrompt(prompts: string|string[]): string {
+        if (Array.isArray(prompts)) {
+            var i = Math.floor(Math.random() * prompts.length);
+            return prompts[i];
+        } else {
+            return prompts;
+        }
     }
     
     static composePrompt(ses: session.Session, prompts: string[][], args?: any[]): string {

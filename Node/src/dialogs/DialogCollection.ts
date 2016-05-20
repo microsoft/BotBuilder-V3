@@ -35,12 +35,13 @@ import dialog = require('./Dialog');
 import actions = require('./DialogAction');
 import simpleDialog = require('./SimpleDialog');
 import events = require('events');
-import prompts = require('./Prompts');
 import consts = require('../consts');
 
-interface IDialogMap {
+export interface IDialogMap {
     [id: string]: dialog.IDialog;
 }
+
+export var systemDialogs: IDialogMap = {};
 
 export class DialogCollection extends events.EventEmitter {
     private middleware: { (session: ISession, next: Function): void; }[] = []; 
@@ -48,7 +49,7 @@ export class DialogCollection extends events.EventEmitter {
 
     constructor() {
         super();
-        this.add(consts.DialogId.Prompts, new prompts.Prompts())
+        this.add(systemDialogs);
     }
 
     public add(dialogs: { [id: string]: dialog.IDialog; }): DialogCollection;

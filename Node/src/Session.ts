@@ -36,6 +36,7 @@ import dialog = require('./dialogs/Dialog');
 import consts = require('./consts');
 import sprintf = require('sprintf-js');
 import events = require('events');
+import utils = require('./utils');
 
 export interface ISessionOptions {
     dialogs: collection.DialogCollection;
@@ -114,10 +115,7 @@ export class Session extends events.EventEmitter implements ISession {
         return sprintf.sprintf(tmpl, count);
     }
 
-    public send(): ISession;
-    public send(msg: string, ...args: any[]): ISession;
-    public send(msg: IMessage): ISession;
-    public send(msg?: any, ...args: any[]): ISession {
+    public send(msg?: string|IMessage, ...args: any[]): ISession {
         // Update dialog state
         // - Deals with a situation where the user assigns a whole new object to dialogState.
         var ss = this.sessionState;
@@ -126,7 +124,7 @@ export class Session extends events.EventEmitter implements ISession {
         }
 
         // Compose message
-        var message: IMessage = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
+        var message: IMessage = typeof msg == 'string' ? this.createMessage(<string>msg, args) : msg;
         this.delayedEmit('send', message);
         return this;
     }
@@ -173,10 +171,7 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
-    public endDialog(msg: string, ...args: any[]): ISession;
-    public endDialog(msg: IMessage): ISession;
-    public endDialog(result?: dialog.IDialogResult<any>): ISession;
-    public endDialog(result?: any, ...args: any[]): ISession {
+    public endDialog(result?: string|IMessage|dialog.IDialogResult<any>, ...args: any[]): ISession {
         // Validate callstack
         // - Protect against too many calls to endDialog()
         var ss = this.sessionState;
@@ -191,10 +186,10 @@ export class Session extends events.EventEmitter implements ISession {
         if (result) {
             if (typeof result === 'string') {
                 m = this.createMessage(result, args);
-            } else if (result.hasOwnProperty('text') || result.hasOwnProperty('channelData')) {
+            } else if (result.hasOwnProperty('text') || result.hasOwnProperty('attachments') || result.hasOwnProperty('channelData')) {
                 m = result;
             } else {
-                r = result;
+                r = <any>result;
             }
         }
         if (!r.hasOwnProperty('resumed')) {
@@ -300,7 +295,7 @@ export class Session extends events.EventEmitter implements ISession {
             setTimeout(() => {
                 var entry = this.sendQueue.shift();
                 this.lastSendTime = now = new Date().getTime();
-                this.emit(entry.event, entry.msg);
+                this.emit(entry.event, utils.clone(entry.msg));
                 if (this.sendQueue.length > 0) {
                     delaySend();
                 }
@@ -311,7 +306,7 @@ export class Session extends events.EventEmitter implements ISession {
             this.msgSent = true;
             if ((now - this.lastSendTime) >= this.options.minSendDelay) {
                 this.lastSendTime = now;
-                this.emit(event, message);
+                this.emit(event, utils.clone(message));
             } else {
                 this.sendQueue.push({ event: event, msg: message });
                 delaySend();

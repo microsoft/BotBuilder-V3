@@ -1,4 +1,4 @@
-var session = require('../Session');
+var ses = require('../Session');
 var consts = require('../consts');
 var utils = require('../utils');
 var dialog = require('./Dialog');
@@ -12,7 +12,7 @@ var DialogAction = (function () {
         }
         args.splice(0, 0, msg);
         return function sendAction(s) {
-            session.Session.prototype.send.apply(s, args);
+            ses.Session.prototype.send.apply(s, args);
         };
     };
     DialogAction.beginDialog = function (id, args) {

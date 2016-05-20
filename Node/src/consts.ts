@@ -43,7 +43,8 @@ export var Data = {
 };
 
 export var DialogId = {
-    Prompts: 'BotBuilder.Dialogs.Prompts'
+    Prompts: 'BotBuilder.Dialogs.Prompts',
+    Field: 'BotBuilder.Dialogs.Field'
 };
 
 export var Id = {

@@ -36,6 +36,11 @@ import ses = require('../Session');
 import consts = require('../consts');
 import action = require('./DialogAction');
 import prompts = require('./Prompts');
+import mb = require('../Message'); 
+import sd = require('./SimpleDialog');
+import dc = require('./DialogCollection');
+import utils = require('../utils');
+import er = require('./EntityRecognizer');
 
 enum FieldType { text, number, confirm, choice, time, dialog }
 
@@ -56,150 +61,82 @@ export interface IFieldPromptHandler {
 
 export interface IFieldOptions extends prompts.IPromptOptions {
     onPrompt?: IFieldPromptHandler;
+    confirmPrompt?: string|string[];
+    optionalPrompt?: string|string[];
+}
+
+interface IFieldArgs extends IFieldOptions {
+    field: string;
+    fieldType: FieldType;
+    value: any;
+    prompt?: string|string[];
+    enumValues?: string[];
+    dialogId?: string;
+    dialogArgs?: any;
+    returnResults?: boolean;
 }
 
 export class Fields {
     static text(field: string, prompt: string|string[], options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, 'string', options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.text, name: field };
-                            prompts.Prompts.text(session, prompt);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.text;
+            args.prompt = prompt;
+            processField(session, results, next, args);
         };
     }
 
     static number(field: string, prompt: string|string[], options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, 'number', options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.number, name: field };
-                            prompts.Prompts.number(session, prompt, options);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.number;
+            args.prompt = prompt;
+            processField(session, results, next, args);
         };
     }
 
     static confirm(field: string, prompt: string|string[], options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, 'boolean', options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.confirm, name: field };
-                            prompts.Prompts.confirm(session, prompt, options);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.confirm;
+            args.prompt = prompt;
+            processField(session, results, next, args);
         };
     }
     
     static choice(field: string, prompt: string|string[], choices: string|Object|string[], options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, 'text', options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.choice, name: field };
-                            prompts.Prompts.choice(session, prompt, choices, options);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.choice;
+            args.prompt = prompt;
+            args.enumValues = er.EntityRecognizer.expandChoices(choices);
+            args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : prompts.ListStyle.auto;
+            processField(session, results, next, args);
         };
     }
 
     static time(field: string, prompt: string|string[], options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, 'number', options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.time, name: field };
-                            prompts.Prompts.time(session, prompt, options);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.time;
+            args.prompt = prompt;
+            processField(session, results, next, args);
         };
     }
     
     static dialog(field: string, dialogId: string, dialogArgs?: any, options: IFieldOptions = {}): action.IDialogWaterfallStep {
         return function (session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void): void {
-            // Save results and see if we should continue.
-            var r = saveResults(session, results); 
-            if (r.resumed == dialog.ResumeReason.completed) {
-                try {
-                    // Check to see if we should skip the prompt
-                    onPrompt(session, field, null, options, (skip) => {
-                        if (!skip) {
-                            session.dialogData[consts.Data.Field] = { type: FieldType.dialog, name: field };
-                            session.beginDialog(dialogId, dialogArgs || session.dialogData[consts.Data.Form][field]);
-                        } else {
-                            next();
-                        }
-                    });
-                } catch (e) {
-                    next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
-                }
-            } else {
-                next(r);
-            }         
+            var args: IFieldArgs = utils.clone(options);
+            args.field = field;
+            args.fieldType = FieldType.time;
+            args.dialogId = dialogId;
+            args.dialogArgs = dialogArgs;
+            processField(session, results, next, args);
         };
     }
     
@@ -251,6 +188,119 @@ export class Fields {
     }
 }
 
+// Add field dialog
+dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog((session, args) => {
+    var fieldArgs: IFieldArgs = session.dialogData;
+    function callPrompt() {
+        fieldArgs.returnResults = true;
+        if (fieldArgs.fieldType == FieldType.dialog) {
+            session.beginDialog(fieldArgs.dialogId, fieldArgs.dialogArgs);
+        } else {
+            session.beginDialog(consts.DialogId.Prompts, fieldArgs);
+        } 
+    }
+    
+    if (args.hasOwnProperty('resumed')) {
+        if (fieldArgs.returnResults || args.resumed !== dialog.ResumeReason.completed) {
+            session.endDialog(args);
+        } else {
+            // Check confirmation
+            if (fieldArgs.confirmPrompt && !args.response) {
+                callPrompt();
+            } else if (fieldArgs.optionalPrompt && args.response) {
+                callPrompt();
+            } else {
+                session.endDialog({ response: fieldArgs.value, resumed: dialog.ResumeReason.completed });
+            }
+        }
+        
+    } else {
+        // First call so save args to dialogData
+        for (var key in args) {
+            if (args.hasOwnProperty(key) && typeof args[key] !== 'function') {
+                (<any>fieldArgs)[key] = args[key];
+            }
+        }
+        
+        // Check for confirm prompt
+        if (fieldArgs.confirmPrompt || fieldArgs.optionalPrompt) {
+            prompts.Prompts.confirm(session, fieldArgs.confirmPrompt || fieldArgs.optionalPrompt);
+        } else {
+            callPrompt();
+        }
+    }
+});
+
+function processField(session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void, args: IFieldArgs) {
+    // Save results and see if we should continue.
+    var r = saveResults(session, results); 
+    if (r.resumed == dialog.ResumeReason.completed) {
+        try {
+            // Determine data type
+            var dataType: string;
+            switch (args.fieldType) {
+                case FieldType.choice:
+                case FieldType.text:
+                    dataType = 'text';
+                    break;
+                case FieldType.confirm:
+                    dataType = 'boolean';
+                    break;
+                case FieldType.number:
+                case FieldType.time:
+                    dataType = 'number';
+                default:
+                    dataType = null;
+                    break;
+            }
+            
+            // Check to see if we should skip the prompt
+            onPrompt(session, args.field, dataType, args, (skip) => {
+                // Check to see if field has a value and override skip
+                args.value = session.dialogData[consts.Data.Form][args.field];
+                var valueType = typeof args.value;
+                var hasValue = (valueType !== 'null' && valueType !== 'undefined');
+                if (args.confirmPrompt) {
+                    if (hasValue) {
+                        skip = false;
+                        args.confirmPrompt = expandTemplate(session, args.field, <any>args.confirmPrompt);
+                    } else {
+                        delete args.confirmPrompt;
+                    }
+                } 
+                if (args.optionalPrompt) {
+                    if (!hasValue) {
+                        skip = false;
+                        args.optionalPrompt = expandTemplate(session, args.field, <any>args.optionalPrompt);
+                    } else {
+                        delete args.optionalPrompt;
+                    }
+                }
+                
+                if (!skip) {
+                    // Expand prompts
+                    if (args.prompt) {
+                        args.prompt = expandTemplate(session, args.field, args.prompt);
+                    }
+                    if (args.retryPrompt && typeof args.retryPrompt !== 'object') {
+                        args.retryPrompt = expandTemplate(session, args.field, <any>args.retryPrompt);
+                    }
+                    
+                    // Begin field prompt(s)
+                    session.dialogData[consts.Data.Field] = { type: args.fieldType, name: args.field };
+                    session.beginDialog(consts.DialogId.Field, args);
+                } else {
+                    next();
+                }
+            });
+        } catch (e) {
+            next({ error: e instanceof Error ? e : new Error(e.toString()), resumed: dialog.ResumeReason.notCompleted });
+        }
+    } else {
+        next(r);
+    }         
+}
+
 function saveResults(session: ses.Session, results: dialog.IDialogResult<any>): dialog.IDialogResult<any> {
     var r: dialog.IDialogResult<any>;
     if (results && results.hasOwnProperty('resumed')) {
@@ -258,26 +308,27 @@ function saveResults(session: ses.Session, results: dialog.IDialogResult<any>): 
             // Save field we're waiting on.
             var field: IField = session.dialogData[consts.Data.Field];
             delete session.dialogData[consts.Data.Field];
-            if (results.response) {
-                switch(field.type) {
-                    case FieldType.choice:
-                        session.dialogData[consts.Data.Form][field.name] = results.response.entity;
-                        break;
-                    case FieldType.time:
-                        if (results.response.resolution && results.response.resolution.start) {
-                            session.dialogData[consts.Data.Form][field.name] = results.response.resolution.start.getTime();
-                        }
-                        break;
-                    case FieldType.confirm:
-                    case FieldType.number:
-                    case FieldType.text:
-                    case FieldType.dialog:
-                    default:
-                        session.dialogData[consts.Data.Form][field.name] = results.response;
-                        break;
+            if (results.resumed == dialog.ResumeReason.completed) {
+                var dataType = typeof results.response;
+                if (dataType == 'object') {
+                    switch (field.type) {
+                        case FieldType.choice:
+                            session.dialogData[consts.Data.Form][field.name] = results.response.entity;
+                            break;
+                        case FieldType.time:
+                            if (results.response.resolution && results.response.resolution.start) {
+                                session.dialogData[consts.Data.Form][field.name] = results.response.resolution.start.getTime();
+                            }
+                            break;
+                        default:
+                            session.dialogData[consts.Data.Form][field.name] = results.response;
+                            break;
+                    }
+                } else {
+                    session.dialogData[consts.Data.Form][field.name] = results.response;
                 }
             } else {
-                r = results.response;
+                r = results;
             }
         } else if (typeof results.response === 'object') {
             // Save passed in form
@@ -299,17 +350,24 @@ function onPrompt(session: ses.Session, field: string, type: string, options: IF
     if (options.onPrompt) {
         options.onPrompt(context, cb);
     } else if (form && form.hasOwnProperty(field)) {
-        var fieldType = typeof form[field];
-        switch (fieldType) {
+        var dataType = typeof form[field];
+        switch (dataType) {
             case 'null':
             case 'undefined':
                 cb(false);
                 break;
             default:
-                cb(type == null || fieldType == type);
+                cb(type == null || dataType == type);
                 break;
         }
     } else {
         cb(false);
     }
+}
+
+function expandTemplate(session: ses.Session, field: string, prompt: string|string[]): string {
+    var form = session.dialogData[consts.Data.Form];
+    var value = form.hasOwnProperty(field) ? form[field] : '';
+    var args = { userData: session.userData, form: form, value: value };
+    return session.gettext(mb.Message.randomPrompt(prompt), args);
 }

@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var dialog = require('./dialogs/Dialog');
 var sprintf = require('sprintf-js');
 var events = require('events');
+var utils = require('./utils');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -137,7 +138,7 @@ var Session = (function (_super) {
             if (typeof result === 'string') {
                 m = this.createMessage(result, args);
             }
-            else if (result.hasOwnProperty('text') || result.hasOwnProperty('channelData')) {
+            else if (result.hasOwnProperty('text') || result.hasOwnProperty('attachments') || result.hasOwnProperty('channelData')) {
                 m = result;
             }
             else {
@@ -243,7 +244,7 @@ var Session = (function (_super) {
             setTimeout(function () {
                 var entry = _this.sendQueue.shift();
                 _this.lastSendTime = now = new Date().getTime();
-                _this.emit(entry.event, entry.msg);
+                _this.emit(entry.event, utils.clone(entry.msg));
                 if (_this.sendQueue.length > 0) {
                     delaySend();
                 }
@@ -253,7 +254,7 @@ var Session = (function (_super) {
             this.msgSent = true;
             if ((now - this.lastSendTime) >= this.options.minSendDelay) {
                 this.lastSendTime = now;
-                this.emit(event, message);
+                this.emit(event, utils.clone(message));
             }
             else {
                 this.sendQueue.push({ event: event, msg: message });

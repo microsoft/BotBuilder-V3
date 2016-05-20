@@ -32,17 +32,18 @@
 //
 
 import dialog = require('./Dialog');
+import ses = require('../Session');
 
 export class SimpleDialog extends dialog.Dialog {
-    constructor(private fn: (session: ISession, arg?: any) => void) {
+    constructor(private fn: (session: ses.Session, arg?: any) => void) {
         super();
     }
 
-    public begin<T>(session: ISession, args?: T): void {
+    public begin<T>(session: ses.Session, args?: T): void {
         this.fn(session, args);
     }
 
-    public replyReceived(session: ISession): void {
+    public replyReceived(session: ses.Session): void {
         session.compareConfidence(session.message.language, session.message.text, 0.0, (handled) => {
             if (!handled) {
                 this.fn(session);
@@ -50,7 +51,7 @@ export class SimpleDialog extends dialog.Dialog {
         });
     }
 
-    public dialogResumed(session: ISession, result: any): void {
+    public dialogResumed(session: ses.Session, result: any): void {
         this.fn(session, result);
     }
 }

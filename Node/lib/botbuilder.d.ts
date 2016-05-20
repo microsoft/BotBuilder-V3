@@ -305,8 +305,12 @@ export interface IDialogResult<T> {
 export interface IPromptOptions {
     /** 
      * Optional retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) plus the original prompt. Note that if the original 
-     * prompt is an _IMessage_ the default behaviour is to simply re-send the original prompt.
+     * reprompt with the configured [defaultRetryPrompt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
+     * plus the original prompt. 
+     * 
+     * Note that if the original prompt is an _IMessage_ the retry prompt will be sent as a seperate 
+     * message followed by the original message. If the retryPrompt is also an _IMessage_ it will 
+     * instead be sent in place of the original message. 
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
@@ -367,6 +371,9 @@ export interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
 /** Strongly typed Time Prompt Result. */
 export interface IPromptTimeResult extends IPromptResult<IEntity> { }
 
+/** Strongly typed Attachment Prompt Result. */
+export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
+
 /** Plugin for recognizing prompt responses recieved by a user. */
 export interface IPromptRecognizer {
     /**
@@ -412,9 +419,6 @@ export interface IPromptRecognizerArgs {
 export interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
-
-    /** The default retry prompt to use. The default value is "I didn't understand." */    
-    defaultRetryPrompt?: string;
 }
 
 /** A recognized intent. */
@@ -1118,9 +1122,9 @@ export class Message implements IMessage {
     
     /**
      * Selects a prompt at random.
-     * @param prompts Array of prompts to choose from.
+     * @param prompts Array of prompts to choose from. When prompts is type _string_ the prompt will simply be returned unmodified.
      */
-    static randomPrompt(prompts: string[]): string;
+    static randomPrompt(prompts: string|string[]): string;
     
     /**
      * Combines an array of prompts into a single localized prompt and then optionally fills the
@@ -1318,7 +1322,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static number(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
@@ -1329,7 +1333,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static confirm(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 
@@ -1344,7 +1348,7 @@ export class Prompts extends Dialog {
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
      * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static choice(session: Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void;
 
@@ -1355,9 +1359,20 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options Optional flags parameters to control the behaviour of the prompt.
+     * @param options Optional parameters to control the behaviour of the prompt.
      */
     static time(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
+
+    /**
+     * Prompts the user to upload a file attachment.
+     * @param session Session object for the current conversation.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options Optional parameters to control the behaviour of the prompt.
+     */
+    static attachment(session: Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void;
 }
 
 /**

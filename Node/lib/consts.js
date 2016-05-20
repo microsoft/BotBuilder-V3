@@ -4,10 +4,13 @@ exports.Data = {
     Handler: 'BotBuilder.Data.Handler',
     Group: 'BotBuilder.Data.Group',
     Intent: 'BotBuilder.Data.Intent',
-    WaterfallStep: 'BotBuilder.Data.WaterfallStep'
+    WaterfallStep: 'BotBuilder.Data.WaterfallStep',
+    Form: 'BotBuilder.Data.Form',
+    Field: 'BotBuilder.Data.Field'
 };
 exports.DialogId = {
-    Prompts: 'BotBuilder.Dialogs.Prompts'
+    Prompts: 'BotBuilder.Dialogs.Prompts',
+    Field: 'BotBuilder.Dialogs.Field'
 };
 exports.Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'
