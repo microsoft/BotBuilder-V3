@@ -106,8 +106,7 @@
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope;2</source>
-          <target state="needs-review-translation">لا</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">لا</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
@@ -115,8 +114,7 @@
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
           <source>Yes;y;sure;ok;yep;1</source>
-          <target state="needs-review-translation">نعم</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">نعم</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
