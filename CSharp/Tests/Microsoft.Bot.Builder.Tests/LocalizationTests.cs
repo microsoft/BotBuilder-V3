@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
-        public static async Task UI_Culture_From_Message(string language, CultureInfo current, CultureInfo expected)
+        public async static Task UI_Culture_From_Message(string language, CultureInfo current, CultureInfo expected)
         {
             var dialog = new Mock<ILocalizedDialog>();
 
@@ -82,18 +82,17 @@ namespace Microsoft.Bot.Builder.Tests
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
             using (var container = Build(Options.None, dialog.Object))
             {
-                var toBot = new Message()
-                {
-                    ConversationId = Guid.NewGuid().ToString(),
-                    Language = language
-                };
+                var toBot = MakeTestMessage();
+                toBot.Language = language;
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     Assert.AreEqual(current, CurrentCulture);
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
                     Assert.AreEqual(current, CurrentCulture);
                     Assert.AreEqual(actual, expected);
                 }

@@ -81,6 +81,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             this.stream.SetLength(this.stream.Position);
         }
+
+        void IStore<T>.Flush()
+        {
+            this.stream.Flush(); 
+        }
     }
 
     public sealed class ErrorResilientStore<T> : IStore<T>
@@ -114,6 +119,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             this.store.Save(item);
         }
+
+        void IStore<T>.Flush()
+        {
+            this.store.Flush(); 
+        }
     }
 
     public sealed class FactoryStore<T> : IStore<T>
@@ -145,6 +155,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         void IStore<T>.Save(T item)
         {
             this.store.Save(item);
+        }
+        
+        void IStore<T>.Flush()
+        {
+            this.store.Flush();
         }
     }
 }

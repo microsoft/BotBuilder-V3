@@ -69,106 +69,106 @@
   <data name="Length_valueDescriptions;FootLong;VALUE" xml:space="preserve">
     <value>Pied Long</value>
   </data>
-  <data name="Bread_description;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_description;VALUE" xml:space="preserve">
     <value>Pain</value>
   </data>
-  <data name="Bread_valueDescriptions;NineGrainWheat;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_valueDescriptions;NineGrainWheat;VALUE" xml:space="preserve">
     <value>Neuf grains de blé</value>
   </data>
-  <data name="Bread_valueDescriptions;NineGrainHoneyOat;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_valueDescriptions;NineGrainHoneyOat;VALUE" xml:space="preserve">
     <value>Neuf grains miel avoine</value>
   </data>
-  <data name="Bread_valueDescriptions;Italian;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_valueDescriptions;Italian;VALUE" xml:space="preserve">
     <value>Italien</value>
   </data>
-  <data name="Bread_valueDescriptions;ItalianHerbsAndCheese;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_valueDescriptions;ItalianHerbsAndCheese;VALUE" xml:space="preserve">
     <value>Fromage et herbes italiennes</value>
   </data>
-  <data name="Bread_valueDescriptions;Flatbread;VALUE" xml:space="preserve">
+  <data name="Ingredients.Bread_valueDescriptions;Flatbread;VALUE" xml:space="preserve">
     <value>Pain plat</value>
   </data>
-  <data name="Cheese_description;VALUE" xml:space="preserve">
+  <data name="Ingredients.Cheese_description;VALUE" xml:space="preserve">
     <value>Fromage</value>
   </data>
-  <data name="Cheese_valueDescriptions;American;VALUE" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueDescriptions;American;VALUE" xml:space="preserve">
     <value>Américain</value>
   </data>
-  <data name="Cheese_valueDescriptions;MontereyCheddar;VALUE" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueDescriptions;MontereyCheddar;VALUE" xml:space="preserve">
     <value>Cheddar de Monterey</value>
   </data>
-  <data name="Cheese_valueDescriptions;Pepperjack;VALUE" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueDescriptions;Pepperjack;VALUE" xml:space="preserve">
     <value>Crostini</value>
   </data>
-  <data name="Toppings_description;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_description;VALUE" xml:space="preserve">
     <value>Nappages</value>
   </data>
-  <data name="Toppings_valueDescriptions;Everything;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Everything;VALUE" xml:space="preserve">
     <value>Tout</value>
   </data>
-  <data name="Toppings_valueDescriptions;Avocado;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Avocado;VALUE" xml:space="preserve">
     <value>Avocat</value>
   </data>
-  <data name="Toppings_valueDescriptions;BananaPeppers;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;BananaPeppers;VALUE" xml:space="preserve">
     <value>Piments bananes</value>
   </data>
-  <data name="Toppings_valueDescriptions;Cucumbers;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Cucumbers;VALUE" xml:space="preserve">
     <value>Concombres</value>
   </data>
-  <data name="Toppings_valueDescriptions;GreenBellPeppers;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;GreenBellPeppers;VALUE" xml:space="preserve">
     <value>Poivrons verts</value>
   </data>
-  <data name="Toppings_valueDescriptions;Jalapenos;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Jalapenos;VALUE" xml:space="preserve">
     <value>Piments jalapenos</value>
   </data>
-  <data name="Toppings_valueDescriptions;Lettuce;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Lettuce;VALUE" xml:space="preserve">
     <value>Laitue</value>
   </data>
-  <data name="Toppings_valueDescriptions;Olives;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Olives;VALUE" xml:space="preserve">
     <value>Olives</value>
   </data>
-  <data name="Toppings_valueDescriptions;Pickles;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Pickles;VALUE" xml:space="preserve">
     <value>Cornichons</value>
   </data>
-  <data name="Toppings_valueDescriptions;RedOnion;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;RedOnion;VALUE" xml:space="preserve">
     <value>Oignon rouge</value>
   </data>
-  <data name="Toppings_valueDescriptions;Spinach;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Spinach;VALUE" xml:space="preserve">
     <value>Épinards</value>
   </data>
-  <data name="Toppings_valueDescriptions;Tomatoes;VALUE" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueDescriptions;Tomatoes;VALUE" xml:space="preserve">
     <value>Tomates</value>
   </data>
-  <data name="Sauces_description;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_description;VALUE" xml:space="preserve">
     <value>Sauces</value>
   </data>
-  <data name="Sauces_valueDescriptions;ChipotleSouthwest;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;ChipotleSouthwest;VALUE" xml:space="preserve">
     <value>Chipotle sud-ouest</value>
   </data>
-  <data name="Sauces_valueDescriptions;HoneyMustard;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;HoneyMustard;VALUE" xml:space="preserve">
     <value>Moutarde au miel</value>
   </data>
-  <data name="Sauces_valueDescriptions;LightMayonnaise;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;LightMayonnaise;VALUE" xml:space="preserve">
     <value>Mayonnaise légère</value>
   </data>
-  <data name="Sauces_valueDescriptions;RegularMayonnaise;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;RegularMayonnaise;VALUE" xml:space="preserve">
     <value>Mayonnaise ordinaire</value>
   </data>
-  <data name="Sauces_valueDescriptions;Mustard;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;Mustard;VALUE" xml:space="preserve">
     <value>Moutarde</value>
   </data>
-  <data name="Sauces_valueDescriptions;Oil;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;Oil;VALUE" xml:space="preserve">
     <value>Huile</value>
   </data>
-  <data name="Sauces_valueDescriptions;Pepper;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;Pepper;VALUE" xml:space="preserve">
     <value>Poivre</value>
   </data>
-  <data name="Sauces_valueDescriptions;Ranch;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;Ranch;VALUE" xml:space="preserve">
     <value>Ranch</value>
   </data>
-  <data name="Sauces_valueDescriptions;SweetOnion;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;SweetOnion;VALUE" xml:space="preserve">
     <value>Oignon doux</value>
   </data>
-  <data name="Sauces_valueDescriptions;Vinegar;VALUE" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueDescriptions;Vinegar;VALUE" xml:space="preserve">
     <value>Vinaigre</value>
   </data>
   <data name="Specials_description;VALUE" xml:space="preserve">
@@ -179,6 +179,9 @@
   </data>
   <data name="DeliveryTime_description;VALUE" xml:space="preserve">
     <value>Délai de livraison</value>
+  </data>
+  <data name="Rating_description;VALUE" xml:space="preserve">
+    <value>votre expérience aujourd'hui</value>
   </data>
   <data name="message0;LIST" xml:space="preserve">
     <value>Bienvenue sur le bot d'ordre "sandwich" !</value>
@@ -246,109 +249,109 @@
   <data name="Length_promptDefinition;LIST" xml:space="preserve">
     <value>Quelle est la taille du "sandwich" voulez-vous? {||}</value>
   </data>
-  <data name="Bread_terms;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_terms;LIST" xml:space="preserve">
     <value>pains?</value>
   </data>
-  <data name="Bread_valueTerms;NineGrainWheat;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_valueTerms;NineGrainWheat;LIST" xml:space="preserve">
     <value>neuf ; céréales? ; blés? ; neuf grains? ; grains? blés? ; neuf grains? blés?</value>
   </data>
-  <data name="Bread_valueTerms;NineGrainHoneyOat;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_valueTerms;NineGrainHoneyOat;LIST" xml:space="preserve">
     <value>neuf ; céréales? ; miels?; o ATS? ; neuf grains? ; grains? miels? ; miels? avoine? ; neuf grains? miels? ; grains? miels? avoine? ; avoine de miel de neuf grains</value>
   </data>
-  <data name="Bread_valueTerms;Italian;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_valueTerms;Italian;LIST" xml:space="preserve">
     <value>italiens?</value>
   </data>
-  <data name="Bread_valueTerms;ItalianHerbsAndCheese;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_valueTerms;ItalianHerbsAndCheese;LIST" xml:space="preserve">
     <value>italiens? ; herbes? ; et ; fromages? ; italiens? herbes? ; fines herbes? et ; et fromages? ; italiens? fines herbes? et ; herbes? fromages et? ; fromage et herbes italiennes</value>
   </data>
-  <data name="Bread_valueTerms;Flatbread;LIST" xml:space="preserve">
+  <data name="Ingredients.Bread_valueTerms;Flatbread;LIST" xml:space="preserve">
     <value>pains plats?</value>
   </data>
-  <data name="Cheese_terms;LIST" xml:space="preserve">
+  <data name="Ingredients.Cheese_terms;LIST" xml:space="preserve">
     <value>fromages?</value>
   </data>
-  <data name="Cheese_valueTerms;American;LIST" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueTerms;American;LIST" xml:space="preserve">
     <value>américains?</value>
   </data>
-  <data name="Cheese_valueTerms;MontereyCheddar;LIST" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueTerms;MontereyCheddar;LIST" xml:space="preserve">
     <value>montereys? ; cheddars? ; montereys? cheddars?</value>
   </data>
-  <data name="Cheese_valueTerms;Pepperjack;LIST" xml:space="preserve">
+  <data name="Ingredients.Cheese_valueTerms;Pepperjack;LIST" xml:space="preserve">
     <value>pepperjacks?</value>
   </data>
-  <data name="Toppings_terms;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_terms;LIST" xml:space="preserve">
     <value>garnitures?</value>
   </data>
-  <data name="Toppings_valueTerms;Everything;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Everything;LIST" xml:space="preserve">
     <value>sauf ; mais ; non ; non ; tous ; tout</value>
   </data>
-  <data name="Toppings_valueTerms;Avocado;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Avocado;LIST" xml:space="preserve">
     <value>avocats?</value>
   </data>
-  <data name="Toppings_valueTerms;BananaPeppers;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;BananaPeppers;LIST" xml:space="preserve">
     <value>bananes? ; poivrons? ; bananes? poivrons?</value>
   </data>
-  <data name="Toppings_valueTerms;Cucumbers;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Cucumbers;LIST" xml:space="preserve">
     <value>concombres?</value>
   </data>
-  <data name="Toppings_valueTerms;GreenBellPeppers;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;GreenBellPeppers;LIST" xml:space="preserve">
     <value>verts? ; cloches? ; poivrons? ; verts? cloches? ; cloches? poivrons? ; verts? cloches? poivrons?</value>
   </data>
-  <data name="Toppings_valueTerms;Jalapenos;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Jalapenos;LIST" xml:space="preserve">
     <value>piments jalapenos?</value>
   </data>
-  <data name="Toppings_valueTerms;Lettuce;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Lettuce;LIST" xml:space="preserve">
     <value>laitues?</value>
   </data>
-  <data name="Toppings_valueTerms;Olives;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Olives;LIST" xml:space="preserve">
     <value>olives?</value>
   </data>
-  <data name="Toppings_valueTerms;Pickles;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Pickles;LIST" xml:space="preserve">
     <value>cornichons?</value>
   </data>
-  <data name="Toppings_valueTerms;RedOnion;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;RedOnion;LIST" xml:space="preserve">
     <value>Reds?; o nions? ; Reds? oignons?</value>
   </data>
-  <data name="Toppings_valueTerms;Spinach;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Spinach;LIST" xml:space="preserve">
     <value>épinards?</value>
   </data>
-  <data name="Toppings_valueTerms;Tomatoes;LIST" xml:space="preserve">
+  <data name="Ingredients.Toppings_valueTerms;Tomatoes;LIST" xml:space="preserve">
     <value>tomates?</value>
   </data>
   <data name="message6;LIST" xml:space="preserve">
-    <value>Pour les garnitures "sandwich" vous avez sélectionné {Toppings}.</value>
+    <value>Pour les garnitures "sandwich" vous avez sélectionné {Ingredients.Toppings}.</value>
   </data>
-  <data name="Sauces_terms;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_terms;LIST" xml:space="preserve">
     <value>sauces?</value>
   </data>
-  <data name="Sauces_valueTerms;ChipotleSouthwest;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;ChipotleSouthwest;LIST" xml:space="preserve">
     <value>chipotles? ; southwests? ; chipotles? southwests?</value>
   </data>
-  <data name="Sauces_valueTerms;HoneyMustard;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;HoneyMustard;LIST" xml:space="preserve">
     <value>miels? ; moutardes? ; miels? moutardes?</value>
   </data>
-  <data name="Sauces_valueTerms;LightMayonnaise;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;LightMayonnaise;LIST" xml:space="preserve">
     <value>lumières? ; mayonnaises? ; lumières? mayonnaises?</value>
   </data>
-  <data name="Sauces_valueTerms;RegularMayonnaise;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;RegularMayonnaise;LIST" xml:space="preserve">
     <value>les habitués? ; mayonnaises? ; habitués? mayonnaises?</value>
   </data>
-  <data name="Sauces_valueTerms;Mustard;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;Mustard;LIST" xml:space="preserve">
     <value>moutardes?</value>
   </data>
-  <data name="Sauces_valueTerms;Oil;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;Oil;LIST" xml:space="preserve">
     <value>huiles?</value>
   </data>
-  <data name="Sauces_valueTerms;Pepper;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;Pepper;LIST" xml:space="preserve">
     <value>poivrons?</value>
   </data>
-  <data name="Sauces_valueTerms;Ranch;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;Ranch;LIST" xml:space="preserve">
     <value>ranchs?</value>
   </data>
-  <data name="Sauces_valueTerms;SweetOnion;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;SweetOnion;LIST" xml:space="preserve">
     <value>sucreries?; o nions? ; sucreries? oignons?</value>
   </data>
-  <data name="Sauces_valueTerms;Vinegar;LIST" xml:space="preserve">
+  <data name="Ingredients.Sauces_valueTerms;Vinegar;LIST" xml:space="preserve">
     <value>vinaigres?</value>
   </data>
   <data name="Specials_terms;LIST" xml:space="preserve">
@@ -364,15 +367,18 @@
     <value>A quelle heure voulez-vous que votre "sandwich" livré? {||}</value>
   </data>
   <data name="confirmation12_promptDefinition;LIST" xml:space="preserve">
-    <value>Vous souhaitez commander votre longueur {} {Sandwich} sur {Bread} {&amp;Bread} avec {[{Cheese} {Toppings} {Sauces}]} à {DeliveryAddress} {? à {DeliveryTime:t}}?</value>
+    <value>Vous souhaitez commander votre longueur {} {Sandwich} sur {Ingredients.Bread} {&amp;Ingredients.Bread} avec {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} à {DeliveryAddress} {? à {DeliveryTime:t}}?</value>
   </data>
-  <data name="message13;LIST" xml:space="preserve">
+  <data name="Rating_terms;LIST" xml:space="preserve">
+    <value>notations?</value>
+  </data>
+  <data name="message14;LIST" xml:space="preserve">
     <value>Merci de commander un sandwich !</value>
   </data>
-  <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;TEMPLATE" xml:space="preserve">
+  <data name="NotUnderstood;Sandwich;Length;Ingredients.Bread;Ingredients.Cheese;Ingredients.Toppings;Ingredients.Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
     <value>Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</value>
   </data>
-  <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;TEMPLATE" xml:space="preserve">
+  <data name="EnumSelectOne;Sandwich;Length;Ingredients.Bread;Ingredients.Cheese;Ingredients.Toppings;Ingredients.Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
     <value>Quel genre de {&amp;} vous souhaitez sur votre "sandwich"? {||}</value>
   </data>
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">

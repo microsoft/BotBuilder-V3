@@ -101,6 +101,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.stack.Call<R>(child, resume);
         }
 
+        async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
+        {
+            await this.stack.Forward<R,T>(child, resume, item, token);
+        }
+
         void IDialogStack.Done<R>(R value)
         {
             this.stack.Done<R>(value);
@@ -114,6 +119,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
             this.stack.Wait(resume);
+        }
+
+        async Task IDialogStack.PollAsync(CancellationToken token)
+        {
+            await this.stack.PollAsync(token);
         }
     }
 }

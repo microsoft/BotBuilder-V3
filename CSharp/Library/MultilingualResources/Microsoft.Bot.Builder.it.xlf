@@ -105,16 +105,16 @@
           <target state="translated">Scelta Corrente ("s");corrente;s;scelta corrente;non cambiare;nessun cambio</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
-          <target state="final" state-qualifier="mt-suggestion">No;n</target>
+          <source>No;n;nope;2</source>
+          <target state="final">No;n;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
           <target state="final">Nessuna preferenza;no;nessuna;non importa</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
-          <target state="final">Sì;si;yes;y;s;sicuro;ok</target>
+          <source>Yes;y;sure;ok;yep;1</source>
+          <target state="final">Sì;si;yes;y;s;sicuro;ok;1</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

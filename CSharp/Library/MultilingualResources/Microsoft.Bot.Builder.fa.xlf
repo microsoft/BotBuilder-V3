@@ -105,16 +105,16 @@
           <target state="needs-review-translation" state-qualifier="mt-suggestion">انتخاب فعلی ('c'); جریان ج; انتخاب فعلی; بدون تغییر</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">نه; n; نوچ</target>
+          <source>No;n;nope;2</source>
+          <target state="final" state-qualifier="mt-suggestion">نه; n; نوچ</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">بدون اولویت; نه; هیچ کدام; من دان '? t مراقبت</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">بله؛ y; مطمئن خوب; بله</target>
+          <source>Yes;y;sure;ok;yep;1</source>
+          <target state="final" state-qualifier="mt-suggestion">بله؛ y; مطمئن خوب; بله</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

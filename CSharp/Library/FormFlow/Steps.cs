@@ -141,7 +141,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            string feedback = null;
+            ValidateResult feedback;
+            feedback.IsValid = true;
+            feedback.Feedback = null;
             FormPrompt prompt = null;
             FormPrompt feedbackPrompt = null; 
             var iprompt = _field.Prompt;
@@ -297,7 +299,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
             }
             var next = _field.Next(response, state);
-            return new StepResult(next, feedbackPrompt ?? new FormPrompt { Prompt = feedback }, prompt);
+            return new StepResult(feedback.IsValid, next, feedbackPrompt ?? new FormPrompt { Prompt = feedback.Feedback }, prompt);
         }
 
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
@@ -383,7 +385,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return value;
         }
 
-        private async Task<string> SetValueAsync(T state, object value, FormState form)
+        private async Task<ValidateResult> SetValueAsync(T state, object value, FormState form)
         {
             var desc = _field.Form.Fields.Field(_name);
             var feedback = await desc.ValidateAsync(state, value);
@@ -396,7 +398,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 feedback.Feedback = "";
             }
-            return feedback.Feedback;
+            return feedback;
         }
 
         private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognize<T> recognizer, out Ambiguous clarify)
@@ -531,7 +533,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             form.StepState = null;
             form.SetPhase((bool)value ? StepPhase.Completed : StepPhase.Ready);
             var next = _field.Next(value, state);
-            return new StepResult(next, feedback: null, prompt: null);
+            return new StepResult(true, next, feedback: null, prompt: null);
         }
 
         public async Task<bool> DefineAsync(T state)
@@ -673,7 +675,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 next = new NextStep(new string[] { (string)val });
             }
-            return new StepResult(next, feedback: null, prompt: null);
+            return new StepResult(true, next, feedback: null, prompt: null);
         }
 
         public Task<bool> DefineAsync(T state)

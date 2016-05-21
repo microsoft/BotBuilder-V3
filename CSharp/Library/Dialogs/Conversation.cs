@@ -50,9 +50,9 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         static Conversation()
         {
-            var serverBuilder = new ContainerBuilder();
-            serverBuilder.RegisterModule(new Internals.DialogModule());
-            Container = serverBuilder.Build();
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new DialogModule_MakeRoot());
+            Container = builder.Build();
         }
 
         /// <summary>
@@ -73,11 +73,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="MakeRoot">The factory method to make the root dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the message to send inline back to the user.</returns>
-        public static async Task<Message> SendAsync<T>(Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task<Message> SendAsync(Message toBot, Func<IDialog<object>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             using (var scope = DialogModule.BeginLifetimeScope(Container, toBot))
             {
-                return await SendAsync(scope, toBot, MakeRoot, token);
+                DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                return await SendAsync(scope, toBot, token);
             }
         }
 
@@ -94,16 +96,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             var continuationMessage = resumptionCookie.GetMessage(); 
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
+                Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
+                DialogModule_MakeRoot.Register(scope, MakeRoot);
+
                 return await ResumeAsync(scope, continuationMessage, toBot, token);
             }
         }
 
-        internal static async Task<Message> SendAsync<T>(ILifetimeScope scope, Message toBot, Func<IDialog<T>> MakeRoot, CancellationToken token = default(CancellationToken))
+        internal static async Task<Message> SendAsync(ILifetimeScope scope, Message toBot, CancellationToken token = default(CancellationToken))
         {
             using (new LocalizedScope(toBot.Language))
             {
-                var task = scope.Resolve<IDialogTask>();
-                await task.PostAsync(toBot, MakeRoot, token);
+                var task = scope.Resolve<IPostToBot>();
+                await task.PostAsync(toBot, token);
 
                 var botToUser = scope.Resolve<SendLastInline_BotToUser>();
                 return botToUser.ToUser;
@@ -117,7 +122,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             using (new LocalizedScope(message.Language))
             {
-                var task = scope.Resolve<IDialogTask>();
+                var task = scope.Resolve<IPostToBot>();
                 await task.PostAsync(toBot, token);
 
                 var botToUser = scope.Resolve<SendLastInline_BotToUser>();

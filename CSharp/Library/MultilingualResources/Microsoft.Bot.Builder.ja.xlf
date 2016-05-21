@@ -105,16 +105,16 @@
           <target state="final">現在の選択('c'); 現在; c; 現在の選択;変更なし</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
-          <target state="final">いいえ</target>
+          <source>No;n;nope;2</source>
+          <target state="final">いいえ;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
           <target state="final">どちらとも言えない; いいえ; なし; どちらでも良い</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
-          <target state="final">はい; もちろん; ok</target>
+          <source>Yes;y;sure;ok;yep;1</source>
+          <target state="final">はい; もちろん; ok;1</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

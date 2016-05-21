@@ -241,7 +241,11 @@ namespace Microsoft.Bot.Builder.FormFlow
                         // 2) Drop them
                         // 3) Just pick one (found in form.StepState, but that is opaque here)
                         // The challenge is to support clarification without navigation, etc.
-                        await step.ProcessAsync(context, _state, _formState, input, matches);
+                        var result = await step.ProcessAsync(context, _state, _formState, input, matches);
+                        if (!result.Success)
+                        {
+                            _formState.SetPhase(StepPhase.Ready);
+                        }
                     }
                     else
                     {

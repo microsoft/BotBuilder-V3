@@ -87,13 +87,13 @@
     <value>Scelta Corrente ("s");corrente;s;scelta corrente;non cambiare;nessun cambio</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>No;n</value>
+    <value>No;n;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Nessuna preferenza;no;nessuna;non importa</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>Sì;si;yes;y;s;sicuro;ok</value>
+    <value>Sì;si;yes;y;s;sicuro;ok;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>Non ho capito. Rispondi qualcosa.</value>

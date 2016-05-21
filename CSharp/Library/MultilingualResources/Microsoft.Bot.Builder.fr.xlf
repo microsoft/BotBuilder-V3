@@ -8,7 +8,7 @@
       <group id="MICROSOFT.BOT.BUILDER/RESOURCE/RESOURCES.RESX" datatype="resx">
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Retour</target>
+          <target state="final" state-qualifier="tm-suggestion">Retour</target>
         </trans-unit>
         <trans-unit id="CommandBackHelp" translate="yes" xml:space="preserve">
           <source>Back: Go back to the previous question.</source>
@@ -105,16 +105,16 @@
           <target state="translated">Le choix actuel ("c"); courant; c; choix actuel</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
-          <target state="translated">non;pas;rien</target>
+          <source>No;n;nope;2</source>
+          <target state="final">non;pas;rien;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
           <target state="translated">Pas de préférence;non; pas; aucun; aucune;tout de même;ça m'est égal</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
-          <target state="translated">Oui;bien sûr;ok; si</target>
+          <source>Yes;y;sure;ok;yep;1</source>
+          <target state="final">Oui;bien sûr;ok; si;1</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

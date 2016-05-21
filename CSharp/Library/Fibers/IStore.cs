@@ -44,5 +44,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         bool TryLoad(out T item);
 
         void Save(T item);
+
+        void Flush(); 
     }
 }

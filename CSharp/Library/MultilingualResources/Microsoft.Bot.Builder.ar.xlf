@@ -105,7 +105,7 @@
           <target state="final">الاختيار الحالي</target>
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
-          <source>No;n;nope</source>
+          <source>No;n;nope;2</source>
           <target state="final">لا</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
@@ -113,7 +113,7 @@
           <target state="final">أي شيء; لا تفرق; لا تفضيل</target>
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
-          <source>Yes;y;sure;ok;yep</source>
+          <source>Yes;y;sure;ok;yep;1</source>
           <target state="final">نعم</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">

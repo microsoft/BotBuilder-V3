@@ -35,6 +35,7 @@ using System;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
@@ -95,20 +96,22 @@ namespace Microsoft.Bot.Sample.Tests
             var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
 
             Func<IDialog<object>> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
-            var toBot = new Message() { ConversationId = Guid.NewGuid().ToString() };
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(luis.Object))
             using (var container = Build(Options.ScopedQueue, luis.Object))
             {
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTime);
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -117,13 +120,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     SetupLuis(luis, a => a.FindAlarm(null, null), entityTitle);
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -132,13 +137,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     SetupLuis(luis, a => a.AlarmSnooze(null, null), entityTitle);
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -147,13 +154,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     SetupLuis(luis, a => a.TurnOffAlarm(null, null), entityTitle);
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -162,13 +171,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     toBot.Text = "blah";
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -177,13 +188,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     toBot.Text = "yes";
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();
@@ -192,13 +205,15 @@ namespace Microsoft.Bot.Sample.Tests
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var task = scope.Resolve<IDialogTask>();
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+
+                    var task = scope.Resolve<IPostToBot>();
 
                     // arrange
                     SetupLuis(luis, a => a.DeleteAlarm(null, null), entityTitle);
 
                     // act
-                    await task.PostAsync(toBot, MakeRoot);
+                    await task.PostAsync(toBot, CancellationToken.None);
 
                     // assert
                     luis.VerifyAll();

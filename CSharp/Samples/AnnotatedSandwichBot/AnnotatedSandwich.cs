@@ -3,7 +3,6 @@ using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -159,7 +158,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<JObject> BuildJsonForm()
         {
-            var schema = JSchema.Parse(System.IO.File.ReadAllText(@"AnnotatedSandwich.json"));
+            var schema = JObject.Parse(System.IO.File.ReadAllText(@"AnnotatedSandwich.json"));
             OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>
             {
                 await context.PostAsync(DynamicSandwich.Processing);
@@ -169,9 +168,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Message("Welcome to the sandwich order bot!")
                         .Field(schema, "Sandwich")
                         .Field(schema, "Length")
-                        .Field(schema, "Bread")
-                        .Field(schema, "Cheese")
-                        .Field(schema, "Toppings",
+                        .Field(schema, "Ingredients.Bread")
+                        .Field(schema, "Ingredients.Cheese")
+                        .Field(schema, "Ingredients.Toppings",
                         validate: async (state, response) =>
                         {
                             var value = (IList<object>)response;
@@ -192,8 +191,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                             return result;
                         }
                         )
-                        .Message("For sandwich toppings you have selected {Toppings}.")
-                        .Field(schema, "Sauces")
+                        .Message("For sandwich toppings you have selected {Ingredients.Toppings}.")
+                        .Field(schema, "Ingredients.Sauces")
                         .Field(new FieldJson(schema, "Specials")
                             .SetType(null)
                             .SetActive((state) => (string)state["Length"] == "FootLong")
@@ -229,8 +228,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 return result;
                             })
                         .Field(schema, "DeliveryTime", "What time do you want your sandwich delivered? {||}")
-                        .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
-                        .AddRemainingFields()
+                        .Confirm("Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
+                        .AddRemainingFields(schema)
                         .Message("Thanks for ordering a sandwich!")
                         .OnCompletionAsync(processOrder)
                 .Build(typeof(SandwichOrder).Assembly, "JsonSandwichBot");
