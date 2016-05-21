@@ -38,7 +38,6 @@ export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt:
         case 'facebook':
             return (choiceCnt <= 3);
         case 'telegram':
-            return !rePrompt;
         case 'kik':
             return true;
         default:
