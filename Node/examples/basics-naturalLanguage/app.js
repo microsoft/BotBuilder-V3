@@ -18,7 +18,7 @@ var cortanaBot = new builder.TextBot();
 cortanaBot.add('/', dialog);
 
 // Add intent handlers
-dialog.action('builtin.intent.alarm.set_alarm', [
+dialog.on('builtin.intent.alarm.set_alarm', [
     function (session, args, next) {
         // Resolve and store any entities passed from LUIS.
         var title = builder.EntityRecognizer.findEntity(args.entities, 'builtin.alarm.title');
