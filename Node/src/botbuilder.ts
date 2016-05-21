@@ -66,6 +66,7 @@ exports.IntentDialog = intent.IntentDialog;
 exports.IntentGroup = intent.IntentGroup;
 exports.LuisDialog = luis.LuisDialog;
 exports.CommandDialog = command.CommandDialog;
+exports.SimpleDialog = simple.SimpleDialog;
 exports.EntityRecognizer = entities.EntityRecognizer;
 exports.MemoryStorage = storage.MemoryStorage;
 exports.BotConnectorBot = connector.BotConnectorBot;

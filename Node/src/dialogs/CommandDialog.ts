@@ -127,44 +127,35 @@ export class CommandDialog extends dialog.Dialog {
         return this;
     }
 
-    public matches(pattern: string, fn: IDialogHandler<ICommandArgs>): this; 
-    public matches(patterns: string[], fn: IDialogHandler<ICommandArgs>): this; 
-    public matches(pattern: string, waterfall: actions.IDialogWaterfallStep[]): this;
-    public matches(patterns: string[], waterfall: actions.IDialogWaterfallStep[]): this;
-    public matches(pattern: string, dialogId: string, dialogArgs?: any): this;
-    public matches(patterns: string[], dialogId: string, dialogArgs?: any): this; 
-    public matches(patterns: any, dialogId: any, dialogArgs?: any): this {
+    public matches(patterns: string | string[], dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
         // Fix args
         var fn: IDialogHandler<ICommandArgs>;
-        var patterns = !util.isArray(patterns) ? [patterns] : patterns;
+        var p = <string[]>(!util.isArray(patterns) ? [patterns] : patterns);
         if (Array.isArray(dialogId)) {
-            fn = actions.DialogAction.waterfall(dialogId);
+            fn = actions.waterfall(dialogId);
         } else if (typeof dialogId == 'string') {
-            fn = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+            fn = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            fn = dialogId;
+            fn = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
         }
 
         // Save compiled expressions
         var expressions: RegExp[] = [];
-        for (var i = 0; i < (<string[]>patterns).length; i++) {
-            expressions.push(new RegExp((<string[]>patterns)[i], 'i'));
+        for (var i = 0; i < (<string[]>p).length; i++) {
+            expressions.push(new RegExp((<string[]>p)[i], 'i'));
         }
         this.commands.push({ expressions: expressions, fn: fn });
         return this;
     } 
 
-    public onDefault(fn: IDialogHandler<ICommandArgs>): this;
-    public onDefault(waterfall: actions.IDialogWaterfallStep[]): this;
-    public onDefault(dialogId: string, dialogArgs?: any): this;
-    public onDefault(dialogId: any, dialogArgs?: any): this {
+    public onDefault(dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
         var fn: IDialogHandler<ICommandArgs>;
         if (Array.isArray(dialogId)) {
-            fn = actions.DialogAction.waterfall(dialogId);
+            fn = actions.waterfall(dialogId);
         } else if (typeof dialogId == 'string') {
-            fn = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+            fn = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            fn = dialogId;
+            fn = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
         }
         this.default = { fn: fn };
         return this;

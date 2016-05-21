@@ -172,18 +172,12 @@ export abstract class IntentDialog extends dialog.Dialog {
         return this;
     }
 
-    public on(intent: string, fn: IDialogHandler<IIntentArgs>): this;
-    public on(intent: string, waterfall: actions.IDialogWaterfallStep[]): this;
-    public on(intent: string, dialogId: string, dialogArgs?: any): this;
-    public on(intent: string, dialogId: any, dialogArgs?: any): this {
+    public on(intent: string, dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
         this.getDefaultGroup().on(intent, dialogId, dialogArgs);
         return this;
     }
 
-    public onDefault(fn: IDialogHandler<IIntentArgs>): this;
-    public onDefault(waterfall: actions.IDialogWaterfallStep[]): this;
-    public onDefault(dialogId: string, dialogArgs?: any): this;
-    public onDefault(dialogId: any, dialogArgs?: any): this {
+    public onDefault(dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
         this.getDefaultGroup().on(consts.Intents.Default, dialogId, dialogArgs);
         return this;
     }
@@ -277,17 +271,14 @@ export class IntentGroup {
         return this.handlers[intent];
     }
 
-    public on(intent: string, fn: IDialogHandler<IIntentArgs>): this;
-    public on(intent: string, waterfall: actions.IDialogWaterfallStep[]): this;
-    public on(intent: string, dialogId: string, dialogArgs?: any): this;
-    public on(intent: string, dialogId: any, dialogArgs?: any): this {
+    public on(intent: string, dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
         if (!this.handlers.hasOwnProperty(intent)) {
             if (Array.isArray(dialogId)) {
-                this.handlers[intent] = actions.DialogAction.waterfall(dialogId);
+                this.handlers[intent] = actions.waterfall(dialogId);
             } else if (typeof dialogId == 'string') {
-                this.handlers[intent] = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+                this.handlers[intent] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
             } else {
-                this.handlers[intent] = dialogId;
+                this.handlers[intent] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
             }
         } else {
             throw new Error('Intent[' + intent + '] already exists.');
