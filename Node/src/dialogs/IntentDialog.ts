@@ -222,7 +222,7 @@ export abstract class IntentDialog extends dialog.Dialog {
                 session.send();
             }
         } catch (e) {
-            session.endDialog({ error: new Error('Exception handling intent: ' + e.message) });
+            session.error(e instanceof Error ? e : new Error(e.toString()));
         }
     }
 
