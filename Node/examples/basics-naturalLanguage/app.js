@@ -18,7 +18,7 @@ var cortanaBot = new builder.TextBot();
 cortanaBot.add('/', dialog);
 
 // Add intent handlers
-dialog.on('builtin.intent.alarm.set_alarm', [
+dialog.action('builtin.intent.alarm.set_alarm', [
     function (session, args, next) {
         // Resolve and store any entities passed from LUIS.
         var title = builder.EntityRecognizer.findEntity(args.entities, 'builtin.alarm.title');
@@ -27,10 +27,6 @@ dialog.on('builtin.intent.alarm.set_alarm', [
           title: title ? title.entity : null,
           timestamp: time ? time.getTime() : null  
         };
-        
-        if (time) {
-            var diff = time.getTime() - new Date().getTime();
-        }
         
         // Prompt for title
         if (!alarm.title) {
@@ -44,7 +40,7 @@ dialog.on('builtin.intent.alarm.set_alarm', [
         if (results.response) {
             alarm.title = results.response;
         }
-        
+
         // Prompt for time (title will be blank if the user said cancel)
         if (alarm.title && !alarm.timestamp) {
             builder.Prompts.time(session, 'What time would you like to set the alarm for?');
@@ -111,8 +107,8 @@ dialog.onDefault(builder.DialogAction.send("I'm sorry I didn't understand. I can
 
 // Add notification dialog
 cortanaBot.add('/notify', function (session, alarm) {
-   session.send("Here's your '%s' alarm.", alarm.title);
-   session.endDialog(); // <= we don't want replies coming to us 
+    // We don't want replies coming to us so we'll use endDialog() instead of send()
+    session.endDialog("Here's your '%s' alarm.", alarm.title);
 });
 
 cortanaBot.listenStdin();
