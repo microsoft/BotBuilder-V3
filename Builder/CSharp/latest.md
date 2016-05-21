@@ -24,6 +24,24 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v1.2.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.2)
+#### Breaking Changes
+* There is no longer a dependency on Newtonsoft.Json.Schema so you use JObject.Parse to parse your JSON Schema and define forms.
+
+#### Changes
+* Fix bug from github issue #227.  The problem was that when processing LUIS entities if the validation failed the phase was left as responding which caused a crash.
+* Allow ConnectorClientCredentials to be injected from container fixes GitHub issue #230
+* Make it possible to resolve root dialog from the container
+* Decouple IPostToBot "middleware" from IDialogTask
+* Push lazy dialog instantiation into DialogTask
+* Factor out ReactiveDialogTask from DialogTask
+* Implement Forwarding of an item to child dialog
+* Add persistent dialog task
+* Add example of AlwaysSendDirect_BotToUser
+* Add 1 & 2 as possible responses to boolean recognizer because buttons might send them.
+
+* * *
+
 ### [v1.2.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.1)
 
 #### Changes
