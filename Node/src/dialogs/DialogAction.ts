@@ -36,7 +36,7 @@ import consts = require('../consts');
 import utils = require('../utils');
 import dialog = require('./Dialog');
 import prompts = require('./Prompts');
-
+import simple = require('./SimpleDialog');
 
 export interface IDialogWaterfallStep {
     (session: ses.Session, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
@@ -86,8 +86,8 @@ export class DialogAction {
         };
     }
     
-    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): IDialogHandler<any> {
-        return function validatePromptAction(s: ses.Session, r: dialog.IDialogResult<any>) {
+    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): dialog.Dialog {
+        return new simple.SimpleDialog((s: ses.Session, r: dialog.IDialogResult<any>) => {
             r = r || <any>{};
 
             // Validate response
@@ -137,7 +137,7 @@ export class DialogAction {
                 // User failed to enter a valid response
                 s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
             }
-        }; 
+        }); 
     }
 }
 
