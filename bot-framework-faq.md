@@ -127,7 +127,7 @@ Bots registered through Bot Connector and reviewed for publishing will appear in
 #### Measure
 {:.no_toc}
 
-If you host your bot in Azure you can link to [Azure Application Insights](https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
+If you host your bot in Azure you can link to [Azure Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
 #### Manage
 {:.no_toc}
