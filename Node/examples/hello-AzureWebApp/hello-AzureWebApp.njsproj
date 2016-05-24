@@ -32,13 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="server.js" />
-    <None Include="hello-AzureWebApp20160405033236 - Web Deploy.pubxml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config" />
-    <Content Include="bin\ChangeConfig.ps1" />
-    <Content Include="bin\download.ps1" />
-    <Content Include="bin\setup_web.cmd" />
-    <Content Include="bin\node.cmd" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
