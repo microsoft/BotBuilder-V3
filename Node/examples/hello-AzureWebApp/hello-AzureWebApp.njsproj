@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="server.js" />
+    <Content Include="index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config" />
     <Content Include="package.json" />
