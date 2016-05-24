@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net46": {
+      "wrappedProject": "../../Library/Microsoft.Bot.Builder.csproj",
+      "bin": {
+        "assembly": "../../Library/obj/{configuration}/Microsoft.Bot.Builder.dll",
+        "pdb": "../../Library/obj/{configuration}/Microsoft.Bot.Builder.pdb"
+      },
+      "dependencies": {
+        "Autofac": "3.5.2",
+        "autorest": "0.15.0",
+        "Chronic.Signed": "0.3.2",
+        "Microsoft.AspNet.WebApi.Client": "5.2.3",
+        "Microsoft.AspNet.WebApi.Core": "5.2.3",
+        "Microsoft.Bot.Connector": "1.1.0.0",
+        "Microsoft.Net.Compilers": "1.2.1",
+        "Microsoft.Rest.ClientRuntime": "1.8.2",
+        "Microsoft.WindowsAzure.ConfigurationManager": "3.2.1",
+        "Newtonsoft.Json": "8.0.3",
+        "NuGet.CommandLine": "3.4.3"
+      }
+    }
+  }
+}
