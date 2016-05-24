@@ -20,7 +20,7 @@ To get started either install the BotBuilder module via NPM:
 
 Or clone our GitHub repository using Git. This may be preferable over NPM as it will provide you with numerous example code fragments and bots:
 
-    git clone git@github.com:Microsoft/BotBuilder.git
+    git clone https://github.com/Microsoft/BotBuilder.git
 
 Examples can then be found under the “Node/examples” directory of the cloned repository. 
 
