@@ -2,6 +2,7 @@ var ses = require('../Session');
 var consts = require('../consts');
 var utils = require('../utils');
 var dialog = require('./Dialog');
+var simple = require('./SimpleDialog');
 var DialogAction = (function () {
     function DialogAction() {
     }
@@ -44,57 +45,8 @@ var DialogAction = (function () {
             s.endDialog(result);
         };
     };
-    DialogAction.waterfall = function (steps) {
-        return function waterfallAction(s, r) {
-            var skip = function (result) {
-                result = result || {};
-                if (!result.resumed) {
-                    result.resumed = dialog.ResumeReason.forward;
-                }
-                waterfallAction(s, result);
-            };
-            if (r && r.hasOwnProperty('resumed')) {
-                var step = s.dialogData[consts.Data.WaterfallStep];
-                switch (r.resumed) {
-                    case dialog.ResumeReason.back:
-                        step -= 1;
-                        break;
-                    default:
-                        step++;
-                }
-                if (step >= 0 && step < steps.length) {
-                    try {
-                        s.dialogData[consts.Data.WaterfallStep] = step;
-                        steps[step](s, r, skip);
-                    }
-                    catch (e) {
-                        delete s.dialogData[consts.Data.WaterfallStep];
-                        s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
-                    }
-                }
-                else {
-                    delete s.dialogData[consts.Data.WaterfallStep];
-                    s.send();
-                }
-            }
-            else if (steps && steps.length > 0) {
-                try {
-                    s.dialogData[consts.Data.WaterfallStep] = 0;
-                    steps[0](s, r, skip);
-                }
-                catch (e) {
-                    delete s.dialogData[consts.Data.WaterfallStep];
-                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
-                }
-            }
-            else {
-                delete s.dialogData[consts.Data.WaterfallStep];
-                s.send();
-            }
-        };
-    };
     DialogAction.validatedPrompt = function (promptType, validator) {
-        return function validatePromptAction(s, r) {
+        return new simple.SimpleDialog(function (s, r) {
             r = r || {};
             var valid = false;
             if (r.response) {
@@ -136,8 +88,56 @@ var DialogAction = (function () {
             else {
                 s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
             }
-        };
+        });
     };
     return DialogAction;
 })();
 exports.DialogAction = DialogAction;
+function waterfall(steps) {
+    return function waterfallAction(s, r) {
+        var skip = function (result) {
+            result = result || {};
+            if (!result.resumed) {
+                result.resumed = dialog.ResumeReason.forward;
+            }
+            waterfallAction(s, result);
+        };
+        if (r && r.hasOwnProperty('resumed')) {
+            var step = s.dialogData[consts.Data.WaterfallStep];
+            switch (r.resumed) {
+                case dialog.ResumeReason.back:
+                    step -= 1;
+                    break;
+                default:
+                    step++;
+            }
+            if (step >= 0 && step < steps.length) {
+                try {
+                    s.dialogData[consts.Data.WaterfallStep] = step;
+                    steps[step](s, r, skip);
+                }
+                catch (e) {
+                    delete s.dialogData[consts.Data.WaterfallStep];
+                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                }
+            }
+            else {
+                s.endDialog(r);
+            }
+        }
+        else if (steps && steps.length > 0) {
+            try {
+                s.dialogData[consts.Data.WaterfallStep] = 0;
+                steps[0](s, r, skip);
+            }
+            catch (e) {
+                delete s.dialogData[consts.Data.WaterfallStep];
+                s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+            }
+        }
+        else {
+            s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
+        }
+    };
+}
+exports.waterfall = waterfall;

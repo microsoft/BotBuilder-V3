@@ -92,19 +92,19 @@ var CommandDialog = (function (_super) {
     };
     CommandDialog.prototype.matches = function (patterns, dialogId, dialogArgs) {
         var fn;
-        var patterns = !util.isArray(patterns) ? [patterns] : patterns;
+        var p = (!util.isArray(patterns) ? [patterns] : patterns);
         if (Array.isArray(dialogId)) {
-            fn = actions.DialogAction.waterfall(dialogId);
+            fn = actions.waterfall(dialogId);
         }
         else if (typeof dialogId == 'string') {
             fn = actions.DialogAction.beginDialog(dialogId, dialogArgs);
         }
         else {
-            fn = dialogId;
+            fn = actions.waterfall([dialogId]);
         }
         var expressions = [];
-        for (var i = 0; i < patterns.length; i++) {
-            expressions.push(new RegExp(patterns[i], 'i'));
+        for (var i = 0; i < p.length; i++) {
+            expressions.push(new RegExp(p[i], 'i'));
         }
         this.commands.push({ expressions: expressions, fn: fn });
         return this;
@@ -112,13 +112,13 @@ var CommandDialog = (function (_super) {
     CommandDialog.prototype.onDefault = function (dialogId, dialogArgs) {
         var fn;
         if (Array.isArray(dialogId)) {
-            fn = actions.DialogAction.waterfall(dialogId);
+            fn = actions.waterfall(dialogId);
         }
         else if (typeof dialogId == 'string') {
             fn = actions.DialogAction.beginDialog(dialogId, dialogArgs);
         }
         else {
-            fn = dialogId;
+            fn = actions.waterfall([dialogId]);
         }
         this.default = { fn: fn };
         return this;

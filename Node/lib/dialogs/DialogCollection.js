@@ -19,10 +19,10 @@ var DialogCollection = (function (_super) {
         var dialogs;
         if (typeof id == 'string') {
             if (Array.isArray(dialog)) {
-                dialog = new simpleDialog.SimpleDialog(actions.DialogAction.waterfall(dialog));
+                dialog = new simpleDialog.SimpleDialog(actions.waterfall(dialog));
             }
             else if (typeof dialog == 'function') {
-                dialog = new simpleDialog.SimpleDialog(dialog);
+                dialog = new simpleDialog.SimpleDialog(actions.waterfall([dialog]));
             }
             dialogs = (_a = {}, _a[id] = dialog, _a);
         }

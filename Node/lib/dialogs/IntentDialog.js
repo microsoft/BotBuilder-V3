@@ -154,7 +154,7 @@ var IntentDialog = (function (_super) {
             }
         }
         catch (e) {
-            session.endDialog({ error: new Error('Exception handling intent: ' + e.message) });
+            session.error(e instanceof Error ? e : new Error(e.toString()));
         }
     };
     IntentDialog.prototype.findTopIntent = function (intents) {
@@ -206,13 +206,13 @@ var IntentGroup = (function () {
     IntentGroup.prototype.on = function (intent, dialogId, dialogArgs) {
         if (!this.handlers.hasOwnProperty(intent)) {
             if (Array.isArray(dialogId)) {
-                this.handlers[intent] = actions.DialogAction.waterfall(dialogId);
+                this.handlers[intent] = actions.waterfall(dialogId);
             }
             else if (typeof dialogId == 'string') {
                 this.handlers[intent] = actions.DialogAction.beginDialog(dialogId, dialogArgs);
             }
             else {
-                this.handlers[intent] = dialogId;
+                this.handlers[intent] = actions.waterfall([dialogId]);
             }
         }
         else {
