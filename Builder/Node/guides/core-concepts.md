@@ -59,13 +59,18 @@ It's likely that you're going to want your bot to be a little smarter than Hello
 var builder = require('botbuilder');
 
 var helloBot = new builder.TextBot();
-helloBot.add('/', function (session) {
-    if (!session.userData.name) {
-        session.beginDialog('/profile');
-    } else {
+helloBot.add('/', [
+    function (session, args, next) {
+        if (!session.userData.name) {
+            session.beginDialog('/profile');
+        } else {
+            next();
+        }
+    },
+    function (session, results) {
         session.send('Hello %s!', session.userData.name);
     }
-});
+]);
 helloBot.add('/profile', [
     function (session) {
         builder.Prompts.text(session, 'Hi! What is your name?');
@@ -83,7 +88,7 @@ By passing an array of functions for our dialog handler a waterfall is setup whe
 
 In the first step of the '/profile' dialogs waterfall we're going to call the built-in [Prompts.text()](/builder/node/dialogs/Prompts/#promptstext) prompt to greet the user and ask them their name. The framework will route the users' response to that question to the results value of the second step where we'll save it off and then end the dialog. To save their response we're leveraging the frameworks built in storage constructs. You can persist data for a user globally by assigning values to the [session.userData](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#userdata) object and you can also leverage more temporary per/dialog storage using [session.dialogData](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#dialogdata).
 
-To make use of our new '/profile' dialog we also had to modify our root '/' dialog to conditionally start the '/profile' dialog. The root '/' dialog now checks to see if we know the users name and if not it redirects them to the '/profile' dialog using a call to [beginDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog). This will execute our waterfall and then control will be returned back to the root dialog with a call to [endDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). We can now run HelloBot again to see the results of these improved smarts:
+To make use of our new '/profile' dialog we also had to modify our root '/' dialog to use a waterfall. The first step of the root '/' dialogs waterfall checks to see if we know the users name and if not it redirects them to the '/profile' dialog using a call to [beginDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog). This will execute our waterfall and then control will be returned back to the root dialog with a call to [endDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). When the '/profile' dialog returns control will be passed to the second step of the root '/' dialogs waterfall where we send the user their customized greeting. We can now run HelloBot again to see the results of these improved smarts:
 
     node app.js
     hello
@@ -101,13 +106,18 @@ var helloBot = new builder.TextBot();
 helloBot.add('/', new builder.CommandDialog()
     .matches('^set name', builder.DialogAction.beginDialog('/profile'))
     .matches('^quit', builder.DialogAction.endDialog())
-    .onDefault(function (session) {
-        if (!session.userData.name) {
-            session.beginDialog('/profile');
-        } else {
+    .onDefault([
+        function (session, args, next) {
+            if (!session.userData.name) {
+                session.beginDialog('/profile');
+            } else {
+                next();
+            }
+        },
+        function (session, results) {
             session.send('Hello %s!', session.userData.name);
         }
-    }));
+    ]));
 helloBot.add('/profile',  [
     function (session) {
         if (session.userData.name) {
@@ -151,13 +161,18 @@ var helloBot = new builder.BotConnectorBot();
 helloBot.add('/', new builder.CommandDialog()
     .matches('^set name', builder.DialogAction.beginDialog('/profile'))
     .matches('^quit', builder.DialogAction.endDialog())
-    .onDefault(function (session) {
-        if (!session.userData.name) {
-            session.beginDialog('/profile');
-        } else {
+    .onDefault([
+        function (session, args, next) {
+            if (!session.userData.name) {
+                session.beginDialog('/profile');
+            } else {
+                next();
+            }
+        },
+        function (session, results) {
             session.send('Hello %s!', session.userData.name);
         }
-    }));
+    ]));
 helloBot.add('/profile',  [
     function (session) {
         if (session.userData.name) {

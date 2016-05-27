@@ -21,6 +21,23 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v1.0.0
+
+__Breaking Changes__
+
+These changes will impact some bots. 
+
+* Simple closure based handlers are now single step waterfalls.
+* If a dialog steps past the end of a waterfall the dialog is automatically ended.
+
+__Other Changes__
+
+* Exposed SimpleDialog class from both module & docs. 
+* DialogAction.validatedPrompt() now returns a Dialog which makes it more strongly typed.
+* Fixed an issue with the LuisDialog on() & onDefault() handlers eating exceptions.
+* Fixed issue with telegram not showing buttons on re-prompt.  
+* Updated LKG build and package.json version.
+
 ### v0.11.1
 * Fixed a bug causing multiple messages to get rejected by the live servers.
 * Updated LKG build and package.json version.
