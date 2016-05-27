@@ -190,7 +190,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1470">botbuilder.d.ts:1470</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1405">botbuilder.d.ts:1405</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -227,7 +227,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1481">botbuilder.d.ts:1481</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1416">botbuilder.d.ts:1416</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -243,15 +243,13 @@
 										<a name="on" class="tsd-anchor"></a>
 										<h3>on</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>intent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></li>
-											<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>intent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></li>
-											<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>intent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></li>
+											<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>intent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_botbuilder_d_.iintentargs.html" class="tsd-signature-type">IIntentArgs</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_botbuilder_d_.iintentargs.html" class="tsd-signature-type">IIntentArgs</a><span class="tsd-signature-symbol">&gt;</span>, dialogArgs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1493">botbuilder.d.ts:1493</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1428">botbuilder.d.ts:1428</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -269,12 +267,12 @@
 														</div>
 													</li>
 													<li>
-														<h5>handler: <span class="tsd-signature-type">string</span></h5>
+														<h5>handler: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_botbuilder_d_.iintentargs.html" class="tsd-signature-type">IIntentArgs</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_botbuilder_d_.iintentargs.html" class="tsd-signature-type">IIntentArgs</a><span class="tsd-signature-symbol">&gt;</span></h5>
 														<div class="tsd-comment tsd-typography">
 															<ul>
 																<li><strong>handler:</strong> <em>{string}</em> - The ID of a dialog to begin.</li>
 																<li><strong>handler:</strong> <em>{IDialogWaterfallStep[]}</em> - An array of waterfall steps to execute. See <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html">IDialogWaterfallStep</a> for details.</li>
-																<li><strong>handler:</strong> <em>{IIntentDialogHandler}</em> - Handler to invoke when the intent is recognized. See <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iintentdialoghandler.html">IIntentDialogHandler</a> for details.</li>
+																<li><strong>handler:</strong> <em>{IDialogWaterfallStep}</em> - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.</li>
 															</ul>
 														</div>
 													</li>
@@ -283,61 +281,6 @@
 														<div class="tsd-comment tsd-typography">
 															<p>Optional arguments to pass to the dialog when <strong>handler</strong> is type <em>{string}</em>. They will be merged with the <em>{IIntentArgs}</em> args passed to the handler.</p>
 														</div>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></h4>
-											</li>
-											<li class="tsd-description">
-												<aside class="tsd-sources">
-													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1494">botbuilder.d.ts:1494</a></li>
-													</ul>
-												</aside>
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>intent: <span class="tsd-signature-type">string</span></h5>
-													</li>
-													<li>
-														<h5>handler: <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span></h5>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></h4>
-											</li>
-											<li class="tsd-description">
-												<aside class="tsd-sources">
-													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1495">botbuilder.d.ts:1495</a></li>
-													</ul>
-												</aside>
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>intent: <span class="tsd-signature-type">string</span></h5>
-													</li>
-													<li>
-														<h5>handler: <span class="tsd-signature-type">function</span></h5>
-														<ul class="tsd-parameters">
-															<li class="tsd-parameter-siganture">
-																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-																</ul>
-																<ul class="tsd-descriptions">
-																	<li class="tsd-description">
-																		<h4 class="tsd-parameters-title">Parameters</h4>
-																		<ul class="tsd-parameters">
-																			<li>
-																				<h5>session: <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
-																			</li>
-																			<li>
-																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span></h5>
-																			</li>
-																		</ul>
-																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-																	</li>
-																</ul>
-															</li>
-														</ul>
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a></h4>

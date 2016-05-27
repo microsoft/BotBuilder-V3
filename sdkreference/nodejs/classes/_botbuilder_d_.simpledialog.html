@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Dialog | Bot Builder SDK Reference Library | Bot Framework</title>
+	<title>SimpleDialog | Bot Builder SDK Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
@@ -133,10 +133,10 @@
 										<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 									</li>
 									<li>
-										<a href="_botbuilder_d_.dialog.html">Dialog</a>
+										<a href="_botbuilder_d_.simpledialog.html">SimpleDialog</a>
 									</li>
 								</ul>
-								<h1>Class Dialog</h1>
+								<h1>Class SimpleDialog</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -145,9 +145,19 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Base class for all dialogs. Dialogs are the core component of the BotBuilder
-												framework. Bots use Dialogs to manage arbitrarily complex conversations with
-											a user.</p>
+											<p>Allows for the creation of custom dialogs that are based on a simple closure. This is useful for
+												cases where you want a dynamic conversation flow or you have a situation that just doesn’t map
+											very well to using a waterfall.  The things to keep in mind:</p>
+											<ul>
+												<li>Your dialogs closure is can get called in two different contexts that you potentially need to
+													test for. It will get called as expected when the user send your dialog a message but if you
+													call another prompt or dialog from your closure it will get called a second time with the
+													results from the prompt/dialog. You can typically test for this second case by checking for the
+													existant of an <code>args.resumed</code> property. It&#39;s important to avoid getting yourself into an
+												infinite loop which can be easy to do.</li>
+												<li>Unlike a waterfall your dialog will not automatically end. It will remain the active dialog
+												until you call <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog">session.endDialog()</a>.</li>
+											</ul>
 										</div>
 									</div>
 								</section>
@@ -155,19 +165,10 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">Dialog</span>
+											<a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a>
 											<ul class="tsd-hierarchy">
 												<li>
-													<a href="_botbuilder_d_.prompts.html" class="tsd-signature-type">Prompts</a>
-												</li>
-												<li>
-													<a href="_botbuilder_d_.intentdialog.html" class="tsd-signature-type">IntentDialog</a>
-												</li>
-												<li>
-													<a href="_botbuilder_d_.commanddialog.html" class="tsd-signature-type">CommandDialog</a>
-												</li>
-												<li>
-													<a href="_botbuilder_d_.simpledialog.html" class="tsd-signature-type">SimpleDialog</a>
+													<span class="target">SimpleDialog</span>
 												</li>
 											</ul>
 										</li>
@@ -178,28 +179,101 @@
 									<section class="tsd-panel tsd-index-panel">
 										<div class="tsd-index-content">
 											<section class="tsd-index-section ">
+												<h3>Constructors</h3>
+												<ul class="tsd-index-list">
+													<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_botbuilder_d_.simpledialog.html#constructor" class="tsd-kind-icon">constructor</a></li>
+												</ul>
+											</section>
+											<section class="tsd-index-section ">
 												<h3>Methods</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.dialog.html#begin" class="tsd-kind-icon">begin</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.dialog.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.simpledialog.html#begin" class="tsd-kind-icon">begin</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.simpledialog.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_botbuilder_d_.simpledialog.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_botbuilder_d_.simpledialog.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a></li>
 												</ul>
 											</section>
 										</div>
 									</section>
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
+									<h2>Constructors</h2>
+									<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+										<a name="constructor" class="tsd-anchor"></a>
+										<h3>constructor</h3>
+										<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">new <wbr>Simple<wbr>Dialog<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.simpledialog.html" class="tsd-signature-type">SimpleDialog</a></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1614">botbuilder.d.ts:1614</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Creates a new custom dialog based on a simple closure.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>handler: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<div class="lead">
+																<p>The function closure for your dialog.</p>
+															</div>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>session: <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>Session object for the current conversation.</p>
+																				</div>
+																			</li>
+																			<li>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<ul>
+																						<li><strong>args:</strong> <em>{any}</em> - For the first call to the handler this will be either <code>null</code> or the value of any arguments passed to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog">Session.beginDialog()</a>.</li>
+																						<li><strong>args:</strong> <em>{IDialogResult}</em> - If the handler takes an action that results in a new dialog being started those results will be returned via subsequent calls to the handler.</li>
+																					</ul>
+																				</div>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.simpledialog.html" class="tsd-signature-type">SimpleDialog</a></h4>
+											</li>
+										</ul>
+									</section>
+								</section>
+								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Methods</h2>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a name="begin" class="tsd-anchor"></a>
 										<h3>begin</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 											<li class="tsd-signature tsd-kind-icon">begin&lt;T&gt;<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#begin">begin</a></p>
 													<ul>
 														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1095">botbuilder.d.ts:1095</a></li>
 													</ul>
@@ -234,15 +308,16 @@
 											</li>
 										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a name="compareconfidence" class="tsd-anchor"></a>
 										<h3>compare<wbr>Confidence</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 											<li class="tsd-signature tsd-kind-icon">compare<wbr>Confidence<span class="tsd-signature-symbol">(</span>action<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.isessionaction.html" class="tsd-signature-type">ISessionAction</a>, language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, utterance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, score<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#compareconfidence">compareConfidence</a></p>
 													<ul>
 														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1122">botbuilder.d.ts:1122</a></li>
 													</ul>
@@ -286,15 +361,16 @@
 											</li>
 										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a name="dialogresumed" class="tsd-anchor"></a>
 										<h3>dialog<wbr>Resumed</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 											<li class="tsd-signature tsd-kind-icon">dialog<wbr>Resumed&lt;T&gt;<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Inherited from <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#dialogresumed">dialogResumed</a></p>
 													<ul>
 														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1110">botbuilder.d.ts:1110</a></li>
 													</ul>
@@ -329,24 +405,24 @@
 											</li>
 										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a name="replyreceived" class="tsd-anchor"></a>
 										<h3>reply<wbr>Received</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 											<li class="tsd-signature tsd-kind-icon">reply<wbr>Received<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Overwrites <a href="_botbuilder_d_.dialog.html">Dialog</a>.<a href="_botbuilder_d_.dialog.html#replyreceived">replyReceived</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1103">botbuilder.d.ts:1103</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1629">botbuilder.d.ts:1629</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Called when a new reply message has been recieved from a user.</p>
+														<p>Processes messages received from the user. Called by the dialog system.</p>
 													</div>
-													<p>Derived classes should implement this to process the message recieved from the user.</p>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
@@ -379,19 +455,22 @@
 									</ul>
 									<ul class="current">
 										<li class="current tsd-kind-class tsd-parent-kind-external-module">
-											<a href="_botbuilder_d_.dialog.html" class="tsd-kind-icon">Dialog</a>
+											<a href="_botbuilder_d_.simpledialog.html" class="tsd-kind-icon">Simple<wbr>Dialog</a>
 											<ul>
-												<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-													<a href="_botbuilder_d_.dialog.html#begin" class="tsd-kind-icon">begin</a>
+												<li class=" tsd-kind-constructor tsd-parent-kind-class">
+													<a href="_botbuilder_d_.simpledialog.html#constructor" class="tsd-kind-icon">constructor</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class">
-													<a href="_botbuilder_d_.dialog.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+													<a href="_botbuilder_d_.simpledialog.html#begin" class="tsd-kind-icon">begin</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-													<a href="_botbuilder_d_.dialog.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+													<a href="_botbuilder_d_.simpledialog.html#compareconfidence" class="tsd-kind-icon">compare<wbr>Confidence</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class">
-													<a href="_botbuilder_d_.dialog.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+													<a href="_botbuilder_d_.simpledialog.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+													<a href="_botbuilder_d_.simpledialog.html#replyreceived" class="tsd-kind-icon">reply<wbr>Received</a>
 												</li>
 											</ul>
 										</li>

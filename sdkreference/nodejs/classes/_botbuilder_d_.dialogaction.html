@@ -168,7 +168,6 @@
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.dialogaction.html#enddialog" class="tsd-kind-icon">end<wbr>Dialog</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.dialogaction.html#send" class="tsd-kind-icon">send</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.dialogaction.html#validatedprompt" class="tsd-kind-icon">validated<wbr>Prompt</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.dialogaction.html#waterfall" class="tsd-kind-icon">waterfall</a></li>
 												</ul>
 											</section>
 										</div>
@@ -180,13 +179,13 @@
 										<a name="begindialog" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagStatic">Static</span> begin<wbr>Dialog</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-											<li class="tsd-signature tsd-kind-icon">begin<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></li>
+											<li class="tsd-signature tsd-kind-icon">begin<wbr>Dialog&lt;T&gt;<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, args<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1246">botbuilder.d.ts:1246</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1190">botbuilder.d.ts:1190</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -215,7 +214,7 @@
 														</div>
 													</li>
 												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h4>
+												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 											</li>
 										</ul>
 									</section>
@@ -223,13 +222,13 @@
 										<a name="enddialog" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagStatic">Static</span> end<wbr>Dialog</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-											<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></li>
+											<li class="tsd-signature tsd-kind-icon">end<wbr>Dialog<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1252">botbuilder.d.ts:1252</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1196">botbuilder.d.ts:1196</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -246,7 +245,7 @@
 														</div>
 													</li>
 												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h4>
+												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 											</li>
 										</ul>
 									</section>
@@ -254,13 +253,13 @@
 										<a name="send" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagStatic">Static</span> send</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-											<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></li>
+											<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1239">botbuilder.d.ts:1239</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1183">botbuilder.d.ts:1183</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -283,7 +282,7 @@
 														</div>
 													</li>
 												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h4>
+												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 											</li>
 										</ul>
 									</section>
@@ -291,13 +290,13 @@
 										<a name="validatedprompt" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagStatic">Static</span> validated<wbr>Prompt</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-											<li class="tsd-signature tsd-kind-icon">validated<wbr>Prompt<span class="tsd-signature-symbol">(</span>promptType<span class="tsd-signature-symbol">: </span><a href="../enums/_botbuilder_d_.prompttype.html" class="tsd-signature-type">PromptType</a>, validator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></li>
+											<li class="tsd-signature tsd-kind-icon">validated<wbr>Prompt<span class="tsd-signature-symbol">(</span>promptType<span class="tsd-signature-symbol">: </span><a href="../enums/_botbuilder_d_.prompttype.html" class="tsd-signature-type">PromptType</a>, validator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1289">botbuilder.d.ts:1289</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1224">botbuilder.d.ts:1224</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -364,41 +363,7 @@ bot.add('/meaningOfLife'. builder.DialogAction.validatedPrompt(builder.PromptTyp
 														</ul>
 													</li>
 												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h4>
-											</li>
-										</ul>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-										<a name="waterfall" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagStatic">Static</span> waterfall</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-											<li class="tsd-signature tsd-kind-icon">waterfall<span class="tsd-signature-symbol">(</span>steps<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<aside class="tsd-sources">
-													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L1261">botbuilder.d.ts:1261</a></li>
-													</ul>
-												</aside>
-												<div class="tsd-comment tsd-typography">
-													<div class="lead">
-														<p>Returns a closure that will prompt the user for information in an async waterfall like
-															sequence. When the closure is first invoked it will execute the first function in the
-															waterfall and the results of that prompt will be passed as input to the second function
-														and the result of the second passed to the third and so on.</p>
-													</div>
-												</div>
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>steps: <a href="../interfaces/_botbuilder_d_.idialogwaterfallstep.html" class="tsd-signature-type">IDialogWaterfallStep</a><span class="tsd-signature-symbol">[]</span></h5>
-														<div class="tsd-comment tsd-typography">
-															<p>Steps of a waterfall. See <a href="http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html">IDialogWaterfallStep</a> for details.</p>
-														</div>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.idialoghandler.html" class="tsd-signature-type">IDialogHandler</a></h4>
+												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></h4>
 											</li>
 										</ul>
 									</section>
@@ -433,9 +398,6 @@ bot.add('/meaningOfLife'. builder.DialogAction.validatedPrompt(builder.PromptTyp
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 													<a href="_botbuilder_d_.dialogaction.html#validatedprompt" class="tsd-kind-icon">validated<wbr>Prompt</a>
-												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-													<a href="_botbuilder_d_.dialogaction.html#waterfall" class="tsd-kind-icon">waterfall</a>
 												</li>
 											</ul>
 										</li>

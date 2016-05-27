@@ -136,7 +136,7 @@
 										<a href="_botbuilder_d_.idialogwaterfallstep.html">IDialogWaterfallStep</a>
 									</li>
 								</ul>
-								<h1>Interface IDialogWaterfallStep</h1>
+								<h1>Interface IDialogWaterfallStep&lt;T&gt;</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -164,6 +164,15 @@
 										waterfall logic.</p>
 										<p>You can terminate a waterfall early by either falling through every step of the waterfall using
 										calls to <code>skip()</code> or simply not starting another prompt or dialog.</p>
+										<p><strong>note:</strong> Waterfalls have a hidden last step which will automatically end the current dialog if
+											if you call a prompt or dialog from the last step. This is useful where you have a deep stack of
+											dialogs and want a call to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog">session.endDialog()</a>
+											from the last child on the stack to end the entire stack. The close of the last child will trigger
+											all of its parents to move to this hidden step which will cascade the close all the way up the stack.
+											This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the
+											middle you&#39;ll need to add a step to the end of your waterfall that either does nothing or calls
+											something liek <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send">session.send()</a>
+										which isn&#39;t going to advance the waterfall forward.</p>
 										<dl class="tsd-comment-tags">
 											<dt>example</dt>
 											<dd><pre><code>
@@ -187,6 +196,14 @@ bot.add('/', [
 										</dl>
 									</div>
 								</section>
+								<section class="tsd-panel tsd-type-parameters">
+									<h3>Type parameters</h3>
+									<ul class="tsd-type-parameters">
+										<li>
+											<h4>T</h4>
+										</li>
+									</ul>
+								</section>
 								<section class="tsd-panel tsd-hierarchy">
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
@@ -198,13 +215,13 @@ bot.add('/', [
 								<section class="tsd-panel">
 									<h3 class="tsd-before-signature">Callable</h3>
 									<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-										<li class="tsd-signature tsd-kind-icon">__call&lt;T&gt;<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, result<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, skip<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+										<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, result<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, skip<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L745">botbuilder.d.ts:745</a></li>
+													<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/src/botbuilder.d.ts#L755">botbuilder.d.ts:755</a></li>
 												</ul>
 											</aside>
 											<div class="tsd-comment tsd-typography">
@@ -228,13 +245,16 @@ bot.add('/', [
 												waterfall logic.</p>
 												<p>You can terminate a waterfall early by either falling through every step of the waterfall using
 												calls to <code>skip()</code> or simply not starting another prompt or dialog.</p>
+												<p><strong>note:</strong> Waterfalls have a hidden last step which will automatically end the current dialog if
+													if you call a prompt or dialog from the last step. This is useful where you have a deep stack of
+													dialogs and want a call to <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog">session.endDialog()</a>
+													from the last child on the stack to end the entire stack. The close of the last child will trigger
+													all of its parents to move to this hidden step which will cascade the close all the way up the stack.
+													This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the
+													middle you&#39;ll need to add a step to the end of your waterfall that either does nothing or calls
+													something liek <a href="http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send">session.send()</a>
+												which isn&#39;t going to advance the waterfall forward.</p>
 											</div>
-											<h4 class="tsd-type-parameters-title">Type parameters</h4>
-											<ul class="tsd-type-parameters">
-												<li>
-													<h4>T</h4>
-												</li>
-											</ul>
 											<h4 class="tsd-parameters-title">Parameters</h4>
 											<ul class="tsd-parameters">
 												<li>
@@ -244,10 +264,10 @@ bot.add('/', [
 													</div>
 												</li>
 												<li>
-													<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+													<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.idialogresult.html" class="tsd-signature-type">IDialogResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 													<div class="tsd-comment tsd-typography">
 														<ul>
-															<li><strong>result:</strong> <em>{any}</em> - For the first step of the waterfall this will be <em>null</em> or the value of any arguments passed to the handler.</li>
+															<li><strong>result:</strong> <em>{T}</em> - For the first step of the waterfall this will be <code>null</code> or the value of any arguments passed to the handler.</li>
 															<li><strong>result:</strong> <em>{IDialogResult}</em> - For subsequent waterfall steps this will be the result of the prompt or dialog called in the previous step.</li>
 														</ul>
 													</div>
