@@ -31,6 +31,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Threading.Tasks;
+
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
@@ -52,5 +54,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Private bot data associated with a user in a conversation.
         /// </summary>
         IBotDataBag PerUserInConversationData { get; }
+
+        /// <summary>
+        /// Loads the bot data from <see cref="IBotDataStore"/>
+        /// </summary>
+        Task LoadAsync();
+
+        /// <summary>
+        /// Flushes the bot data to <see cref="IBotDataStore"/>
+        /// </summary>
+        Task FlushAsync(); 
     }
 }

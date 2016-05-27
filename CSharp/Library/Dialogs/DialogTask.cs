@@ -347,37 +347,43 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class PersistentDialogTask : IPostToBot
     {
-        private readonly IPostToBot inner;
+        private readonly Lazy<IPostToBot> inner;
         private readonly IConnectorClient client;
         private readonly Message message;
         private readonly IBotToUser botToUser;
+        private readonly IBotData botData;
 
-        public PersistentDialogTask(IPostToBot inner, Message message, IConnectorClient client, IBotToUser botToUser)
+        public PersistentDialogTask(Func<IPostToBot> makeInner, Message message, IConnectorClient client, IBotToUser botToUser, IBotData botData)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
             SetField.NotNull(out this.message, nameof(message), message);
             SetField.NotNull(out this.client, nameof(client), client);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.CheckNull(nameof(makeInner), makeInner);
+            this.inner = new Lazy<IPostToBot>(() => makeInner());
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
+            await botData.LoadAsync();
             try
             {
-                await this.inner.PostAsync<T>(item, token);
+                await this.inner.Value.PostAsync<T>(item, token);
             }
             catch
             {
+                await botData.FlushAsync(); 
                 await PersistBotData(token: token);
                 throw;
 
             }
 
+            await botData.FlushAsync();
             // if botToUser is SendLastInline_BotToUser, we don't need to persist.
             // Inline reply will set the data
             bool inline = botToUser is SendLastInline_BotToUser || botToUser is BotToUserTextWriter;
             if (!inline)
-            {
+            {   
                 await PersistBotData(token: token);
             }
         }

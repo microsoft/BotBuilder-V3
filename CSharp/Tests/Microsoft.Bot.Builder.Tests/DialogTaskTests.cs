@@ -79,11 +79,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Throws<ApplicationException>();
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
-            var toBot = new Message() {
-                From = new ChannelAccount { Id = userId },
-                ConversationId = Guid.NewGuid().ToString(),
-                To = new ChannelAccount { Id = botId }
-            };
+            var toBot = DialogTestBase.MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
             using (var container = Build(Options.MockConnectorFactory, dialog.Object))
@@ -104,6 +100,7 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
+                    await scope.Resolve<IBotData>().LoadAsync();
                     var task = scope.Resolve<IDialogStack>();
                     Assert.AreNotEqual(0, task.Frames.Count);
                 }
@@ -146,6 +143,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
+                    await scope.Resolve<IBotData>().LoadAsync();
                     var stack = scope.Resolve<IDialogStack>();
                     Assert.AreEqual(0, stack.Frames.Count);
                 }
@@ -189,8 +187,8 @@ namespace Microsoft.Bot.Builder.Tests
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var task = scope.Resolve<IPostToBot>();
+                    await scope.Resolve<IBotData>().LoadAsync();
                     var stack = scope.Resolve<IDialogStack>();
-
                     Assert.AreEqual(0, stack.Frames.Count);
 
                     await task.PostAsync(toBot, CancellationToken.None);
@@ -347,6 +345,7 @@ namespace Microsoft.Bot.Builder.Tests
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var task = scope.Resolve<IPostToBot>();
+                    await scope.Resolve<IBotData>().LoadAsync();
                     var stack = scope.Resolve<IDialogStack>();
 
                     // set up dialogOne to call dialogNew when triggered

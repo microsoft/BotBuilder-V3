@@ -81,9 +81,10 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public void BotDataBag_SetGet()
+        public async Task BotDataBag_SetGet()
         {
             var data = MakeBotData();
+            await data.LoadAsync(); 
             var bag = data.PerUserInConversationData;
             Assert.AreEqual(0, bag.Count);
 
@@ -93,9 +94,10 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public void BotDataBag_Stream()
+        public async Task BotDataBag_Stream()
         {
             var data = MakeBotData();
+            await data.LoadAsync(); 
             var bag = data.PerUserInConversationData;
             var key = "PerUserInConversationData";
 
@@ -135,7 +137,8 @@ namespace Microsoft.Bot.Builder.Tests
     {
         protected override IBotData MakeBotData()
         {
-            return new JObjectBotData(new Message());
+            var msg = DialogTestBase.MakeTestMessage();
+            return new JObjectBotData(msg, new MessageBackedStore(msg));
         }
     }
 
@@ -144,7 +147,8 @@ namespace Microsoft.Bot.Builder.Tests
     {
         protected override IBotData MakeBotData()
         {
-            return new DictionaryBotData(new Message());
+            var msg = DialogTestBase.MakeTestMessage();
+            return new DictionaryBotData(msg, new MessageBackedStore(msg));
         }
     }
 }

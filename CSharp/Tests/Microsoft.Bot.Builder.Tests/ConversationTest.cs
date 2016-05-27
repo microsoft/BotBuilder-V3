@@ -138,7 +138,10 @@ namespace Microsoft.Bot.Builder.Tests
 
     public abstract class ConversationTestBase
     {
-        public static IContainer Build(MockConnectorFactory mockConnectorFactory, params object[] singletons)
+        [Flags]
+        public enum Options {None, InMemoryBotDataStore };
+        
+        public static IContainer Build(Options options, MockConnectorFactory mockConnectorFactory, params object[] singletons)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
@@ -146,7 +149,15 @@ namespace Microsoft.Bot.Builder.Tests
             builder
                 .Register((c, p) => mockConnectorFactory)
                     .As<IConnectorClientFactory>()
-                    .InstancePerLifetimeScope(); 
+                    .InstancePerLifetimeScope();
+
+            if (options.HasFlag(Options.InMemoryBotDataStore))
+            {
+                //Note: memory store will be single instance for the bot
+                builder.RegisterType<InMemoryBotDataStore>()
+                    .As<IBotDataStore>()
+                    .SingleInstance();
+            }
 
             foreach (var singleton in singletons)
             {
@@ -164,6 +175,71 @@ namespace Microsoft.Bot.Builder.Tests
     public sealed class ConversationTest : ConversationTestBase
     {
         [TestMethod]
+        public async Task InMemoryBotDataStoreTest()
+        {
+            var chain = Chain.PostToChain().Select(m => m.Text).ContinueWith<string, string>(async (context, result) =>
+                {
+                    int t = 0;
+                    context.UserData.TryGetValue("count", out t);
+                    if (t > 0)
+                    {
+                        int value; 
+                        Assert.IsTrue(context.ConversationData.TryGetValue("conversation", out value));
+                        Assert.AreEqual(t-1, value);
+                        Assert.IsTrue(context.UserData.TryGetValue("user", out value));
+                        Assert.AreEqual(t+1, value);
+                        Assert.IsTrue(context.PerUserInConversationData.TryGetValue("PerUserInConversationData", out value));
+                        Assert.AreEqual(t + 2, value);
+                    }
+
+                    context.ConversationData.SetValue("conversation", t);
+                    context.UserData.SetValue("user", t + 2);
+                    context.PerUserInConversationData.SetValue("PerUserInConversationData", t + 3);
+                    context.UserData.SetValue("count", ++t);
+                    return Chain.Return($"{t}:{await result}");
+                }).PostToUser();
+            Func<IDialog<object>> MakeRoot = () => chain;
+
+            using (new FiberTestBase.ResolveMoqAssembly(chain))
+            using (var container = Build(Options.InMemoryBotDataStore, new MockConnectorFactory(), chain))
+            {
+                var msg = DialogTestBase.MakeTestMessage();
+                msg.Text = "test";
+                using (var scope = DialogModule.BeginLifetimeScope(container, msg))
+                {   
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+                    var reply = await Conversation.SendAsync(scope, msg);
+                    Assert.AreEqual("1:test", reply.Text);
+                    var store = (InMemoryBotDataStore)scope.Resolve<IBotDataStore>();
+                    Assert.AreEqual(0, store.cache.Count);
+                    Assert.AreEqual(3, store.store.Count);
+                    Assert.AreEqual(null, reply.BotConversationData);
+                    Assert.AreEqual(null, reply.BotPerUserInConversationData);
+                    Assert.AreEqual(null, reply.BotUserData);
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    using (var scope = DialogModule.BeginLifetimeScope(container, msg))
+                    {
+                        scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+                        var reply = await Conversation.SendAsync(scope, msg);
+                        Assert.AreEqual($"{i+2}:test", reply.Text);
+                        var store = (InMemoryBotDataStore)scope.Resolve<IBotDataStore>();
+                        Assert.AreEqual(0, store.cache.Count);
+                        Assert.AreEqual(3, store.store.Count);
+                        Assert.AreEqual(null, reply.BotConversationData);
+                        Assert.AreEqual(null, reply.BotPerUserInConversationData);
+                        Assert.AreEqual(null, reply.BotUserData);
+                        string val = string.Empty;
+                        Assert.IsTrue(scope.Resolve<IBotData>().PerUserInConversationData.TryGetValue(DialogModule.BlobKey, out val));
+                        Assert.AreNotEqual(string.Empty, val);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public async Task SendResumeAsyncTest()
         {
             var chain = Chain.PostToChain().Select(m => m.Text).Switch(
@@ -171,16 +247,11 @@ namespace Microsoft.Bot.Builder.Tests
                 new DefaultCase<string, IDialog<string>>((context, data) => { return Chain.Return(data); })).Unwrap().PostToUser();
 
             using (new FiberTestBase.ResolveMoqAssembly(chain))
-            using (var container = Build(new MockConnectorFactory(), chain))
+            using (var container = Build(Options.None, new MockConnectorFactory(), chain))
             {
-                var msg = new Message
-                {
-                    ConversationId = Guid.NewGuid().ToString(),
-                    Text = "testMsg",
-                    From = new ChannelAccount { Id = "testUser" },
-                    To = new ChannelAccount { Id = "testBot" }
-                };
-
+                var msg = DialogTestBase.MakeTestMessage();
+                msg.Text = "testMsg";
+                
                 using (var scope = DialogModule.BeginLifetimeScope(container, msg))
                 {
                     Func<IDialog<object>> MakeRoot = () => chain;
