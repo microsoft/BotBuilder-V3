@@ -127,7 +127,7 @@ Bots registered through Bot Connector and reviewed for publishing will appear in
 #### Measure
 {:.no_toc}
 
-If you host your bot in Azure you can link to [Azure Application Insights](https://www.visualstudio.com/features/application-insights) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
+If you host your bot in Azure you can link to [Azure Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) analytics directly from the Bot Connector dashboard in the Bot Framework website. Naturally, a variety of analytics tools exist in the market to help developers gain insight into bot usage (which is certainly advisable to do).
 
 #### Manage
 {:.no_toc}
@@ -192,6 +192,10 @@ The Bot Directory includes featured bots and is searchable to aid discovery. Dev
 ## Can I submit my bot to the Bot Directory?
 
 The Bot Directory, the public directory of bots registered with Bot Framework, is now open to developers for bot submission and review. The Bot Directory itself isn’t live yet, but when it is available, users will be able to discover, try and add bots to their favorite conversation experiences.
+
+## Do I have to publish my bot to the Bot Directory in order for my bot to be available to users?
+
+No, publishing your bot is an optional process. Certain channels do limit the number of users allowed to interact with a bot until a review process has been completed - this process is managed by the channel, not Microsoft Bot Framework.
 
 ## You state that the Bot Directory is “coming soon” – when will it be available?
 
