@@ -231,25 +231,28 @@ namespace Microsoft.Bot.Builder.FormFlow
                         builder.Append(' ');
                     }
                     var input = builder.ToString();
-                    await step.DefineAsync(_state);
-                    step.Start(context, _state, _formState);
-                    var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input), input);
-                    if (MatchAnalyzer.IsFullMatch(input, matches, 0.0))
+                    var defined = await step.DefineAsync(_state);
+                    if (defined)
                     {
-                        // TODO: In the case of clarification
-                        // 1) Go through them while supporting only quit or back and reset
-                        // 2) Drop them
-                        // 3) Just pick one (found in form.StepState, but that is opaque here)
-                        // The challenge is to support clarification without navigation, etc.
-                        var result = await step.ProcessAsync(context, _state, _formState, input, matches);
-                        if (!result.Success)
+                        step.Start(context, _state, _formState);
+                        var matches = MatchAnalyzer.Coalesce(step.Match(context, _state, _formState, input), input);
+                        if (MatchAnalyzer.IsFullMatch(input, matches, 0.0))
+                        {
+                            // TODO: In the case of clarification
+                            // 1) Go through them while supporting only quit or back and reset
+                            // 2) Drop them
+                            // 3) Just pick one (found in form.StepState, but that is opaque here)
+                            // The challenge is to support clarification without navigation, etc.
+                            var result = await step.ProcessAsync(context, _state, _formState, input, matches);
+                            if (!result.Success)
+                            {
+                                _formState.SetPhase(StepPhase.Ready);
+                            }
+                        }
+                        else
                         {
                             _formState.SetPhase(StepPhase.Ready);
                         }
-                    }
-                    else
-                    {
-                        _formState.SetPhase(StepPhase.Ready);
                     }
                 }
             }
@@ -262,23 +265,25 @@ namespace Microsoft.Bot.Builder.FormFlow
                         && !step.Field.IsUnknown(_state)
                         && step.Field.IsNullable)
                     {
-                        await step.DefineAsync(_state);
-                        var val = step.Field.GetValue(_state);
-
-                        var result = await step.Field.ValidateAsync(_state, val);
-                        if (result.IsValid)
+                        var defined = await step.DefineAsync(_state);
+                        if (defined)
                         {
-                            bool ok = true;
-                            double min, max;
-                            if (step.Field.Limits(out min, out max))
+                            var val = step.Field.GetValue(_state);
+                            var result = await step.Field.ValidateAsync(_state, val);
+                            if (result.IsValid)
                             {
-                                var num = (double)Convert.ChangeType(val, typeof(double));
-                                ok = (num >= min && num <= max);
-                            }
-                            if (ok)
-                            {
-                                _formState.Step = _form.StepIndex(step);
-                                _formState.SetPhase(StepPhase.Completed);
+                                bool ok = true;
+                                double min, max;
+                                if (step.Field.Limits(out min, out max))
+                                {
+                                    var num = (double)Convert.ChangeType(val, typeof(double));
+                                    ok = (num >= min && num <= max);
+                                }
+                                if (ok)
+                                {
+                                    _formState.Step = _form.StepIndex(step);
+                                    _formState.SetPhase(StepPhase.Completed);
+                                }
                             }
                         }
                     }
@@ -302,10 +307,15 @@ namespace Microsoft.Bot.Builder.FormFlow
             try
             {
                 var toBotText = toBot != null ? (await toBot).Text : null;
-                string message = null;
-                FormPrompt prompt = null;
-                bool useLastPrompt = false;
-                bool requirePrompt = false;
+                var stepInput = toBotText == null ? "" : toBotText.Trim();
+                if (stepInput.StartsWith("\""))
+                {
+                    stepInput = stepInput.Substring(1);
+                }
+                if (stepInput.EndsWith("\""))
+                {
+                    stepInput = stepInput.Substring(0, stepInput.Length - 1);
+                }
                 // Ensure we have initial definition for field steps
                 foreach (var step in _form.Steps)
                 {
@@ -315,20 +325,40 @@ namespace Microsoft.Bot.Builder.FormFlow
                     }
                 }
                 var next = (_formState.Next == null ? new NextStep() : ActiveSteps(_formState.Next, _state));
-                while (prompt == null && (message == null || requirePrompt) && MoveToNext(_state, _formState, next))
+                bool waitForMessage = false;
+                FormPrompt lastPrompt = _formState.LastPrompt;
+                Func<FormPrompt, Task<FormPrompt>> Post = async (prompt) =>
                 {
-                    IStep<T> step;
+                    var msg = context.MakeMessage();
+                    msg.Text = prompt.Prompt;
+                    msg.Attachments = prompt.Buttons.GenerateAttachments();
+                    await context.PostAsync(msg);
+                    return prompt;
+                };
+                while (!waitForMessage && MoveToNext(_state, _formState, next))
+                {
+                    IStep<T> step = null;
                     IEnumerable<TermMatch> matches = null;
-                    var stepInput = toBotText == null ? "" : toBotText.Trim();
-                    if (stepInput.StartsWith("\""))
+                    Func<Task<bool>> DoStep = async () =>
                     {
-                        stepInput = stepInput.Substring(1);
-                    }
-                    if (stepInput.EndsWith("\""))
-                    {
-                        stepInput = stepInput.Substring(0, stepInput.Length - 1);
-                    }
-                    FormPrompt feedback = null;
+                        var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
+                        next = result.Next;
+                        if (result.Feedback != null)
+                        {
+                            await Post(result.Feedback);
+                            if (_formState.Phase() != StepPhase.Completed)
+                            {
+                                await Post(lastPrompt);
+                                waitForMessage = true;
+                            }
+                        }
+                        if (result.Prompt != null)
+                        {
+                            lastPrompt = await Post(result.Prompt);
+                            waitForMessage = true;
+                        }
+                        return true;
+                    };
                     if (next.Direction == StepDirection.Named && next.Names.Count() > 1)
                     {
                         // We need to choose between multiple next steps
@@ -337,10 +367,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                         step = new NavigationStep<T>(_form.Steps[_formState.Step].Name, _form, _state, _formState);
                         if (start)
                         {
-                            prompt = step.Start(context, _state, _formState);
+                            lastPrompt = await Post(step.Start(context, _state, _formState));
+                            waitForMessage = true;
                         }
                         else
                         {
+                            // Responding
                             matches = step.Match(context, _state, _formState, stepInput);
                         }
                     }
@@ -348,21 +380,19 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         // Processing current step
                         step = _form.Steps[_formState.Step];
-                        var defined = await step.DefineAsync(_state);
-                        if (defined)
+                        if (await step.DefineAsync(_state))
                         {
                             if (_formState.Phase() == StepPhase.Ready)
                             {
                                 if (step.Type == StepType.Message)
                                 {
-                                    feedback = step.Start(context, _state, _formState);
-                                    requirePrompt = true;
-                                    useLastPrompt = false;
+                                    await Post(step.Start(context, _state, _formState));
                                     next = new NextStep();
                                 }
                                 else
                                 {
-                                    prompt = step.Start(context, _state, _formState);
+                                    lastPrompt = await Post(step.Start(context, _state, _formState));
+                                    waitForMessage = true;
                                 }
                             }
                             else if (_formState.Phase() == StepPhase.Responding)
@@ -373,6 +403,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                         else
                         {
                             _formState.SetPhase(StepPhase.Completed);
+                            lastPrompt = null;
                             next = new NextStep(StepDirection.Next);
                         }
                     }
@@ -381,21 +412,13 @@ namespace Microsoft.Bot.Builder.FormFlow
                         matches = MatchAnalyzer.Coalesce(matches, stepInput).ToArray();
                         if (MatchAnalyzer.IsFullMatch(stepInput, matches))
                         {
-                            var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
-                            next = result.Next;
-                            feedback = result.Feedback;
-                            prompt = result.Prompt;
-
-                            // 1) Not completed, not valid -> Not require, last
-                            // 2) Completed, feedback -> require, not last
-                            requirePrompt = (_formState.Phase() == StepPhase.Completed);
-                            useLastPrompt = !requirePrompt;
+                            await DoStep();
                         }
                         else
                         {
                             // Filter non-active steps out of command matches
                             var commands =
-                                toBotText.Trim().StartsWith("\"")
+                                (toBotText == null || toBotText.Trim().StartsWith("\""))
                                 ? new TermMatch[0]
                                 : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(toBotText), toBotText)
                                    where (command.Value is FormCommand
@@ -403,18 +426,18 @@ namespace Microsoft.Bot.Builder.FormFlow
                                    select command).ToArray();
                             if (MatchAnalyzer.IsFullMatch(toBotText, commands))
                             {
+                                FormPrompt feedback;
                                 next = DoCommand(context, _state, _formState, step, commands, out feedback);
-                                requirePrompt = false;
-                                useLastPrompt = true;
+                                await Post(feedback);
+                                await Post(lastPrompt);
+                                waitForMessage = true;
                             }
                             else
                             {
                                 if (matches.Count() == 0 && commands.Count() == 0)
                                 {
-                                    // TODO: If we implement fallback, opportunity to call parent dialogs
-                                    feedback = step.NotUnderstood(context, _state, _formState, toBotText);
-                                    requirePrompt = false;
-                                    useLastPrompt = false;
+                                    await Post(step.NotUnderstood(context, _state, _formState, toBotText));
+                                    waitForMessage = true;
                                 }
                                 else
                                 {
@@ -422,38 +445,29 @@ namespace Microsoft.Bot.Builder.FormFlow
                                     var bestMatch = MatchAnalyzer.BestMatches(matches, commands);
                                     if (bestMatch == 0)
                                     {
-                                        var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
-                                        next = result.Next;
-                                        feedback = result.Feedback;
-                                        prompt = result.Prompt;
-
-                                        requirePrompt = (_formState.Phase() == StepPhase.Completed);
-                                        useLastPrompt = !requirePrompt;
+                                        await DoStep();
                                     }
                                     else
                                     {
+                                        FormPrompt feedback;
                                         next = DoCommand(context, _state, _formState, step, commands, out feedback);
-                                        requirePrompt = false;
-                                        useLastPrompt = true;
+                                        if (feedback != null)
+                                        {
+                                            await Post(feedback);
+                                            await Post(lastPrompt);
+                                            waitForMessage = true;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                     next = ActiveSteps(next, _state);
-                    if (feedback != null)
-                    {
-                        message = (message == null ? feedback.Prompt : message + "\n\n" + feedback.Prompt);
-                    }
                 }
                 if (next.Direction == StepDirection.Complete || next.Direction == StepDirection.Quit)
                 {
                     if (next.Direction == StepDirection.Complete)
                     {
-                        if (message != null)
-                        {
-                            await context.PostAsync(message);
-                        }
                         if (_form.Completion != null)
                         {
                             await _form.Completion(context, _state);
@@ -478,44 +492,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 }
                 else
                 {
-                    if (message != null)
-                    {
-                        if (requirePrompt)
-                        {
-                            _formState.LastPrompt = prompt != null ? (FormPrompt)prompt.Clone() : new FormPrompt();
-                            if (prompt == null)
-                            {
-                                prompt = new FormPrompt();
-                            }
-                            prompt.Prompt = message + "\n\n" + prompt.Prompt;
-                        }
-                        else if (useLastPrompt)
-                        {
-                            if (prompt == null)
-                            {
-                                prompt = new FormPrompt();
-                            }
-                            prompt.Prompt = message + "\n\n" + _formState.LastPrompt.Prompt;
-                            prompt.Buttons.AddRange(_formState.LastPrompt.Buttons);
-                        }
-                        else
-                        {
-                            if (prompt == null)
-                            {
-                                prompt = new FormPrompt();
-                            }
-                            prompt.Prompt = message;
-                        }
-                    }
-                    else
-                    {
-                        _formState.LastPrompt = (FormPrompt)prompt?.Clone();
-                    }
-
-                    var msg = context.MakeMessage();
-                    msg.Text = prompt.Prompt;
-                    msg.Attachments = prompt.Buttons.GenerateAttachments();
-                    await context.PostAsync(msg);
+                    _formState.LastPrompt = (FormPrompt)lastPrompt?.Clone();
                     context.Wait(MessageReceived);
                 }
             }
