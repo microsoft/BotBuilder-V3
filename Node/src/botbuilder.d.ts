@@ -1216,7 +1216,7 @@ export class DialogAction {
      *         }
      *     }
      * ]);
-     * bot.add('/meaningOfLife'. builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+     * bot.add('/meaningOfLife', builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
      *     return response === '42';
      * }));
      * </code></pre>
