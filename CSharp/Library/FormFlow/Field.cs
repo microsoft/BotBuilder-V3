@@ -596,15 +596,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else if (_type.IsIntegral())
                 {
-                    _recognizer = new RecognizeNumber<T>(this, Thread.CurrentThread.CurrentUICulture);
+                    _recognizer = new RecognizeNumber<T>(this);
                 }
                 else if (_type.IsDouble())
                 {
-                    _recognizer = new RecognizeDouble<T>(this, Thread.CurrentThread.CurrentUICulture);
+                    _recognizer = new RecognizeDouble<T>(this);
                 }
                 else if (_type == typeof(DateTime))
                 {
-                    _recognizer = new RecognizeDateTime<T>(this, Thread.CurrentThread.CurrentUICulture);
+                    _recognizer = new RecognizeDateTime<T>(this);
                 }
                 else if (_type.IsIEnumerable())
                 {
