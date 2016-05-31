@@ -30,9 +30,9 @@ https://directline.botframework.com/api/conversations endpoint.
 If the call was authorized with a token, the conversation ID is the conversation ID in the scoped token. If a
 secret was used to start the conversation, the conversation will be started with a new, random ID.
 
-The client may send messages to the bot by calling POST on https://directline.botframework.com/api/messages/conversationId.
+The client may send messages to the bot by calling POST on https://directline.botframework.com/api/conversations/{conversationId}/messages.
 
-The client may retrieve messages sent by the bot by calling GET on https://directline.botframework.com/api/messages/conversationId. The JSON structure
+The client may retrieve messages sent by the bot by calling GET on https://directline.botframework.com/api/conversations/{conversationId}/messages. The JSON structure
 returned contains a watermark that can be sent on subsequent requests to skip old messages.
 
 The Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before
