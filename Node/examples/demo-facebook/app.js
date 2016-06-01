@@ -192,59 +192,25 @@ bot.add('/carousel', [
         
         // Ask the user to select an item from a carousel.
         var msg = new builder.Message();
-        msg.setChannelData({
-            attachment:{
-                type: 'template',
-                payload: {
-                    template_type: 'generic',
-                    elements: [
-                        {
-                            title: "Classic White T-Shirt",
-                            image_url: "http://petersapparel.parseapp.com/img/item100-thumb.png",
-                            subtitle: "Soft white cotton t-shirt is back in style",
-                            buttons:[
-                                {
-                                    type: "web_url",
-                                    title: "View Item",
-                                    url: "https://petersapparel.parseapp.com/view_item?item_id=100"
-                                },
-                                {
-                                    type: "postback",
-                                    title: "Buy Item",
-                                    payload: "buy:100",
-                                },
-                                {
-                                    type: "postback",
-                                    title: "Bookmark Item",
-                                    payload: "bookmark:100"
-                                }              
-                            ]
-                        },
-                        {
-                            title: "Classic Grey T-Shirt",
-                            image_url: "http://petersapparel.parseapp.com/img/item101-thumb.png",
-                            subtitle: "Soft gray cotton t-shirt is back in style",
-                            buttons:[
-                                {
-                                    type: "web_url",
-                                    title: "View Item",
-                                    url: "https://petersapparel.parseapp.com/view_item?item_id=101",
-                                },
-                                {
-                                    type: "postback",
-                                    title: "Buy Item",
-                                    payload: "buy:101",
-                                },
-                                {
-                                    type: "postback",
-                                    title: "Bookmark Item",
-                                    payload: "bookmark:101"
-                                }              
-                            ]
-                        }
-                    ]
-                }
-            }
+        msg.addAttachment({
+            title: "Classic White T-Shirt",
+            text: "Soft white cotton t-shirt is back in style",
+            thumbnailUrl: "http://petersapparel.parseapp.com/img/item100-thumb.png",
+            actions: [
+                { title: "View Item", url: "https://petersapparel.parseapp.com/view_item?item_id=100" },
+                { title: "Buy Item", message: "buy:100" },
+                { title: "Bookmark Item", message: "bookmark:100" }
+            ]
+        });
+        msg.addAttachment({
+            title: "Classic Grey T-Shirt",
+            text: "Soft gray cotton t-shirt is back in style",
+            thumbnailUrl: "http://petersapparel.parseapp.com/img/item101-thumb.png",
+            actions: [
+                { title: "View Item", url: "https://petersapparel.parseapp.com/view_item?item_id=101" },
+                { title: "Buy Item", message: "buy:101" },
+                { title: "Bookmark Item", message: "bookmark:101" }
+            ]
         });
         builder.Prompts.choice(session, msg, "buy:100|bookmark:100|buy:101|bookmark:101");
     },
