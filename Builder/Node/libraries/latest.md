@@ -21,6 +21,12 @@ Get the latest version of BotBuilder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v1.0.1
+* Fixed a bug preventing string[] from working with built-in prompts. 
+* Intent handler may not exist if no default handler. 
+* fix typo: should be , instead of .
+* Updated LKG build and package.json version.
+
 ### v1.0.0
 
 __Breaking Changes__
