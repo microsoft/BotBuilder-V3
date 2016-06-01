@@ -29,6 +29,7 @@ var builder = require('../../');
 
 // Create bot and setup server
 var bot = new builder.BotConnectorBot({ 
+    endpoint: "https://intercomscratch.azure-api.net",
     appId: process.env.BOTFRAMEWORK_APPID, 
     appSecret: process.env.BOTFRAMEWORK_APPSECRET
 });
@@ -61,7 +62,7 @@ bot.add('/', [
 
 bot.add('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|bubble|carousel|receipt|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|bubble|carousel|receipt|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -71,6 +72,9 @@ bot.add('/menu', [
                     break;
                 case 'picture':
                     session.beginDialog('/picture');
+                    break;
+                case 'video':
+                    session.beginDialog('/video');
                     break;
                 case 'bubble':
                     session.beginDialog('/bubble');
@@ -170,6 +174,30 @@ bot.add('/picture', [
                 contentType: "image/jpeg"
             });
         session.endDialog(msg);
+    }
+]);
+
+bot.add('/video', [
+    function (session) {
+        session.send("Facebook bots can recieve videos but Facebook doesn't current support sending videos. You can share links to videos using bubbles.");
+        builder.Prompts.attachment(session, "Send me a video (or any type of attachment) and I'll send it back to you as a bubble.");
+    },
+    function (session, results) {
+        if (results.response && results.response.length) {
+            var first = results.response[0];
+            var bubble = {};
+            bubble.title = "Attachment Received";
+            bubble.titleLink = first.contentUrl;
+            bubble.text = "Attachment Type: " + first.contentType;
+            if (first.contentType.indexOf('image') == 0) {
+                bubble.thumbnailUrl = bubble.titleLink;
+            } 
+            var msg = new builder.Message()
+                .addAttachment(bubble);
+            session.endDialog(msg);
+        } else {
+            session.endDialog("I didn't get any attachments :(");
+        }
     }
 ]);
 
