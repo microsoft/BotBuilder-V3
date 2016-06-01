@@ -29,7 +29,6 @@ var builder = require('../../');
 
 // Create bot and setup server
 var bot = new builder.BotConnectorBot({ 
-    endpoint: "https://intercomscratch.azure-api.net",
     appId: process.env.BOTFRAMEWORK_APPID, 
     appSecret: process.env.BOTFRAMEWORK_APPSECRET
 });
