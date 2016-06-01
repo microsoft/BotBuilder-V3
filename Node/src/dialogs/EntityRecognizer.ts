@@ -77,7 +77,7 @@ export class EntityRecognizer {
 
     static findAllEntities(entities: IEntity[], type: string): IEntity[] {
         var found: IEntity[] = [];
-        for (var i = 0; i < entities.length; i++) {
+        for (var i = 0; entities && i < entities.length; i++) {
             if (entities[i].type == type) {
                 found.push(entities[i]);
             }
