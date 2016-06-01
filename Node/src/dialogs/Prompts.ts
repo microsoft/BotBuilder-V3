@@ -284,7 +284,7 @@ export class Prompts extends dialog.Dialog {
                        .addAttachment(a);
                     break;
                 case ListStyle.inline:
-                    list = ' ';
+                    list = ' (';
                     args.enumValues.forEach((value, index) => {
                         list += connector + (index + 1) + '. ' + value;
                         if (index == args.enumValues.length - 2) {
@@ -293,6 +293,7 @@ export class Prompts extends dialog.Dialog {
                             connector = ', ';
                         } 
                     });
+                    list += ')';
                     msg.setText(session, prompt + '%s', list);
                     break;
                 case ListStyle.list:
