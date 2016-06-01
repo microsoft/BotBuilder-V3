@@ -44,6 +44,8 @@ export interface ISessionOptions {
     dialogArgs?: any;
     localizer?: ILocalizer;
     minSendDelay?: number;
+    onSave?: (done: (err: Error) => void) => void;
+    onSend?: (messages: IMessage[], done: (err: Error) => void) => void;
 }
 
 export class Session extends events.EventEmitter implements ISession {
@@ -90,6 +92,7 @@ export class Session extends events.EventEmitter implements ISession {
     public sessionState: ISessionState;
     public message: IMessage;
     public userData: any;
+    public conversationData: any;
     public dialogData: any;
 
     public error(err: Error): ISession {
