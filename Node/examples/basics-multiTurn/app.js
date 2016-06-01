@@ -113,7 +113,7 @@ function askCompany(session, args, next) {
     // Prompt the user to pick a ocmpany if they didn't specify a valid one.
     if (!company) {
         // Lets see if the user just asked for a company we don't know about.
-        var txt = entity ? session.gettext(prompts.companyUnknown, { company: entity.entity }) : prompts.companyUnknown;
+        var txt = entity ? session.gettext(prompts.companyUnknown, { company: entity.entity }) : prompts.companyMissing;
         
         // Prompt the user to pick a company from the list. They can also ask to cancel the operation.
         builder.Prompts.choice(session, txt, data);
