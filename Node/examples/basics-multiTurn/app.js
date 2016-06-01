@@ -69,6 +69,7 @@ crunchBot.listenStdin();
 
 /** Answer help related questions like "what can I say?" */
 dialog.on('Help', builder.DialogAction.send(prompts.helpMessage));
+dialog.onDefault(builder.DialogAction.send(prompts.helpMessage));
 
 /** Answer acquisition related questions like "how many companies has microsoft bought?" */
 dialog.on('Acquisitions', [askCompany, answerQuestion('acquisitions', prompts.answerAcquisitions)]);
