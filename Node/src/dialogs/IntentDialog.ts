@@ -211,9 +211,6 @@ export abstract class IntentDialog extends dialog.Dialog {
             if (match && match.handler) {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
-                if (!match.handler) {
-                  throw new Error('Handler for [' + topIntent.intent + '] not exists.(maybe leak of onDefault?)');
-                }
                 match.handler(session, { intents: intents, entities: entities });
             } else {
                 session.send();
