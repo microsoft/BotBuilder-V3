@@ -67,6 +67,9 @@ crunchBot.add('/', dialog);
 
 crunchBot.listenStdin();
 
+/** Default to Answer help related questions like "what can I say?" */
+dialog.onDefault(builder.DialogAction.send(prompts.helpMessage));
+
 /** Answer help related questions like "what can I say?" */
 dialog.on('Help', builder.DialogAction.send(prompts.helpMessage));
 
