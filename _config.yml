@@ -21,5 +21,8 @@ lsi: false
 # Build settings
 markdown: kramdown
 
+kramdown:
+  input: GFM
+
 gems:
   - jekyll-sitemap

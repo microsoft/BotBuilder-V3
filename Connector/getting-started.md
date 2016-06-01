@@ -30,7 +30,7 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 
 1. Install prerequisite software
 
-	* Visual Studio 2015 (latest update) - you can downlodad the community version here for free:
+	* Visual Studio 2015 (latest update) - you can download the community version here for free:
         [www.visualstudio.com](https://www.visualstudio.com/)
             
 	* Important: Please update all VS extensions to their latest versions
