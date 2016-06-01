@@ -208,7 +208,7 @@ export abstract class IntentDialog extends dialog.Dialog {
             }
 
             // Invoke handler
-            if (match) {
+            if (match && match.handler) {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
                 if (!match.handler) {

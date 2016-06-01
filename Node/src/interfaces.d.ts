@@ -43,6 +43,7 @@ interface IMessage {
     attachments?: IAttachment[];
     from?: IChannelAccount;
     to?: IChannelAccount;
+    userId?: string;
     replyTo?: IChannelAccount;
     replyToMessageId?: string;
     participants?: IChannelAccount[];

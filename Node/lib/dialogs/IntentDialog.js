@@ -144,7 +144,7 @@ var IntentDialog = (function (_super) {
                     handler: this.getDefaultGroup()._intentHandler(topIntent.intent)
                 };
             }
-            if (match) {
+            if (match && match.handler) {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
                 match.handler(session, { intents: intents, entities: entities });
