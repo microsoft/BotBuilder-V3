@@ -17,10 +17,11 @@ photos & videos.
       creating a Facebook page & app for your bot.
     * For the endpoint you setup on dev.botframework.com, copy the https link 
       ngrok setup and set "<ngrok link>/api/messages" as your bots endpoint.
-    * In a seperate console window run "node app.js" from the example directory
+    * In a separate console window set BOTFRAMEWORK_APPID and BOTFRAMEWORK_APPSECRET
+      and run "node app.js" from the example directory
       and you should be ready to add your bot as a contact and say "hello" to 
       start the demo.
-    
+
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
