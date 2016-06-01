@@ -26,6 +26,7 @@ photos & videos.
 
 var restify = require('restify');
 var builder = require('../../');
+  
 
 // Create bot and setup server
 var bot = new builder.BotConnectorBot({ 
@@ -61,7 +62,7 @@ bot.add('/', [
 
 bot.add('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|bubble|carousel|receipt|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|bubble|carousel|receipt|location|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -83,6 +84,9 @@ bot.add('/menu', [
                     break;
                 case 'receipt':
                     session.beginDialog('/receipt');
+                    break;
+                case 'location':
+                    session.beginDialog('/location');
                     break;
             }
         } else {
@@ -178,7 +182,7 @@ bot.add('/picture', [
 
 bot.add('/video', [
     function (session) {
-        session.send("Facebook bots can recieve videos but Facebook doesn't current support sending videos. You can share links to videos using bubbles.");
+        session.send("Facebook bots can recieve videos but Facebook doesn't currently support sending videos. You can however share links to videos using bubbles.");
         builder.Prompts.attachment(session, "Send me a video (or any type of attachment) and I'll send it back to you as a bubble.");
     },
     function (session, results) {
@@ -332,3 +336,48 @@ bot.add('/receipt', [
         session.endDialog(msg);
     }
 ]);
+
+bot.add('/location', [
+    function (session) {
+        session.send("A user can share their location with a bot using the location pin in Messenger.  Bot Builder lets you easily build a custom prompt to ask the user for their location.");
+        session.beginDialog('/locationPrompt', { prompt: 'Please send me your current location.' });        
+    }, 
+    function (session, results) {
+        if (results.response) {
+            session.endDialog("Here's the location object I received: %s", JSON.stringify(results.response));
+        } else {
+            session.endDialog("You canceled.");
+        }
+    }
+]);
+
+bot.add('/locationPrompt', [
+    function (session, args) {
+        if (typeof args.maxRetries !== 'number') {
+            args.maxRetries = 2;
+        }
+        session.dialogData.args = args;
+        builder.Prompts.text(session, args.prompt);
+    },
+    function (session, results) {
+        if (results.resumed == builder.ResumeReason.completed) {
+            // Validate response
+            if (session.message.location) {
+                // Return location
+                session.endDialog({ response: session.message.location });
+            } else if (session.dialogData.args.maxRetries > 0) {
+                // Reprompt for location
+                var args = session.dialogData.args;
+                args.maxRetries--;
+                args.prompt = args.retryPrompt || "I didn't receive a location. Please try again.";
+                session.replaceDialog('/locationPrompt', args);
+            } else {
+                // Out of retries
+                sessions.endDialog({ resumed: builder.ResumeReason.notCompleted });
+            }
+        } else {
+            // User canceled prompt or an error occured
+            session.endDialog(results);
+        }
+    }
+])
