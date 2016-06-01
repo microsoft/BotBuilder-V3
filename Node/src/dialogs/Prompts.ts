@@ -234,10 +234,10 @@ export class Prompts extends dialog.Dialog {
     }
     
     private sendPrompt(session: ses.Session, args: IPromptArgs, retry = false): void {
-        if (retry && typeof args.retryPrompt === 'object') {
+        if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
             // Send native IMessage
             session.send(args.retryPrompt);            
-        } else if (typeof args.prompt === 'object') {
+        } else if (typeof args.prompt === 'object' && !Array.isArray(args.prompt)) {
             // Send native IMessage
             session.send(args.prompt);            
         } else {
