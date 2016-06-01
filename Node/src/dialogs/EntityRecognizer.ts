@@ -67,7 +67,7 @@ export class EntityRecognizer {
     static numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
 
     static findEntity(entities: IEntity[], type: string): IEntity {
-        for (var i = 0; i < entities.length; i++) {
+        for (var i = 0; entities && i < entities.length; i++) {
             if (entities[i].type == type) {
                 return entities[i];
             }
