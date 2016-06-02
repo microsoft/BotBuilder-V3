@@ -60,8 +60,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         // Internal state of a step
         public object StepState;
 
-        // Field name and recognized entities
-        public List<Tuple<string, string>> FieldInputs;
+        // Field number and input
+        public List<Tuple<int, string>> FieldInputs;
+
+        // True when we have started processing FieldInputs
+        public bool ProcessInputs;
 
         public FormState(int steps)
         {
@@ -78,6 +81,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             Phases = new StepPhase[Phases.Length];
             StepState = null;
             FieldInputs = null;
+            ProcessInputs = false;
         }
 
         public StepPhase Phase()
@@ -95,5 +99,4 @@ namespace Microsoft.Bot.Builder.FormFlow
             Phases[Step] = phase;
         }
     }
-
 }

@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "exports": {
+    "Microsoft.Bot.Builder/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6",
+      "compile": {
+        "bin/Debug/Microsoft.Bot.Builder.dll": {}
+      },
+      "runtime": {
+        "../packages/Autofac.3.5.2/lib/net40/Autofac.dll": {},
+        "../packages/Chronic.Signed.0.3.2/lib/net40/Chronic.dll": {},
+        "../packages/Microsoft.AspNet.WebApi.Client.5.2.3/lib/net45/System.Net.Http.Formatting.dll": {},
+        "../packages/Microsoft.AspNet.WebApi.Core.5.2.3/lib/net45/System.Web.Http.dll": {},
+        "../packages/Microsoft.Bot.Connector.1.1.0.0/lib/net45/Microsoft.Bot.Connector.dll": {},
+        "../packages/Microsoft.Rest.ClientRuntime.1.8.2/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
+        "../packages/Microsoft.WindowsAzure.ConfigurationManager.3.2.1/lib/net40/Microsoft.WindowsAzure.Configuration.dll": {},
+        "../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
+        "bin/Debug/Microsoft.Bot.Builder.dll": {}
+      }
+    }
+  }
+}

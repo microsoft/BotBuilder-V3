@@ -207,7 +207,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             { Size = SizeOptions.Large, Kind = PizzaOptions.BYOPizza },
                             () => PizzaOrder.BuildForm(noNumbers: false),
                             options: FormOptions.PromptInStart,
-                            entities: new Luis.Models.EntityRecommendation[] { new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress") }
+                            entities: new Luis.Models.EntityRecommendation[] {
+                                new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
+                                new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("NotFound", "OK", "Notfound")
+                            }
                             );
                         case DebugOptions.Localized:
                             {

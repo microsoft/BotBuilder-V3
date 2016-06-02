@@ -103,6 +103,7 @@
     <Compile Include="Dialogs\IConnectorClientFactory.cs" />
     <Compile Include="Dialogs\IDialogTask.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
+    <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
     <Compile Include="Fibers\Store.cs" />
     <Compile Include="Fibers\IStore.cs" />

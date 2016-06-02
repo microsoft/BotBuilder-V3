@@ -56,11 +56,20 @@ namespace Microsoft.Bot.Builder.Tests
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
         }
 
-        public static Mock<IPromptCaller<T>> MockDialog<T>(string id = null)
+        public static Mock<IPromptCaller<T>> MockDialog<T>(Action<IDialogContext, ResumeAfter<T>> prompt)
         {
-            var dialog = new Moq.Mock<IPromptCaller<T>>(MockBehavior.Loose);
-            id = id ?? NewID();
-            dialog.Setup(d => d.ToString()).Returns(id);
+            var dialog = new Moq.Mock<IPromptCaller<T>>(MockBehavior.Strict);
+            dialog
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async c => { c.Wait(dialog.Object.FirstMessage); });
+            dialog
+                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
+                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialog.Object.PromptResult); });
+            dialog
+                .Setup(d => d.PromptResult(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<T>>()))
+                .Returns<IDialogContext, IAwaitable<T>>(async (c, a) => { c.Done(default(T)); });
+
+
             return dialog;
         }
     }
@@ -73,14 +82,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public async Task PromptSuccessAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt, string text, T expected)
         {
-            var dialogRoot = MockDialog<T>();
-
-            dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
-                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
-            dialogRoot
-                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
+            var dialogRoot = MockDialog<T>(prompt);
 
             Func<IDialog<object>> MakeRoot = () => dialogRoot.Object;
             var toBot = MakeTestMessage();
@@ -186,17 +188,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public async Task PromptFailureAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt)
         {
-            var dialogRoot = MockDialog<T>();
-
-            dialogRoot
-                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
-                .Returns<IDialogContext>(async c => { c.Wait(dialogRoot.Object.FirstMessage); });
-            dialogRoot
-                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
-                .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialogRoot.Object.PromptResult); });
-            dialogRoot
-                .Setup(d => d.PromptResult(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<T>>()))
-                .Returns<IDialogContext, IAwaitable<T>>(async (c, a) => { c.Done(default(T)); });
+            var dialogRoot = MockDialog<T>(prompt);
 
             Func<IDialog<object>> MakeRoot = () => dialogRoot.Object;
             var toBot = MakeTestMessage();

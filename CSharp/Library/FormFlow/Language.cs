@@ -214,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </remarks>
         public static string[] GenerateTerms(string phrase, int maxLength)
         {
-            var words = (from word in phrase.Split(' ') select word.ToLower()).ToArray();
+            var words = (from word in phrase.Split(' ') where word.Length > 0 select word.ToLower()).ToArray();
             var terms = new List<string>();
             for (var length = 1; length <= Math.Min(words.Length, maxLength); ++length)
             {
@@ -223,7 +223,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var ngram = new ArraySegment<string>(words, start, length);
                     if (!ArticleOrNone(ngram.First()) && !ArticleOrNone(ngram.Last()))
                     {
-                        terms.Add(string.Join(" ", OptionalPlurals(ngram)));
+                        terms.Add(string.Join(" ", OptionalPlurals(ngram))); 
                     }
                 }
             }
