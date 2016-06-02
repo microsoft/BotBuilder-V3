@@ -5,7 +5,7 @@ notifications or start a new conversation with the user.
 
 For a complete walkthrough of creating this bot see the article below.
 
-    http://docs.botframework.com/builder/node/understanding-natural-language/
+    http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 
 -----------------------------------------------------------------------------*/
 
