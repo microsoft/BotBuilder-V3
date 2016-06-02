@@ -368,7 +368,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
             catch
             {
-                await PersistBotData(token);
+                await PersistBotData(token: token);
                 throw;
 
             }
@@ -378,21 +378,44 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             bool inline = botToUser is SendLastInline_BotToUser || botToUser is BotToUserTextWriter;
             if (!inline)
             {
-                await PersistBotData(token);
+                await PersistBotData(token: token);
             }
         }
 
-        private async Task PersistBotData(CancellationToken token)
+        private async Task PersistBotData(bool ignoreETag = true, CancellationToken token = default(CancellationToken))
         {
-            var etag = DateTime.UtcNow.ToString();
-            var task1 = client.Bots.SetConversationDataAsync(message.To.Id, message.ConversationId,
-                new BotData(message.BotConversationData, etag),
+            var botId = message.To.Id;
+            var userId = message.From.Id;
+            var conversationId = message.ConversationId;
+            var etag = "*";
+
+            var conversationData = new BotData(eTag: etag);
+            var perUserInConversationData  = new BotData(eTag: etag);
+            var userData = new BotData(eTag: etag);
+
+            if (!ignoreETag)
+            {
+                var getConversationDataTask = client.Bots.GetConversationDataAsync(botId, conversationId, token);
+                var getPerUserInConversationDataTask = client.Bots.GetPerUserConversationDataAsync(botId, conversationId, userId, token);
+                var getUserDataTask = client.Bots.GetUserDataAsync(botId, userId, token);
+
+                conversationData = await getConversationDataTask;
+                perUserInConversationData = await getPerUserInConversationDataTask;
+                userData = await getUserDataTask;
+            }
+
+            conversationData.Data = message.BotConversationData;
+            perUserInConversationData.Data = message.BotPerUserInConversationData;
+            userData.Data = message.BotUserData;
+            
+            var task1 = client.Bots.SetConversationDataAsync(botId, conversationId,
+                conversationData,
                 token);
-            var task2 = client.Bots.SetPerUserInConversationDataAsync(message.To.Id, message.ConversationId, message.From.Id,
-                new BotData(message.BotPerUserInConversationData, etag),
+            var task2 = client.Bots.SetPerUserInConversationDataAsync(botId, conversationId, userId,
+                perUserInConversationData,
                 token);
-            var task3 = client.Bots.SetUserDataAsync(message.To.Id, message.From.Id,
-                new BotData(message.BotUserData, etag),
+            var task3 = client.Bots.SetUserDataAsync(botId, userId,
+                userData,
                 token);
             await task1;
             await task2;
