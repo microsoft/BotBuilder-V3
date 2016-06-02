@@ -24,6 +24,19 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v1.2.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.3)
+
+#### Changes
+
+* FormFlow now handles clarification and verification of LUIS entities.  Initial messages are processed, then LUIS entities and then remaining steps.   Bug [#227](https://github.com/Microsoft/BotBuilder/issues/227)
+* Made it so n-gram generation would not include empty strings if there were multiple spaces. Bug [#355](https://github.com/Microsoft/BotBuilder/issues/335)
+* Update FormFlow recognizers to take consistent set of args
+* Add CancelScorable as example of IScorable
+* Add sample using Azure Active Directory Authentication to access Microsoft graph
+* Fix a bug causing issue [#400](https://github.com/Microsoft/BotBuilder/issues/400)
+
+***
+
 ### [v1.2.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.2)
 
 #### Breaking Changes
