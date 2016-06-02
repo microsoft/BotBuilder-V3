@@ -3,7 +3,7 @@ This Bot uses the Bot Connector Service but is designed to showcase whats
 possible on Facebook using the framework. The demo shows how to create a looping 
 menu how send things like Pictures, Bubbles, Receipts, and use Carousels. It also
 shows all of the prompts supported by Bot Builder and how to recieve uploaded
-photos & videos.
+photos, videos, and location.
 
 # RUN THE BOT:
 
@@ -27,7 +27,6 @@ photos & videos.
 var restify = require('restify');
 var builder = require('../../');
   
-
 // Create bot and setup server
 var bot = new builder.BotConnectorBot({ 
     appId: process.env.BOTFRAMEWORK_APPID, 
@@ -380,4 +379,4 @@ bot.add('/locationPrompt', [
             session.endDialog(results);
         }
     }
-])
+]);
