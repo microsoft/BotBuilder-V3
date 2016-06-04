@@ -32,6 +32,121 @@
 //
 
 interface IMessage {
+    id: string;                     // Incoming Message ID
+    from: IAddress;                 // Sender address (user for incoming messages or bot for outgoing messages) 
+    to: IAddress;                   // Conversation address (always the replyTo)
+    recipient?: IAddress;           // Will be added by Bot Framework to identify bot (if specified then bot) 
+    timestamp: string;              // Timestamp of message given by chat service 
+    channelData?: any;              // Message in original/native format of the channel, may also contain extra payload added by Bot Framework 
+    channelId: string;              // Skype conversation platform should specify 'skype' in this property 
+    serviceUrl: string;             // Skype conversation platform should specify URL to: post messages back, comment, annotate, delete 
+    type: string;                   // Defines type of notification and name of feature 
+    summary: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
+    text: string;                   // Message text  
+    attachments: IAttachment[];     // This is placeholder for structured objects attached to this message 
+    entities: any[];                // This property is intended to keep structured data objects intended for Client application e.g.: Contacts, Reservation, Booking, Tickets. Structure of these object objects should be known to Client application.
+
+    // SDK specific fields
+    user: IAddress;                 // Normalized user that this message is either from or going to.
+    language: string;               // Identified language of the message.
+}
+
+interface IIsMessage {
+    toMessage(): IMessage;
+}
+
+interface IAddress {
+    id: string;                     // String with id using following template <schema>:<id string> 
+    name: string;                   // Friendly name 
+    isGroup?: boolean;              // (optional) informs bot if this is group conversation ID or not 
+}
+
+interface IAttachment {
+    contentType: string;            // MIME type string which describes type of attachment 
+    content?: any;                  // (Optional) object structure of attachment 
+    contentUrl?: string;            // (Optional) reference to location of attachment content
+}
+
+interface IIsAttachment {
+    toAttachment(): IAttachment;
+}
+
+interface ISigninCard {
+    title: string;                  // Title of the Card 
+    button: IAction;                // Sign in action 
+}
+
+interface IThumbnailCard {
+    title: string;                  // Title of the Card 
+    subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
+    text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
+    images: IImage[];               // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. 
+    tap: IAction;                   // This action will be activated when user taps on the section bubble. 
+    buttons: IAction[];             // Set of actions applicable to the current card. 
+}
+
+interface IReceiptCard {
+    title: string;                  // Title of the Card 
+    items: IReceiptItem[];          // Array of receipt items.
+    facts: IFact[];                 // Array of key-value pairs. 
+    tap: IAction;                   // This action will be activated when user taps on the section bubble. 
+    total: string;                  // Total amount of money paid (or should be paid) 
+    tax: string;                    // Total amount of TAX paid (or should be paid) 
+    vat: string;                    // Total amount of VAT paid (or should be paid) 
+    buttons: IAction[];             // Set of actions applicable to the current card. 
+}
+
+interface IReceiptItem {
+    title: string;                  // Title of the Card 
+    subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
+    text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
+    image: IImage;
+    price: string;                  // Amount with currency 
+    quantity: string;               // Number of items of given kind 
+    tap: IAction;                   // This action will be activated when user taps on the Item bubble. 
+}
+
+interface IIsReceiptItem {
+    toItem(): IReceiptItem;
+}
+
+interface IAction {
+    type: string;                   // Defines the type of action implemented by this button.  
+    title: string;                  // Text description which appear on the button. 
+    value: string;                  // Parameter for Action. Content of this property depends on Action type. 
+    image?: string;                 // (Optional) Picture which will appear on the button, next to text label. 
+}
+
+interface IIsAction {
+    toAction(): IAction;
+}
+
+interface IImage {
+    url: string;                    // Thumbnail image for major content property. 
+    alt: string;                    // Image description intended for screen readers 
+    tap: IAction;                   // Action assigned to specific Attachment. E.g. navigate to specific URL or play/open media content 
+}
+
+interface IIsImage {
+    toImage(): IImage;
+}
+
+interface IFact {
+    key: string;                    // Name of parameter 
+    value: string;                  // Value of parameter 
+}
+
+interface IIsFact {
+    toFact(): IFact;
+}
+
+interface IRating {
+    score: number;                  // Score is a floating point number. 
+    max: number;                    // Defines maximum score (e.g. 5, 10 or etc). This is mandatory property. 
+    text: string;                   // Text to be displayed next to score. 
+}
+
+interface IMessageV2 {
     type?: string;
     id?: string;
     conversationId?: string;
@@ -40,32 +155,32 @@ interface IMessage {
     sourceLanguage?: string;
     language?: string;
     text?: string;
-    attachments?: IAttachment[];
-    from?: IChannelAccount;
-    to?: IChannelAccount;
+    attachments?: IAttachmentV2[];
+    from?: IChannelAccountV2;
+    to?: IChannelAccountV2;
     userId?: string;
-    replyTo?: IChannelAccount;
+    replyTo?: IChannelAccountV2;
     replyToMessageId?: string;
-    participants?: IChannelAccount[];
+    participants?: IChannelAccountV2[];
     totalParticipants?: number;
-    mentions?: IMention[];
+    mentions?: IMentionV2[];
     place?: string;
     channelMessageId?: string;
     channelConversationId?: string;
     channelData?: any;
-    location?: ILocation;
+    location?: ILocationV2;
     hashtags?: string[];
     eTag?: string;
 }
 
-interface IBotConnectorMessage extends IMessage {
+interface IBotConnectorMessageV2 extends IMessageV2 {
     botUserData?: any;
     botConversationData?: any;
     botPerUserInConversationData?: any;
 }
 
-interface IAttachment {
-    actions?: IAction[];
+interface IAttachmentV2 {
+    actions?: IActionV2[];
     contentType?: string;
     contentUrl?: string;
     fallbackText?: string;
@@ -75,14 +190,14 @@ interface IAttachment {
     thumbnailUrl?: string;
 }
 
-interface IAction {
+interface IActionV2 {
     title?: string;
     message?: string;
     url?: string;
     image?: string;    
 }
 
-interface IChannelAccount {
+interface IChannelAccountV2 {
     name?: string;
     channelId: string;
     address: string;
@@ -90,20 +205,20 @@ interface IChannelAccount {
     isBot?: boolean;
 }
 
-interface IMention {
-    mentioned?: IChannelAccount;
+interface IMentionV2 {
+    mentioned?: IChannelAccountV2;
     text?: string;
 }
 
-interface ILocation {
+interface ILocationV2 {
     altitude?: number;
     latitude: number;
     longitude: number;
 }
 
 interface IBeginDialogAddress {
-    to: IChannelAccount;
-    from?: IChannelAccount;
+    to: IChannelAccountV2;
+    from?: IChannelAccountV2;
     language?: string;
     text?: string;
 }
