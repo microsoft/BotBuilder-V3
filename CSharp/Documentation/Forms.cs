@@ -438,9 +438,10 @@
     /// the templates that are used for autommatically generating your prompts.  Here we have redefined
     /// the default template used when you want to select one result from a set of choices to a different string and asked choices to always
     /// be listed one per line.  
-    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
-    /// \skip EnumSelectOne
-    /// \until class
+    /// ~~~
+    /// [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
+    /// public class SandwichOrder
+    /// ~~~
     /// With this change, here is how the cheese and bread prompts look.
     /// ~~~{.txt}
     /// What kind of bread would you like on your sandwich?

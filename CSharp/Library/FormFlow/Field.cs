@@ -183,16 +183,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _valueTerms[value].Alternatives;
         }
 
-        public virtual string ValueDescription(object value)
+        public virtual DescribeAttribute ValueDescription(object value)
         {
-            return _valueDescriptions[value].Description;
+            return _valueDescriptions[value];
         }
 
-        public virtual IEnumerable<string> ValueDescriptions
+        public virtual IEnumerable<DescribeAttribute> ValueDescriptions
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Value.Description);
+                return _valueDescriptions.Values;
             }
         }
 
@@ -200,7 +200,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Key);
+                return _valueDescriptions.Keys;
             }
         }
 
@@ -258,7 +258,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             string[] terms;
             if (localizer.Lookup(_name + nameof(_description), out description))
             {
-                _description = new DescribeAttribute(description);
+                _description = new DescribeAttribute(description, _description?.Image);
             }
             if (localizer.LookupValues(_name + nameof(_terms), out terms))
             {
@@ -375,10 +375,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Adds a description for a value. </summary>
         /// <param name="value">        The value. </param>
         /// <param name="description">  Description of the value. </param>
+        /// <param name="image">Image to use for value as button.</param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
-        public Field<T> AddDescription(object value, string description)
+        public Field<T> AddDescription(object value, string description, string image = null)
         {
-            _valueDescriptions[value] = new DescribeAttribute(description);
+            _valueDescriptions[value] = new DescribeAttribute(description, image);
             return this;
         }
 

@@ -100,6 +100,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                 var task = scope.Resolve<IPostToBot>();
+                var botData = scope.Resolve<IBotData>();
+                await botData.LoadAsync();
                 var stack = scope.Resolve<IDialogStack>();
 
                 stack.Call(MakeRoot(), null);
@@ -257,6 +259,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 })
                 .DefaultIfException()
                 .Loop();
+            Interactive(MakeForm(() => AnnotatedSandwichOrder.BuildForm())).GetAwaiter().GetResult();
             Interactive(callDebug).GetAwaiter().GetResult();
         }
     }

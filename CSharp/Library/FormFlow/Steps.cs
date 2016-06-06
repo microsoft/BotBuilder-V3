@@ -424,7 +424,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 field.ReplaceTemplate(helpTemplate);
                 foreach (var value in clarify.Values)
                 {
-                    field.AddDescription(value, recognizer.ValueDescription(value));
+                    var desc = recognizer.ValueDescription(value);
+                    field.AddDescription(value, desc.Description, desc.Image);
                     field.AddTerms(value, recognizer.ValidInputs(value).ToArray());
                 }
                 var choiceRecognizer = new RecognizeEnumeration<T>(field);

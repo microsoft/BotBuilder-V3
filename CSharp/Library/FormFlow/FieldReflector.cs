@@ -412,6 +412,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var terms = enumField.GetCustomAttribute<TermsAttribute>();
                     if (describe != null && !_ignoreAnnotations)
                     {
+                        if (describe.Description == null)
+                        {
+                            describe.Description = Language.CamelCase(enumValue.ToString());
+                        }
                         _valueDescriptions.Add(enumValue, describe);
                     }
                     else

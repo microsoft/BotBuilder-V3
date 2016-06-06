@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="value">C# value to get description for.</param>
         /// <returns>Description of C# value.</returns>
-        public delegate string DescriptionDelegate(object value);
+        public delegate DescribeAttribute DescriptionDelegate(object value);
 
         /// <summary>
         /// Delegate to return the terms to match on for a C# value.
@@ -93,12 +93,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _values;
         }
 
-        public IEnumerable<string> ValueDescriptions()
+        public IEnumerable<DescribeAttribute> ValueDescriptions()
         {
             return _valueDescriptions;
         }
 
-        public string ValueDescription(object value)
+        public DescribeAttribute ValueDescription(object value)
         {
             return _descriptionDelegate(value);
         }
@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public string Help(T state, object defaultValue)
         {
-            var values = _valueDescriptions;
+            var values = (from val in _valueDescriptions select val.Description);
             var max = _max;
             if (_noPreference != null)
             {
@@ -338,7 +338,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private readonly bool _allowNumbers;
         private readonly IEnumerable<string> _terms;
         private readonly IEnumerable<object> _values;
-        private readonly IEnumerable<string> _valueDescriptions;
+        private readonly IEnumerable<DescribeAttribute> _valueDescriptions;
         private readonly DescriptionDelegate _descriptionDelegate;
         private readonly TermsDelegate _termsDelegate;
         private readonly TemplateAttribute _helpFormat;
@@ -411,11 +411,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public abstract IEnumerable<string> ValidInputs(object value);
 
-        public abstract string ValueDescription(object value);
+        public abstract DescribeAttribute ValueDescription(object value);
 
-        public virtual IEnumerable<string> ValueDescriptions()
+        public virtual IEnumerable<DescribeAttribute> ValueDescriptions()
         {
-            return new string[0];
+            return new DescribeAttribute[0];
         }
 
         public virtual IEnumerable<object> Values()
@@ -512,16 +512,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 : _field.Form.Configuration.No;
         }
 
-        public override string ValueDescription(object value)
+        public override DescribeAttribute ValueDescription(object value)
         {
-            return ((bool)value
+            return new DescribeAttribute(((bool)value
                 ? _field.Form.Configuration.Yes
-                : _field.Form.Configuration.No).First();
+                : _field.Form.Configuration.No).First());
         }
 
-        public override IEnumerable<string> ValueDescriptions()
+        public override IEnumerable<DescribeAttribute> ValueDescriptions()
         {
-            return new string[] { ValueDescription(true), ValueDescription(false) };
+            return new DescribeAttribute[] { ValueDescription(true), ValueDescription(false) };
         }
 
         private HashSet<string> _yes;
@@ -549,9 +549,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             yield return (string)value;
         }
 
-        public override string ValueDescription(object value)
+        public override DescribeAttribute ValueDescription(object value)
         {
-            return (string)value;
+            return new DescribeAttribute((string)value);
         }
 
         public override TermMatch Parse(string input)
@@ -598,9 +598,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _showLimits ? new object[] { _min, _max } : new object[] { null, null };
         }
 
-        public override string ValueDescription(object value)
+        public override DescribeAttribute ValueDescription(object value)
         {
-            return ((long)Convert.ChangeType(value, typeof(long))).ToString(Thread.CurrentThread.CurrentUICulture.NumberFormat);
+            return new DescribeAttribute(((long)Convert.ChangeType(value, typeof(long))).ToString(Thread.CurrentThread.CurrentUICulture.NumberFormat));
         }
 
         public override IEnumerable<string> ValidInputs(object value)
@@ -662,9 +662,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _showLimits ? new object[] { _min, _max } : new object[] { null, null };
         }
 
-        public override string ValueDescription(object value)
+        public override DescribeAttribute ValueDescription(object value)
         {
-            return ((double)Convert.ChangeType(value, typeof(double))).ToString(Thread.CurrentThread.CurrentUICulture.NumberFormat);
+            return new DescribeAttribute(((double)Convert.ChangeType(value, typeof(double))).ToString(Thread.CurrentThread.CurrentUICulture.NumberFormat));
         }
 
         public override IEnumerable<string> ValidInputs(object value)
@@ -755,12 +755,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public override IEnumerable<string> ValidInputs(object value)
         {
-            yield return ValueDescription(value);
+            yield return ValueDescription(value).Description;
         }
 
-        public override string ValueDescription(object value)
+        public override DescribeAttribute ValueDescription(object value)
         {
-            return ((DateTime)value).ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat);
+            return new DescribeAttribute(((DateTime)value).ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat));
         }
 
         private Parser _parser;

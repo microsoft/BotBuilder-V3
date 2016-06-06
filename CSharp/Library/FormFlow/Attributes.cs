@@ -59,15 +59,25 @@ namespace Microsoft.Bot.Builder.FormFlow
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum | AttributeTargets.Property)]
     public class DescribeAttribute : FormFlowAttribute
     {
-        public readonly string Description;
+        /// <summary>
+        /// Description of the field, property or enum.
+        /// </summary>
+        public string Description;
+
+        /// <summary>
+        /// URL of image to use when creating buttons.
+        /// </summary>
+        public string Image;
 
         /// <summary>
         /// Description for field, property or enum value.
         /// </summary>
-        /// <param name="description"></param>
-        public DescribeAttribute(string description)
+        /// <param name="description">Description of field, property or enum value.</param>
+        /// <param name="image">URL of image to use when generating buttons.</param>
+        public DescribeAttribute(string description = null, string image = null)
         {
             Description = description;
+            Image = image;
         }
     }
 
