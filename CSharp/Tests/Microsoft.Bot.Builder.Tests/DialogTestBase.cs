@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Builder.Tests
             return builder.Build();
         }
 
-        protected static Message MakeTestMessage()
+        public static Message MakeTestMessage()
         {
             return new Message() {
                 From = new ChannelAccount { Id = "testUser" },

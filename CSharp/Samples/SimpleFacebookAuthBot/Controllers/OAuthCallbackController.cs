@@ -36,19 +36,18 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
             // Create the message that is send to conversation to resume the login flow
             var msg = resumptionCookie.GetMessage();
             msg.Text = $"token:{token.AccessToken}";
-            
+
             // Resume the conversation to SimpleFacebookAuthDialog
             var reply = await Conversation.ResumeAsync(resumptionCookie, msg);
 
-            // Remove the pending message because login flow is complete
-            IBotData dataBag = new JObjectBotData(reply);
-            ResumptionCookie pending;
-            if (dataBag.PerUserInConversationData.TryGetValue("persistedCookie", out pending))
+            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, reply))
             {
-                dataBag.PerUserInConversationData.RemoveValue("persistedCookie");
-
-                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, reply))
+                var dataBag = scope.Resolve<IBotData>();
+                await dataBag.LoadAsync();
+                ResumptionCookie pending;
+                if (dataBag.PerUserInConversationData.TryGetValue("persistedCookie", out pending))
                 {
+                    dataBag.PerUserInConversationData.RemoveValue("persistedCookie");
                     // make sure that we have the right Channel info for the outgoing message
                     var persistedCookie = pending.GetMessage();
                     reply.To = persistedCookie.From;
@@ -57,14 +56,14 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
                     // Send the login success asynchronously to user
                     var client = scope.Resolve<IConnectorClient>();
                     await client.Messages.SendMessageAsync(reply);
-                }
 
-                return Request.CreateResponse("You are now logged in! Continue talking to the bot.");
-            }
-            else
-            {
-                // Callback is called with no pending message as a result the login flow cannot be resumed.
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new InvalidOperationException("Cannot resume!"));
+                    return Request.CreateResponse("You are now logged in! Continue talking to the bot.");
+                }
+                else
+                {
+                    // Callback is called with no pending message as a result the login flow cannot be resumed.
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new InvalidOperationException("Cannot resume!"));
+                }
             }
         }
     }
