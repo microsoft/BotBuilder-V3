@@ -361,7 +361,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return new string[0];
+                return Array.Empty<string>();
             }
         }
 
@@ -717,7 +717,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return new string[0];
+                return Array.Empty<string>();
             }
         }
 

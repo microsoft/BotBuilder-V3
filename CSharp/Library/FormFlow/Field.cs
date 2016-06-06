@@ -642,7 +642,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
         protected double _min, _max;
         protected bool _limited;
-        protected string[] _dependencies = new string[0];
+        protected string[] _dependencies = Array.Empty<string>();
         protected bool _allowsMultiple;
         protected Type _type;
         protected bool _optional;

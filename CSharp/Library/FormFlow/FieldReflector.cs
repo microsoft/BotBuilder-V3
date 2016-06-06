@@ -544,7 +544,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public static IFormBuilder<T> AddRemainingFields<T>(this IFormBuilder<T> builder, IEnumerable<string> exclude = null)
             where T : class
         {
-            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
+            var exclusions = (exclude == null ? Array.Empty<string>() : exclude.ToArray());
             var paths = new List<string>();
             FormBuilder<T>.FieldPaths(typeof(T), "", paths);
             foreach (var path in paths)

@@ -467,7 +467,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </remarks>
         public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JObject schema, IEnumerable<string> exclude = null)
         {
-            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
+            var exclusions = (exclude == null ? Array.Empty<string>() : exclude.ToArray());
             var fields = new List<string>();
             Fields(schema, null, fields);
             foreach (var field in fields)

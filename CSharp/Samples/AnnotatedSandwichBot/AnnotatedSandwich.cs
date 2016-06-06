@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
     public enum SandwichOptions
     {
-        [Describe(Image = @"C:\tmp\blt36.jpg")]
+        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=BLT&w=50&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
         OvenRoastedChicken, RoastBeef,
         [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
