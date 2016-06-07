@@ -10,7 +10,7 @@ $( document ).ready(function() {
 		}
 	}
     // open left nav container if a page is currently selected
-    var currentNav = $(".page-link.navselected").closest(".navContainer").prev();
+    var currentNav = $(".page-link.navselected").closest(".navContainer").parent();
     if (currentNav.length == 0 && !isNodeRefDoc()) {
         // show all nodes
         $( ".level1.parent" ).show();
@@ -21,7 +21,7 @@ $( document ).ready(function() {
         if (isNodeRefDoc()) {
             var currentListHref = $('a[href*="/builder/node/sdkreference/"]').first();
             currentListHref.addClass("navselected");
-            currentNav = currentListHref.closest(".navContainer").prev();
+            currentNav = currentListHref.closest(".navContainer").parent();
         } 
         toggleNav(currentNav, 0);
     }
@@ -30,10 +30,20 @@ $( document ).ready(function() {
     $( ".level1.parent" ).click(function() {
         toggleNav($(this), 400);
     });
+
+    // global message 
+    if (!isGlobalMessageDismissed()) {
+        $('#doc-content').prepend('<div id="global-message"><a id="close" href="#"></a>This is preview V3 documentation, if you\'re looking for the current production V1 documentation, please visit <a href="http://docs.botframework.com">docs.botframework.com</a></div>')
+    }
+
+    $('#close').click(function() {
+        dismissGlobalMessage();
+        return false;
+    });
 });
 
 function toggleNav(parent, dur) {    
-    $content = parent.next();
+    $content = parent.children().first();
     $content.slideToggle(dur);
     parent.show();
     parent.toggleClass("rotate");
@@ -46,4 +56,16 @@ function isNodeRefDoc() {
         return true;
     } 
     return false;
+}
+
+function isGlobalMessageDismissed() {
+    if (localStorage.globalMessageDismissed) {
+        return true;
+    }
+    return false;
+}
+
+function dismissGlobalMessage() {
+    $('#global-message').hide('slow');
+    localStorage.setItem("globalMessageDismissed",Date.now());
 }
