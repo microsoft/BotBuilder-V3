@@ -57,7 +57,7 @@ export class Image implements IIsImage {
     
     public tap(action: IAction|IIsAction): this {
         if (action) {
-            this.data.tap = action.hasOwnProperty('toAction') ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
         }
         return this;
     }

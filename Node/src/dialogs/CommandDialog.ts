@@ -97,14 +97,12 @@ export class CommandDialog extends dialog.Dialog {
             session.dialogData[consts.Data.Handler] = this.commands.length;
         }
         if (matched) {
-            session.compareConfidence(session.message.language, text, score, (handled) => {
+            session.compareConfidence(session.message.local, text, score, (handled) => {
                 if (!handled) {
                     matched.fn(session, { expression: expression, matches: matches });
                 }
             });
-        } else {
-            session.send();
-        }
+        } 
     }
 
     public dialogResumed<T>(session: ISession, result: dialog.IDialogResult<T>): void {

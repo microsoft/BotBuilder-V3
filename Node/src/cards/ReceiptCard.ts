@@ -45,7 +45,7 @@ export class ReceiptCard implements IIsAttachment {
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var item = list[i];
-                this.data.content.items.push(item.hasOwnProperty('toItem') ? (<IIsReceiptItem>item).toItem() : <IReceiptItem>item);    
+                this.data.content.items.push((<IIsReceiptItem>item).toItem ? (<IIsReceiptItem>item).toItem() : <IReceiptItem>item);    
             }
         }
         return this;
@@ -56,7 +56,7 @@ export class ReceiptCard implements IIsAttachment {
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var fact = list[i];
-                this.data.content.facts.push(fact.hasOwnProperty('toFact') ? (<IIsFact>fact).toFact() : <IFact>fact);    
+                this.data.content.facts.push((<IIsFact>fact).toFact ? (<IIsFact>fact).toFact() : <IFact>fact);    
             }
         }
         return this;
@@ -64,7 +64,7 @@ export class ReceiptCard implements IIsAttachment {
 
     public tap(action: IAction|IIsAction): this {
         if (action) {
-            this.data.content.tap = action.hasOwnProperty('toAction') ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.content.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
         }
         return this;
     }
@@ -89,7 +89,7 @@ export class ReceiptCard implements IIsAttachment {
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var action = list[i];
-                this.data.content.buttons.push(action.hasOwnProperty('toAction') ? (<IIsAction>action).toAction() : <IAction>action);    
+                this.data.content.buttons.push((<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action);    
             }
         }
         return this;
@@ -97,5 +97,63 @@ export class ReceiptCard implements IIsAttachment {
 
     public toAttachment(): IAttachment {
         return this.data;
+    }
+}
+
+
+export class ReceiptItem implements IIsReceiptItem {
+    private data = <IReceiptItem>{};
+    
+    constructor(private session?: ses.Session) {
+        
+    }
+    
+    public title(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.title = msg.fmtText(this.session, text, args);
+        }
+        return this;
+    }
+
+    public subtitle(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.subtitle = msg.fmtText(this.session, text, args);
+        }
+        return this;
+    }
+    
+    public text(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.text = msg.fmtText(this.session, text, args);
+        }
+        return this;
+    }
+    
+    public image(img: IImage|IIsImage): this {
+        if (img) {
+            this.data.image = (<IIsImage>img).toImage ? (<IIsImage>img).toImage() : <IImage>img;
+        }
+        return this;
+    }
+
+    public price(v: string): this {
+        this.data.price = v || '';
+        return this;
+    }
+    
+    public quantity(v: string): this {
+        this.data.quantity = v || '';
+        return this;
+    }
+    
+    public tap(action: IAction|IIsAction): this {
+        if (action) {
+            this.data.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
+        }
+        return this;
+    }
+    
+    public toItem(): IReceiptItem {
+        return this.data;    
     }
 }

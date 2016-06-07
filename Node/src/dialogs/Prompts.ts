@@ -38,6 +38,8 @@ import entities = require('./EntityRecognizer');
 import mb = require('../Message');
 import Channel = require('../Channel');
 import dc = require('./DialogCollection');
+import hero = require('../cards/HeroCard');
+import action = require('../cards/Action');
 
 export enum PromptType { text, number, confirm, choice, time, attachment }
 
@@ -70,7 +72,7 @@ export interface IPromptRecognizer {
 
 export interface IPromptRecognizerArgs {
     promptType: PromptType;
-    language: string;
+    local: string;
     utterance: string;
     attachments: IAttachment[];
     enumValues?: string[];
@@ -160,7 +162,7 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
                 }
 
                 // Return results
-                args.compareConfidence(args.language, text, score, (handled) => {
+                args.compareConfidence(args.local, text, score, (handled) => {
                     if (!handled && score > 0) {
                         callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
                     } else {
@@ -212,7 +214,7 @@ export class Prompts extends dialog.Dialog {
             {
                 promptType: args.promptType,
                 utterance: session.message.text,
-                language: session.message.language,
+                local: session.message.local,
                 attachments: session.message.attachments,
                 enumValues: args.enumValues,
                 refDate: args.refDate,
@@ -272,16 +274,16 @@ export class Prompts extends dialog.Dialog {
             // Append list
             var connector = '';
             var list: string;
-            var msg = new mb.Message();
+            var msg = new mb.Message(session);
             switch (style) {
                 case ListStyle.button:
-                    var a: IAttachment = { actions: [] };
+                    var buttons: action.Action[] = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
-                        var action = session.dialogData.enumValues[i];
-                        a.actions.push({ title: action, message: action });
+                        var option = session.dialogData.enumValues[i];
+                        buttons.push(action.Action.postBack(session, option, option));
                     }
-                    msg.setText(session, prompt)
-                       .addAttachment(a);
+                    msg.text(prompt)
+                       .attachments([new hero.HeroCard(session).buttons(buttons)]);
                     break;
                 case ListStyle.inline:
                     list = ' (';
@@ -294,7 +296,7 @@ export class Prompts extends dialog.Dialog {
                         } 
                     });
                     list += ')';
-                    msg.setText(session, prompt + '%s', list);
+                    msg.text(prompt + '%s', list);
                     break;
                 case ListStyle.list:
                     list = '\n   ';
@@ -302,10 +304,10 @@ export class Prompts extends dialog.Dialog {
                         list += connector + (index + 1) + '. ' + value;
                         connector = '\n   ';
                     });
-                    msg.setText(session, prompt + '%s', list);
+                    msg.text(prompt + '%s', list);
                     break;
                 default:
-                    msg.setText(session, prompt);
+                    msg.text(prompt);
                     break;
             }
             

@@ -43,7 +43,7 @@ export interface IDialogWaterfallStep {
 }
 
 export class DialogAction {
-    static send(msg: string, ...args: any[]): IDialogHandler<any> {
+    static send(msg: string|string[], ...args: any[]): IDialogHandler<any> {
         args.splice(0, 0, msg);
         return function sendAction(s: ses.Session) {
             // Send a message to the user.
@@ -55,12 +55,9 @@ export class DialogAction {
         return function beginDialogAction(s: ses.Session, a: any) {
             // Handle calls where we're being resumed.
             if (a && a.hasOwnProperty('resumed')) {
-                // We have to implement logic to ensure our callstack gets persisted.
                 var r = <dialog.IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
-                } else if (!s.messageSent()) {
-                    s.send();
                 }
             } else  {
                 // Merge args

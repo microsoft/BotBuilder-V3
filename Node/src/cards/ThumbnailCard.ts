@@ -59,7 +59,7 @@ export class ThumbnailCard implements IIsAttachment {
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var image = list[i];
-                this.data.content.images.push(image.hasOwnProperty('toImage') ? (<IIsImage>image).toImage() : <IImage>image);    
+                this.data.content.images.push((<IIsImage>image).toImage ? (<IIsImage>image).toImage() : <IImage>image);    
             }
         }
         return this;
@@ -70,7 +70,7 @@ export class ThumbnailCard implements IIsAttachment {
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var action = list[i];
-                this.data.content.buttons.push(action.hasOwnProperty('toAction') ? (<IIsAction>action).toAction() : <IAction>action);    
+                this.data.content.buttons.push((<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action);    
             }
         }
         return this;
@@ -78,7 +78,7 @@ export class ThumbnailCard implements IIsAttachment {
     
     public tap(action: IAction|IIsAction): this {
         if (action) {
-            this.data.content.tap = action.hasOwnProperty('toAction') ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.content.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
         }
         return this;
     }

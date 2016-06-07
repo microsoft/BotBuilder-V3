@@ -39,13 +39,11 @@ export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt:
             return (choiceCnt <= 3);
         case 'telegram':
         case 'kik':
-            return true;
         default:
             return false;
     }
 }
 
 export function getChannelId(session: ses.Session): string {
-    var account = session.message.from || session.message.to;
-    return account.channelId.toLowerCase();    
+    return session.message.address.channelId.toLowerCase();    
 }

@@ -34,6 +34,9 @@
 import ses = require('./Session');
 import sprintf = require('sprintf-js');
 import utils = require('./utils');
+import hc = require('./cards/HeroCard');
+import img = require('./cards/Image');
+import action = require('./cards/Action');
 
 export interface IChannelDataMap {
     [channelId: string]: any;
@@ -55,8 +58,11 @@ export class Message implements IIsMessage {
         this.data.type = 'message';
         if (this.session) {
             var m = this.session.message;
-            if (m.language) {
-                this.data.language = m.language;
+            if (m.local) {
+                this.data.local = m.local;
+            }
+            if (m.address) {
+                this.data.address = m.address;
             }
         }
     }
@@ -66,19 +72,13 @@ export class Message implements IIsMessage {
         return this;
     }
     
-    public language(local: string): this {
-        if (local) {
-            this.data.language = local;
-        } else if (this.data.hasOwnProperty('language')) {
-            delete this.data.language;
-        }
+    public local(local: string): this {
+        this.data.local = local;
         return this;
     }
     
     public text(text: string|string[], ...args: any[]): this {
-        if (text) {
-            this.data.text = fmtText(this.session, text, args);
-        }
+        this.data.text = text ? fmtText(this.session, text, args) : '';
         return this; 
     }
     
@@ -100,9 +100,7 @@ export class Message implements IIsMessage {
     }
 
     public summary(text: string|string[], ...args: any[]): this {
-        if (text) {
-            this.data.summary = fmtText(this.session, text, args);
-        }
+        this.data.summary = text ? fmtText(this.session, text, args) : '';
         return this; 
     }
 
@@ -118,7 +116,9 @@ export class Message implements IIsMessage {
        
     public addAttachment(attachment: IAttachment|IIsAttachment): this {
         if (attachment) {
-            var a: IAttachment = attachment.hasOwnProperty('toAttachment') ? (<IIsAttachment>attachment).toAttachment() : <IAttachment>attachment; 
+            // Upgrade attachment if specified using old schema
+            var a: IAttachment = (<IIsAttachment>attachment).toAttachment ? (<IIsAttachment>attachment).toAttachment() : <IAttachment>attachment;
+            a = this.upgradeAttachment(a);
             if (!this.data.attachments) {
                 this.data.attachments = [a];
             } else {
@@ -126,6 +126,55 @@ export class Message implements IIsMessage {
             }
         }
         return this;
+    }
+
+    private upgradeAttachment(a: IAttachment): IAttachment {
+        var isOldSchema = false;
+        for (var prop in a) {
+            switch (prop) {
+                case 'actions':
+                case 'fallbackText':
+                case 'title':
+                case 'titleLink':
+                case 'text':
+                case 'thumbnailUrl':
+                    isOldSchema = true;
+                    break;
+            }
+        }
+        if (isOldSchema) {
+            var v2 = <IAttachmentV2>a;
+            var card = new hc.HeroCard();
+            if (v2.title) {
+                card.title(v2.title);
+            }
+            if (v2.text) {
+                card.text(v2.text);
+            }
+            if (v2.thumbnailUrl) {
+                card.images([new img.Image().url(v2.thumbnailUrl)]);
+            }
+            if (v2.titleLink) {
+                card.tap(action.Action.openUrl(null, v2.titleLink));
+            }
+            if (v2.actions) {
+                var list: action.Action[] = [];
+                for (var i = 0; i < v2.actions.length; i++) {
+                    var old = v2.actions[i];
+                    var btn = old.message ? 
+                        action.Action.postBack(null, old.message, old.title) : 
+                        action.Action.openUrl(null, old.url, old.title);
+                    if (old.image) {
+                        btn.image(old.image);
+                    }
+                    list.push(btn);
+                }
+                card.buttons(list);
+            }
+            return card.toAttachment();
+        } else {
+            return a;
+        }
     }
     
     public entities(list: Object[]): this {
@@ -143,10 +192,22 @@ export class Message implements IIsMessage {
         }
         return this;
     }
+    
+    public address(adr: IAddress): this {
+        if (adr) {
+            this.data.address = adr;
+        }
+        return this;
+    }
+    
+    public timestamp(time?: string): this {
+        this.data.timestamp = time || new Date().toISOString();
+        return this;
+    }
 
     public channelData(map: IChannelDataMap): this {
         if (map) {
-            var channelId = this.session ? this.session.message.channelId : '*';
+            var channelId = this.data.address ? this.data.address.channelId : '*';
             if (map.hasOwnProperty(channelId)) {
                 this.data.channelData = map[channelId];
             } else if (map.hasOwnProperty('*')) {
@@ -221,8 +282,8 @@ export class Message implements IIsMessage {
     //-------------------
     
     public setLanguage(local: string): this {
-        console.warn("Message.setLanguage() is deprecated. Use Message.language() instead.");
-        return this.language(local);
+        console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
+        return this.local(local);
     }
     
     public setText(session: ses.Session, prompts: string|string[], ...args: any[]): this {
@@ -261,7 +322,7 @@ export function fmtText(session: ses.Session, prompts: string|string[], args?: a
     var fmt = Message.randomPrompt(prompts);
     if (session) {
         // Run prompt through localizer
-        fmt = this.session.gettext(fmt);
+        fmt = session.gettext(fmt);
     }
     return args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt; 
 }

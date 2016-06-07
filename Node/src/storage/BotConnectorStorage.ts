@@ -50,7 +50,7 @@ export class BotConnectorStorage implements storage.IBotStorage {
         
     }
 
-    public get(address: storage.IBotStorageAddress, callback: (err: Error, data: storage.IBotStorageData) => void): void {
+    public get(address: storage.IBotStorageKey, callback: (err: Error, data: storage.IBotStorageData) => void): void {
         var ops = 2;
         var settings = this.options;
         var data: storage.IBotStorageData = {};
@@ -92,7 +92,7 @@ export class BotConnectorStorage implements storage.IBotStorage {
         read(convoPath, 'conversationData');
     }
 
-    public save(address: storage.IBotStorageAddress, data: storage.IBotStorageData, callback?: (err: Error) => void): void {
+    public save(address: storage.IBotStorageKey, data: storage.IBotStorageData, callback?: (err: Error) => void): void {
         var ops = 2;
         var settings = this.options;
         function write(path: string, field: string) {

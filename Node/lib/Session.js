@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var dialog = require('./dialogs/Dialog');
 var sprintf = require('sprintf-js');
 var events = require('events');
-var utils = require('./utils');
+var msg = require('./Message');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -38,7 +38,7 @@ var Session = (function (_super) {
         };
         this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
         this.sessionState.lastAccess = new Date().getTime();
-        this.message = message || { text: '' };
+        this.message = (message || { text: '' });
         if (!this.message.type) {
             this.message.type = 'Message';
         }
@@ -48,53 +48,82 @@ var Session = (function (_super) {
     };
     Session.prototype.error = function (err) {
         err = err instanceof Error ? err : new Error(err.toString());
-        console.error('Session Error: ' + err.message);
+        console.error('ERROR: Session Error: ' + err.message);
         this.emit('error', err);
         return this;
     };
-    Session.prototype.gettext = function (msgid) {
+    Session.prototype.gettext = function (messageid) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return this.vgettext(msgid, args);
+        return this.vgettext(messageid, args);
     };
-    Session.prototype.ngettext = function (msgid, msgid_plural, count) {
+    Session.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
+            tmpl = this.options.localizer.ngettext(this.message.local || '', messageid, messageid_plural, count);
         }
         else if (count == 1) {
-            tmpl = msgid;
+            tmpl = messageid;
         }
         else {
-            tmpl = msgid_plural;
+            tmpl = messageid_plural;
         }
         return sprintf.sprintf(tmpl, count);
     };
-    Session.prototype.send = function (msg) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    Session.prototype.save = function (done) {
         var ss = this.sessionState;
         if (ss.callstack.length > 0) {
             ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
         }
-        var message = typeof msg == 'string' ? this.createMessage(msg, args) : msg;
-        this.delayedEmit('send', message);
+        this.options.onSave(done);
         return this;
     };
-    Session.prototype.getMessageReceived = function () {
-        return this.message.channelData;
+    Session.prototype.send = function (message) {
+        var _this = this;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        this.msgSent = true;
+        this.save(function (err) {
+            if (!err && message) {
+                var m;
+                if (typeof message == 'string' || Array.isArray(message)) {
+                    m = _this.createMessage(message, args);
+                }
+                else if (message.toMessage) {
+                    m = message.toMessage();
+                }
+                else {
+                    m = message;
+                }
+                _this.delayedSend(m);
+            }
+        });
+        return this;
     };
-    Session.prototype.sendMessage = function (msg) {
-        return this.send({ channelData: msg });
+    Session.prototype.sendMessage = function (message, done) {
+        var _this = this;
+        this.msgSent = true;
+        this.save(function (err) {
+            if (!err && message) {
+                var m = message.toMessage ? message.toMessage() : message;
+                _this.prepareMessage(m);
+                _this.options.onSend([m], done);
+            }
+            else if (done) {
+                done(err);
+            }
+        });
+        return this;
     };
     Session.prototype.messageSent = function () {
         return this.msgSent;
     };
     Session.prototype.beginDialog = function (id, args) {
+        var _this = this;
         var dialog = this.dialogs.getDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
@@ -106,10 +135,15 @@ var Session = (function (_super) {
         var cur = { id: id, state: {} };
         ss.callstack.push(cur);
         this.dialogData = cur.state;
-        dialog.begin(this, args);
+        this.save(function (err) {
+            if (!err) {
+                dialog.begin(_this, args);
+            }
+        });
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
+        var _this = this;
         var dialog = this.dialogs.getDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
@@ -119,10 +153,15 @@ var Session = (function (_super) {
         ss.callstack.pop();
         ss.callstack.push(cur);
         this.dialogData = cur.state;
-        dialog.begin(this, args);
+        this.save(function (err) {
+            if (!err) {
+                dialog.begin(_this, args);
+            }
+        });
         return this;
     };
     Session.prototype.endDialog = function (result) {
+        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -135,39 +174,49 @@ var Session = (function (_super) {
         var m;
         var r = {};
         if (result) {
-            if (typeof result === 'string') {
+            if (typeof result == 'string' || Array.isArray(result)) {
                 m = this.createMessage(result, args);
             }
-            else if (result.hasOwnProperty('text') || result.hasOwnProperty('attachments') || result.hasOwnProperty('channelData')) {
-                m = result;
+            else if (result.toMessage) {
+                m = result.toMessage();
+            }
+            else if (result.hasOwnProperty('resumed') || result.hasOwnProperty('error') || result.hasOwnProperty('response')) {
+                r = result;
             }
             else {
-                r = result;
+                m = result;
             }
         }
         if (!r.hasOwnProperty('resumed')) {
             r.resumed = dialog.ResumeReason.completed;
         }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
+        if (m) {
+            this.msgSent = true;
+        }
         ss.callstack.pop();
-        if (ss.callstack.length > 0) {
-            var cur = ss.callstack[ss.callstack.length - 1];
+        this.dialogData = null;
+        var cur = ss.callstack.length > 0 ? ss.callstack[ss.callstack.length - 1] : null;
+        if (cur) {
             this.dialogData = cur.state;
-            if (m) {
-                this.send(m);
-            }
-            var d = this.dialogs.getDialog(cur.id);
-            d.dialogResumed(this, r);
         }
-        else {
-            this.send(m);
-            if (r.error) {
-                this.emit('error', r.error);
+        this.save(function (err) {
+            if (!err) {
+                if (m) {
+                    _this.delayedSend(m);
+                }
+                if (cur) {
+                    var d = _this.dialogs.getDialog(cur.id);
+                    if (d) {
+                        d.dialogResumed(_this, r);
+                    }
+                    else {
+                        console.error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.");
+                        _this.endDialog(r);
+                    }
+                }
             }
-            else {
-                this.delayedEmit('quit');
-            }
-        }
+        });
         return this;
     };
     Session.prototype.compareConfidence = function (language, utterance, score, callback) {
@@ -179,7 +228,7 @@ var Session = (function (_super) {
         this.sessionState.callstack = [];
         if (!dialogId) {
             dialogId = this.options.dialogId;
-            dialogArgs = dialogArgs || this.options.dialogArgs;
+            dialogArgs = this.options.dialogArgs;
         }
         this.beginDialog(dialogId, dialogArgs);
         return this;
@@ -188,13 +237,21 @@ var Session = (function (_super) {
         return this._isReset;
     };
     Session.prototype.createMessage = function (text, args) {
-        var message = {
-            text: this.vgettext(text, args)
-        };
-        if (this.message.language) {
-            message.language = this.message.language;
+        args.unshift(text);
+        var message = new msg.Message(this);
+        msg.Message.prototype.text.apply(message, args);
+        return message.toMessage();
+    };
+    Session.prototype.prepareMessage = function (msg) {
+        if (!msg.type) {
+            msg.type = 'message';
         }
-        return message;
+        if (!msg.address) {
+            msg.address = this.message.address;
+        }
+        if (!msg.local && this.message.local) {
+            msg.local = this.message.local;
+        }
     };
     Session.prototype.routeMessage = function () {
         try {
@@ -209,7 +266,7 @@ var Session = (function (_super) {
                 dialog.replyReceived(this);
             }
             else {
-                console.error('Callstack is invalid, resetting session.');
+                console.warn('Callstack is invalid, resetting session.');
                 this.reset(this.options.dialogId, this.options.dialogArgs);
             }
         }
@@ -217,13 +274,13 @@ var Session = (function (_super) {
             this.error(e);
         }
     };
-    Session.prototype.vgettext = function (msgid, args) {
+    Session.prototype.vgettext = function (messageid, args) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.language || '', msgid);
+            tmpl = this.options.localizer.gettext(this.message.local || '', messageid);
         }
         else {
-            tmpl = msgid;
+            tmpl = messageid;
         }
         return args && args.length > 0 ? sprintf.vsprintf(tmpl, args) : tmpl;
     };
@@ -237,33 +294,34 @@ var Session = (function (_super) {
         }
         return true;
     };
-    Session.prototype.delayedEmit = function (event, message) {
-        var _this = this;
-        var now = new Date().getTime();
-        var delaySend = function () {
-            setTimeout(function () {
-                var entry = _this.sendQueue.shift();
-                _this.lastSendTime = now = new Date().getTime();
-                _this.emit(entry.event, utils.clone(entry.msg));
-                if (_this.sendQueue.length > 0) {
-                    delaySend();
-                }
-            }, _this.options.minSendDelay - (now - _this.lastSendTime));
-        };
-        if (this.sendQueue.length == 0) {
-            this.msgSent = true;
-            if ((now - this.lastSendTime) >= this.options.minSendDelay) {
-                this.lastSendTime = now;
-                this.emit(event, utils.clone(message));
+    Session.prototype.delayedSend = function (message) {
+        var _that = this;
+        function send() {
+            var _this = this;
+            var now = new Date().getTime();
+            var sinceLastSend = now - _that.lastSendTime;
+            if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
+                setTimeout(function () {
+                    send();
+                }, _that.options.minSendDelay - sinceLastSend);
             }
             else {
-                this.sendQueue.push({ event: event, msg: message });
-                delaySend();
+                _that.lastSendTime = now;
+                var m = _that.sendQueue.shift();
+                _that.prepareMessage(m);
+                _that.options.onSend([m], function (err) {
+                    if (_this.sendQueue.length > 0) {
+                        send();
+                    }
+                });
             }
         }
-        else {
-            this.sendQueue.push({ event: event, msg: message });
-        }
+        this.sendQueue.push(message);
+        send();
+    };
+    Session.prototype.getMessageReceived = function () {
+        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");
+        return this.message.channelData;
     };
     return Session;
 })(events.EventEmitter);
@@ -292,12 +350,12 @@ var SessionConfidenceComparor = (function () {
         this.getDialog().dialogResumed(this.session, result || { resumed: dialog.ResumeReason.childEnded });
         this.callback(true);
     };
-    SessionConfidenceComparor.prototype.send = function (msg) {
+    SessionConfidenceComparor.prototype.send = function (message) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        args.splice(0, 0, [msg]);
+        args.splice(0, 0, [message]);
         Session.prototype.send.apply(this.session, args);
         this.callback(true);
     };

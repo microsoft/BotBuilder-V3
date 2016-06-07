@@ -81,11 +81,11 @@ export abstract class IntentDialog extends dialog.Dialog {
 
     public replyReceived(session: ISession): void {
         var msg = session.message;
-        this.recognizeIntents(msg.language, msg.text, (err, intents, entities) => {
+        this.recognizeIntents(msg.local, msg.text, (err, intents, entities) => {
             if (!err) {
                 var topIntent = this.findTopIntent(intents);
                 var score = topIntent ? topIntent.score : 0;
-                session.compareConfidence(msg.language, msg.text, score, (handled) => {
+                session.compareConfidence(msg.local, msg.text, score, (handled) => {
                     if (!handled) {
                         this.invokeIntent(session, intents, entities);
                     }
@@ -212,8 +212,6 @@ export abstract class IntentDialog extends dialog.Dialog {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
                 match.handler(session, { intents: intents, entities: entities });
-            } else {
-                session.send();
             }
         } catch (e) {
             session.error(e instanceof Error ? e : new Error(e.toString()));

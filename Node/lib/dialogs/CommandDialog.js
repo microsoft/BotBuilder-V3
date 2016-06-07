@@ -60,14 +60,11 @@ var CommandDialog = (function (_super) {
             session.dialogData[consts.Data.Handler] = this.commands.length;
         }
         if (matched) {
-            session.compareConfidence(session.message.language, text, score, function (handled) {
+            session.compareConfidence(session.message.local, text, score, function (handled) {
                 if (!handled) {
                     matched.fn(session, { expression: expression, matches: matches });
                 }
             });
-        }
-        else {
-            session.send();
         }
     };
     CommandDialog.prototype.dialogResumed = function (session, result) {

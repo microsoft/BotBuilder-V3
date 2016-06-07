@@ -33,7 +33,7 @@
 
 import utils = require('../utils');
 
-export interface IBotStorageAddress {
+export interface IBotStorageKey {
     userId?: string;
     conversationId?: string;
 }
@@ -44,15 +44,15 @@ export interface IBotStorageData {
 }
 
 export interface IBotStorage {
-    get(address: IBotStorageAddress, callback: (err: Error, data: IBotStorageData) => void): void;
-    save(address: IBotStorageAddress, data: IBotStorageData, callback?: (err: Error) => void): void;
+    get(address: IBotStorageKey, callback: (err: Error, data: IBotStorageData) => void): void;
+    save(address: IBotStorageKey, data: IBotStorageData, callback?: (err: Error) => void): void;
 }
 
 export class MemoryBotStorage implements IBotStorage {
     private userStore: { [id: string]: string; } = {};
     private conversationStore: { [id: string]: string; } = {};
 
-    public get(address: IBotStorageAddress, callback: (err: Error, data: IBotStorageData) => void): void {
+    public get(address: IBotStorageKey, callback: (err: Error, data: IBotStorageData) => void): void {
         var data: IBotStorageData = {};
         if (address.userId) {
             if (this.userStore.hasOwnProperty(address.userId)) {
@@ -60,32 +60,45 @@ export class MemoryBotStorage implements IBotStorage {
             } else {
                 data.userData = null;
             }
-        }
-        if (address.conversationId) {
-            if (this.conversationStore.hasOwnProperty(address.conversationId)) {
-                data.conversationData = JSON.parse(this.conversationStore[address.conversationId]);
-            } else {
-                data.conversationData = null;
+            if (address.conversationId) {
+                var key = address.userId + ':' + address.conversationId;
+                if (this.conversationStore.hasOwnProperty(key)) {
+                    data.conversationData = JSON.parse(this.conversationStore[key]);
+                } else {
+                    data.conversationData = null;
+                }
             }
         }
         callback(null, data);
     }
 
-    public save(address: IBotStorageAddress, data: IBotStorageData, callback?: (err: Error) => void): void {
+    public save(address: IBotStorageKey, data: IBotStorageData, callback?: (err: Error) => void): void {
         if (address.userId) {
             this.userStore[address.userId] = JSON.stringify(data.userData || {});
+            if (address.conversationId) {
+                var key = address.userId + ':' + address.conversationId;
+                this.conversationStore[key] = JSON.stringify(data.conversationData || {});
+            }
         }
-        if (address.conversationId) {
-            this.conversationStore[address.conversationId] = JSON.stringify(data.conversationData || {});
-        }
+        callback(null);
     }
 
-    public delete(address: IBotStorageAddress) {
+    public delete(address: IBotStorageKey) {
         if (address.userId && this.userStore.hasOwnProperty(address.userId)) {
-            delete this.userStore[address.userId];
-        }
-        if (address.conversationId && this.conversationStore.hasOwnProperty(address.conversationId)) {
-            delete this.conversationStore[address.conversationId];
+            if (address.conversationId) {
+                // Delete specified conversation
+                if (this.conversationStore.hasOwnProperty(address.conversationId)) {
+                    delete this.conversationStore[address.conversationId];
+                }
+            } else {
+                // Delete user and all their conversations
+                delete this.userStore[address.userId];
+                for (var key in this.conversationStore) {
+                    if (key.indexOf(address.userId + ':') == 0) {
+                        delete this.conversationStore[key];
+                    }
+                }                
+            }
         }
     }
 }

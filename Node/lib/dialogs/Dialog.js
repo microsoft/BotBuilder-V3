@@ -18,9 +18,6 @@ var Dialog = (function () {
         if (result.error) {
             session.error(result.error);
         }
-        else {
-            session.send();
-        }
     };
     Dialog.prototype.compareConfidence = function (action, language, utterance, score) {
         action.next();

@@ -9,6 +9,8 @@ var entities = require('./EntityRecognizer');
 var mb = require('../Message');
 var Channel = require('../Channel');
 var dc = require('./DialogCollection');
+var hero = require('../cards/HeroCard');
+var action = require('../cards/Action');
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
     PromptType[PromptType["number"] = 1] = "number";
@@ -89,7 +91,7 @@ var SimplePromptRecognizer = (function () {
                         }
                         break;
                 }
-                args.compareConfidence(args.language, text, score, function (handled) {
+                args.compareConfidence(args.local, text, score, function (handled) {
                     if (!handled && score > 0) {
                         callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
                     }
@@ -135,7 +137,7 @@ var Prompts = (function (_super) {
         Prompts.options.recognizer.recognize({
             promptType: args.promptType,
             utterance: session.message.text,
-            language: session.message.language,
+            local: session.message.local,
             attachments: session.message.attachments,
             enumValues: args.enumValues,
             refDate: args.refDate,
@@ -195,19 +197,19 @@ var Prompts = (function (_super) {
             }
             var connector = '';
             var list;
-            var msg = new mb.Message();
+            var msg = new mb.Message(session);
             switch (style) {
                 case ListStyle.button:
-                    var a = { actions: [] };
+                    var buttons = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
-                        var action = session.dialogData.enumValues[i];
-                        a.actions.push({ title: action, message: action });
+                        var option = session.dialogData.enumValues[i];
+                        buttons.push(action.Action.postBack(session, option, option));
                     }
-                    msg.setText(session, prompt)
-                        .addAttachment(a);
+                    msg.text(prompt)
+                        .attachments([new hero.HeroCard(session).buttons(buttons)]);
                     break;
                 case ListStyle.inline:
-                    list = ' ';
+                    list = ' (';
                     args.enumValues.forEach(function (value, index) {
                         list += connector + (index + 1) + '. ' + value;
                         if (index == args.enumValues.length - 2) {
@@ -217,7 +219,8 @@ var Prompts = (function (_super) {
                             connector = ', ';
                         }
                     });
-                    msg.setText(session, prompt + '%s', list);
+                    list += ')';
+                    msg.text(prompt + '%s', list);
                     break;
                 case ListStyle.list:
                     list = '\n   ';
@@ -225,10 +228,10 @@ var Prompts = (function (_super) {
                         list += connector + (index + 1) + '. ' + value;
                         connector = '\n   ';
                     });
-                    msg.setText(session, prompt + '%s', list);
+                    msg.text(prompt + '%s', list);
                     break;
                 default:
-                    msg.setText(session, prompt);
+                    msg.text(prompt);
                     break;
             }
             session.send(msg);

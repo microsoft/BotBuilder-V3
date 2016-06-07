@@ -43,16 +43,17 @@ import events = require('events');
 import async = require('async');
 
 export interface ISettings {
-    storage?: bs.IBotStorage;
-    localizer?: ILocalizer;
-    processLimit?: number;
     defaultDialogId?: string;
     defaultDialogArgs?: any;
+    localizer?: ILocalizer;
+    lookupUser?: ILookupUser;
+    processLimit?: number;
+    storage?: bs.IBotStorage;
 }
 
 export interface IConnector {
-    onMessage(handler: (message: IMessage, cb?: (err: Error) => void) => void): void;
-    send(messages: IMessage[], cb: (err: Error) => void): void;
+    onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
+    send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void;
 }
 interface IConnectorMap {
     [channel: string]: IConnector;    
@@ -75,6 +76,10 @@ export interface IAnalysisMiddleware {
 
 export interface IDialogMiddleware {
     (session: ses.Session, next: Function): void;
+}
+
+export interface ILookupUser {
+    (identity: IIdentity, done: (err: Error, user: IIdentity) => void): void;
 }
 
 export class UniversalBot extends events.EventEmitter {
@@ -118,7 +123,7 @@ export class UniversalBot extends events.EventEmitter {
         var c: IConnector;
         if (connector) {
             this.connectors[channelId || '*'] = c = connector;
-            c.onMessage((message, cb) => this.receive(message, cb));
+            c.onMessage((messages, cb) => this.receive(messages, cb));
         } else if (this.connectors.hasOwnProperty(channelId)) {
             c = this.connectors[channelId];
         } else if (this.connectors.hasOwnProperty('*')) {
@@ -175,28 +180,36 @@ export class UniversalBot extends events.EventEmitter {
     public receive(messages: IMessage|IMessage[], done?: (err: Error) => void): void {
         var list: IMessage[] = Array.isArray(messages) ? messages : [messages]; 
         async.eachLimit(list, this.settings.processLimit, (message, cb) => {
-            message.userId = message.from.id;
-            this.emit('receive', message);
-            this.messageMiddleware(message, this.mwReceive, () => {
-                this.emit('analyze', message);
-                this.analyzeMiddleware(message, () => {
-                    this.emit('incoming', message);
-                    this.route(message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, cb);
+            this.lookupUser(message.address, (user) => {
+                message.user = user;
+                this.emit('receive', message);
+                this.messageMiddleware(message, this.mwReceive, () => {
+                    this.emit('analyze', message);
+                    this.analyzeMiddleware(message, () => {
+                        this.emit('incoming', message);
+                        var userId = message.user.id;
+                        var conversationId = message.address.conversation ? message.address.conversation.id : null;
+                        var storageKey: bs.IBotStorageKey = { userId: userId, conversationId: conversationId };
+                        this.route(storageKey, message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, cb);
+                    }, cb);
                 }, cb);
             }, cb);
         }, done);
     }
  
     public beginDialog(message: IMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
-        message.userId = message.to.id;
-        this.route(message, dialogId, dialogArgs, (err) => {
-            if (done) {
-                done(err);
-            }    
-        });
+        this.lookupUser(message.address, (user) => {
+            message.user = user;
+            var storageKey: bs.IBotStorageKey = { userId: message.user.id };
+            this.route(storageKey, message, dialogId, dialogArgs, (err) => {
+                if (done) {
+                    done(err);
+                }    
+            });
+        }, done);
     }
     
-    public send(messages: IMessage|IMessage[], done?: (err: Error) => void): void {
+    public send(messages: IMessage|IMessage[], done?: (err: Error, conversationId?: string) => void): void {
         var list: IMessage[] = Array.isArray(messages) ? messages : [messages]; 
         async.eachLimit(list, this.settings.processLimit, (message, cb) => {
             this.emit('send', message);
@@ -208,14 +221,17 @@ export class UniversalBot extends events.EventEmitter {
             if (!err) {
                 this.tryCatch(() => {
                     // All messages should be targeted at the same channel.
-                    var channelId = list[0].to.channelId;
+                    var channelId = list[0].address.channelId;
                     var connector = this.connector(channelId);
                     if (!connector) {
                         throw new Error("Invalid channelId='" + channelId + "'");
                     }
-                    connector.send(list, (err) => {
+                    connector.send(list, (err, conversationId) => {
                         if (done) {
-                            done(err);
+                            if (err) {
+                                this.emitError(err);
+                            }
+                            done(err, conversationId);
                         }    
                     });
                 }, done);
@@ -229,9 +245,55 @@ export class UniversalBot extends events.EventEmitter {
     // Helpers
     //-------------------------------------------------------------------------
     
-    private route(message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error) => void): void {
-        var address: bs.IBotStorageAddress = { userId: message.userId, conversationId: message.conversationId };
-        this.getStorageData(address, (data) => {
+    private route(storageKey: bs.IBotStorageKey, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error) => void): void {
+        // --------------------------------------------------------------------
+        // Theory of Operation
+        // --------------------------------------------------------------------
+        // The route() function is called for both reactive & pro-active 
+        // messages and while they generally work the same there are some 
+        // differences worth noting.
+        //
+        // REACTIVE:
+        // * The passed in storageKey will have the normalized userId and the
+        //   conversationId for the incoming message. These are used as keys to
+        //   load the persisted userData and conversationData objects.
+        // * After loading data from storage we create a new Session object and
+        //   dispatch the incoming message to the active dialog.
+        // * As part of the normal dialog flow the session will call onSave() 1 
+        //   or more times before each call to onSend().  Anytime onSave() is 
+        //   called we'll save the current userData & conversationData objects
+        //   to storage.
+        //
+        // PROACTIVE:
+        // * Proactive follows essentially the same flow but the difference is 
+        //   the passed in storageKey will only have a userId and not a 
+        //   conversationId as this is a new conversation.  This will cause use
+        //   to load userData but conversationData will be set to {}.
+        // * When onSave() is called for a proactive message we don't know the
+        //   conversationId yet so we can't actually save anything. The first
+        //   call to this.send() results in a conversationId being assigned and
+        //   that's the point at which we can actually save state. So we'll update
+        //   the storageKey with the new conversationId and then manually trigger
+        //   saving the userData & conversationData to storage.
+        // * After the first call to onSend() for the conversation everything 
+        //   follows the same flow as for reactive messages.
+        var _that = this;
+        function saveSessionData(session: ses.Session, cb?: (err: Error) => void) {
+            // Only save data if we have both a userid & conversationId
+            if (storageKey.conversationId) {
+                var data: bs.IBotStorageData = {
+                    userData: utils.clone(session.userData),
+                    conversationData: utils.clone(session.conversationData)    
+                };
+                data.conversationData[consts.Data.SessionState] = session.sessionState;
+                _that.saveStorageData(storageKey, data, cb, cb);
+            } else if (cb) {
+                cb(null);
+            }
+        }
+        
+        // Load user & conversation data from storage
+        this.getStorageData(storageKey, (data) => {
             // Initialize session
             var session = new ses.Session({
                 localizer: this.settings.localizer,
@@ -239,15 +301,20 @@ export class UniversalBot extends events.EventEmitter {
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 onSave: (cb) => {
-                    var data: bs.IBotStorageData = {
-                        userData: utils.clone(session.userData),
-                        conversationData: utils.clone(session.conversationData)    
-                    };
-                    data.conversationData[consts.Data.SessionState] = session.sessionState;
-                    this.saveStorageData(address, data, cb, cb);
+                    saveSessionData(session, cb);
                 },
                 onSend: (messages, cb) => {
-                    this.send(messages, cb);
+                    this.send(messages, (err, conversationId) => {
+                        // Check for assignment of the conversation id 
+                        if (!err && conversationId && !storageKey.conversationId) {
+                            // Assign conversation ID an call save
+                            storageKey.conversationId = conversationId;
+                            saveSessionData(session, cb);
+                        } else if (cb) {
+                            // Any error will have already been logged by send()
+                           cb(err);
+                        }
+                    });
                 }
             });
             session.on('error', (err: Error) => this.emitError(err));
@@ -268,7 +335,7 @@ export class UniversalBot extends events.EventEmitter {
         }, done);
     }
 
-    private messageMiddleware(message: IMessage, middleware: IMessageMiddleware[], done: Function, error: (err: Error) => void): void {
+    private messageMiddleware(message: IMessage, middleware: IMessageMiddleware[], done: Function, error?: (err: Error) => void): void {
         var i = -1;
         var _this = this;
         function next() {
@@ -283,7 +350,7 @@ export class UniversalBot extends events.EventEmitter {
         next();
     }
     
-    private analyzeMiddleware(message: IMessage, done: Function, error: (err: Error) => void): void {
+    private analyzeMiddleware(message: IMessage, done: Function, error?: (err: Error) => void): void {
         var cnt = this.mwAnalyze.length;
         var _this = this;
         function analyze(fn: IAnalysisMiddleware) {
@@ -317,31 +384,57 @@ export class UniversalBot extends events.EventEmitter {
         }
     }
     
-    private getStorageData(address: bs.IBotStorageAddress, done: (data: bs.IBotStorageData) => void, error: (err: Error) => void): void {
+    private lookupUser(address: IAddress, done: (user: IIdentity) => void, error?: (err: Error) => void): void {
         this.tryCatch(() => {
-            this.emit('getStorageData', address);
+            this.emit('lookupUser', address.user);
+            if (this.settings.lookupUser) {
+                this.settings.lookupUser(address.user, (err, user) => {
+                    if (!err) {
+                        this.tryCatch(() => done(user || address.user), error);
+                    } else {
+                        this.emitError(err);
+                        if (error) {
+                            error(err);
+                        }
+                    }
+                });
+            } else {
+                this.tryCatch(() => done(address.user), error);
+            }
+        }, error);
+    }
+    
+    private getStorageData(storageKey: bs.IBotStorageKey, done: (data: bs.IBotStorageData) => void, error?: (err: Error) => void): void {
+        this.tryCatch(() => {
+            this.emit('getStorageData', storageKey);
             var storage = this.getStorage();
-            storage.get(address, (err, data) => {
+            storage.get(storageKey, (err, data) => {
                 if (!err) {
                     this.tryCatch(() => done(data || {}), error);
                 } else {
                     this.emitError(err);
-                    error(err);
+                    if (error) {
+                        error(err);
+                    }
                 } 
             });  
         }, error);
     }
     
-    private saveStorageData(address: bs.IBotStorageAddress, data: bs.IBotStorageData, done: Function, error: (err: Error) => void): void {
+    private saveStorageData(storageKey: bs.IBotStorageKey, data: bs.IBotStorageData, done?: Function, error?: (err: Error) => void): void {
         this.tryCatch(() => {
-            this.emit('saveStorageData', address);
+            this.emit('saveStorageData', storageKey);
             var storage = this.getStorage();
-            storage.save(address, data, (err) => {
+            storage.save(storageKey, data, (err) => {
                 if (!err) {
-                    this.tryCatch(() => done(), error);
+                    if (done) {
+                        this.tryCatch(() => done(), error);
+                    }
                 } else {
                     this.emitError(err);
-                    error(err);
+                    if (error) {
+                        error(err);
+                    }
                 } 
             });  
         }, error);

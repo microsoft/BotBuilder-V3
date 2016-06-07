@@ -15,7 +15,7 @@ var SimpleDialog = (function (_super) {
     };
     SimpleDialog.prototype.replyReceived = function (session) {
         var _this = this;
-        session.compareConfidence(session.message.language, session.message.text, 0.0, function (handled) {
+        session.compareConfidence(session.message.local, session.message.text, 0.0, function (handled) {
             if (!handled) {
                 _this.fn(session);
             }

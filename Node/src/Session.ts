@@ -37,22 +37,23 @@ import consts = require('./consts');
 import sprintf = require('sprintf-js');
 import events = require('events');
 import utils = require('./utils');
+import msg = require('./Message');
 
 export interface ISessionOptions {
+    onSave: (done: (err: Error) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error) => void) => void;
     dialogs: collection.DialogCollection;
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
     minSendDelay?: number;
-    onSave?: (done: (err: Error) => void) => void;
-    onSend?: (messages: IMessage[], done: (err: Error) => void) => void;
 }
 
 export class Session extends events.EventEmitter implements ISession {
     private msgSent = false;
     private _isReset = false;
     private lastSendTime = new Date().getTime();
-    private sendQueue: { event: string, msg: IMessage; }[] = [];
+    private sendQueue: IMessage[] = [];
 
     constructor(protected options: ISessionOptions) {
         super();
@@ -79,7 +80,7 @@ export class Session extends events.EventEmitter implements ISession {
         // Dispatch message
         this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
         this.sessionState.lastAccess = new Date().getTime();
-        this.message = message || { text: '' };
+        this.message = <IMessage>(message || { text: '' });
         if (!this.message.type) {
             this.message.type = 'Message';
         }
@@ -97,47 +98,70 @@ export class Session extends events.EventEmitter implements ISession {
 
     public error(err: Error): ISession {
         err = err instanceof Error ? err : new Error(err.toString());
-        console.error('Session Error: ' + err.message);
+        console.error('ERROR: Session Error: ' + err.message);
         this.emit('error', err);
         return this;
     }
 
-    public gettext(msgid: string, ...args: any[]): string {
-        return this.vgettext(msgid, args);
+    public gettext(messageid: string, ...args: any[]): string {
+        return this.vgettext(messageid, args);
     }
 
-    public ngettext(msgid: string, msgid_plural: string, count: number): string {
+    public ngettext(messageid: string, messageid_plural: string, count: number): string {
         var tmpl: string;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.language || '', msgid, msgid_plural, count);
+            tmpl = this.options.localizer.ngettext(this.message.local || '', messageid, messageid_plural, count);
         } else if (count == 1) {
-            tmpl = msgid;
+            tmpl = messageid;
         } else {
-            tmpl = msgid_plural;
+            tmpl = messageid_plural;
         }
         return sprintf.sprintf(tmpl, count);
     }
-
-    public send(msg?: string|IMessage, ...args: any[]): ISession {
+    
+    public save(done?: (err: Error) => void): this {
         // Update dialog state
         // - Deals with a situation where the user assigns a whole new object to dialogState.
         var ss = this.sessionState;
         if (ss.callstack.length > 0) {
             ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
         }
+        
+        // Persist state
+        this.options.onSave(done);
+        return this;
+    }
 
-        // Compose message
-        var message: IMessage = typeof msg == 'string' ? this.createMessage(<string>msg, args) : msg;
-        this.delayedEmit('send', message);
+    public send(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+        this.msgSent = true;
+        this.save((err) => {
+            if (!err && message) {
+                var m: IMessage;
+                if (typeof message == 'string' || Array.isArray(message)) {
+                    m = this.createMessage(<any>message, args);
+                } else if ((<IIsMessage>message).toMessage) {
+                    m = (<IIsMessage>message).toMessage();
+                } else {
+                    m = <IMessage>message;
+                }
+                this.delayedSend(m);
+            }    
+        });
         return this;
     }
     
-    public getMessageReceived(): any {
-        return this.message.channelData;
-    }
-    
-    public sendMessage(msg: any): ISession {
-        return this.send({ channelData: msg });
+    public sendMessage(message: IMessage|IIsMessage, done?: (err: Error) => void): this {
+        this.msgSent = true;
+        this.save((err) => {
+            if (!err && message) {
+                var m = (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
+                this.prepareMessage(m);
+                this.options.onSend([m], done);
+            } else if (done) {
+                done(err);
+            }    
+        });
+        return this;
     }
 
     public messageSent(): boolean {
@@ -145,10 +169,13 @@ export class Session extends events.EventEmitter implements ISession {
     }
 
     public beginDialog<T>(id: string, args?: T): ISession {
+        // Find dialog
         var dialog = this.dialogs.getDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
+        
+        // Push dialog onto stack
         var ss = this.sessionState;
         if (ss.callstack.length > 0) {
             ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
@@ -156,25 +183,42 @@ export class Session extends events.EventEmitter implements ISession {
         var cur: IDialogState = { id: id, state: {} };
         ss.callstack.push(cur);
         this.dialogData = cur.state;
-        dialog.begin(this, args);
+        
+        // Save the stack
+        this.save((err) => {
+            if (!err) {
+                // Start dialog    
+                dialog.begin(this, args);
+            } 
+        });
         return this;
     }
 
     public replaceDialog<T>(id: string, args?: T): ISession {
+        // Find dialog
         var dialog = this.dialogs.getDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
+        
+        // Update the stack
         var ss = this.sessionState;
         var cur: IDialogState = { id: id, state: {} };
         ss.callstack.pop();
         ss.callstack.push(cur);
         this.dialogData = cur.state;
-        dialog.begin(this, args);
+        
+        // Save the stack
+        this.save((err) => {
+            if (!err) {
+                // Start dialog    
+                dialog.begin(this, args);
+            } 
+        });
         return this;
     }
 
-    public endDialog(result?: string|IMessage|dialog.IDialogResult<any>, ...args: any[]): ISession {
+    public endDialog(result?: string|string[]|IMessage|IIsMessage|dialog.IDialogResult<any>, ...args: any[]): ISession {
         // Validate callstack
         // - Protect against too many calls to endDialog()
         var ss = this.sessionState;
@@ -183,39 +227,58 @@ export class Session extends events.EventEmitter implements ISession {
             return this;
         }
         
-        // Pop dialog off the stack.
+        // Unpack result
         var m: IMessage;
         var r = <dialog.IDialogResult<any>>{};
         if (result) {
-            if (typeof result === 'string') {
-                m = this.createMessage(result, args);
-            } else if (result.hasOwnProperty('text') || result.hasOwnProperty('attachments') || result.hasOwnProperty('channelData')) {
-                m = result;
-            } else {
+            if (typeof result == 'string' || Array.isArray(result)) {
+                m = this.createMessage(<any>result, args);
+            } else if ((<IIsMessage>result).toMessage) {
+                m = (<IIsMessage>result).toMessage();
+            } else if (result.hasOwnProperty('resumed') || result.hasOwnProperty('error') || result.hasOwnProperty('response')) {
                 r = <any>result;
+            } else {
+                m = <IMessage>result;
             }
         }
         if (!r.hasOwnProperty('resumed')) {
             r.resumed = dialog.ResumeReason.completed;
         }
         r.childId = ss.callstack[ss.callstack.length - 1].id;
-        ss.callstack.pop();
-        if (ss.callstack.length > 0) {
-            var cur = ss.callstack[ss.callstack.length - 1];
-            this.dialogData = cur.state;
-            if (m) {
-                this.send(m);
-            }
-            var d = this.dialogs.getDialog(cur.id);
-            d.dialogResumed(this, r);
-        } else {
-            this.send(m);
-            if (r.error) {
-                this.emit('error', r.error);
-            } else {
-                this.delayedEmit('quit');
-            }
+        
+        // Set message sent flag
+        if (m) {
+            this.msgSent = true;
         }
+                
+        // Pop dialog off the stack and then save the stack.
+        ss.callstack.pop();
+        this.dialogData = null;
+        var cur: IDialogState = ss.callstack.length > 0 ? ss.callstack[ss.callstack.length - 1] : null;
+        if (cur) {
+            this.dialogData = cur.state;
+        }
+        this.save((err) => {
+            if (!err) {
+                // Send message
+                if (m) {
+                    this.delayedSend(m);
+                }
+                
+                // Resume parent dialog
+                if (cur) {
+                    var d = this.dialogs.getDialog(cur.id);
+                    if (d) {
+                        d.dialogResumed(this, r);
+                    } else {
+                        // Bad dialog on the stack so just end it.
+                        // - Because of the stack validation we should never actually get here.
+                        console.error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.");
+                        this.endDialog(r);
+                    }
+                }
+            }    
+        });
         return this;
     }
 
@@ -229,7 +292,7 @@ export class Session extends events.EventEmitter implements ISession {
         this.sessionState.callstack = [];
         if (!dialogId) {
             dialogId = this.options.dialogId;
-            dialogArgs = dialogArgs || this.options.dialogArgs;
+            dialogArgs = this.options.dialogArgs;
         }
         this.beginDialog(dialogId, dialogArgs);
         return this;
@@ -239,14 +302,27 @@ export class Session extends events.EventEmitter implements ISession {
         return this._isReset;
     }
 
-    private createMessage(text: string, args?: any[]): IMessage {
-        var message: IMessage = {
-            text: this.vgettext(text, args)
-        };
-        if (this.message.language) {
-            message.language = this.message.language
+    //-----------------------------------------------------
+    // PRIVATE HELPERS
+    //-----------------------------------------------------
+
+    private createMessage(text: string|string[], args?: any[]): IMessage {
+        args.unshift(text);
+        var message = new msg.Message(this);
+        msg.Message.prototype.text.apply(message, args);
+        return message.toMessage();
+    }
+    
+    private prepareMessage(msg: IMessage): void {
+        if (!msg.type) {
+            msg.type = 'message';
         }
-        return message;
+        if (!msg.address) {
+            msg.address = this.message.address;
+        }
+        if (!msg.local && this.message.local) {
+            msg.local = this.message.local;
+        }
     }
 
     private routeMessage(): void {
@@ -261,7 +337,7 @@ export class Session extends events.EventEmitter implements ISession {
                 this.dialogData = cur.state;
                 dialog.replyReceived(this);
             } else {
-                console.error('Callstack is invalid, resetting session.');
+                console.warn('Callstack is invalid, resetting session.');
                 this.reset(this.options.dialogId, this.options.dialogArgs);
             }
         } catch (e) {
@@ -269,12 +345,12 @@ export class Session extends events.EventEmitter implements ISession {
         }
     }
 
-    private vgettext(msgid: string, args?: any[]): string {
+    private vgettext(messageid: string, args?: any[]): string {
         var tmpl: string;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.language || '', msgid);
+            tmpl = this.options.localizer.gettext(this.message.local || '', messageid);
         } else {
-            tmpl = msgid;
+            tmpl = messageid;
         }
         return args && args.length > 0 ? sprintf.vsprintf(tmpl, args) : tmpl;
     }
@@ -291,32 +367,42 @@ export class Session extends events.EventEmitter implements ISession {
         return true;
     }
 
-    /** Queues an event to be sent for the session. */    
-    private delayedEmit(event: string, message?: IMessage): void {
-        var now = new Date().getTime();
-        var delaySend = () => {
-            setTimeout(() => {
-                var entry = this.sendQueue.shift();
-                this.lastSendTime = now = new Date().getTime();
-                this.emit(entry.event, utils.clone(entry.msg));
-                if (this.sendQueue.length > 0) {
-                    delaySend();
-                }
-            }, this.options.minSendDelay - (now - this.lastSendTime));  
-        };
-        
-        if (this.sendQueue.length == 0) {
-            this.msgSent = true;
-            if ((now - this.lastSendTime) >= this.options.minSendDelay) {
-                this.lastSendTime = now;
-                this.emit(event, utils.clone(message));
+    /** Queues a message to be sent for the session. */    
+    private delayedSend(message: IMessage): void {
+        var _that = this;
+        function send() {
+            var now = new Date().getTime();
+            var sinceLastSend =  now - _that.lastSendTime;
+            if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
+                // Wait for next send interval
+                setTimeout(() => {
+                    send();
+                }, _that.options.minSendDelay - sinceLastSend);
             } else {
-                this.sendQueue.push({ event: event, msg: message });
-                delaySend();
+                // Update last send time
+                _that.lastSendTime = now;
+
+                // Send message
+                var m = _that.sendQueue.shift();
+                _that.prepareMessage(m);
+                _that.options.onSend([m], (err) => {
+                    if (this.sendQueue.length > 0) {
+                        send();
+                    }
+                });
             }
-        } else {
-            this.sendQueue.push({ event: event, msg: message });
         }
+        this.sendQueue.push(message);
+        send();
+    }
+
+    //-----------------------------------------------------
+    // DEPRECATED METHODS
+    //-----------------------------------------------------
+    
+    public getMessageReceived(): any {
+        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");
+        return this.message.channelData;
     }
 }
 
@@ -352,11 +438,11 @@ class SessionConfidenceComparor implements ISessionAction {
         this.callback(true);
     }
 
-    public send(msg: string, ...args: any[]): void;
-    public send(msg: IMessage): void;
-    public send(msg: any, ...args: any[]): void {
+    public send(message: string, ...args: any[]): void;
+    public send(message: IMessage): void;
+    public send(message: any, ...args: any[]): void {
         // Send a message to the user.
-        args.splice(0, 0, [msg]);
+        args.splice(0, 0, [message]);
         Session.prototype.send.apply(this.session, args);
         this.callback(true);
     }

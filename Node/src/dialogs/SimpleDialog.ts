@@ -44,7 +44,7 @@ export class SimpleDialog extends dialog.Dialog {
     }
 
     public replyReceived(session: ses.Session): void {
-        session.compareConfidence(session.message.language, session.message.text, 0.0, (handled) => {
+        session.compareConfidence(session.message.local, session.message.text, 0.0, (handled) => {
             if (!handled) {
                 this.fn(session);
             }

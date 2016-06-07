@@ -23,9 +23,6 @@ var DialogAction = (function () {
                 if (r.error) {
                     s.error(r.error);
                 }
-                else if (!s.messageSent()) {
-                    s.send();
-                }
             }
             else {
                 if (args) {

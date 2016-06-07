@@ -27,11 +27,11 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.replyReceived = function (session) {
         var _this = this;
         var msg = session.message;
-        this.recognizeIntents(msg.language, msg.text, function (err, intents, entities) {
+        this.recognizeIntents(msg.local, msg.text, function (err, intents, entities) {
             if (!err) {
                 var topIntent = _this.findTopIntent(intents);
                 var score = topIntent ? topIntent.score : 0;
-                session.compareConfidence(msg.language, msg.text, score, function (handled) {
+                session.compareConfidence(msg.local, msg.text, score, function (handled) {
                     if (!handled) {
                         _this.invokeIntent(session, intents, entities);
                     }
@@ -148,9 +148,6 @@ var IntentDialog = (function (_super) {
                 session.dialogData[consts.Data.Group] = match.groupId;
                 session.dialogData[consts.Data.Intent] = topIntent.intent;
                 match.handler(session, { intents: intents, entities: entities });
-            }
-            else {
-                session.send();
             }
         }
         catch (e) {

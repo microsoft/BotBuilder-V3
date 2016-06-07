@@ -32,33 +32,40 @@
 //
 
 interface IMessage {
-    id: string;                     // Incoming Message ID
-    from: IAddress;                 // Sender address (user for incoming messages or bot for outgoing messages) 
-    to: IAddress;                   // Conversation address (always the replyTo)
-    recipient?: IAddress;           // Will be added by Bot Framework to identify bot (if specified then bot) 
+    address: IAddress;              // Address routing information for the message.
     timestamp: string;              // Timestamp of message given by chat service 
-    channelData?: any;              // Message in original/native format of the channel, may also contain extra payload added by Bot Framework 
-    channelId: string;              // Skype conversation platform should specify 'skype' in this property 
-    serviceUrl: string;             // Skype conversation platform should specify URL to: post messages back, comment, annotate, delete 
+    channelData: any;               // Message in original/native format of the channel, may also contain extra payload added by Bot Framework 
     type: string;                   // Defines type of notification and name of feature 
     summary: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text: string;                   // Message text  
+    local: string;                  // Identified language of the message.
     attachments: IAttachment[];     // This is placeholder for structured objects attached to this message 
     entities: any[];                // This property is intended to keep structured data objects intended for Client application e.g.: Contacts, Reservation, Booking, Tickets. Structure of these object objects should be known to Client application.
 
     // SDK specific fields
-    user: IAddress;                 // Normalized user that this message is either from or going to.
-    language: string;               // Identified language of the message.
+    user: IIdentity;                // Normalized user that this message is either from or going to.
 }
 
 interface IIsMessage {
     toMessage(): IMessage;
 }
 
+interface IIdentity {
+    id: string;                     // Channel specific ID for this identity
+    name?: string;                  // Friendly name for this identity
+    isGroup?: boolean;              // If true the identity is a group.  
+}
+
 interface IAddress {
-    id: string;                     // String with id using following template <schema>:<id string> 
-    name: string;                   // Friendly name 
-    isGroup?: boolean;              // (optional) informs bot if this is group conversation ID or not 
+    channelId: string;              // Unique identifier for channel
+    user: IIdentity;                // User that sent or should receive the message
+    bot?: IIdentity;                // Bot that either received or is sending the message
+    conversation?: IIdentity;       // Represents the current conversation and tracks where replies should be routed to. 
+    id?: string;                    // Incoming Message ID
+}
+
+interface IBotConnectorAddress extends IAddress {
+    serviceUrl?: string;             // Specifies the URL to: post messages back, comment, annotate, delete 
 }
 
 interface IAttachment {
