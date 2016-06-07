@@ -31,15 +31,6 @@ $( document ).ready(function() {
         toggleNav($(this), 400);
     });
 
-    // global message 
-    if (!isGlobalMessageDismissed()) {
-        //$('#doc-content').prepend('<div id="global-message"><a id="close" href="#"></a>This is preview V3 documentation, if you\'re looking for the current production V1 documentation, please visit <a href="http://docs.botframework.com">docs.botframework.com</a></div>')
-    }
-
-    $('#close').click(function() {
-        dismissGlobalMessage();
-        return false;
-    });
 });
 
 function toggleNav(parent, dur) {    
