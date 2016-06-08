@@ -54,6 +54,7 @@ export class Session extends events.EventEmitter implements ISession {
     private _isReset = false;
     private lastSendTime = new Date().getTime();
     private sendQueue: IMessage[] = [];
+    private sendQueueStarted = false;
 
     constructor(protected options: ISessionOptions) {
         super();
@@ -372,7 +373,7 @@ export class Session extends events.EventEmitter implements ISession {
         var _that = this;
         function send() {
             var now = new Date().getTime();
-            var sinceLastSend =  now - _that.lastSendTime;
+            var sinceLastSend = now - _that.lastSendTime;
             if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
                 // Wait for next send interval
                 setTimeout(() => {
@@ -386,14 +387,19 @@ export class Session extends events.EventEmitter implements ISession {
                 var m = _that.sendQueue.shift();
                 _that.prepareMessage(m);
                 _that.options.onSend([m], (err) => {
-                    if (this.sendQueue.length > 0) {
+                    if (_that.sendQueue.length > 0) {
                         send();
+                    } else {
+                        _that.sendQueueStarted = false;
                     }
                 });
             }
         }
         this.sendQueue.push(message);
-        send();
+        if (!this.sendQueueStarted) {
+            this.sendQueueStarted = true;
+            send();
+        }
     }
 
     //-----------------------------------------------------

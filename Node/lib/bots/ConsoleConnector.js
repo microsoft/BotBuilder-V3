@@ -115,7 +115,7 @@ function renderButtons(actions) {
                 wrap(bullet + a.title, 60, 3);
             }
             else {
-                wrap(bullet + a.title + ': ' + a.value, 60, 3);
+                wrap(bullet + a.title + ' [' + a.value + ']', 60, 3);
             }
         }
     }

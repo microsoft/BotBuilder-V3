@@ -28,8 +28,15 @@ var restify = require('restify');
 var builder = require('../../');
   
 // Create bot and setup server
-var console = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(console);
+var connector = new builder.BotConnector();
+var bot = new builder.UniversalBot(connector);
+
+// Setup Restify Server
+var server = restify.createServer();
+server.post('/api/messages', connector.listen());
+server.listen(process.env.port || 3978, function () {
+   console.log('%s listening to %s', server.name, server.url); 
+});
 
 // Add dialogs to your bot
 bot.dialog('/', [
@@ -39,7 +46,7 @@ bot.dialog('/', [
             .addAttachment({
                 thumbnailUrl: "http://docs.botframework.com/images/demo_bot_image.png",
                 title: "Microsoft Bot Framework",
-                text: "Your bots — wherever your users are talking.",
+                text: "Your bots - wherever your users are talking.",
                 titleLink: "https://dev.botframework.com/",
             });
         session.send(msg);

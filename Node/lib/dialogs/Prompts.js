@@ -302,5 +302,11 @@ var Prompts = (function (_super) {
 exports.Prompts = Prompts;
 dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
 function beginPrompt(session, args) {
+    if (typeof args.prompt == 'object' && args.prompt.toMessage) {
+        args.prompt = args.prompt.toMessage();
+    }
+    if (typeof args.retryPrompt == 'object' && args.retryPrompt.toMessage) {
+        args.retryPrompt = args.retryPrompt.toMessage();
+    }
     session.beginDialog(consts.DialogId.Prompts, args);
 }

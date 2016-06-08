@@ -46,7 +46,7 @@ export enum PromptType { text, number, confirm, choice, time, attachment }
 export enum ListStyle { none, inline, list, button, auto }
 
 export interface IPromptOptions {
-    retryPrompt?: string | string[] | IMessage;
+    retryPrompt?: string | string[] | IMessage | IIsMessage;
     maxRetries?: number;
     refDate?: number;
     listStyle?: ListStyle;
@@ -54,7 +54,7 @@ export interface IPromptOptions {
 
 export interface IPromptArgs extends IPromptOptions {
     promptType: PromptType;
-    prompt: string | string[] | IMessage;
+    prompt: string | string[] | IMessage | IIsMessage;
     enumValues?: string[];
 }
 
@@ -326,21 +326,21 @@ export class Prompts extends dialog.Dialog {
         }
     }
 
-    static text(session: ses.Session, prompt: string|string[]|IMessage): void {
+    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage): void {
         beginPrompt(session, {
             promptType: PromptType.text,
             prompt: prompt
         });
     }
 
-    static number(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
+    static number(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
         beginPrompt(session, args);
     }
 
-    static confirm(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
+    static confirm(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
@@ -349,7 +349,7 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(session, args);
     }
 
-    static choice(session: ses.Session, prompt: string|string[]|IMessage, choices: string|Object|string[], options?: IPromptOptions): void {
+    static choice(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[], options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
@@ -358,14 +358,14 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(session, args);
     }
 
-    static time(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
+    static time(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
         beginPrompt(session, args);
     }
     
-    static attachment(session: ses.Session, prompt: string|string[]|IMessage, options?: IPromptOptions): void {
+    static attachment(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.attachment;
         args.prompt = prompt;
@@ -375,5 +375,12 @@ export class Prompts extends dialog.Dialog {
 dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
 
 function beginPrompt(session: ses.Session, args: IPromptArgs) {
+    // Fixup prompts
+    if (typeof args.prompt == 'object' && (<IIsMessage>args.prompt).toMessage) {
+        args.prompt = (<IIsMessage>args.prompt).toMessage();
+    }
+    if (typeof args.retryPrompt == 'object' && (<IIsMessage>args.retryPrompt).toMessage) {
+        args.retryPrompt = (<IIsMessage>args.retryPrompt).toMessage();
+    }
     session.beginDialog(consts.DialogId.Prompts, args);
 }

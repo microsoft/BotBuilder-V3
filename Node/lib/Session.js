@@ -16,6 +16,7 @@ var Session = (function (_super) {
         this._isReset = false;
         this.lastSendTime = new Date().getTime();
         this.sendQueue = [];
+        this.sendQueueStarted = false;
         this.dialogs = options.dialogs;
         if (typeof this.options.minSendDelay !== 'number') {
             this.options.minSendDelay = 1000;
@@ -297,7 +298,6 @@ var Session = (function (_super) {
     Session.prototype.delayedSend = function (message) {
         var _that = this;
         function send() {
-            var _this = this;
             var now = new Date().getTime();
             var sinceLastSend = now - _that.lastSendTime;
             if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
@@ -310,14 +310,20 @@ var Session = (function (_super) {
                 var m = _that.sendQueue.shift();
                 _that.prepareMessage(m);
                 _that.options.onSend([m], function (err) {
-                    if (_this.sendQueue.length > 0) {
+                    if (_that.sendQueue.length > 0) {
                         send();
+                    }
+                    else {
+                        _that.sendQueueStarted = false;
                     }
                 });
             }
         }
         this.sendQueue.push(message);
-        send();
+        if (!this.sendQueueStarted) {
+            this.sendQueueStarted = true;
+            send();
+        }
     };
     Session.prototype.getMessageReceived = function () {
         console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");

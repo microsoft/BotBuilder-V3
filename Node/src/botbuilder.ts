@@ -85,5 +85,6 @@ exports.SimpleDialog = simple.SimpleDialog;
 exports.EntityRecognizer = entities.EntityRecognizer;
 exports.MemoryStorage = storage.MemoryStorage;
 exports.UniversalBot = ub.UniversalBot;
+exports.BotConnector = bc.BotConnector;
 exports.ConsoleConnector = cc.ConsoleConnector;
 
