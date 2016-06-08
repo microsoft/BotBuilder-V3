@@ -118,6 +118,8 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static async Task AssertScriptAsync(ILifetimeScope container, params string[] pairs)
         {
+            Assert.AreNotEqual(0, pairs.Length);
+
             var toBot = MakeTestMessage();
 
             for (int index = 0; index < pairs.Length; ++index)
