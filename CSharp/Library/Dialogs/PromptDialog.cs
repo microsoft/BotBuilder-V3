@@ -262,7 +262,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> The dialog context.</param>
         /// <param name="resume"> Resume handler.</param>
         /// <param name="promptOptions"> The options for the prompt, <see cref="PromptOptions{T}"/>.</param>
-        internal static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions)
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions)
         {
             var child = new PromptConfirm(promptOptions);
             context.Call<bool>(child, resume);
