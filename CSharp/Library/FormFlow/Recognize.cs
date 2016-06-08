@@ -80,7 +80,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 : (field.AllowsMultiple ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional ? field.Form.Configuration.NoPreference : null;
             _currentChoice = field.Form.Configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(field.Form.Configuration.CurrentChoice);
+            BuildPerValueMatcher(from term in field.Form.Configuration.CurrentChoice select Regex.Escape(term));
         }
 
         public object[] PromptArgs()
@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             if ((defaultValue != null || _noPreference != null) && _currentChoice != null)
             {
-                values = values.Union(new string[] { _currentChoice } );
+                values = values.Union(new string[] { _currentChoice });
             }
             var args = new List<object>();
             if (_allowNumbers)
@@ -155,31 +155,35 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var group1 = match.Groups[1];
                     var group2 = match.Groups[2];
+                    var group3 = match.Groups[3];
                     if (group1.Success)
                     {
-                        int n;
-                        var words = group1.Value.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
-                        var confidence = int.TryParse(group1.Value, out n) ? 1.0 : System.Math.Min(words / maxWords, 1.0);
+                        yield return new TermMatch(group1.Index, group1.Length, 1.0, expression.Value);
+                    }
+                    if (group2.Success)
+                    {
+                        var words = group2.Value.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
+                        var confidence = System.Math.Min(words / maxWords, 1.0);
                         if (expression.Value is Special)
                         {
                             var special = (Special)expression.Value;
                             if (special == Special.CurrentChoice && (_noPreference != null || defaultValue != null))
                             {
-                                yield return new TermMatch(group1.Index, group1.Length, confidence, defaultValue);
+                                yield return new TermMatch(group2.Index, group2.Length, confidence, defaultValue);
                             }
                             else if (special == Special.NoPreference)
                             {
-                                yield return new TermMatch(group1.Index, group1.Length, confidence, null);
+                                yield return new TermMatch(group2.Index, group2.Length, confidence, null);
                             }
                         }
                         else
                         {
-                            yield return new TermMatch(group1.Index, group1.Length, confidence, expression.Value);
+                            yield return new TermMatch(group2.Index, group2.Length, confidence, expression.Value);
                         }
                     }
-                    else if (group2.Success)
+                    else if (group3.Success)
                     {
-                        yield return new TermMatch(group2.Index, group2.Length, 1.0, expression.Value);
+                        yield return new TermMatch(group3.Index, group3.Length, 1.0, expression.Value);
                     }
                 }
             }
@@ -236,83 +240,75 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return regex.Split(new string[] { @"\s", " " }, StringSplitOptions.RemoveEmptyEntries).Length;
         }
 
+        // Generate a regex with 3 parts:
+        // Group 1: startWord <number> endWord
+        // Group 2: startWord (all word terms) endWord
+        // Group 3: all nonWord terms
+        // If a group is empty, match on NOMATCH constant.
+        private const string NOMATCH = "__qqqq__";
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             if (orderedTerms.Length > 0)
             {
                 var maxWords = terms.Max((term) => NumberOfWords(term));
-                var word = new StringBuilder();
-                var nonWord = new StringBuilder();
+                var words = new StringBuilder();
+                var nonWords = new StringBuilder();
                 var first = true;
                 var firstNonWord = true;
                 foreach (var term in orderedTerms)
                 {
                     var nterm = term.Trim().Replace(" ", @"\s+");
-                    if (nterm == "") nterm = "qqqq";
-                    if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
+                    if (nterm != "")
                     {
-                        if (first)
+                        if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
                         {
-                            first = false;
-                            word.Append(@"(\b(?:");
+                            if (first)
+                            {
+                                first = false;
+                                words.Append(@"(\b(?:");
+                            }
+                            else
+                            {
+                                words.Append('|');
+                            }
+                            words.Append(@"(?:");
+                            words.Append(nterm);
+                            words.Append(')');
                         }
                         else
                         {
-                            word.Append('|');
+                            if (firstNonWord)
+                            {
+                                firstNonWord = false;
+                                nonWords.Append('(');
+                            }
+                            else
+                            {
+                                nonWords.Append('|');
+                            }
+                            nonWords.Append(@"(?:");
+                            nonWords.Append(nterm);
+                            nonWords.Append(')');
                         }
-                        word.Append(@"(?:");
-                        word.Append(nterm);
-                        word.Append(')');
-                    }
-                    else
-                    {
-                        if (firstNonWord)
-                        {
-                            firstNonWord = false;
-                            nonWord.Append('(');
-                        }
-                        else
-                        {
-                            nonWord.Append('|');
-                        }
-                        nonWord.Append(@"(?:");
-                        nonWord.Append(nterm);
-                        nonWord.Append(')');
                     }
                 }
                 if (first)
                 {
-                    if (allowNumbers)
-                    {
-                        word.AppendFormat(@"({0})", n);
-                    }
-                    else
-                    {
-                        word.Append("(qqqq)");
-                    }
+                    words.Append('(');
+                    words.Append(NOMATCH);
                 }
-                else
-                {
-                    if (allowNumbers)
-                    {
-                        word.AppendFormat(@"|{0}", n);
-                    }
-                    word.Append(@")\b)");
-                }
+                words.Append(@")\b)");
                 if (firstNonWord)
                 {
-                    nonWord.Append("(qqqq)");
+                    nonWords.Append('(');
+                    nonWords.Append(NOMATCH);
                 }
-                else
-                {
-                    nonWord.Append(')');
-                }
+                nonWords.Append(')');
+                var numbers = allowNumbers ? $"(\\b{n}\\b)" : NOMATCH;
+                var expr = $"{numbers}|{words.ToString()}|{nonWords.ToString()}";
+                _expressions.Add(new ValueAndExpression(value, new Regex(expr.ToString(), RegexOptions.IgnoreCase), maxWords));
                 ++n;
-                var expr = string.Format("{0}|{1}",
-                    word.ToString(),
-                    nonWord.ToString());
-                _expressions.Add(new ValueAndExpression(value, new Regex(expr, RegexOptions.IgnoreCase), maxWords));
             }
             return n;
         }
@@ -400,7 +396,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 yield return new TermMatch(0, input.Length, 1.0, defaultValue);
             }
-            else {
+            else
+            {
                 var result = Parse(input);
                 if (result != null)
                 {

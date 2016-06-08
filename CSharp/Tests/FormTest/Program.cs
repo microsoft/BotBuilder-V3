@@ -259,7 +259,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 })
                 .DefaultIfException()
                 .Loop();
-            Interactive(MakeForm(() => AnnotatedSandwichOrder.BuildForm())).GetAwaiter().GetResult();
             Interactive(callDebug).GetAwaiter().GetResult();
         }
     }
