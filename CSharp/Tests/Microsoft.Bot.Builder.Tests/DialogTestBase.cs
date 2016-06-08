@@ -34,6 +34,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
@@ -51,12 +53,19 @@ namespace Microsoft.Bot.Builder.Tests
         protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(); 
 
         [Flags]
-        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory };
+        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory, ResolveDialogFromContainer };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule_MakeRoot());
+            if (options.HasFlag(Options.ResolveDialogFromContainer))
+            {
+                builder.RegisterModule(new DialogModule());
+            }
+            else
+            {
+                builder.RegisterModule(new DialogModule_MakeRoot());
+            }
 
             builder
            .Register((c, p) => mockConnectorFactory)
@@ -105,6 +114,37 @@ namespace Microsoft.Bot.Builder.Tests
                 ConversationId = Guid.NewGuid().ToString(),
                 To = new ChannelAccount { Id = "testBot", IsBot = true}
             };
+        }
+
+        public static async Task AssertScriptAsync(ILifetimeScope container, params string[] pairs)
+        {
+            var toBot = MakeTestMessage();
+
+            for (int index = 0; index < pairs.Length; ++index)
+            {
+                var toBotText = pairs[index];
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var task = scope.Resolve<IPostToBot>();
+                    toBot.Text = toBotText;
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                var queue = container.Resolve<Queue<Message>>();
+
+                while (queue.Count > 0)
+                {
+                    ++index;
+
+                    var toUser = queue.Dequeue();
+
+                    var actual = toUser.Text;
+                    var expected = pairs[index];
+
+                    Assert.AreEqual(expected, actual);
+                }
+            }
         }
 
         public static void AssertMentions(string expectedText, IEnumerable<Message> actualToUser)
