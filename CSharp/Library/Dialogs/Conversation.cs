@@ -61,25 +61,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <remarks>
         /// This method:
         /// 1. Instantiates and composes the required components.
-        /// 2. Deserializes the dialog state (the dialog stack and each dialog's state) from the <paramref name="toBot"/> <see cref="Message"/>.
-        /// 3. Resumes the conversation processes where the dialog suspended to wait for a <see cref="Message"/>.
-        /// 4. Queues <see cref="Message"/>s to be sent to the user.
+        /// 2. Deserializes the dialog state (the dialog stack and each dialog's state) from the <paramref name="toBot"/> <see cref="IMessageActivity"/>.
+        /// 3. Resumes the conversation processes where the dialog suspended to wait for a <see cref="IMessageActivity"/>.
+        /// 4. Queues <see cref="IMessageActivity"/>s to be sent to the user.
         /// 5. Serializes the updated dialog state in the messages to be sent to the user.
         /// 
         /// The <paramref name="MakeRoot"/> factory method is invoked for new conversations only,
-        /// because existing conversations have the dialog stack and state serialized in the <see cref="Message"/> data.
+        /// because existing conversations have the dialog stack and state serialized in the <see cref="IMessageActivity"/> data.
         /// </remarks>
         /// <param name="toBot">The message sent to the bot.</param>
         /// <param name="MakeRoot">The factory method to make the root dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the message to send inline back to the user.</returns>
-        public static async Task<Message> SendAsync(Message toBot, Func<IDialog<object>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task SendAsync(IMessageActivity toBot, Func<IDialog<object>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             using (var scope = DialogModule.BeginLifetimeScope(Container, toBot))
             {
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
-
-                return await SendAsync(scope, toBot, token);
+                await SendAsync(scope, toBot, token);
             }
         }
 
@@ -91,7 +90,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="toBot"> The data sent to bot.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
-        public static async Task<Message> ResumeAsync<T>(ResumptionCookie resumptionCookie, T toBot, CancellationToken token = default(CancellationToken))
+        public static async Task ResumeAsync<T>(ResumptionCookie resumptionCookie, T toBot, CancellationToken token = default(CancellationToken))
         {
             var continuationMessage = resumptionCookie.GetMessage(); 
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
@@ -99,34 +98,29 @@ namespace Microsoft.Bot.Builder.Dialogs
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                return await ResumeAsync(scope, continuationMessage, toBot, token);
+                await ResumeAsync(scope, continuationMessage, toBot, token);
             }
         }
 
-        internal static async Task<Message> SendAsync(ILifetimeScope scope, Message toBot, CancellationToken token = default(CancellationToken))
+        internal static async Task SendAsync(ILifetimeScope scope, IMessageActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            using (new LocalizedScope(toBot.Language))
+            using (new LocalizedScope(toBot.Locale))
             {
                 var task = scope.Resolve<IPostToBot>();
                 await task.PostAsync(toBot, token);
-
-                var botToUser = scope.Resolve<SendLastInline_BotToUser>();
-                return botToUser.ToUser;
             }
         }
 
-        internal static async Task<Message> ResumeAsync<T>(ILifetimeScope scope, Message continuationMessage, T toBot, CancellationToken token = default(CancellationToken))
+        internal static async Task ResumeAsync<T>(ILifetimeScope scope, IMessageActivity continuationMessage, T toBot, CancellationToken token = default(CancellationToken))
         {
             var client = scope.Resolve<IConnectorClient>();
-            var message = await client.LoadMessageData(continuationMessage, token);
+            var botData = scope.Resolve<IBotData>();
+            await botData.LoadAsync(); 
 
-            using (new LocalizedScope(message.Language))
+            using (new LocalizedScope(continuationMessage.Locale))
             {
                 var task = scope.Resolve<IPostToBot>();
                 await task.PostAsync(toBot, token);
-
-                var botToUser = scope.Resolve<SendLastInline_BotToUser>();
-                return botToUser.ToUser;
             }
         }
     }

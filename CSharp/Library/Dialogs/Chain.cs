@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <typeparam name="T">The type of the dialog.</typeparam>
         /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <returns>The dialog representing the message sent to the bot.</returns>
-        public static IDialog<Connector.Message> WaitToBot<T>(this IDialog<T> antecedent)
+        public static IDialog<Connector.IMessageActivity> WaitToBot<T>(this IDialog<T> antecedent)
         {
             return new WaitToBotDialog<T>(antecedent);
         }
@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// The returned <see cref="IDialog{T}"/> can be used as the root dialog for a chain.
         /// </remarks>
         /// <returns> The dialog that dispatches the incoming message from the user to chain.</returns>
-        public static IDialog<Connector.Message> PostToChain()
+        public static IDialog<Connector.IMessageActivity> PostToChain()
         {
             return Chain.Return(string.Empty).WaitToBot();
         }
@@ -351,7 +351,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class WaitToBotDialog<T> : IDialog<Connector.Message>
+        private sealed class WaitToBotDialog<T> : IDialog<Connector.IMessageActivity>
         {
             public readonly IDialog<T> Antecedent;
             public WaitToBotDialog(IDialog<T> antecedent)
@@ -367,7 +367,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var item = await result;
                 context.Wait(MessageReceivedAsync);
             }
-            public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Connector.Message> argument)
+            public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Connector.IMessageActivity> argument)
             {
                 context.Done(await argument);
             }

@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Models
 
             // show the container how to make a ResumptionCookie from a Message
             builder
-                .Register(c => new ResumptionCookie(c.Resolve<Connector.Message>()))
+                .Register(c => new ResumptionCookie(c.Resolve<Connector.IMessageActivity>()))
                 .AsSelf();
 
             // register a root dialog to be resolved through the container, so that it may get its dependencies from the container.

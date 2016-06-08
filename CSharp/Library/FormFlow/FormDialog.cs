@@ -282,7 +282,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> toBot)
+        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.IMessageActivity> toBot)
         {
             try
             {

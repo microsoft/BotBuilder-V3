@@ -1,0 +1,440 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "v3",
+    "title": "Microsoft Bot Connector API - v3",
+    "description": "© 2016 Microsoft",
+    "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
+    "contact": {
+      "name": "Bot Framework",
+      "url": "https://botframework.com",
+      "email": "botframework@microsoft.com"
+    },
+    "license": {
+      "name": "The MIT License (MIT)",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "api.botframework.com",
+  "schemes": [ "https" ],
+  "paths": {
+    "/api/v3/botstate/{botId}/{channelId}/users/{userId}": {
+      "get": {
+        "tags": [ "BotState" ],
+        "summary": "GetUserData",
+        "description": "Get a BotData record for the user",
+        "operationId": "BotState_GetUserData",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [ "BotState" ],
+        "summary": "SetUserData",
+        "description": "Update the bot user data",
+        "operationId": "BotState_SetUserData",
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "botData",
+            "in": "body",
+            "description": "the new botdata",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BotData" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "412": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}": {
+      "get": {
+        "tags": [ "BotState" ],
+        "summary": "GetConversationData",
+        "description": "get the bot data for a conversation",
+        "operationId": "BotState_GetConversationData",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "The conversationId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [ "BotState" ],
+        "summary": "SetConversationData",
+        "description": "Update the bot conversation data",
+        "operationId": "BotState_SetConversationData",
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "conversation id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "botData",
+            "in": "body",
+            "description": "the new botdata",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BotData" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "412": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}": {
+      "get": {
+        "tags": [ "BotState" ],
+        "summary": "GetPerUserConversationData",
+        "description": "get the bot data for a user in a conversation",
+        "operationId": "BotState_GetPerUserConversationData",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "The conversationId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [ "BotState" ],
+        "summary": "SetPerUserInConversationData",
+        "description": "Update the bot user in a conversation data",
+        "operationId": "BotState_SetPerUserInConversationData",
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId for the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "conversation id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "botData",
+            "in": "body",
+            "description": "the new botdata",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BotData" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot data object will be returned containing your object\r\n",
+            "schema": { "$ref": "#/definitions/BotData" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
+          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "412": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "BotData": {
+      "type": "object",
+      "properties": {
+        "eTag": { "type": "string" },
+        "data": { "$ref": "#/definitions/Object" }
+      }
+    },
+    "Object": {
+      "type": "object",
+      "properties": { }
+    },
+    "APIResponse": {
+      "type": "object",
+      "properties": { "message": { "type": "string" } }
+    }
+  },
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic",
+      "description": "Basic HTTP Authentication using AppId/AppSecret"
+    },
+    "apiKey": {
+      "type": "apiKey",
+      "description": "API Subscription Key Authentication",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    }
+  }
+}

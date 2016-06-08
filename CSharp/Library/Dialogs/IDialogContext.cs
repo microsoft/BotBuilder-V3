@@ -96,7 +96,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             if (!string.IsNullOrEmpty(language))
             {
-                message.Language = language;
+                message.Locale = language;
             }
 
             await botToUser.PostAsync(message, cancellationToken);
@@ -107,9 +107,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <param name="stack">The dialog stack.</param>
         /// <param name="resume">The method to resume when the message has been received.</param>
-        public static void Wait(this IDialogStack stack, ResumeAfter<Message> resume)
+        public static void Wait(this IDialogStack stack, ResumeAfter<IMessageActivity> resume)
         {
-            stack.Wait<Message>(resume);
+            stack.Wait<IMessageActivity>(resume);
         }
     }
 }
@@ -127,12 +127,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <param name="message">The message for the user.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(Message message, CancellationToken cancellationToken = default(CancellationToken));
+        Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Make a message.
         /// </summary>
         /// <returns>The new message.</returns>
-        Message MakeMessage();
+        IMessageActivity MakeMessage();
     }
 }

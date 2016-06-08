@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Builder.Tests
     {
         public static void AssertQueryText(string expectedText, ILifetimeScope container)
         {
-            var queue = container.Resolve<Queue<Message>>();
+            var queue = container.Resolve<Queue<IMessageActivity>>();
             var texts = queue.Select(m => m.Text).ToArray();
             // last message is re-prompt, next-to-last is result of query expression
             var actualText = texts.Reverse().ElementAt(1);
@@ -160,7 +160,7 @@ namespace Microsoft.Bot.Builder.Tests
                     await task.PostAsync(toBot, CancellationToken.None);
                 }
 
-                var queue = container.Resolve<Queue<Message>>();
+                var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
                 Assert.AreEqual(1, texts.Length);
                 Assert.AreEqual(true.ToString(), texts[0]);
@@ -192,7 +192,7 @@ namespace Microsoft.Bot.Builder.Tests
                     }
                 }
 
-                var queue = container.Resolve<Queue<Message>>();
+                var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
                 Assert.AreEqual(0, texts.Length);
             }
@@ -248,7 +248,7 @@ namespace Microsoft.Bot.Builder.Tests
                     }
                 }
 
-                var queue = container.Resolve<Queue<Message>>();
+                var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
                 CollectionAssert.AreEqual(expectedReply, texts);
             }
@@ -388,7 +388,7 @@ namespace Microsoft.Bot.Builder.Tests
                     }
                 }
 
-                var queue = container.Resolve<Queue<Message>>();
+                var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
                 Assert.AreEqual("why did the chicken cross the road?", texts[0]);
                 Assert.AreEqual("to get to the other side", texts[1]);

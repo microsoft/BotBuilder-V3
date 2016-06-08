@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Dialogs;
+using System.Web.Http.Description;
+using System.Net.Http;
+using System.Diagnostics;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    [BotAuthentication]
+    //[BotAuthentication]
     public class MessagesController : ApiController
     {
         private static IForm<PizzaOrder> BuildForm()
@@ -45,11 +48,31 @@ namespace Microsoft.Bot.Sample.PizzaBot
 
         /// <summary>
         /// POST: api/Messages
-        /// receive a message from a user and reply to it
+        /// receive a message from a user and send replies
         /// </summary>
-        public async Task<Message> Post([FromBody]Message message)
+        /// <param name="activity"></param>
+        [ResponseType(typeof(void))]
+        public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
-            return await Conversation.SendAsync(message, MakeRoot);
+            if (activity != null)
+            {
+                // one of these will have an interface and process it
+                switch (activity.GetActivityType())
+                {
+                    case ActivityTypes.Message:
+                        await Conversation.SendAsync(activity, MakeRoot);
+                        break;
+
+                    case ActivityTypes.ConversationUpdate:
+                    case ActivityTypes.ContactRelationUpdate:
+                    case ActivityTypes.Typing:
+                    case ActivityTypes.DeleteUserData:
+                    default:
+                        Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
+                        break;
+                }
+            }
+            return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
     }
 }

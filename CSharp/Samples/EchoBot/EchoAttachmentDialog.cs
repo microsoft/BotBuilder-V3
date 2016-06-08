@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Sample.EchoBot
     [Serializable]
     public class EchoAttachmentDialog : EchoDialog
     {
-        public override async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
+        public override async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
             if (message.Text.ToLower() == "makeattachment")
@@ -27,7 +27,8 @@ namespace Microsoft.Bot.Sample.EchoBot
                     actions.Add(new Microsoft.Bot.Connector.Action
                     {
                         Title = $"Button:{i}",
-                        Message = $"Action:{i}"
+                        Value = $"Action:{i}", 
+                        Type = "postBack"
                     });
                 }
 
@@ -35,10 +36,8 @@ namespace Microsoft.Bot.Sample.EchoBot
                 {
                     reply.Attachments.Add(new Attachment
                     {
-                        Title = $"title{i}",
-                        ContentType = "image/jpeg",
-                        ContentUrl = $"https://placeholdit.imgix.net/~text?txtsize=35&txt=image{i}&w=120&h=120",
-                        Actions = actions
+                        ContentType = "application/vnd.microsoft.card.hero",
+                        Content = new HeroCard(buttons: actions)
                     });
                 }
                 await context.PostAsync(reply);

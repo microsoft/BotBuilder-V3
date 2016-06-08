@@ -90,7 +90,8 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             var uri = GetUri(facebookOauthCallback,
                 Tuple.Create("userId", resumptionCookie.UserId),
                 Tuple.Create("conversationId", resumptionCookie.ConversationId),
-                Tuple.Create("channelId", resumptionCookie.UserChannelId),
+                Tuple.Create("serviceUrl", HttpUtility.UrlEncode(resumptionCookie.ServiceUrl)), 
+                Tuple.Create("channelId", resumptionCookie.ChannelId),
                 Tuple.Create("language", resumptionCookie.Language ?? "en")
                 );
             return uri.ToString();

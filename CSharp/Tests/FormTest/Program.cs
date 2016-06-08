@@ -79,18 +79,20 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             // But you don't have to reboot.
             // If you don't want the multi-lingual support just comment this out
             Console.OutputEncoding = Encoding.GetEncoding(65001);
-            var message = new Message()
+            var message = new Activity()
             {
-                From = new ChannelAccount { Id = "Console" },
-                ConversationId = Guid.NewGuid().ToString(),
-                To = new ChannelAccount { Id = "FormTest", IsBot = true },
+                From = new ChannelAccount { Id = "ConsoleUser" },
+                To = new ConversationAccount { Id = Guid.NewGuid().ToString() },
+                Recipient = new ChannelAccount { Id = "FormTest" },
+                ChannelId = "Console", 
+                ServiceUrl = "http://localhost:9000/",
                 Text = ""
             };
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
             builder
-                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<Message>()), Console.Out))
+                .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<IMessageActivity>()), Console.Out))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
             using (var container = builder.Build())
@@ -100,6 +102,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                 var task = scope.Resolve<IPostToBot>();
+                await scope.Resolve<IBotData>().LoadAsync(); 
                 var stack = scope.Resolve<IDialogStack>();
 
                 stack.Call(MakeRoot(), null);
@@ -108,7 +111,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 while (true)
                 {
                     message.Text = await Console.In.ReadLineAsync();
-                    message.Language = Locale;
+                    message.Locale = Locale;
                     await task.PostAsync(message, CancellationToken.None);
                 }
             }

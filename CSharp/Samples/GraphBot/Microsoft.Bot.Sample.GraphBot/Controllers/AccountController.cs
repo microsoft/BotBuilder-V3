@@ -38,19 +38,18 @@ namespace Microsoft.Bot.Sample.GraphBot.Controllers
                 var continuation = resume.GetMessage();
                 using (var scope = DialogModule.BeginLifetimeScope(Container.Instance, continuation))
                 {
-                    var client = scope.Resolve<IConnectorClient>();
-
-                    // store the TokenCache in the bot user data
-                    var data = await client.Bots.GetUserDataAsync(Keys.Bot.ID, resume.UserId);
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync();
+                    var data = botData.UserData; 
 
                     var tenantID = this.User.FindFirst(Keys.TenantID);
                     var objectIdentifier = this.User.FindFirst(Keys.ObjectID);
 
-                    data.SetProperty(Keys.ObjectID, objectIdentifier.Value);
-                    data.SetProperty(Keys.TenantID, tenantID.Value);
-                    data.SetProperty(Keys.TokenCache, tokenBlob);
+                    data.SetValue(Keys.ObjectID, objectIdentifier.Value);
+                    data.SetValue(Keys.TenantID, tenantID.Value);
+                    data.SetValue(Keys.TokenCache, tokenBlob);
 
-                    await client.Bots.SetUserDataAsync(Keys.Bot.ID, resume.UserId, data);
+                    await botData.FlushAsync(); 
                 }
 
                 return "You're now logged-in - continue talking to the bot!";

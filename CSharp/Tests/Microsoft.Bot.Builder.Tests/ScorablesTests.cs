@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
         {
-            var message = item as Message;
+            var message = item as IMessageActivity;
             if (message != null && message.Text != null)
             {
                 var text = message.Text;

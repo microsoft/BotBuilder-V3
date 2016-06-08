@@ -87,94 +87,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         Task<bool> FlushAsync(BotDataKey key); 
     }
-    
-    public class MessageBackedStore : IBotDataStore
-    {
-        protected readonly Message message;
-        public MessageBackedStore(Message message)
-        {
-            SetField.NotNull(out this.message, nameof(message), message);
-        }
-
-        private bool ValidateKey(BotDataKey key)
-        {
-            return key.UserId == message.From?.Id &&
-                   key.BotId == message.To?.Id &&
-                   key.ConversationId == message.ConversationId;
-        }
-
-        public Task<bool> FlushAsync(BotDataKey key)
-        {
-            // no-op for message backed store
-            return Task.FromResult(ValidateKey(key));
-        }
-
-        public Task SaveAsync(BotDataKey key, BotStoreType botStoreType, object value)
-        {
-            try
-            {
-                if (!ValidateKey(key))
-                {
-                    throw new ArgumentException("Invalid bot data key!");
-                }
-
-                switch (botStoreType)
-                {
-                    case BotStoreType.BotConversationData:
-                        message.BotConversationData = value;
-                        break;
-                    case BotStoreType.BotPerUserInConversationData:
-                        message.BotPerUserInConversationData = value;
-                        break;
-                    case BotStoreType.BotUserData:
-                        message.BotUserData = value;
-                        break;
-                    default:
-                        throw new ArgumentException($"key {botStoreType} is not supported by this message store");
-                }
-
-                return Task.FromResult(Type.Missing);
-            }
-            catch(Exception e)
-            {
-                return Task.FromException(e);
-            }
-        }
-
-        public Task<T> LoadAsync<T>(BotDataKey key, BotStoreType botStoreType)
-        {
-            try
-            {
-                if (!ValidateKey(key))
-                {
-                    throw new ArgumentException("Invalid bot data key!");
-                }
-
-                var value = default(T);
-
-                switch (botStoreType.ToString())
-                {
-                    case nameof(message.BotConversationData):
-                        value = (T)message.BotConversationData;
-                        break;
-                    case nameof(message.BotPerUserInConversationData):
-                        value = (T)message.BotPerUserInConversationData;
-                        break;
-                    case nameof(message.BotUserData):
-                        value = (T)message.BotUserData;
-                        break;
-                    default:
-                        value = default(T);
-                        break;
-                }
-                return Task.FromResult(value);
-            }
-            catch (Exception e)
-            {
-                return Task.FromException<T>(e);
-            }
-        }
-    }
 
     public class InMemoryBotDataStore : IBotDataStore
     {
@@ -332,7 +244,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private IBotDataBag perUserInConversationData;
         private IBotDataBag userData;
 
-        public BotDataBase(Message message, IBotDataStore botDataStore)
+        public BotDataBase(IMessageActivity message, IBotDataStore botDataStore)
         {
             SetField.NotNull(out this.botDataStore, nameof(BotDataBase<T>.botDataStore), botDataStore);
             SetField.CheckNull(nameof(message), message);
@@ -407,7 +319,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class DictionaryBotData : BotDataBase<Dictionary<string, object>>
     {
-        public DictionaryBotData(Message message, IBotDataStore botDataStore)
+        public DictionaryBotData(IMessageActivity message, IBotDataStore botDataStore)
             : base(message, botDataStore)
         {
         }
@@ -463,7 +375,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class JObjectBotData : BotDataBase<JObject>
     {
-        public JObjectBotData(Message message, IBotDataStore botDataStore)
+        public JObjectBotData(IMessageActivity message, IBotDataStore botDataStore)
             : base(message, botDataStore)
         {
         }
@@ -551,14 +463,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public static partial class Extensions
     {
-        public static BotDataKey GetBotDataKey(this Message message)
+        public static BotDataKey GetBotDataKey(this IMessageActivity message)
         {
-            var toIsBot = message.To.IsBot.HasValue && message.To.IsBot.Value;
             return new BotDataKey
             {
-                BotId =  toIsBot ? message.To.Id : message.From.Id,
-                UserId = toIsBot ? message.From.Id : message.To.Id,
-                ConversationId = message.ConversationId
+                BotId =  message.Recipient.Id,
+                UserId = message.From.Id,
+                ConversationId = message.To.Id
             };
         }
     }

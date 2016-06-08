@@ -338,7 +338,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            using (new LocalizedScope((item as Message)?.Language))
+            using (new LocalizedScope((item as IMessageActivity)?.Locale))
             {
                 await this.inner.PostAsync<T>(item, token);
             }
@@ -349,11 +349,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         private readonly Lazy<IPostToBot> inner;
         private readonly IConnectorClient client;
-        private readonly Message message;
+        private readonly IMessageActivity message;
         private readonly IBotToUser botToUser;
         private readonly IBotData botData;
 
-        public PersistentDialogTask(Func<IPostToBot> makeInner, Message message, IConnectorClient client, IBotToUser botToUser, IBotData botData)
+        public PersistentDialogTask(Func<IPostToBot> makeInner, IMessageActivity message, IConnectorClient client, IBotToUser botToUser, IBotData botData)
         {
             SetField.NotNull(out this.message, nameof(message), message);
             SetField.NotNull(out this.client, nameof(client), client);
@@ -381,7 +381,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await botData.FlushAsync();
             // if botToUser is SendLastInline_BotToUser, we don't need to persist.
             // Inline reply will set the data
-            bool inline = botToUser is SendLastInline_BotToUser || botToUser is BotToUserTextWriter;
+            bool inline = botToUser is BotToUserTextWriter;
             if (!inline)
             {   
                 await PersistBotData(token: token);
@@ -390,42 +390,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         private async Task PersistBotData(bool ignoreETag = true, CancellationToken token = default(CancellationToken))
         {
-            var botId = message.To.Id;
-            var userId = message.From.Id;
-            var conversationId = message.ConversationId;
-            var etag = "*";
-
-            var conversationData = new BotData(eTag: etag);
-            var perUserInConversationData  = new BotData(eTag: etag);
-            var userData = new BotData(eTag: etag);
-
-            if (!ignoreETag)
-            {
-                var getConversationDataTask = client.Bots.GetConversationDataAsync(botId, conversationId, token);
-                var getPerUserInConversationDataTask = client.Bots.GetPerUserConversationDataAsync(botId, conversationId, userId, token);
-                var getUserDataTask = client.Bots.GetUserDataAsync(botId, userId, token);
-
-                conversationData = await getConversationDataTask;
-                perUserInConversationData = await getPerUserInConversationDataTask;
-                userData = await getUserDataTask;
-            }
-
-            conversationData.Data = message.BotConversationData;
-            perUserInConversationData.Data = message.BotPerUserInConversationData;
-            userData.Data = message.BotUserData;
-            
-            var task1 = client.Bots.SetConversationDataAsync(botId, conversationId,
-                conversationData,
-                token);
-            var task2 = client.Bots.SetPerUserInConversationDataAsync(botId, conversationId, userId,
-                perUserInConversationData,
-                token);
-            var task3 = client.Bots.SetUserDataAsync(botId, userId,
-                userData,
-                token);
-            await task1;
-            await task2;
-            await task3;
+            await botData.FlushAsync();
         }
     }
 }

@@ -41,100 +41,45 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class SendLastInline_BotToUser : IBotToUser
-    {
-        private readonly Message toBot;
-        private readonly IConnectorClient client;
-        public SendLastInline_BotToUser(Message toBot, IConnectorClient client)
-        {
-            SetField.NotNull(out this.toBot, nameof(toBot), toBot);
-            SetField.NotNull(out this.client, nameof(client), client);
-        }
-
-        public Message ToUser
-        {
-            get
-            {
-                if (this.toUser != null)
-                {
-                    return this.toUser;
-                }
-                else
-                {
-                    IBotToUser botToUser = this;
-                    return botToUser.MakeMessage();
-                }
-            }
-        }
-
-        Message IBotToUser.MakeMessage()
-        {
-            var toUser = this.toBot.CreateReplyMessage();
-            toUser.BotUserData = this.toBot.BotUserData;
-            toUser.BotConversationData = this.toBot.BotConversationData;
-            toUser.BotPerUserInConversationData = this.toBot.BotPerUserInConversationData;
-            return toUser;
-        }
-
-        private Message toUser;
-
-        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
-        {
-            if (this.toUser != null)
-            {
-                await this.client.Messages.SendMessageAsync(this.toUser, cancellationToken);
-                this.toUser = null;
-            }
-
-            SetField.NotNull(out this.toUser, nameof(message), message);
-        }
-    }
-
     public sealed class AlwaysSendDirect_BotToUser : IBotToUser
     {
-        private readonly Message toBot;
+        private readonly IMessageActivity toBot;
         private readonly IConnectorClient client;
-        public AlwaysSendDirect_BotToUser(Message toBot, IConnectorClient client)
+        public AlwaysSendDirect_BotToUser(IMessageActivity toBot, IConnectorClient client)
         {
             SetField.NotNull(out this.toBot, nameof(toBot), toBot);
             SetField.NotNull(out this.client, nameof(client), client);
         }
 
-        Message IBotToUser.MakeMessage()
+        IMessageActivity IBotToUser.MakeMessage()
         {
-            var toUser = this.toBot.CreateReplyMessage();
-            toUser.BotUserData = this.toBot.BotUserData;
-            toUser.BotConversationData = this.toBot.BotConversationData;
-            toUser.BotPerUserInConversationData = this.toBot.BotPerUserInConversationData;
-            return toUser;
+            var toBotActivity = (Activity)this.toBot;
+            return toBotActivity.CreateReply();
         }
 
-        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
-            await this.client.Messages.SendMessageAsync(message, cancellationToken);
+            await this.client.Conversations.ReplyToConversationAsync(message.To.Id, (Activity)message, cancellationToken);
         }
     }
 
     public sealed class BotToUserQueue : IBotToUser
     {
-        private readonly Message toBot;
-        private readonly Queue<Message> queue;
-        public BotToUserQueue(Message toBot, Queue<Message> queue)
+        private readonly IMessageActivity toBot;
+        private readonly Queue<IMessageActivity> queue;
+        public BotToUserQueue(IMessageActivity toBot, Queue<IMessageActivity> queue)
         {
             SetField.NotNull(out this.toBot, nameof(toBot), toBot);
             SetField.NotNull(out this.queue, nameof(queue), queue);
         }
 
-        Message IBotToUser.MakeMessage()
+        IMessageActivity IBotToUser.MakeMessage()
         {
-            var toUser = this.toBot.CreateReplyMessage();
-            toUser.BotUserData = this.toBot.BotUserData;
-            toUser.BotConversationData = this.toBot.BotConversationData;
-            toUser.BotPerUserInConversationData = this.toBot.BotPerUserInConversationData;
-            return toUser;
+            var toBotActivity = (Activity)this.toBot;
+            return toBotActivity.CreateReply();
         }
 
-        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
             this.queue.Enqueue(message);
         }
@@ -150,36 +95,38 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.writer, nameof(writer), writer);
         }
 
-        Message IBotToUser.MakeMessage()
+        IMessageActivity IBotToUser.MakeMessage()
         {
             return this.inner.MakeMessage();
         }
 
-        async Task IBotToUser.PostAsync(Message message, CancellationToken cancellationToken)
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
             await this.inner.PostAsync(message, cancellationToken);
-            await this.writer.WriteLineAsync($"{message.Text}{ActionsToText(message.Attachments)}");
+            await this.writer.WriteLineAsync($"{message.Text}{ButtonsToText(message.Attachments)}");
         }
 
-        private static string ActionsToText(IList<Attachment> attachments)
+        private static string ButtonsToText(IList<Attachment> attachments)
         {
-            var buttonAttachments = attachments?.Where(attachment => attachment.Actions?.Count > 0);
+            var cardAttachments = attachments?.Where(attachment => attachment.ContentType.StartsWith("application/vnd.microsoft.card"));
             string text = string.Empty;
-            if (buttonAttachments != null)
+            if (cardAttachments != null && cardAttachments.Any())
             {
-                foreach (var attachment in buttonAttachments)
+                foreach (var attachment in cardAttachments)
                 {
-                    if (attachment != null && attachment.Actions != null && attachment.Actions.Count() > 0)
+                    string type = attachment.ContentType.Split('.').Last();
+                    if (type == "hero"  || type == "thumbnail")
                     {
-                        foreach (var action in attachment.Actions)
+                        var card = (HeroCard)attachment.Content;
+                        foreach(var button in card.Buttons)
                         {
-                            if (!string.IsNullOrEmpty(action.Message))
+                            if (!string.IsNullOrEmpty(button.Value))
                             {
-                                text += $"\n{action.Message}. {action.Title}";
+                                text += $"\n{button.Value}. {button.Title}";
                             }
                             else
-                            { 
-                                text += $"\n* {action.Title}";
+                            {
+                                text += $"\n* {button.Title}";
                             }
                         }
                     }
