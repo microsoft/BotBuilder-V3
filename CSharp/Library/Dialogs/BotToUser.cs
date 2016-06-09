@@ -35,7 +35,8 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq; 
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -109,9 +110,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private static string ButtonsToText(IList<Attachment> attachments)
         {
             var cardAttachments = attachments?.Where(attachment => attachment.ContentType.StartsWith("application/vnd.microsoft.card"));
-            string text = string.Empty;
+            var builder = new StringBuilder();
             if (cardAttachments != null && cardAttachments.Any())
             {
+                builder.AppendLine(); 
                 foreach (var attachment in cardAttachments)
                 {
                     string type = attachment.ContentType.Split('.').Last();
@@ -122,17 +124,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         {
                             if (!string.IsNullOrEmpty(button.Value))
                             {
-                                text += $"\n{button.Value}. {button.Title}";
+                                builder.AppendLine($"{ button.Value}. { button.Title}");
                             }
                             else
                             {
-                                text += $"\n* {button.Title}";
+                                builder.AppendLine($"* {button.Title}");
                             }
                         }
                     }
                 }
             }
-            return text;
+            return builder.ToString();
         }
     }
 }

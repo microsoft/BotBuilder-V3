@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Sample.Tests
             using (var container = Build(Options.MockConnectorFactory | Options.ScopedQueue, echoDialog))
             {
                 // act: sending the message
-                IMessageActivity toUser = await GetResonpse(container, MakeRoot, toBot);
+                IMessageActivity toUser = await GetResponse(container, MakeRoot, toBot);
                 
                 // assert: check if the dialog returned the right response
                 Assert.IsTrue(toUser.Text.StartsWith("1"));
@@ -92,32 +92,32 @@ namespace Microsoft.Bot.Sample.Tests
                 {
                     // pretend we're the intercom switch, and copy the bot data from message to message
                     toBot.Text = toUser.Text;
-                    toUser = await GetResonpse(container, MakeRoot, toBot);
+                    toUser = await GetResponse(container, MakeRoot, toBot);
                 }
 
                 // assert: check the counter at the end
                 Assert.IsTrue(toUser.Text.StartsWith("11"));
 
                 toBot.Text = "reset";
-                toUser = await GetResonpse(container, MakeRoot, toBot);
+                toUser = await GetResponse(container, MakeRoot, toBot);
                 Assert.IsTrue(toUser.Text.ToLower().Contains("are you sure"));
 
                 toBot.Text = "yes";
-                toUser = await GetResonpse(container, MakeRoot, toBot);
+                toUser = await GetResponse(container, MakeRoot, toBot);
                 Assert.IsTrue(toUser.Text.ToLower().Contains("reset count"));
 
                 //send a random message and check count
                 toBot.Text = "test";
-                toUser = await GetResonpse(container, MakeRoot, toBot);
+                toUser = await GetResponse(container, MakeRoot, toBot);
                 Assert.IsTrue(toUser.Text.StartsWith("1")); 
             }
         }
 
-        private async Task<IMessageActivity> GetResonpse(IContainer container, Func<IDialog<object>> makeRoot, IMessageActivity toBot)
+        private async Task<IMessageActivity> GetResponse(IContainer container, Func<IDialog<object>> makeRoot, IMessageActivity toBot)
         {
             using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
             {
-                scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(makeRoot));
+                DialogModule_MakeRoot.Register(scope, makeRoot);
 
                 // act: sending the message
                 await Conversation.SendAsync(scope, toBot);

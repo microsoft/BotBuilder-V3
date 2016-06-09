@@ -195,15 +195,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 actions.Add(action);
             }
 
-            return new List<Attachment>
+            var attachments = new List<Attachment>();
+            if (actions.Count > 0)
             {
-                new Attachment
+                attachments.Add(new Attachment
                 {
                     Content = new HeroCard(buttons: actions),
                     ContentType = "application/vnd.microsoft.card.hero",
 
-                }
-            };
+                });
+            }
+            return attachments;
         }
 
         internal static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)

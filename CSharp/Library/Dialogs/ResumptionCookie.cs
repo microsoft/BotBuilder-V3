@@ -94,10 +94,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string ConversationId { set; get; }
 
         /// <summary>
-        /// The language of message.
+        /// The locale of message.
         /// </summary>
-        [JsonProperty(PropertyName = "language")]
-        public string Language { set; get; }
+        [JsonProperty(PropertyName = "locale")]
+        public string Locale { set; get; }
 
         public ResumptionCookie()
         {
@@ -111,21 +111,21 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="conversationId"> The conversation Id.</param>
         /// <param name="channelId"> The channel Id of the conversation.</param>
         /// <param name="serviceUrl"> The service url of the conversation.</param>
-        /// <param name="language"> The language of the message.</param>
-        public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string serviceUrl, string language = "en")
+        /// <param name="locale"> The locale of the message.</param>
+        public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string serviceUrl, string locale = "en")
         {
             SetField.CheckNull(nameof(userId), userId);
             SetField.CheckNull(nameof(botId), botId);
             SetField.CheckNull(nameof(conversationId), conversationId);
             SetField.CheckNull(nameof(channelId), channelId);
             SetField.CheckNull(nameof(serviceUrl), serviceUrl);
-            SetField.CheckNull(nameof(language), language);
+            SetField.CheckNull(nameof(locale), locale);
             this.UserId = userId;
             this.BotId = botId;
             this.ConversationId = conversationId;
             this.ChannelId = channelId;
             this.ServiceUrl = serviceUrl;
-            this.Language = language;
+            this.Locale = locale;
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             ConversationId = msg.To?.Id;
             var isGroup =  msg.To?.IsGroup;
             IsGroup = isGroup.HasValue && isGroup.Value;
-            Language = msg.Locale;
+            Locale = msg.Locale;
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     Id = this.UserId,
                     Name = this.UserName
                 },
-                Locale = this.Language
+                Locale = this.Locale
             };
         }
 

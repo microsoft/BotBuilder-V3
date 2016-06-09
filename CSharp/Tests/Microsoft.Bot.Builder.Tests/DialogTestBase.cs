@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Tests
                 From = new ChannelAccount { Id = "testUser" },
                 To = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = "testBot"},
-                ServiceUrl = "http://locahlhost:9000"
+                ServiceUrl = "InvalidServiceUrl"
             };
         }
 

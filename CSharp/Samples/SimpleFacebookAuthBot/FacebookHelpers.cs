@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("conversationId", resumptionCookie.ConversationId),
                 Tuple.Create("serviceUrl", HttpUtility.UrlEncode(resumptionCookie.ServiceUrl)), 
                 Tuple.Create("channelId", resumptionCookie.ChannelId),
-                Tuple.Create("language", resumptionCookie.Language ?? "en")
+                Tuple.Create("locale", resumptionCookie.Locale ?? "en")
                 );
             return uri.ToString();
         }

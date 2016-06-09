@@ -296,17 +296,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly CultureInfo previousCulture;
         private readonly CultureInfo previousUICulture;
 
-        public LocalizedScope(string language)
+        public LocalizedScope(string locale)
         {
             this.previousCulture = Thread.CurrentThread.CurrentCulture;
             this.previousUICulture = Thread.CurrentThread.CurrentUICulture;
 
-            if (!string.IsNullOrWhiteSpace(language))
+            if (!string.IsNullOrWhiteSpace(locale))
             {
                 CultureInfo found = null;
                 try
                 {
-                    found = CultureInfo.GetCultureInfo(language);
+                    found = CultureInfo.GetCultureInfo(locale);
                 }
                 catch (CultureNotFoundException)
                 {
@@ -370,20 +370,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 await this.inner.Value.PostAsync<T>(item, token);
             }
-            catch
+            finally
             {
-                await botData.FlushAsync(); 
-                await PersistBotData(token: token);
-                throw;
-
-            }
-
-            await botData.FlushAsync();
-            // if botToUser is SendLastInline_BotToUser, we don't need to persist.
-            // Inline reply will set the data
-            bool inline = botToUser is BotToUserTextWriter;
-            if (!inline)
-            {   
                 await PersistBotData(token: token);
             }
         }
