@@ -148,12 +148,16 @@
         "null"
       ]
     },
+    "PhoneNumber": {
+      "type": [ "string", "null" ],
+      "pattern": "(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}"
+    },
     "DeliveryTime": {
+      "DateTime": true,
       "type": [
         "string",
         "null"
-      ],
-      "DateTime": true
+      ]
     },
     "Rating": {
       "Describe": "your experience today",

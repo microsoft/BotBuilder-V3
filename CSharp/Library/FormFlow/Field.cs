@@ -35,8 +35,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
@@ -142,6 +141,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             min = _min;
             max = _max;
             return _limited;
+        }
+
+        public virtual string Pattern
+        {
+            get { return _pattern; }
         }
 
         public virtual IEnumerable<string> Dependencies
@@ -524,6 +528,30 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetLimits(min, max, true);
             return this;
         }
+
+        /// <summary>
+        /// Regular expression for validating strings.
+        /// </summary>
+        /// <param name="pattern">Validation regular expression.</param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> SetPattern(string pattern)
+        {
+            _pattern = pattern;
+            var regex = new Regex(pattern, RegexOptions.Compiled);
+            _validate = async (T state, object value) =>
+            {
+                var result = new ValidateResult { Value = value };
+                var match = regex.Match(value as string);
+                result.IsValid = match.Success;
+                if (!result.IsValid)
+                {
+                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, Name, value).Prompt;
+                }
+                return result;
+            };
+            return this;
+        }
+
         #region Documentation
         /// <summary>   Define the fields this field depends on. </summary>
         /// <param name="dependencies"> A variable-length parameters list containing dependencies. </param>
@@ -642,6 +670,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
         protected double _min, _max;
         protected bool _limited;
+        protected string _pattern;
         protected string[] _dependencies = Array.Empty<string>();
         protected bool _allowsMultiple;
         protected Type _type;

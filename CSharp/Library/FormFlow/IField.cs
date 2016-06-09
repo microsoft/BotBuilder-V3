@@ -105,8 +105,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="max">Maximum possible value.</param>
         /// <returns>True if limits limit the underlying data type.</returns>
         /// <remarks>
-        /// This reflects the result of setting <see cref="NumericAttribute"/> limits on the possible values./></remarks>
+        /// This typically reflects the result of setting <see cref="NumericAttribute"/> limits on the possible values.</remarks>
         bool Limits(out double min, out double max);
+
+        /// <summary>
+        /// Regular expression for validating a string.
+        /// </summary>
+        /// <returns>Validation regular expression.</returns>
+        /// <remarks> This typically reflects the result of setting <see cref="PatternAttribute"/>.</remarks>
+        string Pattern { get; }
 
         /// <summary>
         /// Returns the other fields this one depends on.

@@ -5,6 +5,7 @@
     /// [LUIS]: http://luis.ai
     /// [Describe]: @ref DescribeAttribute 
     /// [Numeric]: @ref NumericAttribute 
+    /// [Pattern]: @ref PatternAttribute
     /// [Optional]: @ref OptionalAttribute 
     /// [Prompt]: @ref PromptAttribute 
     /// [Template]: @ref TemplateAttribute 
@@ -352,6 +353,7 @@
     /// [Describe] | Change how a field or a value is shown in text.
     /// [Numeric] | Provide limits on the values accepted in a numeric field.
     /// [Optional]| Mark a field as optional which means that one choice is not to supply a value.
+    /// [Pattern] | Define a regular expression to validate a string field.
     /// [Prompt]| Define a prompt to use when asking for a field.
     /// [Template] | Define a template that is used to generate prompts or values in prompts.
     /// [Terms] | Define the input terms that match a field or value.
@@ -535,6 +537,16 @@
     /// > rotissary chechen
     /// For sandwich I understood Rotisserie Style Chicken. "chechen" is not an option.
     /// ~~~
+    /// Attributes can also be used to validate values.  For example [Numeric] can be used to restrict the range of 
+    /// allowed numbers.  In the below Rating must be a number between 1 and 5.
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Numeric
+    /// \until Rating
+    ///
+    /// Similarly [Pattern] can be used to specify a regular expression to validate a string field like PhoneNumber.
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Pattern
+    /// \until PhoneNumber
     /// 
     /// \subsection logic Adding Business Logic
     /// Sometimes there are complex interdependencies between fields or you need to 
@@ -757,6 +769,7 @@
     /// * `enum` -- Defines the possible field values.
     /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
     /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
+    /// * `pattern` -- Regular expression for validating a string field as described in <see cref="PatternAttribute"/>.
     /// * `required` -- Defines what fields are required.
     /// 
     /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  

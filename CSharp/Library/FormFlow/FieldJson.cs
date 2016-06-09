@@ -50,6 +50,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
     /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
     /// * `required` -- Defines what fields are required.
+    /// * `pattern` -- For string fields will be used to validate the entered pattern as described in <see cref="PatternAttribute"/>.
     /// 
     /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
     /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
@@ -64,7 +65,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
     /// * `DateTime:bool` -- Marks a field as being a DateTime field.
     /// * `Describe:string` -- Description of a field.
-    /// * `Terms:[string ,...]` -- Regular expressions for matching a field.
+    /// * `Terms:[string ,...]` -- Regular expressions for matching a field value.
     /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
     /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
     /// 
@@ -243,6 +244,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             ProcessTemplates(fieldSchema);
             ProcessPrompt(fieldSchema);
             ProcessNumeric(fieldSchema);
+            ProcessPattern(fieldSchema);
         }
 
         protected void ProcessTemplates(JObject schema)
@@ -279,6 +281,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (min != -double.MaxValue || max != double.MaxValue)
             {
                 SetLimits(min, max);
+            }
+        }
+
+        protected void ProcessPattern(JObject schema)
+        {
+            JToken token;
+            if (schema.TryGetValue("pattern", out token))
+            {
+                SetPattern((string) token);
             }
         }
 

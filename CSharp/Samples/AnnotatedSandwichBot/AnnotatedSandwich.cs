@@ -92,6 +92,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public string DeliveryAddress;
 
+        [Pattern("(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}")]
+        public string PhoneNumber;
+
         [Optional]
         public DateTime? DeliveryTime;
 

@@ -597,6 +597,27 @@ namespace Microsoft.Bot.Builder.FormFlow
             Max = max;
         }
     }
+
+    /// <summary>
+    /// Provide a regular expression to validate a string field.
+    /// </summary>
+    /// <remarks>
+    /// If the regular expression is not matched the <see cref="TemplateUsage.NotUnderstood"/> template will be used for feedback.
+    /// </remarks>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class PatternAttribute: Attribute
+    {
+        public readonly string Pattern;
+
+        /// <summary>
+        /// Regular expression for validating the content of a string field.
+        /// </summary>
+        /// <param name="pattern">Regular expression for validation.</param>
+        public PatternAttribute(string pattern)
+        {
+            Pattern = pattern;
+        }
+    }
 }
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced

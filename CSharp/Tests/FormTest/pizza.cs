@@ -194,6 +194,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         public int? Bottles;
         public string Specials;
 
+        [Pattern(@"\(\d{3}\)?\s*\d{3}(-|\s*)\d{4}")]
+        public string Phone;
+
         public override string ToString()
         {
             var builder = new StringBuilder();

@@ -361,6 +361,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var prompt = (field == null ? prop.GetCustomAttribute<PromptAttribute>() : field.GetCustomAttribute<PromptAttribute>());
                 var optional = (field == null ? prop.GetCustomAttribute<OptionalAttribute>() : field.GetCustomAttribute<OptionalAttribute>());
                 var numeric = (field == null ? prop.GetCustomAttribute<NumericAttribute>() : field.GetCustomAttribute<NumericAttribute>());
+                var pattern = (field == null ? prop.GetCustomAttribute<PatternAttribute>() : field.GetCustomAttribute<PatternAttribute>());
                 if (describe != null)
                 {
                     _description = describe;
@@ -389,6 +390,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     double oldMin, oldMax;
                     Limits(out oldMin, out oldMax);
                     SetLimits(numeric.Min, numeric.Max, numeric.Min != oldMin || numeric.Max != oldMax);
+                }
+
+                if (pattern != null)
+                {
+                    SetPattern(pattern.Pattern);
                 }
 
                 _optional = (optional != null);
