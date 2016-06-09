@@ -61,7 +61,7 @@
     },
     "Ingredients": {
       "type": "object",
-      "required": [ "Bread", "Length" ],
+      "required": [ "Bread" ],
       "properties": {
         "Bread": {
           "type": [
