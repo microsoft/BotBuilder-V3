@@ -1,11 +1,13 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-
+﻿using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
-using System.Net.Http;
-using System.Web.Http.Description;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
@@ -34,6 +36,28 @@ namespace Microsoft.Bot.Sample.EchoBot
                         break;
 
                     case ActivityTypes.ConversationUpdate:
+                        IConversationUpdateActivity update = activity;
+                        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                        {
+                            var client = scope.Resolve<IConnectorClient>();
+                            if (update.MembersAdded.Any())
+                            {
+                                var reply = activity.CreateReply();
+                                foreach (var newMember in update.MembersAdded)
+                                {
+                                    if (newMember.Id != activity.Recipient.Id)
+                                    {
+                                        reply.Text = $"Welcome {newMember.Name}!";
+                                    }
+                                    else
+                                    {
+                                        reply.Text = $"Welcome {activity.From.Name}";
+                                    }
+                                    await client.Conversations.ReplyToConversationAsync(reply.To.Id, reply);
+                                }
+                            }
+                        }
+                        break;
                     case ActivityTypes.ContactRelationUpdate:
                     case ActivityTypes.Typing:
                     case ActivityTypes.DeleteUserData:
