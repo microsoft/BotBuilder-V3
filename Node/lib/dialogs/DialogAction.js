@@ -51,7 +51,7 @@ var DialogAction = (function () {
                     valid = validator(r.response);
                 }
                 catch (e) {
-                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
                 }
             }
             var canceled = false;
@@ -63,7 +63,7 @@ var DialogAction = (function () {
                     break;
             }
             if (valid || canceled) {
-                s.endDialog(r);
+                s.endDialogWithResult(r);
             }
             else if (!s.dialogData.hasOwnProperty('prompt')) {
                 s.dialogData = utils.clone(r);
@@ -83,7 +83,7 @@ var DialogAction = (function () {
                 s.beginDialog(consts.DialogId.Prompts, a);
             }
             else {
-                s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
+                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
             }
         });
     };
@@ -115,11 +115,11 @@ function waterfall(steps) {
                 }
                 catch (e) {
                     delete s.dialogData[consts.Data.WaterfallStep];
-                    s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
                 }
             }
             else {
-                s.endDialog(r);
+                s.endDialogWithResult(r);
             }
         }
         else if (steps && steps.length > 0) {
@@ -129,11 +129,11 @@ function waterfall(steps) {
             }
             catch (e) {
                 delete s.dialogData[consts.Data.WaterfallStep];
-                s.endDialog({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
             }
         }
         else {
-            s.endDialog({ resumed: dialog.ResumeReason.notCompleted });
+            s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
         }
     };
 }

@@ -74,9 +74,9 @@ var Session = (function (_super) {
         return sprintf.sprintf(tmpl, count);
     };
     Session.prototype.save = function (done) {
-        var ss = this.sessionState;
-        if (ss.callstack.length > 0) {
-            ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
+        var cur = this.curDialog();
+        if (cur) {
+            cur.state = this.dialogData || {};
         }
         this.options.onSave(done);
         return this;
@@ -125,95 +125,133 @@ var Session = (function (_super) {
     };
     Session.prototype.beginDialog = function (id, args) {
         var _this = this;
-        var dialog = this.dialogs.getDialog(id);
-        if (!dialog) {
+        var dlg = this.dialogs.getDialog(id);
+        if (!dlg) {
             throw new Error('Dialog[' + id + '] not found.');
         }
-        var ss = this.sessionState;
-        if (ss.callstack.length > 0) {
-            ss.callstack[ss.callstack.length - 1].state = this.dialogData || {};
-        }
-        var cur = { id: id, state: {} };
-        ss.callstack.push(cur);
-        this.dialogData = cur.state;
+        this.pushDialog({ id: id, state: {} });
         this.save(function (err) {
             if (!err) {
-                dialog.begin(_this, args);
+                dlg.begin(_this, args);
             }
         });
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
         var _this = this;
-        var dialog = this.dialogs.getDialog(id);
-        if (!dialog) {
+        var dlg = this.dialogs.getDialog(id);
+        if (!dlg) {
             throw new Error('Dialog[' + id + '] not found.');
         }
-        var ss = this.sessionState;
-        var cur = { id: id, state: {} };
-        ss.callstack.pop();
-        ss.callstack.push(cur);
-        this.dialogData = cur.state;
+        this.popDialog();
+        this.pushDialog({ id: id, state: {} });
         this.save(function (err) {
             if (!err) {
-                dialog.begin(_this, args);
+                dlg.begin(_this, args);
             }
         });
         return this;
     };
-    Session.prototype.endDialog = function (result) {
+    Session.prototype.endConversation = function (message) {
         var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
+        var m;
+        if (message) {
+            if (typeof message == 'string' || Array.isArray(message)) {
+                m = this.createMessage(message, args);
+            }
+            else if (message.toMessage) {
+                m = message.toMessage();
+            }
+            else {
+                m = message;
+            }
+            this.msgSent = true;
+        }
         var ss = this.sessionState;
-        if (!ss || !ss.callstack || ss.callstack.length == 0) {
+        ss.callstack = [];
+        this.save(function (err) {
+            if (!err) {
+                if (m) {
+                    _this.delayedSend(m);
+                }
+            }
+        });
+        return this;
+    };
+    Session.prototype.endDialog = function (message) {
+        var _this = this;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (typeof message === 'object' && (message.hasOwnProperty('response') || message.hasOwnProperty('resumed') || message.hasOwnProperty('error'))) {
+            console.warn('Returning results via Session.endDialog() is deprecated. Use Session.endDialogWithResult() instead.');
+            return this.endDialogWithResult(message);
+        }
+        var cur = this.curDialog();
+        if (!cur) {
             console.error('ERROR: Too many calls to session.endDialog().');
             return this;
         }
         var m;
-        var r = {};
-        if (result) {
-            if (typeof result == 'string' || Array.isArray(result)) {
-                m = this.createMessage(result, args);
+        if (message) {
+            if (typeof message == 'string' || Array.isArray(message)) {
+                m = this.createMessage(message, args);
             }
-            else if (result.toMessage) {
-                m = result.toMessage();
-            }
-            else if (result.hasOwnProperty('resumed') || result.hasOwnProperty('error') || result.hasOwnProperty('response')) {
-                r = result;
+            else if (message.toMessage) {
+                m = message.toMessage();
             }
             else {
-                m = result;
+                m = message;
             }
-        }
-        if (!r.hasOwnProperty('resumed')) {
-            r.resumed = dialog.ResumeReason.completed;
-        }
-        r.childId = ss.callstack[ss.callstack.length - 1].id;
-        if (m) {
             this.msgSent = true;
         }
-        ss.callstack.pop();
-        this.dialogData = null;
-        var cur = ss.callstack.length > 0 ? ss.callstack[ss.callstack.length - 1] : null;
-        if (cur) {
-            this.dialogData = cur.state;
-        }
+        var childId = cur.id;
+        cur = this.popDialog();
         this.save(function (err) {
             if (!err) {
                 if (m) {
                     _this.delayedSend(m);
                 }
                 if (cur) {
-                    var d = _this.dialogs.getDialog(cur.id);
-                    if (d) {
-                        d.dialogResumed(_this, r);
+                    var dlg = _this.dialogs.getDialog(cur.id);
+                    if (dlg) {
+                        dlg.dialogResumed(_this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
                     }
                     else {
-                        console.error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.");
-                        _this.endDialog(r);
+                        _this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+                    }
+                }
+            }
+        });
+        return this;
+    };
+    Session.prototype.endDialogWithResult = function (result) {
+        var _this = this;
+        var cur = this.curDialog();
+        if (!cur) {
+            console.error('ERROR: Too many calls to session.endDialog().');
+            return this;
+        }
+        result = result || {};
+        if (!result.hasOwnProperty('resumed')) {
+            result.resumed = dialog.ResumeReason.completed;
+        }
+        result.childId = cur.id;
+        cur = this.popDialog();
+        this.save(function (err) {
+            if (!err) {
+                if (cur) {
+                    var dlg = _this.dialogs.getDialog(cur.id);
+                    if (dlg) {
+                        dlg.dialogResumed(_this, result);
+                    }
+                    else {
+                        _this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
                     }
                 }
             }
@@ -256,12 +294,11 @@ var Session = (function (_super) {
     };
     Session.prototype.routeMessage = function () {
         try {
-            var ss = this.sessionState;
-            if (ss.callstack.length == 0) {
+            var cur = this.curDialog();
+            if (!cur) {
                 this.beginDialog(this.options.dialogId, this.options.dialogArgs);
             }
             else if (this.validateCallstack()) {
-                var cur = ss.callstack[ss.callstack.length - 1];
                 var dialog = this.dialogs.getDialog(cur.id);
                 this.dialogData = cur.state;
                 dialog.replyReceived(this);
@@ -294,6 +331,33 @@ var Session = (function (_super) {
             }
         }
         return true;
+    };
+    Session.prototype.pushDialog = function (dlg) {
+        var ss = this.sessionState;
+        var cur = this.curDialog();
+        if (cur) {
+            cur.state = this.dialogData || {};
+        }
+        ss.callstack.push(dlg);
+        this.dialogData = dlg.state || {};
+        return dlg;
+    };
+    Session.prototype.popDialog = function () {
+        var ss = this.sessionState;
+        if (ss.callstack.length > 0) {
+            ss.callstack.pop();
+        }
+        var cur = this.curDialog();
+        this.dialogData = cur ? cur.state : null;
+        return cur;
+    };
+    Session.prototype.curDialog = function () {
+        var cur;
+        var ss = this.sessionState;
+        if (ss.callstack.length > 0) {
+            cur = ss.callstack[ss.callstack.length - 1];
+        }
+        return cur;
     };
     Session.prototype.delayedSend = function (message) {
         var _that = this;

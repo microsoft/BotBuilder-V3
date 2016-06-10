@@ -9,8 +9,18 @@ var async = require('async');
 var url = require('url');
 var BotConnector = (function (_super) {
     __extends(BotConnector, _super);
-    function BotConnector() {
-        _super.apply(this, arguments);
+    function BotConnector(options) {
+        if (options === void 0) { options = {}; }
+        _super.call(this);
+        this.options = options;
+        if (!this.options.endpoint) {
+            this.options.endpoint = {
+                refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                refreshScope: 'https://graph.microsoft.com/.default',
+                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyIssuer: 'https://api.botframework.com'
+            };
+        }
     }
     BotConnector.prototype.listen = function () {
         var _this = this;
@@ -100,7 +110,7 @@ var BotConnector = (function (_super) {
             body: msg,
             json: true
         };
-        request(options, function (err, response, body) {
+        this.authenticatedRequest(options, function (err, response, body) {
             var conversationId;
             if (!err && body) {
                 try {
@@ -116,6 +126,86 @@ var BotConnector = (function (_super) {
             cb(err, conversationId);
         });
     };
+    BotConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
+        var _this = this;
+        if (refresh === void 0) { refresh = false; }
+        if (refresh) {
+            this.accessToken = null;
+        }
+        this.addAccessToken(options, function (err) {
+            if (!err) {
+                request(options, function (err, response, body) {
+                    if (!err) {
+                        switch (response.statusCode) {
+                            case 401:
+                            case 403:
+                                if (!refresh) {
+                                    _this.authenticatedRequest(options, callback, true);
+                                }
+                                else {
+                                    callback(null, response, body);
+                                }
+                                break;
+                            default:
+                                callback(null, response, body);
+                                break;
+                        }
+                    }
+                    else {
+                        callback(err, null, null);
+                    }
+                });
+            }
+            else {
+                callback(err, null, null);
+            }
+        });
+    };
+    BotConnector.prototype.addAccessToken = function (options, cb) {
+        var _this = this;
+        if (this.options.appId && this.options.appPassword) {
+            if (!this.accessToken || (new Date().getTime() + 300000) > this.accessTokenExpires) {
+                var opt = {
+                    method: 'POST',
+                    url: this.options.endpoint.refreshEndpoint,
+                    form: {
+                        grant_type: 'client_credentials',
+                        client_id: this.options.appId,
+                        client_secret: this.options.appPassword,
+                        scope: this.options.endpoint.refreshScope
+                    }
+                };
+                request(opt, function (err, response, body) {
+                    if (!err) {
+                        if (body && response.statusCode < 300) {
+                            var oauthResponse = JSON.parse(body);
+                            _this.accessToken = oauthResponse.access_token;
+                            _this.accessTokenExpires = new Date().getTime() + (oauthResponse.expires_in * 1000);
+                            options.headers = {
+                                'Authorization': 'Bearer ' + _this.accessToken
+                            };
+                            cb(null);
+                        }
+                        else {
+                            cb(new Error('Refresh access token failed with status code: ' + response.statusCode));
+                        }
+                    }
+                    else {
+                        cb(err);
+                    }
+                });
+            }
+            else {
+                options.headers = {
+                    'Authorization': 'Bearer ' + this.accessToken
+                };
+                cb(null);
+            }
+        }
+        else {
+            cb(null);
+        }
+    };
     return BotConnector;
 })(events.EventEmitter);
 exports.BotConnector = BotConnector;
@@ -123,7 +213,7 @@ var toAddress = {
     'id': 'id',
     'channelId': 'channelId',
     'from': 'user',
-    'to': 'conversation',
+    'conversation': 'conversation',
     'recipient': 'bot',
     'serviceUrl': 'serviceUrl'
 };

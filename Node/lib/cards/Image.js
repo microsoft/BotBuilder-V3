@@ -29,6 +29,9 @@ var Image = (function () {
     Image.prototype.toImage = function () {
         return this.data;
     };
+    Image.create = function (session, url) {
+        return new Image(session).url(url);
+    };
     return Image;
 })();
 exports.Image = Image;

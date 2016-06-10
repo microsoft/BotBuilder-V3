@@ -151,6 +151,23 @@ var UniversalBot = (function (_super) {
             }
         });
     };
+    UniversalBot.prototype.isInConversation = function (address, cb) {
+        var _this = this;
+        this.lookupUser(address, function (user) {
+            var conversationId = address.conversation ? address.conversation.id : null;
+            var storageKey = { userId: user.id, conversationId: conversationId };
+            _this.getStorageData(storageKey, function (data) {
+                var lastAccess;
+                if (data && data.conversationData && data.conversationData.hasOwnProperty(consts.Data.SessionState)) {
+                    var ss = data.conversationData[consts.Data.SessionState];
+                    if (ss && ss.lastAccess) {
+                        lastAccess = new Date(ss.lastAccess);
+                    }
+                }
+                cb(null, lastAccess);
+            }, cb);
+        }, cb);
+    };
     UniversalBot.prototype.route = function (storageKey, message, dialogId, dialogArgs, done) {
         var _this = this;
         var _that = this;

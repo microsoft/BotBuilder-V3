@@ -282,6 +282,6 @@ function fmtText(session, prompts, args) {
     if (session) {
         fmt = session.gettext(fmt);
     }
-    return args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
+    return args && args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
 }
 exports.fmtText = fmtText;

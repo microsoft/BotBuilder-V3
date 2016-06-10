@@ -129,6 +129,37 @@ var ReceiptItem = (function () {
     ReceiptItem.prototype.toItem = function () {
         return this.data;
     };
+    ReceiptItem.create = function (session, price, title) {
+        return new ReceiptItem(session).price(price).title(title);
+    };
     return ReceiptItem;
 })();
 exports.ReceiptItem = ReceiptItem;
+var Fact = (function () {
+    function Fact(session) {
+        this.session = session;
+        this.data = { value: '' };
+    }
+    Fact.prototype.key = function (text) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (text) {
+            this.data.key = msg.fmtText(this.session, text, args);
+        }
+        return this;
+    };
+    Fact.prototype.value = function (v) {
+        this.data.value = v || '';
+        return this;
+    };
+    Fact.prototype.toFact = function () {
+        return this.data;
+    };
+    Fact.create = function (session, value, key) {
+        return new Fact(session).value(value).key(key);
+    };
+    return Fact;
+})();
+exports.Fact = Fact;

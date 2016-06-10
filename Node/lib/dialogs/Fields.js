@@ -100,10 +100,10 @@ var Fields = (function () {
             if (r.resumed == dialog.ResumeReason.completed) {
                 var form = session.dialogData[consts.Data.Form];
                 delete session.dialogData[consts.Data.Form];
-                session.endDialog({ resumed: dialog.ResumeReason.completed, response: form });
+                session.endDialogWithResult({ resumed: dialog.ResumeReason.completed, response: form });
             }
             else {
-                session.endDialog(r);
+                session.endDialogWithResult(r);
             }
         };
     };
@@ -151,7 +151,7 @@ dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog(function (session,
                 callPrompt();
             }
             else {
-                session.endDialog({ response: fieldArgs.value, resumed: dialog.ResumeReason.completed });
+                session.endDialogWithResult({ response: fieldArgs.value, resumed: dialog.ResumeReason.completed });
             }
         }
     }
