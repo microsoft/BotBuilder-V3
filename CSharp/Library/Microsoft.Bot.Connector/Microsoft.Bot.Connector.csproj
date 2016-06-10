@@ -78,10 +78,11 @@
   <ItemGroup>
     <Compile Include="ActivityTypes.cs" />
     <Compile Include="APIResponseEx.cs" />
+    <Compile Include="BotAuthentication.cs" />
     <Compile Include="ConnectorAPI\Models\ThumbnailCard.cs" />
-    <Compile Include="JwtAuthentication.cs" />
     <Compile Include="JwtIdentity.cs" />
     <Compile Include="JwtTokenExtractor.cs" />
+    <Compile Include="JwtTokenRefresher.cs" />
     <Compile Include="MicrosoftAppCredentials.cs" />
     <Compile Include="StateClient.cs" />
     <Compile Include="ConnectorAPI\Models\AdditionalProperties.cs" />

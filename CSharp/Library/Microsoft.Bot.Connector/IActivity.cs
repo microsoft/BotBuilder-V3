@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Conversation Address 
         /// </summary>
-        ConversationAccount To { get; set; }
+        ConversationAccount Conversation { get; set; }
 
         /// <summary>
         /// Bot's address 

@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                                     {
                                         reply.Text = $"Welcome {activity.From.Name}";
                                     }
-                                    await client.Conversations.ReplyToConversationAsync(reply.To.Id, reply);
+                                    await client.Conversations.ReplyToConversationAsync(reply.Conversation.Id, reply);
                                 }
                             }
                         }

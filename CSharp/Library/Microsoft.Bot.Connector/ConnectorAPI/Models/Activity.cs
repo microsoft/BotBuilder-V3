@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount to = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string))
         {
             Type = type;
             Id = id;
@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Connector
             ServiceUrl = serviceUrl;
             ChannelId = channelId;
             From = from;
-            To = to;
+            Conversation = conversation;
             Recipient = recipient;
             MembersAdded = membersAdded;
             MembersRemoved = membersRemoved;
@@ -87,8 +87,8 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Conversation
         /// </summary>
-        [JsonProperty(PropertyName = "to")]
-        public ConversationAccount To { get; set; }
+        [JsonProperty(PropertyName = "conversation")]
+        public ConversationAccount Conversation { get; set; }
 
         /// <summary>
         /// (Outbound to bot only) Bot's address that received the message
@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Connector
         public string TopicName { get; set; }
 
         /// <summary>
-        /// fughly
+        /// the previous history of the channel was disclosed
         /// </summary>
         [JsonProperty(PropertyName = "historyDisclosed")]
         public bool? HistoryDisclosed { get; set; }

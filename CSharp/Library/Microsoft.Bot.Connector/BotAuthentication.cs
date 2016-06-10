@@ -13,12 +13,13 @@ using System.Web.Http.Filters;
 namespace Microsoft.Bot.Connector
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class JwtAuthentication : AuthorizationFilterAttribute
+    public class BotAuthentication : AuthorizationFilterAttribute
     {
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppIdSettingName { get; set; }
         public virtual string Issuer { get { return "https://api.botframework.com"; } }
-        public virtual string OpenIdConfigurationUrl { get { return "https://api.botframework.com/api/.well-known/OpenIdConfiguration"; } }
+        //TODO: change this back to the production one
+        public virtual string OpenIdConfigurationUrl { get { return "https://intercom-api-scratch.azurewebsites.net/api/.well-known/OpenIdConfiguration"; } }
 
         /// <summary>
         /// Override to Web API filter method to handle Basic Auth check

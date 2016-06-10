@@ -139,8 +139,8 @@ namespace Microsoft.Bot.Builder.Dialogs
             ChannelId = msg.ChannelId;
             ServiceUrl = msg.ServiceUrl;
             BotId = msg.Recipient?.Id;
-            ConversationId = msg.To?.Id;
-            var isGroup =  msg.To?.IsGroup;
+            ConversationId = msg.Conversation?.Id;
+            var isGroup =  msg.Conversation?.IsGroup;
             IsGroup = isGroup.HasValue && isGroup.Value;
             Locale = msg.Locale;
         }
@@ -159,8 +159,8 @@ namespace Microsoft.Bot.Builder.Dialogs
                     Id = this.BotId
                 },
                 ChannelId = this.ChannelId, 
-                ServiceUrl = this.ServiceUrl, 
-                To = new ConversationAccount
+                ServiceUrl = this.ServiceUrl,
+                Conversation = new ConversationAccount
                 {
                     Id = this.ConversationId, 
                     IsGroup = this.IsGroup

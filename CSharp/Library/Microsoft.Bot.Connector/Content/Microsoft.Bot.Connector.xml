@@ -4,6 +4,11 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
+        <member name="M:Microsoft.Bot.Connector.BotAuthentication.OnAuthorizationAsync(System.Web.Http.Controllers.HttpActionContext,System.Threading.CancellationToken)">
+            <summary>
+            Override to Web API filter method to handle Basic Auth check
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ThumbnailCard">
             <summary>
             </summary>
@@ -48,10 +53,11 @@
             This action will be activated when user taps on the card itself
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.JwtAuthentication.OnAuthorizationAsync(System.Web.Http.Controllers.HttpActionContext,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
             <summary>
-            Override to Web API filter method to handle Basic Auth check
+            Apply the credentials to the HTTP request.
             </summary>
+            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.StateClient">
             <summary>
@@ -892,23 +898,6 @@
             <summary>
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.BotAuthenticationFromSetting">
-            <summary>
-            Require that the AppId/Secret is passed to call the Controller
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BotAuthenticationFromSetting.#ctor(System.String,System.String)">
-            <summary>
-            Create a new instance of the BotAuthenticationFromSetting class
-            </summary>
-            <param name="appIdSetting">Name of the setting where AppId is stored</param>
-            <param name="appSecretSetting">Name of the setting where AppSecret is stored</param>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.BotAuthentication">
-            <summary>
-            Require that the AppId/Secret is passed to call the Controller
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.BasicAuthentication">
             <summary>
             This attribute enforces that a caller uses Basic Auth passing your AppId and AppSecret
@@ -1036,24 +1025,17 @@
             Create a new instance of the ConnectorClient class
             </summary>
             <param name="baseUri">Base URI for the Connector service</param>
-            <param name="appId">Optional. Your app id. If null, this setting is read from settings["AppId"]</param>
-            <param name="appSecret">Optional. Your app secret. If null, this setting is read from settings["AppSecret"]</param>
+            <param name="microsoftAppId">Optional. Your Microsoft app id. If null, this setting is read from settings["MicrosoftAppId"]</param>
+            <param name="microsoftAppPassword">Optional. Your Microsoft app password. If null, this setting is read from settings["MicrosoftAppPassword"]</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.BasicAuthCredentials,System.Net.Http.DelegatingHandler[])">
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
             <summary>
             Create a new instance of the ConnectorClient class
             </summary>
             <param name="baseUri">Base URI for the Connector service</param>
             <param name="credentials">Credentials for the Connector service</param>
-            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.BearerTokenCredentials,System.Net.Http.DelegatingHandler[])">
-            <summary>
-            Create a new instance of the ConnectorClient class
-            </summary>
-            <param name="baseUri">Base URI for the Connector service</param>
-            <param name="credentials">Credentials for the Connector service</param>
+            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.Conversations">
@@ -1474,7 +1456,7 @@
             Sender address
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.Activity.To">
+        <member name="P:Microsoft.Bot.Connector.Activity.Conversation">
             <summary>
             Conversation
             </summary>
@@ -1501,7 +1483,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.HistoryDisclosed">
             <summary>
-            fughly
+            the previous history of the channel was disclosed
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Locale">
@@ -1914,7 +1896,7 @@
             Sender address data 
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.IActivity.To">
+        <member name="P:Microsoft.Bot.Connector.IActivity.Conversation">
             <summary>
             Conversation Address 
             </summary>

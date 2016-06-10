@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return new Activity() {
                 From = new ChannelAccount { Id = "testUser" },
-                To = new ConversationAccount { Id = Guid.NewGuid().ToString() },
+                Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = "testBot"},
                 ServiceUrl = "InvalidServiceUrl"
             };

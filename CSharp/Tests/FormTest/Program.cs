@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             var message = new Activity()
             {
                 From = new ChannelAccount { Id = "ConsoleUser" },
-                To = new ConversationAccount { Id = Guid.NewGuid().ToString() },
+                Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = "FormTest" },
                 ChannelId = "Console", 
                 ServiceUrl = "http://localhost:9000/",
