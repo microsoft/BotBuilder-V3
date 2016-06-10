@@ -226,7 +226,7 @@ export class Prompts extends dialog.Dialog {
                     if (result.error || result.resumed == dialog.ResumeReason.completed ||
                         result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
                         result.promptType = args.promptType;
-                        session.endDialog(result);
+                        session.endDialogWithResult(result);
                     } else {
                         args.maxRetries--;
                         this.sendPrompt(session, args, true);
