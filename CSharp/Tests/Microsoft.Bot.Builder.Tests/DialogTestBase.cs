@@ -107,12 +107,18 @@ namespace Microsoft.Bot.Builder.Tests
             return builder.Build();
         }
 
+        public static class ChannelID
+        {
+            public const string User = "testUser";
+            public const string Bot = "testBot";
+        }
+
         public static Message MakeTestMessage()
         {
             return new Message() {
-                From = new ChannelAccount { Id = "testUser" },
+                From = new ChannelAccount { Id = ChannelID.User },
                 ConversationId = Guid.NewGuid().ToString(),
-                To = new ChannelAccount { Id = "testBot", IsBot = true}
+                To = new ChannelAccount { Id = ChannelID.Bot, IsBot = true}
             };
         }
 
