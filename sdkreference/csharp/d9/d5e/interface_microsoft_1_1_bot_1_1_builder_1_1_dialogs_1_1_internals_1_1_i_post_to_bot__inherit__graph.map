@@ -1,7 +1,7 @@
 <map id="Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot" name="Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot">
-<area shape="rect" id="node2" href="$d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html" title="A dialog stack and a method to communicate from the outside world to the dialogs running on the stack..." alt="" coords="248,76,443,117"/>
-<area shape="rect" id="node3" href="$db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DelegatingDialogTask" alt="" coords="491,43,691,84"/>
-<area shape="rect" id="node6" href="$db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogTask" alt="" coords="493,108,688,149"/>
-<area shape="rect" id="node4" href="$d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.LocalizedDialogTask" alt="" coords="739,5,933,47"/>
-<area shape="rect" id="node5" href="$d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ScoringDialogTask\l\&lt; Score \&gt;" alt="" coords="739,71,933,127"/>
+<area shape="rect" id="node2" href="$db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogTask" alt="" coords="250,5,445,47"/>
+<area shape="rect" id="node3" href="$d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.LocalizedDialogTask" alt="" coords="250,71,445,112"/>
+<area shape="rect" id="node4" href="$de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.PersistentDialogTask" alt="" coords="248,136,447,177"/>
+<area shape="rect" id="node5" href="$d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ReactiveDialogTask" alt="" coords="250,201,445,243"/>
+<area shape="rect" id="node6" href="$d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.ScoringDialogTask\l\&lt; Score \&gt;" alt="" coords="250,267,445,323"/>
 </map>

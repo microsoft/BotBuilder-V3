@@ -61,12 +61,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a352eed4df8f7d42c3e1e902a6c240c7b",
-"d4/daa/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_wait_exception.html#a0b35b965806543fe81a40f2728ae5cac",
-"d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json.html#a2399eeaef64663f0a847ffe6067947f0",
-"da/d14/_resumption_cookie_8cs_source.html",
-"dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a35d5b83a95566cd06b1616a28882f50c",
-"de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad2ad8e2b29dcb5cbe7d95fbd08fb6701"
+"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a2bc8f31e7ffdd0ff22b565d372889b6d",
+"d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html",
+"d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json.html#a29035024fd64f70e8c4cffe0a55030e1",
+"da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html#a048ce0f4bd1841ad37f3ed5f6e2df933",
+"dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a24a11cee9db4c3b1132a16f76b8cec6d",
+"de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af56437de1c229b461816559c2350810c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

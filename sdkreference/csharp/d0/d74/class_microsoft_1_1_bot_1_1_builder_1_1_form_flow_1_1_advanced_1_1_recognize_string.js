@@ -1,6 +1,6 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string =
 [
-    [ "RecognizeString", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html#aee6c063ed2b2fcec71571c835551012d", null ],
+    [ "RecognizeString", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html#aca867d9c8223e22c84dfb51a72ef1cca", null ],
     [ "Help", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html#a1d546083423b9038cd14e3dcb2d0547c", null ],
     [ "HelpArgs", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html#a084b8ccfcf2df7e219db90249ec0ec58", null ],
     [ "Matches", "d0/d74/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_string.html#af6f9df63391189af124626cd4cfc066a", null ],

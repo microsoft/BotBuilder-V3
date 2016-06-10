@@ -42,14 +42,17 @@ var files =
       [ "DialogContext", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context.html", "de/df0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_context" ]
     ] ],
     [ "DialogModule.cs", "d3/dd3/_dialog_module_8cs.html", [
-      [ "DialogModule", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module" ]
+      [ "DialogModule", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module" ],
+      [ "DialogModule_MakeRoot", "de/db6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module___make_root.html", "de/db6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module___make_root" ]
     ] ],
     [ "dialogs.cs", "d0/d88/dialogs_8cs.html", null ],
     [ "DialogTask.cs", "d3/db4/_dialog_task_8cs.html", [
       [ "DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task" ],
       [ "IThunk", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_1_1_i_thunk.html", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_1_1_i_thunk" ],
       [ "LocalizedDialogTask", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task" ],
-      [ "LocalizedScope", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope.html", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope" ]
+      [ "LocalizedScope", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope.html", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope" ],
+      [ "PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task" ],
+      [ "ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task" ]
     ] ],
     [ "EntityRecommendation.cs", "dc/d40/_entity_recommendation_8cs.html", [
       [ "EntityRecommendation", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation" ]
@@ -122,17 +125,18 @@ var files =
       [ "IChannelCapability", "dd/da5/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_channel_capability.html", "dd/da5/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_channel_capability" ],
       [ "IDetectChannelCapability", "d4/d23/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_detect_channel_capability.html", "d4/d23/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_detect_channel_capability" ]
     ] ],
-    [ "IConnectorClientFactory.cs", "de/de9/_i_connector_client_factory_8cs.html", "de/de9/_i_connector_client_factory_8cs" ],
+    [ "IConnectorClientFactory.cs", "de/de9/_i_connector_client_factory_8cs.html", [
+      [ "DetectEmulatorFactory", "d3/d70/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory.html", "d3/d70/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_detect_emulator_factory" ],
+      [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ],
+      [ "IConnectorClientFactory", "db/de6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory.html", "db/de6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_connector_client_factory" ]
+    ] ],
     [ "IDialog.cs", "d6/d32/_i_dialog_8cs.html", [
       [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ],
       [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ]
     ] ],
     [ "IDialogContext.cs", "da/d92/_i_dialog_context_8cs.html", "da/d92/_i_dialog_context_8cs" ],
     [ "IDialogTask.cs", "d3/d92/_i_dialog_task_8cs.html", [
-      [ "DelegatingDialogTask", "db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html", "db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task" ],
-      [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ],
       [ "IDialogStack", "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html", "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack" ],
-      [ "IDialogTask", "d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html", "d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task" ],
       [ "IPostToBot", "d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html", "d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot" ]
     ] ],
     [ "IField.cs", "de/d76/_i_field_8cs.html", "de/d76/_i_field_8cs" ],
@@ -226,6 +230,9 @@ var files =
     [ "Traits.cs", "da/d66/_traits_8cs.html", [
       [ "ITraits", "dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html", "dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits" ],
       [ "NormalizedTraits", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits.html", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits" ]
+    ] ],
+    [ "UrlToken.cs", "da/dc6/_url_token_8cs.html", [
+      [ "UrlToken", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token.html", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token" ]
     ] ],
     [ "Wait.cs", "dc/dfe/_wait_8cs.html", "dc/dfe/_wait_8cs" ]
 ];

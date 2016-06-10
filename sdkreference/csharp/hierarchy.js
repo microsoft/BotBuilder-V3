@@ -16,6 +16,7 @@ var hierarchy =
     ] ],
     [ "Module", null, [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule_MakeRoot", "de/db6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module___make_root.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.FiberModule< C >", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.ReflectionSurrogateModule", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html", null ]
     ] ],
@@ -160,22 +161,21 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack", "de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html", [
       [ "Microsoft.Bot.Builder.Dialogs.IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", null ],
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.IDialogTask", "d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html", [
-        [ "Microsoft.Bot.Builder.Dialogs.Internals.DelegatingDialogTask", "db/d2a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_delegating_dialog_task.html", [
-          [ "Microsoft.Bot.Builder.Dialogs.Internals.LocalizedDialogTask", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html", null ],
-          [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ]
-        ] ],
-        [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", null ]
-      ] ]
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot", "d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html", [
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.IDialogTask", "d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html", null ]
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.LocalizedDialogTask", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< Score >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptOptions< T >", "d0/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_options.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptStyler", "dd/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_styler.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.UrlToken", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", [
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.IField< T >", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html", [
@@ -246,10 +246,10 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.FormatterStore< T >", "da/dd0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_formatter_store.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.ITraits< T >", "dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html", null ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C, out out T >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWaiter< C >", "d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IFiber< C >", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html", [
         [ "Microsoft.Bot.Builder.Internals.Fibers.Fiber< C >", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber.html", null ],

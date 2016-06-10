@@ -1,6 +1,6 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool =
 [
-    [ "RecognizeBool", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html#ae392ff4790458584cbc7a7bda0d5574e", null ],
+    [ "RecognizeBool", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html#a5abe48d3971255ac09b5237f71fe86f5", null ],
     [ "Help", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html#ae09dcc28f5571a27378900ab2a21eb42", null ],
     [ "HelpArgs", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html#a084b8ccfcf2df7e219db90249ec0ec58", null ],
     [ "Matches", "d3/db5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_bool.html#af6f9df63391189af124626cd4cfc066a", null ],
