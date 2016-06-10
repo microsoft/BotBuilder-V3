@@ -36,32 +36,38 @@ import events = require('events');
 import request = require('request');
 import async = require('async');
 import url = require('url');
+import http = require('http');
 
-/** Express or Restify Request object. */
-interface IWebRequest {
-    body: any;
-    headers: {
-        [name: string]: string;
-    };
-    on(event: string, ...args: any[]): void;
+export interface IBotConnectorOptions {
+    appId?: string;
+    appPassword?: string;
+    endpoint?: IBotConnectorEndpoint;
 }
 
-/** Express or Restify Response object. */
-interface IWebResponse {
-    end(): this;
-    send(status: number, body?: any): this;
-    send(body: any): this;
-    status(code: number): this;
-}
-
-/** Express or Restify Middleware Function. */
-interface IWebMiddleware {
-    (req: IWebRequest, res: IWebResponse, next?: Function): void;
+export interface IBotConnectorEndpoint {
+    refreshEndpoint: string;
+    refreshScope: string;
+    verifyEndpoint: string;
+    verifyIssuer: string;
 }
 
 export class BotConnector extends events.EventEmitter implements ub.IConnector {
     private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
-    
+    private accessToken: string;
+    private accessTokenExpires: number;
+
+    constructor(private options: IBotConnectorOptions = {}) {
+        super();
+        if (!this.options.endpoint) {
+            this.options.endpoint = {
+                refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                refreshScope: 'https://graph.microsoft.com/.default',
+                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyIssuer: 'https://api.botframework.com'
+            }
+        }
+    }
+
     public listen(): IWebMiddleware {
         return (req: IWebRequest, res: IWebResponse) => {
             if (req.body) {
@@ -157,7 +163,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
             body: msg,
             json: true
         };
-        request(options, (err, response, body) => {
+        this.authenticatedRequest(options, (err, response, body) => {
             var conversationId: string;
             if (!err && body) {
                 try {
@@ -172,13 +178,87 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
             cb(err, conversationId);
         });
     }
+
+    private authenticatedRequest(options: request.Options, callback: (error: any, response: http.IncomingMessage, body: any) => void, refresh = false): void {
+        if (refresh) {
+            this.accessToken = null;
+        }
+        this.addAccessToken(options, (err) => {
+            if (!err) {
+                request(options, (err, response, body) => {
+                    if (!err) {
+                        switch (response.statusCode) {
+                            case 401:
+                            case 403:
+                                if (!refresh) {
+                                    this.authenticatedRequest(options, callback, true);
+                                } else {
+                                    callback(null, response, body);
+                                }
+                                break;
+                            default:
+                                callback(null, response, body);
+                                break;
+                        }
+                    } else {
+                        callback(err, null, null);
+                    }
+                });
+            } else {
+                callback(err, null, null);
+            }
+        });
+    }
+
+    private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+        if (this.options.appId && this.options.appPassword) {
+            // See if we're missing the token or the token is expiring in less than 5 minutes
+            if (!this.accessToken || (new Date().getTime() + 300000) > this.accessTokenExpires) {
+                // Refresh access token
+                var opt: request.Options = {
+                    method: 'POST',
+                    url: this.options.endpoint.refreshEndpoint,
+                    form: {
+                        grant_type: 'client_credentials',
+                        client_id: this.options.appId,
+                        client_secret: this.options.appPassword,
+                        scope: this.options.endpoint.refreshScope
+                    }
+                };
+                request(opt, (err, response, body) => {
+                    if (!err) {
+                        if (body && response.statusCode < 300) {
+                            var oauthResponse = JSON.parse(body);
+                            this.accessToken = oauthResponse.access_token;
+                            this.accessTokenExpires = new Date().getTime() + (oauthResponse.expires_in * 1000);
+                            options.headers = {
+                                'Authorization': 'Bearer ' + this.accessToken
+                            };
+                            cb(null);
+                        } else {
+                            cb(new Error('Refresh access token failed with status code: ' + response.statusCode));
+                        }
+                    } else {
+                        cb(err);
+                    }
+                });
+            } else {
+                options.headers = {
+                    'Authorization': 'Bearer ' + this.accessToken
+                };
+                cb(null);
+            }
+        } else {
+            cb(null);
+        }
+    }
 }
 
 var toAddress = {
     'id': 'id',
     'channelId': 'channelId',
     'from': 'user',
-    'to': 'conversation',
+    'conversation': 'conversation',
     'recipient': 'bot',
     'serviceUrl': 'serviceUrl'
 }
@@ -192,4 +272,26 @@ function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): vo
             }
         }
     }
+}
+
+/** Express or Restify Request object. */
+interface IWebRequest {
+    body: any;
+    headers: {
+        [name: string]: string;
+    };
+    on(event: string, ...args: any[]): void;
+}
+
+/** Express or Restify Response object. */
+interface IWebResponse {
+    end(): this;
+    send(status: number, body?: any): this;
+    send(body: any): this;
+    status(code: number): this;
+}
+
+/** Express or Restify Middleware Function. */
+interface IWebMiddleware {
+    (req: IWebRequest, res: IWebResponse, next?: Function): void;
 }

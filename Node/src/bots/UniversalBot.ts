@@ -241,6 +241,23 @@ export class UniversalBot extends events.EventEmitter {
         });
     }
 
+    public isInConversation(address: IAddress, cb: (err: Error, lastAccess: Date) => void): void {
+        this.lookupUser(address, (user) => {
+            var conversationId = address.conversation ? address.conversation.id : null;
+            var storageKey: bs.IBotStorageKey = { userId: user.id, conversationId: conversationId };
+            this.getStorageData(storageKey, (data) => {
+                var lastAccess: Date;
+                if (data && data.conversationData && data.conversationData.hasOwnProperty(consts.Data.SessionState)) {
+                    var ss: ISessionState = data.conversationData[consts.Data.SessionState];
+                    if (ss && ss.lastAccess) {
+                        lastAccess = new Date(ss.lastAccess);
+                    }
+                }
+                cb(null, lastAccess);
+            }, <any>cb);
+        }, <any>cb);
+    }
+
     //-------------------------------------------------------------------------
     // Helpers
     //-------------------------------------------------------------------------
