@@ -156,4 +156,36 @@ export class ReceiptItem implements IIsReceiptItem {
     public toItem(): IReceiptItem {
         return this.data;    
     }
+
+    static create(session: ses.Session, price: string, title?: string|string[]): ReceiptItem {
+        return new ReceiptItem(session).price(price).title(title);
+    }
+}
+
+export class Fact implements IIsFact {
+    private data = <IFact>{ value: '' };
+    
+    constructor(private session?: ses.Session) {
+        
+    }
+    
+    public key(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.key = msg.fmtText(this.session, text, args);
+        }
+        return this;
+    }
+    
+    public value(v: string): this {
+        this.data.value = v || '';
+        return this;
+    }
+    
+    public toFact(): IFact {
+        return this.data;    
+    }
+
+    static create(session: ses.Session, value: string, key?: string|string[]): Fact {
+        return new Fact(session).value(value).key(key);
+    }
 }

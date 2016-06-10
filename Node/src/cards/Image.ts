@@ -65,4 +65,8 @@ export class Image implements IIsImage {
     public toImage(): IImage {
         return this.data;    
     }
+
+    static create(session: ses.Session, url: string): Image {
+        return new Image(session).url(url);
+    }
 }

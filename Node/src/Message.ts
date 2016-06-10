@@ -324,5 +324,5 @@ export function fmtText(session: ses.Session, prompts: string|string[], args?: a
         // Run prompt through localizer
         fmt = session.gettext(fmt);
     }
-    return args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt; 
+    return args && args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt; 
 }
