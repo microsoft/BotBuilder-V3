@@ -212,8 +212,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
 
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
         if (this.options.appId && this.options.appPassword) {
-            // See if we're missing the token or the token is expiring in less than 5 minutes
-            if (!this.accessToken || (new Date().getTime() + 300000) > this.accessTokenExpires) {
+            if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
                 // Refresh access token
                 var opt: request.Options = {
                     method: 'POST',
@@ -228,9 +227,11 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
                 request(opt, (err, response, body) => {
                     if (!err) {
                         if (body && response.statusCode < 300) {
+                            // Subtract 5 minutes from expires_in so they'll we'll get a
+                            // new token before it expires.
                             var oauthResponse = JSON.parse(body);
                             this.accessToken = oauthResponse.access_token;
-                            this.accessTokenExpires = new Date().getTime() + (oauthResponse.expires_in * 1000);
+                            this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000); 
                             options.headers = {
                                 'Authorization': 'Bearer ' + this.accessToken
                             };

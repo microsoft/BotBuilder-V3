@@ -164,7 +164,7 @@ var BotConnector = (function (_super) {
     BotConnector.prototype.addAccessToken = function (options, cb) {
         var _this = this;
         if (this.options.appId && this.options.appPassword) {
-            if (!this.accessToken || (new Date().getTime() + 300000) > this.accessTokenExpires) {
+            if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
                 var opt = {
                     method: 'POST',
                     url: this.options.endpoint.refreshEndpoint,
@@ -180,7 +180,7 @@ var BotConnector = (function (_super) {
                         if (body && response.statusCode < 300) {
                             var oauthResponse = JSON.parse(body);
                             _this.accessToken = oauthResponse.access_token;
-                            _this.accessTokenExpires = new Date().getTime() + (oauthResponse.expires_in * 1000);
+                            _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
                             options.headers = {
                                 'Authorization': 'Bearer ' + _this.accessToken
                             };
