@@ -43,11 +43,13 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.EchoBot;
 using Microsoft.Bot.Builder.Tests;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Autofac;
 
 namespace Microsoft.Bot.Sample.Tests
 {
     [TestClass]
-    public class EchoBotTests
+    public class EchoBotTests : DialogTestBase
     {
         [TestMethod]
         public async Task EchoDialogFlow()
@@ -75,45 +77,52 @@ namespace Microsoft.Bot.Sample.Tests
 
             Func<IDialog<object>> MakeRoot = () => echoDialog;
 
-            // act: sending the message
-            var toUser = await Conversation.SendAsync(toBot, MakeRoot);
-
-            // assert: check if the dialog returned the right response
-            Assert.IsTrue(toUser.Text.StartsWith("1"));
-            Assert.IsTrue(toUser.Text.Contains("Test"));
-
-            // act: send the message 10 times
-            for(int i = 0; i < 10; i++)
+            using (new FiberTestBase.ResolveMoqAssembly(echoDialog))
+            using (var container = Build(Options.MockConnectorFactory | Options.ScopedQueue, echoDialog))
             {
-                // pretend we're the intercom switch, and copy the bot data from message to message
-                toBot = toUser;
+                // act: sending the message
+                IMessageActivity toUser = await GetResponse(container, MakeRoot, toBot);
+                
+                // assert: check if the dialog returned the right response
+                Assert.IsTrue(toUser.Text.StartsWith("1"));
+                Assert.IsTrue(toUser.Text.Contains("Test"));
 
-                // post the message
-                toUser = await Conversation.SendAsync(toBot, MakeRoot);
+                // act: send the message 10 times
+                for (int i = 0; i < 10; i++)
+                {
+                    // pretend we're the intercom switch, and copy the bot data from message to message
+                    toBot.Text = toUser.Text;
+                    toUser = await GetResponse(container, MakeRoot, toBot);
+                }
+
+                // assert: check the counter at the end
+                Assert.IsTrue(toUser.Text.StartsWith("11"));
+
+                toBot.Text = "reset";
+                toUser = await GetResponse(container, MakeRoot, toBot);
+                Assert.IsTrue(toUser.Text.ToLower().Contains("are you sure"));
+
+                toBot.Text = "yes";
+                toUser = await GetResponse(container, MakeRoot, toBot);
+                Assert.IsTrue(toUser.Text.ToLower().Contains("reset count"));
+
+                //send a random message and check count
+                toBot.Text = "test";
+                toUser = await GetResponse(container, MakeRoot, toBot);
+                Assert.IsTrue(toUser.Text.StartsWith("1")); 
             }
+        }
 
-            // assert: check the counter at the end
-            Assert.IsTrue(toUser.Text.StartsWith("11"));
+        private async Task<IMessageActivity> GetResponse(IContainer container, Func<IDialog<object>> makeRoot, IMessageActivity toBot)
+        {
+            using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+            {
+                DialogModule_MakeRoot.Register(scope, makeRoot);
 
-            // act: send the reset
-            toBot = toUser;
-            toBot.Text = "reset";
-            toUser = await Conversation.SendAsync(toBot, MakeRoot);
-
-            // assert: verify confirmation
-            Assert.IsTrue(toUser.Text.ToLower().Contains("are you sure"));
-
-            //send yes as reply
-            toBot = toUser;
-            toBot.Text = "yes";
-            toUser = await Conversation.SendAsync(toBot, MakeRoot);
-            Assert.IsTrue(toUser.Text.ToLower().Contains("reset count"));
-
-            //send a random message and check count
-            toBot = toUser;
-            toBot.Text = "test";
-            toUser = await Conversation.SendAsync(toBot, MakeRoot);
-            Assert.IsTrue(toUser.Text.StartsWith("1"));
+                // act: sending the message
+                await Conversation.SendAsync(scope, toBot);
+                return scope.Resolve<Queue<IMessageActivity>>().Dequeue();
+            }
         }
     }
 }

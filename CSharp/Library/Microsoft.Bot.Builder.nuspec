@@ -23,7 +23,6 @@
       <dependency id="Chronic.Signed" version="0.3.2" />
       <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
-      <dependency id="Microsoft.Bot.Connector" version="1.1.0" />
       <dependency id="Microsoft.Rest.ClientRuntime" version="1.8.2" />
       <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2.1" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
@@ -32,6 +31,8 @@
   <files>
     <file src="bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
     <file src="bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
+    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
+    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
     <file src="..\tools\rview\bin\release\RView.exe" target="tools"/>
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>

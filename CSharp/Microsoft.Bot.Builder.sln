@@ -18,6 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E05398E-3CBE-4DCD-9382-072DC8859427}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8B80380D-BA94-4257-842B-D8BC185EDEA5}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,30 +30,59 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{72C60ACB-4804-4584-AD49-00289A89F227}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.PizzaBot", "Samples\PizzaBot\Microsoft.Bot.Sample.PizzaBot.csproj", "{E8D5ED12-FA37-4756-9BE2-A459E9F29954}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleSandwichBot", "Samples\SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj", "{D51F252D-4041-4440-A3F5-DA515E50B7D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Tests", "Tests\Microsoft.Bot.Builder.Tests\Microsoft.Bot.Builder.Tests.csproj", "{508661A7-F47A-4D60-8ED6-69E378ED0E74}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleAlarmBot", "Samples\SimpleAlarmBot\Microsoft.Bot.Sample.SimpleAlarmBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBot", "Samples\EchoBot\Microsoft.Bot.Sample.EchoBot.csproj", "{D2253234-1279-486E-8A63-D8C3424E0525}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Tests", "Tests\Microsoft.Bot.Sample.Tests\Microsoft.Bot.Sample.Tests.csproj", "{04DD63E9-0323-41B1-9949-EA6ABF005E86}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot", "Samples\SimpleEchoBot\Microsoft.Bot.Sample.SimpleEchoBot.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{797080F6-66BB-4B09-A202-1A0704E36503}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RView", "Tools\RView\RView.csproj", "{12CAE029-7B8D-4928-8504-28746C36ADB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleFacebookAuthBot", "Samples\SimpleFacebookAuthBot\Microsoft.Bot.Sample.SimpleFacebookAuthBot.csproj", "{EA7E0647-B1FE-4813-B6FC-8DC518A4D2DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.Bot.Sample.GraphBot", "Samples\GraphBot\Microsoft.Bot.Sample.GraphBot\Microsoft.Bot.Sample.GraphBot.xproj", "{23176B02-82F3-4F6F-A738-63E1A1B3F31A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector", "Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +179,12 @@ Global
 		{23176B02-82F3-4F6F-A738-63E1A1B3F31A}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{23176B02-82F3-4F6F-A738-63E1A1B3F31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23176B02-82F3-4F6F-A738-63E1A1B3F31A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF397EFC-91DB-4911-9971-C509926FC288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,5 +205,6 @@ Global
 		{EA7E0647-B1FE-4813-B6FC-8DC518A4D2DF} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC} = {797080F6-66BB-4B09-A202-1A0704E36503}
 		{23176B02-82F3-4F6F-A738-63E1A1B3F31A} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{DF397EFC-91DB-4911-9971-C509926FC288} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 	EndGlobalSection
 EndGlobal

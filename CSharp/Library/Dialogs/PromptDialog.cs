@@ -166,25 +166,25 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// <see cref="PromptStyler.Apply{T}(ref Message, string, IList{T})"/>.
+        /// <see cref="PromptStyler.Apply(ref IMessageActivity, string)"/>.
         /// </summary>
         /// <typeparam name="T"> The type of the options.</typeparam>
         /// <param name="message"> The message.</param>
         /// <param name="prompt"> The prompt.</param>
         /// <param name="options"> The options.</param>
         /// <param name="promptStyle"> The prompt style.</param>
-        public static void Apply<T>(ref Message message, string prompt, IList<T> options, PromptStyle promptStyle)
+        public static void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options, PromptStyle promptStyle)
         {
             var styler = new PromptStyler(promptStyle);
             styler.Apply(ref message, prompt, options);
         }
 
         /// <summary>
-        /// Style a prompt and populate the <see cref="Message.Text"/>.
+        /// Style a prompt and populate the <see cref="IMessageActivity.Text"/>.
         /// </summary>
         /// <param name="message"> The message that will contain the prompt.</param>
         /// <param name="prompt"> The prompt.</param>
-        public virtual void Apply(ref Message message, string prompt)
+        public virtual void Apply(ref IMessageActivity message, string prompt)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             message.Text = prompt; 
@@ -200,7 +200,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <remarks>
         /// <typeparamref name="T"/> should implement <see cref="object.ToString"/>.
         /// </remarks>
-        public virtual void Apply<T>(ref Message message, string prompt, IList<T> options)
+        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             SetField.CheckNull(nameof(options), options);
@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 case PromptStyle.Auto:
                     message.Text = prompt;
-                    message.AddButtons(options);
+                    message.AddHeroCard(options);
                     break;
                 case PromptStyle.AutoText:
                     Apply(ref message, prompt, options, options?.Count() > 4 ? PromptStyle.PerLine : PromptStyle.Inline);
@@ -333,7 +333,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.promptOptions.DefaultRetry = this.DefaultRetry;
             }
 
-            protected override bool TryParse(Message message, out string result)
+            protected override bool TryParse(IMessageActivity message, out string result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
@@ -387,7 +387,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
 
 
-            protected override bool TryParse(Message message, out bool result)
+            protected override bool TryParse(IMessageActivity message, out bool result)
             {
                 var found = false;
                 result = false;
@@ -431,7 +431,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
             }
 
-            protected override bool TryParse(Message message, out Int64 result)
+            protected override bool TryParse(IMessageActivity message, out Int64 result)
             {
                 return Int64.TryParse(message.Text, out result);
             }
@@ -451,7 +451,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
             }
             
-            protected override bool TryParse(Message message, out double result)
+            protected override bool TryParse(IMessageActivity message, out double result)
             {
                 return double.TryParse(message.Text, out result);
             }
@@ -494,7 +494,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     : null;
             }
 
-            protected override bool TryParse(Message message, out T result)
+            protected override bool TryParse(IMessageActivity message, out T result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
@@ -528,19 +528,23 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <typeparam name="T"> Type of the options.</typeparam>
         /// <param name="message"> The message that the buttons will be added to.</param>
         /// <param name="options"> The options that cause generation of buttons.</param>
-        public static void AddButtons<T>(this Message message, IEnumerable<T> options)
+        public static void AddHeroCard<T>(this IMessageActivity message, IEnumerable<T> options)
         {
-            message.Attachments = options.GenerateButtons();
+            message.Attachments = options.GenerateHeroCard();
         }
 
-        internal static IList<Attachment> GenerateButtons<T>(this IEnumerable<T> options)
+        internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options)
         {
+            
+
             var actions = new List<Connector.Action>();
             foreach (var option in options)
             {
                 actions.Add(new Connector.Action
                 {
-                    Title = option.ToString()
+                    Title = option.ToString(),
+                    Type = "postBack", 
+                    Value = option.ToString()
                 });
             }
 
@@ -548,7 +552,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 new Attachment
                 {
-                    Actions  = actions
+                    Content = new HeroCard(buttons: actions),
+                    ContentType = "application/vnd.microsoft.card.hero",
+
                 }
             };
 
@@ -577,7 +583,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             context.Wait(MessageReceived);
         }
 
-        private async Task MessageReceived(IDialogContext context, IAwaitable<Message> message)
+        private async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> message)
         {
             T result;
             if (this.TryParse(await message, out result))
@@ -601,9 +607,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        protected abstract bool TryParse(Message message, out T result);
+        protected abstract bool TryParse(IMessageActivity message, out T result);
 
-        protected virtual Message MakePrompt(IDialogContext context, string prompt, IList<U> options = null)
+        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IList<U> options = null)
         {
             var msg = context.MakeMessage();
             if (options != null && options.Count > 0)

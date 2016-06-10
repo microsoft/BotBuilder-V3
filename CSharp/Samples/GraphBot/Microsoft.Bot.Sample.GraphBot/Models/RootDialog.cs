@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Models
             }
         }
 
-        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.Message> result)
+        public async Task MessageReceived(IDialogContext context, IAwaitable<Connector.IMessageActivity> result)
         {
             await SayMyName(context);
             context.Wait(MessageReceived);

@@ -35,17 +35,20 @@ namespace Microsoft.Bot.Builder.Dialogs
 
     public sealed class DetectChannelCapability : IDetectChannelCapability
     {
-        private readonly ChannelAccount channel;
+        private readonly string channelId;
+        private readonly string serviceUrl; 
+        
 
-        public DetectChannelCapability(Message message)
+        public DetectChannelCapability(IMessageActivity message)
         {
             SetField.CheckNull(nameof(message), message);
-            SetField.NotNull(out channel, nameof(channel), message.From);
+            SetField.NotNull(out channelId, nameof(channelId), message.ChannelId);
+            SetField.NotNull(out serviceUrl, nameof(serviceUrl), message.ServiceUrl);
         }
 
         public IChannelCapability Detect()
         {
-            var isEmulator = channel?.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
+            var isEmulator = channelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
             var capability = new ChannelCapability(!(isEmulator.HasValue && isEmulator.Value));
             return capability;
         }

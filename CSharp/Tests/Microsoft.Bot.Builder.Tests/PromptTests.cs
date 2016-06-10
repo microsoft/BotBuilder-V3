@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.Tests
     {
         public interface IPromptCaller<T> : IDialog<object>
         {
-            Task FirstMessage(IDialogContext context, IAwaitable<Connector.Message> message);
+            Task FirstMessage(IDialogContext context, IAwaitable<Connector.IMessageActivity> message);
             Task PromptResult(IDialogContext context, IAwaitable<T> result);
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
                 .Returns<IDialogContext>(async c => { c.Wait(dialog.Object.FirstMessage); });
             dialog
-                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.Message>>()))
+                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Connector.IMessageActivity>>()))
                 .Returns<IDialogContext, IAwaitable<object>>(async (c, a) => { prompt(c, dialog.Object.PromptResult); });
             dialog
                 .Setup(d => d.PromptResult(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<T>>()))

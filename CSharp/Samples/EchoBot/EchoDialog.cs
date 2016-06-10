@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Sample.EchoBot
             context.Wait(MessageReceivedAsync);
         }
 
-        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
+        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
             if (message.Text == "reset")

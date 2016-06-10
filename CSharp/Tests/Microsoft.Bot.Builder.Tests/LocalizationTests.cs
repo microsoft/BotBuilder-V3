@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Tests
     {
         public interface ILocalizedDialog : IDialog<CultureInfo>
         {
-            Task FirstMessage(IDialogContext context, IAwaitable<Message> message);
+            Task FirstMessage(IDialogContext context, IAwaitable<IMessageActivity> message);
         }
 
         public static CultureInfo CurrentCulture
@@ -74,8 +74,8 @@ namespace Microsoft.Bot.Builder.Tests
                 .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
                 .Returns<IDialogContext>(async c => { c.Wait(dialog.Object.FirstMessage); });
             dialog
-                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<Message>>()))
-                .Returns<IDialogContext, IAwaitable<Message>>(async (c, m) => actual = CurrentCulture);
+                .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<IMessageActivity>>()))
+                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (c, m) => actual = CurrentCulture);
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
 
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Tests
             using (var container = Build(Options.None, dialog.Object))
             {
                 var toBot = MakeTestMessage();
-                toBot.Language = language;
+                toBot.Locale = language;
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {

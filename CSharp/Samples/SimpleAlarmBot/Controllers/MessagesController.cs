@@ -1,7 +1,10 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Microsoft.Bot.Sample.SimpleAlarmBot
 {
@@ -10,17 +13,31 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
     {
         /// <summary>
         /// POST: api/Messages
-        /// receive a message from a user and reply to it
+        /// receive a message from a user and send replies
         /// </summary>
-        public async Task<Message> Post([FromBody]Message message)
+        /// <param name="activity"></param>
+        [ResponseType(typeof(void))]
+        public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
         {
-            return await Conversation.SendAsync(message, () => new SimpleAlarmDialog());
-        }
+            if (activity != null)
+            {
+                // one of these will have an interface and process it
+                switch (activity.GetActivityType())
+                {
+                    case ActivityTypes.Message:
+                        await Conversation.SendAsync(activity, () => new SimpleAlarmDialog());
+                        break;
 
-        // ------  to send a message 
-        // ConnectorClient botConnector = new BotConnector();
-        // ... use message.CreateReplyMessage() to create a message, or
-        // ... create a new message and set From, To, Text 
-        // await botConnector.Messages.SendMessageAsync(message);
+                    case ActivityTypes.ConversationUpdate:
+                    case ActivityTypes.ContactRelationUpdate:
+                    case ActivityTypes.Typing:
+                    case ActivityTypes.DeleteUserData:
+                    default:
+                        Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
+                        break;
+                }
+            }
+            return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
+        }
     }
 }

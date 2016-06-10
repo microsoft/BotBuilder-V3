@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Sample.EchoBot
 {
     public static partial class DirectConversation
     {
-        public static async Task<Message> SendDirectAsync(Message toBot, Func<IDialog<object>> MakeRoot, CancellationToken token = default(CancellationToken))
+        public static async Task SendDirectAsync(IMessageActivity toBot, Func<IDialog<object>> MakeRoot, CancellationToken token = default(CancellationToken))
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
@@ -30,11 +30,10 @@ namespace Microsoft.Bot.Sample.EchoBot
             {
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                using (new LocalizedScope(toBot.Language))
+                using (new LocalizedScope(toBot.Locale))
                 {
                     var task = scope.Resolve<IPostToBot>();
                     await task.PostAsync(toBot, default(CancellationToken));
-                    return null;
                 }
             }
         }

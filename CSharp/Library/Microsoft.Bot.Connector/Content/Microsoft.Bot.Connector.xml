@@ -1,0 +1,2034 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Connector</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Connector.ThumbnailCard">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor">
+            <summary>
+            Initializes a new instance of the ThumbnailCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Image},System.Collections.Generic.IList{Microsoft.Bot.Connector.Action},Microsoft.Bot.Connector.Action)">
+            <summary>
+            Initializes a new instance of the ThumbnailCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Subtitle">
+            <summary>
+            Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Text">
+            <summary>
+            Text for the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Images">
+            <summary>
+            Array of i
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Tap">
+            <summary>
+            This action will be activated when user taps on the card itself
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.JwtAuthentication.OnAuthorizationAsync(System.Web.Http.Controllers.HttpActionContext,System.Threading.CancellationToken)">
+            <summary>
+            Override to Web API filter method to handle Basic Auth check
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.StateClient">
+            <summary>
+            © 2016 Microsoft
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateClient class
+            </summary>
+            <param name="baseUri">Base URI for the State service</param>
+            <param name="appId">Optional. Your app id. If null, this setting is read from settings["AppId"]</param>
+            <param name="appSecret">Optional. Your app secret. If null, this setting is read from settings["AppSecret"]</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Bot.Connector.BasicAuthCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateClient class
+            </summary>
+            <param name="baseUri">Base URI for the State service</param>
+            <param name="credentials">Credentials for the State service</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Bot.Connector.BearerTokenCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateClient class
+            </summary>
+            <param name="baseUri">Base URI for the State service</param>
+            <param name="credentials">Credentials for the State service</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.StateClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.StateClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.StateClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.StateClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.Initialize">
+            <summary>
+            Initializes client properties.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.HeroCard">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor">
+            <summary>
+            Initializes a new instance of the HeroCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Image},System.Collections.Generic.IList{Microsoft.Bot.Connector.Action},Microsoft.Bot.Connector.Action)">
+            <summary>
+            Initializes a new instance of the HeroCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Subtitle">
+            <summary>
+            Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Text">
+            <summary>
+            Text for the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Images">
+            <summary>
+            Array of i
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.HeroCard.Tap">
+            <summary>
+            This action will be activated when user taps on the card itself
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ReceiptCard">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor">
+            <summary>
+            Initializes a new instance of the ReceiptCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ReceiptItem},System.Collections.Generic.IList{Microsoft.Bot.Connector.Fact},Microsoft.Bot.Connector.Action,System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Action})">
+            <summary>
+            Initializes a new instance of the ReceiptCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Items">
+            <summary>
+            Array of Receipt Items
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Facts">
+            <summary>
+            Array of Fact Objects   Array of key-value pairs.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Tap">
+            <summary>
+            This action will be activated when user taps on the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Total">
+            <summary>
+            Total amount of money paid (or should be paid)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Tax">
+            <summary>
+            Total amount of TAX paid(or should be paid)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Vat">
+            <summary>
+            Total amount of VAT paid(or should be paid)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SigninCard">
+            <summary>
+            A card representing a request to signing
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,Microsoft.Bot.Connector.Action)">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Title">
+            <summary>
+            Title for signin request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Button">
+            <summary>
+            Action to use to perform signin
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BotState">
+            <summary>
+            BotState operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.#ctor(Microsoft.Bot.Connector.StateClient)">
+            <summary>
+            Initializes a new instance of the BotState class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotState.Client">
+            <summary>
+            Gets a reference to the StateClient
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetUserData
+            </summary>
+            Get a BotData record for the user
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetUserData
+            </summary>
+            Update the bot user data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetConversationData
+            </summary>
+            get the bot data for a conversation
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetConversationData
+            </summary>
+            Update the bot conversation data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.GetPerUserConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetPerUserConversationData
+            </summary>
+            get the bot data for a user in a conversation
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.SetPerUserInConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetPerUserInConversationData
+            </summary>
+            Update the bot user in a conversation data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='userId'>
+            user id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+            <summary>
+            GetUserData
+            </summary>
+            Get a BotData record for the user
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            GetUserData
+            </summary>
+            Get a BotData record for the user
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+            <summary>
+            SetUserData
+            </summary>
+            Update the bot user data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+            <summary>
+            SetUserData
+            </summary>
+            Update the bot user data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+            <summary>
+            GetConversationData
+            </summary>
+            get the bot data for a conversation
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            GetConversationData
+            </summary>
+            get the bot data for a conversation
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+            <summary>
+            SetConversationData
+            </summary>
+            Update the bot conversation data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+            <summary>
+            SetConversationData
+            </summary>
+            Update the bot conversation data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPerUserConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String)">
+            <summary>
+            GetPerUserConversationData
+            </summary>
+            get the bot data for a user in a conversation
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPerUserConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            GetPerUserConversationData
+            </summary>
+            get the bot data for a user in a conversation
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPerUserInConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+            <summary>
+            SetPerUserInConversationData
+            </summary>
+            Update the bot user in a conversation data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='userId'>
+            user id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPerUserInConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+            <summary>
+            SetPerUserInConversationData
+            </summary>
+            Update the bot user in a conversation data
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='userId'>
+            user id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IBotState">
+            <summary>
+            BotState operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetUserData
+            </summary>
+            Get a BotData record for the user
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetUserData
+            </summary>
+            Update the bot user data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetConversationData
+            </summary>
+            get the bot data for a conversation
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetConversationData
+            </summary>
+            Update the bot conversation data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetPerUserConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            GetPerUserConversationData
+            </summary>
+            get the bot data for a user in a conversation
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            The conversationId
+            </param>
+            <param name='userId'>
+            The user Id
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetPerUserInConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            SetPerUserInConversationData
+            </summary>
+            Update the bot user in a conversation data
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            the channelId for the user
+            </param>
+            <param name='conversationId'>
+            conversation id
+            </param>
+            <param name='userId'>
+            user id
+            </param>
+            <param name='botData'>
+            the new botdata
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IStateClient">
+            <summary>
+            © 2016 Microsoft
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IStateClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IStateClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IStateClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IStateClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client
+            subscription.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BotData">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotData.#ctor">
+            <summary>
+            Initializes a new instance of the BotData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotData.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the BotData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotData.ETag">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotData.Data">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BotAuthenticationFromSetting">
+            <summary>
+            Require that the AppId/Secret is passed to call the Controller
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticationFromSetting.#ctor(System.String,System.String)">
+            <summary>
+            Create a new instance of the BotAuthenticationFromSetting class
+            </summary>
+            <param name="appIdSetting">Name of the setting where AppId is stored</param>
+            <param name="appSecretSetting">Name of the setting where AppSecret is stored</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BotAuthentication">
+            <summary>
+            Require that the AppId/Secret is passed to call the Controller
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BasicAuthentication">
+            <summary>
+            This attribute enforces that a caller uses Basic Auth passing your AppId and AppSecret
+            </summary>
+            <remarks>
+            NOTE: You must use SSL for this to be secure, as it uses BasicAtuh
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BasicAuthentication.OnAuthorizationAsync(System.Web.Http.Controllers.HttpActionContext,System.Threading.CancellationToken)">
+            <summary>
+            Override to Web API filter method to handle Basic Auth check
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BasicAuthentication.OnAuthorizeUser(Microsoft.Bot.Connector.BasicAuthIdentity,System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Base implementation for user authentication - you probably will
+            want to override this method for application specific logic.
+            
+            The base implementation merely checks for username and password
+            present and set the Thread principal.
+            
+            Override this method if you want to customize Authentication
+            and store user data as needed in a Thread Principle or other
+            Request specific storage.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BasicAuthentication.ParseAuthorizationHeaderAsync(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Parses the Authorization header and creates user credentials
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BearerTokenCredentials">
+            <summary>
+            Use credentials from AppSetting "AppId" "AppSecret"
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.#ctor(System.String)">
+            <summary>
+            Create a new instance of the BearerTokenCredentials class
+            </summary>
+            <param name="token">Bearer token</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Apply the credentials to the HTTP request.
+            </summary>
+            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConnectorClient">
+            <summary>
+            © 2016 Microsoft
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.Initialize">
+            <summary>
+            Initializes client properties.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the ConnectorClient class
+            </summary>
+            <param name="baseUri">Base URI for the Connector service</param>
+            <param name="appId">Optional. Your app id. If null, this setting is read from settings["AppId"]</param>
+            <param name="appSecret">Optional. Your app secret. If null, this setting is read from settings["AppSecret"]</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.BasicAuthCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the ConnectorClient class
+            </summary>
+            <param name="baseUri">Base URI for the Connector service</param>
+            <param name="credentials">Credentials for the Connector service</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.BearerTokenCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the ConnectorClient class
+            </summary>
+            <param name="baseUri">Base URI for the Connector service</param>
+            <param name="credentials">Credentials for the Connector service</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Conversations">
+            <summary>
+            Conversations operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.#ctor(Microsoft.Bot.Connector.ConnectorClient)">
+            <summary>
+            Initializes a new instance of the Conversations class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Conversations.Client">
+            <summary>
+            Gets a reference to the ConnectorClient
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.StartConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Start a new conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToConversationWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in this conversation
+            </summary>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            (OPTIONAL) Message ID
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.StartConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Start a new conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.StartConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Start a new conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversation(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+            <summary>
+            Get the list of members in this conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            (OPTIONAL) Message ID
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in this conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            (OPTIONAL) Message ID
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IConnectorClient">
+            <summary>
+            © 2016 Microsoft
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client
+            subscription.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IConversations">
+            <summary>
+            Conversations operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.StartConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Start a new conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the
+            path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String
+            maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode,
+            FileAccess access, Int32 rights, Boolean useRights, FileShare
+            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
+            secAttrs, String msgPath, Boolean bFromProxy, Boolean
+            useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode,
+            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
+            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
+            Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding,
+            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
+            Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding
+            encoding, Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToConversationWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the
+            path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String
+            maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode,
+            FileAccess access, Int32 rights, Boolean useRights, FileShare
+            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
+            secAttrs, String msgPath, Boolean bFromProxy, Boolean
+            useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode,
+            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
+            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
+            Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding,
+            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
+            Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding
+            encoding, Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activity'>
+            Message to send
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in this conversation
+            </summary>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            (OPTIONAL) Message ID
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Activity">
+            <summary>
+            </summary>
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor">
+            <summary>
+            Initializes a new instance of the Activity class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String)">
+            <summary>
+            Initializes a new instance of the Activity class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Type">
+            <summary>
+            Activity type
+            The type of the activity (aka "message/carosel" "contactUpdate"
+            "typing" etc.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Id">
+            <summary>
+            Id for the activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Timestamp">
+            <summary>
+            Time when message was sent
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ServiceUrl">
+            <summary>
+            Service endpoint
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ChannelId">
+            <summary>
+            ChannelId the activity was on
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.From">
+            <summary>
+            Sender address
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.To">
+            <summary>
+            Conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Recipient">
+            <summary>
+            (Outbound to bot only) Bot's address that received the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
+            <summary>
+            Array of address added
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.MembersRemoved">
+            <summary>
+            Array of addresses removed
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.TopicName">
+            <summary>
+            Conversations new topic name
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.HistoryDisclosed">
+            <summary>
+            fughly
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Locale">
+            <summary>
+            The language code of the Text field
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Text">
+            <summary>
+            Content for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Summary">
+            <summary>
+            Text to display if you can't render cards
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Attachments">
+            <summary>
+            Attachments
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Entities">
+            <summary>
+            Entities
+            Collection of Entity which contain metadata about this activity
+            (each is typed)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ChannelData">
+            <summary>
+            Channel specific payload
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Action">
+            <summary>
+            ContactAdded/Removed action
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Action">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Action.#ctor">
+            <summary>
+            Initializes a new instance of the Action class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Action.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Action class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Action.Type">
+            <summary>
+            Defines the type of action implemented by this button. Possible
+            values for this property include: 'openUrl', 'imBack',
+            'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Action.Title">
+            <summary>
+            Text description which appear on the button.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Action.Image">
+            <summary>
+            URL Picture which will appear on the button, next to text label.
+            Media hosted on 3rd party domains will be automatically hosted on
+            auth protected CDN.Auth protection will be used to ensure that
+            content
+            uploaded to Skype CDN will only be accessible by Microsoft Clients
+            Please refer to Chapter 7 for description of media caching
+            algorithm.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Action.Value">
+            <summary>
+            Supplementary parameter for action. Content of this property
+            depends on the ActionType
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.APIResponse">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor">
+            <summary>
+            Initializes a new instance of the APIResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the APIResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Attachment">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachment.#ctor">
+            <summary>
+            Initializes a new instance of the Attachment class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachment.#ctor(System.String,System.String,System.Object,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Attachment class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ContentType">
+            <summary>
+            mimetype/Contenttype for the file
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ContentUrl">
+            <summary>
+            Content Url
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Content">
+            <summary>
+            Embedded content
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Name">
+            <summary>
+            (OPTIONAL) The name of the attachment
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.ThumbnailUrl">
+            <summary>
+            (OPTIONAL) Thumbnail associated with attachment
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ChannelAccount">
+            <summary>
+            Channel account information needed to route a message
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Id">
+            <summary>
+            Channel id for the user or bot on this channel (Example:
+            joe@smith.com, or @joesmith or 123456)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Name">
+            <summary>
+            Display friendly name
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationAccount">
+            <summary>
+            Channel account information for a conversation
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationAccount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor(System.Nullable{System.Boolean},System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ConversationAccount class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.IsGroup">
+            <summary>
+            Is this a reference to a group
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.Id">
+            <summary>
+            Channel id for the user or bot on this channel (Example:
+            joe@smith.com, or @joesmith or 123456)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.Name">
+            <summary>
+            Display friendly name
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Entity">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Entity.#ctor">
+            <summary>
+            Initializes a new instance of the Entity class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Entity.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Entity class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Entity.Type">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Fact">
+            <summary>
+            Set of key-value pairs. Advantage of this section is that key and
+            value properties will be
+            rendered with default style information with some delimiter between
+            them. So there is no need for developer to specify style information.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Fact.#ctor">
+            <summary>
+            Initializes a new instance of the Fact class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Fact.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Fact class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Fact.Key">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Fact.Value">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Image">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Image.#ctor">
+            <summary>
+            Initializes a new instance of the Image class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Image.#ctor(System.String,System.String,Microsoft.Bot.Connector.Action)">
+            <summary>
+            Initializes a new instance of the Image class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Image.Url">
+            <summary>
+            URL Thumbnail image for major content property.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Image.Alt">
+            <summary>
+            Image description intended for screen readers
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Image.Tap">
+            <summary>
+            Action assigned to specific Attachment.E.g.navigate to specific
+            URL or play/open media content
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ReceiptItem">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor">
+            <summary>
+            Initializes a new instance of the ReceiptItem class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.Image,System.String,System.String,Microsoft.Bot.Connector.Action)">
+            <summary>
+            Initializes a new instance of the ReceiptItem class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Title">
+            <summary>
+            Title of the Card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Subtitle">
+            <summary>
+            Subtitle appears just below Title field, differs from Title in
+            font styling only
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Text">
+            <summary>
+            Text field appears just below subtitle, differs from Subtitle in
+            font styling only
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Image">
+            <summary>
+            Image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Price">
+            <summary>
+            Amount with currency
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Quantity">
+            <summary>
+            Number of items of given kind
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ReceiptItem.Tap">
+            <summary>
+            This action will be activated when user taps on the Item bubble.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Mention">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Mention.#ctor">
+            <summary>
+            Initializes a new instance of the Entity class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.CreateReply(Microsoft.Bot.Connector.Activity,System.String,System.String)">
+            <summary>
+            Take a message and create a reply message for it with the routing information 
+            set up to correctly route a reply to the source message
+            </summary>
+            <param name="activity">the message being used to create the ReplyActivity from</param>
+            <param name="text">text you want to reply with</param>
+            <param name="locale">language of your reply</param>
+            <returns>message set up to route back to the sender</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.HasContent(Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Check if the message has content
+            </summary>
+            <returns>Returns true if this message has any content to send</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.GetChannelData``1(Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Get channeldata as typed structure
+            </summary>
+            <typeparam name="TypeT">type to use</typeparam>
+            <param name="activity">message</param>
+            <returns>typed object or default(TypeT)</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.GetActivityType(Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Return the "major" portion of the activity
+            </summary>
+            <param name="activity"></param>
+            <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.GetProperty``1(Microsoft.Bot.Connector.BotData,System.String)">
+            <summary>
+            Get a property from a BotData recorded retrieved using the REST API
+            </summary>
+            <param name="botData">BotData</param>
+            <param name="property">property name to change</param>
+            <returns>property requested or default for type</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.SetProperty``1(Microsoft.Bot.Connector.BotData,System.String,``0)">
+            <summary>
+            Set a property on a BotData record retrieved using the REST API
+            </summary>
+            <param name="botData">BotData</param>
+            <param name="property">property name to change</param>
+            <param name="data">new data</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IActivity">
+            <summary>
+            basic shared properties for all activities
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.Type">
+            <summary>
+            Activity type
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.Id">
+            <summary>
+            Id for the activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.ServiceUrl">
+            <summary>
+            (PROPOSED) ServiceUrl
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.Timestamp">
+            <summary>
+            Time when message was sent
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.ChannelId">
+            <summary>
+            Channel this activity is associated with
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.From">
+            <summary>
+            Sender address data 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.To">
+            <summary>
+            Conversation Address 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.Recipient">
+            <summary>
+            Bot's address 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ITypingActivity">
+            <summary>
+            The From address is typing
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IContactRelationUpdateActivity">
+            <summary>
+            Someone has updated their contact list
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IContactRelationUpdateActivity.Action">
+            <summary>
+            Add|remove
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IConversationUpdateActivity">
+            <summary>
+            The Properties of a conversation are different
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.MembersAdded">
+            <summary>
+            Array of address added
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.MembersRemoved">
+            <summary>
+            Array of addresses removed
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.TopicName">
+            <summary>
+            Conversations new topic name
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IMessageActivity">
+            <summary>
+            Someone has added a message to the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Locale">
+            <summary>
+            The language code of the Text field
+            </summary>
+            <remarks>
+            See https://msdn.microsoft.com/en-us/library/hh456380.aspx for a list of valid language codes
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Text">
+            <summary>
+            Text for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
+            <summary>
+            Text for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Attachments">
+            <summary>
+            content attachemnts
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Entities">
+            <summary>
+            Entities 
+            Collection of objects which contain metadata about this activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ChannelData">
+            <summary>
+            Channel specific payload
+            </summary>
+            <remarks>
+            Some channels will provide channel specific data.
+            
+            For a message originating in the channel it might provide the original native schema object for the channel. 
+            
+            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
+            
+            Example:
+            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
+            on incoming message a Subject property, and a HtmlBody which can contain Html.  
+            
+            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BasicAuthCredentials">
+            <summary>
+            Use credentials from AppSetting "AppId" "AppSecret"
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BasicAuthCredentials.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Create a new instance of the BasicAuthCredentials class
+            </summary>
+            <param name="appId">default will come from Settings["AppId"]</param>
+            <param name="appSecret">default will come from settings["AppSecret"]</param>
+            <param name="subscriptionKey"></param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BasicAuthCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Apply the credentials to the HTTP request.
+            </summary>
+            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        </member>
+    </members>
+</doc>

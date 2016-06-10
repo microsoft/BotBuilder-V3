@@ -52,10 +52,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public const string BlobKey = "DialogState";
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
 
-        public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, Message message)
+        public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
             var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
-            inner.Resolve<Message>(TypedParameter.From(message));
+            inner.Resolve<IMessageActivity>(TypedParameter.From(message));
             return inner;
         }
 
@@ -68,19 +68,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // every lifetime scope is driven by a message
 
             builder
-                .Register((c, p) => p.TypedAs<Message>())
+                .Register((c, p) => p.TypedAs<IMessageActivity>())
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             // components not marked as [Serializable]
 
             builder
-                .RegisterType<ConnectorClientCredentials>()
+                .RegisterType<BasicAuthCredentials>()
                 .AsSelf()
                 .SingleInstance();
 
             builder
-                .Register(c => new DetectEmulatorFactory(c.Resolve<Message>(), new Uri("http://localhost:9000"), c.Resolve<ConnectorClientCredentials>()))
+                .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<BasicAuthCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 
@@ -90,7 +90,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-               .Register(c => new DetectChannelCapability(c.Resolve<Message>()))
+               .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
                .As<IDetectChannelCapability>()
                .InstancePerLifetimeScope();
 
@@ -99,9 +99,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<MessageBackedStore>()
+            builder.RegisterType<InMemoryBotDataStore>()
                 .As<IBotDataStore>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder
                 .RegisterType<JObjectBotData>()
@@ -135,14 +135,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         return post;
                     };
 
-                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<Message>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
                     return outer;
                 })
                 .As<IPostToBot>()
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<SendLastInline_BotToUser>()
+                .RegisterType<AlwaysSendDirect_BotToUser>()
                 .AsSelf()
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();

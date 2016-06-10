@@ -138,7 +138,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             return result.Intents.MaxBy(i => i.Score ?? 0);
         }
 
-        protected virtual async Task MessageReceived(IDialogContext context, IAwaitable<Message> item)
+        protected virtual async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             if (this.handlerByIntent == null)
             {
@@ -168,7 +168,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        protected virtual Task<string> GetLuisQueryTextAsync(IDialogContext context, Message message)
+        protected virtual Task<string> GetLuisQueryTextAsync(IDialogContext context, IMessageActivity message)
         {
             return Task.FromResult(message.Text);
         }

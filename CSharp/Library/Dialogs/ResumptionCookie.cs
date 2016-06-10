@@ -58,32 +58,34 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string UserId { set; get; }
 
         /// <summary>
-        /// The user address.
+        /// The user name.
         /// </summary>
-        [JsonProperty(PropertyName = "userAddress")]
-        public string UserAddress { set; get; }
+        [JsonProperty(PropertyName = "userName")]
+        public string UserName { set; get; }
 
         /// <summary>
-        /// The user channelId.
+        /// The channelId.
         /// </summary>
-        [JsonProperty(PropertyName = "userChannelId")]
-        public string UserChannelId { set; get; }
+        [JsonProperty(PropertyName = "channelId")]
+        public string ChannelId { set; get; }
 
         /// <summary>
         /// The bot Id. 
         /// </summary>
         [JsonProperty(PropertyName = "botId")]
         public string BotId { set; get; }
+
         /// <summary>
-        /// The bot Address.
+        /// The service url.
         /// </summary>
-        [JsonProperty(PropertyName = "botAddress")]
-        public string BotAddress { set; get; }
+        [JsonProperty(PropertyName = "serviceUrl")]
+        public string ServiceUrl { set; get; }
+
         /// <summary>
-        /// The bot channel Id.
+        /// The IsGroup flag for conversation.
         /// </summary>
-        [JsonProperty(PropertyName = "botChannelId")]
-        public string BotChannelId { set; get; }
+        [JsonProperty(PropertyName = "isGroup")]
+        public bool IsGroup { set; get; }
 
         /// <summary>
         /// The Id of the conversation that will be resumed.
@@ -92,10 +94,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string ConversationId { set; get; }
 
         /// <summary>
-        /// The language of message.
+        /// The locale of message.
         /// </summary>
-        [JsonProperty(PropertyName = "language")]
-        public string Language { set; get; }
+        [JsonProperty(PropertyName = "locale")]
+        public string Locale { set; get; }
 
         public ResumptionCookie()
         {
@@ -108,62 +110,67 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="botId"> The bot Id.</param>
         /// <param name="conversationId"> The conversation Id.</param>
         /// <param name="channelId"> The channel Id of the conversation.</param>
-        /// <param name="language"> The language of the message.</param>
-        public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string language = "en")
+        /// <param name="serviceUrl"> The service url of the conversation.</param>
+        /// <param name="locale"> The locale of the message.</param>
+        public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string serviceUrl, string locale = "en")
         {
             SetField.CheckNull(nameof(userId), userId);
             SetField.CheckNull(nameof(botId), botId);
             SetField.CheckNull(nameof(conversationId), conversationId);
             SetField.CheckNull(nameof(channelId), channelId);
-            SetField.CheckNull(nameof(language), language);
+            SetField.CheckNull(nameof(serviceUrl), serviceUrl);
+            SetField.CheckNull(nameof(locale), locale);
             this.UserId = userId;
             this.BotId = botId;
             this.ConversationId = conversationId;
-            this.UserChannelId = channelId;
-            this.Language = language;
+            this.ChannelId = channelId;
+            this.ServiceUrl = serviceUrl;
+            this.Locale = locale;
         }
 
         /// <summary>
-        /// Creates an instance of resumption cookie form a <see cref="Connector.Message"/>
+        /// Creates an instance of resumption cookie form a <see cref="Connector.IMessageActivity"/>
         /// </summary>
         /// <param name="msg"> The message.</param>
-        public ResumptionCookie(Message msg)
+        public ResumptionCookie(IMessageActivity msg)
         {
             UserId = msg.From?.Id;
-            UserAddress = msg.From?.Address;
-            UserChannelId = msg.From?.ChannelId;
-            BotId = msg.To?.Id;
-            BotAddress = msg.To?.Address;
-            BotChannelId = msg.To?.ChannelId;
-            ConversationId = msg.ConversationId;
-            Language = msg.Language;
+            UserName = msg.From?.Name;
+            ChannelId = msg.ChannelId;
+            ServiceUrl = msg.ServiceUrl;
+            BotId = msg.Recipient?.Id;
+            ConversationId = msg.To?.Id;
+            var isGroup =  msg.To?.IsGroup;
+            IsGroup = isGroup.HasValue && isGroup.Value;
+            Locale = msg.Locale;
         }
 
         /// <summary>
         /// Creates a message from the resumption cookie.
         /// </summary>
         /// <returns> The message that can be sent to bot based on the resumption cookie</returns>
-        public Message GetMessage()
+        public IMessageActivity GetMessage()
         {
-            return new Message
+            return new Activity
             {
                 Id = Guid.NewGuid().ToString(),
-                To = new ChannelAccount
+                Recipient = new ChannelAccount
                 {
-                    Id = this.BotId,
-                    IsBot = true,
-                    Address = this.BotAddress,
-                    ChannelId = this.BotChannelId
+                    Id = this.BotId
                 },
-                ConversationId = this.ConversationId,
+                ChannelId = this.ChannelId, 
+                ServiceUrl = this.ServiceUrl, 
+                To = new ConversationAccount
+                {
+                    Id = this.ConversationId, 
+                    IsGroup = this.IsGroup
+                },
                 From = new ChannelAccount
                 {
                     Id = this.UserId,
-                    IsBot = false,
-                    Address = this.UserAddress,
-                    ChannelId = this.UserChannelId
+                    Name = this.UserName
                 },
-                Language = this.Language
+                Locale = this.Locale
             };
         }
 

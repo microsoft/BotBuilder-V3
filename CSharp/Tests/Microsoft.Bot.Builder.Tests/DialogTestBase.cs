@@ -58,6 +58,7 @@ namespace Microsoft.Bot.Builder.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
 
+            
             builder
            .Register((c, p) => mockConnectorFactory)
                .As<IConnectorClientFactory>()
@@ -70,7 +71,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var r =
                 builder
-                .Register<Queue<Message>>(c => new Queue<Message>())
+                .Register<Queue<IMessageActivity>>(c => new Queue<IMessageActivity>())
                 .AsSelf();
 
             if (options.HasFlag(Options.ScopedQueue))
@@ -98,16 +99,17 @@ namespace Microsoft.Bot.Builder.Tests
             return builder.Build();
         }
 
-        public static Message MakeTestMessage()
+        public static IMessageActivity MakeTestMessage()
         {
-            return new Message() {
+            return new Activity() {
                 From = new ChannelAccount { Id = "testUser" },
-                ConversationId = Guid.NewGuid().ToString(),
-                To = new ChannelAccount { Id = "testBot", IsBot = true}
+                To = new ConversationAccount { Id = Guid.NewGuid().ToString() },
+                Recipient = new ChannelAccount { Id = "testBot"},
+                ServiceUrl = "InvalidServiceUrl"
             };
         }
 
-        public static void AssertMentions(string expectedText, IEnumerable<Message> actualToUser)
+        public static void AssertMentions(string expectedText, IEnumerable<IMessageActivity> actualToUser)
         {
             Assert.AreEqual(1, actualToUser.Count());
             var index = actualToUser.Single().Text.IndexOf(expectedText, StringComparison.OrdinalIgnoreCase);
@@ -116,13 +118,13 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static void AssertMentions(string expectedText, ILifetimeScope scope)
         {
-            var queue = scope.Resolve<Queue<Message>>();
+            var queue = scope.Resolve<Queue<IMessageActivity>>();
             AssertMentions(expectedText, queue);
         }
 
         public static void AssertNoMessages(ILifetimeScope scope)
         {
-            var queue = scope.Resolve<Queue<Message>>();
+            var queue = scope.Resolve<Queue<IMessageActivity>>();
             Assert.AreEqual(0, queue.Count);
         }
 

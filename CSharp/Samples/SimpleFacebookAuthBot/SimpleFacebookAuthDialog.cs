@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         /// Constructs an instance of the SimpleFacebookAuthDialog
         /// </summary>
         /// <param name="msg"></param>
-        public SimpleFacebookAuthDialog(Message msg)
+        public SimpleFacebookAuthDialog(IMessageActivity msg)
         {
             ResumptionCookie = new ResumptionCookie(msg);
         }
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         public static readonly IDialog<string> dialog = Chain
             .PostToChain()
             .Switch(
-                new Case<Message, IDialog<string>>((msg) =>
+                new Case<IMessageActivity, IDialog<string>>((msg) =>
                 {
                     var regex = new Regex("^login", RegexOptions.IgnoreCase);
                     return regex.IsMatch(msg.Text);
@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                            return Chain.Return($"Your are logged in as: {name}");
                        });
                 }),
-                new Case<Message, IDialog<string>>((msg) =>
+                new Case<IMessageActivity, IDialog<string>>((msg) =>
                 {
                     var regex = new Regex("^logout", RegexOptions.IgnoreCase);
                     return regex.IsMatch(msg.Text);
@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                     ctx.UserData.RemoveValue("name");
                     return Chain.Return($"Your are logged out!");
                 }),
-                new DefaultCase<Message, IDialog<string>>((ctx, msg) =>
+                new DefaultCase<IMessageActivity, IDialog<string>>((ctx, msg) =>
                 {
                     string token;
                     string name = string.Empty; 
@@ -114,7 +114,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             await LogIn(context);
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Message> argument)
+        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var msg = await (argument);
             if (msg.Text.StartsWith("token:"))
