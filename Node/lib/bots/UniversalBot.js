@@ -187,6 +187,7 @@ var UniversalBot = (function (_super) {
         this.getStorageData(storageKey, function (data) {
             var session = new ses.Session({
                 localizer: _this.settings.localizer,
+                minSendDelay: _this.settings.minSendDelay,
                 dialogs: _this.dialogs,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,

@@ -9,12 +9,12 @@ var async = require('async');
 var url = require('url');
 var BotConnector = (function (_super) {
     __extends(BotConnector, _super);
-    function BotConnector(options) {
-        if (options === void 0) { options = {}; }
+    function BotConnector(settings) {
+        if (settings === void 0) { settings = {}; }
         _super.call(this);
-        this.options = options;
-        if (!this.options.endpoint) {
-            this.options.endpoint = {
+        this.settings = settings;
+        if (!this.settings.endpoint) {
+            this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
@@ -38,6 +38,11 @@ var BotConnector = (function (_super) {
                     _this.dispatch(body, res);
                 });
             }
+        };
+    };
+    BotConnector.prototype.verifyBotFramework = function () {
+        return function (req, res, next) {
+            next();
         };
     };
     BotConnector.prototype.dispatch = function (messages, res) {
@@ -163,16 +168,16 @@ var BotConnector = (function (_super) {
     };
     BotConnector.prototype.addAccessToken = function (options, cb) {
         var _this = this;
-        if (this.options.appId && this.options.appPassword) {
+        if (this.settings.appId && this.settings.appPassword) {
             if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
                 var opt = {
                     method: 'POST',
-                    url: this.options.endpoint.refreshEndpoint,
+                    url: this.settings.endpoint.refreshEndpoint,
                     form: {
                         grant_type: 'client_credentials',
-                        client_id: this.options.appId,
-                        client_secret: this.options.appPassword,
-                        scope: this.options.endpoint.refreshScope
+                        client_id: this.settings.appId,
+                        client_secret: this.settings.appPassword,
+                        scope: this.settings.endpoint.refreshScope
                     }
                 };
                 request(opt, function (err, response, body) {
