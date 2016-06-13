@@ -238,7 +238,7 @@
           "$ref": "#/definitions/ChannelAccount",
           "description": "Sender address"
         },
-        "to": {
+        "conversation": {
           "$ref": "#/definitions/ConversationAccount",
           "description": "Conversation"
         },
@@ -261,7 +261,7 @@
           "type": "string"
         },
         "historyDisclosed": {
-          "description": "fughly",
+          "description": "the previous history of the channel was disclosed",
           "type": "boolean"
         },
         "locale": {

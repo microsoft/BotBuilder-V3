@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             if (isEmulator ?? false)
             {
-                return new ConnectorClient(this.serviceUri, this.credentials);
+                return new ConnectorClient(this.serviceUri);
             }
             else
             {

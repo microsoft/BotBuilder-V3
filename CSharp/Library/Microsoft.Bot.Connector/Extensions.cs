@@ -21,8 +21,9 @@ namespace Microsoft.Bot.Connector
             reply.Type = ActivityTypes.Message;
             reply.Timestamp = DateTime.UtcNow;
             reply.From = activity.Recipient;
-            reply.To = activity.To;
-            reply.To.IsGroup = null;
+            reply.Recipient = activity.From;
+            reply.Conversation = activity.Conversation;
+            reply.Conversation.IsGroup = null; // don't need to send in a reply
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? activity.Locale;
             return reply;

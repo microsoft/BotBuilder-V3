@@ -187,7 +187,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<object> GetMembersAsync(this IConversations operations, string conversationId, string activityId = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, activityId, headers, cancellationToken).ConfigureAwait(false);
+            // END TEmP
+            //var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
             return _result.Body;
         }
 

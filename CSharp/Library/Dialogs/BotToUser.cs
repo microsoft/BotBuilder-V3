@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
-            await this.client.Conversations.ReplyToConversationAsync(message.To.Id, (Activity)message, cancellationToken);
+            await this.client.Conversations.ReplyToConversationAsync(message.Conversation.Id, (Activity)message, cancellationToken);
         }
     }
 

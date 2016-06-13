@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Microsoft.Bot.Connector
 {
@@ -15,6 +16,7 @@ namespace Microsoft.Bot.Connector
         {
             MicrosoftAppId = appId;
             MicrosoftAppPassword = password;
+            TokenCacheKey = $"{appId}-cache";
         }
 
         public string MicrosoftAppId { get; set; }
@@ -25,7 +27,40 @@ namespace Microsoft.Bot.Connector
         public virtual string OAuthEndpoint { get { return "https://login.microsoftonline.com/common/oauth2/v2.0/token"; } }
         public virtual string OAuthScope { get { return "https://graph.microsoft.com/.default"; } }
 
-        public async Task RefreshTokenAsync()
+        protected readonly string TokenCacheKey;
+
+        /// <summary>
+        /// Apply the credentials to the HTTP request.
+        /// </summary>
+        /// <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        public override async Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Token = await GetTokenAsync();
+            await base.ProcessHttpRequestAsync(request, cancellationToken);
+        }
+
+        internal async Task<string> GetTokenAsync(bool forceRefresh = false)
+        {
+            string token; 
+            var oAuthToken = (OAuthResponse)System.Web.HttpRuntime.Cache.Get(TokenCacheKey);
+            if (oAuthToken != null && !forceRefresh && TokenExpired(oAuthToken))
+            {
+                token = oAuthToken.access_token;
+            }
+            else
+            {
+                oAuthToken = await RefreshTokenAsync().ConfigureAwait(false);
+                System.Web.HttpRuntime.Cache.Insert(TokenCacheKey,
+                                                    oAuthToken,
+                                                    null,
+                                                    DateTime.UtcNow.AddSeconds(oAuthToken.expires_in),
+                                                    System.Web.Caching.Cache.NoSlidingExpiration);
+                token = oAuthToken.access_token;
+            }
+            return token; 
+        }
+
+        private async Task<OAuthResponse> RefreshTokenAsync()
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
             MicrosoftAppPassword = MicrosoftAppPassword ?? ConfigurationManager.AppSettings[MicrosoftAppPasswordSettingName ?? "MicrosoftAppPassword"];
@@ -45,8 +80,14 @@ namespace Microsoft.Bot.Connector
                 string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
-                Token = oauthResponse.access_token;
+                oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
+                return oauthResponse;
             }
+        }
+
+        private bool TokenExpired(OAuthResponse token)
+        {
+            return token.expiration_time > DateTime.UtcNow;
         }
 
         private class OAuthResponse
@@ -54,6 +95,7 @@ namespace Microsoft.Bot.Connector
             public string token_type { get; set; }
             public int expires_in { get; set; }
             public string access_token { get; set; }
+            public DateTime expiration_time { get; set; }
         }
     }
 }

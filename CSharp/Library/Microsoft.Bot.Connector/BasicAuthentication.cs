@@ -13,30 +13,6 @@ using System.Web.Http.Filters;
 namespace Microsoft.Bot.Connector
 {
     /// <summary>
-    /// Require that the AppId/Secret is passed to call the Controller
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class BotAuthenticationFromSetting : BasicAuthentication
-    {
-        /// <summary>
-        /// Create a new instance of the BotAuthenticationFromSetting class
-        /// </summary>
-        /// <param name="appIdSetting">Name of the setting where AppId is stored</param>
-        /// <param name="appSecretSetting">Name of the setting where AppSecret is stored</param>
-        public BotAuthenticationFromSetting(string appIdSetting, string appSecretSetting) : base(ConfigurationManager.AppSettings[appIdSetting], ConfigurationManager.AppSettings[appSecretSetting])
-        { }
-    }
-
-    /// <summary>
-    /// Require that the AppId/Secret is passed to call the Controller
-    /// </summary>
-    public class BotAuthentication : BasicAuthentication
-    {
-        public BotAuthentication(string appId = null, string appSecret = null) : base(appId, appSecret)
-        { }
-    }
-
-    /// <summary>
     /// This attribute enforces that a caller uses Basic Auth passing your AppId and AppSecret
     /// </summary>
     /// <remarks>

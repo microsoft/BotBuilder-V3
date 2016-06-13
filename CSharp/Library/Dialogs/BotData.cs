@@ -469,7 +469,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 BotId =  message.Recipient.Id,
                 UserId = message.From.Id,
-                ConversationId = message.To.Id
+                ConversationId = message.Conversation.Id
             };
         }
     }
