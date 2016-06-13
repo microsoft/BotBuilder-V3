@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -31,140 +31,149 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import session = require('../Session');
-import dialog = require('./Dialog');
+import ses = require('../Session');
+import dlg = require('./Dialog');
 import actions = require('./DialogAction');
 import consts = require('../consts');
+import async = require('async');
 
-export interface IIntentHandler {
-    (session: ISession, entities?: IEntity[], intents?: IIntent[]): void;
+export enum RecognizeOrder { parallel, series }
+
+export interface IIntentDialogOptions {
+    intentThreshold?: number;
+    recognizeOrder?: RecognizeOrder;
+    recognizers?: IIntentRecognizer[];
+    processLimit?: number;
+} 
+
+export interface IIntentRecognizer {
+    recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
-export interface ICaptureIntentHandler {
-    (action: ISessionAction, intent: IIntent, entities?: IEntity[]): void;
+export interface IIntentRecognizerResult extends dlg.IRecognizeResult {
+    intent: string;
+    expression?: RegExp;
+    matched?: string; 
+    intents?: IIntent[];
+    entities?: IEntity[]; 
 }
 
-interface ICaptureResult extends dialog.IDialogResult<any> {
-    captured: {
-        intents: IIntent[];
-        entities: IEntity[];
-    };
-}
-
-export interface IIntentArgs {
-    intents: IIntent[];
-    entities: IEntity[];
-}
-
-interface IHandlerMatch {
-    groupId: string;
-    handler: IDialogHandler<IIntentArgs>;
-}
-
-export abstract class IntentDialog extends dialog.Dialog {
-    private static CAPTURE_THRESHOLD = 0.6;
-
-    private groups: { [id: string]: IntentGroup; } = {};
+export class IntentDialog extends dlg.Dialog {
     private beginDialog: IBeginDialogHandler;
-    private captureIntent: ICaptureIntentHandler;
-    private intentThreshold = 0.1;
+    private handlers = <IIntentHandlerMap>{};
+    private defaultHandler: IDialogHandler<any>;
+    private expressions = <RegExp[]>[];
 
-    public begin<T>(session: ISession, args: IntentGroup): void {
+    constructor(private options: IIntentDialogOptions = {}) {
+        super();
+        if (typeof this.options.intentThreshold !== 'number') {
+            this.options.intentThreshold = 0.1;
+        }
+        if (!this.options.hasOwnProperty('recognizeOrder')) {
+            this.options.recognizeOrder = RecognizeOrder.parallel;
+        }
+        if (!this.options.recognizers) {
+            this.options.recognizers = [];
+        }
+        if (!this.options.processLimit) {
+            this.options.processLimit = 4;
+        }
+    }
+
+    public begin<T>(session: ses.Session, args: any): void {
         if (this.beginDialog) {
-            this.beginDialog(session, args, () => {
-                super.begin(session, args);
-            });
+            try {
+                this.beginDialog(session, args, () => {
+                    super.begin(session, args);
+                });
+            } catch (e) {
+                this.emitError(session, e);
+            }
         } else {
             super.begin(session, args);
         }
     }
 
-    public replyReceived(session: ISession): void {
-        var msg = session.message;
-        this.recognizeIntents(msg.local, msg.text, (err, intents, entities) => {
-            if (!err) {
-                var topIntent = this.findTopIntent(intents);
-                var score = topIntent ? topIntent.score : 0;
-                session.compareConfidence(msg.local, msg.text, score, (handled) => {
-                    if (!handled) {
-                        this.invokeIntent(session, intents, entities);
-                    }
-                });
-            } else {
-                session.endDialog({ error: new Error('Intent recognition error: ' + err.message) });
-            }
-        });
-    }
-
-    public dialogResumed(session: ISession, result: ICaptureResult): void {
-        if (result.captured) {
-            this.invokeIntent(session, result.captured.intents, result.captured.entities);
-        } else {
-            var activeGroup: string = session.dialogData[consts.Data.Group];
-            var activeIntent: string = session.dialogData[consts.Data.Intent];
-            var group = activeGroup ? this.groups[activeGroup] : null;
-            var handler = group && activeIntent ? group._intentHandler(activeIntent) : null;
-            if (handler) {
-                handler(session, <any>result);
-            } else {
-                super.dialogResumed(session, result);
-            }
-        }
-    }
-
-    public compareConfidence(action: ISessionAction, language: string, utterance: string, score: number): void {
-        // First check to see if the childs confidence is low and that we have a capture handler.
-        if (score < IntentDialog.CAPTURE_THRESHOLD && this.captureIntent) {
-            this.recognizeIntents(language, utterance, (err, intents, entities) => {
-                var handled = false;
+    public replyReceived(session: ses.Session, recognizeResult?: dlg.IRecognizeResult): void {
+        if (!recognizeResult) {
+            this.recognize({ message: session.message, activeDialog: true }, (err, result) => {
                 if (!err) {
-                    // Ensure capture handler is worth invoking. Requirements are the top intents
-                    // score should be greater then the childs score and there should be a handler
-                    // registered for that intent. The last requirement addresses the fact that the
-                    // 'None' intent from LUIS is likely to have a score that's greater then the 
-                    // intent threshold.
-                    var matches: IHandlerMatch;
-                    var topIntent = this.findTopIntent(intents);
-                    if (topIntent && topIntent.score > this.intentThreshold && topIntent.score > score) {
-                        matches = this.findHandler(topIntent);
-                    }
-                    if (matches) {
-                        this.captureIntent({
-                            next: action.next,
-                            userData: action.userData,
-                            dialogData: action.dialogData,
-                            endDialog: () => {
-                                action.endDialog({
-                                    resumed: dialog.ResumeReason.completed,
-                                    captured: {
-                                        intents: intents,
-                                        entities: entities
-                                    }
-                                });
-                            },
-                            send: action.send 
-                        }, topIntent, entities);
-                    } else {
-                        action.next();
-                    }
+                    this.invokeIntent(session, <IIntentRecognizerResult>result);
                 } else {
-                    console.error('Intent recognition error: ' + err.message);
-                    action.next();
+                    this.emitError(session, err);
                 }
             });
         } else {
-            action.next();
+            this.invokeIntent(session, <IIntentRecognizerResult>recognizeResult);
         }
     }
 
-    public addGroup(group: IntentGroup): this {
-        var id = group.getId();
-        if (!this.groups.hasOwnProperty(id)) {
-            this.groups[id] = group;
+    public dialogResumed(session: ses.Session, result: dlg.IDialogResult<any>): void {
+        var activeIntent: string = session.dialogData[consts.Data.Intent];
+        if (activeIntent && this.handlers.hasOwnProperty(activeIntent)) {
+            try {
+                this.handlers[activeIntent](session, result);
+            } catch (e) {
+                this.emitError(session, e);
+            }
         } else {
-            throw "Group of " + id + " already exists within the dialog.";
+            super.dialogResumed(session, result);
         }
-        return this;
+    }
+
+    public recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: dlg.IRecognizeResult) => void): void {
+        function done(err: Error, r: IIntentRecognizerResult) {
+            if (!err) {
+                if (r.score > result.score) {
+                    cb(null, r);
+                } else {
+                    cb(null, result);
+                }
+            } else {
+                cb(err, null);
+            }
+        }
+
+        var result: IIntentRecognizerResult = { score: 0.0, intent: null };
+        if (context.message && context.message.text) {
+            // Match regular expressions first
+            if (this.expressions) {
+                for (var i = 0; i < this.expressions.length; i++ ) {
+                    var exp = this.expressions[i];
+                    var matches = exp.exec(context.message.text);
+                    if (matches && matches.length) {
+                        var matched = matches[0];
+                        var score = matched.length / context.message.text.length;
+                        if (score > result.score && score >= this.options.intentThreshold) {
+                            result.score = score;
+                            result.intent = exp.toString();
+                            result.expression = exp;
+                            result.matched = matched;
+                            if (score == 1.0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Match using registered recognizers 
+            if (result.score < 1.0 && this.options.recognizers.length) {
+                switch (this.options.recognizeOrder) {
+                    default:
+                    case RecognizeOrder.parallel:
+                        this.recognizeInParallel(context, done);
+                        break;
+                    case RecognizeOrder.series:
+                        this.recognizeInSeries(context, done);
+                        break;
+                }
+            } else {
+                cb(null, result);
+            }
+        } else {
+            cb(null, result);
+        }
     }
 
     public onBegin(handler: IBeginDialogHandler): this {
@@ -172,115 +181,110 @@ export abstract class IntentDialog extends dialog.Dialog {
         return this;
     }
 
-    public on(intent: string, dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
-        this.getDefaultGroup().on(intent, dialogId, dialogArgs);
+    public matches(intent: string|RegExp, dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+        // Find ID and verify unique
+        var id: string;
+        if (intent) {
+            if (typeof intent === 'string') {
+                id = intent;
+            } else {
+                id = (<RegExp>intent).toString();
+                this.expressions.push(intent);
+            }
+        }
+        if (this.handlers.hasOwnProperty(id)) {
+            throw new Error("A handler for '" + id + "' already exists.");
+        }
+
+        // Register handler
+        if (Array.isArray(dialogId)) {
+            this.handlers[id] = actions.waterfall(dialogId);
+        } else if (typeof dialogId === 'string') {
+            this.handlers[id] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
+        } else {
+            this.handlers[id] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
+        }
         return this;
     }
 
-    public onDefault(dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
-        this.getDefaultGroup().on(consts.Intents.Default, dialogId, dialogArgs);
+    public onDefault(dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+        // Register handler
+        if (Array.isArray(dialogId)) {
+            this.defaultHandler = actions.waterfall(dialogId);
+        } else if (typeof dialogId === 'string') {
+            this.defaultHandler = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
+        } else {
+            this.defaultHandler = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
+        }
         return this;
     }
 
-    public getThreshold(): number {
-        return this.intentThreshold;
+    private recognizeInParallel(context: dlg.IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
+        var result: IIntentRecognizerResult = { score: 0.0, intent: null };
+        async.eachLimit(this.options.recognizers, this.options.processLimit, (recognizer, cb) => {
+            try {
+                recognizer.recognize(context, (err, r) => {
+                    if (!err && r && r.score > result.score && r.score >= this.options.intentThreshold) {
+                        r = result;
+                    }
+                    cb(err);
+                });
+            } catch (e) {
+                cb(e);
+            }
+        }, (err) => {
+            if (!err) {
+                done(null, result);
+            } else {
+                done(err instanceof Error ? err : new Error(err.toString()), null);
+            }
+        });
     }
 
-    public setThreshold(score: number): this {
-        this.intentThreshold = score;
-        return this;
+    private recognizeInSeries(context: dlg.IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
+        var i = 0;
+        var result: IIntentRecognizerResult = { score: 0.0, intent: null };
+        async.whilst(() => {
+            return (i < this.options.recognizers.length && result.score < 1.0);
+        }, (cb) => {
+            try {
+                var recognizer = this.options.recognizers[i++];
+                recognizer.recognize(context, (err, r) => {
+                    if (!err && r && r.score > result.score && r.score >= this.options.intentThreshold) {
+                        r = result;
+                    }
+                    cb(err);
+                });
+            } catch (e) {
+                cb(e);
+            }
+        }, (err) => {
+            if (!err) {
+                done(null, result);
+            } else {
+                done(err instanceof Error ? err : new Error(err.toString()), null);
+            }
+        });
     }
 
-    private invokeIntent(session: ISession, intents: IIntent[], entities: IEntity[]): void {
+    private invokeIntent(session: ses.Session, recognizeResult: IIntentRecognizerResult): void {
         try {
-            // Find top intent, group, and handler;
-            var match: IHandlerMatch;
-            var topIntent = this.findTopIntent(intents);
-            if (topIntent && topIntent.score > this.intentThreshold) {
-                match = this.findHandler(topIntent);
-            }
-            if (!match) {
-                topIntent = { intent: consts.Intents.Default, score: 1.0 };
-                match = {
-                    groupId: consts.Id.DefaultGroup,
-                    handler: this.getDefaultGroup()._intentHandler(topIntent.intent)
-                };
-            }
-
-            // Invoke handler
-            if (match && match.handler) {
-                session.dialogData[consts.Data.Group] = match.groupId;
-                session.dialogData[consts.Data.Intent] = topIntent.intent;
-                match.handler(session, { intents: intents, entities: entities });
+            if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+                this.handlers[recognizeResult.intent](session, recognizeResult);
+            } else if (this.defaultHandler) {
+                this.defaultHandler(session, recognizeResult);
             }
         } catch (e) {
-            session.error(e instanceof Error ? e : new Error(e.toString()));
+            this.emitError(session, e);
         }
     }
 
-    private findTopIntent(intents: IIntent[]): IIntent {
-        var topIntent: IIntent;
-        if (intents) {
-            for (var i = 0; i < intents.length; i++) {
-                var intent = intents[i];
-                if (!topIntent) {
-                    topIntent = intent;
-                } else if (intent.score > topIntent.score) {
-                    topIntent = intent;
-                }
-            }
-        }
-        return topIntent;
+    private emitError(session: ses.Session, err: Error): void {
+        err = err instanceof Error ? err : new Error(err.toString());
+        session.error(err);
     }
-
-    private findHandler(intent: IIntent): IHandlerMatch {
-        for (var groupId in this.groups) {
-            var handler = this.groups[groupId]._intentHandler(intent.intent);
-            if (handler) {
-                return { groupId: groupId, handler: handler };
-            }
-        }
-        return null;
-    }
-
-    private getDefaultGroup(): IntentGroup {
-        var group = this.groups[consts.Id.DefaultGroup];
-        if (!group) {
-            this.groups[consts.Id.DefaultGroup] = group = new IntentGroup(consts.Id.DefaultGroup);
-        }
-        return group;
-    }
-
-    protected abstract recognizeIntents(language: string, utterance: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void;
 }
 
-export class IntentGroup {
-    private handlers: { [id: string]: IDialogHandler<IIntentArgs>; } = {};
-
-    constructor(private id: string) {
-    }
-
-    public getId(): string {
-        return this.id;
-    }
-
-    /** Returns the handler registered for an intent if it exists. */
-    public _intentHandler(intent: string): IDialogHandler<IIntentArgs> {
-        return this.handlers[intent];
-    }
-
-    public on(intent: string, dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
-        if (!this.handlers.hasOwnProperty(intent)) {
-            if (Array.isArray(dialogId)) {
-                this.handlers[intent] = actions.waterfall(dialogId);
-            } else if (typeof dialogId == 'string') {
-                this.handlers[intent] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
-            } else {
-                this.handlers[intent] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
-            }
-        } else {
-            throw new Error('Intent[' + intent + '] already exists.');
-        }
-        return this;
-    }
+interface IIntentHandlerMap {
+    [id: string]: IDialogHandler<any>;
 }
