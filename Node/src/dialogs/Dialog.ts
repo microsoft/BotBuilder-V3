@@ -33,9 +33,9 @@
 
 export interface IDialog {
     begin<T>(session: ISession, args?: T): void;
-    replyReceived(session: ISession): void;
+    replyReceived(session: ISession, recognizeResult?: IRecognizeResult): void;
     dialogResumed(session: ISession, result: any): void;
-    compareConfidence(action: ISessionAction, language: string, utterance: string, score: number): void;
+    recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void
 }
 
 export enum ResumeReason { completed, notCompleted, canceled, back, forward, captureCompleted, childEnded }
@@ -47,12 +47,21 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
+export interface IRecognizeContext {
+    message: IMessage;
+    activeDialog: boolean;
+}
+
+export interface IRecognizeResult {
+    score: number;
+}
+
 export abstract class Dialog implements IDialog {
     public begin<T>(session: ISession, args?: T): void {
         this.replyReceived(session);
     }
 
-    abstract replyReceived(session: ISession): void;
+    abstract replyReceived(session: ISession, recognizeResult?: IRecognizeResult): void;
 
     public dialogResumed<T>(session: ISession, result: IDialogResult<T>): void {
         if (result.error) {
@@ -60,7 +69,7 @@ export abstract class Dialog implements IDialog {
         } 
     }
 
-    public compareConfidence(action: ISessionAction, language: string, utterance: string, score: number): void {
-        action.next();
+    public recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void {
+        cb(null, { score: 0.0 });
     }
 }

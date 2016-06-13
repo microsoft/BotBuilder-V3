@@ -62,12 +62,8 @@ export interface IPromptResult<T> extends dialog.IDialogResult<T> {
     promptType?: PromptType;
 }
 
-export interface IPromptRecognizerResult<T> extends IPromptResult<T> {
-    handled?: boolean;
-}
-
 export interface IPromptRecognizer {
-    recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<T>) => void, session?: ISession): void;
+    recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptResult<T>) => void, session?: ISession): void;
 }
 
 export interface IPromptRecognizerArgs {
@@ -77,7 +73,6 @@ export interface IPromptRecognizerArgs {
     attachments: IAttachment[];
     enumValues?: string[];
     refDate?: number;
-    compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 }
 
 export interface IPromptsOptions {
@@ -95,7 +90,7 @@ export interface IChronoDuration extends IEntity {
 export class SimplePromptRecognizer implements IPromptRecognizer {
     private cancelExp = /^(cancel|nevermind|never mind|stop|forget it|quit)/i;
 
-    public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<any>) => void, session?: ISession): void {
+    public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
         this.checkCanceled(args, () => {
             try {
                 // Recognize value
@@ -162,20 +157,18 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
                 }
 
                 // Return results
-                args.compareConfidence(args.local, text, score, (handled) => {
-                    if (!handled && score > 0) {
-                        callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
-                    } else {
-                        callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType, handled: handled });
-                    }
-                });
+                if (score > 0) {
+                    callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
+                } else {
+                    callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType });
+                }
             } catch (err) {
                 callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType, error: err instanceof Error ? err : new Error(err.toString()) });
             }
         }, callback);
     }
 
-    protected checkCanceled(args: IPromptRecognizerArgs, onContinue: Function, callback: (result: IPromptRecognizerResult<IEntity>) => void) {
+    protected checkCanceled(args: IPromptRecognizerArgs, onContinue: Function, callback: (result: IPromptResult<IEntity>) => void) {
         if (!this.cancelExp.test(args.utterance.trim())) {
             onContinue();
         } else {
@@ -217,20 +210,15 @@ export class Prompts extends dialog.Dialog {
                 local: session.message.local,
                 attachments: session.message.attachments,
                 enumValues: args.enumValues,
-                refDate: args.refDate,
-                compareConfidence: function (language, utterance, score, callback) {
-                    session.compareConfidence(language, utterance, score, callback);
-                }
+                refDate: args.refDate
             }, (result) => {
-                if (!result.handled) {
-                    if (result.error || result.resumed == dialog.ResumeReason.completed ||
-                        result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
-                        result.promptType = args.promptType;
-                        session.endDialogWithResult(result);
-                    } else {
-                        args.maxRetries--;
-                        this.sendPrompt(session, args, true);
-                    }
+                if (result.error || result.resumed == dialog.ResumeReason.completed ||
+                    result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
+                    result.promptType = args.promptType;
+                    session.endDialogWithResult(result);
+                } else {
+                    args.maxRetries--;
+                    this.sendPrompt(session, args, true);
                 }
             });
     }

@@ -252,7 +252,6 @@ interface ISession {
     beginDialog<T>(id: string, args?: T): ISession;
     replaceDialog<T>(id: string, args?: T): ISession;
     endDialog(result?: any): ISession;
-    compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
     reset(id: string): ISession;
     isReset(): boolean;
 }

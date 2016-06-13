@@ -322,11 +322,6 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
-    public compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void {
-        var comparer = new SessionConfidenceComparor(this, language, utterance, score, callback);
-        comparer.next();
-    }
-
     public reset(dialogId?: string, dialogArgs?: any): ISession {
         this._isReset = true;
         this.sessionState.callstack = [];
@@ -477,53 +472,5 @@ export class Session extends events.EventEmitter implements ISession {
     public getMessageReceived(): any {
         console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");
         return this.message.channelData;
-    }
-}
-
-class SessionConfidenceComparor implements ISessionAction {
-    private index: number;
-
-    constructor(
-        private session: Session,
-        private language: string,
-        private utterance: string,
-        private score: number,
-        private callback: (handled: boolean) => void) {
-        this.index = session.sessionState.callstack.length - 1;
-        this.userData = session.userData;
-    }
-
-    public userData: any;
-    public dialogData: any;
-
-    public next(): void {
-        this.index--;
-        if (this.index >= 0) {
-            this.getDialog().compareConfidence(this, this.language, this.utterance, this.score);
-        } else {
-            this.callback(false);
-        }
-    }
-
-    public endDialog<T>(result?: dialog.IDialogResult<T>): void {
-        // End dialog up to current point in the stack.
-        this.session.sessionState.callstack.splice(this.index + 1);
-        this.getDialog().dialogResumed(this.session, result || { resumed: dialog.ResumeReason.childEnded });
-        this.callback(true);
-    }
-
-    public send(message: string, ...args: any[]): void;
-    public send(message: IMessage): void;
-    public send(message: any, ...args: any[]): void {
-        // Send a message to the user.
-        args.splice(0, 0, [message]);
-        Session.prototype.send.apply(this.session, args);
-        this.callback(true);
-    }
-
-    private getDialog(): dialog.IDialog {
-        var cur = this.session.sessionState.callstack[this.index];
-        this.dialogData = cur.state;
-        return this.session.dialogs.getDialog(cur.id);
     }
 }
