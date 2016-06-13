@@ -38,7 +38,7 @@ import async = require('async');
 import url = require('url');
 import http = require('http');
 
-export interface IBotConnectorOptions {
+export interface IBotConnectorSettings {
     appId?: string;
     appPassword?: string;
     endpoint?: IBotConnectorEndpoint;
@@ -56,10 +56,10 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
     private accessToken: string;
     private accessTokenExpires: number;
 
-    constructor(private options: IBotConnectorOptions = {}) {
+    constructor(private settings: IBotConnectorSettings = {}) {
         super();
-        if (!this.options.endpoint) {
-            this.options.endpoint = {
+        if (!this.settings.endpoint) {
+            this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
@@ -82,6 +82,13 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
                     this.dispatch(body, res);
                 });
             }
+        };
+    }
+
+    public verifyBotFramework(): IWebMiddleware {
+        return (req: IWebRequest, res: IWebResponse, next: Function) => {
+            // TODO: Add logic to verify framework calls.
+            next();
         };
     }
 
@@ -211,17 +218,17 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
     }
 
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
-        if (this.options.appId && this.options.appPassword) {
+        if (this.settings.appId && this.settings.appPassword) {
             if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
                 // Refresh access token
                 var opt: request.Options = {
                     method: 'POST',
-                    url: this.options.endpoint.refreshEndpoint,
+                    url: this.settings.endpoint.refreshEndpoint,
                     form: {
                         grant_type: 'client_credentials',
-                        client_id: this.options.appId,
-                        client_secret: this.options.appPassword,
-                        scope: this.options.endpoint.refreshScope
+                        client_id: this.settings.appId,
+                        client_secret: this.settings.appPassword,
+                        scope: this.settings.endpoint.refreshScope
                     }
                 };
                 request(opt, (err, response, body) => {

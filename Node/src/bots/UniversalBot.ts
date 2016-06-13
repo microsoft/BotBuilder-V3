@@ -42,12 +42,13 @@ import utils = require('../utils');
 import events = require('events');
 import async = require('async');
 
-export interface ISettings {
+export interface IUniversalBotSettings {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     localizer?: ILocalizer;
     lookupUser?: ILookupUser;
     processLimit?: number;
+    minSendDelay?: number;
     storage?: bs.IBotStorage;
 }
 
@@ -83,14 +84,14 @@ export interface ILookupUser {
 }
 
 export class UniversalBot extends events.EventEmitter {
-    private settings = <ISettings>{ processLimit: 4 };
+    private settings = <IUniversalBotSettings>{ processLimit: 4 };
     private connectors = <IConnectorMap>{}; 
     private dialogs = new dc.DialogCollection();
     private mwReceive = <IMessageMiddleware[]>[];
     private mwAnalyze = <IAnalysisMiddleware[]>[];
     private mwSend = <IMessageMiddleware[]>[];
     
-    constructor(connector?: IConnector, settings?: ISettings) {
+    constructor(connector?: IConnector, settings?: IUniversalBotSettings) {
         super();
         if (connector) {
             this.connector('*', connector);
@@ -314,6 +315,7 @@ export class UniversalBot extends events.EventEmitter {
             // Initialize session
             var session = new ses.Session({
                 localizer: this.settings.localizer,
+                minSendDelay: this.settings.minSendDelay,
                 dialogs: this.dialogs,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
