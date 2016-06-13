@@ -1,5 +1,6 @@
 ﻿using Microsoft.Rest;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,15 @@ namespace Microsoft.Bot.Connector
                     Response = result.Response,
                     Body = result.Body
                 };
+            }
+            if (typeof(ObjectT).IsArray)
+            {
+                IList list = (IList)result.Body;
+                IList array = (IList)Array.CreateInstance(typeof(ObjectT).GetElementType(), list.Count);
+                int i = 0;
+                foreach (var el in list)
+                    array[i++] = el;
+                return (ObjectT)array;
             }
             return (ObjectT)result.Body;
         }

@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Connector
     public static partial class ConversationsExtensions
     {
         /// <summary>
-        /// Start a new conversation
+        /// Create a new conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -36,16 +36,16 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='activity'>
-        /// Message to send
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
         /// </param>
-        public static APIResponse StartConversation(this IConversations operations, Activity activity)
+        public static ResourceResponse CreateConversation(this IConversations operations, ConversationParameters parameters)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).StartConversationAsync(activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(parameters), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Start a new conversation
+        /// Create a new conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -66,90 +66,101 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='activity'>
-        /// Message to send
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> StartConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var _result = await operations.StartConversationWithHttpMessagesAsync(activity, null, cancellationToken).ConfigureAwait(false);
-            return _result.Body;
-        }
-
-        /// <summary>
-        /// Send an activity to an existing conversation
-        /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activity'>
-        /// Message to send
-        /// </param>
-        public static APIResponse ReplyToConversation(this IConversations operations, string conversationId, Activity activity)
-        {
-            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToConversationAsync(conversationId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// Send an activity to an existing conversation
-        /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activity'>
-        /// Message to send
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        public static async Task<APIResponse> ReplyToConversationAsync(this IConversations operations, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ResourceResponse> CreateConversationAsync(this IConversations operations, ConversationParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TEMP UNTIL WE HAVE JWT TOKENS
             Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
             headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
-            var _result = await operations.ReplyToConversationWithHttpMessagesAsync(conversationId, activity, headers, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, headers, cancellationToken).ConfigureAwait(false);
             // END TEmP
-            // var _result = await operations.ReplyToConversationWithHttpMessagesAsync(conversationId, activity, null, cancellationToken).ConfigureAwait(false);
+            //var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ResourceResponse>();
+        }
+
+        /// <summary>
+        /// Send an activity to an existing conversation
+        /// </summary>
+        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
+        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
+        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+        /// Boolean checkHost)
+        /// at System.IO.File.ReadAllText(String path)
+        /// at MarkdownDocs.Program.Main(String[] args)
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId the reply is to (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        public static APIResponse ReplyToConversation(this IConversations operations, string conversationId, string activityId, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToConversationAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Send an activity to an existing conversation
+        /// </summary>
+        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
+        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
+        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+        /// Boolean checkHost)
+        /// at System.IO.File.ReadAllText(String path)
+        /// at MarkdownDocs.Program.Main(String[] args)
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId the reply is to (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<APIResponse> ReplyToConversationAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            var _result = await operations.ReplyToConversationWithHttpMessagesAsync(conversationId, activityId, activity, headers, cancellationToken).ConfigureAwait(false);
+            // END TEmP
+            //var _result = await operations.ReplyToConversationWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false);
             return _result.Body;
         }
 
@@ -163,9 +174,9 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Message ID
+        /// (OPTIONAL) Activity ID
         /// </param>
-        public static object GetMembers(this IConversations operations, string conversationId, string activityId = default(string))
+        public static ChannelAccount[] GetMembers(this IConversations operations, string conversationId, string activityId = default(string))
         {
             return Task.Factory.StartNew(s => ((IConversations)s).GetMembersAsync(conversationId, activityId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -180,20 +191,20 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Message ID
+        /// (OPTIONAL) Activity ID
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<object> GetMembersAsync(this IConversations operations, string conversationId, string activityId = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ChannelAccount[]> GetMembersAsync(this IConversations operations, string conversationId, string activityId = default(string), CancellationToken cancellationToken = default(CancellationToken))
         {
             // TEMP UNTIL WE HAVE JWT TOKENS
             Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
             headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
             var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, activityId, headers, cancellationToken).ConfigureAwait(false);
             // END TEmP
-            //var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
-            return _result.Body;
+            //var _result = await operations.GhetMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ChannelAccount[]>();
         }
 
     }

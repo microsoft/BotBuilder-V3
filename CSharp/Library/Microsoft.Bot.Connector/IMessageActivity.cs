@@ -57,6 +57,27 @@ namespace Microsoft.Bot.Connector
         /// The channel data essentially allows a bot to have access to native functionality on a per channel basis.
         /// </remarks>
         dynamic ChannelData { get; set; }
-    }
 
+        /// <summary>
+        /// Get mentions from the Entities field
+        /// </summary>
+        /// <returns></returns>
+        Mention[] GetMentions();
+
+        /// <summary>
+        /// Get channeldata as typed structure
+        /// </summary>
+        /// <typeparam name="TypeT">type to use</typeparam>
+        /// <param name="activity">message</param>
+        /// <returns>typed object or default(TypeT)</returns>
+        TypeT GetChannelData<TypeT>();
+
+        /// <summary>
+        /// Return the "major" portion of the activity
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
+        string GetActivityType();
+
+    }
 }

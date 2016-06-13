@@ -164,5 +164,9 @@ namespace Microsoft.Bot.Connector
         [JsonProperty(PropertyName = "action")]
         public string Action { get; set; }
 
+        /// <summary>
+        /// the original activity id this message is a response to
+        /// </summary>
+        public string ReplyToId { get; set; }
     }
 }
