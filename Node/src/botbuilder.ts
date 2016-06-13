@@ -86,7 +86,11 @@ exports.BotConnector = bc.BotConnector;
 exports.ConsoleConnector = cc.ConsoleConnector;
 
 // Deprecated classes
-import deprecatedLuis = require('./deprecated/LuisDialog');
-import deprecatedCommand = require('./deprecated/CommandDialog');
-exports.LuisDialog = deprecatedLuis.LuisDialog;
-exports.CommandDialog = deprecatedCommand.CommandDialog;
+import deprecatedBCB = require('./deprecated/BotConnectorBot');
+import deprecatedLD = require('./deprecated/LuisDialog');
+import deprecatedCD = require('./deprecated/CommandDialog');
+import deprecatedTB = require('./deprecated/TextBot');
+exports.BotConnectorBot = deprecatedBCB.BotConnectorBot;
+exports.LuisDialog = deprecatedLD.LuisDialog;
+exports.CommandDialog = deprecatedCD.CommandDialog;
+exports.TextBot = deprecatedTB.TextBot;
