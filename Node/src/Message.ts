@@ -143,6 +143,7 @@ export class Message implements IIsMessage {
             }
         }
         if (isOldSchema) {
+            console.warn('Using old attachment schema. Upgrade to new card schema.');
             var v2 = <IAttachmentV2>a;
             var card = new hc.HeroCard();
             if (v2.title) {
