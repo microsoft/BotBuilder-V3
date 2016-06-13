@@ -10,10 +10,130 @@ namespace Microsoft.Bot.Connector
     using Newtonsoft.Json;
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
-
-    /// <summary>
-    /// </summary>
+    using Newtonsoft.Json.Linq;
+    using System.Net.Http;
+    using System.Configuration;/// <summary>
+                               /// </summary>
     public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity
     {
+        [JsonExtensionData(ReadData = true, WriteData = true)]
+        public JObject Properties { get; set; }
+
+        /// <summary>
+        /// Take a message and create a reply message for it with the routing information 
+        /// set up to correctly route a reply to the source message
+        /// </summary>
+        /// <param name="activity">the message being used to create the ReplyActivity from</param>
+        /// <param name="text">text you want to reply with</param>
+        /// <param name="locale">language of your reply</param>
+        /// <returns>message set up to route back to the sender</returns>
+        public Activity CreateReply(string text = null, string locale = null)
+        {
+            Activity reply = new Activity();
+            reply.Type = ActivityTypes.Message;
+            reply.Timestamp = DateTime.UtcNow;
+            reply.From = this.Recipient;
+            reply.Recipient = this.From;
+            reply.ReplyToId = this.Id;
+            reply.Conversation = this.Conversation;
+            reply.Conversation.IsGroup = null; // don't need to send in a reply
+            reply.Text = text ?? String.Empty;
+            reply.Locale = locale ?? this.Locale;
+            return reply;
+        }
+
+        /// <summary>
+        /// Get StateClient appropriate for this activity
+        /// </summary>
+        /// <param name="microsoftAppId"></param>
+        /// <param name="microsoftAppPassword"></param>
+        /// <param name="handlers"></param>
+        /// <returns></returns>
+        public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, params DelegatingHandler[] handlers)
+        {
+            var env = ConfigurationManager.AppSettings["IntercomEnvironment"];
+            bool useServiceUrl = (this.ChannelId == "emulator" || this.ChannelId == "skypeteams");
+            if (useServiceUrl)
+                return new StateClient(new Uri(this.ServiceUrl), microsoftAppId, microsoftAppPassword, handlers);
+
+            string url = "https://api.botframework.com";
+
+            if (env == "scratch" || env == "ppe")
+                url = $"https://intercom-api-{env}.azurewebsites.net";
+            else if (env == "localhost")
+                url = "http://localhost:8000";
+
+            return new StateClient(new Uri(url), microsoftAppId, microsoftAppPassword, handlers);
+        }
+
+        /// <summary>
+        /// Check if the message has content
+        /// </summary>
+        /// <returns>Returns true if this message has any content to send</returns>
+        public bool HasContent()
+        {
+            if (!String.IsNullOrWhiteSpace(this.Text))
+                return true;
+
+            if (!String.IsNullOrWhiteSpace(this.Summary))
+                return true;
+
+            if (this.Attachments != null && this.Attachments.Any())
+                return true;
+
+            if (this.ChannelData != null)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get mentions 
+        /// </summary>
+        /// <returns></returns>
+        public Mention[] GetMentions()
+        {
+            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
+        }
+
+        /// <summary>
+        /// Get channeldata as typed structure
+        /// </summary>
+        /// <typeparam name="TypeT">type to use</typeparam>
+        /// <param name="activity">message</param>
+        /// <returns>typed object or default(TypeT)</returns>
+        public TypeT GetChannelData<TypeT>()
+        {
+            if (this.ChannelData == null)
+                return default(TypeT);
+            return ((JObject)this.ChannelData).ToObject<TypeT>();
+        }
+
+        /// <summary>
+        /// Return the "major" portion of the activity
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
+        public string GetActivityType()
+        {
+            var type = this.Type.Split('/').First();
+            if (String.Equals(type, ActivityTypes.Message, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.Message;
+
+            if (String.Equals(type, ActivityTypes.ContactRelationUpdate, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.ContactRelationUpdate;
+
+            if (String.Equals(type, ActivityTypes.ConversationUpdate, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.ConversationUpdate;
+
+            if (String.Equals(type, ActivityTypes.DeleteUserData, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.DeleteUserData;
+
+            if (String.Equals(type, ActivityTypes.Typing, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.Typing;
+
+            return type;
+        }
+
     }
 }

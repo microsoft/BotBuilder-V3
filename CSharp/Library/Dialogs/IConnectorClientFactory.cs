@@ -58,9 +58,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         private readonly Uri serviceUri;
         private readonly IMessageActivity message; 
-        private readonly BasicAuthCredentials credentials;
+        private readonly MicrosoftAppCredentials credentials;
         private readonly bool? isEmulator; 
-        public ConnectorClientFactory(IMessageActivity message, BasicAuthCredentials credentials)
+        public ConnectorClientFactory(IMessageActivity message, MicrosoftAppCredentials credentials)
         {
             SetField.NotNull(out this.message, nameof(message), message);
             SetField.NotNull(out this.credentials, nameof(credentials), credentials);

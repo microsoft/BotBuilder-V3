@@ -75,12 +75,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // components not marked as [Serializable]
 
             builder
-                .RegisterType<BasicAuthCredentials>()
+                .RegisterType<MicrosoftAppCredentials>()
                 .AsSelf()
                 .SingleInstance();
 
             builder
-                .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<BasicAuthCredentials>()))
+                .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 

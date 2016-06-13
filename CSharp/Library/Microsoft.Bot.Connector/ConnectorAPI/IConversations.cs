@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Connector
     public partial interface IConversations
     {
         /// <summary>
-        /// Start a new conversation
+        /// Create a new conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the
         /// path
@@ -41,8 +41,8 @@ namespace Microsoft.Bot.Connector
         /// encoding, Boolean checkHost)
         /// at System.IO.File.ReadAllText(String path)
         /// at MarkdownDocs.Program.Main(String[] args)
-        /// <param name='activity'>
-        /// Message to send
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> StartConversationWithHttpMessagesAsync(Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> CreateConversationWithHttpMessagesAsync(ConversationParameters parameters, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Send an activity to an existing conversation
         /// </summary>
@@ -78,8 +78,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
+        /// <param name='activityId'>
+        /// activityId the reply is to (OPTIONAL)
+        /// </param>
         /// <param name='activity'>
-        /// Message to send
+        /// Activity to send
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -87,7 +90,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> ReplyToConversationWithHttpMessagesAsync(string conversationId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<APIResponse>> ReplyToConversationWithHttpMessagesAsync(string conversationId, string activityId, Activity activity = default(Activity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Get the list of members in this conversation
         /// </summary>
@@ -95,7 +98,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Message ID
+        /// (OPTIONAL) Activity ID
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.

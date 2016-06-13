@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,13 +15,8 @@ namespace Microsoft.Bot.Connector
     {
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppIdSettingName { get; set; }
-        public virtual string Issuer { get { return "https://api.botframework.com"; } }
-        //TODO: change this back to the production one
-        public virtual string OpenIdConfigurationUrl { get { return "https://intercom-api-scratch.azurewebsites.net/api/.well-known/OpenIdConfiguration"; } }
+        public bool DisableSelfIssuedTokens { get; set; }
 
-        /// <summary>
-        /// Override to Web API filter method to handle Basic Auth check
-        /// </summary>
         public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
@@ -31,34 +24,37 @@ namespace Microsoft.Bot.Connector
             if (actionContext.Request.RequestUri.Host == "localhost")
                 return;
 
-            var tokenExtractor = new JwtTokenExtractor(new string[] { MicrosoftAppId }, new string[] { Issuer }, OpenIdConfigurationUrl);
-
-            // Get the identity from the request
+            var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), JwtConfig.ToBotFromChannelOpenIdMetadataUrl);
             var identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
-            // Error if we didn't find a valid identity
+
+            // No identity? If we're allowed to, fall back to MSA
+            // This code path is used by the emulator
+            if (identity == null && !DisableSelfIssuedTokens)
+            {
+                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
+                identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+                
+                // Check to make sure the app ID in the token is ours
+                if (identity != null)
+                {
+                    // If it doesn't match, throw away the identity
+                    if (tokenExtractor.GetBotIdFromClaimsIdentity(identity) != MicrosoftAppId)
+                        identity = null;
+                }
+            }
+
+            // Still no identity? Fail out.
             if (identity == null)
             {
-                var host = actionContext.Request.RequestUri.DnsSafeHost;
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
-                actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+                tokenExtractor.GenerateUnauthorizedResponse(actionContext);
                 return;
             }
 
-            // Get bot ID from MSA app ID
-            Claim botClaim = identity.Claims.FirstOrDefault(c => c.Issuer == Issuer && c.Type == "aud");
-            if (botClaim == null)
-            {
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Forbidden);
-                return;
-            }
+            Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
 
-            var principal = new ClaimsPrincipal(identity);
-
-            Thread.CurrentPrincipal = principal;
-
-            // inside of ASP.NET this is required
+            // Inside of ASP.NET this is required
             if (HttpContext.Current != null)
-                HttpContext.Current.User = principal;
+                HttpContext.Current.User = Thread.CurrentPrincipal;
 
             await base.OnAuthorizationAsync(actionContext, cancellationToken);
         }

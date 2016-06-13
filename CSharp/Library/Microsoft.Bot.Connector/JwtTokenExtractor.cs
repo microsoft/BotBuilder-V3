@@ -3,43 +3,59 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Protocols;
 
 namespace Microsoft.Bot.Connector
 {
-    public class JwtTokenExtractor
+    internal class JwtTokenExtractor
     {
-        private readonly string[] _allowedAudiences;
-        private readonly string[] _allowedIssuers;
+        /// <summary>
+        /// Shared of OpenIdConnect configuration managers (one per metadata URL)
+        /// </summary>
+        private static readonly Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _openIdMetadataCache =
+            new Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>>();
+
+        /// <summary>
+        /// Token validation parameters for this instance
+        /// </summary>
+        private readonly TokenValidationParameters _tokenValidationParameters;
+
+        /// <summary>
+        /// OpenIdConnect configuration manager for this instances
+        /// </summary>
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _openIdMetadata;
 
-        public JwtTokenExtractor(
-            IEnumerable<string> allowedAudiences,
-            IEnumerable<string> allowedIssuers,
-            string metadataUrl)
+        public JwtTokenExtractor(TokenValidationParameters tokenValidationParameters, string metadataUrl)
         {
-            _allowedAudiences = allowedAudiences.ToArray();
-            _allowedIssuers = allowedIssuers.ToArray();
-            _openIdMetadata = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
+            // Make our own copy so we can edit it
+            _tokenValidationParameters = tokenValidationParameters.Clone();
+
+            if (!_openIdMetadataCache.ContainsKey(metadataUrl))
+                _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
+
+            _openIdMetadata = _openIdMetadataCache[metadataUrl];
+
+            _tokenValidationParameters.ValidateAudience = true;
+            _tokenValidationParameters.RequireSignedTokens = true;
         }
 
-        public async Task<JwtIdentity> GetIdentityAsync(HttpRequestMessage request)
+        public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
         {
+            // No header in correct scheme?
             if (request?.Headers?.Authorization?.Scheme != "Bearer")
-            {
-                // No auth header with Bearer scheme
                 return null;
-            }
 
             string jwtToken = request.Headers.Authorization.Parameter;
 
             try
             {
                 ClaimsPrincipal claimsPrincipal = await ValidateTokenAsync(jwtToken).ConfigureAwait(false);
-                return new JwtIdentity(jwtToken, claimsPrincipal.Identities.OfType<ClaimsIdentity>().FirstOrDefault());
+                return claimsPrincipal.Identities.OfType<ClaimsIdentity>().FirstOrDefault();
             }
             catch (Exception e)
             {
@@ -48,13 +64,38 @@ namespace Microsoft.Bot.Connector
             }
         }
 
+        public void GenerateUnauthorizedResponse(HttpActionContext actionContext)
+        {
+            string host = actionContext.Request.RequestUri.DnsSafeHost;
+            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+            actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+            return;
+        }
+
+        public string GetBotIdFromClaimsIdentity(ClaimsIdentity identity)
+        {
+            if (identity == null)
+                return null;
+
+            Claim botClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "appid");
+            if (botClaim != null)
+                return botClaim.Value;
+
+            // Fallback for BF-issued tokens
+            botClaim = identity.Claims.FirstOrDefault(c => c.Issuer == "https://api.botframework.com" && c.Type == "aud");
+            if (botClaim != null)
+                return botClaim.Value;
+
+            return null;
+        }
+
         private async Task<ClaimsPrincipal> ValidateTokenAsync(string jwtToken)
         {
             // _openIdMetadata only does a full refresh when the cache expires every 5 days
             OpenIdConnectConfiguration config = null;
             try
             {
-                 config = await _openIdMetadata.GetConfigurationAsync().ConfigureAwait(false);
+                config = await _openIdMetadata.GetConfigurationAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -65,19 +106,13 @@ namespace Microsoft.Bot.Connector
                     throw;
             }
 
+            // Update the signing tokens from the last refresh
+            _tokenValidationParameters.IssuerSigningTokens = config.SigningTokens;
+
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            TokenValidationParameters validationParameters = new TokenValidationParameters();
-            validationParameters.ValidateAudience = true;
-            validationParameters.ValidAudiences = _allowedAudiences;
-            validationParameters.ValidateIssuer = true;
-            validationParameters.ValidIssuers = _allowedIssuers;
-            validationParameters.ValidateLifetime = true;
-            validationParameters.ClockSkew = TimeSpan.FromMinutes(5);
-            validationParameters.RequireSignedTokens = true;
-            validationParameters.IssuerSigningTokens = config.SigningTokens;
 
             SecurityToken parsedToken;
-            ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, validationParameters, out parsedToken);
+            ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, _tokenValidationParameters, out parsedToken);
             return principal;
         }
     }

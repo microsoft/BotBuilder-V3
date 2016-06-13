@@ -12,28 +12,27 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// Object of schema.org types
     /// </summary>
-    public partial class Entity
+    public partial class ResourceResponse
     {
         /// <summary>
-        /// Initializes a new instance of the Entity class.
+        /// Initializes a new instance of the ResourceResponse class.
         /// </summary>
-        public Entity() { }
+        public ResourceResponse() { }
 
         /// <summary>
-        /// Initializes a new instance of the Entity class.
+        /// Initializes a new instance of the ResourceResponse class.
         /// </summary>
-        public Entity(string type = default(string))
+        public ResourceResponse(string id = default(string))
         {
-            Type = type;
+            Id = id;
         }
 
         /// <summary>
-        /// Entity Type (typically from schema.org types)
+        /// Id of the resource
         /// </summary>
-        [JsonProperty(PropertyName = "type")]
-        public string Type { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
     }
 }
