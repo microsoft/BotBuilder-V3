@@ -14,12 +14,7 @@ var SimpleDialog = (function (_super) {
         this.fn(session, args);
     };
     SimpleDialog.prototype.replyReceived = function (session) {
-        var _this = this;
-        session.compareConfidence(session.message.local, session.message.text, 0.0, function (handled) {
-            if (!handled) {
-                _this.fn(session);
-            }
-        });
+        this.fn(session);
     };
     SimpleDialog.prototype.dialogResumed = function (session, result) {
         this.fn(session, result);

@@ -258,10 +258,6 @@ var Session = (function (_super) {
         });
         return this;
     };
-    Session.prototype.compareConfidence = function (language, utterance, score, callback) {
-        var comparer = new SessionConfidenceComparor(this, language, utterance, score, callback);
-        comparer.next();
-    };
     Session.prototype.reset = function (dialogId, dialogArgs) {
         this._isReset = true;
         this.sessionState.callstack = [];
@@ -396,43 +392,3 @@ var Session = (function (_super) {
     return Session;
 })(events.EventEmitter);
 exports.Session = Session;
-var SessionConfidenceComparor = (function () {
-    function SessionConfidenceComparor(session, language, utterance, score, callback) {
-        this.session = session;
-        this.language = language;
-        this.utterance = utterance;
-        this.score = score;
-        this.callback = callback;
-        this.index = session.sessionState.callstack.length - 1;
-        this.userData = session.userData;
-    }
-    SessionConfidenceComparor.prototype.next = function () {
-        this.index--;
-        if (this.index >= 0) {
-            this.getDialog().compareConfidence(this, this.language, this.utterance, this.score);
-        }
-        else {
-            this.callback(false);
-        }
-    };
-    SessionConfidenceComparor.prototype.endDialog = function (result) {
-        this.session.sessionState.callstack.splice(this.index + 1);
-        this.getDialog().dialogResumed(this.session, result || { resumed: dialog.ResumeReason.childEnded });
-        this.callback(true);
-    };
-    SessionConfidenceComparor.prototype.send = function (message) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        args.splice(0, 0, [message]);
-        Session.prototype.send.apply(this.session, args);
-        this.callback(true);
-    };
-    SessionConfidenceComparor.prototype.getDialog = function () {
-        var cur = this.session.sessionState.callstack[this.index];
-        this.dialogData = cur.state;
-        return this.session.dialogs.getDialog(cur.id);
-    };
-    return SessionConfidenceComparor;
-})();

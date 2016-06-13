@@ -91,14 +91,12 @@ var SimplePromptRecognizer = (function () {
                         }
                         break;
                 }
-                args.compareConfidence(args.local, text, score, function (handled) {
-                    if (!handled && score > 0) {
-                        callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
-                    }
-                    else {
-                        callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType, handled: handled });
-                    }
-                });
+                if (score > 0) {
+                    callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
+                }
+                else {
+                    callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType });
+                }
             }
             catch (err) {
                 callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType, error: err instanceof Error ? err : new Error(err.toString()) });
@@ -140,21 +138,16 @@ var Prompts = (function (_super) {
             local: session.message.local,
             attachments: session.message.attachments,
             enumValues: args.enumValues,
-            refDate: args.refDate,
-            compareConfidence: function (language, utterance, score, callback) {
-                session.compareConfidence(language, utterance, score, callback);
-            }
+            refDate: args.refDate
         }, function (result) {
-            if (!result.handled) {
-                if (result.error || result.resumed == dialog.ResumeReason.completed ||
-                    result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
-                    result.promptType = args.promptType;
-                    session.endDialogWithResult(result);
-                }
-                else {
-                    args.maxRetries--;
-                    _this.sendPrompt(session, args, true);
-                }
+            if (result.error || result.resumed == dialog.ResumeReason.completed ||
+                result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
+                result.promptType = args.promptType;
+                session.endDialogWithResult(result);
+            }
+            else {
+                args.maxRetries--;
+                _this.sendPrompt(session, args, true);
             }
         });
     };

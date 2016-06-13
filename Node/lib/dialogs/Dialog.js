@@ -19,8 +19,8 @@ var Dialog = (function () {
             session.error(result.error);
         }
     };
-    Dialog.prototype.compareConfidence = function (action, language, utterance, score) {
-        action.next();
+    Dialog.prototype.recognize = function (context, cb) {
+        cb(null, { score: 0.0 });
     };
     return Dialog;
 })();

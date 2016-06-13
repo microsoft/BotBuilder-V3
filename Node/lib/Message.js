@@ -105,6 +105,7 @@ var Message = (function () {
             }
         }
         if (isOldSchema) {
+            console.warn('Using old attachment schema. Upgrade to new card schema.');
             var v2 = a;
             var card = new hc.HeroCard();
             if (v2.title) {

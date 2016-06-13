@@ -3,220 +3,246 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dialog = require('./Dialog');
+var dlg = require('./Dialog');
 var actions = require('./DialogAction');
 var consts = require('../consts');
+var async = require('async');
+(function (RecognizeOrder) {
+    RecognizeOrder[RecognizeOrder["parallel"] = 0] = "parallel";
+    RecognizeOrder[RecognizeOrder["series"] = 1] = "series";
+})(exports.RecognizeOrder || (exports.RecognizeOrder = {}));
+var RecognizeOrder = exports.RecognizeOrder;
 var IntentDialog = (function (_super) {
     __extends(IntentDialog, _super);
-    function IntentDialog() {
-        _super.apply(this, arguments);
-        this.groups = {};
-        this.intentThreshold = 0.1;
+    function IntentDialog(options) {
+        if (options === void 0) { options = {}; }
+        _super.call(this);
+        this.options = options;
+        this.handlers = {};
+        this.expressions = [];
+        if (typeof this.options.intentThreshold !== 'number') {
+            this.options.intentThreshold = 0.1;
+        }
+        if (!this.options.hasOwnProperty('recognizeOrder')) {
+            this.options.recognizeOrder = RecognizeOrder.parallel;
+        }
+        if (!this.options.recognizers) {
+            this.options.recognizers = [];
+        }
+        if (!this.options.processLimit) {
+            this.options.processLimit = 4;
+        }
     }
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;
         if (this.beginDialog) {
-            this.beginDialog(session, args, function () {
-                _super.prototype.begin.call(_this, session, args);
-            });
+            try {
+                this.beginDialog(session, args, function () {
+                    _super.prototype.begin.call(_this, session, args);
+                });
+            }
+            catch (e) {
+                this.emitError(session, e);
+            }
         }
         else {
             _super.prototype.begin.call(this, session, args);
         }
     };
-    IntentDialog.prototype.replyReceived = function (session) {
+    IntentDialog.prototype.replyReceived = function (session, recognizeResult) {
         var _this = this;
-        var msg = session.message;
-        this.recognizeIntents(msg.local, msg.text, function (err, intents, entities) {
-            if (!err) {
-                var topIntent = _this.findTopIntent(intents);
-                var score = topIntent ? topIntent.score : 0;
-                session.compareConfidence(msg.local, msg.text, score, function (handled) {
-                    if (!handled) {
-                        _this.invokeIntent(session, intents, entities);
-                    }
-                });
-            }
-            else {
-                session.endDialog({ error: new Error('Intent recognition error: ' + err.message) });
-            }
-        });
-    };
-    IntentDialog.prototype.dialogResumed = function (session, result) {
-        if (result.captured) {
-            this.invokeIntent(session, result.captured.intents, result.captured.entities);
-        }
-        else {
-            var activeGroup = session.dialogData[consts.Data.Group];
-            var activeIntent = session.dialogData[consts.Data.Intent];
-            var group = activeGroup ? this.groups[activeGroup] : null;
-            var handler = group && activeIntent ? group._intentHandler(activeIntent) : null;
-            if (handler) {
-                handler(session, result);
-            }
-            else {
-                _super.prototype.dialogResumed.call(this, session, result);
-            }
-        }
-    };
-    IntentDialog.prototype.compareConfidence = function (action, language, utterance, score) {
-        var _this = this;
-        if (score < IntentDialog.CAPTURE_THRESHOLD && this.captureIntent) {
-            this.recognizeIntents(language, utterance, function (err, intents, entities) {
-                var handled = false;
+        if (!recognizeResult) {
+            this.recognize({ message: session.message, activeDialog: true }, function (err, result) {
                 if (!err) {
-                    var matches;
-                    var topIntent = _this.findTopIntent(intents);
-                    if (topIntent && topIntent.score > _this.intentThreshold && topIntent.score > score) {
-                        matches = _this.findHandler(topIntent);
-                    }
-                    if (matches) {
-                        _this.captureIntent({
-                            next: action.next,
-                            userData: action.userData,
-                            dialogData: action.dialogData,
-                            endDialog: function () {
-                                action.endDialog({
-                                    resumed: dialog.ResumeReason.completed,
-                                    captured: {
-                                        intents: intents,
-                                        entities: entities
-                                    }
-                                });
-                            },
-                            send: action.send
-                        }, topIntent, entities);
-                    }
-                    else {
-                        action.next();
-                    }
+                    _this.invokeIntent(session, result);
                 }
                 else {
-                    console.error('Intent recognition error: ' + err.message);
-                    action.next();
+                    _this.emitError(session, err);
                 }
             });
         }
         else {
-            action.next();
+            this.invokeIntent(session, recognizeResult);
         }
     };
-    IntentDialog.prototype.addGroup = function (group) {
-        var id = group.getId();
-        if (!this.groups.hasOwnProperty(id)) {
-            this.groups[id] = group;
+    IntentDialog.prototype.dialogResumed = function (session, result) {
+        var activeIntent = session.dialogData[consts.Data.Intent];
+        if (activeIntent && this.handlers.hasOwnProperty(activeIntent)) {
+            try {
+                this.handlers[activeIntent](session, result);
+            }
+            catch (e) {
+                this.emitError(session, e);
+            }
         }
         else {
-            throw "Group of " + id + " already exists within the dialog.";
+            _super.prototype.dialogResumed.call(this, session, result);
         }
-        return this;
+    };
+    IntentDialog.prototype.recognize = function (context, cb) {
+        function done(err, r) {
+            if (!err) {
+                if (r.score > result.score) {
+                    cb(null, r);
+                }
+                else {
+                    cb(null, result);
+                }
+            }
+            else {
+                cb(err, null);
+            }
+        }
+        var result = { score: 0.0, intent: null };
+        if (context.message && context.message.text) {
+            if (this.expressions) {
+                for (var i = 0; i < this.expressions.length; i++) {
+                    var exp = this.expressions[i];
+                    var matches = exp.exec(context.message.text);
+                    if (matches && matches.length) {
+                        var matched = matches[0];
+                        var score = matched.length / context.message.text.length;
+                        if (score > result.score && score >= this.options.intentThreshold) {
+                            result.score = score;
+                            result.intent = exp.toString();
+                            result.expression = exp;
+                            result.matched = matched;
+                            if (score == 1.0) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (result.score < 1.0 && this.options.recognizers.length) {
+                switch (this.options.recognizeOrder) {
+                    default:
+                    case RecognizeOrder.parallel:
+                        this.recognizeInParallel(context, done);
+                        break;
+                    case RecognizeOrder.series:
+                        this.recognizeInSeries(context, done);
+                        break;
+                }
+            }
+            else {
+                cb(null, result);
+            }
+        }
+        else {
+            cb(null, result);
+        }
     };
     IntentDialog.prototype.onBegin = function (handler) {
         this.beginDialog = handler;
         return this;
     };
-    IntentDialog.prototype.on = function (intent, dialogId, dialogArgs) {
-        this.getDefaultGroup().on(intent, dialogId, dialogArgs);
+    IntentDialog.prototype.matches = function (intent, dialogId, dialogArgs) {
+        var id;
+        if (intent) {
+            if (typeof intent === 'string') {
+                id = intent;
+            }
+            else {
+                id = intent.toString();
+                this.expressions.push(intent);
+            }
+        }
+        if (this.handlers.hasOwnProperty(id)) {
+            throw new Error("A handler for '" + id + "' already exists.");
+        }
+        if (Array.isArray(dialogId)) {
+            this.handlers[id] = actions.waterfall(dialogId);
+        }
+        else if (typeof dialogId === 'string') {
+            this.handlers[id] = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+        }
+        else {
+            this.handlers[id] = actions.waterfall([dialogId]);
+        }
         return this;
     };
     IntentDialog.prototype.onDefault = function (dialogId, dialogArgs) {
-        this.getDefaultGroup().on(consts.Intents.Default, dialogId, dialogArgs);
+        if (Array.isArray(dialogId)) {
+            this.defaultHandler = actions.waterfall(dialogId);
+        }
+        else if (typeof dialogId === 'string') {
+            this.defaultHandler = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+        }
+        else {
+            this.defaultHandler = actions.waterfall([dialogId]);
+        }
         return this;
     };
-    IntentDialog.prototype.getThreshold = function () {
-        return this.intentThreshold;
+    IntentDialog.prototype.recognizeInParallel = function (context, done) {
+        var _this = this;
+        var result = { score: 0.0, intent: null };
+        async.eachLimit(this.options.recognizers, this.options.processLimit, function (recognizer, cb) {
+            try {
+                recognizer.recognize(context, function (err, r) {
+                    if (!err && r && r.score > result.score && r.score >= _this.options.intentThreshold) {
+                        r = result;
+                    }
+                    cb(err);
+                });
+            }
+            catch (e) {
+                cb(e);
+            }
+        }, function (err) {
+            if (!err) {
+                done(null, result);
+            }
+            else {
+                done(err instanceof Error ? err : new Error(err.toString()), null);
+            }
+        });
     };
-    IntentDialog.prototype.setThreshold = function (score) {
-        this.intentThreshold = score;
-        return this;
+    IntentDialog.prototype.recognizeInSeries = function (context, done) {
+        var _this = this;
+        var i = 0;
+        var result = { score: 0.0, intent: null };
+        async.whilst(function () {
+            return (i < _this.options.recognizers.length && result.score < 1.0);
+        }, function (cb) {
+            try {
+                var recognizer = _this.options.recognizers[i++];
+                recognizer.recognize(context, function (err, r) {
+                    if (!err && r && r.score > result.score && r.score >= _this.options.intentThreshold) {
+                        r = result;
+                    }
+                    cb(err);
+                });
+            }
+            catch (e) {
+                cb(e);
+            }
+        }, function (err) {
+            if (!err) {
+                done(null, result);
+            }
+            else {
+                done(err instanceof Error ? err : new Error(err.toString()), null);
+            }
+        });
     };
-    IntentDialog.prototype.invokeIntent = function (session, intents, entities) {
+    IntentDialog.prototype.invokeIntent = function (session, recognizeResult) {
         try {
-            var match;
-            var topIntent = this.findTopIntent(intents);
-            if (topIntent && topIntent.score > this.intentThreshold) {
-                match = this.findHandler(topIntent);
+            if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+                this.handlers[recognizeResult.intent](session, recognizeResult);
             }
-            if (!match) {
-                topIntent = { intent: consts.Intents.Default, score: 1.0 };
-                match = {
-                    groupId: consts.Id.DefaultGroup,
-                    handler: this.getDefaultGroup()._intentHandler(topIntent.intent)
-                };
-            }
-            if (match && match.handler) {
-                session.dialogData[consts.Data.Group] = match.groupId;
-                session.dialogData[consts.Data.Intent] = topIntent.intent;
-                match.handler(session, { intents: intents, entities: entities });
+            else if (this.defaultHandler) {
+                this.defaultHandler(session, recognizeResult);
             }
         }
         catch (e) {
-            session.error(e instanceof Error ? e : new Error(e.toString()));
+            this.emitError(session, e);
         }
     };
-    IntentDialog.prototype.findTopIntent = function (intents) {
-        var topIntent;
-        if (intents) {
-            for (var i = 0; i < intents.length; i++) {
-                var intent = intents[i];
-                if (!topIntent) {
-                    topIntent = intent;
-                }
-                else if (intent.score > topIntent.score) {
-                    topIntent = intent;
-                }
-            }
-        }
-        return topIntent;
+    IntentDialog.prototype.emitError = function (session, err) {
+        err = err instanceof Error ? err : new Error(err.toString());
+        session.error(err);
     };
-    IntentDialog.prototype.findHandler = function (intent) {
-        for (var groupId in this.groups) {
-            var handler = this.groups[groupId]._intentHandler(intent.intent);
-            if (handler) {
-                return { groupId: groupId, handler: handler };
-            }
-        }
-        return null;
-    };
-    IntentDialog.prototype.getDefaultGroup = function () {
-        var group = this.groups[consts.Id.DefaultGroup];
-        if (!group) {
-            this.groups[consts.Id.DefaultGroup] = group = new IntentGroup(consts.Id.DefaultGroup);
-        }
-        return group;
-    };
-    IntentDialog.CAPTURE_THRESHOLD = 0.6;
     return IntentDialog;
-})(dialog.Dialog);
+})(dlg.Dialog);
 exports.IntentDialog = IntentDialog;
-var IntentGroup = (function () {
-    function IntentGroup(id) {
-        this.id = id;
-        this.handlers = {};
-    }
-    IntentGroup.prototype.getId = function () {
-        return this.id;
-    };
-    IntentGroup.prototype._intentHandler = function (intent) {
-        return this.handlers[intent];
-    };
-    IntentGroup.prototype.on = function (intent, dialogId, dialogArgs) {
-        if (!this.handlers.hasOwnProperty(intent)) {
-            if (Array.isArray(dialogId)) {
-                this.handlers[intent] = actions.waterfall(dialogId);
-            }
-            else if (typeof dialogId == 'string') {
-                this.handlers[intent] = actions.DialogAction.beginDialog(dialogId, dialogArgs);
-            }
-            else {
-                this.handlers[intent] = actions.waterfall([dialogId]);
-            }
-        }
-        else {
-            throw new Error('Intent[' + intent + '] already exists.');
-        }
-        return this;
-    };
-    return IntentGroup;
-})();
-exports.IntentGroup = IntentGroup;
