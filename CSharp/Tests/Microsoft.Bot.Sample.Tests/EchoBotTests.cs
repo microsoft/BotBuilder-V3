@@ -73,6 +73,7 @@ namespace Microsoft.Bot.Sample.Tests
         {
             // arrange
             var toBot = DialogTestBase.MakeTestMessage();
+            toBot.From.Id = Guid.NewGuid().ToString(); 
             toBot.Text = "Test";
 
             Func<IDialog<object>> MakeRoot = () => echoDialog;

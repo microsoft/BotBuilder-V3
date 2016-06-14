@@ -72,8 +72,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
-            // components not marked as [Serializable]
-
             builder
                 .RegisterType<MicrosoftAppCredentials>()
                 .AsSelf()
@@ -90,6 +88,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
+                .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
+                .As<IStateClient>()
+                .InstancePerLifetimeScope(); 
+
+            builder
                .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
                .As<IDetectChannelCapability>()
                .InstancePerLifetimeScope();
@@ -99,9 +102,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<InMemoryBotDataStore>()
+            /*builder.RegisterType<InMemoryDataStore>()
+                .As<IDataStore>()
+                .SingleInstance(); */
+
+            builder.RegisterType<ConnectorStore>()
+                .As<IDataStore>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<CachingBotDataStore>()
                 .As<IBotDataStore>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<JObjectBotData>()

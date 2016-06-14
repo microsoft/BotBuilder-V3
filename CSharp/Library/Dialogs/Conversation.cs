@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var client = scope.Resolve<IConnectorClient>();
             var botData = scope.Resolve<IBotData>();
-            await botData.LoadAsync(); 
+            await botData.LoadAsync(token); 
 
             using (new LocalizedScope(continuationMessage.Locale))
             {

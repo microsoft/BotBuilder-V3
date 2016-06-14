@@ -138,7 +138,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new JObjectBotData(msg, new InMemoryBotDataStore());
+            return new JObjectBotData(msg, new CachingBotDataStore(new InMemoryDataStore()));
         }
     }
 
@@ -148,7 +148,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new DictionaryBotData(msg, new InMemoryBotDataStore());
+            return new DictionaryBotData(msg, new CachingBotDataStore(new InMemoryDataStore()));
         }
     }
 }
