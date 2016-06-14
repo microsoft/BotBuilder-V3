@@ -61,7 +61,6 @@ export interface IIntentRecognizerResult extends dlg.IRecognizeResult {
 export class IntentDialog extends dlg.Dialog {
     private beginDialog: IBeginDialogHandler;
     private handlers = <IIntentHandlerMap>{};
-    private defaultHandler: IDialogHandler<any>;
     private expressions = <RegExp[]>[];
 
     constructor(private options: IIntentDialogOptions = {}) {
@@ -210,11 +209,11 @@ export class IntentDialog extends dlg.Dialog {
     public onDefault(dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.defaultHandler = actions.waterfall(dialogId);
+            this.handlers[consts.Intents.Default] = actions.waterfall(dialogId);
         } else if (typeof dialogId === 'string') {
-            this.defaultHandler = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
+            this.handlers[consts.Intents.Default] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.defaultHandler = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
+            this.handlers[consts.Intents.Default] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
         }
         return this;
     }
@@ -225,7 +224,7 @@ export class IntentDialog extends dlg.Dialog {
             try {
                 recognizer.recognize(context, (err, r) => {
                     if (!err && r && r.score > result.score && r.score >= this.options.intentThreshold) {
-                        r = result;
+                        result = r;
                     }
                     cb(err);
                 });
@@ -251,7 +250,7 @@ export class IntentDialog extends dlg.Dialog {
                 var recognizer = this.options.recognizers[i++];
                 recognizer.recognize(context, (err, r) => {
                     if (!err && r && r.score > result.score && r.score >= this.options.intentThreshold) {
-                        r = result;
+                        result = r;
                     }
                     cb(err);
                 });
@@ -268,14 +267,19 @@ export class IntentDialog extends dlg.Dialog {
     }
 
     private invokeIntent(session: ses.Session, recognizeResult: IIntentRecognizerResult): void {
-        try {
-            if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
-                this.handlers[recognizeResult.intent](session, recognizeResult);
-            } else if (this.defaultHandler) {
-                this.defaultHandler(session, recognizeResult);
+        var activeIntent: string;
+        if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+            activeIntent = recognizeResult.intent;                
+        } else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
+            activeIntent = consts.Intents.Default;
+        }
+        if (activeIntent) {
+            try {
+                session.dialogData[consts.Data.Intent] = activeIntent;
+                this.handlers[activeIntent](session, recognizeResult);
+            } catch (e) {
+                this.emitError(session, e);
             }
-        } catch (e) {
-            this.emitError(session, e);
         }
     }
 

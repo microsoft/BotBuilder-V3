@@ -164,13 +164,13 @@ var IntentDialog = (function (_super) {
     };
     IntentDialog.prototype.onDefault = function (dialogId, dialogArgs) {
         if (Array.isArray(dialogId)) {
-            this.defaultHandler = actions.waterfall(dialogId);
+            this.handlers[consts.Intents.Default] = actions.waterfall(dialogId);
         }
         else if (typeof dialogId === 'string') {
-            this.defaultHandler = actions.DialogAction.beginDialog(dialogId, dialogArgs);
+            this.handlers[consts.Intents.Default] = actions.DialogAction.beginDialog(dialogId, dialogArgs);
         }
         else {
-            this.defaultHandler = actions.waterfall([dialogId]);
+            this.handlers[consts.Intents.Default] = actions.waterfall([dialogId]);
         }
         return this;
     };
@@ -181,7 +181,7 @@ var IntentDialog = (function (_super) {
             try {
                 recognizer.recognize(context, function (err, r) {
                     if (!err && r && r.score > result.score && r.score >= _this.options.intentThreshold) {
-                        r = result;
+                        result = r;
                     }
                     cb(err);
                 });
@@ -209,7 +209,7 @@ var IntentDialog = (function (_super) {
                 var recognizer = _this.options.recognizers[i++];
                 recognizer.recognize(context, function (err, r) {
                     if (!err && r && r.score > result.score && r.score >= _this.options.intentThreshold) {
-                        r = result;
+                        result = r;
                     }
                     cb(err);
                 });
@@ -227,16 +227,21 @@ var IntentDialog = (function (_super) {
         });
     };
     IntentDialog.prototype.invokeIntent = function (session, recognizeResult) {
-        try {
-            if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
-                this.handlers[recognizeResult.intent](session, recognizeResult);
-            }
-            else if (this.defaultHandler) {
-                this.defaultHandler(session, recognizeResult);
-            }
+        var activeIntent;
+        if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+            activeIntent = recognizeResult.intent;
         }
-        catch (e) {
-            this.emitError(session, e);
+        else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
+            activeIntent = consts.Intents.Default;
+        }
+        if (activeIntent) {
+            try {
+                session.dialogData[consts.Data.Intent] = activeIntent;
+                this.handlers[activeIntent](session, recognizeResult);
+            }
+            catch (e) {
+                this.emitError(session, e);
+            }
         }
     };
     IntentDialog.prototype.emitError = function (session, err) {

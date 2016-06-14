@@ -31,8 +31,15 @@ var LuisRecognizer = (function () {
                             }
                         });
                         if (top) {
-                            result.score = top.score;
-                            result.intent = top.intent;
+                            switch (top.intent.toLowerCase()) {
+                                case 'builtin.intent.none':
+                                case 'none':
+                                    break;
+                                default:
+                                    result.score = top.score;
+                                    result.intent = top.intent;
+                                    break;
+                            }
                         }
                         cb(null, result);
                     }

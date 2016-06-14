@@ -75,8 +75,17 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
                             }
                         });
                         if (top) {
-                            result.score = top.score;
-                            result.intent = top.intent;
+                            // Ignore 'none' intent
+                            switch (top.intent.toLowerCase()) {
+                                case 'builtin.intent.none':
+                                case 'none':
+                                    // Ignore intent
+                                    break;
+                                default:
+                                    result.score = top.score;
+                                    result.intent = top.intent;
+                                    break;
+                            }
                         }
                         cb(null, result);
                     } else {
