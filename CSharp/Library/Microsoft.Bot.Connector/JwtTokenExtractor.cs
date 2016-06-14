@@ -10,11 +10,6 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Protocols;
 
-// This file is duplicated in these locations:
-// Intercom.Models\Authentication\JwtTokenExtractor.cs
-// SDK\Microsoft.Bot.Connector\JwtTokenExtractor.cs
-// Only the namespace differs
-
 namespace Microsoft.Bot.Connector
 {
     public class JwtTokenExtractor

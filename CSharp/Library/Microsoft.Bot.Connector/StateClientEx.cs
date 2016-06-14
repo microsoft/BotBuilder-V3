@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Create a new instance of the StateCleint class
+        /// Create a new instance of the StateClient class
         /// </summary>
         /// <param name="baseUri">Base URI for the Connector service</param>
         /// <param name="credentials">Credentials for the Connector service</param>
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Create a new instance of the StateCleint class
+        /// Create a new instance of the StateClient class
         /// </summary>
         /// <remarks> This constructor will use http://api.botframework.com as the baseUri</remarks>
         /// <param name="credentials">Credentials for the Connector service</param>
