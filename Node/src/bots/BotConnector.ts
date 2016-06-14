@@ -39,6 +39,7 @@ import url = require('url');
 import http = require('http');
 
 export interface IBotConnectorSettings {
+    botId?: string;
     appId?: string;
     appPassword?: string;
     endpoint?: IBotConnectorEndpoint;
