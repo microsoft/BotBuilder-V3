@@ -97,11 +97,11 @@ export class TextBot  {
                     console.error('TextBot custom stores no longer supported. Use UniversalBot with a custom IBotStorage implementation instead.');
                     throw new Error('TextBot custom stores no longer supported.');
             }
-
-            // Initialize connector & universal bot
-            this.connector = new cc.ConsoleConnector();
-            this.bot = new ub.UniversalBot(this.connector, oBot);
         }
+
+        // Initialize connector & universal bot
+        this.connector = new cc.ConsoleConnector();
+        this.bot = new ub.UniversalBot(this.connector, oBot);
     }
 
     public on(event: string, listener: Function): this {

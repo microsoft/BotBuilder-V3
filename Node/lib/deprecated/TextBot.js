@@ -33,9 +33,9 @@ var TextBot = (function () {
                     console.error('TextBot custom stores no longer supported. Use UniversalBot with a custom IBotStorage implementation instead.');
                     throw new Error('TextBot custom stores no longer supported.');
             }
-            this.connector = new cc.ConsoleConnector();
-            this.bot = new ub.UniversalBot(this.connector, oBot);
         }
+        this.connector = new cc.ConsoleConnector();
+        this.bot = new ub.UniversalBot(this.connector, oBot);
     }
     TextBot.prototype.on = function (event, listener) {
         this.bot.on(event, listener);

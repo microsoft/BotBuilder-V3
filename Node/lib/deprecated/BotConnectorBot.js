@@ -41,9 +41,9 @@ var BotConnectorBot = (function () {
                     console.error('BotConnectorBot custom stores no longer supported. Use UniversalBot with a custom IBotStorage implementation instead.');
                     throw new Error('BotConnectorBot custom stores no longer supported.');
             }
-            this.connector = new bc.BotConnector(oConnector);
-            this.bot = new ub.UniversalBot(this.connector, oBot);
         }
+        this.connector = new bc.BotConnector(oConnector);
+        this.bot = new ub.UniversalBot(this.connector, oBot);
     }
     BotConnectorBot.prototype.on = function (event, listener) {
         this.bot.on(event, listener);
