@@ -11,7 +11,7 @@ using System.Web.Http.Description;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         /// <summary>
@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                                     {
                                         reply.Text = $"Welcome {activity.From.Name}";
                                     }
-                                    await client.Conversations.ReplyToConversationAsync(reply);
+                                    await client.Conversations.ReplyToActivityAsync(reply);
                                 }
                             }
                         }
