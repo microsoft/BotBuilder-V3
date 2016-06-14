@@ -1,9 +1,9 @@
 /*-----------------------------------------------------------------------------
 This Bot uses the Bot Connector Service but is designed to showcase whats 
-possible on Facebook using the framework. The demo shows how to create a looping 
-menu how send things like Pictures, Bubbles, Receipts, and use Carousels. It also
-shows all of the prompts supported by Bot Builder and how to recieve uploaded
-photos, videos, and location.
+possible on Skype using the framework. The demo shows how to create a looping 
+menu, how send things like Pictures, Hero & Thumbnail Cards, Receipts, and use 
+Carousels. It alsoshows all of the prompts supported by Bot Builder and how to 
+recieve uploaded photos and videos.
 
 # RUN THE BOT:
 
@@ -13,8 +13,7 @@ photos, videos, and location.
 
     * Install and run ngrok in a console window using "ngrok http 3978".
     * Create a bot on https://dev.botframework.com and follow the steps to setup
-      a Facebook channel. The Facebook channel config page will walk you through 
-      creating a Facebook page & app for your bot.
+      a Skype channel.
     * For the endpoint you setup on dev.botframework.com, copy the https link 
       ngrok setup and set "<ngrok link>/api/messages" as your bots endpoint.
     * In a separate console window set BOTFRAMEWORK_APPID and BOTFRAMEWORK_APPSECRET
@@ -26,9 +25,16 @@ photos, videos, and location.
 
 var restify = require('restify');
 var builder = require('../../');
+
+var exp = /(hello|hi|howdy)/igm;
+console.log(exp.toString());
+console.log(JSON.stringify(exp.exec("hi, how are you doing? hello?")));
   
 // Create bot and setup server
-var connector = new builder.BotConnector();
+var connector = new builder.BotConnector({
+    appId: process.env.BOTFRAMEWORK_APPID,
+    appPassword: process.env.BOTFRAMEWORK_APPPASSWORD
+});
 var bot = new builder.UniversalBot(connector);
 
 // Setup Restify Server
@@ -42,15 +48,16 @@ server.listen(process.env.port || 3978, function () {
 bot.dialog('/', [
     function (session) {
         // Send a greeting and start the menu.
-        var msg = new builder.Message(session)
-            .addAttachment({
-                thumbnailUrl: "http://docs.botframework.com/images/demo_bot_image.png",
-                title: "Microsoft Bot Framework",
-                text: "Your bots - wherever your users are talking.",
-                titleLink: "https://dev.botframework.com/",
-            });
+        var card = new builder.HeroCard(session)
+            .title("Microsoft Bot Framework")
+            .text("Your bots - wherever your users are talking.")
+            .images([
+                builder.Image.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
+            ])
+            .tap(builder.Action.openUrl(session, "https://dev.botframework.com/"))
+        var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
-        session.send("Hi... I'm the Microsoft Bot Framework demo bot for Facebook. I can show you everything you can use our Bot Builder SDK to do on Facebook.");
+        session.send("Hi... I'm the Microsoft Bot Framework demo bot for Skype. I can show you everything you can use our Bot Builder SDK to do on Skype.");
         session.beginDialog('/menu');
     },
     function (session, results) {
@@ -61,7 +68,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|bubble|carousel|receipt|location|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|cards|carousel|receipt|signin|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -75,8 +82,8 @@ bot.dialog('/menu', [
                 case 'video':
                     session.beginDialog('/video');
                     break;
-                case 'bubble':
-                    session.beginDialog('/bubble');
+                case 'cards':
+                    session.beginDialog('/cards');
                     break;
                 case 'carousel':
                     session.beginDialog('/carousel');
@@ -84,8 +91,8 @@ bot.dialog('/menu', [
                 case 'receipt':
                     session.beginDialog('/receipt');
                     break;
-                case 'location':
-                    session.beginDialog('/location');
+                case 'signin':
+                    session.beginDialog('/signin');
                     break;
             }
         } else {
@@ -138,7 +145,7 @@ bot.dialog('/prompts', [
         }
     },
     function (session, results) {
-        if (results && results.response) {
+        if (results && results.resumed == builder.ResumeReason.completed) {
             session.send("You chose '%s'", results.response ? 'yes' : 'no');
             builder.Prompts.time(session, "Prompts.time()\n\nThe framework can recognize a range of times expressed as natural language. Enter a time like 'Monday at 7am' and I'll show you the JSON we return.");
         } else {
@@ -155,8 +162,8 @@ bot.dialog('/prompts', [
     },
     function (session, results) {
         if (results && results.response) {
-            var msg = new builder.Message()
-                .setNText(session, "I got %d attachment.", "I got %d attachments.", results.response.length);
+            var msg = new builder.Message(session)
+                .ntext("I got %d attachment.", "I got %d attachments.", results.response.length);
             results.response.forEach(function (attachment) {
                 msg.addAttachment(attachment);    
             });
@@ -170,32 +177,35 @@ bot.dialog('/prompts', [
 bot.dialog('/picture', [
     function (session) {
         session.send("You can easily send pictures to a user...");
-        var msg = new builder.Message()
-            .addAttachment({
-                contentUrl: "http://www.theoldrobots.com/images62/Bender-18.JPG",
-                contentType: "image/jpeg"
-            });
+        var msg = new builder.Message(session)
+            .attachments([{
+                contentType: "image/jpeg",
+                contentUrl: "http://www.theoldrobots.com/images62/Bender-18.JPG"
+            }]);
         session.endDialog(msg);
     }
 ]);
 
+
+
 bot.dialog('/video', [
     function (session) {
-        session.send("Facebook bots can recieve videos but Facebook doesn't currently support sending videos. You can however share links to videos using bubbles.");
-        builder.Prompts.attachment(session, "Send me a video (or any type of attachment) and I'll send it back to you as a bubble.");
+        session.send("Skype bots can recieve videos but Skype doesn't currently support sending videos. You can however share links to videos using bubbles.");
+        builder.Prompts.attachment(session, "Send me a video (or any type of attachment) and I'll send it back to you as a Hero Card.");
     },
     function (session, results) {
         if (results.response && results.response.length) {
             var first = results.response[0];
-            var bubble = {};
-            bubble.title = "Attachment Received";
-            bubble.titleLink = first.contentUrl;
-            bubble.text = "Attachment Type: " + first.contentType;
+            var card = new builder.HeroCard(session)
+                .title("Attachment Received")
+                .text("Attachment Type: "  + first.contentType)
+                .tap(builder.Action.openUrl(session, first.contentUrl));
             if (first.contentType.indexOf('image') == 0) {
-                bubble.thumbnailUrl = bubble.titleLink;
-            } 
-            var msg = new builder.Message()
-                .addAttachment(bubble);
+                card.images([
+                    builder.Image.create(session, first.contentUrl)
+                ]);
+            }
+            var msg = new builder.Message(session).attachments([card]);
             session.endDialog(msg);
         } else {
             session.endDialog("I didn't get any attachments :(");
@@ -203,16 +213,34 @@ bot.dialog('/video', [
     }
 ]);
 
-bot.dialog('/bubble', [
+bot.dialog('/cards', [
     function (session) {
-        session.send("You can use bubbles to send the user a rich card...");
-        var msg = new builder.Message()
-            .addAttachment({
-                thumbnailUrl: "http://petersapparel.parseapp.com/img/item101-thumb.png",
-                title: "Classic Grey T-Shirt",
-                titleLink: "https://petersapparel.parseapp.com/view_item?item_id=101",
-                text: "Soft white cotton t-shirt is back in style"
-            });
+        session.send("You can use Hero & Thumbnail cards to send the user a vsually rich information...");
+
+        var msg = new builder.Message(session)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Hero Card")
+                    .subtitle("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")
+                    ])
+                    .tap(builder.Action.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
+            ]);
+        session.send(msg);
+
+        msg = new builder.Message(session)
+            .attachments([
+                new builder.ThumbnailCard(session)
+                    .title("Thumbnail Card")
+                    .subtitle("Pikes Place Market")
+                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .images([
+                        builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")
+                    ])
+                    .tap(builder.Action.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market"))
+            ]);
         session.endDialog(msg);
     }
 ]);
@@ -222,50 +250,65 @@ bot.dialog('/carousel', [
         session.send("You can pass a custom message to Prompts.choice() that will present the user with a carousel of cards to select from. Each card can even support multiple actions.");
         
         // Ask the user to select an item from a carousel.
-        var msg = new builder.Message();
-        msg.addAttachment({
-            title: "Classic White T-Shirt",
-            text: "Soft white cotton t-shirt is back in style",
-            thumbnailUrl: "http://petersapparel.parseapp.com/img/item100-thumb.png",
-            actions: [
-                { title: "View Item", url: "https://petersapparel.parseapp.com/view_item?item_id=100" },
-                { title: "Buy Item", message: "buy:100" },
-                { title: "Bookmark Item", message: "bookmark:100" }
-            ]
-        });
-        msg.addAttachment({
-            title: "Classic Grey T-Shirt",
-            text: "Soft gray cotton t-shirt is back in style",
-            thumbnailUrl: "http://petersapparel.parseapp.com/img/item101-thumb.png",
-            actions: [
-                { title: "View Item", url: "https://petersapparel.parseapp.com/view_item?item_id=101" },
-                { title: "Buy Item", message: "buy:101" },
-                { title: "Bookmark Item", message: "bookmark:101" }
-            ]
-        });
-        builder.Prompts.choice(session, msg, "buy:100|bookmark:100|buy:101|bookmark:101");
+        var msg = new builder.Message(session)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")
+                    ])
+                    .buttons([
+                        builder.Action.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
+                        builder.Action.postBack(session, "select:100", "Select")
+                    ])
+                    .tap(builder.Action.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")),
+                new builder.HeroCard(session)
+                    .title("Pikes Place Market")
+                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .images([
+                        builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")
+                    ])
+                    .buttons([
+                        builder.Action.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
+                        builder.Action.postBack(session, "select:101", "Select")
+                    ])
+                    .tap(builder.Action.showImage(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")),
+                new builder.HeroCard(session)
+                    .title("EMP Museum")
+                    .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
+                    .images([
+                        builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/commons/a/a0/Night_Exterior_EMP.jpg")
+                    ])
+                    .buttons([
+                        builder.Action.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
+                        builder.Action.postBack(session, "select:102", "Select")
+                    ])
+                    .tap(builder.Action.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/a/a0/Night_Exterior_EMP.jpg"))
+            ]);
+        builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
     function (session, results) {
         if (results.response) {
             var action, item;
             var kvPair = results.response.entity.split(':');
             switch (kvPair[0]) {
-                case 'buy':
-                    action = 'purchased';
-                    break;
-                case 'bookmark':
-                    action = 'bookmarked';
+                case 'select':
+                    action = 'selected';
                     break;
             }
             switch (kvPair[1]) {
                 case '100':
-                    item = "Classic White T-Shirt";
+                    item = "the <b>Space Needle</b>";
                     break;
                 case '101':
-                    item = "Classic Grey T-Shirt";
+                    item = "<b>Pikes Place Market</b>";
+                    break;
+                case '101':
+                    item = "the <b>EMP Museum</b>";
                     break;
             }
-            session.endDialog('You %s the "%s"', action, item);
+            session.endDialog('You %s "%s"', action, item);
         } else {
             session.endDialog("You canceled.");
         }
@@ -274,109 +317,57 @@ bot.dialog('/carousel', [
 
 bot.dialog('/receipt', [
     function (session) {
-        session.send("You can send a receipt using ChannelData field...");
-        var msg = new builder.Message();
-        msg.setChannelData({
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"receipt",
-                    "recipient_name":"Stephane Crozatier",
-                    "order_number":"12345678902",
-                    "currency":"USD",
-                    "payment_method":"Visa 2345",        
-                    "order_url":"http://petersapparel.parseapp.com/order?order_id=123456",
-                    "timestamp":"1428444852", 
-                    "elements":[
-                        {
-                            "title":"Classic White T-Shirt",
-                            "subtitle":"100% Soft and Luxurious Cotton",
-                            "quantity":2,
-                            "price":50,
-                            "currency":"USD",
-                            "image_url":"http://petersapparel.parseapp.com/img/whiteshirt.png"
-                        },
-                        {
-                            "title":"Classic Gray T-Shirt",
-                            "subtitle":"100% Soft and Luxurious Cotton",
-                            "quantity":1,
-                            "price":25,
-                            "currency":"USD",
-                            "image_url":"http://petersapparel.parseapp.com/img/grayshirt.png"
-                        }
-                    ],
-                    "address":{
-                        "street_1":"1 Hacker Way",
-                        "street_2":"",
-                        "city":"Menlo Park",
-                        "postal_code":"94025",
-                        "state":"CA",
-                        "country":"US"
-                    },
-                    "summary":{
-                        "subtotal":75.00,
-                        "shipping_cost":4.95,
-                        "total_tax":6.19,
-                        "total_cost":56.14
-                    },
-                    "adjustments":[
-                        {
-                            "name":"New Customer Discount",
-                            "amount":20
-                        },
-                        {
-                            "name":"$10 Off Coupon",
-                            "amount":10
-                        }
-                    ]
-                }
-            }
-        });
+        session.send("You can send a receipts for purchased good with both images and without...");
+        
+        // Send a receipt with images
+        var msg = new builder.Message(session)
+            .attachments([
+                new builder.ReceiptCard(session)
+                    .title("Recipient's Name")
+                    .items([
+                        builder.ReceiptItem.create(session, "$22.00", "EMP Museum").image(builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/commons/a/a0/Night_Exterior_EMP.jpg")),
+                        builder.ReceiptItem.create(session, "$22.00", "Space Needle").image(builder.Image.create(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg"))
+                    ])
+                    .facts([
+                        builder.Fact.create(session, "1234567898", "Order Number"),
+                        builder.Fact.create(session, "VISA 4076", "Payment Method"),
+                        builder.Fact.create(session, "WILLCALL", "Delivery Method")
+                    ])
+                    .tax("$4.40")
+                    .total("$48.40")
+            ]);
+        session.send(msg);
+
+        // Send a receipt without images
+        msg = new builder.Message(session)
+            .attachments([
+                new builder.ReceiptCard(session)
+                    .title("Recipient's Name")
+                    .items([
+                        builder.ReceiptItem.create(session, "$22.00", "EMP Museum"),
+                        builder.ReceiptItem.create(session, "$22.00", "Space Needle")
+                    ])
+                    .facts([
+                        builder.Fact.create(session, "1234567898", "Order Number"),
+                        builder.Fact.create(session, "VISA 4076", "Payment Method"),
+                        builder.Fact.create(session, "WILLCALL", "Delivery Method")
+                    ])
+                    .tax("$4.40")
+                    .total("$48.40")
+            ]);
         session.endDialog(msg);
     }
 ]);
 
-bot.dialog('/location', [
+bot.dialog('/signin', [
     function (session) {
-        session.send("A user can share their location with a bot using the location pin in Messenger.  Bot Builder lets you easily build a custom prompt to ask the user for their location.");
-        session.beginDialog('/locationPrompt', { prompt: 'Please send me your current location.' });        
-    }, 
-    function (session, results) {
-        if (results.response) {
-            session.endDialog("Here's the location object I received: %s", JSON.stringify(results.response));
-        } else {
-            session.endDialog("You canceled.");
-        }
-    }
-]);
-
-bot.dialog('/locationPrompt', [
-    function (session, args) {
-        if (typeof args.maxRetries !== 'number') {
-            args.maxRetries = 2;
-        }
-        session.dialogData.args = args;
-        builder.Prompts.text(session, args.prompt);
-    },
-    function (session, results) {
-        if (results.resumed == builder.ResumeReason.completed) {
-            // Validate response
-            if (session.message.location) {
-                // Return location
-                session.endDialog({ response: session.message.location });
-            } else if (session.dialogData.args.maxRetries > 0) {
-                // Reprompt for location
-                var args = session.dialogData.args;
-                args.maxRetries--;
-                args.prompt = args.retryPrompt || "I didn't receive a location. Please try again.";
-                session.replaceDialog('/locationPrompt', args);
-            } else {
-                // Out of retries
-                sessions.endDialog({ resumed: builder.ResumeReason.notCompleted });
-            }
-        } else {
-            // User canceled prompt or an error occured
-            session.endDialog(results);
-        }
+        // Send a signin
+        var msg = new builder.Message(session)
+            .attachments([
+                new builder.SigninCard(session)
+                    .title("You must first signin to your account.")
+                    .button("signin", "http://foo.com")
+            ]);
+        session.endDialog(msg);
     }
 ]);
