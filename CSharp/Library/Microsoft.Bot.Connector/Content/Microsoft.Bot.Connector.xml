@@ -487,7 +487,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,System.String,System.String,System.Net.Http.DelegatingHandler[])">
             <summary>
-            Create a new instance of the ConnectorClient class
+            Create a new instance of the StateClient class
             </summary>
             <param name="baseUri">Base URI for the Connector service</param>
             <param name="microsoftAppId">Optional. Your Microsoft app id. If null, this setting is read from settings["MicrosoftAppId"]</param>
@@ -496,9 +496,18 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
             <summary>
-            Create a new instance of the ConnectorClient class
+            Create a new instance of the StateCleint class
             </summary>
             <param name="baseUri">Base URI for the Connector service</param>
+            <param name="credentials">Credentials for the Connector service</param>
+            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateCleint class
+            </summary>
+            <remarks> This constructor will use http://api.botframework.com as the baseUri</remarks>
             <param name="credentials">Credentials for the Connector service</param>
             <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>

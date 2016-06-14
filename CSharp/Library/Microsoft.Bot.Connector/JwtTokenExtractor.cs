@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Protocols;
 
+// This file is duplicated in these locations:
+// Intercom.Models\Authentication\JwtTokenExtractor.cs
+// SDK\Microsoft.Bot.Connector\JwtTokenExtractor.cs
+// Only the namespace differs
+
 namespace Microsoft.Bot.Connector
 {
     public class JwtTokenExtractor
@@ -49,10 +54,12 @@ namespace Microsoft.Bot.Connector
             return GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter);
         }
 
-        public Task<ClaimsIdentity> GetIdentityAsync(string authorizationHeader)
+        public async Task<ClaimsIdentity> GetIdentityAsync(string authorizationHeader)
         {
             string[] parts = authorizationHeader.Split(' ');
-            return GetIdentityAsync(parts[0], parts[1]);
+            if (parts.Length == 2)
+                return await GetIdentityAsync(parts[0], parts[1]);
+            return null;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(string scheme, string parameter)

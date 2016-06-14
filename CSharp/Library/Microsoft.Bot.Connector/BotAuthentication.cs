@@ -21,7 +21,7 @@ namespace Microsoft.Bot.Connector
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
 
-            if (actionContext.Request.RequestUri.Host == "localhost")
+            if (String.IsNullOrEmpty(MicrosoftAppId))
                 return;
 
             var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), JwtConfig.ToBotFromChannelOpenIdMetadataUrl);
