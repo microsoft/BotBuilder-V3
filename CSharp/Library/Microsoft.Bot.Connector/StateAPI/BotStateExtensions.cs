@@ -56,7 +56,11 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> GetUserDataAsync(this IBotState operations, string botId, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetUserDataWithHttpMessagesAsync(botId, channelId, userId, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+            var _result = await operations.GetUserDataWithHttpMessagesAsync(botId, channelId, userId, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -108,7 +112,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> SetUserDataAsync(this IBotState operations, string botId, string channelId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetUserDataWithHttpMessagesAsync(botId, channelId, userId, botData, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+
+            var _result = await operations.SetUserDataWithHttpMessagesAsync(botId, channelId, userId, botData, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -154,7 +163,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> GetConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+
+            var _result = await operations.GetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -206,7 +220,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> SetConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+
+            var _result = await operations.SetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, botData, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -258,7 +277,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> GetPerUserConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetPerUserConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+
+            var _result = await operations.GetPerUserConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -316,7 +340,12 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<BotData> SetPerUserInConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetPerUserInConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false);
+            // TEMP UNTIL WE HAVE JWT TOKENS
+            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
+            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
+            // END TEmP
+
+            var _result = await operations.SetPerUserInConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, botData, headers, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 

@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string))
         {
             Type = type;
             Id = id;
@@ -44,6 +44,7 @@ namespace Microsoft.Bot.Connector
             Entities = entities;
             ChannelData = channelData;
             Action = action;
+            ReplyToId = replyToId;
         }
 
         /// <summary>
@@ -165,8 +166,10 @@ namespace Microsoft.Bot.Connector
         public string Action { get; set; }
 
         /// <summary>
-        /// the original activity id this message is a response to
+        /// the original id this message is a response to
         /// </summary>
+        [JsonProperty(PropertyName = "replyToId")]
         public string ReplyToId { get; set; }
+
     }
 }

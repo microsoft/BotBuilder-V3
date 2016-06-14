@@ -13,14 +13,14 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Bot">
             <summary>
-            Bot account initiating the conversation
+            The bot address of the bot requesting a conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Members">
@@ -96,26 +96,60 @@
             This action will be activated when user taps on the card itself
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount)">
+            <summary>
+            Create a new direct conversation between a bot and a user
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='parameters'>
+            Parameters to create the conversation from
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,System.Threading.CancellationToken)">
+            <summary>
+            Create a new direct conversation between a bot and a user
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='parameters'>
+            Parameters to create the conversation from
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+            <summary>
+            Create a new direct conversation between a bot and a user
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='parameters'>
+            Parameters to create the conversation from
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Create a new direct conversation between a bot and a user
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='parameters'>
+            Parameters to create the conversation from
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
             <summary>
             Send an activity to an existing conversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -129,26 +163,10 @@
             Activity to send
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
             Send an activity to an existing conversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -222,7 +240,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversation(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String)">
             <summary>
             Send an activity to an existing conversation
             </summary>
@@ -245,17 +263,14 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
-            </param>
             <param name='activity'>
             Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.Threading.CancellationToken)">
             <summary>
             Send an activity to an existing conversation
             </summary>
@@ -278,22 +293,113 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
-            </param>
             <param name='activity'>
             Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
             </param>
             <param name='cancellationToken'>
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId the reply is to (OPTIONAL)
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembers(Microsoft.Bot.Connector.IConversations,System.String)">
             <summary>
             Get the list of members in this conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in this conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+            <summary>
+            Get the list of members in a single activity in a conversation
             </summary>
             <param name='operations'>
             The operations group for this extension method.
@@ -305,9 +411,9 @@
             (OPTIONAL) Activity ID
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in this conversation
+            Get the list of members in a single activity in a conversation
             </summary>
             <param name='operations'>
             The operations group for this extension method.
@@ -1377,7 +1483,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToConversationWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Send an activity to an existing conversation
             </summary>
@@ -1397,14 +1503,11 @@
             Boolean checkHost)
             at System.IO.File.ReadAllText(String path)
             at MarkdownDocs.Program.Main(String[] args)
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
-            </param>
             <param name='activity'>
             Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1413,9 +1516,59 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.GetMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='activity'>
+            Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Get the list of members in this conversation
+            </summary>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in a single activity in a conversation
             </summary>
             <param name='conversationId'>
             Conversation ID
@@ -1496,7 +1649,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToConversationWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Send an activity to an existing conversation
             </summary>
@@ -1521,14 +1674,11 @@
             encoding, Boolean checkHost)
             at System.IO.File.ReadAllText(String path)
             at MarkdownDocs.Program.Main(String[] args)
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
-            </param>
             <param name='activity'>
             Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1537,9 +1687,64 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.GetMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to an existing conversation
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the
+            path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String
+            maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode,
+            FileAccess access, Int32 rights, Boolean useRights, FileShare
+            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
+            secAttrs, String msgPath, Boolean bFromProxy, Boolean
+            useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode,
+            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
+            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
+            Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding,
+            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
+            Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding
+            encoding, Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='activity'>
+            Activity to send
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Get the list of members in this conversation
+            </summary>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get the list of members in a single activity in a conversation
             </summary>
             <param name='conversationId'>
             Conversation ID
@@ -1611,7 +1816,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -1717,7 +1922,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ReplyToId">
             <summary>
-            the original activity id this message is a response to
+            the original id this message is a response to
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Action">

@@ -22,7 +22,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "Create a new conversation",
-        "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\nat System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\nat System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\nat System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\nat System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\nat System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\nat System.IO.File.ReadAllText(String path)\r\nat MarkdownDocs.Program.Main(String[] args)",
+        "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
         "operationId": "Conversations_CreateConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -68,15 +68,87 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/activities/{activityId}": {
+    "/api/v3/conversations/{conversationId}/activities": {
       "post": {
         "tags": [ "Conversations" ],
         "summary": "Send an activity to an existing conversation",
-        "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\nat System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\nat System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\nat System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\nat System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\nat System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\nat System.IO.File.ReadAllText(String path)\r\nat MarkdownDocs.Program.Main(String[] args)",
+        "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
         "operationId": "Conversations_ReplyToConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "Activity to send",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Activity" }
+          },
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "202": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "204": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "403": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v3/conversations/{conversationId}/activities/{activityId}": {
+      "post": {
+        "tags": [ "Conversations" ],
+        "summary": "Send an activity to an existing conversation",
+        "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
+        "operationId": "Conversations_ReplyToActivity",
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "Activity to send",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Activity" }
+          },
           {
             "name": "conversationId",
             "in": "path",
@@ -90,13 +162,6 @@
             "description": "activityId the reply is to (OPTIONAL)",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "activity",
-            "in": "body",
-            "description": "Activity to send",
-            "required": false,
-            "schema": { "$ref": "#/definitions/Activity" }
           }
         ],
         "responses": {
@@ -154,12 +219,72 @@
             "description": "Conversation ID",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "﻿An array of Channel Account objects will be returned\r\n",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/ChannelAccount" }
+            }
+          },
+          "202": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "204": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "400": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "403": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "404": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/v3/conversations/{conversationId}/activities/{activityId}/members": {
+      "get": {
+        "tags": [ "Conversations" ],
+        "summary": "Get the list of members in a single activity in a conversation",
+        "operationId": "Conversations_GetActivityMembers",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
           },
           {
             "name": "activityId",
-            "in": "query",
+            "in": "path",
             "description": "(OPTIONAL) Activity ID",
-            "required": false,
+            "required": true,
             "type": "string"
           }
         ],
@@ -212,6 +337,10 @@
     "ConversationParameters": {
       "type": "object",
       "properties": {
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The bot address of the bot requesting a conversation"
+        },
         "members": {
           "description": "Members to add to the conversation",
           "type": "array",
@@ -339,7 +468,7 @@
           "type": "string"
         },
         "replyToId": {
-          "description": "Id this is a response to",
+          "description": "the original id this message is a response to",
           "type": "string"
         }
       }
@@ -397,42 +526,6 @@
         }
       }
     },
-    "SigninCard": {
-      "description": "A card representing a request to signing",
-      "type": "object",
-      "properties": {
-        "title": {
-          "description": "Title for signin request",
-          "type": "string"
-        },
-        "button": {
-          "$ref": "#/definitions/Action",
-          "description": "Action to use to perform signin"
-        }
-      }
-    },
-    "Action": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "description": "Defines the type of action implemented by this button.",
-          "enum": [ "openUrl", "imBack", "postBack", "playAudio", "playVideo", "showImage", "downloadFile" ],
-          "type": "string"
-        },
-        "title": {
-          "description": "Text description which appear on the button.",
-          "type": "string"
-        },
-        "image": {
-          "description": "URL Picture which will appear on the button, next to text label. \r\nMedia hosted on 3rd party domains will be automatically hosted on \r\nauth protected CDN.Auth protection will be used to ensure that content \r\nuploaded to Skype CDN will only be accessible by Microsoft Clients\r\nPlease refer to Chapter 7 for description of media caching algorithm.",
-          "type": "string"
-        },
-        "value": {
-          "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
-          "type": "string"
-        }
-      }
-    },
     "HeroCard": {
       "type": "object",
       "properties": {
@@ -478,6 +571,59 @@
         "tap": {
           "$ref": "#/definitions/Action",
           "description": "Action assigned to specific Attachment.E.g.navigate to specific URL or play/open media content"
+        }
+      }
+    },
+    "Action": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Defines the type of action implemented by this button.",
+          "enum": [ "openUrl", "imBack", "postBack", "playAudio", "playVideo", "showImage", "downloadFile" ],
+          "type": "string"
+        },
+        "title": {
+          "description": "Text description which appear on the button.",
+          "type": "string"
+        },
+        "image": {
+          "description": "URL Picture which will appear on the button, next to text label. \r\nMedia hosted on 3rd party domains will be automatically hosted on \r\nauth protected CDN.Auth protection will be used to ensure that content \r\nuploaded to Skype CDN will only be accessible by Microsoft Clients\r\nPlease refer to Chapter 7 for description of media caching algorithm.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
+          "type": "string"
+        }
+      }
+    },
+    "ThumbnailCard": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for the card",
+          "type": "string"
+        },
+        "images": {
+          "description": "Array of i",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Image" }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Action" }
+        },
+        "tap": {
+          "$ref": "#/definitions/Action",
+          "description": "This action will be activated when user taps on the card itself"
         }
       }
     },
@@ -562,34 +708,17 @@
         "value": { "type": "string" }
       }
     },
-    "ThumbnailCard": {
+    "SigninCard": {
+      "description": "A card representing a request to signing",
       "type": "object",
       "properties": {
         "title": {
-          "description": "Title of the card",
+          "description": "Title for signin request",
           "type": "string"
         },
-        "subtitle": {
-          "description": "Subtitle of the card",
-          "type": "string"
-        },
-        "text": {
-          "description": "Text for the card",
-          "type": "string"
-        },
-        "images": {
-          "description": "Array of i",
-          "type": "array",
-          "items": { "$ref": "#/definitions/Image" }
-        },
-        "buttons": {
-          "description": "Set of actions applicable to the current card",
-          "type": "array",
-          "items": { "$ref": "#/definitions/Action" }
-        },
-        "tap": {
+        "button": {
           "$ref": "#/definitions/Action",
-          "description": "This action will be activated when user taps on the card itself"
+          "description": "Action to use to perform signin"
         }
       }
     }

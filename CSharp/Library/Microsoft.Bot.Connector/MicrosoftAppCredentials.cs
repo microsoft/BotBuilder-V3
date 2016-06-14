@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Connector
             await base.ProcessHttpRequestAsync(request, cancellationToken);
         }
 
-        internal async Task<string> GetTokenAsync(bool forceRefresh = false)
+        public async Task<string> GetTokenAsync(bool forceRefresh = false)
         {
             string token; 
             var oAuthToken = (OAuthResponse)System.Web.HttpRuntime.Cache.Get(TokenCacheKey);
