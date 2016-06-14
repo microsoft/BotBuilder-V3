@@ -25,15 +25,11 @@ recieve uploaded photos and videos.
 
 var restify = require('restify');
 var builder = require('../../');
-
-var exp = /(hello|hi|howdy)/igm;
-console.log(exp.toString());
-console.log(JSON.stringify(exp.exec("hi, how are you doing? hello?")));
   
 // Create bot and setup server
 var connector = new builder.BotConnector({
-    appId: process.env.BOTFRAMEWORK_APPID,
-    appPassword: process.env.BOTFRAMEWORK_APPPASSWORD
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 
