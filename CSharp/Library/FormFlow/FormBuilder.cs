@@ -46,33 +46,21 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
     /// <typeparam name="T">    Form state class. </typeparam>
     #endregion
-    public sealed class FormBuilder<T> : IFormBuilder<T>
+    public abstract class FormBuilderBase<T>: IFormBuilder<T>
         where T : class
     {
-        private readonly Form<T> _form;
+        internal readonly Form<T> _form;
 
         /// <summary>
         /// Construct the form builder.
         /// </summary>
-        /// <param name="ignoreAnnotations">True if you want to ignore any annotations on classes when doing reflection.</param>
-        public FormBuilder(bool ignoreAnnotations = false)
+        protected FormBuilderBase()
         {
-            _form = new Form<T>(ignoreAnnotations);
+            _form = new Form<T>();
         }
 
-        public IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
+        public virtual IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
         {
-            if (!_form._steps.Any((step) => step.Type == StepType.Field))
-            {
-                var paths = new List<string>();
-                FormBuilder<T>.FieldPaths(typeof(T), "", paths);
-                IFormBuilder<T> builder = this;
-                foreach (var path in paths)
-                {
-                    builder.Field(new FieldReflector<T>(path));
-                }
-                builder.Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
-            }
             if (resourceAssembly == null)
             {
                 resourceAssembly = typeof(T).Assembly;
@@ -117,38 +105,42 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this._form;
         }
 
-        public FormConfiguration Configuration { get { return _form._configuration; } }
+        public FormConfiguration Configuration { get { return _form.Configuration; } }
 
-        public IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public bool HasField(string name)
+        {
+            return _form.Fields.Field(name) != null;
+        }
+
+        public virtual IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(new PromptAttribute(message), condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(prompt, condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(generateMessage, condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Field(IField<T> field)
+        public virtual IFormBuilder<T> Field(IField<T> field)
         {
             return AddField(field);
         }
 
-        public IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            IFormBuilder<T> builder = this;
-            return builder.Confirm(new PromptAttribute(prompt) { ChoiceFormat = Resources.ConfirmChoiceFormat, AllowDefault = BoolDefault.False }, condition, dependencies);
+            return Confirm(new PromptAttribute(prompt) { ChoiceFormat = Resources.ConfirmChoiceFormat, AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
-        public IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
@@ -159,7 +151,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
@@ -170,35 +162,18 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback)
+        public virtual IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback)
         {
             _form._completion = callback;
             return this;
         }
 
-        public bool HasField(string name)
-        {
-            return _form.Fields.Field(name) != null;
-        }
+        public abstract IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
 
-        private IFormBuilder<T> AddField(IField<T> field)
-        {
-            field.Form = _form;
-            _form._fields.Add(field);
-            var step = new FieldStep<T>(field.Name, _form);
-            var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);
-            if (stepIndex >= 0)
-            {
-                _form._steps[stepIndex] = step;
-            }
-            else
-            {
-                _form._steps.Add(step);
-            }
-            return this;
-        }
-
-        private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
+         private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
         {
             {TemplateUsage.Bool, 0 },
             { TemplateUsage.BoolHelp, 1},
@@ -281,6 +256,145 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 throw new ArgumentException(string.Format("Illegal pattern: \"{0}\"", pattern));
             }
+        }
+
+        private IFormBuilder<T> AddField(IField<T> field)
+        {
+            field.Form = _form;
+            _form._fields.Add(field);
+            var step = new FieldStep<T>(field.Name, _form);
+            var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);
+            if (stepIndex >= 0)
+            {
+                _form._steps[stepIndex] = step;
+            }
+            else
+            {
+                _form._steps.Add(step);
+            }
+            return this;
+        }
+    }
+
+    #region Documentation
+    /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
+    /// <typeparam name="T">Form state class. </typeparam>
+    #endregion
+    public sealed class FormBuilder<T> : FormBuilderBase<T>
+        where T : class
+    {
+        private readonly bool _ignoreAnnotations;
+
+        public FormBuilder(bool ignoreAnnotations = false)
+            : base()
+        {
+            _ignoreAnnotations = ignoreAnnotations;
+        }
+
+        public override IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
+        {
+            if (!_form._steps.Any((step) => step.Type == StepType.Field))
+            {
+                var paths = new List<string>();
+                FieldPaths(typeof(T), "", paths);
+                foreach (var path in paths)
+                {
+                    Field(new FieldReflector<T>(path, _ignoreAnnotations));
+                }
+                Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
+            }
+            return base.Build(resourceAssembly, resourceName);
+        }
+
+         /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        /// <returns>This form.</returns>
+        public override IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            var field = (active == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, active, _ignoreAnnotations));
+            if (validate != null)
+            {
+                field.SetValidate(validate);
+            }
+            return Field(field);
+        }
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        public override IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            return Field(name, new PromptAttribute(prompt), active, validate);
+        }
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        public override IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            var field = (active == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, active, _ignoreAnnotations));
+            if (validate != null)
+            {
+                field.SetValidate(validate);
+            }
+            field.SetPrompt(prompt);
+            return Field(field);
+        }
+
+        /// <summary>
+        /// Add all fields not already added to the form.
+        /// </summary>
+        /// <param name="exclude">Fields not to include.</param>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
+        /// <remarks>
+        /// This will add all fields defined in your form that have not already been
+        /// added if the fields are supported.
+        /// </remarks>
+        public override IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
+        {
+            var exclusions = (exclude == null ? Array.Empty<string>() : exclude.ToArray());
+            var paths = new List<string>();
+            FieldPaths(typeof(T), "", paths);
+            foreach (var path in paths)
+            {
+                if (!exclusions.Contains(path) && !HasField(path))
+                {
+                    Field(new FieldReflector<T>(path, _ignoreAnnotations));
+                }
+            }
+            return this;
         }
 
         internal static void FieldPaths(Type type, string path, List<string> paths)

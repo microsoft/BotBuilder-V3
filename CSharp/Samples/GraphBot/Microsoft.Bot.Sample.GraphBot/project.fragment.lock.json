@@ -13,9 +13,19 @@
         "../packages/Microsoft.AspNet.WebApi.Client.5.2.3/lib/net45/System.Net.Http.Formatting.dll": {},
         "../packages/Microsoft.AspNet.WebApi.Core.5.2.3/lib/net45/System.Web.Http.dll": {},
         "../packages/Microsoft.Bot.Connector.1.1.0.0/lib/net45/Microsoft.Bot.Connector.dll": {},
+        "../packages/Microsoft.CodeAnalysis.CSharp.1.2.2/lib/net45/Microsoft.CodeAnalysis.CSharp.dll": {},
+        "../packages/Microsoft.CodeAnalysis.CSharp.Scripting.1.2.2/lib/dotnet/Microsoft.CodeAnalysis.CSharp.Scripting.dll": {},
+        "../packages/Microsoft.CodeAnalysis.Common.1.2.2/lib/net45/Microsoft.CodeAnalysis.dll": {},
+        "../packages/Microsoft.CodeAnalysis.Scripting.Common.1.2.2/lib/dotnet/Microsoft.CodeAnalysis.Scripting.dll": {},
         "../packages/Microsoft.Rest.ClientRuntime.1.8.2/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
         "../packages/Microsoft.WindowsAzure.ConfigurationManager.3.2.1/lib/net40/Microsoft.WindowsAzure.Configuration.dll": {},
         "../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/System.AppContext.4.0.0/lib/net46/System.AppContext.dll": {},
+        "../packages/System.Collections.Immutable.1.1.37/lib/dotnet/System.Collections.Immutable.dll": {},
+        "../packages/System.Diagnostics.StackTrace.4.0.0/lib/net46/System.Diagnostics.StackTrace.dll": {},
+        "../packages/System.IO.FileSystem.4.0.0/lib/net46/System.IO.FileSystem.dll": {},
+        "../packages/System.IO.FileSystem.Primitives.4.0.0/lib/net46/System.IO.FileSystem.Primitives.dll": {},
+        "../packages/System.Reflection.Metadata.1.2.0/lib/portable-net45+win8/System.Reflection.Metadata.dll": {},
         "bin/Debug/Microsoft.Bot.Builder.dll": {}
       }
     }

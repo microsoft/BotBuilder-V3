@@ -163,8 +163,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         {
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json");
             var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
-            return new FormBuilder<JObject>()
-                .AddRemainingFields(schema)
+            return new FormJsonBuilder(schema)
+                .AddRemainingFields()
                 .Build();
             /*
             OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>

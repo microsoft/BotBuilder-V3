@@ -68,7 +68,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         internal abstract ILocalizer Resources { get; }
 
         // Internals
-        internal abstract bool IgnoreAnnotations { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
         internal abstract OnCompletionAsyncDelegate<T> Completion { get; }

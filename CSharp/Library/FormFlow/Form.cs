@@ -43,15 +43,13 @@ namespace Microsoft.Bot.Builder.FormFlow
     internal sealed class Form<T> : IForm<T>
         where T : class
     {
-        internal readonly bool _ignoreAnnotations;
         internal readonly FormConfiguration _configuration;
         internal readonly Fields<T> _fields;
         internal readonly List<IStep<T>> _steps;
         internal OnCompletionAsyncDelegate<T> _completion;
 
-        public Form(bool ignoreAnnotations, FormConfiguration configuration = null, Fields<T> fields = null, List<IStep<T>> steps = null, OnCompletionAsyncDelegate<T> completion = null)
+        public Form(FormConfiguration configuration = null, Fields<T> fields = null, List<IStep<T>> steps = null, OnCompletionAsyncDelegate<T> completion = null)
         {
-            _ignoreAnnotations = ignoreAnnotations;
             _configuration = configuration ?? new FormConfiguration();
             _fields = fields ?? new Fields<T>();
             _steps = steps ?? new List<IStep<T>>();
@@ -83,14 +81,6 @@ namespace Microsoft.Bot.Builder.FormFlow
             foreach (var step in _steps)
             {
                 step.Localize();
-            }
-        }
-
-        internal override bool IgnoreAnnotations
-        {
-            get
-            {
-                return _ignoreAnnotations;
             }
         }
 

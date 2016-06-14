@@ -135,6 +135,64 @@ namespace Microsoft.Bot.Builder.FormFlow
         IFormBuilder<T> Field(IField<T> field);
 
         /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        /// <returns>This form.</returns>
+        IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+
+        /// <summary>
+        /// Define a step for filling in a particular value in the form state.
+        /// </summary>
+        /// <param name="name">Path in the form state to the value being filled in.</param>
+        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
+        /// <param name="active">Delegate to test form state to see if step is active.n</param>
+        /// <param name="validate">Delegate to validate the field value.</param>
+        /// <returns>This form.</returns>
+        /// <remarks>
+        /// This step will use reflection to construct everything needed for a dialog from a combination
+        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
+        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
+        /// override.
+        /// </remarks>
+        IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+
+        /// <summary>
+        /// Add all fields not already added to the form.
+        /// </summary>
+        /// <param name="exclude">Fields not to include.</param>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
+        /// <remarks>
+        /// This will add all fields defined in your form that have not already been
+        /// added if the fields are supported.
+        /// </remarks>
+        IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
+
+        /// <summary>
         /// Add a confirmation step.
         /// </summary>
         /// <param name="prompt">Prompt to use for confirmation.</param>
@@ -203,7 +261,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public FormConfiguration()
         {
             DefaultPrompt.IsLocalizable = false;
-            foreach(var template in Templates)
+            foreach (var template in Templates)
             {
                 template.IsLocalizable = false;
             }

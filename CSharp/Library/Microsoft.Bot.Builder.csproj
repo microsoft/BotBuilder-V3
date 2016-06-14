@@ -155,6 +155,7 @@
     <Compile Include="FormFlow\FieldJson.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Fibers\Traits.cs" />
+    <Compile Include="FormFlow\FormJsonBuilder.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\LuisModel.cs" />
     <Compile Include="Luis\LuisService.cs" />
