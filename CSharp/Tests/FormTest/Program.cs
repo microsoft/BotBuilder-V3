@@ -52,6 +52,13 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+
+public class Globals
+{
+    public string arg;
+}
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -73,7 +80,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         static public string Locale = CultureInfo.CurrentUICulture.Name;
 
-        static async Task Interactive<T>(IDialog<T> form) where T: class
+        static async Task Interactive<T>(IDialog<T> form) where T : class
         {
             // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
             // But you don't have to reboot.
@@ -166,8 +173,47 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
         }
 
+        public static async Task<T> Run<T>(Func<Task<T>> fun, string desc)
+        {
+            var memory = System.GC.GetTotalMemory(true);
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            var result = await fun();
+            var end = timer.ElapsedMilliseconds;
+            var endMemory = System.GC.GetTotalMemory(true);
+            Console.WriteLine($"{desc}: {end}ms, total {endMemory}, delta {endMemory - memory}");
+            return result;
+        }
+
         static void Main(string[] args)
         {
+            /*
+            for (var i = 0; i < 1000; ++i)
+            {
+                var globals = new Globals { arg = "abc" };
+                // var code = "arg.Substring(1) + \"ghi\" == \"bcghi\"";
+                var code = @"        
+        public static bool NonWord(string word)
+        {
+            bool nonWord = true;
+            foreach (var ch in word)
+            {
+                if (!(char.IsControl(ch) || char.IsPunctuation(ch) || char.IsWhiteSpace(ch)))
+                {
+                    nonWord = false;
+                    break;
+                }
+            }
+            return nonWord;
+        }
+        NonWord(""abc"")
+";
+                var script = Run<Script<bool>>(async () => CSharpScript.Create<bool>(code, globalsType: typeof(Globals)), "Create").Result;
+                var fun = Run<ScriptRunner<bool>>(async () => script.CreateDelegate(), "Delegate").Result;
+                var cResult = Run<bool>(async () => await fun(globals), "Compiled").Result;
+                var rResult = Run<ScriptState<bool>>(async () => await CSharpScript.RunAsync<bool>(code, globals: globals), "Run").Result;
+                var eResult = Run<bool>(async () => await CSharpScript.EvaluateAsync<bool>("arg.Substring(1) + \"ghi\" == \"bcghi\"", globals: globals), "Eval").Result;
+            }
+            */
             // TestValidate();
             var callDebug =
                 Chain

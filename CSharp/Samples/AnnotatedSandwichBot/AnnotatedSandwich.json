@@ -1,4 +1,5 @@
 {
+  "References": [ "Microsoft.Bot.Sample.AnnotatedSandwichBot.dll" ],
   "type": "object",
   "required": [
     "Sandwich",
@@ -18,6 +19,7 @@
   "properties": {
     "Sandwich": {
       "Prompt": { "Patterns": [ "What kind of {&} would you like? {||}" ] },
+      "Before": [ { "Message": [ "Welcome to the sandwich order bot!" ] } ],
       "type": [
         "string",
         "null"
@@ -108,7 +110,9 @@
             "Values": {
               "Everything": { "Terms": [ "except", "but", "not", "no", "all", "everything" ] }
             }
-          }
+          },
+          "Validate": "var values = ((List<object>) value).OfType<string>(); var result = new ValidateResult {IsValid = true, Value = values} ; if (values != null && values.Contains(\"Everything\")) { result.Value = (from topping in new string[] {  \"Avocado\", \"BananaPeppers\", \"Cucumbers\", \"GreenBellPeppers\", \"Jalapenos\", \"Lettuce\", \"Olives\", \"Pickles\", \"RedOnion\", \"Spinach\", \"Tomatoes\"} where !values.Contains(topping) select topping).ToList();} return result;",
+          "After": [ { "Message": [ "For sandwich toppings you have selected {Ingredients.Toppings}." ] } ]
         },
         "Sauces": {
           "type": [
@@ -140,13 +144,17 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "Active": "(string) state.Length == \"FootLong\"",
+      "Define": "using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource; field.SetType(null).AddDescription(\"cookie\", DynamicSandwich.FreeCookie).AddTerms(\"cookie\", Language.GenerateTerms(DynamicSandwich.FreeCookie, 2)).AddDescription(\"drink\", DynamicSandwich.FreeDrink).AddTerms(\"drink\", Language.GenerateTerms(DynamicSandwich.FreeDrink, 2)); return true;",
+      "After": [ { "Confirm": "var cost = 0.0; switch ((string) state.Length) { case \"SixInch\": cost = 5.0; break; case \"FootLong\": cost=6.50; break;} return new PromptAttribute($\"Total for your sandwich is {cost:C2} is that ok?\");" } ]
     },
     "DeliveryAddress": {
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "Validate": "using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource; var result = new ValidateResult{ IsValid = true, Value = value}; var address = (value as string).Trim(); if (address.Length > 0 && (address[0] < '0' || address[0] > '9')) {result.Feedback = DynamicSandwich.BadAddress; result.IsValid = false; } return result;"
     },
     "PhoneNumber": {
       "type": [ "string", "null" ],
@@ -157,7 +165,8 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "After": [ { "Confirm": [ "Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces} to be sent to {DeliveryAddress} {?at {DeliveryTime}}?" ] } ]
     },
     "Rating": {
       "Describe": "your experience today",
@@ -166,7 +175,9 @@
         "null"
       ],
       "minimum": 1,
-      "maximum": 5
+      "maximum": 5,
+      "After": [ { "Message": [ "Thanks for ordering your sandwich!" ] } ]
     }
-  }
+  },
+  "OnCompletion": "await Context.PostAsync(\"We are currently processing your sandwich. We will message you the status.\");"
 }

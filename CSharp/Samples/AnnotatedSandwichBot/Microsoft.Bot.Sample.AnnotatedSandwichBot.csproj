@@ -150,9 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="AnnotatedSandwich.json">
+    <EmbeddedResource Include="AnnotatedSandwich.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -171,7 +171,7 @@
     <EmbeddedResource Include="Resource\DynamicSandwich.en.resx" />
     <EmbeddedResource Include="Resource\DynamicSandwich.fr.resx" />
     <EmbeddedResource Include="Resource\DynamicSandwich.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DynamicSandwich.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />

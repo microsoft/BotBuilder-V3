@@ -7,8 +7,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 #pragma warning disable 649
 
 // The SandwichOrder is the simple form you want to fill out.  It must be serializable so the bot can be stateless.
@@ -64,24 +67,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         public CheeseOptions? Cheese;
 
         [Optional]
-        public List<ToppingOptions> Toppings
-        {
-            get { return _toppings; }
-            set
-            {
-                if (value != null && value.Contains(ToppingOptions.Everything))
-                {
-                    _toppings = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
-                                 where topping != ToppingOptions.Everything && !value.Contains(topping)
-                                 select topping).ToList();
-                }
-                else
-                {
-                    _toppings = value;
-                }
-            }
-        }
-        private List<ToppingOptions> _toppings;
+        public List<ToppingOptions> Toppings { get; set; }
 
         [Optional]
         public List<SauceOptions> Sauces;
@@ -116,7 +102,19 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Field(nameof(Length))
                         .Field(nameof(Bread))
                         .Field(nameof(Cheese))
-                        .Field(nameof(Toppings))
+                        .Field(nameof(Toppings),
+                        validate: async (state, value) =>
+                        {
+                            var values = ((List<object>)value).OfType<ToppingOptions>();
+                            var result = new ValidateResult { IsValid = true, Value = values };
+                            if (values != null && values.Contains(ToppingOptions.Everything))
+                            {
+                                result.Value = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
+                                                where topping != ToppingOptions.Everything && !values.Contains(topping)
+                                                select topping).ToList();
+                            }
+                            return result;
+                        })
                         .Message("For sandwich toppings you have selected {Toppings}.")
                         .Field(nameof(SandwichOrder.Sauces))
                         .Field(new FieldReflector<SandwichOrder>(nameof(Specials))
@@ -139,14 +137,14 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 case LengthOptions.SixInch: cost = 5.0; break;
                                 case LengthOptions.FootLong: cost = 6.50; break;
                             }
-                            return new PromptAttribute($"Total for your sandwich is ${cost:F2} is that ok?");
+                            return new PromptAttribute($"Total for your sandwich is {cost:C2} is that ok?");
                         })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
                             {
                                 var result = new ValidateResult { IsValid = true, Value = response };
                                 var address = (response as string).Trim();
-                                if (address.Length > 0 && address[0] < '0' || address[0] > '9')
+                                if (address.Length > 0 && (address[0] < '0' || address[0] > '9'))
                                 {
                                     result.Feedback = "Address must start with a number.";
                                     result.IsValid = false;
@@ -163,7 +161,12 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<JObject> BuildJsonForm()
         {
-            var schema = JObject.Parse(System.IO.File.ReadAllText(@"AnnotatedSandwich.json"));
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json");
+            var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
+            return new FormBuilder<JObject>()
+                .AddRemainingFields(schema)
+                .Build();
+            /*
             OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>
             {
                 await context.PostAsync(DynamicSandwich.Processing);
@@ -200,20 +203,20 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Field(schema, "Ingredients.Sauces")
                         .Field(new FieldJson(schema, "Specials")
                             .SetType(null)
-                            .SetActive((state) => (string)state["Length"] == "FootLong")
+                            .SetActive((state) => (string)state.Length == "FootLong")
                             .SetDefine(async (state, field) =>
                             {
                                 field
-                                    .AddDescription("cookie", DynamicSandwich.FreeCookie)
-                                    .AddTerms("cookie", "cookie", DynamicSandwich.FreeCookie)
-                                    .AddDescription("drink", DynamicSandwich.FreeDrink)
-                                    .AddTerms("drink", "drink", DynamicSandwich.FreeDrink);
+                                .AddDescription("cookie", DynamicSandwich.FreeCookie)
+                                .AddTerms("cookie", Language.GenerateTerms(DynamicSandwich.FreeCookie, 2))
+                                .AddDescription("drink", DynamicSandwich.FreeDrink)
+                                .AddTerms("drink", Language.GenerateTerms(DynamicSandwich.FreeDrink, 2));
                                 return true;
                             }))
                         .Confirm(async (state) =>
                         {
                             var cost = 0.0;
-                            switch ((string)state["Length"])
+                            switch ((string)state.Length])
                             {
                                 case "SixInch": cost = 5.0; break;
                                 case "FootLong": cost = 6.50; break;
@@ -221,11 +224,11 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                             return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost));
                         })
                         .Field(schema, "DeliveryAddress",
-                            validate: async (state, response) =>
+                            validate: async (state, value) =>
                             {
-                                var result = new ValidateResult { IsValid = true, Value = response };
-                                var address = (response as string).Trim();
-                                if (address.Length > 0 && address[0] < '0' || address[0] > '9')
+                                var result = new ValidateResult { IsValid = true, Value = value };
+                                var address = (value as string).Trim();
+                                if (address.Length > 0 && (address[0] < '0' || address[0] > '9'))
                                 {
                                     result.Feedback = DynamicSandwich.BadAddress;
                                     result.IsValid = false;
@@ -238,6 +241,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Message("Thanks for ordering a sandwich!")
                         .OnCompletionAsync(processOrder)
                 .Build(typeof(SandwichOrder).Assembly, "JsonSandwichBot");
+                */
         }
 
         // Cache of culture specific forms. 
@@ -271,9 +275,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 {
                                     field
                                         .AddDescription("cookie", DynamicSandwich.FreeCookie)
-                                        .AddTerms("cookie", "cookie", DynamicSandwich.FreeCookie)
+                                        .AddTerms("cookie", Language.GenerateTerms(DynamicSandwich.FreeCookie, 2))
                                         .AddDescription("drink", DynamicSandwich.FreeDrink)
-                                        .AddTerms("drink", "drink", DynamicSandwich.FreeDrink);
+                                        .AddTerms("drink", Language.GenerateTerms(DynamicSandwich.FreeDrink, 2));
                                     return true;
                                 }))
                         .Confirm(async (state) =>

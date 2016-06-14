@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DynamicSandwich {
+    public class DynamicSandwich {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource.DynamicSandwich", typeof(DynamicSandwich).Assembly);
@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Address must start with a number..
         /// </summary>
-        internal static string BadAddress {
+        public static string BadAddress {
             get {
                 return ResourceManager.GetString("BadAddress", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Total for your sandwich is {0:C2} is that ok?.
         /// </summary>
-        internal static string Cost {
+        public static string Cost {
             get {
                 return ResourceManager.GetString("Cost", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Free cookie.
         /// </summary>
-        internal static string FreeCookie {
+        public static string FreeCookie {
             get {
                 return ResourceManager.GetString("FreeCookie", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Free drink.
         /// </summary>
-        internal static string FreeDrink {
+        public static string FreeDrink {
             get {
                 return ResourceManager.GetString("FreeDrink", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         /// <summary>
         ///   Looks up a localized string similar to We are currently processing your sandwich. We will message you the status..
         /// </summary>
-        internal static string Processing {
+        public static string Processing {
             get {
                 return ResourceManager.GetString("Processing", resourceCulture);
             }

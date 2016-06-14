@@ -30,14 +30,65 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
+    /// <summary>
+    /// State argument for JSon FormFlow scripts.
+    /// </summary>
+    public class ScriptState
+    {
+        /// <summary>
+        /// Current state for JSON FormFlow scripts. 
+        /// </summary>
+        /// <remarks>Passed as a dynamic to make usage simpler, but is actually a JObject.</remarks>
+        public dynamic state;
+    }
+
+    /// <summary>
+    /// Arguments for Validate scripts in JSON FormFlow.
+    /// </summary>
+    public class ScriptValidate : ScriptState
+    {
+        /// <summary>
+        ///  Value to validate.
+        /// </summary>
+        public object value;
+    }
+
+    /// <summary>
+    /// Arguments for Define scripts in JSON FormFlow.
+    /// </summary>
+    public class ScriptField : ScriptState
+    {
+        /// <summary>
+        /// Field being dynamically defined.
+        /// </summary>
+        public Field<JObject> field;
+    }
+
+    /// <summary>
+    /// Arguments for OnCompletion scripts in JSON FormFlow.
+    /// </summary>
+    public class ScriptOnCompletion : ScriptState
+    {
+        /// <summary>
+        /// Bot Framework context.
+        /// </summary>
+        public IDialogContext context;
+    }
+
     /// <summary>
     /// %Field defined through JSON Schema.
     /// </summary>
@@ -61,13 +112,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// %Extensions defined at the root of a schema or as a peer of the "type" property.  
     /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
     /// * `Prompt: { Patterns:[string, ...] &lt;args&gt;}` -- Define a prompt.
+    /// * `OnCompletion: script` -- C# script with arguments (IDialogContext context, JObject state) for completing form.
+    /// * `References: [assemblyReference, ...]` -- Define references to include in scripts.  Paths should be absolute, or relative to the current directory.  By default Microsoft.Bot.Builder.dll is included and there is a using Microsoft.Bot.Builder.FormFlow.
     /// 
     /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
     /// * `DateTime:bool` -- Marks a field as being a DateTime field.
     /// * `Describe:string` -- Description of a field.
-    /// * `Terms:[string ,...]` -- Regular expressions for matching a field value.
+    /// * `Terms:[string,...]` -- Regular expressions for matching a field value.
     /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
     /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
+    /// * `Active:script` -- C# script with arguments (dynamic state)->bool to test to see if field/message/confirm is active.
+    /// * `Validate:script` -- C# script with arguments (dynamic state, object value)->ValidateResult for validating a field value.
+    /// * `Define:script` -- C# script with arguments (dynamic state, Field field) for dynamically defining a field.  
+    /// * `Before:[confirm|message, ...]` -- Messages or confirmations before the containing field.
+    /// * `After:[confirm|message, ...]` -- Messages or confirmations after the containing field.
+    /// * `{Confirm:script|[string, ...], ...templateArgs}` -- With Before/After define a confirmation through either C# script with argument (dynamic state) or through a set of patterns that will be randomly selected with optional template arguments.
+    /// * `{Message:script|[string, ...] ...templateArgs}` -- With Before/After define a message through either C# script with argument (dynamic state) or through a set of patterns that will be randomly selected with optional template arguments.
+    /// * `Dependencies`:[string, ...]` -- Fields that this field, message or confirm depends on.
     /// 
     /// %Fields defined through this class have the same ability to extend or override the definitions
     /// programatically as any other field.  They can also be localized in the same way.
@@ -185,6 +246,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         #endregion
 
+        internal IEnumerable<MessageOrConfirmation> Before { get; set; }
+
+        internal IEnumerable<MessageOrConfirmation> After { get; set; }
+
         protected JObject FieldSchema(string path, out bool optional)
         {
             var schema = _schema;
@@ -240,11 +305,182 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected void ProcessAnnotations(JObject schema, JObject fieldSchema, JObject eltSchema)
         {
+            ProcessReferences(schema);
             ProcessTemplates(schema);
+            Before = ProcessMessages("Before", fieldSchema);
             ProcessTemplates(fieldSchema);
             ProcessPrompt(fieldSchema);
             ProcessNumeric(fieldSchema);
             ProcessPattern(fieldSchema);
+            ProcessActive(fieldSchema);
+            ProcessDefine(fieldSchema);
+            ProcessValidation(fieldSchema);
+            After = ProcessMessages("After", fieldSchema);
+        }
+
+        protected void ProcessDefine(JObject schema)
+        {
+            if (schema["Define"] != null)
+            {
+                var script = (string)schema["Define"];
+                SetDefine(async (state, field) => await EvaluateAsync<bool>(script, new ScriptField { state = state, field = field }));
+            }
+        }
+
+        // NOTE: This is not being used because every invocation creates an assembly that cannot be
+        // garbage collected whereas EvaluateAsync does not.
+        protected ScriptRunner<R> Compile<G, R>(string code)
+        {
+            try
+            {
+                var script = CSharpScript.Create<R>(code, _options, typeof(G));
+                return script.CreateDelegate();
+            }
+            catch (Microsoft.CodeAnalysis.Scripting.CompilationErrorException ex)
+            {
+                throw CompileException(ex, code);
+            }
+        }
+
+        protected async Task<T> EvaluateAsync<T>(string code, object globals)
+        {
+            try
+            {
+                var script = CSharpScript.Create<T>(code, _options, globals.GetType());
+                var fun = script.CreateDelegate();
+
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                var result = await fun(globals);
+                // var result = await CSharpScript.EvaluateAsync<T>(code, _options, globals);
+                System.Diagnostics.Debug.Write($"Eval took {timer.ElapsedMilliseconds}ms");
+                return result;
+            }
+            catch (Microsoft.CodeAnalysis.Scripting.CompilationErrorException ex)
+            {
+                throw CompileException(ex, code);
+            }
+        }
+
+        protected Exception CompileException(CompilationErrorException ex, string code)
+        {
+            Exception result = ex;
+            var match = System.Text.RegularExpressions.Regex.Match(ex.Message, @"\(\s*(?<line>\d+)\s*,\s*(?<column>\d+)\s*\)\s*:\s*(?<message>.*)");
+            if (match.Success)
+            {
+                var lineNumber = int.Parse(match.Groups["line"].Value) - 1;
+                var column = int.Parse(match.Groups["column"].Value) - 1;
+                var line = code.Split('\n')[lineNumber];
+                var minCol = Math.Max(0, column - 20);
+                var maxCol = Math.Min(line.Length, column + 20);
+                var msg = line.Substring(minCol, column - minCol) + "^" + line.Substring(column, maxCol - column);
+                result = new ArgumentException(match.Groups["message"].Value + ": " + msg);
+            }
+            return result;
+        }
+
+        protected void ProcessValidation(JObject schema)
+        {
+            if (schema["Validate"] != null)
+            {
+                var script = (string)schema["Validate"];
+                SetValidate(async (state, value) => await EvaluateAsync<ValidateResult>(script, new ScriptValidate { state = state, value = value }));
+            }
+        }
+
+        protected void ProcessActive(JObject schema)
+        {
+            if (schema["Active"] != null)
+            {
+                var script = (string)schema["Active"];
+                SetActive((state) => EvaluateAsync<bool>(script, new ScriptState { state = state }).Result);
+            }
+        }
+
+        internal class MessageOrConfirmation
+        {
+            public bool IsMessage;
+            public PromptAttribute Prompt;
+            public ActiveDelegate<JObject> Condition;
+            public MessageDelegate<JObject> MessageGenerator;
+            public IEnumerable<string> Dependencies;
+        }
+
+        internal IEnumerable<MessageOrConfirmation> ProcessMessages(string fieldName, JObject fieldSchema)
+        {
+            var messages = new List<MessageOrConfirmation>();
+            JToken array;
+            if (fieldSchema.TryGetValue(fieldName, out array))
+            {
+                foreach (var message in array.Children<JObject>())
+                {
+                    var info = new MessageOrConfirmation();
+                    if (GetPrompt("Message", message, info))
+                    {
+                        info.IsMessage = true;
+                        messages.Add(info);
+                    }
+                    else if (GetPrompt("Confirm", message, info))
+                    {
+                        info.IsMessage = false;
+                        messages.Add(info);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"{message} is not Message or Confirm");
+                    }
+                }
+            }
+            return messages;
+        }
+
+        internal bool GetPrompt(string fieldName, JObject message, MessageOrConfirmation info)
+        {
+            bool found = false;
+            JToken val;
+            if (message.TryGetValue(fieldName, out val))
+            {
+                if (val is JValue)
+                {
+                    var script = (string)val;
+                    info.MessageGenerator = async (state) => await EvaluateAsync<PromptAttribute>(script, new ScriptState { state = state });
+                }
+                else if (val is JArray)
+                {
+                    info.Prompt = (PromptAttribute)ProcessTemplate(message, new PromptAttribute((from msg in val select (string)msg).ToArray()));
+                }
+                else
+                {
+                    throw new ArgumentException($"{val} must be string or array of strings.");
+                }
+                if (message["Active"] != null)
+                {
+                    var script = (string)message["Active"];
+                    info.Condition = (state) => EvaluateAsync<bool>(script, new ScriptState { state = state }).Result;
+                }
+                if (message["Dependencies"] != null)
+                {
+                    info.Dependencies = (from dependent in message["Dependencies"] select (string)dependent);
+                }
+                found = true;
+            }
+            return found;
+        }
+
+        protected void ProcessReferences(JObject schema)
+        {
+            JToken references;
+            var assemblies = new List<string>() { "Microsoft.Bot.Builder.dll" };
+            if (schema.TryGetValue("References", out references))
+            {
+                foreach (JToken template in references.Children())
+                {
+                    assemblies.Add((string)template);
+                }
+            }
+            var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            _options = CodeAnalysis.Scripting.ScriptOptions.Default
+                .AddReferences((from assembly in assemblies select System.IO.Path.Combine(dir, assembly)).ToArray())
+                .AddImports("Microsoft.Bot.Builder.FormFlow", "Microsoft.Bot.Builder.FormFlow.Advanced", "System.Collections.Generic", "System.Linq", "System");
         }
 
         protected void ProcessTemplates(JObject schema)
@@ -289,7 +525,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             JToken token;
             if (schema.TryGetValue("pattern", out token))
             {
-                SetPattern((string) token);
+                SetPattern((string)token);
             }
         }
 
@@ -357,7 +593,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected TemplateBaseAttribute ProcessTemplate(JToken template, TemplateBaseAttribute attribute)
         {
-            attribute.Patterns = template["Patterns"].ToObject<string[]>();
+            if (template["Patterns"] != null)
+            {
+                attribute.Patterns = template["Patterns"].ToObject<string[]>();
+            }
             attribute.AllowDefault = ProcessEnum<BoolDefault>(template, "AllowDefault");
             attribute.ChoiceCase = ProcessEnum<CaseNormalization>(template, "ChoiceCase");
             attribute.ChoiceFormat = (string)template["ChoiceFormat"];
@@ -437,6 +676,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         protected JObject _schema;
+        protected CodeAnalysis.Scripting.ScriptOptions _options;
     }
 }
 
@@ -466,7 +706,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         }
 
         /// <summary>
-        /// Add any remaining fields defined in <paramref name="schema"/>.
+        /// Add any remaining fields or OnCompletion handler defined in <paramref name="schema"/>.
         /// </summary>
         /// <param name="builder">Where to add any defined fields.</param>
         /// <param name="schema">JSON Schema that defines fields.</param>
@@ -474,7 +714,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
-        /// for defining your fields.
+        /// for defining your fields and OnCompletion handler.
         /// </remarks>
         public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JObject schema, IEnumerable<string> exclude = null)
         {
@@ -515,7 +755,39 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 field.SetValidate(validate);
             }
-            return builder.Field(field);
+            AddSteps(builder, field.Before);
+            builder.Field(field);
+            AddSteps(builder, field.After);
+            return builder;
+        }
+
+        private static void AddSteps(IFormBuilder<JObject> builder, IEnumerable<FieldJson.MessageOrConfirmation> steps)
+        {
+            foreach (var step in steps)
+            {
+                if (step.IsMessage)
+                {
+                    if (step.MessageGenerator != null)
+                    {
+                        builder.Message(step.MessageGenerator, step.Condition, step.Dependencies);
+                    }
+                    else
+                    {
+                        builder.Message(step.Prompt, step.Condition, step.Dependencies);
+                    }
+                }
+                else
+                {
+                    if (step.MessageGenerator != null)
+                    {
+                        builder.Confirm(step.MessageGenerator, step.Condition, step.Dependencies);
+                    }
+                    else
+                    {
+                        builder.Confirm(step.Prompt, step.Condition, step.Dependencies);
+                    }
+                }
+            }
         }
 
         /// <summary>
