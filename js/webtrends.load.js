@@ -7,9 +7,15 @@ window.webtrendsAsyncInit=function(){
         dcsid:"dcs222o33tntg5tzotpzlm6qn_4r8h",
         domain:"statse.webtrendslive.com",
         timezone:-8,
+        i18n:true,
+        offsite:true,
+        download:true,
+        downloadtypes:"xls,doc,pdf,txt,csv,zip,docx,xlsx,rar,gzip",
+        anchor:true,
+        onsitedoms:"docs.botframework.com",
         fpcdom:".docs.botframework.com",
         plugins:{
-            //hm:{src:"//s.webtrends.com/js/webtrends.hm.js"}
+            hm:{src:"//s.webtrends.com/js/webtrends.hm.js"}
         }
         }).track();
 };
