@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -111,13 +111,13 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        public static APIResponse ReplyToConversation(this IConversations operations, Activity activity, string conversationId)
+        public static APIResponse SendToConversation(this IConversations operations, Activity activity, string conversationId)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToConversationAsync(activity, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).SendToConversationAsync(activity, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -147,18 +147,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> ReplyToConversationAsync(this IConversations operations, Activity activity, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TEMP UNTIL WE HAVE JWT TOKENS
             Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
             headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
             // END TEmP
-            var _result = await operations.ReplyToConversationWithHttpMessagesAsync(activity, conversationId, headers, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.SendToConversationWithHttpMessagesAsync(activity, conversationId, headers, cancellationToken).ConfigureAwait(false);
             return _result.Body;
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Reply to an activity in a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -194,7 +194,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Reply to an activity in a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -246,9 +246,9 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        public static object GetMembers(this IConversations operations, string conversationId)
+        public static ChannelAccount[] GetConversationMembers(this IConversations operations, string conversationId)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).GetMembersAsync(conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).GetConversationMembersAsync(conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -263,19 +263,20 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<object> GetMembersAsync(this IConversations operations, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ChannelAccount[]> GetConversationMembersAsync(this IConversations operations, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TEMP UNTIL WE HAVE JWT TOKENS
             Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
             headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
             // END TEmP
-            var _result = await operations.GetMembersWithHttpMessagesAsync(conversationId, headers, cancellationToken).ConfigureAwait(false);
-            return _result.Body;
+            var _result = await operations.GetConversationMembersWithHttpMessagesAsync(conversationId, headers, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ChannelAccount[]>();
         }
 
         /// <summary>
         /// Get the list of members in a single activity in a conversation
         /// </summary>
+        /// for most channels this is the same as GetConversationMemebers
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -283,7 +284,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Activity ID
+        /// Activity ID
         /// </param>
         public static ChannelAccount[] GetActivityMembers(this IConversations operations, string conversationId, string activityId)
         {
@@ -293,6 +294,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Get the list of members in a single activity in a conversation
         /// </summary>
+        /// for most channels this is the same as GetConversationMemebers
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -300,7 +302,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Activity ID
+        /// Activity ID
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.

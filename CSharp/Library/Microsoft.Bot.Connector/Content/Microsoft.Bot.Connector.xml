@@ -146,18 +146,37 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
             <summary>
-            Send an activity to an existing conversation
+            Send an activity to a conversation
             </summary>
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='conversationId'>
-            Conversation ID
+            <param name='activity'>
+            Activity to send
             </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Send an activity to a conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Activity to send
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Replyto an activity in an existing conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
             </param>
             <param name='activity'>
             Activity to send
@@ -165,16 +184,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Reply to an activity in an existing conversation
             </summary>
             <param name='operations'>
             The operations group for this extension method.
-            </param>
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId the reply is to (OPTIONAL)
             </param>
             <param name='activity'>
             Activity to send
@@ -240,9 +253,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String)">
             <summary>
-            Send an activity to an existing conversation
+            Send an activity to a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -270,9 +283,9 @@
             Conversation ID
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Send an activity to a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -305,7 +318,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String)">
             <summary>
-            Send an activity to an existing conversation
+            Reply to an activity in a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -338,7 +351,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Reply to an activity in a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -372,7 +385,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembers(Microsoft.Bot.Connector.IConversations,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationMembers(Microsoft.Bot.Connector.IConversations,System.String)">
             <summary>
             Get the list of members in this conversation
             </summary>
@@ -383,7 +396,7 @@
             Conversation ID
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
             <summary>
             Get the list of members in this conversation
             </summary>
@@ -401,6 +414,7 @@
             <summary>
             Get the list of members in a single activity in a conversation
             </summary>
+            for most channels this is the same as GetConversationMemebers
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -408,13 +422,14 @@
             Conversation ID
             </param>
             <param name='activityId'>
-            (OPTIONAL) Activity ID
+            Activity ID
             </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get the list of members in a single activity in a conversation
             </summary>
+            for most channels this is the same as GetConversationMemebers
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -422,7 +437,7 @@
             Conversation ID
             </param>
             <param name='activityId'>
-            (OPTIONAL) Activity ID
+            Activity ID
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -1492,9 +1507,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.Conversations.SendToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Send an activity to a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -1527,7 +1542,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Reply to an activity in a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the path
             'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -1561,7 +1576,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.GetMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Get the list of members in this conversation
             </summary>
@@ -1579,11 +1594,12 @@
             <summary>
             Get the list of members in a single activity in a conversation
             </summary>
+            for most channels this is the same as GetConversationMemebers
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
-            (OPTIONAL) Activity ID
+            Activity ID
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1658,9 +1674,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IConversations.SendToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Send an activity to a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the
             path
@@ -1698,7 +1714,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to an existing conversation
+            Reply to an activity in a conversation
             </summary>
             System.IO.DirectoryNotFoundException: Could not find a part of the
             path
@@ -1737,7 +1753,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.GetMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Get the list of members in this conversation
             </summary>
@@ -1755,11 +1771,12 @@
             <summary>
             Get the list of members in a single activity in a conversation
             </summary>
+            for most channels this is the same as GetConversationMemebers
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
-            (OPTIONAL) Activity ID
+            Activity ID
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.

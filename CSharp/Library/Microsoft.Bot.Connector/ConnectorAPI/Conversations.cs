@@ -246,7 +246,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -276,7 +276,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<APIResponse>> ReplyToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<APIResponse>> SendToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (activity == null)
             {
@@ -296,7 +296,7 @@ namespace Microsoft.Bot.Connector
                 tracingParameters.Add("activity", activity);
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "ReplyToConversation", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "SendToConversation", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
@@ -482,7 +482,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Reply to an activity in a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the path
         /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
@@ -738,7 +738,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> GetMembersWithHttpMessagesAsync(string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetConversationMembersWithHttpMessagesAsync(string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (conversationId == null)
             {
@@ -753,7 +753,7 @@ namespace Microsoft.Bot.Connector
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "GetMembers", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetConversationMembers", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
@@ -937,11 +937,12 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Get the list of members in a single activity in a conversation
         /// </summary>
+        /// for most channels this is the same as GetConversationMemebers
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Activity ID
+        /// Activity ID
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.

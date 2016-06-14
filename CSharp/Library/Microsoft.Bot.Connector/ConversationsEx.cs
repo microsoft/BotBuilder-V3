@@ -86,16 +86,41 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
+        /// <param name='activity'>
+        /// Activity to send
         /// </param>
-        /// <param name='activityId'>
-        /// activityId the reply is to (OPTIONAL)
+        public static APIResponse SendToConversation(this IConversations operations, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).SendToConversationAsync(activity, activity.Conversation.Id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Send an activity to a conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return operations.SendToConversationAsync(activity, activity.Conversation.Id);
+        }
+
+        /// <summary>
+        /// Replyto an activity in an existing conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
         /// </param>
         /// <param name='activity'>
         /// Activity to send
@@ -106,16 +131,10 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Reply to an activity in an existing conversation
         /// </summary>
         /// <param name='operations'>
         /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activityId'>
-        /// activityId the reply is to (OPTIONAL)
         /// </param>
         /// <param name='activity'>
         /// Activity to send

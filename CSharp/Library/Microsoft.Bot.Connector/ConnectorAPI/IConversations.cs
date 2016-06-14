@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         Task<HttpOperationResponse<object>> CreateConversationWithHttpMessagesAsync(ConversationParameters parameters, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the
         /// path
@@ -87,9 +87,9 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> ReplyToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<APIResponse>> SendToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Reply to an activity in a conversation
         /// </summary>
         /// System.IO.DirectoryNotFoundException: Could not find a part of the
         /// path
@@ -140,15 +140,16 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> GetMembersWithHttpMessagesAsync(string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetConversationMembersWithHttpMessagesAsync(string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Get the list of members in a single activity in a conversation
         /// </summary>
+        /// for most channels this is the same as GetConversationMemebers
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// (OPTIONAL) Activity ID
+        /// Activity ID
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.

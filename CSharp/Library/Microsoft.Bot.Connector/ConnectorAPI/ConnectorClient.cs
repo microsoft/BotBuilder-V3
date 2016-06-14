@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Connector
         private void Initialize()
         {
             this.Conversations = new Conversations(this);
-            this.BaseUri = new Uri("https://localhost:34957");
+            this.BaseUri = new Uri("https://api.botframework.com");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,

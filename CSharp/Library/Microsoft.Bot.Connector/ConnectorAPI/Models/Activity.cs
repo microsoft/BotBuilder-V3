@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string))
         {
-            Type = GetActivityType(type);
+            Type = type;
             Id = id;
             Timestamp = timestamp;
             ServiceUrl = serviceUrl;

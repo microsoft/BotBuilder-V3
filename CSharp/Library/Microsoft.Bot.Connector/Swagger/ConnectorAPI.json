@@ -15,7 +15,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:34957",
+  "host": "api.botframework.com",
   "schemes": [ "https" ],
   "paths": {
     "/api/v3/conversations": {
@@ -71,9 +71,9 @@
     "/api/v3/conversations/{conversationId}/activities": {
       "post": {
         "tags": [ "Conversations" ],
-        "summary": "Send an activity to an existing conversation",
+        "summary": "Send an activity to a conversation",
         "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
-        "operationId": "Conversations_ReplyToConversation",
+        "operationId": "Conversations_SendToConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
@@ -136,7 +136,7 @@
     "/api/v3/conversations/{conversationId}/activities/{activityId}": {
       "post": {
         "tags": [ "Conversations" ],
-        "summary": "Send an activity to an existing conversation",
+        "summary": "Reply to an activity in a conversation",
         "description": "System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\\source\\Intercom\\Channels\\SampleChannel\\Content\\Methods\\SendMessage.md'.\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
         "operationId": "Conversations_ReplyToActivity",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
@@ -209,7 +209,7 @@
       "get": {
         "tags": [ "Conversations" ],
         "summary": "Get the list of members in this conversation",
-        "operationId": "Conversations_GetMembers",
+        "operationId": "Conversations_GetConversationMembers",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
@@ -269,6 +269,7 @@
       "get": {
         "tags": [ "Conversations" ],
         "summary": "Get the list of members in a single activity in a conversation",
+        "description": "for most channels this is the same as GetConversationMemebers",
         "operationId": "Conversations_GetActivityMembers",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -283,7 +284,7 @@
           {
             "name": "activityId",
             "in": "path",
-            "description": "(OPTIONAL) Activity ID",
+            "description": "Activity ID",
             "required": true,
             "type": "string"
           }
