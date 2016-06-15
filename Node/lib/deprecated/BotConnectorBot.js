@@ -1,8 +1,8 @@
 var ub = require('../bots/UniversalBot');
-var bc = require('../bots/BotConnector');
+var chat = require('../bots/ChatConnector');
 var BotConnectorBot = (function () {
     function BotConnectorBot(options) {
-        console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a BotConnector class.');
+        console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.');
         var oConnector = { botId: options.botId };
         var oBot = {};
         for (var key in options) {
@@ -38,7 +38,7 @@ var BotConnectorBot = (function () {
                     throw new Error('BotConnectorBot custom stores no longer supported.');
             }
         }
-        this.connector = new bc.BotConnector(oConnector);
+        this.connector = new chat.ChatConnector(oConnector);
         this.bot = new ub.UniversalBot(this.connector, oBot);
     }
     BotConnectorBot.prototype.on = function (event, listener) {

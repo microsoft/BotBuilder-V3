@@ -39,26 +39,26 @@ import async = require('async');
 import url = require('url');
 import http = require('http');
 
-export interface IBotConnectorSettings {
+export interface IChatConnectorSettings {
     botId: string;
     appId?: string;
     appPassword?: string;
-    endpoint?: IBotConnectorEndpoint;
+    endpoint?: IChatConnectorEndpoint;
 }
 
-export interface IBotConnectorEndpoint {
+export interface IChatConnectorEndpoint {
     refreshEndpoint: string;
     refreshScope: string;
     verifyEndpoint: string;
     verifyIssuer: string;
 }
 
-export class BotConnector extends events.EventEmitter implements ub.IConnector, bs.IBotStorage {
+export class ChatConnector extends events.EventEmitter implements ub.IConnector, bs.IBotStorage {
     private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
 
-    constructor(private settings: IBotConnectorSettings) {
+    constructor(private settings: IChatConnectorSettings) {
         super();
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
@@ -102,7 +102,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
         var conversationId: string;
         async.eachSeries(messages, (msg, cb) => {
             try {
-                var address = <IBotConnectorAddress>msg.address;
+                var address = <IChatConnectorAddress>msg.address;
                 if (address && address.serviceUrl) {
                     delete msg.address;
                     if (!address.conversation && conversationId) {
@@ -125,7 +125,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
         });
     }
 
-    public getData(context: bs.IBotStorageContext, callback: (err: Error, data: IBotConnectorStorageData) => void): void {
+    public getData(context: bs.IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
             // Build list of read commands
             var root = this.getStoragePath(context.address);
@@ -145,14 +145,14 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
             }
 
             // Execute reads in parallel
-            var data: IBotConnectorStorageData = {};
+            var data: IChatConnectorStorageData = {};
             async.each(list, (entry, cb) => {
                 var options: request.Options = {
                     method: 'GET',
                     url: entry.url,
                     json: true
                 };
-                this.authenticatedRequest(options, (err: Error, response: http.IncomingMessage, body: IBotConnectorState) => {
+                this.authenticatedRequest(options, (err: Error, response: http.IncomingMessage, body: IChatConnectorState) => {
                     if (!err && body) {
                         try {
                             var botData = body.data ? body.data : {};
@@ -176,7 +176,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
         }
     }
 
-    public saveData(context: bs.IBotStorageContext, data: IBotConnectorStorageData, callback?: (err: Error) => void): void {
+    public saveData(context: bs.IBotStorageContext, data: IChatConnectorStorageData, callback?: (err: Error) => void): void {
         try {
             // Build list of write commands
             var root = this.getStoragePath(context.address);
@@ -273,7 +273,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
         res.end();
     }
 
-    private postMessage(address: IBotConnectorAddress, msg: IMessage, cb: (err: Error, conversationId: string) => void): void {
+    private postMessage(address: IChatConnectorAddress, msg: IMessage, cb: (err: Error, conversationId: string) => void): void {
         // Calculate path
         var path = '/api/v3/conversations';
         if (address.conversation && address.conversation.id) {
@@ -385,7 +385,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
         }
     }
 
-    private getStoragePath(address: IBotConnectorAddress): string {
+    private getStoragePath(address: IChatConnectorAddress): string {
         // Calculate host
         var path: string;
         switch (address.channelId) {
@@ -394,7 +394,7 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector, 
                 if (address.serviceUrl) {
                     path = address.serviceUrl;
                 } else {
-                    throw new Error('BotConnector.getStoragePath() missing address.serviceUrl.');
+                    throw new Error('ChatConnector.getStoragePath() missing address.serviceUrl.');
                 }
                 break;
             default:
@@ -429,16 +429,16 @@ function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): vo
     }
 }
 
-interface IBotConnectorAddress extends IAddress {
+interface IChatConnectorAddress extends IAddress {
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
 }
 
-interface IBotConnectorStorageData extends bs.IBotStorageData {
+interface IChatConnectorStorageData extends bs.IBotStorageData {
     userDataHash?: string;
     conversationDataHash?: string;
 }
 
-interface IBotConnectorState {
+interface IChatConnectorState {
     eTag: string;
     data?: any;
 }

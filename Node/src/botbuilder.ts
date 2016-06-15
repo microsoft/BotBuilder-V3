@@ -44,7 +44,7 @@ import luis = require('./dialogs/LuisRecognizer');
 import simple = require('./dialogs/SimpleDialog');
 import entities = require('./dialogs/EntityRecognizer');
 import ub = require('./bots/UniversalBot');
-import bc = require('./bots/BotConnector');
+import chat = require('./bots/ChatConnector');
 import cc = require('./bots/ConsoleConnector');
 import bs = require('./storage/BotStorage');
 import action = require('./cards/Action');
@@ -81,7 +81,7 @@ exports.LuisRecognizer = luis.LuisRecognizer;
 exports.SimpleDialog = simple.SimpleDialog;
 exports.EntityRecognizer = entities.EntityRecognizer;
 exports.UniversalBot = ub.UniversalBot;
-exports.BotConnector = bc.BotConnector;
+exports.ChatConnector = chat.ChatConnector;
 exports.ConsoleConnector = cc.ConsoleConnector;
 exports.MemoryBotStorage = bs.MemoryBotStorage;
 

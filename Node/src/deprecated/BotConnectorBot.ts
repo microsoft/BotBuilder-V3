@@ -32,7 +32,7 @@
 //
 
 import ub = require('../bots/UniversalBot');
-import bc = require('../bots/BotConnector');
+import chat = require('../bots/ChatConnector');
 import dlg = require('../dialogs/Dialog');
 import actions = require('../dialogs/DialogAction');
 
@@ -59,17 +59,17 @@ export interface IBotConnectorOptions {
 }
 
 export class BotConnectorBot  {
-    private connector: bc.BotConnector;
+    private connector: chat.ChatConnector;
     private bot: ub.UniversalBot;
     private groupWelcomeMessage: string;
     private userWelcomeMessage: string;
     private goodbyeMessage: string;
 
     constructor(options: IBotConnectorOptions) {
-        console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a BotConnector class.')
+        console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.')
 
         // Map options into settings
-        var oConnector: bc.IBotConnectorSettings = { botId: options.botId };
+        var oConnector: chat.IChatConnectorSettings = { botId: options.botId };
         var oBot: ub.IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {
@@ -107,7 +107,7 @@ export class BotConnectorBot  {
         }
 
         // Initialize connector & universal bot
-        this.connector = new bc.BotConnector(oConnector);
+        this.connector = new chat.ChatConnector(oConnector);
         this.bot = new ub.UniversalBot(this.connector, oBot);
     }
 

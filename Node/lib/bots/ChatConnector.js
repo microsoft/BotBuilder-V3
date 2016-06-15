@@ -7,9 +7,9 @@ var events = require('events');
 var request = require('request');
 var async = require('async');
 var url = require('url');
-var BotConnector = (function (_super) {
-    __extends(BotConnector, _super);
-    function BotConnector(settings) {
+var ChatConnector = (function (_super) {
+    __extends(ChatConnector, _super);
+    function ChatConnector(settings) {
         _super.call(this);
         this.settings = settings;
         if (!this.settings.endpoint) {
@@ -21,7 +21,7 @@ var BotConnector = (function (_super) {
             };
         }
     }
-    BotConnector.prototype.listen = function () {
+    ChatConnector.prototype.listen = function () {
         var _this = this;
         return function (req, res) {
             if (req.body) {
@@ -39,15 +39,15 @@ var BotConnector = (function (_super) {
             }
         };
     };
-    BotConnector.prototype.verifyBotFramework = function () {
+    ChatConnector.prototype.verifyBotFramework = function () {
         return function (req, res, next) {
             next();
         };
     };
-    BotConnector.prototype.onMessage = function (handler) {
+    ChatConnector.prototype.onMessage = function (handler) {
         this.handler = handler;
     };
-    BotConnector.prototype.send = function (messages, cb) {
+    ChatConnector.prototype.send = function (messages, cb) {
         var _this = this;
         var conversationId;
         async.eachSeries(messages, function (msg, cb) {
@@ -76,7 +76,7 @@ var BotConnector = (function (_super) {
             cb(err, conversationId);
         });
     };
-    BotConnector.prototype.getData = function (context, callback) {
+    ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
         try {
             var root = this.getStoragePath(context.address);
@@ -127,7 +127,7 @@ var BotConnector = (function (_super) {
             callback(e instanceof Error ? e : new Error(e.toString()), null);
         }
     };
-    BotConnector.prototype.saveData = function (context, data, callback) {
+    ChatConnector.prototype.saveData = function (context, data, callback) {
         var _this = this;
         try {
             var root = this.getStoragePath(context.address);
@@ -198,7 +198,7 @@ var BotConnector = (function (_super) {
             }
         }
     };
-    BotConnector.prototype.dispatch = function (messages, res) {
+    ChatConnector.prototype.dispatch = function (messages, res) {
         var _this = this;
         var list = Array.isArray(messages) ? messages : [messages];
         list.forEach(function (msg) {
@@ -220,7 +220,7 @@ var BotConnector = (function (_super) {
         res.status(202);
         res.end();
     };
-    BotConnector.prototype.postMessage = function (address, msg, cb) {
+    ChatConnector.prototype.postMessage = function (address, msg, cb) {
         var path = '/api/v3/conversations';
         if (address.conversation && address.conversation.id) {
             path += '/' + encodeURIComponent(address.conversation.id) + '/activities';
@@ -252,7 +252,7 @@ var BotConnector = (function (_super) {
             cb(err, conversationId);
         });
     };
-    BotConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
+    ChatConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
         var _this = this;
         if (refresh === void 0) { refresh = false; }
         if (refresh) {
@@ -287,7 +287,7 @@ var BotConnector = (function (_super) {
             }
         });
     };
-    BotConnector.prototype.addAccessToken = function (options, cb) {
+    ChatConnector.prototype.addAccessToken = function (options, cb) {
         var _this = this;
         if (this.settings.appId && this.settings.appPassword) {
             if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
@@ -332,7 +332,7 @@ var BotConnector = (function (_super) {
             cb(null);
         }
     };
-    BotConnector.prototype.getStoragePath = function (address) {
+    ChatConnector.prototype.getStoragePath = function (address) {
         var path;
         switch (address.channelId) {
             case 'emulator':
@@ -340,7 +340,7 @@ var BotConnector = (function (_super) {
                     path = address.serviceUrl;
                 }
                 else {
-                    throw new Error('BotConnector.getStoragePath() missing address.serviceUrl.');
+                    throw new Error('ChatConnector.getStoragePath() missing address.serviceUrl.');
                 }
                 break;
             default:
@@ -351,9 +351,9 @@ var BotConnector = (function (_super) {
             encodeURIComponent(this.settings.botId) + '/' +
             encodeURIComponent(address.channelId);
     };
-    return BotConnector;
+    return ChatConnector;
 })(events.EventEmitter);
-exports.BotConnector = BotConnector;
+exports.ChatConnector = ChatConnector;
 var toAddress = {
     'id': 'id',
     'channelId': 'channelId',
