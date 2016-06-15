@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Controllers
                 using (var scope = DialogModule.BeginLifetimeScope(Container.Instance, continuation))
                 {
                     var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync();
+                    await botData.LoadAsync(token);
                     var data = botData.UserData; 
 
                     var tenantID = this.User.FindFirst(Keys.TenantID);
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Controllers
                     data.SetValue(Keys.TenantID, tenantID.Value);
                     data.SetValue(Keys.TokenCache, tokenBlob);
 
-                    await botData.FlushAsync(); 
+                    await botData.FlushAsync(token); 
                 }
 
                 return "You're now logged-in - continue talking to the bot!";

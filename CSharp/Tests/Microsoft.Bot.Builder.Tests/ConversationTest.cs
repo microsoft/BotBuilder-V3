@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected readonly ConcurrentDictionary<string, BotData> DataStore = new ConcurrentDictionary<string, BotData>();
         public StateClient StateClient;
 
-        public IConnectorClient Make()
+        public IConnectorClient MakeConnectorClient()
         {
             var client = new Mock<ConnectorClient>();
             client.CallBase = true;
@@ -176,12 +176,9 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 //Note: memory store will be single instance for the bot
                 builder.RegisterType<InMemoryDataStore>()
-                    .As<IDataStore>()
+                    .As<IBotDataStore<BotData>>()
+                    .AsSelf()
                     .SingleInstance();
-
-                builder.RegisterType<CachingBotDataStore>()
-                    .As<IBotDataStore>()
-                    .InstancePerLifetimeScope();
             }
 
             foreach (var singleton in singletons)
@@ -237,9 +234,9 @@ namespace Microsoft.Bot.Builder.Tests
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("1:test", reply.Text);
-                    var store = (CachingBotDataStore)scope.Resolve<IBotDataStore>();
+                    var store = scope.Resolve<CachingBotDataStore_LastWriteWins>();
                     Assert.AreEqual(0, store.cache.Count);
-                    var dataStore = (InMemoryDataStore)scope.Resolve<IDataStore>();
+                    var dataStore = scope.Resolve<InMemoryDataStore>();
                     Assert.AreEqual(3, dataStore.store.Count);
                 }
 
@@ -251,9 +248,9 @@ namespace Microsoft.Bot.Builder.Tests
                         await Conversation.SendAsync(scope, msg);
                         var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                         Assert.AreEqual($"{i+2}:test", reply.Text);
-                        var store = (CachingBotDataStore)scope.Resolve<IBotDataStore>();
+                        var store = scope.Resolve<CachingBotDataStore_LastWriteWins>();
                         Assert.AreEqual(0, store.cache.Count);
-                        var dataStore = (InMemoryDataStore)scope.Resolve<IDataStore>();
+                        var dataStore = scope.Resolve<InMemoryDataStore>();
                         Assert.AreEqual(3, dataStore.store.Count);
                         string val = string.Empty;
                         Assert.IsTrue(scope.Resolve<IBotData>().PerUserInConversationData.TryGetValue(DialogModule.BlobKey, out val));
@@ -297,7 +294,7 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.AreEqual("resumed!", reply.Text);
 
                     var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync();
+                    await botData.LoadAsync(default(CancellationToken));
                     Assert.IsTrue(botData.UserData.Get<bool>("resume"));
                 }
             }

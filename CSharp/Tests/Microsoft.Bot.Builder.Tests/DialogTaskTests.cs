@@ -97,7 +97,7 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                    await scope.Resolve<IBotData>().LoadAsync();
+                    await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
                     var task = scope.Resolve<IDialogStack>();
                     Assert.AreNotEqual(0, task.Frames.Count);
                 }
@@ -132,7 +132,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var connectorFactory = scope.Resolve<IConnectorClientFactory>();
                     var botDataStore = scope.Resolve<IBotDataStore>();
                     var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync();
+                    await botData.LoadAsync(default(CancellationToken));
                     Assert.AreEqual(1, botData.PerUserInConversationData.Count);
                 }
 
@@ -140,7 +140,7 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                    await scope.Resolve<IBotData>().LoadAsync();
+                    await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
                     var stack = scope.Resolve<IDialogStack>();
                     Assert.AreEqual(0, stack.Frames.Count);
                 }
@@ -184,7 +184,7 @@ namespace Microsoft.Bot.Builder.Tests
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var task = scope.Resolve<IPostToBot>();
-                    await scope.Resolve<IBotData>().LoadAsync();
+                    await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
                     var stack = scope.Resolve<IDialogStack>();
                     Assert.AreEqual(0, stack.Frames.Count);
 
@@ -342,7 +342,7 @@ namespace Microsoft.Bot.Builder.Tests
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var task = scope.Resolve<IPostToBot>();
-                    await scope.Resolve<IBotData>().LoadAsync();
+                    await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
                     var stack = scope.Resolve<IDialogStack>();
 
                     // set up dialogOne to call dialogNew when triggered

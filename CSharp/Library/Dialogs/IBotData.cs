@@ -57,15 +57,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IBotDataBag PerUserInConversationData { get; }
 
         /// <summary>
-        /// Loads the bot data from <see cref="IBotDataStore"/>
+        /// Loads the bot data from <see cref="IBotDataStore{T}"/>
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        Task LoadAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task LoadAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Flushes the bot data to <see cref="IBotDataStore"/>
+        /// Flushes the bot data to <see cref="IBotDataStore{T}"/>
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        Task FlushAsync(CancellationToken cancellationToken = default(CancellationToken)); 
+        Task FlushAsync(CancellationToken cancellationToken); 
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Configuration;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -26,17 +27,17 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/OAuthCallback")]
-        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state)
+        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state, CancellationToken token)
         {
             // Get the resumption cookie
             var resumptionCookie = new ResumptionCookie(userId, botId.Value, conversationId, channelId, HttpUtility.UrlDecode(serviceUrl), locale);
 
             // Exchange the Facebook Auth code with Access token
-            var token = await FacebookHelpers.ExchangeCodeForAccessToken(resumptionCookie, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
+            var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(resumptionCookie, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
 
             // Create the message that is send to conversation to resume the login flow
             var msg = resumptionCookie.GetMessage();
-            msg.Text = $"token:{token.AccessToken}";
+            msg.Text = $"token:{accessToken.AccessToken}";
 
             // Resume the conversation to SimpleFacebookAuthDialog
             await Conversation.ResumeAsync(resumptionCookie, msg);
@@ -44,13 +45,13 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
             using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, msg))
             {
                 var dataBag = scope.Resolve<IBotData>();
-                await dataBag.LoadAsync();
+                await dataBag.LoadAsync(token);
                 ResumptionCookie pending;
                 if (dataBag.PerUserInConversationData.TryGetValue("persistedCookie", out pending))
                 {
                     // remove persisted cookie
                     dataBag.PerUserInConversationData.RemoveValue("persistedCookie");
-                    await dataBag.FlushAsync();
+                    await dataBag.FlushAsync(token);
                     return Request.CreateResponse("You are now logged in! Continue talking to the bot.");
                 }
                 else

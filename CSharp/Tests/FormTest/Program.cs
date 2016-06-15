@@ -102,7 +102,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                 var task = scope.Resolve<IPostToBot>();
-                await scope.Resolve<IBotData>().LoadAsync(); 
+                await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken)); 
                 var stack = scope.Resolve<IDialogStack>();
 
                 stack.Call(MakeRoot(), null);

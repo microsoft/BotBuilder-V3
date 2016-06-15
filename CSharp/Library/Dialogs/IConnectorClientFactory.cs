@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Make the IConnectorClient implementation.
         /// </summary>
         /// <returns>The IConnectorClient implementation.</returns>
-        IConnectorClient Make();
+        IConnectorClient MakeConnectorClient();
 
         /// <summary>
         /// Make the <see cref="IStateClient"/> implementation.
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.isEmulator = message.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
         }
 
-        IConnectorClient IConnectorClientFactory.Make()
+        IConnectorClient IConnectorClientFactory.MakeConnectorClient()
         {
             return new ConnectorClient(this.serviceUri, this.credentials);
         }
