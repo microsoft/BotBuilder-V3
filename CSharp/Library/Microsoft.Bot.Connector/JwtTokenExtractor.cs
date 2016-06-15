@@ -44,9 +44,11 @@ namespace Microsoft.Bot.Connector
             _tokenValidationParameters.RequireSignedTokens = true;
         }
 
-        public Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
+        public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
         {
-            return GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter);
+            if (request.Headers.Authorization != null)
+                return await GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter);
+            return null;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(string authorizationHeader)

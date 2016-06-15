@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -21,7 +22,8 @@ namespace Microsoft.Bot.Connector
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
 
-            if (String.IsNullOrEmpty(MicrosoftAppId))
+            if (Debugger.IsAttached && String.IsNullOrEmpty(MicrosoftAppId))
+                // then auth is disabled
                 return;
 
             var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), JwtConfig.ToBotFromChannelOpenIdMetadataUrl);

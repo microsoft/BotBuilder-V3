@@ -39,12 +39,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, ChannelAccount bot, ChannelAccount user, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TEMP UNTIL WE HAVE JWT TOKENS
-            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
-            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
-            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user), headers, cancellationToken).ConfigureAwait(false);
-            // END TEmP
-            //var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user), null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<ResourceResponse>();
         }
 
@@ -76,12 +71,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, string botAddress, string userAddress, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TEMP UNTIL WE HAVE JWT TOKENS
-            Dictionary<string, List<string>> headers = new Dictionary<string, List<string>>();
-            headers.Add("botid", new List<string>() { System.Configuration.ConfigurationManager.AppSettings["appId"] });
-            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress), headers, cancellationToken).ConfigureAwait(false);
-            // END TEmP
-            //var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress), null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<ResourceResponse>();
         }
 
