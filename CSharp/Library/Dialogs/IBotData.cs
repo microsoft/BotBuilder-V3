@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
@@ -56,13 +57,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IBotDataBag PerUserInConversationData { get; }
 
         /// <summary>
-        /// Loads the bot data from <see cref="IBotDataStore"/>
+        /// Loads the bot data from <see cref="IBotDataStore{T}"/>
         /// </summary>
-        Task LoadAsync();
+        /// <param name="cancellationToken">The cancellation token.</param>
+        Task LoadAsync(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Flushes the bot data to <see cref="IBotDataStore"/>
+        /// Flushes the bot data to <see cref="IBotDataStore{T}"/>
         /// </summary>
-        Task FlushAsync(); 
+        /// <param name="cancellationToken">The cancellation token.</param>
+        Task FlushAsync(CancellationToken cancellationToken); 
     }
 }

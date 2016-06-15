@@ -51,7 +51,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Make the IConnectorClient implementation.
         /// </summary>
         /// <returns>The IConnectorClient implementation.</returns>
-        IConnectorClient Make();
+        IConnectorClient MakeConnectorClient();
+
+        /// <summary>
+        /// Make the <see cref="IStateClient"/> implementation.
+        /// </summary>
+        /// <returns>The <see cref="IStateClient"/> implementation.</returns>
+        IStateClient MakeStateClient(); 
     }
 
     public sealed class ConnectorClientFactory : IConnectorClientFactory
@@ -70,17 +76,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.isEmulator = message.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
         }
 
-        IConnectorClient IConnectorClientFactory.Make()
+        IConnectorClient IConnectorClientFactory.MakeConnectorClient()
         {
-            if (isEmulator ?? false)
+            return new ConnectorClient(this.serviceUri, this.credentials);
+        }
+
+        IStateClient IConnectorClientFactory.MakeStateClient()
+        {
+            if(isEmulator ?? false)
             {
-                return new ConnectorClient(this.serviceUri);
+                // for emulator we should use serviceUri of the emulator for storage
+                return new StateClient(this.serviceUri, this.credentials);
             }
             else
             {
-                var client = new ConnectorClient(this.serviceUri);
-                client.Credentials = this.credentials;
-                return client;
+                return new StateClient(this.credentials);
             }
         }
     }

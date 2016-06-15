@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Protocols;
 
 namespace Microsoft.Bot.Connector
 {
-    internal class JwtTokenExtractor
+    public class JwtTokenExtractor
     {
         /// <summary>
         /// Shared of OpenIdConnect configuration managers (one per metadata URL)
@@ -46,15 +46,28 @@ namespace Microsoft.Bot.Connector
 
         public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
         {
-            // No header in correct scheme?
-            if (request?.Headers?.Authorization?.Scheme != "Bearer")
-                return null;
+            if (request.Headers.Authorization != null)
+                return await GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter);
+            return null;
+        }
 
-            string jwtToken = request.Headers.Authorization.Parameter;
+        public async Task<ClaimsIdentity> GetIdentityAsync(string authorizationHeader)
+        {
+            string[] parts = authorizationHeader.Split(' ');
+            if (parts.Length == 2)
+                return await GetIdentityAsync(parts[0], parts[1]);
+            return null;
+        }
+
+        public async Task<ClaimsIdentity> GetIdentityAsync(string scheme, string parameter)
+        {
+            // No header in correct scheme?
+            if (scheme != "Bearer")
+                return null;
 
             try
             {
-                ClaimsPrincipal claimsPrincipal = await ValidateTokenAsync(jwtToken).ConfigureAwait(false);
+                ClaimsPrincipal claimsPrincipal = await ValidateTokenAsync(parameter).ConfigureAwait(false);
                 return claimsPrincipal.Identities.OfType<ClaimsIdentity>().FirstOrDefault();
             }
             catch (Exception e)

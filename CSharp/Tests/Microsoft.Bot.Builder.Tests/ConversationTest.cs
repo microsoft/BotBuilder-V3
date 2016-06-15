@@ -46,30 +46,38 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Text.RegularExpressions;
+using System.Collections.Concurrent;
 
 namespace Microsoft.Bot.Builder.Tests
 {
     public class MockConnectorFactory : IConnectorClientFactory
     {
-        protected readonly Dictionary<string, BotData> DataStore = new Dictionary<string, BotData>();
+        protected readonly ConcurrentDictionary<string, BotData> DataStore = new ConcurrentDictionary<string, BotData>();
         public StateClient StateClient;
 
-        public IConnectorClient Make()
+        public IConnectorClient MakeConnectorClient()
         {
             var client = new Mock<ConnectorClient>();
             client.CallBase = true;
-            this.StateClient = MockIBots(this).Object;
             return client.Object;
         }
 
-
+        public IStateClient MakeStateClient()
+        {
+            if(this.StateClient == null)
+            {
+                this.StateClient = MockIBots(this).Object;
+            }
+            return this.StateClient;
+        }
+        
         public string GetBotDataKey(string botId, string userId = null, string conversationId = null)
         {
             string key = null;
             if (!String.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(conversationId))
                 key = $"{botId}:userconversation:{userId}{conversationId}";
             else if (!String.IsNullOrEmpty(userId))
-                key = $"user:{userId}";
+                key = $"{botId}:user:{userId}";
             else if (!String.IsNullOrEmpty(conversationId))
                 key = $"{botId}:conversation:{conversationId}";
             else
@@ -167,8 +175,9 @@ namespace Microsoft.Bot.Builder.Tests
             if (options.HasFlag(Options.InMemoryBotDataStore))
             {
                 //Note: memory store will be single instance for the bot
-                builder.RegisterType<InMemoryBotDataStore>()
-                    .As<IBotDataStore>()
+                builder.RegisterType<InMemoryDataStore>()
+                    .As<IBotDataStore<BotData>>()
+                    .AsSelf()
                     .SingleInstance();
             }
 
@@ -225,9 +234,10 @@ namespace Microsoft.Bot.Builder.Tests
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("1:test", reply.Text);
-                    var store = (InMemoryBotDataStore)scope.Resolve<IBotDataStore>();
+                    var store = scope.Resolve<CachingBotDataStore_LastWriteWins>();
                     Assert.AreEqual(0, store.cache.Count);
-                    Assert.AreEqual(3, store.store.Count);
+                    var dataStore = scope.Resolve<InMemoryDataStore>();
+                    Assert.AreEqual(3, dataStore.store.Count);
                 }
 
                 for (int i = 0; i < 10; i++)
@@ -238,9 +248,10 @@ namespace Microsoft.Bot.Builder.Tests
                         await Conversation.SendAsync(scope, msg);
                         var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                         Assert.AreEqual($"{i+2}:test", reply.Text);
-                        var store = (InMemoryBotDataStore)scope.Resolve<IBotDataStore>();
+                        var store = scope.Resolve<CachingBotDataStore_LastWriteWins>();
                         Assert.AreEqual(0, store.cache.Count);
-                        Assert.AreEqual(3, store.store.Count);
+                        var dataStore = scope.Resolve<InMemoryDataStore>();
+                        Assert.AreEqual(3, dataStore.store.Count);
                         string val = string.Empty;
                         Assert.IsTrue(scope.Resolve<IBotData>().PerUserInConversationData.TryGetValue(DialogModule.BlobKey, out val));
                         Assert.AreNotEqual(string.Empty, val);
@@ -283,7 +294,7 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.AreEqual("resumed!", reply.Text);
 
                     var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync();
+                    await botData.LoadAsync(default(CancellationToken));
                     Assert.IsTrue(botData.UserData.Get<bool>("resume"));
                 }
             }

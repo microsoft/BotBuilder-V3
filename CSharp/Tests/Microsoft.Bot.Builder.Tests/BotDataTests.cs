@@ -35,10 +35,12 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
@@ -84,7 +86,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task BotDataBag_SetGet()
         {
             var data = MakeBotData();
-            await data.LoadAsync(); 
+            await data.LoadAsync(default(CancellationToken)); 
             var bag = data.PerUserInConversationData;
             Assert.AreEqual(0, bag.Count);
 
@@ -97,7 +99,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task BotDataBag_Stream()
         {
             var data = MakeBotData();
-            await data.LoadAsync(); 
+            await data.LoadAsync(default(CancellationToken)); 
             var bag = data.PerUserInConversationData;
             var key = "PerUserInConversationData";
 
@@ -138,7 +140,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new JObjectBotData(msg, new InMemoryBotDataStore());
+            return new JObjectBotData(msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
         }
     }
 
@@ -148,7 +150,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new DictionaryBotData(msg, new InMemoryBotDataStore());
+            return new DictionaryBotData(msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
         }
     }
 }

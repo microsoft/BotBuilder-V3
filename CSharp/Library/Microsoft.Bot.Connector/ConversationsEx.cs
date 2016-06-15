@@ -12,68 +12,88 @@ namespace Microsoft.Bot.Connector
     public static partial class ConversationsExtensions
     {
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Create a new direct conversation between a bot and a user
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
         /// </param>
-        /// <param name='activityId'>
-        /// activityId the reply is to (OPTIONAL)
+        public static ResourceResponse CreateDirectConversation(this IConversations operations, ChannelAccount bot, ChannelAccount user)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(GetDirectParameters(bot, user)), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create a new direct conversation between a bot and a user
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, ChannelAccount bot, ChannelAccount user, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user), null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ResourceResponse>();
+        }
+
+        /// <summary>
+        /// Create a new direct conversation between a bot and a user
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
+        /// </param>
+        public static ResourceResponse CreateDirectConversation(this IConversations operations, string botAddress, string userAddress)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(GetDirectParameters(botAddress, userAddress)), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Create a new direct conversation between a bot and a user
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='parameters'>
+        /// Parameters to create the conversation from
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, string botAddress, string userAddress, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress), null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ResourceResponse>();
+        }
+
+        /// <summary>
+        /// Send an activity to a conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
         /// </param>
         /// <param name='activity'>
         /// Activity to send
         /// </param>
-        public static APIResponse ReplyToConversation(this IConversations operations, Activity activity)
+        public static APIResponse SendToConversation(this IConversations operations, Activity activity)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToConversationAsync(activity.Conversation.Id, activity.ReplyToId ?? string.Empty, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).SendToConversationAsync(activity, activity.Conversation.Id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Send an activity to an existing conversation
+        /// Send an activity to a conversation
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
         /// <param name='operations'>
         /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activityId'>
-        /// activityId the reply is to (OPTIONAL)
         /// </param>
         /// <param name='activity'>
         /// Activity to send
@@ -81,9 +101,51 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static Task<APIResponse> ReplyToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return operations.ReplyToConversationAsync(activity.Conversation.Id, activity.ReplyToId ?? string.Empty, activity);
+            return operations.SendToConversationAsync(activity, activity.Conversation.Id);
         }
+
+        /// <summary>
+        /// Replyto an activity in an existing conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        public static APIResponse ReplyToActivity(this IConversations operations, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(activity, activity.Conversation.Id, activity.ReplyToId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Reply to an activity in an existing conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return operations.ReplyToActivityAsync(activity, activity.Conversation.Id, activity.ReplyToId);
+        }
+
+        private static ConversationParameters GetDirectParameters(string botId, string userId)
+        {
+            return new ConversationParameters() { Bot = new ChannelAccount(botId), Members = new ChannelAccount[] { new ChannelAccount(userId) } };
+        }
+
+        private static ConversationParameters GetDirectParameters(ChannelAccount bot, ChannelAccount user)
+        {
+            return new ConversationParameters() { Bot = bot, Members = new ChannelAccount[] { user } };
+        }
+
     }
 }

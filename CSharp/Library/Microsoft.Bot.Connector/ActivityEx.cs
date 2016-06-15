@@ -117,6 +117,11 @@ namespace Microsoft.Bot.Connector
         public string GetActivityType()
         {
             var type = this.Type.Split('/').First();
+            return GetActivityType(type);
+        }
+
+        public static string GetActivityType(string type)
+        {
             if (String.Equals(type, ActivityTypes.Message, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Message;
 
@@ -134,6 +139,5 @@ namespace Microsoft.Bot.Connector
 
             return type;
         }
-
     }
 }

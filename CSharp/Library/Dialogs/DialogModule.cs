@@ -42,6 +42,7 @@ using Microsoft.Bot.Connector;
 
 using Autofac;
 
+
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
@@ -73,7 +74,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             // components not marked as [Serializable]
-
             builder
                 .RegisterType<MicrosoftAppCredentials>()
                 .AsSelf()
@@ -85,9 +85,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => c.Resolve<IConnectorClientFactory>().Make())
+                .Register(c => c.Resolve<IConnectorClientFactory>().MakeConnectorClient())
                 .As<IConnectorClient>()
                 .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
+                .As<IStateClient>()
+                .InstancePerLifetimeScope(); 
 
             builder
                .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
@@ -98,10 +103,23 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c => c.Resolve<IDetectChannelCapability>().Detect())
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
+            
+            builder.RegisterType<ConnectorStore>()
+                .As<IBotDataStore<BotData>>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<InMemoryBotDataStore>()
+            // If bot wants to use InMemoryDataStore instead of 
+            // ConnectorStore, the below registration should be used
+            /*builder.RegisterType<InMemoryDataStore>()
+                .As<IDataStore<BotData>>()
+                .AsSelf()
+                .SingleInstance(); */
+
+            builder.RegisterType<CachingBotDataStore_LastWriteWins>()
                 .As<IBotDataStore>()
-                .SingleInstance();
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<JObjectBotData>()

@@ -365,7 +365,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            await botData.LoadAsync();
+            await botData.LoadAsync(token);
             try
             {
                 await this.inner.Value.PostAsync<T>(item, token);
@@ -378,7 +378,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         private async Task PersistBotData(bool ignoreETag = true, CancellationToken token = default(CancellationToken))
         {
-            await botData.FlushAsync();
+            await botData.FlushAsync(token);
         }
     }
 }

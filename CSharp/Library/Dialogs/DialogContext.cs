@@ -126,14 +126,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.stack.PollAsync(token);
         }
 
-        async Task IBotData.LoadAsync()
+        async Task IBotData.LoadAsync(CancellationToken cancellationToken)
         {
-            await this.botData.LoadAsync(); 
+            await this.botData.LoadAsync(cancellationToken); 
         }
 
-        async Task IBotData.FlushAsync()
+        async Task IBotData.FlushAsync(CancellationToken cancellationToken)
         {
-            await this.botData.FlushAsync(); 
+            await this.botData.FlushAsync(cancellationToken); 
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Microsoft.Bot.Connector
     public class MicrosoftAppCredentials : BearerTokenCredentials
     {
         public MicrosoftAppCredentials(string appId = null, string password = null)
-            :base(null)
+            : base(null)
         {
-            MicrosoftAppId = appId;
-            MicrosoftAppPassword = password;
-            TokenCacheKey = $"{appId}-cache";
+            MicrosoftAppId = appId ?? ConfigurationManager.AppSettings["MicrosoftAppId"];
+            MicrosoftAppPassword = password ?? ConfigurationManager.AppSettings["MicrosoftAppPassword"];
+            TokenCacheKey = $"{MicrosoftAppId}-cache";
         }
 
         public string MicrosoftAppId { get; set; }
@@ -39,9 +39,9 @@ namespace Microsoft.Bot.Connector
             await base.ProcessHttpRequestAsync(request, cancellationToken);
         }
 
-        internal async Task<string> GetTokenAsync(bool forceRefresh = false)
+        public async Task<string> GetTokenAsync(bool forceRefresh = false)
         {
-            string token; 
+            string token;
             var oAuthToken = (OAuthResponse)System.Web.HttpRuntime.Cache.Get(TokenCacheKey);
             if (oAuthToken != null && !forceRefresh && TokenExpired(oAuthToken))
             {
@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Connector
                                                     System.Web.Caching.Cache.NoSlidingExpiration);
                 token = oAuthToken.access_token;
             }
-            return token; 
+            return token;
         }
 
         private async Task<OAuthResponse> RefreshTokenAsync()
