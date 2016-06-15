@@ -15,11 +15,12 @@ var Session = (function (_super) {
         this.msgSent = false;
         this._isReset = false;
         this.lastSendTime = new Date().getTime();
-        this.sendQueue = [];
-        this.sendQueueStarted = false;
+        this.batch = [];
+        this.batchStarted = false;
+        this.sendingBatch = false;
         this.dialogs = options.dialogs;
-        if (typeof this.options.minSendDelay !== 'number') {
-            this.options.minSendDelay = 1000;
+        if (typeof this.options.autoBatchDelay !== 'number') {
+            this.options.autoBatchDelay = 150;
         }
     }
     Session.prototype.dispatch = function (sessionState, message) {
@@ -73,87 +74,68 @@ var Session = (function (_super) {
         }
         return sprintf.sprintf(tmpl, count);
     };
-    Session.prototype.save = function (done) {
-        var cur = this.curDialog();
-        if (cur) {
-            cur.state = this.dialogData || {};
-        }
-        this.options.onSave(done);
+    Session.prototype.save = function () {
+        this.startBatch();
         return this;
     };
     Session.prototype.send = function (message) {
-        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
         this.msgSent = true;
-        this.save(function (err) {
-            if (!err && message) {
-                var m;
-                if (typeof message == 'string' || Array.isArray(message)) {
-                    m = _this.createMessage(message, args);
-                }
-                else if (message.toMessage) {
-                    m = message.toMessage();
-                }
-                else {
-                    m = message;
-                }
-                _this.delayedSend(m);
+        if (message) {
+            var m;
+            if (typeof message == 'string' || Array.isArray(message)) {
+                m = this.createMessage(message, args);
             }
-        });
+            else if (message.toMessage) {
+                m = message.toMessage();
+            }
+            else {
+                m = message;
+            }
+            this.prepareMessage(m);
+            this.batch.push(m);
+        }
+        this.startBatch();
         return this;
     };
-    Session.prototype.sendMessage = function (message, done) {
-        var _this = this;
+    Session.prototype.sendMessage = function (message) {
         this.msgSent = true;
-        this.save(function (err) {
-            if (!err && message) {
-                var m = message.toMessage ? message.toMessage() : message;
-                _this.prepareMessage(m);
-                _this.options.onSend([m], done);
-            }
-            else if (done) {
-                done(err);
-            }
-        });
+        if (message) {
+            var m = message.toMessage ? message.toMessage() : message;
+            this.prepareMessage(m);
+            this.batch.push(m);
+        }
+        this.startBatch();
         return this;
     };
     Session.prototype.messageSent = function () {
         return this.msgSent;
     };
     Session.prototype.beginDialog = function (id, args) {
-        var _this = this;
         var dlg = this.dialogs.getDialog(id);
         if (!dlg) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.pushDialog({ id: id, state: {} });
-        this.save(function (err) {
-            if (!err) {
-                dlg.begin(_this, args);
-            }
-        });
+        this.startBatch();
+        dlg.begin(this, args);
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
-        var _this = this;
         var dlg = this.dialogs.getDialog(id);
         if (!dlg) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.popDialog();
         this.pushDialog({ id: id, state: {} });
-        this.save(function (err) {
-            if (!err) {
-                dlg.begin(_this, args);
-            }
-        });
+        this.startBatch();
+        dlg.begin(this, args);
         return this;
     };
     Session.prototype.endConversation = function (message) {
-        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -170,20 +152,15 @@ var Session = (function (_super) {
                 m = message;
             }
             this.msgSent = true;
+            this.prepareMessage(m);
+            this.batch.push(m);
         }
         var ss = this.sessionState;
         ss.callstack = [];
-        this.save(function (err) {
-            if (!err) {
-                if (m) {
-                    _this.delayedSend(m);
-                }
-            }
-        });
+        this.startBatch();
         return this;
     };
     Session.prototype.endDialog = function (message) {
-        var _this = this;
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -209,29 +186,24 @@ var Session = (function (_super) {
                 m = message;
             }
             this.msgSent = true;
+            this.prepareMessage(m);
+            this.batch.push(m);
         }
         var childId = cur.id;
         cur = this.popDialog();
-        this.save(function (err) {
-            if (!err) {
-                if (m) {
-                    _this.delayedSend(m);
-                }
-                if (cur) {
-                    var dlg = _this.dialogs.getDialog(cur.id);
-                    if (dlg) {
-                        dlg.dialogResumed(_this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
-                    }
-                    else {
-                        _this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
-                    }
-                }
+        this.startBatch();
+        if (cur) {
+            var dlg = this.dialogs.getDialog(cur.id);
+            if (dlg) {
+                dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
             }
-        });
+            else {
+                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+            }
+        }
         return this;
     };
     Session.prototype.endDialogWithResult = function (result) {
-        var _this = this;
         var cur = this.curDialog();
         if (!cur) {
             console.error('ERROR: Too many calls to session.endDialog().');
@@ -243,19 +215,16 @@ var Session = (function (_super) {
         }
         result.childId = cur.id;
         cur = this.popDialog();
-        this.save(function (err) {
-            if (!err) {
-                if (cur) {
-                    var dlg = _this.dialogs.getDialog(cur.id);
-                    if (dlg) {
-                        dlg.dialogResumed(_this, result);
-                    }
-                    else {
-                        _this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
-                    }
-                }
+        this.startBatch();
+        if (cur) {
+            var dlg = this.dialogs.getDialog(cur.id);
+            if (dlg) {
+                dlg.dialogResumed(this, result);
             }
-        });
+            else {
+                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+            }
+        }
         return this;
     };
     Session.prototype.reset = function (dialogId, dialogArgs) {
@@ -270,6 +239,46 @@ var Session = (function (_super) {
     };
     Session.prototype.isReset = function () {
         return this._isReset;
+    };
+    Session.prototype.startBatch = function () {
+        var _this = this;
+        this.batchStarted = true;
+        if (!this.sendingBatch) {
+            if (this.batchTimer) {
+                clearTimeout(this.batchTimer);
+            }
+            this.batchTimer = setTimeout(function () {
+                _this.sendBatch();
+            }, this.options.autoBatchDelay);
+        }
+    };
+    Session.prototype.sendBatch = function () {
+        var _this = this;
+        this.batchTimer = null;
+        var batch = this.batch;
+        this.batch = [];
+        this.batchStarted = false;
+        this.sendingBatch = true;
+        var cur = this.curDialog();
+        if (cur) {
+            cur.state = this.dialogData;
+        }
+        this.options.onSave(function (err) {
+            if (!err && batch.length) {
+                _this.options.onSend(batch, function (err) {
+                    _this.sendingBatch = false;
+                    if (_this.batchStarted) {
+                        _this.startBatch();
+                    }
+                });
+            }
+            else {
+                _this.sendingBatch = false;
+                if (_this.batchStarted) {
+                    _this.startBatch();
+                }
+            }
+        });
     };
     Session.prototype.createMessage = function (text, args) {
         args.unshift(text);
@@ -354,36 +363,6 @@ var Session = (function (_super) {
             cur = ss.callstack[ss.callstack.length - 1];
         }
         return cur;
-    };
-    Session.prototype.delayedSend = function (message) {
-        var _that = this;
-        function send() {
-            var now = new Date().getTime();
-            var sinceLastSend = now - _that.lastSendTime;
-            if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
-                setTimeout(function () {
-                    send();
-                }, _that.options.minSendDelay - sinceLastSend);
-            }
-            else {
-                _that.lastSendTime = now;
-                var m = _that.sendQueue.shift();
-                _that.prepareMessage(m);
-                _that.options.onSend([m], function (err) {
-                    if (_that.sendQueue.length > 0) {
-                        send();
-                    }
-                    else {
-                        _that.sendQueueStarted = false;
-                    }
-                });
-            }
-        }
-        this.sendQueue.push(message);
-        if (!this.sendQueueStarted) {
-            this.sendQueueStarted = true;
-            send();
-        }
     };
     Session.prototype.getMessageReceived = function () {
         console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");

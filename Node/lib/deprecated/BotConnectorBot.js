@@ -2,9 +2,8 @@ var ub = require('../bots/UniversalBot');
 var bc = require('../bots/BotConnector');
 var BotConnectorBot = (function () {
     function BotConnectorBot(options) {
-        if (options === void 0) { options = {}; }
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a BotConnector class.');
-        var oConnector = {};
+        var oConnector = { botId: options.botId };
         var oBot = {};
         for (var key in options) {
             switch (key) {
@@ -16,9 +15,6 @@ var BotConnectorBot = (function () {
                     break;
                 case 'localizer':
                     oBot.localizer = options.localizer;
-                    break;
-                case 'minSendDelay':
-                    oBot.minSendDelay = options.minSendDelay;
                     break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;

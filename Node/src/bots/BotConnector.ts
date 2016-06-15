@@ -32,6 +32,7 @@
 //
 
 import ub = require('./UniversalBot');
+import bs = require('../storage/BotStorage');
 import events = require('events');
 import request = require('request');
 import async = require('async');
@@ -39,7 +40,7 @@ import url = require('url');
 import http = require('http');
 
 export interface IBotConnectorSettings {
-    botId?: string;
+    botId: string;
     appId?: string;
     appPassword?: string;
     endpoint?: IBotConnectorEndpoint;
@@ -52,12 +53,12 @@ export interface IBotConnectorEndpoint {
     verifyIssuer: string;
 }
 
-export class BotConnector extends events.EventEmitter implements ub.IConnector {
+export class BotConnector extends events.EventEmitter implements ub.IConnector, bs.IBotStorage {
     private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
 
-    constructor(private settings: IBotConnectorSettings = {}) {
+    constructor(private settings: IBotConnectorSettings) {
         super();
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
@@ -93,32 +94,6 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
         };
     }
 
-    private dispatch(messages: IMessage|IMessage[], res: IWebResponse) {
-        // Dispatch messages/activities
-        var list: IMessage[] = Array.isArray(messages) ? messages : [messages];
-        list.forEach((msg) => {
-            try {
-                // Break out address fields
-                var address = <IAddress>{};
-                moveFields(msg, address, <any>toAddress);
-                msg.address = address;
-
-                // Dispatch message
-                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
-                    this.handler([msg]);
-                } else {
-                    this.emit(msg.type, msg);
-                }
-            } catch (e) {
-                console.error(e.toString());
-            }
-        });
-
-        // Acknowledge that we recieved the message(s)
-        res.status(202);
-        res.end();
-    }
-    
     public onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void {
         this.handler = handler;
     }
@@ -148,6 +123,154 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
         }, (err) => {
             cb(err, conversationId);
         });
+    }
+
+    public getData(context: bs.IBotStorageContext, callback: (err: Error, data: IBotConnectorStorageData) => void): void {
+        try {
+            // Build list of read commands
+            var root = this.getStoragePath(context.address);
+            var list: any[] = [];
+            if (context.userId) {
+                list.push({ 
+                    field: 'userData', 
+                    url: root + '/users/' + encodeURIComponent(context.userId) 
+                });
+                if (context.conversationId) {
+                    list.push({ 
+                        field: 'conversationData',
+                        url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                                    '/users/' + encodeURIComponent(context.userId)
+                    });
+                }
+            }
+
+            // Execute reads in parallel
+            var data: IBotConnectorStorageData = {};
+            async.each(list, (entry, cb) => {
+                var options: request.Options = {
+                    method: 'GET',
+                    url: entry.url,
+                    json: true
+                };
+                this.authenticatedRequest(options, (err: Error, response: http.IncomingMessage, body: IBotConnectorState) => {
+                    if (!err && body) {
+                        try {
+                            var botData = body.data ? body.data : {};
+                            (<any>data)[entry.field + 'Hash'] = JSON.stringify(botData);
+                            (<any>data)[entry.field] = botData;
+                        } catch (e) {
+                            err = e;
+                        }
+                    }
+                    cb(err);
+                });
+            }, (err) => {
+                if (!err) {
+                    callback(null, data);
+                } else {
+                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                }
+            });
+        } catch (e) {
+            callback(e instanceof Error ? e : new Error(e.toString()), null);
+        }
+    }
+
+    public saveData(context: bs.IBotStorageContext, data: IBotConnectorStorageData, callback?: (err: Error) => void): void {
+        try {
+            // Build list of write commands
+            var root = this.getStoragePath(context.address);
+            var list: any[] = [];
+            if (context.userId) {
+                if (data.userData)
+                {
+                    try {
+                        var hash = JSON.stringify(data.userData);
+                        if (!data.userDataHash || hash !== data.userDataHash) {
+                            data.userDataHash = hash;
+                            list.push({ 
+                                botData: data.userData, 
+                                url: root + '/users/' + encodeURIComponent(context.userId) 
+                            });
+                        }
+                    } catch (e) {
+                        if (callback) {
+                            callback(e instanceof Error ? e : new Error(e.toString()));
+                        }
+                        return;
+                    }
+                }
+                if (context.conversationId && data.conversationData) {
+                    try {
+                        var hash = JSON.stringify(data.conversationData);
+                        if (!data.conversationDataHash || hash !== data.conversationDataHash) {
+                            data.conversationDataHash = hash;
+                            list.push({ 
+                                botData: data.conversationData, 
+                                url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                                            '/users/' + encodeURIComponent(context.userId)
+                            });
+                        }
+                    } catch (e) {
+                        if (callback) {
+                            callback(e instanceof Error ? e : new Error(e.toString()));
+                        }
+                        return;
+                    }
+                }
+            }
+
+            // Execute writes in parallel
+            async.each(list, (entry, cb) => {
+                var options: request.Options = {
+                    method: 'POST',
+                    url: entry.url,
+                    body: { eTag: '*', data: entry.botData },
+                    json: true
+                };
+                this.authenticatedRequest(options, (err, response, body) => {
+                    cb(err);
+                });
+            }, (err) => {
+                if (callback) {
+                    if (!err) {
+                        callback(null);
+                    } else {
+                        callback(err instanceof Error ? err : new Error(err.toString()));
+                    }
+                }
+            });
+        } catch (e) {
+            if (callback) {
+                callback(e instanceof Error ? e : new Error(e.toString()));
+            }
+        }
+    }
+
+    private dispatch(messages: IMessage|IMessage[], res: IWebResponse) {
+        // Dispatch messages/activities
+        var list: IMessage[] = Array.isArray(messages) ? messages : [messages];
+        list.forEach((msg) => {
+            try {
+                // Break out address fields
+                var address = <IAddress>{};
+                moveFields(msg, address, <any>toAddress);
+                msg.address = address;
+
+                // Dispatch message
+                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
+                    this.handler([msg]);
+                } else {
+                    this.emit(msg.type, msg);
+                }
+            } catch (e) {
+                console.error(e.toString());
+            }
+        });
+
+        // Acknowledge that we recieved the message(s)
+        res.status(202);
+        res.end();
     }
 
     private postMessage(address: IBotConnectorAddress, msg: IMessage, cb: (err: Error, conversationId: string) => void): void {
@@ -261,6 +384,29 @@ export class BotConnector extends events.EventEmitter implements ub.IConnector {
             cb(null);
         }
     }
+
+    private getStoragePath(address: IBotConnectorAddress): string {
+        // Calculate host
+        var path: string;
+        switch (address.channelId) {
+            case 'emulator':
+            //case 'skype-teams':
+                if (address.serviceUrl) {
+                    path = address.serviceUrl;
+                } else {
+                    throw new Error('BotConnector.getStoragePath() missing address.serviceUrl.');
+                }
+                break;
+            default:
+                path = 'https://api.botframework.com'
+                break;
+        }
+
+        // Append base path info.
+        return path + '/api/v3/botstate/' + 
+            encodeURIComponent(this.settings.botId) + '/' +
+            encodeURIComponent(address.channelId);
+    }
 }
 
 var toAddress = {
@@ -281,6 +427,20 @@ function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): vo
             }
         }
     }
+}
+
+interface IBotConnectorAddress extends IAddress {
+    serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
+}
+
+interface IBotConnectorStorageData extends bs.IBotStorageData {
+    userDataHash?: string;
+    conversationDataHash?: string;
+}
+
+interface IBotConnectorState {
+    eTag: string;
+    data?: any;
 }
 
 /** Express or Restify Request object. */

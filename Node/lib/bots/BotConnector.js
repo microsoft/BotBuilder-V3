@@ -10,7 +10,6 @@ var url = require('url');
 var BotConnector = (function (_super) {
     __extends(BotConnector, _super);
     function BotConnector(settings) {
-        if (settings === void 0) { settings = {}; }
         _super.call(this);
         this.settings = settings;
         if (!this.settings.endpoint) {
@@ -45,28 +44,6 @@ var BotConnector = (function (_super) {
             next();
         };
     };
-    BotConnector.prototype.dispatch = function (messages, res) {
-        var _this = this;
-        var list = Array.isArray(messages) ? messages : [messages];
-        list.forEach(function (msg) {
-            try {
-                var address = {};
-                moveFields(msg, address, toAddress);
-                msg.address = address;
-                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
-                    _this.handler([msg]);
-                }
-                else {
-                    _this.emit(msg.type, msg);
-                }
-            }
-            catch (e) {
-                console.error(e.toString());
-            }
-        });
-        res.status(202);
-        res.end();
-    };
     BotConnector.prototype.onMessage = function (handler) {
         this.handler = handler;
     };
@@ -98,6 +75,150 @@ var BotConnector = (function (_super) {
         }, function (err) {
             cb(err, conversationId);
         });
+    };
+    BotConnector.prototype.getData = function (context, callback) {
+        var _this = this;
+        try {
+            var root = this.getStoragePath(context.address);
+            var list = [];
+            if (context.userId) {
+                list.push({
+                    field: 'userData',
+                    url: root + '/users/' + encodeURIComponent(context.userId)
+                });
+                if (context.conversationId) {
+                    list.push({
+                        field: 'conversationData',
+                        url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                            '/users/' + encodeURIComponent(context.userId)
+                    });
+                }
+            }
+            var data = {};
+            async.each(list, function (entry, cb) {
+                var options = {
+                    method: 'GET',
+                    url: entry.url,
+                    json: true
+                };
+                _this.authenticatedRequest(options, function (err, response, body) {
+                    if (!err && body) {
+                        try {
+                            var botData = body.data ? body.data : {};
+                            data[entry.field + 'Hash'] = JSON.stringify(botData);
+                            data[entry.field] = botData;
+                        }
+                        catch (e) {
+                            err = e;
+                        }
+                    }
+                    cb(err);
+                });
+            }, function (err) {
+                if (!err) {
+                    callback(null, data);
+                }
+                else {
+                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                }
+            });
+        }
+        catch (e) {
+            callback(e instanceof Error ? e : new Error(e.toString()), null);
+        }
+    };
+    BotConnector.prototype.saveData = function (context, data, callback) {
+        var _this = this;
+        try {
+            var root = this.getStoragePath(context.address);
+            var list = [];
+            if (context.userId) {
+                if (data.userData) {
+                    try {
+                        var hash = JSON.stringify(data.userData);
+                        if (!data.userDataHash || hash !== data.userDataHash) {
+                            data.userDataHash = hash;
+                            list.push({
+                                botData: data.userData,
+                                url: root + '/users/' + encodeURIComponent(context.userId)
+                            });
+                        }
+                    }
+                    catch (e) {
+                        if (callback) {
+                            callback(e instanceof Error ? e : new Error(e.toString()));
+                        }
+                        return;
+                    }
+                }
+                if (context.conversationId && data.conversationData) {
+                    try {
+                        var hash = JSON.stringify(data.conversationData);
+                        if (!data.conversationDataHash || hash !== data.conversationDataHash) {
+                            data.conversationDataHash = hash;
+                            list.push({
+                                botData: data.conversationData,
+                                url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                                    '/users/' + encodeURIComponent(context.userId)
+                            });
+                        }
+                    }
+                    catch (e) {
+                        if (callback) {
+                            callback(e instanceof Error ? e : new Error(e.toString()));
+                        }
+                        return;
+                    }
+                }
+            }
+            async.each(list, function (entry, cb) {
+                var options = {
+                    method: 'POST',
+                    url: entry.url,
+                    body: { eTag: '*', data: entry.botData },
+                    json: true
+                };
+                _this.authenticatedRequest(options, function (err, response, body) {
+                    cb(err);
+                });
+            }, function (err) {
+                if (callback) {
+                    if (!err) {
+                        callback(null);
+                    }
+                    else {
+                        callback(err instanceof Error ? err : new Error(err.toString()));
+                    }
+                }
+            });
+        }
+        catch (e) {
+            if (callback) {
+                callback(e instanceof Error ? e : new Error(e.toString()));
+            }
+        }
+    };
+    BotConnector.prototype.dispatch = function (messages, res) {
+        var _this = this;
+        var list = Array.isArray(messages) ? messages : [messages];
+        list.forEach(function (msg) {
+            try {
+                var address = {};
+                moveFields(msg, address, toAddress);
+                msg.address = address;
+                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
+                    _this.handler([msg]);
+                }
+                else {
+                    _this.emit(msg.type, msg);
+                }
+            }
+            catch (e) {
+                console.error(e.toString());
+            }
+        });
+        res.status(202);
+        res.end();
     };
     BotConnector.prototype.postMessage = function (address, msg, cb) {
         var path = '/api/v3/conversations';
@@ -210,6 +331,25 @@ var BotConnector = (function (_super) {
         else {
             cb(null);
         }
+    };
+    BotConnector.prototype.getStoragePath = function (address) {
+        var path;
+        switch (address.channelId) {
+            case 'emulator':
+                if (address.serviceUrl) {
+                    path = address.serviceUrl;
+                }
+                else {
+                    throw new Error('BotConnector.getStoragePath() missing address.serviceUrl.');
+                }
+                break;
+            default:
+                path = 'https://api.botframework.com';
+                break;
+        }
+        return path + '/api/v3/botstate/' +
+            encodeURIComponent(this.settings.botId) + '/' +
+            encodeURIComponent(address.channelId);
     };
     return BotConnector;
 })(events.EventEmitter);

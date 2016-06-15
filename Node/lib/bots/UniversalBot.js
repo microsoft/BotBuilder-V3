@@ -22,12 +22,18 @@ var UniversalBot = (function (_super) {
         this.mwReceive = [];
         this.mwAnalyze = [];
         this.mwSend = [];
-        if (connector) {
-            this.connector('*', connector);
-        }
         if (settings) {
             for (var name in settings) {
                 this.set(name, settings[name]);
+            }
+        }
+        if (connector) {
+            this.connector('*', connector);
+            var asStorage = connector;
+            if (!this.settings.storage &&
+                typeof asStorage.getData === 'function' &&
+                typeof asStorage.saveData === 'function') {
+                this.settings.storage = asStorage;
             }
         }
     }
@@ -100,8 +106,8 @@ var UniversalBot = (function (_super) {
                         _this.emit('incoming', message);
                         var userId = message.user.id;
                         var conversationId = message.address.conversation ? message.address.conversation.id : null;
-                        var storageKey = { userId: userId, conversationId: conversationId };
-                        _this.route(storageKey, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
+                        var storageCtx = { userId: userId, conversationId: conversationId, address: message.address };
+                        _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
                     }, cb);
                 }, cb);
             }, cb);
@@ -111,8 +117,8 @@ var UniversalBot = (function (_super) {
         var _this = this;
         this.lookupUser(message.address, function (user) {
             message.user = user;
-            var storageKey = { userId: message.user.id };
-            _this.route(storageKey, message, dialogId, dialogArgs, function (err) {
+            var storageCtx = { userId: message.user.id, address: message.address };
+            _this.route(storageCtx, message, dialogId, dialogArgs, function (err) {
                 if (done) {
                     done(err);
                 }
@@ -155,8 +161,8 @@ var UniversalBot = (function (_super) {
         var _this = this;
         this.lookupUser(address, function (user) {
             var conversationId = address.conversation ? address.conversation.id : null;
-            var storageKey = { userId: user.id, conversationId: conversationId };
-            _this.getStorageData(storageKey, function (data) {
+            var storageCtx = { userId: user.id, conversationId: conversationId, address: address };
+            _this.getStorageData(storageCtx, function (data) {
                 var lastAccess;
                 if (data && data.conversationData && data.conversationData.hasOwnProperty(consts.Data.SessionState)) {
                     var ss = data.conversationData[consts.Data.SessionState];
@@ -168,26 +174,25 @@ var UniversalBot = (function (_super) {
             }, cb);
         }, cb);
     };
-    UniversalBot.prototype.route = function (storageKey, message, dialogId, dialogArgs, done) {
+    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
         var _this = this;
         var _that = this;
         function saveSessionData(session, cb) {
-            if (storageKey.conversationId) {
-                var data = {
-                    userData: utils.clone(session.userData),
-                    conversationData: utils.clone(session.conversationData)
-                };
-                data.conversationData[consts.Data.SessionState] = session.sessionState;
-                _that.saveStorageData(storageKey, data, cb, cb);
+            if (storageCtx.conversationId) {
+                loadedData.userData = utils.clone(session.userData);
+                loadedData.conversationData = utils.clone(session.conversationData);
+                loadedData.conversationData[consts.Data.SessionState] = session.sessionState;
+                _that.saveStorageData(storageCtx, loadedData, cb, cb);
             }
             else if (cb) {
                 cb(null);
             }
         }
-        this.getStorageData(storageKey, function (data) {
+        var loadedData;
+        this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
                 localizer: _this.settings.localizer,
-                minSendDelay: _this.settings.minSendDelay,
+                autoBatchDelay: _this.settings.autoBatchDelay,
                 dialogs: _this.dialogs,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
@@ -196,8 +201,8 @@ var UniversalBot = (function (_super) {
                 },
                 onSend: function (messages, cb) {
                     _this.send(messages, function (err, conversationId) {
-                        if (!err && conversationId && !storageKey.conversationId) {
-                            storageKey.conversationId = conversationId;
+                        if (!err && conversationId && !storageCtx.conversationId) {
+                            storageCtx.conversationId = conversationId;
                             saveSessionData(session, cb);
                         }
                         else if (cb) {
@@ -214,6 +219,7 @@ var UniversalBot = (function (_super) {
                 sessionState = session.conversationData[consts.Data.SessionState];
                 delete session.conversationData[consts.Data.SessionState];
             }
+            loadedData = data;
             _this.emit('routing', session);
             session.dispatch(sessionState, message);
             done(null);
@@ -289,12 +295,12 @@ var UniversalBot = (function (_super) {
             }
         }, error);
     };
-    UniversalBot.prototype.getStorageData = function (storageKey, done, error) {
+    UniversalBot.prototype.getStorageData = function (storageCtx, done, error) {
         var _this = this;
         this.tryCatch(function () {
-            _this.emit('getStorageData', storageKey);
+            _this.emit('getStorageData', storageCtx);
             var storage = _this.getStorage();
-            storage.get(storageKey, function (err, data) {
+            storage.getData(storageCtx, function (err, data) {
                 if (!err) {
                     _this.tryCatch(function () { return done(data || {}); }, error);
                 }
@@ -307,12 +313,12 @@ var UniversalBot = (function (_super) {
             });
         }, error);
     };
-    UniversalBot.prototype.saveStorageData = function (storageKey, data, done, error) {
+    UniversalBot.prototype.saveStorageData = function (storageCtx, data, done, error) {
         var _this = this;
         this.tryCatch(function () {
-            _this.emit('saveStorageData', storageKey);
+            _this.emit('saveStorageData', storageCtx);
             var storage = _this.getStorage();
-            storage.save(storageKey, data, function (err) {
+            storage.saveData(storageCtx, data, function (err) {
                 if (!err) {
                     if (done) {
                         _this.tryCatch(function () { return done(); }, error);
@@ -330,6 +336,7 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.getStorage = function () {
         if (!this.settings.storage) {
             this.settings.storage = new bs.MemoryBotStorage();
+            console.warn('UniversalBot using memory based storage. ALL DATA WILL BE LOST ON RESTART. Configure an IBotStorage provider.');
         }
         return this.settings.storage;
     };

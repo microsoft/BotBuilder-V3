@@ -64,10 +64,6 @@ interface IAddress {
     id?: string;                    // Incoming Message ID
 }
 
-interface IBotConnectorAddress extends IAddress {
-    serviceUrl?: string;             // Specifies the URL to: post messages back, comment, annotate, delete 
-}
-
 interface IAttachment {
     contentType: string;            // MIME type string which describes type of attachment 
     content?: any;                  // (Optional) object structure of attachment 

@@ -10,9 +10,6 @@ var TextBot = (function () {
                 case 'localizer':
                     oBot.localizer = options.localizer;
                     break;
-                case 'minSendDelay':
-                    oBot.minSendDelay = options.minSendDelay;
-                    break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;
                     break;

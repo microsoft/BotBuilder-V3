@@ -33,9 +33,10 @@
 
 import utils = require('../utils');
 
-export interface IBotStorageKey {
+export interface IBotStorageContext {
     userId?: string;
     conversationId?: string;
+    address?: IAddress;
 }
 
 export interface IBotStorageData {
@@ -44,24 +45,24 @@ export interface IBotStorageData {
 }
 
 export interface IBotStorage {
-    get(address: IBotStorageKey, callback: (err: Error, data: IBotStorageData) => void): void;
-    save(address: IBotStorageKey, data: IBotStorageData, callback?: (err: Error) => void): void;
+    getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
+    saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
 }
 
 export class MemoryBotStorage implements IBotStorage {
     private userStore: { [id: string]: string; } = {};
     private conversationStore: { [id: string]: string; } = {};
 
-    public get(address: IBotStorageKey, callback: (err: Error, data: IBotStorageData) => void): void {
+    public getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void {
         var data: IBotStorageData = {};
-        if (address.userId) {
-            if (this.userStore.hasOwnProperty(address.userId)) {
-                data.userData = JSON.parse(this.userStore[address.userId]);
+        if (context.userId) {
+            if (this.userStore.hasOwnProperty(context.userId)) {
+                data.userData = JSON.parse(this.userStore[context.userId]);
             } else {
                 data.userData = null;
             }
-            if (address.conversationId) {
-                var key = address.userId + ':' + address.conversationId;
+            if (context.conversationId) {
+                var key = context.userId + ':' + context.conversationId;
                 if (this.conversationStore.hasOwnProperty(key)) {
                     data.conversationData = JSON.parse(this.conversationStore[key]);
                 } else {
@@ -72,29 +73,29 @@ export class MemoryBotStorage implements IBotStorage {
         callback(null, data);
     }
 
-    public save(address: IBotStorageKey, data: IBotStorageData, callback?: (err: Error) => void): void {
-        if (address.userId) {
-            this.userStore[address.userId] = JSON.stringify(data.userData || {});
-            if (address.conversationId) {
-                var key = address.userId + ':' + address.conversationId;
+    public saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void {
+        if (context.userId) {
+            this.userStore[context.userId] = JSON.stringify(data.userData || {});
+            if (context.conversationId) {
+                var key = context.userId + ':' + context.conversationId;
                 this.conversationStore[key] = JSON.stringify(data.conversationData || {});
             }
         }
         callback(null);
     }
 
-    public delete(address: IBotStorageKey) {
-        if (address.userId && this.userStore.hasOwnProperty(address.userId)) {
-            if (address.conversationId) {
+    public deleteData(context: IBotStorageContext) {
+        if (context.userId && this.userStore.hasOwnProperty(context.userId)) {
+            if (context.conversationId) {
                 // Delete specified conversation
-                if (this.conversationStore.hasOwnProperty(address.conversationId)) {
-                    delete this.conversationStore[address.conversationId];
+                if (this.conversationStore.hasOwnProperty(context.conversationId)) {
+                    delete this.conversationStore[context.conversationId];
                 }
             } else {
                 // Delete user and all their conversations
-                delete this.userStore[address.userId];
+                delete this.userStore[context.userId];
                 for (var key in this.conversationStore) {
-                    if (key.indexOf(address.userId + ':') == 0) {
+                    if (key.indexOf(context.userId + ':') == 0) {
                         delete this.conversationStore[key];
                     }
                 }                

@@ -37,6 +37,7 @@ import dlg = require('../dialogs/Dialog');
 import actions = require('../dialogs/DialogAction');
 
 export interface IBotConnectorOptions {
+    botId: string;
     appId?: string;
     appSecret?: string;
     localizer?: ILocalizer;
@@ -64,11 +65,11 @@ export class BotConnectorBot  {
     private userWelcomeMessage: string;
     private goodbyeMessage: string;
 
-    constructor(options: IBotConnectorOptions = {}) {
+    constructor(options: IBotConnectorOptions) {
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a BotConnector class.')
 
         // Map options into settings
-        var oConnector: bc.IBotConnectorSettings = {};
+        var oConnector: bc.IBotConnectorSettings = { botId: options.botId };
         var oBot: ub.IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {
@@ -80,9 +81,6 @@ export class BotConnectorBot  {
                     break;
                 case 'localizer':
                     oBot.localizer = options.localizer;
-                    break;
-                case 'minSendDelay':
-                    oBot.minSendDelay = options.minSendDelay;
                     break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;

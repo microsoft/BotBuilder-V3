@@ -46,6 +46,7 @@ import entities = require('./dialogs/EntityRecognizer');
 import ub = require('./bots/UniversalBot');
 import bc = require('./bots/BotConnector');
 import cc = require('./bots/ConsoleConnector');
+import bs = require('./storage/BotStorage');
 import action = require('./cards/Action');
 import hero = require('./cards/HeroCard');
 import img = require('./cards/Image');
@@ -82,6 +83,7 @@ exports.EntityRecognizer = entities.EntityRecognizer;
 exports.UniversalBot = ub.UniversalBot;
 exports.BotConnector = bc.BotConnector;
 exports.ConsoleConnector = cc.ConsoleConnector;
+exports.MemoryBotStorage = bs.MemoryBotStorage;
 
 // Deprecated classes
 import deprecatedBCB = require('./deprecated/BotConnectorBot');

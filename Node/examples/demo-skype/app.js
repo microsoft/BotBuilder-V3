@@ -16,10 +16,9 @@ recieve uploaded photos and videos.
       a Skype channel.
     * For the endpoint you setup on dev.botframework.com, copy the https link 
       ngrok setup and set "<ngrok link>/api/messages" as your bots endpoint.
-    * In a separate console window set BOTFRAMEWORK_APPID and BOTFRAMEWORK_APPSECRET
-      and run "node app.js" from the example directory
-      and you should be ready to add your bot as a contact and say "hello" to 
-      start the demo.
+    * In a separate console window set MICROSOFT_APP_ID and MICROSOFT_APP_PASSWORD
+      and run "node app.js" from the example directory. You should be ready to add 
+      your bot as a contact and say "hello" to start the demo.
 
 -----------------------------------------------------------------------------*/
 
@@ -28,6 +27,7 @@ var builder = require('../../');
   
 // Create bot and setup server
 var connector = new builder.BotConnector({
+    botId: process.env.BOT_ID,
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
@@ -35,7 +35,7 @@ var bot = new builder.UniversalBot(connector);
 
 // Setup Restify Server
 var server = restify.createServer();
-server.post('/api/messages', connector.listen());
+server.post('/api/messages', connector.verifyBotFramework(), connector.listen());
 server.listen(process.env.port || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });

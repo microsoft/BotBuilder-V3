@@ -3,17 +3,17 @@ var MemoryBotStorage = (function () {
         this.userStore = {};
         this.conversationStore = {};
     }
-    MemoryBotStorage.prototype.get = function (address, callback) {
+    MemoryBotStorage.prototype.getData = function (context, callback) {
         var data = {};
-        if (address.userId) {
-            if (this.userStore.hasOwnProperty(address.userId)) {
-                data.userData = JSON.parse(this.userStore[address.userId]);
+        if (context.userId) {
+            if (this.userStore.hasOwnProperty(context.userId)) {
+                data.userData = JSON.parse(this.userStore[context.userId]);
             }
             else {
                 data.userData = null;
             }
-            if (address.conversationId) {
-                var key = address.userId + ':' + address.conversationId;
+            if (context.conversationId) {
+                var key = context.userId + ':' + context.conversationId;
                 if (this.conversationStore.hasOwnProperty(key)) {
                     data.conversationData = JSON.parse(this.conversationStore[key]);
                 }
@@ -24,27 +24,27 @@ var MemoryBotStorage = (function () {
         }
         callback(null, data);
     };
-    MemoryBotStorage.prototype.save = function (address, data, callback) {
-        if (address.userId) {
-            this.userStore[address.userId] = JSON.stringify(data.userData || {});
-            if (address.conversationId) {
-                var key = address.userId + ':' + address.conversationId;
+    MemoryBotStorage.prototype.saveData = function (context, data, callback) {
+        if (context.userId) {
+            this.userStore[context.userId] = JSON.stringify(data.userData || {});
+            if (context.conversationId) {
+                var key = context.userId + ':' + context.conversationId;
                 this.conversationStore[key] = JSON.stringify(data.conversationData || {});
             }
         }
         callback(null);
     };
-    MemoryBotStorage.prototype.delete = function (address) {
-        if (address.userId && this.userStore.hasOwnProperty(address.userId)) {
-            if (address.conversationId) {
-                if (this.conversationStore.hasOwnProperty(address.conversationId)) {
-                    delete this.conversationStore[address.conversationId];
+    MemoryBotStorage.prototype.deleteData = function (context) {
+        if (context.userId && this.userStore.hasOwnProperty(context.userId)) {
+            if (context.conversationId) {
+                if (this.conversationStore.hasOwnProperty(context.conversationId)) {
+                    delete this.conversationStore[context.conversationId];
                 }
             }
             else {
-                delete this.userStore[address.userId];
+                delete this.userStore[context.userId];
                 for (var key in this.conversationStore) {
-                    if (key.indexOf(address.userId + ':') == 0) {
+                    if (key.indexOf(context.userId + ':') == 0) {
                         delete this.conversationStore[key];
                     }
                 }

@@ -46,21 +46,23 @@ export interface ISessionOptions {
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
-    minSendDelay?: number;
+    autoBatchDelay?: number;
 }
 
 export class Session extends events.EventEmitter implements ISession {
     private msgSent = false;
     private _isReset = false;
     private lastSendTime = new Date().getTime();
-    private sendQueue: IMessage[] = [];
-    private sendQueueStarted = false;
+    private batch: IMessage[] = [];
+    private batchTimer: NodeJS.Timer;
+    private batchStarted = false;
+    private sendingBatch = false;
 
     constructor(protected options: ISessionOptions) {
         super();
         this.dialogs = options.dialogs;
-        if (typeof this.options.minSendDelay !== 'number') {
-            this.options.minSendDelay = 1000;  // 1 sec delay
+        if (typeof this.options.autoBatchDelay !== 'number') {
+            this.options.autoBatchDelay = 150;  // 150ms delay
         }
     }
 
@@ -120,46 +122,37 @@ export class Session extends events.EventEmitter implements ISession {
         return sprintf.sprintf(tmpl, count);
     }
     
-    public save(done?: (err: Error) => void): this {
-        // Update dialog state and save
-        // - Deals with a situation where the user assigns a whole new object to dialogState.
-        var cur = this.curDialog();
-        if (cur) {
-            cur.state = this.dialogData || {};
-        }
-        this.options.onSave(done);
+    public save(): this {
+        this.startBatch();
         return this;
     }
 
     public send(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
         this.msgSent = true;
-        this.save((err) => {
-            if (!err && message) {
-                var m: IMessage;
-                if (typeof message == 'string' || Array.isArray(message)) {
-                    m = this.createMessage(<any>message, args);
-                } else if ((<IIsMessage>message).toMessage) {
-                    m = (<IIsMessage>message).toMessage();
-                } else {
-                    m = <IMessage>message;
-                }
-                this.delayedSend(m);
-            }    
-        });
+        if (message) {
+            var m: IMessage;
+            if (typeof message == 'string' || Array.isArray(message)) {
+                m = this.createMessage(<any>message, args);
+            } else if ((<IIsMessage>message).toMessage) {
+                m = (<IIsMessage>message).toMessage();
+            } else {
+                m = <IMessage>message;
+            }
+            this.prepareMessage(m);
+            this.batch.push(m);
+        }
+        this.startBatch();
         return this;
     }
     
-    public sendMessage(message: IMessage|IIsMessage, done?: (err: Error) => void): this {
+    public sendMessage(message: IMessage|IIsMessage): this {
         this.msgSent = true;
-        this.save((err) => {
-            if (!err && message) {
-                var m = (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
-                this.prepareMessage(m);
-                this.options.onSend([m], done);
-            } else if (done) {
-                done(err);
-            }    
-        });
+        if (message) {
+            var m = (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
+            this.prepareMessage(m);
+            this.batch.push(m);
+        }    
+        this.startBatch();
         return this;
     }
 
@@ -174,14 +167,16 @@ export class Session extends events.EventEmitter implements ISession {
             throw new Error('Dialog[' + id + '] not found.');
         }
         
-        // Push dialog onto stack
+        // Push dialog onto stack and start it
+        // - Removed the call to save() here as an optimization. In the case of prompts
+        //   we end up saving state twice, once here and again after they save off all of
+        //   there params before sending the message.  This chnage does mean a dialog needs
+        //   to either send a message or manually call session.save() when started but given
+        //   most dialogs should always prompt the user is some way that seems reasonable and
+        //   can save a number of intermediate calls to save.
         this.pushDialog({ id: id, state: {} });
-        this.save((err) => {
-            if (!err) {
-                // Start dialog    
-                dlg.begin(this, args);
-            } 
-        });
+        this.startBatch();
+        dlg.begin(this, args);
         return this;
     }
 
@@ -192,15 +187,11 @@ export class Session extends events.EventEmitter implements ISession {
             throw new Error('Dialog[' + id + '] not found.');
         }
         
-        // Update the stack
+        // Update the stack and start dialog
         this.popDialog();
         this.pushDialog({ id: id, state: {} });
-        this.save((err) => {
-            if (!err) {
-                // Start dialog    
-                dlg.begin(this, args);
-            } 
-        });
+        this.startBatch();
+        dlg.begin(this, args);
         return this;
     }
 
@@ -216,19 +207,14 @@ export class Session extends events.EventEmitter implements ISession {
                 m = <IMessage>message;
             }
             this.msgSent = true;
+            this.prepareMessage(m);
+            this.batch.push(m);
         }
                 
         // Clear stack and save.
         var ss = this.sessionState;
         ss.callstack = [];
-        this.save((err) => {
-            if (!err) {
-                // Send message
-                if (m) {
-                    this.delayedSend(m);
-                }
-            }    
-        });
+        this.startBatch();
         return this;
     }
 
@@ -258,31 +244,24 @@ export class Session extends events.EventEmitter implements ISession {
                 m = <IMessage>message;
             }
             this.msgSent = true;
+            this.prepareMessage(m);
+            this.batch.push(m);
         }
                 
-        // Pop dialog off the stack and then save the stack.
+        // Pop dialog off the stack and then resume parent.
         var childId = cur.id;
         cur = this.popDialog();
-        this.save((err) => {
-            if (!err) {
-                // Send message
-                if (m) {
-                    this.delayedSend(m);
-                }
-                
-                // Resume parent dialog
-                if (cur) {
-                    var dlg = this.dialogs.getDialog(cur.id);
-                    if (dlg) {
-                        dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
-                    } else {
-                        // Bad dialog on the stack so just end it.
-                        // - Because of the stack validation we should never actually get here.
-                        this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
-                    }
-                }
-            }    
-        });
+        this.startBatch();
+        if (cur) {
+            var dlg = this.dialogs.getDialog(cur.id);
+            if (dlg) {
+                dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
+            } else {
+                // Bad dialog on the stack so just end it.
+                // - Because of the stack validation we should never actually get here.
+                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+            }
+        }
         return this;
     }
 
@@ -302,23 +281,19 @@ export class Session extends events.EventEmitter implements ISession {
         }
         result.childId = cur.id;
                 
-        // Pop dialog off the stack and save.
+        // Pop dialog off the stack and resume parent dialog.
         cur = this.popDialog();
-        this.save((err) => {
-            if (!err) {
-                // Resume parent dialog
-                if (cur) {
-                    var dlg = this.dialogs.getDialog(cur.id);
-                    if (dlg) {
-                        dlg.dialogResumed(this, result);
-                    } else {
-                        // Bad dialog on the stack so just end it.
-                        // - Because of the stack validation we should never actually get here.
-                        this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
-                    }
-                }
-            }    
-        });
+        this.startBatch();
+        if (cur) {
+            var dlg = this.dialogs.getDialog(cur.id);
+            if (dlg) {
+                dlg.dialogResumed(this, result);
+            } else {
+                // Bad dialog on the stack so just end it.
+                // - Because of the stack validation we should never actually get here.
+                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+            }
+        }
         return this;
     }
 
@@ -340,6 +315,44 @@ export class Session extends events.EventEmitter implements ISession {
     //-----------------------------------------------------
     // PRIVATE HELPERS
     //-----------------------------------------------------
+    private startBatch(): void {
+        this.batchStarted = true;
+        if (!this.sendingBatch) {
+            if (this.batchTimer) {
+                clearTimeout(this.batchTimer);
+            }
+            this.batchTimer = setTimeout(() => {
+                this.sendBatch();
+            }, this.options.autoBatchDelay);
+        }
+    }
+
+    private sendBatch(): void {
+        this.batchTimer = null;
+        var batch = this.batch;
+        this.batch = [];
+        this.batchStarted = false;
+        this.sendingBatch = true;
+        var cur = this.curDialog();
+        if (cur) {
+            cur.state = this.dialogData;
+        }
+        this.options.onSave((err) => {
+            if (!err && batch.length) {
+                this.options.onSend(batch, (err) => {
+                    this.sendingBatch = false;
+                    if (this.batchStarted) {
+                        this.startBatch();
+                    }
+                });
+            } else {
+                this.sendingBatch = false;
+                if (this.batchStarted) {
+                    this.startBatch();
+                }
+            }
+        });
+    }
 
     private createMessage(text: string|string[], args?: any[]): IMessage {
         args.unshift(text);
@@ -429,40 +442,6 @@ export class Session extends events.EventEmitter implements ISession {
             cur = ss.callstack[ss.callstack.length - 1];
         }
         return cur;
-    }
-
-    /** Queues a message to be sent for the session. */    
-    private delayedSend(message: IMessage): void {
-        var _that = this;
-        function send() {
-            var now = new Date().getTime();
-            var sinceLastSend = now - _that.lastSendTime;
-            if (_that.options.minSendDelay && sinceLastSend < _that.options.minSendDelay) {
-                // Wait for next send interval
-                setTimeout(() => {
-                    send();
-                }, _that.options.minSendDelay - sinceLastSend);
-            } else {
-                // Update last send time
-                _that.lastSendTime = now;
-
-                // Send message
-                var m = _that.sendQueue.shift();
-                _that.prepareMessage(m);
-                _that.options.onSend([m], (err) => {
-                    if (_that.sendQueue.length > 0) {
-                        send();
-                    } else {
-                        _that.sendQueueStarted = false;
-                    }
-                });
-            }
-        }
-        this.sendQueue.push(message);
-        if (!this.sendQueueStarted) {
-            this.sendQueueStarted = true;
-            send();
-        }
     }
 
     //-----------------------------------------------------
