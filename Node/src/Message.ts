@@ -44,6 +44,8 @@ export interface IChannelDataMap {
 
 export var LayoutStyle = {
     auto: <string>null,
+    image: 'image',
+    moji: 'moji',
     card: 'card',
     signinCard: 'card.signin',
     receiptCard: 'card.receipt',
@@ -246,6 +248,13 @@ export class Message implements IIsMessage {
                     style = LayoutStyle.receiptCard;
                 } else {
                     style = LayoutStyle.card;
+                }
+            } else if (attachments.length > 0) {
+                var ct = attachments[0].contentType || '';
+                if (ct.indexOf('image') == 0 || ct.indexOf('vnd.microsoft.image') > 0) {
+                    style = LayoutStyle.image;
+                } else if (ct.indexOf('vnd.microsoft.moji') > 0) {
+                    style = LayoutStyle.moji;
                 }
             }
         } 
