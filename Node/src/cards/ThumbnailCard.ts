@@ -54,31 +54,31 @@ export class ThumbnailCard implements IIsAttachment {
         return this;
     }
     
-    public images(list: IImage[]|IIsImage[]): this {
+    public images(list: ICardImage[]|IIsCardImage[]): this {
         this.data.content.images = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var image = list[i];
-                this.data.content.images.push((<IIsImage>image).toImage ? (<IIsImage>image).toImage() : <IImage>image);    
+                this.data.content.images.push((<IIsCardImage>image).toImage ? (<IIsCardImage>image).toImage() : <ICardImage>image);    
             }
         }
         return this;
     }
 
-    public buttons(list: IAction[]|IIsAction[]): this {
+    public buttons(list: ICardAction[]|IIsCardAction[]): this {
         this.data.content.buttons = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var action = list[i];
-                this.data.content.buttons.push((<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action);    
+                this.data.content.buttons.push((<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action);    
             }
         }
         return this;
     }
     
-    public tap(action: IAction|IIsAction): this {
+    public tap(action: ICardAction|IIsCardAction): this {
         if (action) {
-            this.data.content.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.content.tap = (<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action;
         }
         return this;
     }

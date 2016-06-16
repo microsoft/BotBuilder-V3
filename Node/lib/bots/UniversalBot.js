@@ -99,7 +99,9 @@ var UniversalBot = (function (_super) {
         async.eachLimit(list, this.settings.processLimit, function (message, cb) {
             message.type = message.type || 'message';
             _this.lookupUser(message.address, function (user) {
-                message.user = user;
+                if (user) {
+                    message.user = user;
+                }
                 _this.emit('receive', message);
                 _this.messageMiddleware(message, _this.mwReceive, function () {
                     if (_this.isMessage(message)) {
@@ -123,7 +125,9 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.beginDialog = function (message, dialogId, dialogArgs, done) {
         var _this = this;
         this.lookupUser(message.address, function (user) {
-            message.user = user;
+            if (user) {
+                message.user = user;
+            }
             var storageCtx = { userId: message.user.id, address: message.address };
             _this.route(storageCtx, message, dialogId, dialogArgs, function (err) {
                 if (done) {
@@ -295,22 +299,27 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.lookupUser = function (address, done, error) {
         var _this = this;
         this.tryCatch(function () {
-            _this.emit('lookupUser', address.user);
-            if (_this.settings.lookupUser) {
-                _this.settings.lookupUser(address.user, function (err, user) {
-                    if (!err) {
-                        _this.tryCatch(function () { return done(user || address.user); }, error);
-                    }
-                    else {
-                        _this.emitError(err);
-                        if (error) {
-                            error(err);
+            if (address.user) {
+                _this.emit('lookupUser', address.user);
+                if (_this.settings.lookupUser) {
+                    _this.settings.lookupUser(address.user, function (err, user) {
+                        if (!err) {
+                            _this.tryCatch(function () { return done(user || address.user); }, error);
                         }
-                    }
-                });
+                        else {
+                            _this.emitError(err);
+                            if (error) {
+                                error(err);
+                            }
+                        }
+                    });
+                }
+                else {
+                    _this.tryCatch(function () { return done(address.user); }, error);
+                }
             }
             else {
-                _this.tryCatch(function () { return done(address.user); }, error);
+                _this.tryCatch(function () { return done(null); }, error);
             }
         }, error);
     };

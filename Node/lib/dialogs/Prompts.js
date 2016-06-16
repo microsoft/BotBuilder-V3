@@ -10,7 +10,7 @@ var mb = require('../Message');
 var Channel = require('../Channel');
 var dc = require('./DialogCollection');
 var hero = require('../cards/HeroCard');
-var action = require('../cards/Action');
+var ca = require('../cards/CardAction');
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
     PromptType[PromptType["number"] = 1] = "number";
@@ -196,7 +196,7 @@ var Prompts = (function (_super) {
                     var buttons = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
                         var option = session.dialogData.enumValues[i];
-                        buttons.push(action.Action.postBack(session, option, option));
+                        buttons.push(ca.CardAction.postBack(session, option, option));
                     }
                     msg.text(prompt)
                         .attachments([new hero.HeroCard(session).buttons(buttons)]);

@@ -1,10 +1,12 @@
 var sprintf = require('sprintf-js');
 var utils = require('./utils');
 var hc = require('./cards/HeroCard');
-var img = require('./cards/Image');
-var action = require('./cards/Action');
+var img = require('./cards/CardImage');
+var ca = require('./cards/CardAction');
 exports.LayoutStyle = {
     auto: null,
+    image: 'image',
+    moji: 'moji',
     card: 'card',
     signinCard: 'card.signin',
     receiptCard: 'card.receipt',
@@ -115,18 +117,18 @@ var Message = (function () {
                 card.text(v2.text);
             }
             if (v2.thumbnailUrl) {
-                card.images([new img.Image().url(v2.thumbnailUrl)]);
+                card.images([new img.CardImage().url(v2.thumbnailUrl)]);
             }
             if (v2.titleLink) {
-                card.tap(action.Action.openUrl(null, v2.titleLink));
+                card.tap(ca.CardAction.openUrl(null, v2.titleLink));
             }
             if (v2.actions) {
                 var list = [];
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ?
-                        action.Action.postBack(null, old.message, old.title) :
-                        action.Action.openUrl(null, old.url, old.title);
+                        ca.CardAction.postBack(null, old.message, old.title) :
+                        ca.CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
                     }
@@ -208,6 +210,15 @@ var Message = (function () {
                 }
                 else {
                     style = exports.LayoutStyle.card;
+                }
+            }
+            else if (attachments.length > 0) {
+                var ct = attachments[0].contentType || '';
+                if (ct.indexOf('image') == 0 || ct.indexOf('vnd.microsoft.image') > 0) {
+                    style = exports.LayoutStyle.image;
+                }
+                else if (ct.indexOf('vnd.microsoft.moji') > 0) {
+                    style = exports.LayoutStyle.moji;
                 }
             }
         }

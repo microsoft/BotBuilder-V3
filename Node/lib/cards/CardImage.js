@@ -1,16 +1,16 @@
 var msg = require('../Message');
-var Image = (function () {
-    function Image(session) {
+var CardImage = (function () {
+    function CardImage(session) {
         this.session = session;
         this.data = {};
     }
-    Image.prototype.url = function (u) {
+    CardImage.prototype.url = function (u) {
         if (u) {
             this.data.url = u;
         }
         return this;
     };
-    Image.prototype.alt = function (text) {
+    CardImage.prototype.alt = function (text) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
@@ -20,18 +20,18 @@ var Image = (function () {
         }
         return this;
     };
-    Image.prototype.tap = function (action) {
+    CardImage.prototype.tap = function (action) {
         if (action) {
             this.data.tap = action.toAction ? action.toAction() : action;
         }
         return this;
     };
-    Image.prototype.toImage = function () {
+    CardImage.prototype.toImage = function () {
         return this.data;
     };
-    Image.create = function (session, url) {
-        return new Image(session).url(url);
+    CardImage.create = function (session, url) {
+        return new CardImage(session).url(url);
     };
-    return Image;
+    return CardImage;
 })();
-exports.Image = Image;
+exports.CardImage = CardImage;

@@ -76,62 +76,62 @@ interface IIsAttachment {
 
 interface ISigninCard {
     title: string;                  // Title of the Card 
-    button: IAction;                // Sign in action 
+    button: ICardAction;                // Sign in action 
 }
 
 interface IThumbnailCard {
     title: string;                  // Title of the Card 
     subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
     text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
-    images: IImage[];               // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. 
-    tap: IAction;                   // This action will be activated when user taps on the section bubble. 
-    buttons: IAction[];             // Set of actions applicable to the current card. 
+    images: ICardImage[];               // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. 
+    tap: ICardAction;                   // This action will be activated when user taps on the section bubble. 
+    buttons: ICardAction[];             // Set of actions applicable to the current card. 
 }
 
 interface IReceiptCard {
     title: string;                  // Title of the Card 
     items: IReceiptItem[];          // Array of receipt items.
     facts: IFact[];                 // Array of key-value pairs. 
-    tap: IAction;                   // This action will be activated when user taps on the section bubble. 
+    tap: ICardAction;                   // This action will be activated when user taps on the section bubble. 
     total: string;                  // Total amount of money paid (or should be paid) 
     tax: string;                    // Total amount of TAX paid (or should be paid) 
     vat: string;                    // Total amount of VAT paid (or should be paid) 
-    buttons: IAction[];             // Set of actions applicable to the current card. 
+    buttons: ICardAction[];             // Set of actions applicable to the current card. 
 }
 
 interface IReceiptItem {
     title: string;                  // Title of the Card 
     subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
     text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
-    image: IImage;
+    image: ICardImage;
     price: string;                  // Amount with currency 
     quantity: string;               // Number of items of given kind 
-    tap: IAction;                   // This action will be activated when user taps on the Item bubble. 
+    tap: ICardAction;                   // This action will be activated when user taps on the Item bubble. 
 }
 
 interface IIsReceiptItem {
     toItem(): IReceiptItem;
 }
 
-interface IAction {
+interface ICardAction {
     type: string;                   // Defines the type of action implemented by this button.  
     title: string;                  // Text description which appear on the button. 
     value: string;                  // Parameter for Action. Content of this property depends on Action type. 
     image?: string;                 // (Optional) Picture which will appear on the button, next to text label. 
 }
 
-interface IIsAction {
-    toAction(): IAction;
+interface IIsCardAction {
+    toAction(): ICardAction;
 }
 
-interface IImage {
+interface ICardImage {
     url: string;                    // Thumbnail image for major content property. 
     alt: string;                    // Image description intended for screen readers 
-    tap: IAction;                   // Action assigned to specific Attachment. E.g. navigate to specific URL or play/open media content 
+    tap: ICardAction;                   // Action assigned to specific Attachment. E.g. navigate to specific URL or play/open media content 
 }
 
-interface IIsImage {
-    toImage(): IImage;
+interface IIsCardImage {
+    toImage(): ICardImage;
 }
 
 interface IFact {

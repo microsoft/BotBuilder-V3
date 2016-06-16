@@ -125,7 +125,7 @@ function renderAttachment(a: IAttachment) {
     }
 }
 
-function renderImages(images: IImage[]) {
+function renderImages(images: ICardImage[]) {
     if (images && images.length) {
         line('.', 60, 'images');
         var bullet = images.length > 1 ? '* ' : '';
@@ -140,7 +140,7 @@ function renderImages(images: IImage[]) {
     }
 }
 
-function renderButtons(actions: IAction[]) {
+function renderButtons(actions: ICardAction[]) {
     if (actions && actions.length) {
         line('.', 60, 'buttons');
         var bullet = actions.length > 1 ? '* ' : '';

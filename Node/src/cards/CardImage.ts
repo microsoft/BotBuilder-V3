@@ -34,8 +34,8 @@
 import ses = require('../Session');
 import msg = require('../Message');
 
-export class Image implements IIsImage {
-    private data = <IImage>{};
+export class CardImage implements IIsCardImage {
+    private data = <ICardImage>{};
     
     constructor(private session?: ses.Session) {
         
@@ -55,18 +55,18 @@ export class Image implements IIsImage {
         return this;
     }
     
-    public tap(action: IAction|IIsAction): this {
+    public tap(action: ICardAction|IIsCardAction): this {
         if (action) {
-            this.data.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.tap = (<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action;
         }
         return this;
     }
     
-    public toImage(): IImage {
+    public toImage(): ICardImage {
         return this.data;    
     }
 
-    static create(session: ses.Session, url: string): Image {
-        return new Image(session).url(url);
+    static create(session: ses.Session, url: string): CardImage {
+        return new CardImage(session).url(url);
     }
 }

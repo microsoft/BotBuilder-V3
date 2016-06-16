@@ -35,8 +35,8 @@ import ses = require('./Session');
 import sprintf = require('sprintf-js');
 import utils = require('./utils');
 import hc = require('./cards/HeroCard');
-import img = require('./cards/Image');
-import action = require('./cards/Action');
+import img = require('./cards/CardImage');
+import ca = require('./cards/CardAction');
 
 export interface IChannelDataMap {
     [channelId: string]: any;
@@ -155,18 +155,18 @@ export class Message implements IIsMessage {
                 card.text(v2.text);
             }
             if (v2.thumbnailUrl) {
-                card.images([new img.Image().url(v2.thumbnailUrl)]);
+                card.images([new img.CardImage().url(v2.thumbnailUrl)]);
             }
             if (v2.titleLink) {
-                card.tap(action.Action.openUrl(null, v2.titleLink));
+                card.tap(ca.CardAction.openUrl(null, v2.titleLink));
             }
             if (v2.actions) {
-                var list: action.Action[] = [];
+                var list: ca.CardAction[] = [];
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ? 
-                        action.Action.postBack(null, old.message, old.title) : 
-                        action.Action.openUrl(null, old.url, old.title);
+                        ca.CardAction.postBack(null, old.message, old.title) : 
+                        ca.CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
                     }

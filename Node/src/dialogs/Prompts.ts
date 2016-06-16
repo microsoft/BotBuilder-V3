@@ -39,7 +39,7 @@ import mb = require('../Message');
 import Channel = require('../Channel');
 import dc = require('./DialogCollection');
 import hero = require('../cards/HeroCard');
-import action = require('../cards/Action');
+import ca = require('../cards/CardAction');
 
 export enum PromptType { text, number, confirm, choice, time, attachment }
 
@@ -265,10 +265,10 @@ export class Prompts extends dialog.Dialog {
             var msg = new mb.Message(session);
             switch (style) {
                 case ListStyle.button:
-                    var buttons: action.Action[] = [];
+                    var buttons: ca.CardAction[] = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
                         var option = session.dialogData.enumValues[i];
-                        buttons.push(action.Action.postBack(session, option, option));
+                        buttons.push(ca.CardAction.postBack(session, option, option));
                     }
                     msg.text(prompt)
                        .attachments([new hero.HeroCard(session).buttons(buttons)]);

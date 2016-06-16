@@ -34,8 +34,8 @@
 import ses = require('../Session');
 import msg = require('../Message');
 
-export class Action implements IIsAction {
-    private data = <IAction>{};
+export class CardAction implements IIsCardAction {
+    private data = <ICardAction>{};
     
     constructor(private session?: ses.Session) {
     }
@@ -68,35 +68,35 @@ export class Action implements IIsAction {
         return this;
     }
     
-    public toAction(): IAction {
+    public toAction(): ICardAction {
         return this.data;
     }
     
-    static openUrl(session: ses.Session, url: string, title?: string|string[]): Action {
-        return new Action(session).type('openUrl').value(url).title(title);
+    static openUrl(session: ses.Session, url: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('openUrl').value(url).title(title);
     }
     
-    static imBack(session: ses.Session, msg: string, title?: string|string[]): Action {
-        return new Action(session).type('imBack').value(msg).title(title);
+    static imBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('imBack').value(msg).title(title);
     }
     
-    static postBack(session: ses.Session, msg: string, title?: string|string[]): Action {
-        return new Action(session).type('postBack').value(msg).title(title);
+    static postBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('postBack').value(msg).title(title);
     }
     
-    static playAudio(session: ses.Session, url: string, title?: string|string[]): Action {
-        return new Action(session).type('playAudio').value(url).title(title);
+    static playAudio(session: ses.Session, url: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('playAudio').value(url).title(title);
     }
     
-    static playVideo(session: ses.Session, url: string, title?: string|string[]): Action {
-        return new Action(session).type('playVideo').value(url).title(title);
+    static playVideo(session: ses.Session, url: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('playVideo').value(url).title(title);
     }
     
-    static showImage(session: ses.Session, url: string, title?: string|string[]): Action {
-        return new Action(session).type('showImage').value(url).title(title);
+    static showImage(session: ses.Session, url: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('showImage').value(url).title(title);
     }
     
-    static downloadFile(session: ses.Session, url: string, title?: string|string[]): Action {
-        return new Action(session).type('downloadFile').value(url).title(title);
+    static downloadFile(session: ses.Session, url: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('downloadFile').value(url).title(title);
     }
 }

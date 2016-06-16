@@ -62,9 +62,9 @@ export class ReceiptCard implements IIsAttachment {
         return this;
     }
 
-    public tap(action: IAction|IIsAction): this {
+    public tap(action: ICardAction|IIsCardAction): this {
         if (action) {
-            this.data.content.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.content.tap = (<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action;
         }
         return this;
     }
@@ -84,12 +84,12 @@ export class ReceiptCard implements IIsAttachment {
         return this;
     }
 
-    public buttons(list: IAction[]|IIsAction[]): this {
+    public buttons(list: ICardAction[]|IIsCardAction[]): this {
         this.data.content.buttons = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var action = list[i];
-                this.data.content.buttons.push((<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action);    
+                this.data.content.buttons.push((<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action);    
             }
         }
         return this;
@@ -129,9 +129,9 @@ export class ReceiptItem implements IIsReceiptItem {
         return this;
     }
     
-    public image(img: IImage|IIsImage): this {
+    public image(img: ICardImage|IIsCardImage): this {
         if (img) {
-            this.data.image = (<IIsImage>img).toImage ? (<IIsImage>img).toImage() : <IImage>img;
+            this.data.image = (<IIsCardImage>img).toImage ? (<IIsCardImage>img).toImage() : <ICardImage>img;
         }
         return this;
     }
@@ -146,9 +146,9 @@ export class ReceiptItem implements IIsReceiptItem {
         return this;
     }
     
-    public tap(action: IAction|IIsAction): this {
+    public tap(action: ICardAction|IIsCardAction): this {
         if (action) {
-            this.data.tap = (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action;
+            this.data.tap = (<IIsCardAction>action).toAction ? (<IIsCardAction>action).toAction() : <ICardAction>action;
         }
         return this;
     }
