@@ -39,6 +39,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
 
     }
-    
+
     public class InMemoryDataStore : IBotDataStore<BotData>
     {
         internal readonly ConcurrentDictionary<string, string> store = new ConcurrentDictionary<string, string>();
@@ -112,8 +113,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             string serializedData;
             serializedData = store.GetOrAdd(GetKey(key, botStoreType), 
-                                            dictionaryKey => JsonConvert.SerializeObject(new BotData { ETag = DateTime.UtcNow.ToString() }));
-            return JsonConvert.DeserializeObject<BotData>(serializedData);
+                                            dictionaryKey => Serialize(new BotData { ETag = DateTime.UtcNow.ToString() }));
+            return Deserialize(serializedData);
         }
 
         async Task IBotDataStore<BotData>.SaveAsync(BotDataKey key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
@@ -127,7 +128,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         throw new HttpException((int)HttpStatusCode.PreconditionFailed, "Inconsistent SaveAsync based on Etag!");
                     }
                     botData.ETag = DateTime.UtcNow.ToString();
-                    return JsonConvert.SerializeObject(botData);
+                    return Serialize(botData);
                 });
             }
         }
@@ -150,6 +151,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     return $"perUserInConversation:{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}";
                 default:
                     throw new ArgumentException("Unsupported bot store type!");
+            }
+        }
+
+        private static string Serialize(BotData data)
+        {
+            using (var cmpStream = new MemoryStream())
+            using (var stream = new GZipStream(cmpStream, CompressionMode.Compress))
+            using (var streamWriter = new StreamWriter(stream))
+            {
+                var serializedJSon = JsonConvert.SerializeObject(data);
+                streamWriter.Write(serializedJSon);
+                streamWriter.Close();
+                stream.Close();
+                return Convert.ToBase64String(cmpStream.ToArray());
+            }
+        }
+
+        private static BotData Deserialize(string str)
+        {
+            byte[] bytes = Convert.FromBase64String(str);
+            using (var stream = new MemoryStream(bytes))
+            using (var gz = new GZipStream(stream, CompressionMode.Decompress))
+            using (var streamReader = new StreamReader(gz))
+            {
+                return JsonConvert.DeserializeObject<BotData>(streamReader.ReadToEnd());
             }
         }
     }

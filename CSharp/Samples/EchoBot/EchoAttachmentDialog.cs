@@ -17,6 +17,7 @@ namespace Microsoft.Bot.Sample.EchoBot
             if (message.Text.ToLower() == "makeattachment")
             {
                 var reply = context.MakeMessage();
+                reply.Type = ActivityTypes.MessageCarousel;
                 reply.Text = string.Format("{0}: You said {1}", this.count++, message.Text);
 
                 reply.Attachments = new List<Attachment>();
@@ -32,12 +33,25 @@ namespace Microsoft.Bot.Sample.EchoBot
                     });
                 }
 
+                
                 for (int i = 0; i < 10; i++)
                 {
+
                     reply.Attachments.Add(new Attachment
                     {
                         ContentType = "application/vnd.microsoft.card.hero",
-                        Content = new HeroCard(buttons: actions)
+                        Content = new HeroCard
+                        {
+                            Title = $"title{i}",
+                            Images = new List<Image>
+                            {
+                                new Image
+                                {
+                                    Url = $"https://placeholdit.imgix.net/~text?txtsize=35&txt=image{i}&w=120&h=120"
+                                }
+                            }, 
+                            Buttons = actions
+                        }
                     });
                 }
                 await context.PostAsync(reply);
