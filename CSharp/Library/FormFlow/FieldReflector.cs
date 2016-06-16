@@ -448,14 +448,4 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected List<object> _path = new List<object>();
         #endregion
     }
-
-    public class Conditional<T> : FieldReflector<T>
-        where T : class
-    {
-        public Conditional(string name, ActiveDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, ignoreAnnotations)
-        {
-            SetActive(condition);
-        }
-    }
 }

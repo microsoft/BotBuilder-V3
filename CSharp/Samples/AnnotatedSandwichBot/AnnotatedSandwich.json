@@ -1,5 +1,6 @@
 {
   "References": [ "Microsoft.Bot.Sample.AnnotatedSandwichBot.dll" ],
+  "Imports": [ "Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource" ],
   "type": "object",
   "required": [
     "Sandwich",
@@ -145,16 +146,16 @@
         "string",
         "null"
       ],
-      "Active": "(string) state.Length == \"FootLong\"",
-      "Define": "using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource; field.SetType(null).AddDescription(\"cookie\", DynamicSandwich.FreeCookie).AddTerms(\"cookie\", Language.GenerateTerms(DynamicSandwich.FreeCookie, 2)).AddDescription(\"drink\", DynamicSandwich.FreeDrink).AddTerms(\"drink\", Language.GenerateTerms(DynamicSandwich.FreeDrink, 2)); return true;",
-      "After": [ { "Confirm": "var cost = 0.0; switch ((string) state.Length) { case \"SixInch\": cost = 5.0; break; case \"FootLong\": cost=6.50; break;} return new PromptAttribute($\"Total for your sandwich is {cost:C2} is that ok?\");" } ]
+      "Active": "return (string) state[\"Length\"] == \"FootLong\";",
+      "Define": "field.SetType(null).AddDescription(\"cookie\", DynamicSandwich.FreeCookie).AddTerms(\"cookie\", Language.GenerateTerms(DynamicSandwich.FreeCookie, 2)).AddDescription(\"drink\", DynamicSandwich.FreeDrink).AddTerms(\"drink\", Language.GenerateTerms(DynamicSandwich.FreeDrink, 2)); return true;",
+      "After": [ { "Confirm": "var cost = 0.0; switch ((string) state[\"Length\"]) { case \"SixInch\": cost = 5.0; break; case \"FootLong\": cost=6.50; break;} return new PromptAttribute($\"Total for your sandwich is {cost:C2} is that ok?\");" } ]
     },
     "DeliveryAddress": {
       "type": [
         "string",
         "null"
       ],
-      "Validate": "using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource; var result = new ValidateResult{ IsValid = true, Value = value}; var address = (value as string).Trim(); if (address.Length > 0 && (address[0] < '0' || address[0] > '9')) {result.Feedback = DynamicSandwich.BadAddress; result.IsValid = false; } return result;"
+      "Validate": "var result = new ValidateResult{ IsValid = true, Value = value}; var address = (value as string).Trim(); if (address.Length > 0 && (address[0] < '0' || address[0] > '9')) {result.Feedback = DynamicSandwich.BadAddress; result.IsValid = false; } return result;"
     },
     "PhoneNumber": {
       "type": [ "string", "null" ],
@@ -179,5 +180,5 @@
       "After": [ { "Message": [ "Thanks for ordering your sandwich!" ] } ]
     }
   },
-  "OnCompletion": "await Context.PostAsync(\"We are currently processing your sandwich. We will message you the status.\");"
+  "OnCompletion": "await context.PostAsync(\"We are currently processing your sandwich. We will message you the status.\");"
 }

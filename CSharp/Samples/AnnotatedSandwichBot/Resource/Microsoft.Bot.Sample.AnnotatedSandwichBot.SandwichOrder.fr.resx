@@ -366,7 +366,7 @@
   <data name="Rating_terms;LIST" xml:space="preserve">
     <value>notations?</value>
   </data>
-  <data name="message14;LIST" xml:space="preserve">
+  <data name="message15;LIST" xml:space="preserve">
     <value>Merci de commander un sandwich !</value>
   </data>
   <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">

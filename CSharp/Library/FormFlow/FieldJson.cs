@@ -31,123 +31,33 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.FormFlow.Advanced;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     /// <summary>
-    /// State argument for JSon FormFlow scripts.
-    /// </summary>
-    public class ScriptState
-    {
-        /// <summary>
-        /// Current state for JSON FormFlow scripts. 
-        /// </summary>
-        /// <remarks>Passed as a dynamic to make usage simpler, but is actually a JObject.</remarks>
-        public dynamic state;
-    }
-
-    /// <summary>
-    /// Arguments for Validate scripts in JSON FormFlow.
-    /// </summary>
-    public class ScriptValidate : ScriptState
-    {
-        /// <summary>
-        ///  Value to validate.
-        /// </summary>
-        public object value;
-    }
-
-    /// <summary>
-    /// Arguments for Define scripts in JSON FormFlow.
-    /// </summary>
-    public class ScriptField : ScriptState
-    {
-        /// <summary>
-        /// Field being dynamically defined.
-        /// </summary>
-        public Field<JObject> field;
-    }
-
-    /// <summary>
-    /// Arguments for OnCompletion scripts in JSON FormFlow.
-    /// </summary>
-    public class ScriptOnCompletion : ScriptState
-    {
-        /// <summary>
-        /// Bot Framework context.
-        /// </summary>
-        public IDialogContext context;
-    }
-
-    /// <summary>
     /// %Field defined through JSON Schema.
     /// </summary>
-    /// <remarks>
-    /// This defines a field where the definition is driven through [JSON Schema](http://json-schema.org/latest/json-schema-validation.html)
-    /// with optional additional annotations that correspond to the attributes provided for C#.  The standard properties that are used
-    /// from JSON Schema include:
-    /// * `type` -- Defines the fields type.
-    /// * `enum` -- Defines the possible field values.
-    /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
-    /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
-    /// * `required` -- Defines what fields are required.
-    /// * `pattern` -- For string fields will be used to validate the entered pattern as described in <see cref="PatternAttribute"/>.
-    /// 
-    /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
-    /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
-    /// For example to define a template to override the <see cref="TemplateUsage.NotUnderstood"/> template
-    /// and specify a <see cref="TemplateBaseAttribute.ChoiceStyle"/> you would put this in your schema: 
-    /// `"Templates":{ "NotUnderstood": { Patterns: ["I don't get it"], "ChoiceStyle":"Auto"}}`.
-    /// 
-    /// %Extensions defined at the root of a schema or as a peer of the "type" property.  
-    /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
-    /// * `Prompt: { Patterns:[string, ...] &lt;args&gt;}` -- Define a prompt.
-    /// * `OnCompletion: script` -- C# script with arguments (IDialogContext context, JObject state) for completing form.
-    /// * `References: [assemblyReference, ...]` -- Define references to include in scripts.  Paths should be absolute, or relative to the current directory.  By default Microsoft.Bot.Builder.dll is included and there is a using Microsoft.Bot.Builder.FormFlow.
-    /// 
-    /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
-    /// * `DateTime:bool` -- Marks a field as being a DateTime field.
-    /// * `Describe:string` -- Description of a field.
-    /// * `Terms:[string,...]` -- Regular expressions for matching a field value.
-    /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
-    /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
-    /// * `Active:script` -- C# script with arguments (dynamic state)->bool to test to see if field/message/confirm is active.
-    /// * `Validate:script` -- C# script with arguments (dynamic state, object value)->ValidateResult for validating a field value.
-    /// * `Define:script` -- C# script with arguments (dynamic state, Field field) for dynamically defining a field.  
-    /// * `Before:[confirm|message, ...]` -- Messages or confirmations before the containing field.
-    /// * `After:[confirm|message, ...]` -- Messages or confirmations after the containing field.
-    /// * `{Confirm:script|[string, ...], ...templateArgs}` -- With Before/After define a confirmation through either C# script with argument (dynamic state) or through a set of patterns that will be randomly selected with optional template arguments.
-    /// * `{Message:script|[string, ...] ...templateArgs}` -- With Before/After define a message through either C# script with argument (dynamic state) or through a set of patterns that will be randomly selected with optional template arguments.
-    /// * `Dependencies`:[string, ...]` -- Fields that this field, message or confirm depends on.
-    /// 
-    /// %Fields defined through this class have the same ability to extend or override the definitions
-    /// programatically as any other field.  They can also be localized in the same way.
-    /// </remarks>
     public class FieldJson : Field<JObject>
     {
         /// <summary>
         /// Construct a field from a JSON schema.
         /// </summary>
-        /// <param name="schema">Schema for object.</param>
+        /// <param name="builder">Form builder.</param>
         /// <param name="name">Name of field within schema.</param>
-        public FieldJson(JObject schema, string name)
+        public FieldJson(FormBuilderJson builder, string name)
             : base(name, FieldRole.Value)
         {
-            _schema = schema;
+            _builder = builder;
             bool optional;
             var fieldSchema = FieldSchema(name, out optional);
             var eltSchema = ElementSchema(fieldSchema);
-            ProcessAnnotations(schema, fieldSchema, eltSchema);
+            ProcessAnnotations(fieldSchema, eltSchema);
             var fieldName = name.Split('.').Last();
             JToken date;
             if (eltSchema.TryGetValue("DateTime", out date) && date.Value<bool>())
@@ -252,7 +162,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected JObject FieldSchema(string path, out bool optional)
         {
-            var schema = _schema;
+            var schema = _builder.Schema;
             var parts = path.Split('.');
             optional = true;
             foreach (var part in parts)
@@ -303,10 +213,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return result;
         }
 
-        protected void ProcessAnnotations(JObject schema, JObject fieldSchema, JObject eltSchema)
+        protected void ProcessAnnotations(JObject fieldSchema, JObject eltSchema)
         {
-            ProcessReferences(schema);
-            ProcessTemplates(schema);
+            ProcessTemplates(_builder.Schema);
             Before = ProcessMessages("Before", fieldSchema);
             ProcessTemplates(fieldSchema);
             ProcessPrompt(fieldSchema);
@@ -322,68 +231,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             if (schema["Define"] != null)
             {
-                var script = (string)schema["Define"];
-                SetDefine(async (state, field) => await EvaluateAsync<bool>(script, new ScriptField { state = state, field = field }));
+                SetDefine(_builder.DefineScript(this, (string)schema["Define"]));
             }
-        }
-
-        // NOTE: This is not being used because every invocation creates an assembly that cannot be
-        // garbage collected whereas EvaluateAsync does not.
-        protected ScriptRunner<R> Compile<G, R>(string code)
-        {
-            try
-            {
-                var script = CSharpScript.Create<R>(code, _options, typeof(G));
-                return script.CreateDelegate();
-            }
-            catch (Microsoft.CodeAnalysis.Scripting.CompilationErrorException ex)
-            {
-                throw CompileException(ex, code);
-            }
-        }
-
-        protected async Task<T> EvaluateAsync<T>(string code, object globals)
-        {
-            try
-            {
-                var script = CSharpScript.Create<T>(code, _options, globals.GetType());
-                var fun = script.CreateDelegate();
-
-                var timer = System.Diagnostics.Stopwatch.StartNew();
-                var result = await fun(globals);
-                // var result = await CSharpScript.EvaluateAsync<T>(code, _options, globals);
-                System.Diagnostics.Debug.Write($"Eval took {timer.ElapsedMilliseconds}ms");
-                return result;
-            }
-            catch (Microsoft.CodeAnalysis.Scripting.CompilationErrorException ex)
-            {
-                throw CompileException(ex, code);
-            }
-        }
-
-        protected Exception CompileException(CompilationErrorException ex, string code)
-        {
-            Exception result = ex;
-            var match = System.Text.RegularExpressions.Regex.Match(ex.Message, @"\(\s*(?<line>\d+)\s*,\s*(?<column>\d+)\s*\)\s*:\s*(?<message>.*)");
-            if (match.Success)
-            {
-                var lineNumber = int.Parse(match.Groups["line"].Value) - 1;
-                var column = int.Parse(match.Groups["column"].Value) - 1;
-                var line = code.Split('\n')[lineNumber];
-                var minCol = Math.Max(0, column - 20);
-                var maxCol = Math.Min(line.Length, column + 20);
-                var msg = line.Substring(minCol, column - minCol) + "^" + line.Substring(column, maxCol - column);
-                result = new ArgumentException(match.Groups["message"].Value + ": " + msg);
-            }
-            return result;
         }
 
         protected void ProcessValidation(JObject schema)
         {
             if (schema["Validate"] != null)
             {
-                var script = (string)schema["Validate"];
-                SetValidate(async (state, value) => await EvaluateAsync<ValidateResult>(script, new ScriptValidate { state = state, value = value }));
+                SetValidate(_builder.ValidateScript(this, (string)schema["Validate"]));
             }
         }
 
@@ -392,7 +248,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (schema["Active"] != null)
             {
                 var script = (string)schema["Active"];
-                SetActive((state) => EvaluateAsync<bool>(script, new ScriptState { state = state }).Result);
+                SetActive(_builder.ActiveScript(this, (string)schema["Active"]));
             }
         }
 
@@ -400,8 +256,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             public bool IsMessage;
             public PromptAttribute Prompt;
-            public ActiveDelegate<JObject> Condition;
-            public MessageDelegate<JObject> MessageGenerator;
+            public string ActiveScript;
+            public string MessageScript;
             public IEnumerable<string> Dependencies;
         }
 
@@ -441,8 +297,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 if (val is JValue)
                 {
-                    var script = (string)val;
-                    info.MessageGenerator = async (state) => await EvaluateAsync<PromptAttribute>(script, new ScriptState { state = state });
+                    info.MessageScript = (string)val;
                 }
                 else if (val is JArray)
                 {
@@ -454,8 +309,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 if (message["Active"] != null)
                 {
-                    var script = (string)message["Active"];
-                    info.Condition = (state) => EvaluateAsync<bool>(script, new ScriptState { state = state }).Result;
+                    info.ActiveScript = (string)message["Active"];
                 }
                 if (message["Dependencies"] != null)
                 {
@@ -464,23 +318,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 found = true;
             }
             return found;
-        }
-
-        protected void ProcessReferences(JObject schema)
-        {
-            JToken references;
-            var assemblies = new List<string>() { "Microsoft.Bot.Builder.dll" };
-            if (schema.TryGetValue("References", out references))
-            {
-                foreach (JToken template in references.Children())
-                {
-                    assemblies.Add((string)template);
-                }
-            }
-            var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
-            _options = CodeAnalysis.Scripting.ScriptOptions.Default
-                .AddReferences((from assembly in assemblies select System.IO.Path.Combine(dir, assembly)).ToArray())
-                .AddImports("Microsoft.Bot.Builder.FormFlow", "Microsoft.Bot.Builder.FormFlow.Advanced", "System.Collections.Generic", "System.Linq", "System");
         }
 
         protected void ProcessTemplates(JObject schema)
@@ -675,7 +512,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return result;
         }
 
-        protected JObject _schema;
-        protected CodeAnalysis.Scripting.ScriptOptions _options;
+        protected FormBuilderJson _builder;
     }
 }

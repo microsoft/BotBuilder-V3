@@ -183,8 +183,8 @@ namespace Microsoft.Bot.Builder.Tests
                         var schema = JObject.Parse(text);
 
                         return
-                            new FormBuilder<JObject>()
-                            .AddRemainingFields(schema)
+                            new FormBuilderJson(schema)
+                            .AddRemainingFields()
                             .Build();
                     })
                     .As<IForm<JObject>>()

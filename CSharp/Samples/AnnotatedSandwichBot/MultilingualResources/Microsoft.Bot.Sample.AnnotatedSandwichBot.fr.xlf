@@ -478,7 +478,7 @@
           <source>ratings?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">notations?</target>
         </trans-unit>
-        <trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message15;LIST" translate="yes" xml:space="preserve">
           <source>Thanks for ordering a sandwich!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Merci de commander un sandwich !</target>
         </trans-unit>

@@ -59,19 +59,20 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </list>
     /// By default the steps are executed in the order of the <see cref="Message"/>, <see cref="Field"/> and <see cref="Confirm"/> calls.
     /// If you do not take explicit control, the steps will be executed in the order defined in the 
-    /// form state class with a final confirmation.
+    /// form state with a final confirmation.
     /// This interface allows you to flently build a form by composing together fields,
     /// messages and confirmation.  The fluent building blocks provide common patterns
     /// like fields being based on your state class, but you can also build up your
-    /// own definition of a form by using <see cref="Field{T}"/>, <see cref="FieldReflector{T}"/>
-    /// or your own implementation of <see cref="IField{T}"/>.
+    /// own definition of a form by using <see cref="IField{T}"/>.  
+    /// If you want to build a form using C# reflection over your state class use <see cref="FormBuilder{T}"/>.  
+    /// To declaritively build a form through [JSON Schema] you can use <see cref="FormBuilderJson"/>.
     /// 
     /// Forms are sensitive to the current thread UI culture.  The Microsoft.Bot.Builder strings will localize
     /// to that culture if available.  You can also localize the strings generated for your form by calling <see cref="Form{T}.SaveResources(System.Resources.IResourceWriter)"/>
     /// or by using the RView tool and adding that resource to your project.  For strings in dynamic fields, messages or confirmations you will
     /// need to use the normal C# mechanisms to localize them.  Look in the overview documentation for more information.
     /// </remarks>
-    /// <typeparam name="T">    Form state. </typeparam>
+    /// <typeparam name="T">Form state.</typeparam>
     #endregion
     public interface IFormBuilder<T>
     {
@@ -99,7 +100,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="message">A \ref patterns string to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
         /// <param name="dependencies">Fields message depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         /// <summary>
@@ -108,7 +109,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Message to fill in and send.</param>
         /// <param name="condition">Whether or not this step is active.</param>
         /// <param name="dependencies">Fields message depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
         #region Documentation
@@ -116,7 +117,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="generateMessage">  Delegate for building message. </param>
         /// <param name="condition">        Whether or not this step is active. </param>
         /// <param name="dependencies">Fields message depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         #endregion
         IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
@@ -124,13 +125,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Derfine a field step by supplying your own field definition.
         /// </summary>
         /// <param name="field">Field definition to use.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// You can provide your own implementation of <see cref="IField{T}"/> or you can 
-        /// use the <see cref="Field{T}"/> class to provide fluent values or the <see cref="FieldReflector{T}"/>
-        /// to use reflection to provide a base set of values that can be override.  It might 
-        /// also make sense to derive from those classes and override the methods you need to 
-        /// change.
+        /// use the <see cref="Field{T}"/> class to provide fluent values, 
+        /// <see cref="FieldReflector{T}"/> to use reflection or <see cref="FieldJson"/> to use [JSON Schema].
         /// </remarks>
         IFormBuilder<T> Field(IField<T> field);
 
@@ -140,13 +139,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="name">Path in the form state to the value being filled in.</param>
         /// <param name="active">Delegate to test form state to see if step is active.</param>
         /// <param name="validate">Delegate to validate the field value.</param>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
@@ -156,13 +149,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
         /// <param name="active">Delegate to test form state to see if step is active.n</param>
         /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
@@ -172,13 +159,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
         /// <param name="active">Delegate to test form state to see if step is active.n</param>
         /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
 
         /// <summary>
@@ -198,7 +179,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Prompt to use for confirmation.</param>
         /// <param name="condition">Delegate to test if confirmation applies to the current form state.</param>
         /// <param name="dependencies">What fields this confirmation depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// If prompt is not supplied the \ref patterns element {*} will be used to confirm.
         /// Dependencies will by default be all active steps defined before this confirmation.
@@ -211,7 +192,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="prompt">Prompt to use for confirmation.</param>
         /// <param name="condition">Delegate to test if confirmation applies to the current form state.</param>
         /// <param name="dependencies">What fields this confirmation depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// Dependencies will by default be all active steps defined before this confirmation.
         /// </remarks>
@@ -222,7 +203,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="generateMessage">  Delegate for building message. </param>
         /// <param name="condition">        Whether or not this step is active. </param>
         /// <param name="dependencies">What fields this confirmation depends on.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         #endregion
         IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
@@ -230,7 +211,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// Delegate to call when form is completed.
         /// </summary>
         /// <param name="callback">Delegate to call on completion.</param>
-        /// <returns>This form.</returns>
+        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
         /// <remarks>
         /// This should only be used for side effects such as calling your service with
         /// the form state results.  In any case the completed form state will be passed

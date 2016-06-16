@@ -461,7 +461,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
         public Field<T> SetActive(ActiveDelegate<T> condition)
         {
-            _condition = condition;
+            if (condition != null) _condition = condition;
             return this;
         }
 
@@ -474,7 +474,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
         public Field<T> SetDefine(DefineAsyncDelegate<T> definition)
         {
-            _define = definition;
+            if (definition != null)_define = definition;
             return this;
         }
 
@@ -515,7 +515,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetValidate(ValidateAsyncDelegate<T> validate)
         {
-            _validate = validate;
+            if (validate != null) _validate = validate;
             return this;
         }
 
@@ -690,6 +690,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
     }
 
+    /// <summary>
+    /// Dictionary of all fields indexed by name.
+    /// </summary>
+    /// <typeparam name="T">Underlying form state.</typeparam>
      public class Fields<T> : IFields<T>
     {
         public IField<T> Field(string name)

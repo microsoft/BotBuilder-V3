@@ -103,18 +103,18 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Field(nameof(Bread))
                         .Field(nameof(Cheese))
                         .Field(nameof(Toppings),
-                        validate: async (state, value) =>
-                        {
-                            var values = ((List<object>)value).OfType<ToppingOptions>();
-                            var result = new ValidateResult { IsValid = true, Value = values };
-                            if (values != null && values.Contains(ToppingOptions.Everything))
+                            validate: async (state, value) =>
                             {
-                                result.Value = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
-                                                where topping != ToppingOptions.Everything && !values.Contains(topping)
-                                                select topping).ToList();
-                            }
-                            return result;
-                        })
+                                var values = ((List<object>)value).OfType<ToppingOptions>();
+                                var result = new ValidateResult { IsValid = true, Value = values };
+                                if (values != null && values.Contains(ToppingOptions.Everything))
+                                {
+                                    result.Value = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
+                                                    where topping != ToppingOptions.Everything && !values.Contains(topping)
+                                                    select topping).ToList();
+                                }
+                                return result;
+                            })
                         .Message("For sandwich toppings you have selected {Toppings}.")
                         .Field(nameof(SandwichOrder.Sauces))
                         .Field(new FieldReflector<SandwichOrder>(nameof(Specials))
@@ -163,22 +163,27 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         {
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json");
             var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
-            return new FormJsonBuilder(schema)
+            return new FormBuilderJson(schema)
                 .AddRemainingFields()
                 .Build();
-            /*
+        }
+
+        public static IForm<JObject> BuildJsonFormExplicit()
+        {
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json");
+            var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
             OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>
             {
                 await context.PostAsync(DynamicSandwich.Processing);
             };
-
-            return new FormBuilder<JObject>()
+            var builder = new FormBuilderJson(schema);
+            return builder
                         .Message("Welcome to the sandwich order bot!")
-                        .Field(schema, "Sandwich")
-                        .Field(schema, "Length")
-                        .Field(schema, "Ingredients.Bread")
-                        .Field(schema, "Ingredients.Cheese")
-                        .Field(schema, "Ingredients.Toppings",
+                        .Field("Sandwich")
+                        .Field("Length")
+                        .Field("Ingredients.Bread")
+                        .Field("Ingredients.Cheese")
+                        .Field("Ingredients.Toppings",
                         validate: async (state, response) =>
                         {
                             var value = (IList<object>)response;
@@ -200,10 +205,10 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         }
                         )
                         .Message("For sandwich toppings you have selected {Ingredients.Toppings}.")
-                        .Field(schema, "Ingredients.Sauces")
-                        .Field(new FieldJson(schema, "Specials")
+                        .Field("Ingredients.Sauces")
+                        .Field(new FieldJson(builder, "Specials")
                             .SetType(null)
-                            .SetActive((state) => (string)state.Length == "FootLong")
+                            .SetActive((state) => (string)state["Length"] == "FootLong")
                             .SetDefine(async (state, field) =>
                             {
                                 field
@@ -216,14 +221,14 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Confirm(async (state) =>
                         {
                             var cost = 0.0;
-                            switch ((string)state.Length])
+                            switch ((string)state["Length"])
                             {
                                 case "SixInch": cost = 5.0; break;
                                 case "FootLong": cost = 6.50; break;
                             }
                             return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost));
                         })
-                        .Field(schema, "DeliveryAddress",
+                        .Field("DeliveryAddress",
                             validate: async (state, value) =>
                             {
                                 var result = new ValidateResult { IsValid = true, Value = value };
@@ -235,13 +240,12 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 }
                                 return result;
                             })
-                        .Field(schema, "DeliveryTime", "What time do you want your sandwich delivered? {||}")
+                        .Field("DeliveryTime", "What time do you want your sandwich delivered? {||}")
                         .Confirm("Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
-                        .AddRemainingFields(schema)
+                        .AddRemainingFields()
                         .Message("Thanks for ordering a sandwich!")
                         .OnCompletionAsync(processOrder)
-                .Build(typeof(SandwichOrder).Assembly, "JsonSandwichBot");
-                */
+                .Build();
         }
 
         // Cache of culture specific forms. 
@@ -265,7 +269,19 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Field(nameof(Length))
                         .Field(nameof(Bread))
                         .Field(nameof(Cheese))
-                        .Field(nameof(Toppings))
+                        .Field(nameof(Toppings),
+                            validate: async (state, value) =>
+                            {
+                                var values = ((List<object>)value).OfType<ToppingOptions>();
+                                var result = new ValidateResult { IsValid = true, Value = values };
+                                if (values != null && values.Contains(ToppingOptions.Everything))
+                                {
+                                    result.Value = (from ToppingOptions topping in Enum.GetValues(typeof(ToppingOptions))
+                                                    where topping != ToppingOptions.Everything && !values.Contains(topping)
+                                                    select topping).ToList();
+                                }
+                                return result;
+                            })
                         .Message("For sandwich toppings you have selected {Toppings}.")
                         .Field(nameof(SandwichOrder.Sauces))
                         .Field(new FieldReflector<SandwichOrder>(nameof(Specials))

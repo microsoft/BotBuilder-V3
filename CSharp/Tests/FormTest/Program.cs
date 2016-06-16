@@ -54,10 +54,15 @@ using System.Resources;
 using System.Text;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Newtonsoft.Json.Linq;
+using System.Dynamic;
 
 public class Globals
 {
-    public string arg;
+    public JObject state;
+    public dynamic dstate;
+    public object value;
+    public IField<JObject> field;
 }
 
 namespace Microsoft.Bot.Builder.FormFlowTest
@@ -184,14 +189,21 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return result;
         }
 
-        static void Main(string[] args)
+        public static void Run(string code, Globals globals, string prefix)
         {
-            /*
-            for (var i = 0; i < 1000; ++i)
-            {
-                var globals = new Globals { arg = "abc" };
-                // var code = "arg.Substring(1) + \"ghi\" == \"bcghi\"";
-                var code = @"        
+            var options = Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default
+                .AddReferences(
+                    typeof(JObject).Assembly,
+                    typeof(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException).Assembly
+                    )
+                ;
+            var script = Run<Script<bool>>(async () => CSharpScript.Create<bool>(code, options, typeof(Globals)), prefix + "Create").Result;
+            var fun = Run<ScriptRunner<bool>>(async () => script.CreateDelegate(), prefix + "Delegate").Result;
+            var cResult = Run<bool>(async () => await fun(globals), prefix + "Compiled").Result;
+            var rResult = Run<ScriptState<bool>>(async () => await CSharpScript.RunAsync<bool>(code, options, globals), prefix + "Run").Result;
+            var eResult = Run<bool>(async () => await CSharpScript.EvaluateAsync<bool>(code, options, globals), prefix + "Eval").Result;
+        }
+
         public static bool NonWord(string word)
         {
             bool nonWord = true;
@@ -205,15 +217,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             }
             return nonWord;
         }
-        NonWord(""abc"")
-";
-                var script = Run<Script<bool>>(async () => CSharpScript.Create<bool>(code, globalsType: typeof(Globals)), "Create").Result;
-                var fun = Run<ScriptRunner<bool>>(async () => script.CreateDelegate(), "Delegate").Result;
-                var cResult = Run<bool>(async () => await fun(globals), "Compiled").Result;
-                var rResult = Run<ScriptState<bool>>(async () => await CSharpScript.RunAsync<bool>(code, globals: globals), "Run").Result;
-                var eResult = Run<bool>(async () => await CSharpScript.EvaluateAsync<bool>("arg.Substring(1) + \"ghi\" == \"bcghi\"", globals: globals), "Eval").Result;
-            }
-            */
+
+        static void Main(string[] args)
+        {
             // TestValidate();
             var callDebug =
                 Chain

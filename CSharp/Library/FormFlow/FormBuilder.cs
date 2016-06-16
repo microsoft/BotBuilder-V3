@@ -43,10 +43,10 @@ using System.Threading;
 namespace Microsoft.Bot.Builder.FormFlow
 {
     #region Documentation
-    /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
-    /// <typeparam name="T">    Form state class. </typeparam>
+    /// <summary>Abstract base class for Form Builders.</summary>
+    /// <typeparam name="T">Form state class. </typeparam>
     #endregion
-    public abstract class FormBuilderBase<T>: IFormBuilder<T>
+    public abstract class FormBuilderBase<T> : IFormBuilder<T>
         where T : class
     {
         internal readonly Form<T> _form;
@@ -173,7 +173,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public abstract IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
         public abstract IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
 
-         private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
+        private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
         {
             {TemplateUsage.Bool, 0 },
             { TemplateUsage.BoolHelp, 1},
@@ -277,14 +277,29 @@ namespace Microsoft.Bot.Builder.FormFlow
     }
 
     #region Documentation
-    /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
+    /// <summary>   Build a form by specifying messages, fields and confirmations via reflection or programatically.</summary>
     /// <typeparam name="T">Form state class. </typeparam>
+    /// <remarks>
+    /// Fields will be defined through reflection over the type <typeparamref name="T"/> and attributes like 
+    /// <see cref="DescribeAttribute"/>,
+    /// <see cref="NumericAttribute"/>, 
+    /// <see cref="OptionalAttribute"/>
+    /// <see cref="PatternAttribute"/>, 
+    /// <see cref="PromptAttribute"/>, 
+    /// <see cref="TermsAttribute"/> and 
+    /// <see cref="TemplateAttribute"/>.   
+    /// For all of the attributes, resonable defaults will be generated.
+    /// </remarks>
     #endregion
     public sealed class FormBuilder<T> : FormBuilderBase<T>
         where T : class
     {
         private readonly bool _ignoreAnnotations;
 
+        /// <summary>
+        /// Create a new form builder for building a form using reflection.
+        /// </summary>
+        /// <param name="ignoreAnnotations">True to ignore any attributes on the form class.</param>
         public FormBuilder(bool ignoreAnnotations = false)
             : base()
         {
@@ -306,82 +321,28 @@ namespace Microsoft.Bot.Builder.FormFlow
             return base.Build(resourceAssembly, resourceName);
         }
 
-         /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        /// <returns>This form.</returns>
         public override IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
         {
-            var field = (active == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, active, _ignoreAnnotations));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
+            var field = new FieldReflector<T>(name, _ignoreAnnotations);
+            field.SetActive(active);
+            field.SetValidate(validate);
             return Field(field);
         }
 
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
         public override IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
         {
             return Field(name, new PromptAttribute(prompt), active, validate);
         }
 
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
         public override IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
         {
-            var field = (active == null ? new FieldReflector<T>(name, _ignoreAnnotations) : new Conditional<T>(name, active, _ignoreAnnotations));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
+            var field = new FieldReflector<T>(name, _ignoreAnnotations);
+            field.SetActive(active);
+            field.SetValidate(validate);
             field.SetPrompt(prompt);
             return Field(field);
         }
 
-        /// <summary>
-        /// Add all fields not already added to the form.
-        /// </summary>
-        /// <param name="exclude">Fields not to include.</param>
-        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
-        /// <remarks>
-        /// This will add all fields defined in your form that have not already been
-        /// added if the fields are supported.
-        /// </remarks>
         public override IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
         {
             var exclusions = (exclude == null ? Array.Empty<string>() : exclude.ToArray());
@@ -397,7 +358,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        internal static void FieldPaths(Type type, string path, List<string> paths)
+        private void FieldPaths(Type type, string path, List<string> paths)
         {
             var newPath = (path == "" ? path : path + ".");
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -414,7 +375,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        internal static void TypePaths(Type type, string path, List<string> paths)
+        private void TypePaths(Type type, string path, List<string> paths)
         {
             if (type.IsClass)
             {
