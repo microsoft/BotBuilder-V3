@@ -53,13 +53,12 @@ export interface IChatConnectorEndpoint {
     verifyIssuer: string;
 }
 
-export class ChatConnector extends events.EventEmitter implements ub.IConnector, bs.IBotStorage {
+export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
 
     constructor(private settings: IChatConnectorSettings) {
-        super();
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
@@ -253,16 +252,22 @@ export class ChatConnector extends events.EventEmitter implements ub.IConnector,
         list.forEach((msg) => {
             try {
                 // Break out address fields
-                var address = <IAddress>{};
+                var address = <IChatConnectorAddress>{};
                 moveFields(msg, address, <any>toAddress);
                 msg.address = address;
 
-                // Dispatch message
-                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
-                    this.handler([msg]);
-                } else {
-                    this.emit(msg.type, msg);
+                // Patch serviceUrl
+                if (address.serviceUrl) {
+                    try {
+                        var u = url.parse(address.serviceUrl);
+                        address.serviceUrl = u.protocol + '//' + u.host;
+                    } catch (e) {
+                        console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
+                    }
                 }
+
+                // Dispatch message
+                this.handler([msg]);
             } catch (e) {
                 console.error(e.toString());
             }

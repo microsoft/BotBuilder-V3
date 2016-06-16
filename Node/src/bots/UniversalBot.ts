@@ -187,18 +187,28 @@ export class UniversalBot extends events.EventEmitter {
     public receive(messages: IMessage|IMessage[], done?: (err: Error) => void): void {
         var list: IMessage[] = Array.isArray(messages) ? messages : [messages]; 
         async.eachLimit(list, this.settings.processLimit, (message, cb) => {
+            message.type = message.type || 'message';
             this.lookupUser(message.address, (user) => {
-                message.user = user;
+                if (user) {
+                    message.user = user;
+                }
                 this.emit('receive', message);
                 this.messageMiddleware(message, this.mwReceive, () => {
-                    this.emit('analyze', message);
-                    this.analyzeMiddleware(message, () => {
-                        this.emit('incoming', message);
-                        var userId = message.user.id;
-                        var conversationId = message.address.conversation ? message.address.conversation.id : null;
-                        var storageCtx: bs.IBotStorageContext = { userId: userId, conversationId: conversationId, address: message.address };
-                        this.route(storageCtx, message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, cb);
-                    }, cb);
+                    if (this.isMessage(message)) {
+                        // Analyze message and route to dialog system
+                        this.emit('analyze', message);
+                        this.analyzeMiddleware(message, () => {
+                            this.emit('incoming', message);
+                            var userId = message.user.id;
+                            var conversationId = message.address.conversation ? message.address.conversation.id : null;
+                            var storageCtx: bs.IBotStorageContext = { userId: userId, conversationId: conversationId, address: message.address };
+                            this.route(storageCtx, message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, cb);
+                        }, cb);
+                    } else {
+                        // Dispatch incoming activity
+                        this.emit(message.type, message);
+                        cb(null);
+                    }
                 }, cb);
             }, cb);
         }, done);
@@ -206,7 +216,9 @@ export class UniversalBot extends events.EventEmitter {
  
     public beginDialog(message: IMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
         this.lookupUser(message.address, (user) => {
-            message.user = user;
+            if (user) {
+                message.user = user;
+            }
             var storageCtx: bs.IBotStorageContext = { userId: message.user.id, address: message.address };
             this.route(storageCtx, message, dialogId, dialogArgs, (err) => {
                 if (done) {
@@ -216,8 +228,15 @@ export class UniversalBot extends events.EventEmitter {
         }, done);
     }
     
-    public send(messages: IMessage|IMessage[], done?: (err: Error, conversationId?: string) => void): void {
-        var list: IMessage[] = Array.isArray(messages) ? messages : [messages]; 
+    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, conversationId?: string) => void): void {
+        var list: IMessage[];
+        if (Array.isArray(messages)) {
+            list = messages;
+        } else if ((<IIsMessage>messages).toMessage) {
+            list = [(<IIsMessage>messages).toMessage()];
+        } else {
+            list = [<IMessage>messages];
+        }
         async.eachLimit(list, this.settings.processLimit, (message, cb) => {
             this.emit('send', message);
             this.messageMiddleware(message, this.mwSend, () => {
@@ -400,7 +419,7 @@ export class UniversalBot extends events.EventEmitter {
                 }
             }, error);
         }
-        if (this.mwAnalyze.length > 0) {
+        if (cnt > 0) {
             for (var i = 0; i < this.mwAnalyze.length; i++) {
                 analyze(this.mwAnalyze[i]);
             }
@@ -408,23 +427,31 @@ export class UniversalBot extends events.EventEmitter {
             finish();
         }
     }
+
+    private isMessage(message: IMessage): boolean {
+        return (message && message.type && message.type.toLowerCase().indexOf('message') == 0);
+    }
     
     private lookupUser(address: IAddress, done: (user: IIdentity) => void, error?: (err: Error) => void): void {
         this.tryCatch(() => {
-            this.emit('lookupUser', address.user);
-            if (this.settings.lookupUser) {
-                this.settings.lookupUser(address.user, (err, user) => {
-                    if (!err) {
-                        this.tryCatch(() => done(user || address.user), error);
-                    } else {
-                        this.emitError(err);
-                        if (error) {
-                            error(err);
+            if (address.user) {
+                this.emit('lookupUser', address.user);
+                if (this.settings.lookupUser) {
+                    this.settings.lookupUser(address.user, (err, user) => {
+                        if (!err) {
+                            this.tryCatch(() => done(user || address.user), error);
+                        } else {
+                            this.emitError(err);
+                            if (error) {
+                                error(err);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    this.tryCatch(() => done(address.user), error);
+                }
             } else {
-                this.tryCatch(() => done(address.user), error);
+                this.tryCatch(() => done(null), error);
             }
         }, error);
     }

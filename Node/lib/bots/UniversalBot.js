@@ -97,18 +97,25 @@ var UniversalBot = (function (_super) {
         var _this = this;
         var list = Array.isArray(messages) ? messages : [messages];
         async.eachLimit(list, this.settings.processLimit, function (message, cb) {
+            message.type = message.type || 'message';
             _this.lookupUser(message.address, function (user) {
                 message.user = user;
                 _this.emit('receive', message);
                 _this.messageMiddleware(message, _this.mwReceive, function () {
-                    _this.emit('analyze', message);
-                    _this.analyzeMiddleware(message, function () {
-                        _this.emit('incoming', message);
-                        var userId = message.user.id;
-                        var conversationId = message.address.conversation ? message.address.conversation.id : null;
-                        var storageCtx = { userId: userId, conversationId: conversationId, address: message.address };
-                        _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
-                    }, cb);
+                    if (_this.isMessage(message)) {
+                        _this.emit('analyze', message);
+                        _this.analyzeMiddleware(message, function () {
+                            _this.emit('incoming', message);
+                            var userId = message.user.id;
+                            var conversationId = message.address.conversation ? message.address.conversation.id : null;
+                            var storageCtx = { userId: userId, conversationId: conversationId, address: message.address };
+                            _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
+                        }, cb);
+                    }
+                    else {
+                        _this.emit(message.type, message);
+                        cb(null);
+                    }
                 }, cb);
             }, cb);
         }, done);
@@ -127,7 +134,16 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.send = function (messages, done) {
         var _this = this;
-        var list = Array.isArray(messages) ? messages : [messages];
+        var list;
+        if (Array.isArray(messages)) {
+            list = messages;
+        }
+        else if (messages.toMessage) {
+            list = [messages.toMessage()];
+        }
+        else {
+            list = [messages];
+        }
         async.eachLimit(list, this.settings.processLimit, function (message, cb) {
             _this.emit('send', message);
             _this.messageMiddleware(message, _this.mwSend, function () {
@@ -264,7 +280,7 @@ var UniversalBot = (function (_super) {
                 }
             }, error);
         }
-        if (this.mwAnalyze.length > 0) {
+        if (cnt > 0) {
             for (var i = 0; i < this.mwAnalyze.length; i++) {
                 analyze(this.mwAnalyze[i]);
             }
@@ -272,6 +288,9 @@ var UniversalBot = (function (_super) {
         else {
             finish();
         }
+    };
+    UniversalBot.prototype.isMessage = function (message) {
+        return (message && message.type && message.type.toLowerCase().indexOf('message') == 0);
     };
     UniversalBot.prototype.lookupUser = function (address, done, error) {
         var _this = this;

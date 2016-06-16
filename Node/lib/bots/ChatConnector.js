@@ -1,16 +1,8 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var events = require('events');
 var request = require('request');
 var async = require('async');
 var url = require('url');
-var ChatConnector = (function (_super) {
-    __extends(ChatConnector, _super);
+var ChatConnector = (function () {
     function ChatConnector(settings) {
-        _super.call(this);
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
@@ -206,12 +198,16 @@ var ChatConnector = (function (_super) {
                 var address = {};
                 moveFields(msg, address, toAddress);
                 msg.address = address;
-                if (msg.type && msg.type.toLowerCase().indexOf('message') == 0) {
-                    _this.handler([msg]);
+                if (address.serviceUrl) {
+                    try {
+                        var u = url.parse(address.serviceUrl);
+                        address.serviceUrl = u.protocol + '//' + u.host;
+                    }
+                    catch (e) {
+                        console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
+                    }
                 }
-                else {
-                    _this.emit(msg.type, msg);
-                }
+                _this.handler([msg]);
             }
             catch (e) {
                 console.error(e.toString());
@@ -352,7 +348,7 @@ var ChatConnector = (function (_super) {
             encodeURIComponent(address.channelId);
     };
     return ChatConnector;
-})(events.EventEmitter);
+})();
 exports.ChatConnector = ChatConnector;
 var toAddress = {
     'id': 'id',
