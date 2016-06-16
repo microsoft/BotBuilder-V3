@@ -6,31 +6,46 @@ var MemoryBotStorage = (function () {
     MemoryBotStorage.prototype.getData = function (context, callback) {
         var data = {};
         if (context.userId) {
-            if (this.userStore.hasOwnProperty(context.userId)) {
-                data.userData = JSON.parse(this.userStore[context.userId]);
-            }
-            else {
-                data.userData = null;
+            if (context.persistUserData) {
+                if (this.userStore.hasOwnProperty(context.userId)) {
+                    data.userData = JSON.parse(this.userStore[context.userId]);
+                }
+                else {
+                    data.userData = null;
+                }
             }
             if (context.conversationId) {
                 var key = context.userId + ':' + context.conversationId;
                 if (this.conversationStore.hasOwnProperty(key)) {
-                    data.conversationData = JSON.parse(this.conversationStore[key]);
+                    data.privateConversationData = JSON.parse(this.conversationStore[key]);
                 }
                 else {
-                    data.conversationData = null;
+                    data.privateConversationData = null;
                 }
+            }
+        }
+        if (context.persistConversationData && context.conversationId) {
+            if (this.conversationStore.hasOwnProperty(context.conversationId)) {
+                data.conversationData = JSON.parse(this.conversationStore[context.conversationId]);
+            }
+            else {
+                data.conversationData = null;
             }
         }
         callback(null, data);
     };
     MemoryBotStorage.prototype.saveData = function (context, data, callback) {
         if (context.userId) {
-            this.userStore[context.userId] = JSON.stringify(data.userData || {});
+            if (context.persistUserData) {
+                this.userStore[context.userId] = JSON.stringify(data.userData || {});
+            }
             if (context.conversationId) {
                 var key = context.userId + ':' + context.conversationId;
-                this.conversationStore[key] = JSON.stringify(data.conversationData || {});
+                this.conversationStore[key] = JSON.stringify(data.privateConversationData || {});
             }
+        }
+        if (context.persistConversationData && context.conversationId) {
+            this.conversationStore[context.conversationId] = JSON.stringify(data.conversationData || {});
         }
         callback(null);
     };

@@ -50,6 +50,8 @@ export interface IUniversalBotSettings {
     processLimit?: number;
     autoBatchDelay?: number;
     storage?: bs.IBotStorage;
+    persistUserData?: boolean;
+    persistConversationData?: boolean;
 }
 
 export interface IConnector {
@@ -84,7 +86,11 @@ export interface ILookupUser {
 }
 
 export class UniversalBot extends events.EventEmitter {
-    private settings = <IUniversalBotSettings>{ processLimit: 4 };
+    private settings = <IUniversalBotSettings>{ 
+        processLimit: 4, 
+        persistUserData: true, 
+        persistConversationData: false 
+    };
     private connectors = <IConnectorMap>{}; 
     private dialogs = new dc.DialogCollection();
     private mwReceive = <IMessageMiddleware[]>[];
@@ -201,7 +207,13 @@ export class UniversalBot extends events.EventEmitter {
                             this.emit('incoming', message);
                             var userId = message.user.id;
                             var conversationId = message.address.conversation ? message.address.conversation.id : null;
-                            var storageCtx: bs.IBotStorageContext = { userId: userId, conversationId: conversationId, address: message.address };
+                            var storageCtx: bs.IBotStorageContext = { 
+                                userId: userId, 
+                                conversationId: conversationId, 
+                                address: message.address,
+                                persistUserData: this.settings.persistUserData,
+                                persistConversationData: this.settings.persistConversationData 
+                            };
                             this.route(storageCtx, message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, cb);
                         }, cb);
                     } else {
@@ -219,7 +231,12 @@ export class UniversalBot extends events.EventEmitter {
             if (user) {
                 message.user = user;
             }
-            var storageCtx: bs.IBotStorageContext = { userId: message.user.id, address: message.address };
+            var storageCtx: bs.IBotStorageContext = { 
+                userId: message.user.id, 
+                address: message.address,
+                persistUserData: this.settings.persistUserData,
+                persistConversationData: this.settings.persistConversationData 
+            };
             this.route(storageCtx, message, dialogId, dialogArgs, (err) => {
                 if (done) {
                     done(err);
@@ -270,11 +287,17 @@ export class UniversalBot extends events.EventEmitter {
     public isInConversation(address: IAddress, cb: (err: Error, lastAccess: Date) => void): void {
         this.lookupUser(address, (user) => {
             var conversationId = address.conversation ? address.conversation.id : null;
-            var storageCtx: bs.IBotStorageContext = { userId: user.id, conversationId: conversationId, address: address };
+            var storageCtx: bs.IBotStorageContext = { 
+                userId: user.id, 
+                conversationId: conversationId, 
+                address: address,
+                persistUserData: false,
+                persistConversationData: false 
+            };
             this.getStorageData(storageCtx, (data) => {
                 var lastAccess: Date;
-                if (data && data.conversationData && data.conversationData.hasOwnProperty(consts.Data.SessionState)) {
-                    var ss: ISessionState = data.conversationData[consts.Data.SessionState];
+                if (data && data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
+                    var ss: ISessionState = data.privateConversationData[consts.Data.SessionState];
                     if (ss && ss.lastAccess) {
                         lastAccess = new Date(ss.lastAccess);
                     }
@@ -326,7 +349,8 @@ export class UniversalBot extends events.EventEmitter {
             if (storageCtx.conversationId) {
                 loadedData.userData = utils.clone(session.userData);
                 loadedData.conversationData = utils.clone(session.conversationData);
-                loadedData.conversationData[consts.Data.SessionState] = session.sessionState;
+                loadedData.privateConversationData = utils.clone(session.privateConversationData);
+                loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
                 _that.saveStorageData(storageCtx, loadedData, cb, cb);
             } else if (cb) {
                 cb(null);
@@ -366,9 +390,10 @@ export class UniversalBot extends events.EventEmitter {
             var sessionState: ISessionState;
             session.userData = data.userData || {};
             session.conversationData = data.conversationData || {};
-            if (session.conversationData.hasOwnProperty(consts.Data.SessionState)) {
-                sessionState = session.conversationData[consts.Data.SessionState];
-                delete session.conversationData[consts.Data.SessionState];
+            session.privateConversationData = data.privateConversationData || {};
+            if (session.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
+                sessionState = session.privateConversationData[consts.Data.SessionState];
+                delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;  // We'll clone it when saving data later
             

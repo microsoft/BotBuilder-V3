@@ -37,11 +37,14 @@ export interface IBotStorageContext {
     userId?: string;
     conversationId?: string;
     address?: IAddress;
+    persistUserData: boolean;
+    persistConversationData: boolean;
 }
 
 export interface IBotStorageData {
     userData?: any;
     conversationData?: any;
+    privateConversationData?: any;
 }
 
 export interface IBotStorage {
@@ -56,18 +59,30 @@ export class MemoryBotStorage implements IBotStorage {
     public getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void {
         var data: IBotStorageData = {};
         if (context.userId) {
-            if (this.userStore.hasOwnProperty(context.userId)) {
-                data.userData = JSON.parse(this.userStore[context.userId]);
-            } else {
-                data.userData = null;
+            // Read userData
+            if (context.persistUserData) {
+                if (this.userStore.hasOwnProperty(context.userId)) {
+                    data.userData = JSON.parse(this.userStore[context.userId]);
+                } else {
+                    data.userData = null;
+                }
             }
             if (context.conversationId) {
+                // Read privateConversationData
                 var key = context.userId + ':' + context.conversationId;
                 if (this.conversationStore.hasOwnProperty(key)) {
-                    data.conversationData = JSON.parse(this.conversationStore[key]);
+                    data.privateConversationData = JSON.parse(this.conversationStore[key]);
                 } else {
-                    data.conversationData = null;
+                    data.privateConversationData = null;
                 }
+            }
+        }
+        if (context.persistConversationData && context.conversationId) {
+            // Read conversationData
+            if (this.conversationStore.hasOwnProperty(context.conversationId)) {
+                data.conversationData = JSON.parse(this.conversationStore[context.conversationId]);
+            } else {
+                data.conversationData = null;
             }
         }
         callback(null, data);
@@ -75,11 +90,19 @@ export class MemoryBotStorage implements IBotStorage {
 
     public saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void {
         if (context.userId) {
-            this.userStore[context.userId] = JSON.stringify(data.userData || {});
-            if (context.conversationId) {
-                var key = context.userId + ':' + context.conversationId;
-                this.conversationStore[key] = JSON.stringify(data.conversationData || {});
+            // Write userData
+            if (context.persistUserData) {
+                this.userStore[context.userId] = JSON.stringify(data.userData || {});
             }
+            if (context.conversationId) {
+                // Write privateConversationData
+                var key = context.userId + ':' + context.conversationId;
+                this.conversationStore[key] = JSON.stringify(data.privateConversationData || {});
+            }
+        }
+        if (context.persistConversationData && context.conversationId) {
+            // Write conversationData
+            this.conversationStore[context.conversationId] = JSON.stringify(data.conversationData || {});
         }
         callback(null);
     }

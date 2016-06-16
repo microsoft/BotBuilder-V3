@@ -74,17 +74,25 @@ var ChatConnector = (function () {
             var root = this.getStoragePath(context.address);
             var list = [];
             if (context.userId) {
-                list.push({
-                    field: 'userData',
-                    url: root + '/users/' + encodeURIComponent(context.userId)
-                });
+                if (context.persistUserData) {
+                    list.push({
+                        field: 'userData',
+                        url: root + '/users/' + encodeURIComponent(context.userId)
+                    });
+                }
                 if (context.conversationId) {
                     list.push({
-                        field: 'conversationData',
+                        field: 'privateConversationData',
                         url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
                             '/users/' + encodeURIComponent(context.userId)
                     });
                 }
+            }
+            if (context.persistConversationData && context.conversationId) {
+                list.push({
+                    field: 'conversationData',
+                    url: root + '/conversations/' + encodeURIComponent(context.conversationId)
+                });
             }
             var data = {};
             async.each(list, function (entry, cb) {
@@ -121,47 +129,29 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.saveData = function (context, data, callback) {
         var _this = this;
+        var list = [];
+        function addWrite(field, botData, url) {
+            var hashKey = field + 'Hash';
+            var hash = JSON.stringify(botData);
+            if (!data[hashKey] || hash !== data[hashKey]) {
+                data[hashKey] = hash;
+                list.push({ botData: botData, url: url });
+            }
+        }
         try {
             var root = this.getStoragePath(context.address);
-            var list = [];
             if (context.userId) {
-                if (data.userData) {
-                    try {
-                        var hash = JSON.stringify(data.userData);
-                        if (!data.userDataHash || hash !== data.userDataHash) {
-                            data.userDataHash = hash;
-                            list.push({
-                                botData: data.userData,
-                                url: root + '/users/' + encodeURIComponent(context.userId)
-                            });
-                        }
-                    }
-                    catch (e) {
-                        if (callback) {
-                            callback(e instanceof Error ? e : new Error(e.toString()));
-                        }
-                        return;
-                    }
+                if (context.persistUserData) {
+                    addWrite('userData', data.userData || {}, root + '/users/' + encodeURIComponent(context.userId));
                 }
-                if (context.conversationId && data.conversationData) {
-                    try {
-                        var hash = JSON.stringify(data.conversationData);
-                        if (!data.conversationDataHash || hash !== data.conversationDataHash) {
-                            data.conversationDataHash = hash;
-                            list.push({
-                                botData: data.conversationData,
-                                url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
-                                    '/users/' + encodeURIComponent(context.userId)
-                            });
-                        }
-                    }
-                    catch (e) {
-                        if (callback) {
-                            callback(e instanceof Error ? e : new Error(e.toString()));
-                        }
-                        return;
-                    }
+                if (context.conversationId) {
+                    var url = root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                        '/users/' + encodeURIComponent(context.userId);
+                    addWrite('privateConversationData', data.privateConversationData || {}, url);
                 }
+            }
+            if (context.persistConversationData && context.conversationId) {
+                addWrite('conversationData', data.conversationData || {}, root + '/conversations/' + encodeURIComponent(context.conversationId));
             }
             async.each(list, function (entry, cb) {
                 var options = {

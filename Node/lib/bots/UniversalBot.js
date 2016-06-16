@@ -16,7 +16,11 @@ var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
     function UniversalBot(connector, settings) {
         _super.call(this);
-        this.settings = { processLimit: 4 };
+        this.settings = {
+            processLimit: 4,
+            persistUserData: true,
+            persistConversationData: false
+        };
         this.connectors = {};
         this.dialogs = new dc.DialogCollection();
         this.mwReceive = [];
@@ -110,7 +114,13 @@ var UniversalBot = (function (_super) {
                             _this.emit('incoming', message);
                             var userId = message.user.id;
                             var conversationId = message.address.conversation ? message.address.conversation.id : null;
-                            var storageCtx = { userId: userId, conversationId: conversationId, address: message.address };
+                            var storageCtx = {
+                                userId: userId,
+                                conversationId: conversationId,
+                                address: message.address,
+                                persistUserData: _this.settings.persistUserData,
+                                persistConversationData: _this.settings.persistConversationData
+                            };
                             _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
                         }, cb);
                     }
@@ -128,7 +138,12 @@ var UniversalBot = (function (_super) {
             if (user) {
                 message.user = user;
             }
-            var storageCtx = { userId: message.user.id, address: message.address };
+            var storageCtx = {
+                userId: message.user.id,
+                address: message.address,
+                persistUserData: _this.settings.persistUserData,
+                persistConversationData: _this.settings.persistConversationData
+            };
             _this.route(storageCtx, message, dialogId, dialogArgs, function (err) {
                 if (done) {
                     done(err);
@@ -181,11 +196,17 @@ var UniversalBot = (function (_super) {
         var _this = this;
         this.lookupUser(address, function (user) {
             var conversationId = address.conversation ? address.conversation.id : null;
-            var storageCtx = { userId: user.id, conversationId: conversationId, address: address };
+            var storageCtx = {
+                userId: user.id,
+                conversationId: conversationId,
+                address: address,
+                persistUserData: false,
+                persistConversationData: false
+            };
             _this.getStorageData(storageCtx, function (data) {
                 var lastAccess;
-                if (data && data.conversationData && data.conversationData.hasOwnProperty(consts.Data.SessionState)) {
-                    var ss = data.conversationData[consts.Data.SessionState];
+                if (data && data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
+                    var ss = data.privateConversationData[consts.Data.SessionState];
                     if (ss && ss.lastAccess) {
                         lastAccess = new Date(ss.lastAccess);
                     }
@@ -201,7 +222,8 @@ var UniversalBot = (function (_super) {
             if (storageCtx.conversationId) {
                 loadedData.userData = utils.clone(session.userData);
                 loadedData.conversationData = utils.clone(session.conversationData);
-                loadedData.conversationData[consts.Data.SessionState] = session.sessionState;
+                loadedData.privateConversationData = utils.clone(session.privateConversationData);
+                loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
                 _that.saveStorageData(storageCtx, loadedData, cb, cb);
             }
             else if (cb) {
@@ -235,9 +257,10 @@ var UniversalBot = (function (_super) {
             var sessionState;
             session.userData = data.userData || {};
             session.conversationData = data.conversationData || {};
-            if (session.conversationData.hasOwnProperty(consts.Data.SessionState)) {
-                sessionState = session.conversationData[consts.Data.SessionState];
-                delete session.conversationData[consts.Data.SessionState];
+            session.privateConversationData = data.privateConversationData || {};
+            if (session.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
+                sessionState = session.privateConversationData[consts.Data.SessionState];
+                delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;
             _this.emit('routing', session);

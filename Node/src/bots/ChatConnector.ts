@@ -130,17 +130,28 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             var root = this.getStoragePath(context.address);
             var list: any[] = [];
             if (context.userId) {
-                list.push({ 
-                    field: 'userData', 
-                    url: root + '/users/' + encodeURIComponent(context.userId) 
-                });
-                if (context.conversationId) {
+                // Read userData
+                if (context.persistUserData) {
                     list.push({ 
-                        field: 'conversationData',
+                        field: 'userData', 
+                        url: root + '/users/' + encodeURIComponent(context.userId) 
+                    });
+                }
+                if (context.conversationId) {
+                    // Read privateConversationData
+                    list.push({ 
+                        field: 'privateConversationData',
                         url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
                                     '/users/' + encodeURIComponent(context.userId)
                     });
                 }
+            }
+            if (context.persistConversationData && context.conversationId) {
+                // Read conversationData
+                list.push({ 
+                    field: 'conversationData',
+                    url: root + '/conversations/' + encodeURIComponent(context.conversationId)
+                });
             }
 
             // Execute reads in parallel
@@ -176,47 +187,35 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     }
 
     public saveData(context: bs.IBotStorageContext, data: IChatConnectorStorageData, callback?: (err: Error) => void): void {
+        var list: any[] = [];
+        function addWrite(field: string, botData: any, url: string) {
+            var hashKey = field + 'Hash'; 
+            var hash = JSON.stringify(botData);
+            if (!(<any>data)[hashKey] || hash !== (<any>data)[hashKey]) {
+                (<any>data)[hashKey] = hash;
+                list.push({ botData: botData, url: url });
+            }
+        }
+        
         try {
             // Build list of write commands
             var root = this.getStoragePath(context.address);
-            var list: any[] = [];
             if (context.userId) {
-                if (data.userData)
+                if (context.persistUserData)
                 {
-                    try {
-                        var hash = JSON.stringify(data.userData);
-                        if (!data.userDataHash || hash !== data.userDataHash) {
-                            data.userDataHash = hash;
-                            list.push({ 
-                                botData: data.userData, 
-                                url: root + '/users/' + encodeURIComponent(context.userId) 
-                            });
-                        }
-                    } catch (e) {
-                        if (callback) {
-                            callback(e instanceof Error ? e : new Error(e.toString()));
-                        }
-                        return;
-                    }
+                    // Write userData
+                    addWrite('userData', data.userData || {}, root + '/users/' + encodeURIComponent(context.userId));
                 }
-                if (context.conversationId && data.conversationData) {
-                    try {
-                        var hash = JSON.stringify(data.conversationData);
-                        if (!data.conversationDataHash || hash !== data.conversationDataHash) {
-                            data.conversationDataHash = hash;
-                            list.push({ 
-                                botData: data.conversationData, 
-                                url: root + '/conversations/' + encodeURIComponent(context.conversationId) +
-                                            '/users/' + encodeURIComponent(context.userId)
-                            });
-                        }
-                    } catch (e) {
-                        if (callback) {
-                            callback(e instanceof Error ? e : new Error(e.toString()));
-                        }
-                        return;
-                    }
+                if (context.conversationId) {
+                    // Write privateConversationData
+                    var url = root + '/conversations/' + encodeURIComponent(context.conversationId) +
+                                     '/users/' + encodeURIComponent(context.userId);
+                    addWrite('privateConversationData', data.privateConversationData || {}, url);
                 }
+            }
+            if (context.persistConversationData && context.conversationId) {
+                // Write conversationData
+                addWrite('conversationData', data.conversationData || {}, root + '/conversations/' + encodeURIComponent(context.conversationId));
             }
 
             // Execute writes in parallel
@@ -441,6 +440,7 @@ interface IChatConnectorAddress extends IAddress {
 interface IChatConnectorStorageData extends bs.IBotStorageData {
     userDataHash?: string;
     conversationDataHash?: string;
+    privateConversationDataHash?: string;
 }
 
 interface IChatConnectorState {

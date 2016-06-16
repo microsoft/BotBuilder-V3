@@ -97,6 +97,7 @@ export class Session extends events.EventEmitter implements ISession {
     public message: IMessage;
     public userData: any;
     public conversationData: any;
+    public privateConversationData: any;
     public dialogData: any;
 
     public error(err: Error): ISession {
