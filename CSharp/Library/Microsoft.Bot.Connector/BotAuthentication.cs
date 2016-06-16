@@ -18,6 +18,11 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppIdSettingName { get; set; }
         public bool DisableSelfIssuedTokens { get; set; }
 
+        public virtual string OpenIdConfigurationUrl
+        {
+            get { return JwtConfig.ToBotFromChannelOpenIdMetadataUrl; }
+        }
+
         public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
@@ -26,7 +31,7 @@ namespace Microsoft.Bot.Connector
                 // then auth is disabled
                 return;
 
-            var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), JwtConfig.ToBotFromChannelOpenIdMetadataUrl);
+            var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), OpenIdConfigurationUrl);
             var identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
 
             // No identity? If we're allowed to, fall back to MSA
