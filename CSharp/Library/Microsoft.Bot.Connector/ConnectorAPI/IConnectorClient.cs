@@ -40,6 +40,8 @@ namespace Microsoft.Bot.Connector
         ServiceClientCredentials Credentials { get; set; }
 
 
+        IAttachments Attachments { get; }
+
         IConversations Conversations { get; }
 
     }

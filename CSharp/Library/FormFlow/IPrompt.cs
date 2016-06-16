@@ -179,17 +179,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons)
         {
-            var actions = new List<Connector.Action>(); 
+            var actions = new List<CardAction>(); 
             foreach(var button in buttons)
             {
-                Connector.Action action; 
+                CardAction action; 
                 if (button.Url != null)
                 {
-                    action = new Connector.Action("openUrl", button.Title, button.Image, button.Url);
+                    action = new CardAction("openUrl", button.Title, button.Image, button.Url);
                 }
                 else
                 {
-                    action = new Connector.Action("postBack", button.Title, button.Image, button.Message ?? button.Title);
+                    action = new CardAction("postBack", button.Title, button.Image, button.Message ?? button.Title);
                 }
 
                 actions.Add(action);
@@ -198,12 +198,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var attachments = new List<Attachment>();
             if (actions.Count > 0)
             {
-                attachments.Add(new Attachment
-                {
-                    Content = new HeroCard(buttons: actions),
-                    ContentType = "application/vnd.microsoft.card.hero",
-
-                });
+                attachments.Add(new HeroCard(buttons: actions).ToAttachment());
             }
             return attachments;
         }

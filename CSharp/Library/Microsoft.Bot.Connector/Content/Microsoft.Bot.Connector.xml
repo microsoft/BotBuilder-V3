@@ -4,6 +4,354 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
+        <member name="T:Microsoft.Bot.Connector.Attachments">
+            <summary>
+            Attachments operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentUri(System.String,System.String)">
+            <summary>
+            Get the URI of an attachment view
+            </summary>
+            <param name="attachmentId"></param>
+            <param name="viewId">default is "original"</param>
+            <returns>uri</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreanAsync(System.String,System.String)">
+            <summary>
+            Get the given attachmentid view as a stream
+            </summary>
+            <param name="attachmentId">attachmentid</param>
+            <param name="viewId">view to get (default:original)</param>
+            <returns>stream of attachment</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachments.#ctor(Microsoft.Bot.Connector.ConnectorClient)">
+            <summary>
+            Initializes a new instance of the Attachments class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Attachments.Client">
+            <summary>
+            Gets a reference to the ConnectorClient
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentInfoWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get AttachmentInfo structure describing the attachment views
+            </summary>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get attachment content
+            </summary>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View from attachment metadata ("original" is original content)
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfo(Microsoft.Bot.Connector.IAttachments,System.String)">
+            <summary>
+            Get AttachmentInfo structure describing the attachment views
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfoAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get AttachmentInfo structure describing the attachment views
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachment(Microsoft.Bot.Connector.IAttachments,System.String,System.String)">
+            <summary>
+            Get attachment content
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View from attachment metadata ("original" is original content)
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get attachment content
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View from attachment metadata ("original" is original content)
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IAttachments">
+            <summary>
+            Attachments operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IAttachments.GetAttachmentInfoWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get AttachmentInfo structure describing the attachment views
+            </summary>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IAttachments.GetAttachmentWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Get attachment content
+            </summary>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View from attachment metadata ("original" is original content)
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AttachmentData">
+            <summary>
+            Attachment data
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentData.#ctor">
+            <summary>
+            Initializes a new instance of the AttachmentData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentData.#ctor(System.String,System.String,System.Byte[],System.Byte[])">
+            <summary>
+            Initializes a new instance of the AttachmentData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentData.Type">
+            <summary>
+            content type of the attachmnet
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentData.Name">
+            <summary>
+            Name of the attachment
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentData.OriginalBase64">
+            <summary>
+            original content
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentData.ThumbnailBase64">
+            <summary>
+            Thumbnail
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AttachmentInfo">
+            <summary>
+            Metdata for an attachment
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentInfo.#ctor">
+            <summary>
+            Initializes a new instance of the AttachmentInfo class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentInfo.#ctor(System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.AttachmentView})">
+            <summary>
+            Initializes a new instance of the AttachmentInfo class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentInfo.Name">
+            <summary>
+            Name of the attachment
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentInfo.Type">
+            <summary>
+            ContentType of the attachment
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentInfo.Views">
+            <summary>
+            attachment views
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AttachmentView">
+            <summary>
+            Attachment View name and size
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentView.#ctor">
+            <summary>
+            Initializes a new instance of the AttachmentView class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentView.#ctor(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the AttachmentView class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentView.ViewId">
+            <summary>
+            content type of the attachmnet
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AttachmentView.Size">
+            <summary>
+            Name of the attachment
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.CardAction">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor">
+            <summary>
+            Initializes a new instance of the CardAction class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the CardAction class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardAction.Type">
+            <summary>
+            Defines the type of action implemented by this button. Possible
+            values for this property include: 'openUrl', 'imBack',
+            'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardAction.Title">
+            <summary>
+            Text description which appear on the button.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardAction.Image">
+            <summary>
+            URL Picture which will appear on the button, next to text label.
+            Media hosted on 3rd party domains will be automatically hosted on
+            auth protected CDN.Auth protection will be used to ensure that
+            content
+            uploaded to Skype CDN will only be accessible by Microsoft Clients
+            Please refer to Chapter 7 for description of media caching
+            algorithm.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardAction.Value">
+            <summary>
+            Supplementary parameter for action. Content of this property
+            depends on the ActionType
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.CardImage">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.CardImage.#ctor">
+            <summary>
+            Initializes a new instance of the CardImage class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.CardImage.#ctor(System.String,System.String,Microsoft.Bot.Connector.CardAction)">
+            <summary>
+            Initializes a new instance of the CardImage class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardImage.Url">
+            <summary>
+            URL Thumbnail image for major content property.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardImage.Alt">
+            <summary>
+            Image description intended for screen readers
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardImage.Tap">
+            <summary>
+            Action assigned to specific Attachment.E.g.navigate to specific
+            URL or play/open media content
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.HeroCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.HeroCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.HeroCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.ThumbnailCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.ThumbnailCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.ThumbnailCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.SigninCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.SigninCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.SigninCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.ReceiptCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.ReceiptCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.ReceiptCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationParameters">
             <summary>
             </summary>
@@ -31,6 +379,94 @@
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.TopicName">
             <summary>
             (Optional) Topic of the conversation (if supported by the channel)
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.GeoCoordinates">
+            <summary>
+            GeoCoordinates
+            https://schema.org/GeoCoordinates
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.GeoCoordinates.#ctor">
+            <summary>
+            Initializes a new instance of the GeoCoordinates class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.GeoCoordinates.#ctor(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.String,System.String)">
+            <summary>
+            Initializes a new instance of the GeoCoordinates class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.GeoCoordinates.Elevation">
+            <summary>
+            Elevation of the location [WGS
+            84](https://en.wikipedia.org/wiki/World_Geodetic_System)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.GeoCoordinates.Latitude">
+            <summary>
+            Latitude of the location [WGS
+            84](https://en.wikipedia.org/wiki/World_Geodetic_System)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.GeoCoordinates.Longitude">
+            <summary>
+            Longitude of the location [WGS
+            84](https://en.wikipedia.org/wiki/World_Geodetic_System)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.GeoCoordinates.Type">
+            <summary>
+            The type of the thing
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.GeoCoordinates.Name">
+            <summary>
+            The name of the thing
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Place">
+            <summary>
+            Place
+            https://schema.org/Place
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Place.#ctor">
+            <summary>
+            Initializes a new instance of the Place class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Place.#ctor(System.Object,System.Object,System.Object,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Place class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Place.Address">
+            <summary>
+            Address of the place
+            Can be `string` or JToken of `PostalAddress` (future)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Place.Geo">
+            <summary>
+            Geo coordinates of the place
+            Can be JToken of `GeoCoordinates` or `GeoShape` (future)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Place.HasMap">
+            <summary>
+            Map to the place
+            Can be `string` (a URL) or JToken of `Map` (future)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Place.Type">
+            <summary>
+            The type of the thing
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Place.Name">
+            <summary>
+            The name of the thing
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ResourceResponse">
@@ -61,7 +497,7 @@
             Initializes a new instance of the ThumbnailCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Image},System.Collections.Generic.IList{Microsoft.Bot.Connector.Action},Microsoft.Bot.Connector.Action)">
+        <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardImage},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},Microsoft.Bot.Connector.CardAction)">
             <summary>
             Initializes a new instance of the ThumbnailCard class.
             </summary>
@@ -316,7 +752,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
             <summary>
             Reply to an activity in a conversation
             </summary>
@@ -339,17 +775,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='activity'>
-            Activity to send
-            </param>
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
             activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='activity'>
+            Activity to send
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
             Reply to an activity in a conversation
             </summary>
@@ -372,14 +808,14 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='activity'>
-            Activity to send
-            </param>
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
             activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='activity'>
+            Activity to send
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -438,6 +874,67 @@
             </param>
             <param name='activityId'>
             Activity ID
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UploadAttachment(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.AttachmentData)">
+            <summary>
+            UploadAttachment
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='attachmentUpload'>
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UploadAttachmentAsync(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.AttachmentData,System.Threading.CancellationToken)">
+            <summary>
+            UploadAttachment
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='attachmentUpload'>
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -605,7 +1102,7 @@
             Initializes a new instance of the HeroCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Image},System.Collections.Generic.IList{Microsoft.Bot.Connector.Action},Microsoft.Bot.Connector.Action)">
+        <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardImage},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},Microsoft.Bot.Connector.CardAction)">
             <summary>
             Initializes a new instance of the HeroCard class.
             </summary>
@@ -649,7 +1146,7 @@
             Initializes a new instance of the ReceiptCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ReceiptItem},System.Collections.Generic.IList{Microsoft.Bot.Connector.Fact},Microsoft.Bot.Connector.Action,System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Action})">
+        <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ReceiptItem},System.Collections.Generic.IList{Microsoft.Bot.Connector.Fact},Microsoft.Bot.Connector.CardAction,System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
             <summary>
             Initializes a new instance of the ReceiptCard class.
             </summary>
@@ -704,7 +1201,7 @@
             Initializes a new instance of the SigninCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,Microsoft.Bot.Connector.Action)">
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,Microsoft.Bot.Connector.CardAction)">
             <summary>
             Initializes a new instance of the SigninCard class.
             </summary>
@@ -1540,7 +2037,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Reply to an activity in a conversation
             </summary>
@@ -1560,14 +2057,14 @@
             Boolean checkHost)
             at System.IO.File.ReadAllText(String path)
             at MarkdownDocs.Program.Main(String[] args)
-            <param name='activity'>
-            Activity to send
-            </param>
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
             activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='activity'>
+            Activity to send
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1600,6 +2097,38 @@
             </param>
             <param name='activityId'>
             Activity ID
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.UploadAttachmentWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.AttachmentData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UploadAttachment
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+            access, Int32 rights, Boolean useRights, FileShare share, Int32
+            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+            access, FileShare share, Int32 bufferSize, FileOptions options, String
+            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+            Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='attachmentUpload'>
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1712,7 +2241,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToActivityWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             Reply to an activity in a conversation
             </summary>
@@ -1737,14 +2266,14 @@
             encoding, Boolean checkHost)
             at System.IO.File.ReadAllText(String path)
             at MarkdownDocs.Program.Main(String[] args)
-            <param name='activity'>
-            Activity to send
-            </param>
             <param name='conversationId'>
             Conversation ID
             </param>
             <param name='activityId'>
             activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='activity'>
+            Activity to send
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1777,6 +2306,43 @@
             </param>
             <param name='activityId'>
             Activity ID
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.UploadAttachmentWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.AttachmentData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UploadAttachment
+            </summary>
+            System.IO.DirectoryNotFoundException: Could not find a part of the
+            path
+            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+            at System.IO.__Error.WinIOError(Int32 errorCode, String
+            maybeFullPath)
+            at System.IO.FileStream.Init(String path, FileMode mode,
+            FileAccess access, Int32 rights, Boolean useRights, FileShare
+            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
+            secAttrs, String msgPath, Boolean bFromProxy, Boolean
+            useLongPath, Boolean checkHost)
+            at System.IO.FileStream..ctor(String path, FileMode mode,
+            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
+            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
+            Boolean checkHost)
+            at System.IO.StreamReader..ctor(String path, Encoding encoding,
+            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
+            Boolean checkHost)
+            at System.IO.File.InternalReadAllText(String path, Encoding
+            encoding, Boolean checkHost)
+            at System.IO.File.ReadAllText(String path)
+            at MarkdownDocs.Program.Main(String[] args)
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='attachmentUpload'>
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1951,49 +2517,6 @@
             the original id this message is a response to
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.Action">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Action.#ctor">
-            <summary>
-            Initializes a new instance of the Action class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Action.#ctor(System.String,System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the Action class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Action.Type">
-            <summary>
-            Defines the type of action implemented by this button. Possible
-            values for this property include: 'openUrl', 'imBack',
-            'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Action.Title">
-            <summary>
-            Text description which appear on the button.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Action.Image">
-            <summary>
-            URL Picture which will appear on the button, next to text label.
-            Media hosted on 3rd party domains will be automatically hosted on
-            auth protected CDN.Auth protection will be used to ensure that
-            content
-            uploaded to Skype CDN will only be accessible by Microsoft Clients
-            Please refer to Chapter 7 for description of media caching
-            algorithm.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Action.Value">
-            <summary>
-            Supplementary parameter for action. Content of this property
-            depends on the ActionType
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.APIResponse">
             <summary>
             </summary>
@@ -2128,6 +2651,20 @@
             Entity Type (typically from schema.org types)
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Entity.GetAs``1">
+            <summary>
+            Retrieve internal payload.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Entity.SetAs``1(``0)">
+            <summary>
+            Set internal payload.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+        </member>
         <member name="T:Microsoft.Bot.Connector.Fact">
             <summary>
             Set of key-value pairs. Advantage of this section is that key and
@@ -2154,36 +2691,6 @@
             <summary>
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.Image">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Image.#ctor">
-            <summary>
-            Initializes a new instance of the Image class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Image.#ctor(System.String,System.String,Microsoft.Bot.Connector.Action)">
-            <summary>
-            Initializes a new instance of the Image class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Image.Url">
-            <summary>
-            URL Thumbnail image for major content property.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Image.Alt">
-            <summary>
-            Image description intended for screen readers
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Image.Tap">
-            <summary>
-            Action assigned to specific Attachment.E.g.navigate to specific
-            URL or play/open media content
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.ReceiptItem">
             <summary>
             </summary>
@@ -2193,7 +2700,7 @@
             Initializes a new instance of the ReceiptItem class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.Image,System.String,System.String,Microsoft.Bot.Connector.Action)">
+        <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.CardImage,System.String,System.String,Microsoft.Bot.Connector.CardAction)">
             <summary>
             Initializes a new instance of the ReceiptItem class.
             </summary>
@@ -2375,6 +2882,11 @@
             
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ReplyToId">
+            <summary>
+            the original id this message is a response to
+            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetMentions">
             <summary>

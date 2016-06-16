@@ -45,6 +45,8 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         public ServiceClientCredentials Credentials { get; set; }
 
+        public virtual IAttachments Attachments { get; private set; }
+
         public virtual IConversations Conversations { get; private set; }
 
         /// <summary>
@@ -116,6 +118,7 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         private void Initialize()
         {
+            this.Attachments = new Attachments(this);
             this.Conversations = new Conversations(this);
             this.BaseUri = new Uri("https://api.botframework.com");
             SerializationSettings = new JsonSerializerSettings

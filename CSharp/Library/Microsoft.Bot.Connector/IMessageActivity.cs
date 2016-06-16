@@ -58,6 +58,12 @@ namespace Microsoft.Bot.Connector
         /// </remarks>
         dynamic ChannelData { get; set; }
 
+
+        /// <summary>
+        /// the original id this message is a response to
+        /// </summary>
+        string ReplyToId { get; set; }
+
         /// <summary>
         /// Get mentions from the Entities field
         /// </summary>

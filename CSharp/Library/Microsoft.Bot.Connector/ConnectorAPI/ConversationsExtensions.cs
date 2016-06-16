@@ -170,18 +170,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='activity'>
-        /// Activity to send
-        /// </param>
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
         /// activityId the reply is to (OPTIONAL)
         /// </param>
-        public static APIResponse ReplyToActivity(this IConversations operations, Activity activity, string conversationId, string activityId)
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
+        public static APIResponse ReplyToActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(activity, conversationId, activityId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -206,21 +206,21 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='activity'>
-        /// Activity to send
-        /// </param>
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
         /// activityId the reply is to (OPTIONAL)
         /// </param>
+        /// <param name='activity'>
+        /// Activity to send
+        /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, string conversationId, string activityId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<APIResponse> ReplyToActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.ReplyToActivityWithHttpMessagesAsync(activity, conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.ReplyToActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false);
             return _result.Body;
         }
 
@@ -294,6 +294,74 @@ namespace Microsoft.Bot.Connector
         {
             var _result = await operations.GetActivityMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<ChannelAccount[]>();
+        }
+
+        /// <summary>
+        /// UploadAttachment
+        /// </summary>
+        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
+        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
+        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+        /// Boolean checkHost)
+        /// at System.IO.File.ReadAllText(String path)
+        /// at MarkdownDocs.Program.Main(String[] args)
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='attachmentUpload'>
+        /// </param>
+        public static ResourceResponse UploadAttachment(this IConversations operations, string conversationId, AttachmentData attachmentUpload)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).UploadAttachmentAsync(conversationId, attachmentUpload), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// UploadAttachment
+        /// </summary>
+        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
+        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
+        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
+        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
+        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
+        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
+        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
+        /// Boolean checkHost)
+        /// at System.IO.File.ReadAllText(String path)
+        /// at MarkdownDocs.Program.Main(String[] args)
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='attachmentUpload'>
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<ResourceResponse> UploadAttachmentAsync(this IConversations operations, string conversationId, AttachmentData attachmentUpload, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var _result = await operations.UploadAttachmentWithHttpMessagesAsync(conversationId, attachmentUpload, null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<ResourceResponse>();
         }
 
     }
