@@ -49,41 +49,13 @@ using Moq;
 using Autofac;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Bot.Sample.SimpleAlarmBot;
 
 namespace Microsoft.Bot.Sample.Tests
 {
     [TestClass]
-    public sealed class AlarmBotTests : DialogTestBase
+    public sealed class AlarmBotTests : LuisTestBase
     {
-        public static IntentRecommendation[] IntentsFor(Expression<Func<SimpleAlarmBot.SimpleAlarmDialog, Task>> expression)
-        {
-            var body = (MethodCallExpression)expression.Body;
-            var attribute = body.Method.GetCustomAttribute<LuisIntentAttribute>();
-            var name = attribute.IntentName;
-            var intent = new IntentRecommendation(name);
-            return new[] { intent };
-        }
-
-        public static EntityRecommendation EntityFor(string type, string entity)
-        {
-            return new EntityRecommendation(type: type) { Entity = entity };
-        }
-
-        public static void SetupLuis(
-            Mock<ILuisService> luis,
-            Expression<Func<SimpleAlarmBot.SimpleAlarmDialog, Task>> expression,
-            params EntityRecommendation[] entities
-            )
-        {
-            luis
-                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
-                .ReturnsAsync(new LuisResult()
-                {
-                    Intents = IntentsFor(expression),
-                    Entities = entities
-                });
-        }
-
         [TestMethod]
         public async Task AlarmDialogFlow()
         {
@@ -91,11 +63,11 @@ namespace Microsoft.Bot.Sample.Tests
 
             // arrange
             var now = DateTime.UtcNow;
-            var entityTitle = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Title, "title");
-            var entityDate = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Date, now.ToString("d", DateTimeFormatInfo.InvariantInfo));
-            var entityTime = EntityFor(SimpleAlarmBot.SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
+            var entityTitle = EntityFor(SimpleAlarmDialog.Entity_Alarm_Title, "title");
+            var entityDate = EntityFor(SimpleAlarmDialog.Entity_Alarm_Start_Date, now.ToString("d", DateTimeFormatInfo.InvariantInfo));
+            var entityTime = EntityFor(SimpleAlarmDialog.Entity_Alarm_Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
 
-            Func<IDialog<object>> MakeRoot = () => new SimpleAlarmBot.SimpleAlarmDialog(luis.Object);
+            Func<IDialog<object>> MakeRoot = () => new SimpleAlarmDialog(luis.Object);
             var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(luis.Object))
@@ -108,7 +80,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IPostToBot>();
 
                     // arrange
-                    SetupLuis(luis, a => a.SetAlarm(null, null), entityTitle, entityDate, entityTime);
+                    SetupLuis<SimpleAlarmDialog>(luis, a => a.SetAlarm(null, null), 1.0, entityTitle, entityDate, entityTime);
 
                     // act
                     await task.PostAsync(toBot, CancellationToken.None);
@@ -125,7 +97,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IPostToBot>();
 
                     // arrange
-                    SetupLuis(luis, a => a.FindAlarm(null, null), entityTitle);
+                    SetupLuis<SimpleAlarmDialog>(luis, a => a.FindAlarm(null, null), 1.0, entityTitle);
 
                     // act
                     await task.PostAsync(toBot, CancellationToken.None);
@@ -142,7 +114,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IPostToBot>();
 
                     // arrange
-                    SetupLuis(luis, a => a.AlarmSnooze(null, null), entityTitle);
+                    SetupLuis<SimpleAlarmDialog>(luis, a => a.AlarmSnooze(null, null), 1.0, entityTitle);
 
                     // act
                     await task.PostAsync(toBot, CancellationToken.None);
@@ -159,7 +131,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IPostToBot>();
 
                     // arrange
-                    SetupLuis(luis, a => a.TurnOffAlarm(null, null), entityTitle);
+                    SetupLuis<SimpleAlarmDialog>(luis, a => a.TurnOffAlarm(null, null), 1.0, entityTitle);
 
                     // act
                     await task.PostAsync(toBot, CancellationToken.None);
@@ -210,7 +182,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var task = scope.Resolve<IPostToBot>();
 
                     // arrange
-                    SetupLuis(luis, a => a.DeleteAlarm(null, null), entityTitle);
+                    SetupLuis<SimpleAlarmDialog>(luis, a => a.DeleteAlarm(null, null), 1.0, entityTitle);
 
                     // act
                     await task.PostAsync(toBot, CancellationToken.None);
