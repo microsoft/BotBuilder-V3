@@ -76,9 +76,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentsEx.cs" />
     <Compile Include="ActivityTypes.cs" />
     <Compile Include="APIResponseEx.cs" />
+    <Compile Include="ConnectorAPI\Attachments.cs" />
+    <Compile Include="ConnectorAPI\AttachmentsExtensions.cs" />
+    <Compile Include="ConnectorAPI\IAttachments.cs" />
+    <Compile Include="ConnectorAPI\Models\AttachmentData.cs" />
+    <Compile Include="ConnectorAPI\Models\AttachmentInfo.cs" />
+    <Compile Include="ConnectorAPI\Models\AttachmentView.cs" />
+    <Compile Include="ConnectorAPI\Models\CardAction.cs" />
+    <Compile Include="ConnectorAPI\Models\CardImage.cs" />
+    <Compile Include="CardEx.cs" />
     <Compile Include="ConnectorAPI\Models\ConversationParameters.cs" />
+    <Compile Include="ConnectorAPI\Models\GeoCoordinates.cs" />
+    <Compile Include="ConnectorAPI\Models\Place.cs" />
     <Compile Include="ConnectorAPI\Models\ResourceResponse.cs" />
     <Compile Include="ConnectorAPI\Models\ThumbnailCard.cs" />
     <Compile Include="BotAuthentication.cs" />
@@ -102,7 +114,6 @@
     <Compile Include="ConnectorAPI\IConnectorClient.cs" />
     <Compile Include="ConnectorAPI\IConversations.cs" />
     <Compile Include="ActivityEx.cs" />
-    <Compile Include="ConnectorAPI\Models\Action.cs" />
     <Compile Include="ConnectorAPI\Models\Activity.cs" />
     <Compile Include="ConnectorAPI\Models\APIResponse.cs" />
     <Compile Include="ConnectorAPI\Models\Attachment.cs" />
@@ -111,7 +122,6 @@
     <Compile Include="ConnectorAPI\Models\Entity.cs" />
     <Compile Include="ConnectorAPI\Models\Fact.cs" />
     <Compile Include="ConnectorAPI\Models\HeroCard.cs" />
-    <Compile Include="ConnectorAPI\Models\Image.cs" />
     <Compile Include="ConnectorAPI\Models\ReceiptCard.cs" />
     <Compile Include="ConnectorAPI\Models\ReceiptItem.cs" />
     <Compile Include="ConnectorAPI\Models\SigninCard.cs" />
@@ -141,7 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Microsoft.Bot.Connector.xml">
-      <SubType>Designer</SubType>
+        <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup />

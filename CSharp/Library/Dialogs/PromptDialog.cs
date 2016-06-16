@@ -537,10 +537,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             
 
-            var actions = new List<Connector.Action>();
+            var actions = new List<CardAction>();
             foreach (var option in options)
             {
-                actions.Add(new Connector.Action
+                actions.Add(new CardAction
                 {
                     Title = option.ToString(),
                     Type = "postBack", 
@@ -550,12 +550,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var attachments = new List<Attachment>
             {
-                new Attachment
-                {
-                    Content = new HeroCard(buttons: actions),
-                    ContentType = "application/vnd.microsoft.card.hero",
-
-                }
+                new HeroCard(buttons: actions).ToAttachment()
             };
 
             return attachments; 

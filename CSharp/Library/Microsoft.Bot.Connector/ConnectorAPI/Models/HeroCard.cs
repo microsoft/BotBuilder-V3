@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the HeroCard class.
         /// </summary>
-        public HeroCard(string title = default(string), string subtitle = default(string), string text = default(string), IList<Image> images = default(IList<Image>), IList<Action> buttons = default(IList<Action>), Action tap = default(Action))
+        public HeroCard(string title = default(string), string subtitle = default(string), string text = default(string), IList<CardImage> images = default(IList<CardImage>), IList<CardAction> buttons = default(IList<CardAction>), CardAction tap = default(CardAction))
         {
             Title = title;
             Subtitle = subtitle;
@@ -55,19 +55,19 @@ namespace Microsoft.Bot.Connector
         /// Array of i
         /// </summary>
         [JsonProperty(PropertyName = "images")]
-        public IList<Image> Images { get; set; }
+        public IList<CardImage> Images { get; set; }
 
         /// <summary>
         /// Set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<Action> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; }
 
         /// <summary>
         /// This action will be activated when user taps on the card itself
         /// </summary>
         [JsonProperty(PropertyName = "tap")]
-        public Action Tap { get; set; }
+        public CardAction Tap { get; set; }
 
     }
 }

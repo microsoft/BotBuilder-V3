@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static APIResponse ReplyToActivity(this IConversations operations, Activity activity)
         {
-            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(activity, activity.Conversation.Id, activity.ReplyToId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return operations.ReplyToActivityAsync(activity, activity.Conversation.Id, activity.ReplyToId);
+            return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity);
         }
 
         private static ConversationParameters GetDirectParameters(string botId, string userId)

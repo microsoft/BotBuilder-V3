@@ -12,5 +12,25 @@ namespace Microsoft.Bot.Connector
     {
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public JObject Properties { get; set; }
+
+        /// <summary>
+        /// Retrieve internal payload.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetAs<T>()
+        {
+            return Properties.ToObject<T>();
+        }
+
+        /// <summary>
+        /// Set internal payload.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        public void SetAs<T>(T obj)
+        {
+            Properties = JObject.FromObject(obj);
+        }
     }
 }

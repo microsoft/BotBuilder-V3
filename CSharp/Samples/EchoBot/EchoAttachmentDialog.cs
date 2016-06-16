@@ -22,37 +22,33 @@ namespace Microsoft.Bot.Sample.EchoBot
 
                 reply.Attachments = new List<Attachment>();
 
-                var actions = new List<Microsoft.Bot.Connector.Action>();
+                var actions = new List<CardAction>();
                 for (int i = 0; i < 3; i++)
                 {
-                    actions.Add(new Microsoft.Bot.Connector.Action
+                    actions.Add(new CardAction
                     {
                         Title = $"Button:{i}",
                         Value = $"Action:{i}", 
                         Type = "postBack"
                     });
                 }
-
                 
                 for (int i = 0; i < 10; i++)
                 {
-
-                    reply.Attachments.Add(new Attachment
-                    {
-                        ContentType = "application/vnd.microsoft.card.hero",
-                        Content = new HeroCard
-                        {
-                            Title = $"title{i}",
-                            Images = new List<Image>
+                    reply.Attachments.Add(
+                         new HeroCard
+                         {
+                             Title = $"title{i}",
+                             Images = new List<CardImage>
                             {
-                                new Image
+                                new CardImage
                                 {
                                     Url = $"https://placeholdit.imgix.net/~text?txtsize=35&txt=image{i}&w=120&h=120"
                                 }
-                            }, 
-                            Buttons = actions
-                        }
-                    });
+                            },
+                             Buttons = actions
+                         }.ToAttachment()
+                    );
                 }
                 await context.PostAsync(reply);
                 context.Wait(MessageReceivedAsync);

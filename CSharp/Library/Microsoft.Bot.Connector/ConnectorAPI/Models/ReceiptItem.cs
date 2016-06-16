@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the ReceiptItem class.
         /// </summary>
-        public ReceiptItem(string title = default(string), string subtitle = default(string), string text = default(string), Image image = default(Image), string price = default(string), string quantity = default(string), Action tap = default(Action))
+        public ReceiptItem(string title = default(string), string subtitle = default(string), string text = default(string), CardImage image = default(CardImage), string price = default(string), string quantity = default(string), CardAction tap = default(CardAction))
         {
             Title = title;
             Subtitle = subtitle;
@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Connector
         /// Image
         /// </summary>
         [JsonProperty(PropertyName = "image")]
-        public Image Image { get; set; }
+        public CardImage Image { get; set; }
 
         /// <summary>
         /// Amount with currency
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Connector
         /// This action will be activated when user taps on the Item bubble.
         /// </summary>
         [JsonProperty(PropertyName = "tap")]
-        public Action Tap { get; set; }
+        public CardAction Tap { get; set; }
 
     }
 }

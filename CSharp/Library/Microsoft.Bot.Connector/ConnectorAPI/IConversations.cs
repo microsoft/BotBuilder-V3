@@ -112,14 +112,14 @@ namespace Microsoft.Bot.Connector
         /// encoding, Boolean checkHost)
         /// at System.IO.File.ReadAllText(String path)
         /// at MarkdownDocs.Program.Main(String[] args)
-        /// <param name='activity'>
-        /// Activity to send
-        /// </param>
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
         /// activityId the reply is to (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to send
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> ReplyToActivityWithHttpMessagesAsync(Activity activity, string conversationId, string activityId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<APIResponse>> ReplyToActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Get the list of members in this conversation
         /// </summary>
@@ -158,5 +158,41 @@ namespace Microsoft.Bot.Connector
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse<object>> GetActivityMembersWithHttpMessagesAsync(string conversationId, string activityId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// UploadAttachment
+        /// </summary>
+        /// System.IO.DirectoryNotFoundException: Could not find a part of the
+        /// path
+        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
+        /// at System.IO.__Error.WinIOError(Int32 errorCode, String
+        /// maybeFullPath)
+        /// at System.IO.FileStream.Init(String path, FileMode mode,
+        /// FileAccess access, Int32 rights, Boolean useRights, FileShare
+        /// share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
+        /// secAttrs, String msgPath, Boolean bFromProxy, Boolean
+        /// useLongPath, Boolean checkHost)
+        /// at System.IO.FileStream..ctor(String path, FileMode mode,
+        /// FileAccess access, FileShare share, Int32 bufferSize, FileOptions
+        /// options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
+        /// Boolean checkHost)
+        /// at System.IO.StreamReader..ctor(String path, Encoding encoding,
+        /// Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
+        /// Boolean checkHost)
+        /// at System.IO.File.InternalReadAllText(String path, Encoding
+        /// encoding, Boolean checkHost)
+        /// at System.IO.File.ReadAllText(String path)
+        /// at MarkdownDocs.Program.Main(String[] args)
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='attachmentUpload'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<object>> UploadAttachmentWithHttpMessagesAsync(string conversationId, AttachmentData attachmentUpload, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

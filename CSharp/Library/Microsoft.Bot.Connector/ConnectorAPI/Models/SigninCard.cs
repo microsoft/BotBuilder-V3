@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the SigninCard class.
         /// </summary>
-        public SigninCard(string title = default(string), Action button = default(Action))
+        public SigninCard(string title = default(string), CardAction button = default(CardAction))
         {
             Title = title;
             Button = button;
@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Connector
         /// Action to use to perform signin
         /// </summary>
         [JsonProperty(PropertyName = "button")]
-        public Action Button { get; set; }
+        public CardAction Button { get; set; }
 
     }
 }

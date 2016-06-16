@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the ReceiptCard class.
         /// </summary>
-        public ReceiptCard(string title = default(string), IList<ReceiptItem> items = default(IList<ReceiptItem>), IList<Fact> facts = default(IList<Fact>), Action tap = default(Action), string total = default(string), string tax = default(string), string vat = default(string), IList<Action> buttons = default(IList<Action>))
+        public ReceiptCard(string title = default(string), IList<ReceiptItem> items = default(IList<ReceiptItem>), IList<Fact> facts = default(IList<Fact>), CardAction tap = default(CardAction), string total = default(string), string tax = default(string), string vat = default(string), IList<CardAction> buttons = default(IList<CardAction>))
         {
             Title = title;
             Items = items;
@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Connector
         /// This action will be activated when user taps on the card
         /// </summary>
         [JsonProperty(PropertyName = "tap")]
-        public Action Tap { get; set; }
+        public CardAction Tap { get; set; }
 
         /// <summary>
         /// Total amount of money paid (or should be paid)
@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Connector
         /// Set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<Action> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; }
 
     }
 }
