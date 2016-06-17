@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations").ToString();
             // Create HTTP transport objects
             HttpRequestMessage _httpRequest = new HttpRequestMessage();
             _httpRequest.Method = new HttpMethod("POST");
@@ -308,7 +308,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations/{conversationId}/activities").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/activities").ToString();
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             // Create HTTP transport objects
             HttpRequestMessage _httpRequest = new HttpRequestMessage();
@@ -552,7 +552,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations/{conversationId}/activities/{activityId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/activities/{activityId}").ToString();
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             _url = _url.Replace("{activityId}", Uri.EscapeDataString(activityId));
             // Create HTTP transport objects
@@ -770,7 +770,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations/{conversationId}/members").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/members").ToString();
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             // Create HTTP transport objects
             HttpRequestMessage _httpRequest = new HttpRequestMessage();
@@ -991,7 +991,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations/{conversationId}/activities/{activityId}/members").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/activities/{activityId}/members").ToString();
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             _url = _url.Replace("{activityId}", Uri.EscapeDataString(activityId));
             // Create HTTP transport objects
@@ -1215,7 +1215,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/conversations/{conversationId}/attachments").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/conversations/{conversationId}/attachments").ToString();
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             // Create HTTP transport objects
             HttpRequestMessage _httpRequest = new HttpRequestMessage();

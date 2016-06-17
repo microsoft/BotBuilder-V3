@@ -18,7 +18,7 @@
   "host": "api.botframework.com",
   "schemes": [ "https" ],
   "paths": {
-    "/api/v3/attachments/{attachmentId}": {
+    "/v3/attachments/{attachmentId}": {
       "get": {
         "tags": [ "Attachments" ],
         "summary": "GetAttachmentInfo",
@@ -68,7 +68,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/attachments/{attachmentId}/views/{viewId}": {
+    "/v3/attachments/{attachmentId}/views/{viewId}": {
       "get": {
         "tags": [ "Attachments" ],
         "summary": "GetAttachment",
@@ -130,7 +130,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations": {
+    "/v3/conversations": {
       "post": {
         "tags": [ "Conversations" ],
         "summary": "CreateConversation",
@@ -180,7 +180,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/activities": {
+    "/v3/conversations/{conversationId}/activities": {
       "post": {
         "tags": [ "Conversations" ],
         "summary": "SendToConversation",
@@ -245,7 +245,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/activities/{activityId}": {
+    "/v3/conversations/{conversationId}/activities/{activityId}": {
       "post": {
         "tags": [ "Conversations" ],
         "summary": "ReplyToActivity",
@@ -317,7 +317,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/members": {
+    "/v3/conversations/{conversationId}/members": {
       "get": {
         "tags": [ "Conversations" ],
         "summary": "GetConversationMembers",
@@ -378,7 +378,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/activities/{activityId}/members": {
+    "/v3/conversations/{conversationId}/activities/{activityId}/members": {
       "get": {
         "tags": [ "Conversations" ],
         "summary": "GetActivityMembers",
@@ -446,7 +446,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/conversations/{conversationId}/attachments": {
+    "/v3/conversations/{conversationId}/attachments": {
       "post": {
         "tags": [ "Conversations" ],
         "summary": "UploadAttachment",

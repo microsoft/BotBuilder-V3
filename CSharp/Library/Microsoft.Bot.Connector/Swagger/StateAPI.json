@@ -18,7 +18,7 @@
   "host": "api.botframework.com",
   "schemes": [ "https" ],
   "paths": {
-    "/api/v3/botstate/{botId}/{channelId}/users/{userId}": {
+    "/v3/botstate/{botId}/{channelId}/users/{userId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetUserData",
@@ -204,7 +204,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}": {
+    "/v3/botstate/{botId}/{channelId}/conversations/{conversationId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetConversationData",
@@ -329,7 +329,7 @@
         "deprecated": false
       }
     },
-    "/api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}": {
+    "/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetPrivateConversationData",

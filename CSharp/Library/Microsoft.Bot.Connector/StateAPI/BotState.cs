@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
@@ -275,7 +275,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
@@ -466,7 +466,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
@@ -654,7 +654,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
@@ -837,7 +837,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
@@ -1037,7 +1037,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
@@ -1229,7 +1229,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
             _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
