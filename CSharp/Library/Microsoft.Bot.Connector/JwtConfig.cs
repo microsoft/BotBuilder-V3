@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
         /// </summary>
-        public const string ToBotFromChannelOpenIdMetadataUrl = "https://intercom-api-scratch.azurewebsites.net/api/.well-known/OpenIdConfiguration";
+        public const string ToBotFromChannelOpenIdMetadataUrl = "https://api.aps.skype.com/v1/.well-known/openidconfiguration";
 
         /// <summary>
         /// TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
