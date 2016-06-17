@@ -56,7 +56,8 @@ export interface IUniversalBotSettings {
 
 export interface IConnector {
     onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
-    send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void;
+    send(messages: IMessage[], cb: (err: Error) => void): void;
+    startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
 }
 interface IConnectorMap {
     [channel: string]: IConnector;    
@@ -226,26 +227,35 @@ export class UniversalBot extends events.EventEmitter {
         }, done);
     }
  
-    public beginDialog(message: IMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
-        this.lookupUser(message.address, (user) => {
+    public beginDialog(message: IMessage|IIsMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
+        var msg = message && (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
+        if (!msg || !msg.address) {
+            throw new Error('Invalid message passed to UniversalBot.beginDialog().');
+        }
+        msg.text = msg.text || '';
+        msg.type = 'message';
+        this.lookupUser(msg.address, (user) => {
             if (user) {
-                message.user = user;
+                msg.user = user;
             }
-            var storageCtx: bs.IBotStorageContext = { 
-                userId: message.user.id, 
-                address: message.address,
-                persistUserData: this.settings.persistUserData,
-                persistConversationData: this.settings.persistConversationData 
-            };
-            this.route(storageCtx, message, dialogId, dialogArgs, (err) => {
-                if (done) {
-                    done(err);
-                }    
-            });
+            this.ensureConversation(msg.address, (adr) => {
+                msg.address = adr;
+                var storageCtx: bs.IBotStorageContext = { 
+                    userId: msg.user.id, 
+                    address: msg.address,
+                    persistUserData: this.settings.persistUserData,
+                    persistConversationData: this.settings.persistConversationData 
+                };
+                this.route(storageCtx, msg, dialogId, dialogArgs, (err) => {
+                    if (done) {
+                        done(err);
+                    }    
+                });
+            }, done);
         }, done);
     }
     
-    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, conversationId?: string) => void): void {
+    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void {
         var list: IMessage[];
         if (Array.isArray(messages)) {
             list = messages;
@@ -255,10 +265,13 @@ export class UniversalBot extends events.EventEmitter {
             list = [<IMessage>messages];
         }
         async.eachLimit(list, this.settings.processLimit, (message, cb) => {
-            this.emit('send', message);
-            this.messageMiddleware(message, this.mwSend, () => {
-                this.emit('outgoing', message);
-                cb(null);
+            this.ensureConversation(message.address, (adr) => {
+                message.address = adr;
+                this.emit('send', message);
+                this.messageMiddleware(message, this.mwSend, () => {
+                    this.emit('outgoing', message);
+                    cb(null);
+                }, cb);
             }, cb);
         }, (err) => {
             if (!err) {
@@ -269,12 +282,12 @@ export class UniversalBot extends events.EventEmitter {
                     if (!connector) {
                         throw new Error("Invalid channelId='" + channelId + "'");
                     }
-                    connector.send(list, (err, conversationId) => {
+                    connector.send(list, (err) => {
                         if (done) {
                             if (err) {
                                 this.emitError(err);
                             }
-                            done(err, conversationId);
+                            done(err);
                         }    
                     });
                 }, done);
@@ -343,21 +356,6 @@ export class UniversalBot extends events.EventEmitter {
         //   saving the userData & conversationData to storage.
         // * After the first call to onSend() for the conversation everything 
         //   follows the same flow as for reactive messages.
-        var _that = this;
-        function saveSessionData(session: ses.Session, cb?: (err: Error) => void) {
-            // Only save data if we have both a userid & conversationId
-            if (storageCtx.conversationId) {
-                loadedData.userData = utils.clone(session.userData);
-                loadedData.conversationData = utils.clone(session.conversationData);
-                loadedData.privateConversationData = utils.clone(session.privateConversationData);
-                loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
-                _that.saveStorageData(storageCtx, loadedData, cb, cb);
-            } else if (cb) {
-                cb(null);
-            }
-        }
-        
-        // Load user & conversation data from storage
         var loadedData: bs.IBotStorageData;
         this.getStorageData(storageCtx, (data) => {
             // Initialize session
@@ -368,20 +366,14 @@ export class UniversalBot extends events.EventEmitter {
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 onSave: (cb) => {
-                    saveSessionData(session, cb);
+                    loadedData.userData = utils.clone(session.userData);
+                    loadedData.conversationData = utils.clone(session.conversationData);
+                    loadedData.privateConversationData = utils.clone(session.privateConversationData);
+                    loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
+                    this.saveStorageData(storageCtx, loadedData, cb, cb);
                 },
                 onSend: (messages, cb) => {
-                    this.send(messages, (err, conversationId) => {
-                        // Check for assignment of the conversation id 
-                        if (!err && conversationId && !storageCtx.conversationId) {
-                            // Assign conversation ID an call save
-                            storageCtx.conversationId = conversationId;
-                            saveSessionData(session, cb);
-                        } else if (cb) {
-                            // Any error will have already been logged by send()
-                           cb(err);
-                        }
-                    });
+                    this.send(messages, cb);
                 }
             });
             session.on('error', (err: Error) => this.emitError(err));
@@ -457,6 +449,29 @@ export class UniversalBot extends events.EventEmitter {
         return (message && message.type && message.type.toLowerCase().indexOf('message') == 0);
     }
     
+    private ensureConversation(address: IAddress, done: (adr: IAddress) => void, error?: (err: Error) => void): void {
+        this.tryCatch(() => {
+            if (!address.conversation) {
+                var connector = this.connector(address.channelId);
+                if (!connector) {
+                    throw new Error("Invalid channelId='" + address.channelId + "'");
+                }
+                connector.startConversation(address, (err, adr) => {
+                    if (!err) {
+                        this.tryCatch(() => done(adr), error);
+                    } else {
+                        this.emitError(err);
+                        if (error) {
+                            error(err);
+                        }
+                    }
+                });
+            } else {
+                this.tryCatch(() => done(address), error);
+            }
+        }, error);
+    }
+    
     private lookupUser(address: IAddress, done: (user: IIdentity) => void, error?: (err: Error) => void): void {
         this.tryCatch(() => {
             if (address.user) {
@@ -520,7 +535,6 @@ export class UniversalBot extends events.EventEmitter {
     private getStorage(): bs.IBotStorage {
         if (!this.settings.storage) {
             this.settings.storage = new bs.MemoryBotStorage();
-            console.warn('UniversalBot using memory based storage. ALL DATA WILL BE LOST ON RESTART. Configure an IBotStorage provider.');
         }
         return this.settings.storage;
     }

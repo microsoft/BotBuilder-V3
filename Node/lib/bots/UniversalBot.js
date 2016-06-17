@@ -134,21 +134,29 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.beginDialog = function (message, dialogId, dialogArgs, done) {
         var _this = this;
-        this.lookupUser(message.address, function (user) {
+        var msg = message && message.toMessage ? message.toMessage() : message;
+        if (!msg || !msg.address) {
+            throw new Error('Invalid message passed to UniversalBot.beginDialog().');
+        }
+        msg.text = msg.text || '';
+        msg.type = 'message';
+        this.lookupUser(msg.address, function (user) {
             if (user) {
-                message.user = user;
+                msg.user = user;
             }
-            var storageCtx = {
-                userId: message.user.id,
-                address: message.address,
-                persistUserData: _this.settings.persistUserData,
-                persistConversationData: _this.settings.persistConversationData
-            };
-            _this.route(storageCtx, message, dialogId, dialogArgs, function (err) {
-                if (done) {
-                    done(err);
-                }
-            });
+            _this.ensureConversation(msg.address, function () {
+                var storageCtx = {
+                    userId: msg.user.id,
+                    address: msg.address,
+                    persistUserData: _this.settings.persistUserData,
+                    persistConversationData: _this.settings.persistConversationData
+                };
+                _this.route(storageCtx, msg, dialogId, dialogArgs, function (err) {
+                    if (done) {
+                        done(err);
+                    }
+                });
+            }, done);
         }, done);
     };
     UniversalBot.prototype.send = function (messages, done) {
@@ -164,10 +172,12 @@ var UniversalBot = (function (_super) {
             list = [messages];
         }
         async.eachLimit(list, this.settings.processLimit, function (message, cb) {
-            _this.emit('send', message);
-            _this.messageMiddleware(message, _this.mwSend, function () {
-                _this.emit('outgoing', message);
-                cb(null);
+            _this.ensureConversation(message.address, function () {
+                _this.emit('send', message);
+                _this.messageMiddleware(message, _this.mwSend, function () {
+                    _this.emit('outgoing', message);
+                    cb(null);
+                }, cb);
             }, cb);
         }, function (err) {
             if (!err) {
@@ -177,12 +187,12 @@ var UniversalBot = (function (_super) {
                     if (!connector) {
                         throw new Error("Invalid channelId='" + channelId + "'");
                     }
-                    connector.send(list, function (err, conversationId) {
+                    connector.send(list, function (err) {
                         if (done) {
                             if (err) {
                                 _this.emitError(err);
                             }
-                            done(err, conversationId);
+                            done(err);
                         }
                     });
                 }, done);
@@ -217,19 +227,6 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
         var _this = this;
-        var _that = this;
-        function saveSessionData(session, cb) {
-            if (storageCtx.conversationId) {
-                loadedData.userData = utils.clone(session.userData);
-                loadedData.conversationData = utils.clone(session.conversationData);
-                loadedData.privateConversationData = utils.clone(session.privateConversationData);
-                loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
-                _that.saveStorageData(storageCtx, loadedData, cb, cb);
-            }
-            else if (cb) {
-                cb(null);
-            }
-        }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
@@ -239,18 +236,14 @@ var UniversalBot = (function (_super) {
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 onSave: function (cb) {
-                    saveSessionData(session, cb);
+                    loadedData.userData = utils.clone(session.userData);
+                    loadedData.conversationData = utils.clone(session.conversationData);
+                    loadedData.privateConversationData = utils.clone(session.privateConversationData);
+                    loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
+                    _this.saveStorageData(storageCtx, loadedData, cb, cb);
                 },
                 onSend: function (messages, cb) {
-                    _this.send(messages, function (err, conversationId) {
-                        if (!err && conversationId && !storageCtx.conversationId) {
-                            storageCtx.conversationId = conversationId;
-                            saveSessionData(session, cb);
-                        }
-                        else if (cb) {
-                            cb(err);
-                        }
-                    });
+                    _this.send(messages, cb);
                 }
             });
             session.on('error', function (err) { return _this.emitError(err); });
@@ -318,6 +311,32 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.isMessage = function (message) {
         return (message && message.type && message.type.toLowerCase().indexOf('message') == 0);
+    };
+    UniversalBot.prototype.ensureConversation = function (address, done, error) {
+        var _this = this;
+        this.tryCatch(function () {
+            if (!address.conversation) {
+                var connector = _this.connector(address.channelId);
+                if (!connector) {
+                    throw new Error("Invalid channelId='" + address.channelId + "'");
+                }
+                connector.startConversation(address, function (err, conversation) {
+                    if (!err) {
+                        address.conversation = conversation;
+                        _this.tryCatch(function () { return done(); }, error);
+                    }
+                    else {
+                        _this.emitError(err);
+                        if (error) {
+                            error(err);
+                        }
+                    }
+                });
+            }
+            else {
+                _this.tryCatch(function () { return done(); }, error);
+            }
+        }, error);
     };
     UniversalBot.prototype.lookupUser = function (address, done, error) {
         var _this = this;
@@ -387,7 +406,6 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.getStorage = function () {
         if (!this.settings.storage) {
             this.settings.storage = new bs.MemoryBotStorage();
-            console.warn('UniversalBot using memory based storage. ALL DATA WILL BE LOST ON RESTART. Configure an IBotStorage provider.');
         }
         return this.settings.storage;
     };

@@ -38,6 +38,7 @@ import request = require('request');
 import async = require('async');
 import url = require('url');
 import http = require('http');
+import utils = require('../utils');
 
 export interface IChatConnectorSettings {
     botId: string;
@@ -97,7 +98,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         this.handler = handler;
     }
     
-    public send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void {
+    public send(messages: IMessage[], done: (err: Error) => void): void {
         var conversationId: string;
         async.eachSeries(messages, (msg, cb) => {
             try {
@@ -107,21 +108,52 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                     if (!address.conversation && conversationId) {
                         address.conversation = { id: conversationId };
                     }
-                    this.postMessage(address, msg, (err, id) => {
-                        if (!err && id) {
-                            conversationId = id;
-                        }
-                        cb(err);
-                    });
+                    this.postMessage(address, msg, cb);
                 } else {
                     cb(new Error('Message missing address or serviceUrl.'));
                 }
             } catch (e) {
                 cb(e);
             }
-        }, (err) => {
-            cb(err, conversationId);
-        });
+        }, done);
+    }
+
+    public startConversation(address: IChatConnectorAddress, done: (err: Error, address?: IAddress) => void): void {
+        if (address && address.user && address.bot && address.serviceUrl) {
+            // Calculate path
+            var path = '/api/v3/conversations';
+
+            // Issue request
+            var options: request.Options = {
+                method: 'POST',
+                url: url.resolve(address.serviceUrl, '/api/v3/conversations'),
+                body: {
+                    bot: address.bot,
+                    members: [address.user] 
+                },
+                json: true
+            };
+            this.authenticatedRequest(options, (err, response, body) => {
+                var adr: IAddress;
+                if (!err) {
+                    try {
+                        var obj = typeof body === 'string' ? JSON.parse(body) : body;
+                        if (obj && obj.hasOwnProperty('id')) {
+                            adr = utils.clone(address);
+                            adr.conversation = { id: obj['id'] };
+                            if (adr.id) {
+                                delete adr.id;
+                            }
+                        } else {
+                            err = new Error('Failed to start conversation: no conversation ID returned.')
+                        }
+                    } catch (e) {
+                        err = e instanceof Error ? e : new Error(e.toString());
+                    }
+                }
+                done(err, adr);
+            });
+        }
     }
 
     public getData(context: bs.IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
@@ -277,14 +309,11 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         res.end();
     }
 
-    private postMessage(address: IChatConnectorAddress, msg: IMessage, cb: (err: Error, conversationId: string) => void): void {
+    private postMessage(address: IChatConnectorAddress, msg: IMessage, cb: (err: Error) => void): void {
         // Calculate path
-        var path = '/api/v3/conversations';
-        if (address.conversation && address.conversation.id) {
-            path += '/' + encodeURIComponent(address.conversation.id) + '/activities';
-            if (address.id) {
-                path += '/' + encodeURIComponent(address.id);
-            }
+        var path = '/api/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
+        if (address.id) {
+            path += '/' + encodeURIComponent(address.id);
         }
 
         // Update message with address info
@@ -299,18 +328,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             json: true
         };
         this.authenticatedRequest(options, (err, response, body) => {
-            var conversationId: string;
-            if (!err && body) {
-                try {
-                    var obj = typeof body === 'string' ? JSON.parse(body) : body;
-                    if (obj.hasOwnProperty('conversationId')) {
-                        conversationId = obj['conversationId'];
-                    }
-                } catch (e) {
-                    console.error('Error parsing channel response: ' + e.toString());
-                }
-            }
-            cb(err, conversationId);
+            cb(err);
         });
     }
 
@@ -332,7 +350,12 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                                 }
                                 break;
                             default:
-                                callback(null, response, body);
+                                if (response.statusCode < 400) {
+                                    callback(null, response, body);
+                                } else {
+                                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
+                                }
                                 break;
                         }
                     } else {

@@ -39,7 +39,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.onMessage = function (handler) {
         this.handler = handler;
     };
-    ChatConnector.prototype.send = function (messages, cb) {
+    ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
         var conversationId;
         async.eachSeries(messages, function (msg, cb) {
@@ -50,12 +50,7 @@ var ChatConnector = (function () {
                     if (!address.conversation && conversationId) {
                         address.conversation = { id: conversationId };
                     }
-                    _this.postMessage(address, msg, function (err, id) {
-                        if (!err && id) {
-                            conversationId = id;
-                        }
-                        cb(err);
-                    });
+                    _this.postMessage(address, msg, cb);
                 }
                 else {
                     cb(new Error('Message missing address or serviceUrl.'));
@@ -64,9 +59,39 @@ var ChatConnector = (function () {
             catch (e) {
                 cb(e);
             }
-        }, function (err) {
-            cb(err, conversationId);
-        });
+        }, done);
+    };
+    ChatConnector.prototype.startConversation = function (address, done) {
+        if (address && address.user && address.bot && address.serviceUrl) {
+            var path = '/api/v3/conversations';
+            var options = {
+                method: 'POST',
+                url: url.resolve(address.serviceUrl, '/api/v3/conversations'),
+                body: {
+                    bot: address.bot,
+                    members: [address.user]
+                },
+                json: true
+            };
+            this.authenticatedRequest(options, function (err, response, body) {
+                var conversation;
+                if (!err) {
+                    try {
+                        var obj = typeof body === 'string' ? JSON.parse(body) : body;
+                        if (obj && obj.hasOwnProperty('id')) {
+                            conversation = { id: obj['id'] };
+                        }
+                        else {
+                            err = new Error('Failed to start conversation: no conversation ID returned.');
+                        }
+                    }
+                    catch (e) {
+                        err = e instanceof Error ? e : new Error(e.toString());
+                    }
+                }
+                done(err, conversation);
+            });
+        }
     };
     ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
@@ -207,12 +232,9 @@ var ChatConnector = (function () {
         res.end();
     };
     ChatConnector.prototype.postMessage = function (address, msg, cb) {
-        var path = '/api/v3/conversations';
-        if (address.conversation && address.conversation.id) {
-            path += '/' + encodeURIComponent(address.conversation.id) + '/activities';
-            if (address.id) {
-                path += '/' + encodeURIComponent(address.id);
-            }
+        var path = '/api/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
+        if (address.id) {
+            path += '/' + encodeURIComponent(address.id);
         }
         msg['from'] = address.bot;
         msg['recipient'] = address.user;
@@ -223,19 +245,7 @@ var ChatConnector = (function () {
             json: true
         };
         this.authenticatedRequest(options, function (err, response, body) {
-            var conversationId;
-            if (!err && body) {
-                try {
-                    var obj = typeof body === 'string' ? JSON.parse(body) : body;
-                    if (obj.hasOwnProperty('conversationId')) {
-                        conversationId = obj['conversationId'];
-                    }
-                }
-                catch (e) {
-                    console.error('Error parsing channel response: ' + e.toString());
-                }
-            }
-            cb(err, conversationId);
+            cb(err);
         });
     };
     ChatConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
@@ -259,7 +269,13 @@ var ChatConnector = (function () {
                                 }
                                 break;
                             default:
-                                callback(null, response, body);
+                                if (response.statusCode < 400) {
+                                    callback(null, response, body);
+                                }
+                                else {
+                                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
+                                }
                                 break;
                         }
                     }

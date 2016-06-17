@@ -18,9 +18,9 @@ var ConsoleConnector = (function () {
                 var msg = new mb.Message()
                     .address({
                     channelId: 'console',
-                    user: { id: 'user', name: 'User' },
+                    user: { id: 'user', name: 'User1' },
                     bot: { id: 'bot', name: 'Bot' },
-                    conversation: { id: 'convo' }
+                    conversation: { id: 'Convo1' }
                 })
                     .timestamp()
                     .text(line);
@@ -50,6 +50,9 @@ var ConsoleConnector = (function () {
                 }
             }
         }
+    };
+    ConsoleConnector.prototype.startConversation = function (address, cb) {
+        cb(null, { id: 'Convo1' });
     };
     return ConsoleConnector;
 })();

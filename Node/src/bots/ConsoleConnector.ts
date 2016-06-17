@@ -34,6 +34,7 @@
 import readline = require('readline');
 import ub = require('./UniversalBot');
 import mb = require('../Message');
+import utils = require('../utils');
 
 export class ConsoleConnector implements ub.IConnector {
     private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
@@ -53,9 +54,9 @@ export class ConsoleConnector implements ub.IConnector {
                 var msg = new mb.Message()
                     .address({
                         channelId: 'console',
-                        user: { id: 'user', name: 'User' },
+                        user: { id: 'user', name: 'User1' },
                         bot: { id: 'bot', name: 'Bot' },
-                        conversation: { id: 'convo' }
+                        conversation: { id: 'Convo1' }
                     })
                     .timestamp()
                     .text(line);
@@ -87,6 +88,12 @@ export class ConsoleConnector implements ub.IConnector {
                 }
             }
         }        
+    }
+
+    public startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void {
+        var adr = utils.clone(address);
+        adr.conversation = { id: 'Convo1' };
+        cb(null, adr);
     }
 }
 
