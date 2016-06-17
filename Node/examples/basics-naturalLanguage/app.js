@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to use a LuisDialog to add natural language support
-to a bot. The example also shows how to use TextBot.beginDialog() to push 
-notifications or start a new conversation with the user.
+This Bot demonstrates how to use an IntentDialog with a LuisRecognizer to add 
+natural language support to a bot. The example also shows how to use 
+UniversalBot.send() to push notifications to a user.
 
 For a complete walkthrough of creating this bot see the article below.
 
@@ -11,14 +11,17 @@ For a complete walkthrough of creating this bot see the article below.
 
 var builder = require('../../');
 
-// Create LUIS Dialog that points at our model and add it as the root '/' dialog for our Cortana Bot.
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+
+// Create LUIS recognizer that points at our model and add it as the root '/' dialog for our Cortana Bot.
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';
-var dialog = new builder.LuisDialog(model);
-var cortanaBot = new builder.TextBot();
-cortanaBot.add('/', dialog);
+var recognizer = new builder.LuisRecognizer(model);
+var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
+bot.dialog('/', dialog);
 
 // Add intent handlers
-dialog.on('builtin.intent.alarm.set_alarm', [
+dialog.matches('builtin.intent.alarm.set_alarm', [
     function (session, args, next) {
         // Resolve and store any entities passed from LUIS.
         var title = builder.EntityRecognizer.findEntity(args.entities, 'builtin.alarm.title');
@@ -58,8 +61,7 @@ dialog.on('builtin.intent.alarm.set_alarm', [
         // Set the alarm (if title or timestamp is blank the user said cancel)
         if (alarm.title && alarm.timestamp) {
             // Save address of who to notify and write to scheduler.
-            alarm.to = session.message.from;
-            alarm.from = session.message.to;
+            alarm.address = session.message.address;
             alarms[alarm.title] = alarm;
             
             // Send confirmation to user
@@ -75,7 +77,7 @@ dialog.on('builtin.intent.alarm.set_alarm', [
     }
 ]);
 
-dialog.on('builtin.intent.alarm.delete_alarm', [
+dialog.matches('builtin.intent.alarm.delete_alarm', [
     function (session, args, next) {
         // Resolve entities passed from LUIS.
         var title;
@@ -105,22 +107,17 @@ dialog.on('builtin.intent.alarm.delete_alarm', [
 
 dialog.onDefault(builder.DialogAction.send("I'm sorry I didn't understand. I can only create & delete alarms."));
 
-// Add notification dialog
-cortanaBot.add('/notify', function (session, alarm) {
-    // We don't want replies coming to us so we'll use endDialog() instead of send()
-    session.endDialog("Here's your '%s' alarm.", alarm.title);
-});
-
-cortanaBot.listenStdin();
-
-// Very simple demo scheduler
+// Very simple alarm scheduler
 var alarms = {};
 setInterval(function () {
     var now = new Date().getTime();
     for (var key in alarms) {
         var alarm = alarms[key];
         if (now >= alarm.timestamp) {
-            cortanaBot.beginDialog({ from: alarm.from, to: alarm.to }, '/notify', alarm);
+            var msg = new builder.Message()
+                .address(alarm.address)
+                .text("Here's your '%s' alarm.", alarm.title);
+            bot.send(msg);
             delete alarms[key];
         }
     }

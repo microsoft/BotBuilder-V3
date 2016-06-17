@@ -11,11 +11,16 @@ input.
 
 var builder = require('../../');
 
-var bot = new builder.TextBot();
-bot.add('/', [
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+
+bot.dialog('/', [
     function (session) {
         // call custom prompt
-        session.beginDialog('/meaningOfLife', { prompt: "What's the meaning of life?" });
+        session.beginDialog('/meaningOfLife', { 
+            prompt: "What's the meaning of life?", 
+            retryPrompt: "Sorry that's incorrect. Guess again." 
+        });
     },
     function (session, results) {
         // Check their answer
@@ -27,8 +32,6 @@ bot.add('/', [
     }
 ]);
 
-bot.add('/meaningOfLife', builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
+bot.dialog('/meaningOfLife', builder.DialogAction.validatedPrompt(builder.PromptType.text, function (response) {
     return response === '42';
 }));
-
-bot.listenStdin();

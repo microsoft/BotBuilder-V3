@@ -22,21 +22,24 @@ new TOU on their next interaction with the bot.
 
 var builder = require('../../');
 
-var bot = new builder.TextBot();
-bot.add('/', function (session) {
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+bot.dialog('/', function (session) {
     session.send("Hi %s, what can I help you with?", session.userData.name);
 });
 
 // Install First Run middleware and dialog
-bot.use(function (session, next) {
-    if (!session.userData.firstRun) {
-        session.userData.firstRun = true;
-        session.beginDialog('/firstRun');
-    } else {
-        next();
+bot.use({
+    dialog: function (session, next) {
+        if (!session.userData.firstRun) {
+            session.userData.firstRun = true;
+            session.beginDialog('/firstRun');
+        } else {
+            next();
+        }
     }
 });
-bot.add('/firstRun', [
+bot.dialog('/firstRun', [
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
     },
@@ -51,5 +54,3 @@ bot.add('/firstRun', [
         session.replaceDialog('/'); 
     }
 ]);
-
-bot.listenStdin();

@@ -42,6 +42,12 @@ server.listen(process.env.port || 3978, function () {
 
 // Listen for activity events
 bot.on('conversationUpdate', function (message) {
+    delete message.address.conversation;
+    var reply = new builder.Message()
+            .address(message.address)
+            .text("Hello");
+    bot.send(reply);
+    
     // Check for group conversations
     if (message.address.conversation.isGroup) {
         // Send a hello message when bot is added

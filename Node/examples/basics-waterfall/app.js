@@ -14,8 +14,10 @@ about a specific user.
 
 var builder = require('../../');
 
-var bot = new builder.TextBot();
-bot.add('/', [
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+
+bot.dialog('/', [
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
     },
@@ -34,5 +36,3 @@ bot.add('/', [
                      " years and use " + session.userData.language + ".");
     }
 ]);
-
-bot.listenStdin();

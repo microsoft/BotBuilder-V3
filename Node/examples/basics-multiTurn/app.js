@@ -5,9 +5,9 @@ something and then wants to ask a series of follow-up questions. To support this
 the bot needs to track the current context or topic of the conversation. This
 sample shows a simple way to use session.dialogState to do just that.
 
-In this specific sample we're using a LuisDialog to to give the bot a more natural
-language interface but there's nothing specific about multi-turn that requires the
-use of LUIS.
+In this specific sample we're using a IntentDialog with a LuisRecognizer to to give 
+the bot a more natural language interface but there's nothing specific about 
+multi-turn that requires the use of LUIS.
 
 The basic idea is that before we can answer a question we need to know the company 
 to answer the question for. This is the “context” of the question. We’re using a 
@@ -59,35 +59,36 @@ context for future questions and returns an answer for data that was asked for.
 var builder = require('../../');
 var prompts = require('./prompts');
 
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+
 /** Use CrunchBot LUIS model for the root dialog. */
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=56c73d36-e6de-441f-b2c2-6ba7ea73a1bf&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';
-var dialog = new builder.LuisDialog(model);
-var crunchBot = new builder.TextBot();
-crunchBot.add('/', dialog);
-
-crunchBot.listenStdin();
+var recognizer = new builder.LuisRecognizer(model);
+var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
+bot.dialog('/', dialog);
 
 /** Answer help related questions like "what can I say?" */
-dialog.on('Help', builder.DialogAction.send(prompts.helpMessage));
+dialog.matches('Help', builder.DialogAction.send(prompts.helpMessage));
 dialog.onDefault(builder.DialogAction.send(prompts.helpMessage));
 
 /** Answer acquisition related questions like "how many companies has microsoft bought?" */
-dialog.on('Acquisitions', [askCompany, answerQuestion('acquisitions', prompts.answerAcquisitions)]);
+dialog.matches('Acquisitions', [askCompany, answerQuestion('acquisitions', prompts.answerAcquisitions)]);
 
 /** Answer IPO date related questions like "when did microsoft go public?" */
-dialog.on('IpoDate', [askCompany, answerQuestion('ipoDate', prompts.answerIpoDate)]);
+dialog.matches('IpoDate', [askCompany, answerQuestion('ipoDate', prompts.answerIpoDate)]);
 
 /** Answer headquarters related questions like "where is microsoft located?" */
-dialog.on('Headquarters', [askCompany, answerQuestion('headquarters', prompts.answerHeadquarters)]);
+dialog.matches('Headquarters', [askCompany, answerQuestion('headquarters', prompts.answerHeadquarters)]);
 
 /** Answer description related questions like "tell me about microsoft" */
-dialog.on('Description', [askCompany, answerQuestion('description', prompts.answerDescription)]);
+dialog.matches('Description', [askCompany, answerQuestion('description', prompts.answerDescription)]);
 
 /** Answer founder related questions like "who started microsoft?" */
-dialog.on('Founders', [askCompany, answerQuestion('founders', prompts.answerFounders)]);
+dialog.matches('Founders', [askCompany, answerQuestion('founders', prompts.answerFounders)]);
 
 /** Answer website related questions like "how can I contact microsoft?" */
-dialog.on('website', [askCompany, answerQuestion('website', prompts.answerWebsite)]);
+dialog.matches('website', [askCompany, answerQuestion('website', prompts.answerWebsite)]);
 
 /** 
  * This function the first step in the waterfall for intent handlers. It will use the company mentioned
