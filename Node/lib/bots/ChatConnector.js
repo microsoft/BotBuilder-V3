@@ -1,6 +1,7 @@
 var request = require('request');
 var async = require('async');
 var url = require('url');
+var utils = require('../utils');
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         this.settings = settings;
@@ -63,10 +64,9 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.startConversation = function (address, done) {
         if (address && address.user && address.bot && address.serviceUrl) {
-            var path = '/api/v3/conversations';
             var options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/api/v3/conversations'),
+                url: url.resolve(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user]
@@ -74,12 +74,16 @@ var ChatConnector = (function () {
                 json: true
             };
             this.authenticatedRequest(options, function (err, response, body) {
-                var conversation;
+                var adr;
                 if (!err) {
                     try {
                         var obj = typeof body === 'string' ? JSON.parse(body) : body;
                         if (obj && obj.hasOwnProperty('id')) {
-                            conversation = { id: obj['id'] };
+                            adr = utils.clone(address);
+                            adr.conversation = { id: obj['id'] };
+                            if (adr.id) {
+                                delete adr.id;
+                            }
                         }
                         else {
                             err = new Error('Failed to start conversation: no conversation ID returned.');
@@ -89,7 +93,7 @@ var ChatConnector = (function () {
                         err = e instanceof Error ? e : new Error(e.toString());
                     }
                 }
-                done(err, conversation);
+                done(err, adr);
             });
         }
     };
@@ -232,8 +236,8 @@ var ChatConnector = (function () {
         res.end();
     };
     ChatConnector.prototype.postMessage = function (address, msg, cb) {
-        var path = '/api/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
-        if (address.id) {
+        var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
+        if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
         msg['from'] = address.bot;
@@ -349,7 +353,7 @@ var ChatConnector = (function () {
                 path = 'https://api.botframework.com';
                 break;
         }
-        return path + '/api/v3/botstate/' +
+        return path + '/v3/botstate/' +
             encodeURIComponent(this.settings.botId) + '/' +
             encodeURIComponent(address.channelId);
     };

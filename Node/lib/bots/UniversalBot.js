@@ -144,7 +144,8 @@ var UniversalBot = (function (_super) {
             if (user) {
                 msg.user = user;
             }
-            _this.ensureConversation(msg.address, function () {
+            _this.ensureConversation(msg.address, function (adr) {
+                msg.address = adr;
                 var storageCtx = {
                     userId: msg.user.id,
                     address: msg.address,
@@ -172,7 +173,8 @@ var UniversalBot = (function (_super) {
             list = [messages];
         }
         async.eachLimit(list, this.settings.processLimit, function (message, cb) {
-            _this.ensureConversation(message.address, function () {
+            _this.ensureConversation(message.address, function (adr) {
+                message.address = adr;
                 _this.emit('send', message);
                 _this.messageMiddleware(message, _this.mwSend, function () {
                     _this.emit('outgoing', message);
@@ -320,10 +322,9 @@ var UniversalBot = (function (_super) {
                 if (!connector) {
                     throw new Error("Invalid channelId='" + address.channelId + "'");
                 }
-                connector.startConversation(address, function (err, conversation) {
+                connector.startConversation(address, function (err, adr) {
                     if (!err) {
-                        address.conversation = conversation;
-                        _this.tryCatch(function () { return done(); }, error);
+                        _this.tryCatch(function () { return done(adr); }, error);
                     }
                     else {
                         _this.emitError(err);
@@ -334,7 +335,7 @@ var UniversalBot = (function (_super) {
                 });
             }
             else {
-                _this.tryCatch(function () { return done(); }, error);
+                _this.tryCatch(function () { return done(address); }, error);
             }
         }, error);
     };

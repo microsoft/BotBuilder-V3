@@ -1,5 +1,6 @@
 var readline = require('readline');
 var mb = require('../Message');
+var utils = require('../utils');
 var ConsoleConnector = (function () {
     function ConsoleConnector() {
         this.replyCnt = 0;
@@ -52,7 +53,9 @@ var ConsoleConnector = (function () {
         }
     };
     ConsoleConnector.prototype.startConversation = function (address, cb) {
-        cb(null, { id: 'Convo1' });
+        var adr = utils.clone(address);
+        adr.conversation = { id: 'Convo1' };
+        cb(null, adr);
     };
     return ConsoleConnector;
 })();

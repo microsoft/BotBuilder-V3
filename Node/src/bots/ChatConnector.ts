@@ -120,13 +120,10 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
 
     public startConversation(address: IChatConnectorAddress, done: (err: Error, address?: IAddress) => void): void {
         if (address && address.user && address.bot && address.serviceUrl) {
-            // Calculate path
-            var path = '/api/v3/conversations';
-
             // Issue request
             var options: request.Options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/api/v3/conversations'),
+                url: url.resolve(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user] 
@@ -311,8 +308,8 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
 
     private postMessage(address: IChatConnectorAddress, msg: IMessage, cb: (err: Error) => void): void {
         // Calculate path
-        var path = '/api/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
-        if (address.id) {
+        var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
+        if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
 
@@ -430,7 +427,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
 
         // Append base path info.
-        return path + '/api/v3/botstate/' + 
+        return path + '/v3/botstate/' + 
             encodeURIComponent(this.settings.botId) + '/' +
             encodeURIComponent(address.channelId);
     }
