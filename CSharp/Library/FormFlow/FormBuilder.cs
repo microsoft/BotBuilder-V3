@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public virtual IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback)
+        public virtual IFormBuilder<T> OnCompletion(OnCompletionAsyncDelegate<T> callback)
         {
             _form._completion = callback;
             return this;

@@ -482,17 +482,25 @@
           <source>Thanks for ordering a sandwich!</source>
           <target state="new">Thanks for ordering a sandwich!</target>
         </trans-unit>
-        <trans-unit id="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" translate="yes" xml:space="preserve">
-          <source>I do not understand "{0}".;Try again, I don't get "{0}".</source>
-          <target state="new">I do not understand "{0}".;Try again, I don't get "{0}".</target>
-        </trans-unit>
-        <trans-unit id="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" translate="yes" xml:space="preserve">
-          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
-          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
-        </trans-unit>
         <trans-unit id="NoPreference;Specials;TEMPLATE" translate="yes" xml:space="preserve">
           <source>None</source>
           <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="PhoneNumber_description;VALUE" translate="yes" xml:space="preserve">
+          <source>Phone Number</source>
+          <target state="new">Phone Number</target>
+        </trans-unit>
+        <trans-unit id="PhoneNumber_terms;LIST" translate="yes" xml:space="preserve">
+          <source>phones?;numbers?;phones? numbers?</source>
+          <target state="new">phones?;numbers?;phones? numbers?</target>
+        </trans-unit>
+        <trans-unit id="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" translate="yes" xml:space="preserve">
+          <source>I do not understand "{0}".;Try again, I don't get "{0}".</source>
+          <target state="new">I do not understand "{0}".;Try again, I don't get "{0}".</target>
+        </trans-unit>
+        <trans-unit id="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
         </trans-unit>
       </group>
     </body>
@@ -740,11 +748,11 @@
           <source>Delivery Time</source>
           <target state="new">Delivery Time</target>
         </trans-unit>
-				<trans-unit id="Rating_description;VALUE" translate="yes" xml:space="preserve">
+        <trans-unit id="Rating_description;VALUE" translate="yes" xml:space="preserve">
           <source>your experience today</source>
           <target state="new">your experience today</target>
         </trans-unit>
-				<trans-unit id="message0;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message0;LIST" translate="yes" xml:space="preserve">
           <source>Welcome to the sandwich order bot!</source>
           <target state="new">Welcome to the sandwich order bot!</target>
         </trans-unit>
@@ -968,11 +976,11 @@
           <source>Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&amp;Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</source>
           <target state="new">Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&amp;Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</target>
         </trans-unit>
-				<trans-unit id="Rating_terms;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="Rating_terms;LIST" translate="yes" xml:space="preserve">
           <source>ratings?</source>
           <target state="new">ratings?</target>
         </trans-unit>
-				<trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
           <source>Thanks for ordering a sandwich!</source>
           <target state="new">Thanks for ordering a sandwich!</target>
         </trans-unit>

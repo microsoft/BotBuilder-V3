@@ -248,7 +248,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public enum StepDirection
     {
         /// <summary>
-        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletionAsync(OnCompletionAsyncDelegate{T})"/> should be called.
+        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletion(OnCompletionAsyncDelegate{T})"/> should be called.
         /// </summary>
         Complete,
 

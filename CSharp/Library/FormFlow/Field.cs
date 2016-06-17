@@ -541,7 +541,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _validate = async (T state, object value) =>
             {
                 var result = new ValidateResult { Value = value };
-                var match = regex.Match(value as string);
+                var match = regex.Match((string) value);
                 result.IsValid = match.Success;
                 if (!result.IsValid)
                 {

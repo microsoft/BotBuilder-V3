@@ -77,6 +77,10 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public override void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
+            foreach(var step in _steps)
+            {
+                step.SaveResources();
+            }
             _resources = _resources.Load(reader, out missing, out extra);
             foreach (var step in _steps)
             {

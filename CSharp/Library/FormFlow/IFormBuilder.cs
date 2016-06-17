@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// like fields being based on your state class, but you can also build up your
     /// own definition of a form by using <see cref="IField{T}"/>.  
     /// If you want to build a form using C# reflection over your state class use <see cref="FormBuilder{T}"/>.  
-    /// To declaritively build a form through [JSON Schema] you can use <see cref="FormBuilderJson"/>.
+    /// To declaratively build a form through [JSON Schema] you can use <see cref="FormBuilderJson"/>.
     /// 
     /// Forms are sensitive to the current thread UI culture.  The Microsoft.Bot.Builder strings will localize
     /// to that culture if available.  You can also localize the strings generated for your form by calling <see cref="Form{T}.SaveResources(System.Resources.IResourceWriter)"/>
@@ -217,7 +217,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// the form state results.  In any case the completed form state will be passed
         /// to the parent dialog.
         /// </remarks>
-        IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback);
+        IFormBuilder<T> OnCompletion(OnCompletionAsyncDelegate<T> callback);
 
         /// <summary>
         /// Test to see if there is already a field with <paramref name="name"/>.

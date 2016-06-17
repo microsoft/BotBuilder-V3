@@ -93,6 +93,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// * `Dependencies`:[string, ...]` -- Fields that this field, message or confirm depends on.
     /// 
     /// Scripts can be any C# code you would find in a method body.  You can add references through "References" and using through "Imports". Special global variables include:
+    /// * `choice` -- internal dispatch for script to execute.
     /// * `state` -- JObject form state bound for all scripts.
     /// * `ifield` -- <see cref="IField{JObject}"/> to allow reasoning over the current field for all scripts except %Message/Confirm prompt builders.
     /// * `value` -- object value to be validated for Validate.
@@ -110,7 +111,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="schema">JSON Schema that defines form.</param>
         public FormBuilderJson(JObject schema)
-            : base()
         {
             _schema = schema;
             ProcessOptions();
@@ -213,19 +213,16 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         internal ActiveDelegate<JObject> ActiveScript(IField<JObject> field, string script)
         {
-            // return (state) => EvaluateAsync<bool>(script, new Advanced.ScriptState { state = state }).Result;
             return script != null ? new ActiveDelegate<JObject>(AddScript(field, script).ActiveScript) : null;
         }
 
         internal DefineAsyncDelegate<JObject> DefineScript(IField<JObject> field, string script)
         {
-            // return async (state, field) => await EvaluateAsync<bool>(script, new ScriptField { state = state, field = field });
             return script != null ? new DefineAsyncDelegate<JObject>(AddScript(field, script).DefineScriptAsync) : null;
         }
 
         internal ValidateAsyncDelegate<JObject> ValidateScript(IField<JObject> field, string script)
         {
-            // return async (state, value) => await EvaluateAsync<ValidateResult>(script, new ScriptValidate { state = state, value = value });
             return script != null ? new ValidateAsyncDelegate<JObject>(AddScript(field, script).ValidateScriptAsync) : null;
         }
 
@@ -269,7 +266,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             if (_schema["OnCompletion"] != null)
             {
-                OnCompletionAsync(OnCompletionScript((string)_schema["OnCompletion"]));
+                OnCompletion(OnCompletionScript((string)_schema["OnCompletion"]));
             }
         }
 

@@ -273,12 +273,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     if (GetPrompt("Message", message, info))
                     {
                         info.IsMessage = true;
-                        messages.Add(info);
+                        yield return info;
                     }
                     else if (GetPrompt("Confirm", message, info))
                     {
                         info.IsMessage = false;
-                        messages.Add(info);
+                        yield return info;
                     }
                     else
                     {
@@ -286,7 +286,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                 }
             }
-            return messages;
         }
 
         internal bool GetPrompt(string fieldName, JObject message, MessageOrConfirmation info)

@@ -369,13 +369,19 @@
   <data name="message15;LIST" xml:space="preserve">
     <value>Merci de commander un sandwich !</value>
   </data>
-  <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
-    <value>Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</value>
-  </data>
-  <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
-    <value>Quel genre de {&amp;} vous souhaitez sur votre "sandwich"? {||}</value>
-  </data>
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">
     <value>Aucun</value>
+  </data>
+  <data name="PhoneNumber_description;VALUE" xml:space="preserve">
+    <value>Numéro de téléphone</value>
+  </data>
+  <data name="PhoneNumber_terms;LIST" xml:space="preserve">
+    <value>téléphones? ; numéros de? ; les téléphones ? numéros ?</value>
+  </data>
+  <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
+    <value>Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</value>
+  </data>
+  <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
+    <value>Quel genre de {&amp;} vous souhaitez sur votre "sandwich" ? {||}</value>
   </data>
 </root>

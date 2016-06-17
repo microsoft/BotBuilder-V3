@@ -341,7 +341,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .Confirm("Would you like a {Size}, {&Signature} {Signature} pizza delivered to {DeliveryAddress}?", isSignature, dependencies: new string[] { "Size", "Kind", "Signature" })
                 .Confirm("Would you like a {Size}, {&GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?", isGourmet)
                 .Confirm("Would you like a {Size}, {&Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?", isStuffed)
-                .OnCompletionAsync(async (session, pizza) => Console.WriteLine("{0}", pizza))
+                .OnCompletion(async (session, pizza) => Console.WriteLine("{0}", pizza))
                 .Build();
             if (localize)
             {

@@ -282,6 +282,9 @@
   <data name="DeliveryTime_description;VALUE" xml:space="preserve">
     <value>Delivery Time</value>
   </data>
+  <data name="PhoneNumber_description;VALUE" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
   <data name="Rating_description;VALUE" xml:space="preserve">
     <value>your experience today</value>
   </data>
@@ -468,16 +471,19 @@
   <data name="confirmation12_promptDefinition;LIST" xml:space="preserve">
     <value>Do you want to order your {Length} {Sandwich} on {Bread} {&amp;Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</value>
   </data>
+  <data name="PhoneNumber_terms;LIST" xml:space="preserve">
+    <value>phones?;numbers?;phones? numbers?</value>
+  </data>
   <data name="Rating_terms;LIST" xml:space="preserve">
     <value>ratings?</value>
   </data>
   <data name="message15;LIST" xml:space="preserve">
     <value>Thanks for ordering a sandwich!</value>
   </data>
-  <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
+  <data name="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
     <value>I do not understand "{0}".;Try again, I don't get "{0}".</value>
   </data>
-  <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
+  <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
     <value>What kind of {&amp;} would you like on your sandwich? {||}</value>
   </data>
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">
