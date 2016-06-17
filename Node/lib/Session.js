@@ -40,9 +40,13 @@ var Session = (function (_super) {
         };
         this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
         this.sessionState.lastAccess = new Date().getTime();
+        var cur = this.curDialog();
+        if (cur) {
+            this.dialogData = cur.state;
+        }
         this.message = (message || { text: '' });
         if (!this.message.type) {
-            this.message.type = 'Message';
+            this.message.type = 'message';
         }
         handlers = this.dialogs.getMiddleware();
         next();

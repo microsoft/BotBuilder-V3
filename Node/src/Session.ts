@@ -80,12 +80,18 @@ export class Session extends events.EventEmitter implements ISession {
             }
         };
 
-        // Dispatch message
+        // Make sure dialogData is properly initialized
         this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
         this.sessionState.lastAccess = new Date().getTime();
+        var cur = this.curDialog();
+        if (cur) {
+            this.dialogData = cur.state;
+        }
+
+        // Dispatch message
         this.message = <IMessage>(message || { text: '' });
         if (!this.message.type) {
-            this.message.type = 'Message';
+            this.message.type = 'message';
         }
         handlers = this.dialogs.getMiddleware();
         next();
