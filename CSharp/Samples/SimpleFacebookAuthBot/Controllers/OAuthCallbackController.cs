@@ -47,10 +47,10 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
                 var dataBag = scope.Resolve<IBotData>();
                 await dataBag.LoadAsync(token);
                 ResumptionCookie pending;
-                if (dataBag.PerUserInConversationData.TryGetValue("persistedCookie", out pending))
+                if (dataBag.PrivateConversationData.TryGetValue("persistedCookie", out pending))
                 {
                     // remove persisted cookie
-                    dataBag.PerUserInConversationData.RemoveValue("persistedCookie");
+                    dataBag.PrivateConversationData.RemoveValue("persistedCookie");
                     await dataBag.FlushAsync(token);
                     return Request.CreateResponse("You are now logged in! Continue talking to the bot.");
                 }

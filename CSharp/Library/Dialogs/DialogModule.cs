@@ -127,7 +127,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new BotDataBagStream(c.Resolve<IBotData>().PerUserInConversationData, BlobKey))
+                .Register(c => new BotDataBagStream(c.Resolve<IBotData>().PrivateConversationData, BlobKey))
                 .As<Stream>()
                 .InstancePerLifetimeScope();
 

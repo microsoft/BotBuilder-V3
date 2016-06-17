@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// GetUserData
         /// </summary>
-        /// Get a BotData record for the user
+        /// Get a bots data for the user across all conversations
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SetUserData
         /// </summary>
-        /// Update the bot user data
+        /// Update the bot's data for a user
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -61,9 +61,28 @@ namespace Microsoft.Bot.Connector
         /// </param>
         Task<HttpOperationResponse<object>> SetUserDataWithHttpMessagesAsync(string botId, string channelId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
+        /// DeleteAllUserData
+        /// </summary>
+        /// Delete all data for a user in a channel (UserData and
+        /// PrivateConversationData)
+        /// <param name='botId'>
+        /// The BotId
+        /// </param>
+        /// <param name='channelId'>
+        /// </param>
+        /// <param name='userId'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string botId, string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
         /// GetConversationData
         /// </summary>
-        /// get the bot data for a conversation
+        /// get the bots data for all users in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -83,7 +102,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SetConversationData
         /// </summary>
-        /// Update the bot conversation data
+        /// Update the bot's data for all users in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -104,9 +123,9 @@ namespace Microsoft.Bot.Connector
         /// </param>
         Task<HttpOperationResponse<object>> SetConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// GetPerUserConversationData
+        /// GetPrivateConversationData
         /// </summary>
-        /// get the bot data for a user in a conversation
+        /// get bot's data for a single user in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -125,11 +144,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> GetPerUserConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> GetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// SetPerUserInConversationData
+        /// SetPrivateConversationData
         /// </summary>
-        /// Update the bot user in a conversation data
+        /// Update the bot's data for a single user in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -151,6 +170,6 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> SetPerUserInConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> SetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

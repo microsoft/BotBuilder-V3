@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "v3",
-    "title": "Microsoft Bot Connector API - v3",
+    "title": "Microsoft Bot Connector API - v3.0",
     "description": "© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
@@ -22,7 +22,7 @@
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetUserData",
-        "description": "Get a BotData record for the user",
+        "description": "Get a bots data for the user across all conversations",
         "operationId": "BotState_GetUserData",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -55,21 +55,21 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -78,7 +78,7 @@
       "post": {
         "tags": [ "BotState" ],
         "summary": "SetUserData",
-        "description": "Update the bot user data",
+        "description": "Update the bot's data for a user",
         "operationId": "BotState_SetUserData",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -118,25 +118,86 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "412": {
-            "description": "",
+            "description": "The object you are trying to change has been changed by someone else",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [ "BotState" ],
+        "summary": "DeleteAllUserData",
+        "description": "Delete all data for a user in a channel (UserData and PrivateConversationData)",
+        "operationId": "BotState_DeleteAllUserDataDeleteUserProfile",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "botId",
+            "in": "path",
+            "description": "The BotId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of ids",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "400": {
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "404": {
+            "description": "The resource was not found.\r\n",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "412": {
+            "description": "The object you are trying to change has been changed by someone else",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -147,7 +208,7 @@
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetConversationData",
-        "description": "get the bot data for a conversation",
+        "description": "get the bots data for all users in a conversation",
         "operationId": "BotState_GetConversationData",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -180,21 +241,21 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -203,7 +264,7 @@
       "post": {
         "tags": [ "BotState" ],
         "summary": "SetConversationData",
-        "description": "Update the bot conversation data",
+        "description": "Update the bot's data for all users in a conversation",
         "operationId": "BotState_SetConversationData",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -243,25 +304,25 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "412": {
-            "description": "",
+            "description": "The object you are trying to change has been changed by someone else",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -271,9 +332,9 @@
     "/api/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}": {
       "get": {
         "tags": [ "BotState" ],
-        "summary": "GetPerUserConversationData",
-        "description": "get the bot data for a user in a conversation",
-        "operationId": "BotState_GetPerUserConversationData",
+        "summary": "GetPrivateConversationData",
+        "description": "get bot's data for a single user in a conversation",
+        "operationId": "BotState_GetPrivateConversationData",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
@@ -312,21 +373,21 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -334,9 +395,9 @@
       },
       "post": {
         "tags": [ "BotState" ],
-        "summary": "SetPerUserInConversationData",
-        "description": "Update the bot user in a conversation data",
-        "operationId": "BotState_SetPerUserInConversationData",
+        "summary": "SetPrivateConversationData",
+        "description": "Update the bot's data for a single user in a conversation",
+        "operationId": "BotState_SetPrivateConversationData",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
@@ -382,25 +443,25 @@
             "schema": { "$ref": "#/definitions/BotData" }
           },
           "400": {
-            "description": "",
+            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nReasons for receiving this error code:\r\n* the Ocp-Apim-Subscription-Key header is missing or invalid \r\n* the BasicAuth with AppId and AppSecret are invalid\r\n" },
-          "403": { "description": "If no error \r\nYou are forbidden from performing this action because \r\n* your credentials don't allow you to\r\n* your account has exceeded a quota \r\n\r\n" },
+          "401": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
+          "403": { "description": "If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n" },
           "404": {
-            "description": "",
+            "description": "The resource was not found.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "412": {
-            "description": "",
+            "description": "The object you are trying to change has been changed by someone else",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "",
+            "description": "An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "",
+            "description": "The service you are trying to communciate with was unavailable\r\n\r\n",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },

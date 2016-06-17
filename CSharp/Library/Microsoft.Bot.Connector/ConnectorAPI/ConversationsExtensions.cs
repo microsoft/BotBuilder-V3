@@ -15,24 +15,31 @@ namespace Microsoft.Bot.Connector
     public static partial class ConversationsExtensions
     {
         /// <summary>
-        /// Create a new conversation
+        /// CreateConversation
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// Create a new Conversation.
+        /// 
+        /// POST to this method with a
+        /// * Bot being the bot creating the conversation
+        /// * IsGroup set to true if this is not a direct message (default is false)
+        /// * Members array contining the members you want to have be in the
+        /// conversation.
+        /// 
+        /// The return value is a ResourceResponse which contains a conversation id
+        /// which is suitable for use
+        /// in the message payload and REST API uris.
+        /// 
+        /// Most channels only support the semantics of bots initiating a direct
+        /// message conversation.  An example of how to do that would be:
+        /// 
+        /// ```
+        /// var resource = await connector.conversations.CreateConversation(new
+        /// ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new
+        /// ChannelAccount("user1") } );
+        /// await connect.Conversations.SendToConversationAsync(resource.Id, new
+        /// Activity() ... ) ;
+        /// 
+        /// ```
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -45,24 +52,31 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Create a new conversation
+        /// CreateConversation
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// Create a new Conversation.
+        /// 
+        /// POST to this method with a
+        /// * Bot being the bot creating the conversation
+        /// * IsGroup set to true if this is not a direct message (default is false)
+        /// * Members array contining the members you want to have be in the
+        /// conversation.
+        /// 
+        /// The return value is a ResourceResponse which contains a conversation id
+        /// which is suitable for use
+        /// in the message payload and REST API uris.
+        /// 
+        /// Most channels only support the semantics of bots initiating a direct
+        /// message conversation.  An example of how to do that would be:
+        /// 
+        /// ```
+        /// var resource = await connector.conversations.CreateConversation(new
+        /// ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new
+        /// ChannelAccount("user1") } );
+        /// await connect.Conversations.SendToConversationAsync(resource.Id, new
+        /// Activity() ... ) ;
+        /// 
+        /// ```
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -79,24 +93,25 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to a conversation
+        /// SendToConversation
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to send an activity to a conversation regardless of
+        /// previous posts to a conversation.
+        /// 
+        /// This is slightly different then ReplyToConversation().
+        /// * SendToConverstion(conversationId) - will simply append a message to the
+        /// end of the conversation according to the timestamp or semantics of the
+        /// channel
+        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// threaded conversations, meaning it has the information necessary for the
+        /// channel to reply to the actual message being responded to.
+        /// 
+        /// SendToConversation is appropriate for the first message which initiates a
+        /// conversation, or if you don't have a particular activity you are
+        /// responding to.
+        /// 
+        /// ReplyToConversation is preferable to SendToConversation() because it
+        /// maintains threaded conversations.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -112,24 +127,25 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Send an activity to a conversation
+        /// SendToConversation
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to send an activity to a conversation regardless of
+        /// previous posts to a conversation.
+        /// 
+        /// This is slightly different then ReplyToConversation().
+        /// * SendToConverstion(conversationId) - will simply append a message to the
+        /// end of the conversation according to the timestamp or semantics of the
+        /// channel
+        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// threaded conversations, meaning it has the information necessary for the
+        /// channel to reply to the actual message being responded to.
+        /// 
+        /// SendToConversation is appropriate for the first message which initiates a
+        /// conversation, or if you don't have a particular activity you are
+        /// responding to.
+        /// 
+        /// ReplyToConversation is preferable to SendToConversation() because it
+        /// maintains threaded conversations.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -149,24 +165,24 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Reply to an activity in a conversation
+        /// ReplyToActivity
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to reply to an activity.
+        /// 
+        /// This is slightly different then SendToConversation().
+        /// * SendToConverstion(conversationId) - will simply append a message to the
+        /// end of the conversation according to the timestamp or semantics of the
+        /// channel
+        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// threaded conversations, meaning it has the information necessary for the
+        /// channel to reply to the actual message being responded to.
+        /// 
+        /// ReplyToConversation is almost always preferable to SendToConversation()
+        /// because it maintains threaded conversations.
+        /// 
+        /// SendToConversation is appropriate for the first message which initiates a
+        /// conversation, or if you don't have a particular activity you are
+        /// responding to.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -185,24 +201,24 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Reply to an activity in a conversation
+        /// ReplyToActivity
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to reply to an activity.
+        /// 
+        /// This is slightly different then SendToConversation().
+        /// * SendToConverstion(conversationId) - will simply append a message to the
+        /// end of the conversation according to the timestamp or semantics of the
+        /// channel
+        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// threaded conversations, meaning it has the information necessary for the
+        /// channel to reply to the actual message being responded to.
+        /// 
+        /// ReplyToConversation is almost always preferable to SendToConversation()
+        /// because it maintains threaded conversations.
+        /// 
+        /// SendToConversation is appropriate for the first message which initiates a
+        /// conversation, or if you don't have a particular activity you are
+        /// responding to.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -225,8 +241,13 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get the list of members in this conversation
+        /// GetConversationMembers
         /// </summary>
+        /// Call this method to enumerate the members of a converstion.
+        /// 
+        /// This REST API takes a ConversationId and returns an array of
+        /// ChannelAccount[] objects
+        /// which are the members of the conversation.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -239,8 +260,13 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get the list of members in this conversation
+        /// GetConversationMembers
         /// </summary>
+        /// Call this method to enumerate the members of a converstion.
+        /// 
+        /// This REST API takes a ConversationId and returns an array of
+        /// ChannelAccount[] objects
+        /// which are the members of the conversation.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -257,9 +283,13 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get the list of members in a single activity in a conversation
+        /// GetActivityMembers
         /// </summary>
-        /// for most channels this is the same as GetConversationMemebers
+        /// Call this method to enumerate the members of an activity.
+        /// 
+        /// This REST API takes a ConversationId and a ActivityId, returning an array
+        /// of ChannelAccount[] objects
+        /// which are the members of the particular activity in the conversation.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -275,9 +305,13 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get the list of members in a single activity in a conversation
+        /// GetActivityMembers
         /// </summary>
-        /// for most channels this is the same as GetConversationMemebers
+        /// Call this method to enumerate the members of an activity.
+        /// 
+        /// This REST API takes a ConversationId and a ActivityId, returning an array
+        /// of ChannelAccount[] objects
+        /// which are the members of the particular activity in the conversation.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -299,22 +333,14 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// UploadAttachment
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to upload an attachment directly into a channels
+        /// blob storage.
+        /// 
+        /// This is useful because it allows you to store data in a compliant store
+        /// when dealing with enterprises.
+        /// 
+        /// The response is a ResourceResponse which contains an AttachmentId which is
+        /// suitable for using with the attachments api.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -331,22 +357,14 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// UploadAttachment
         /// </summary>
-        /// System.IO.DirectoryNotFoundException: Could not find a part of the path
-        /// 'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-        /// at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-        /// at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-        /// access, Int32 rights, Boolean useRights, FileShare share, Int32
-        /// bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-        /// access, FileShare share, Int32 bufferSize, FileOptions options, String
-        /// msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-        /// at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-        /// detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-        /// at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-        /// Boolean checkHost)
-        /// at System.IO.File.ReadAllText(String path)
-        /// at MarkdownDocs.Program.Main(String[] args)
+        /// This method allows you to upload an attachment directly into a channels
+        /// blob storage.
+        /// 
+        /// This is useful because it allows you to store data in a compliant store
+        /// when dealing with enterprises.
+        /// 
+        /// The response is a ResourceResponse which contains an AttachmentId which is
+        /// suitable for using with the attachments api.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>

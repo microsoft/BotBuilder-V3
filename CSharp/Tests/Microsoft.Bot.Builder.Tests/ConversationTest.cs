@@ -131,12 +131,12 @@ namespace Microsoft.Bot.Builder.Tests
                     return mockConnectorFactory.GetData(botId, $"{channelId}-{userId}", null);
                 });
 
-            botsClient.Setup(d => d.BotState.SetPerUserInConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+            botsClient.Setup(d => d.BotState.SetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
              .Returns<string, string, string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, userId, data, headers, token) => {
                  return mockConnectorFactory.UpsertData(botId, $"{channelId}-{userId}", $"{channelId}-{conversationId}", data);
              });
 
-            botsClient.Setup(d => d.BotState.GetPerUserConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+            botsClient.Setup(d => d.BotState.GetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
              .Returns<string, string, string, string, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, userId, headers, token) => {
                  return mockConnectorFactory.GetData(botId, $"{channelId}-{userId}", $"{channelId}-{conversationId}");
              });
@@ -210,13 +210,13 @@ namespace Microsoft.Bot.Builder.Tests
                         Assert.AreEqual(t-1, value);
                         Assert.IsTrue(context.UserData.TryGetValue("user", out value));
                         Assert.AreEqual(t+1, value);
-                        Assert.IsTrue(context.PerUserInConversationData.TryGetValue("PerUserInConversationData", out value));
+                        Assert.IsTrue(context.PrivateConversationData.TryGetValue("PrivateConversationData", out value));
                         Assert.AreEqual(t + 2, value);
                     }
 
                     context.ConversationData.SetValue("conversation", t);
                     context.UserData.SetValue("user", t + 2);
-                    context.PerUserInConversationData.SetValue("PerUserInConversationData", t + 3);
+                    context.PrivateConversationData.SetValue("PrivateConversationData", t + 3);
                     context.UserData.SetValue("count", ++t);
                     return Chain.Return($"{t}:{await result}");
                 }).PostToUser();
@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Builder.Tests
                         var dataStore = scope.Resolve<InMemoryDataStore>();
                         Assert.AreEqual(3, dataStore.store.Count);
                         string val = string.Empty;
-                        Assert.IsTrue(scope.Resolve<IBotData>().PerUserInConversationData.TryGetValue(DialogModule.BlobKey, out val));
+                        Assert.IsTrue(scope.Resolve<IBotData>().PrivateConversationData.TryGetValue(DialogModule.BlobKey, out val));
                         Assert.AreNotEqual(string.Empty, val);
                     }
                 }

@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// GetUserData
         /// </summary>
-        /// Get a BotData record for the user
+        /// Get a bots data for the user across all conversations
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -222,7 +222,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SetUserData
         /// </summary>
-        /// Update the bot user data
+        /// Update the bot's data for a user
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -420,9 +420,196 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
+        /// DeleteAllUserData
+        /// </summary>
+        /// Delete all data for a user in a channel (UserData and
+        /// PrivateConversationData)
+        /// <param name='botId'>
+        /// The BotId
+        /// </param>
+        /// <param name='channelId'>
+        /// </param>
+        /// <param name='userId'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public async Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string botId, string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (botId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
+            }
+            if (channelId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
+            }
+            if (userId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "userId");
+            }
+            // Tracing
+            bool _shouldTrace = ServiceClientTracing.IsEnabled;
+            string _invocationId = null;
+            if (_shouldTrace)
+            {
+                _invocationId = ServiceClientTracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("botId", botId);
+                tracingParameters.Add("channelId", channelId);
+                tracingParameters.Add("userId", userId);
+                tracingParameters.Add("cancellationToken", cancellationToken);
+                ServiceClientTracing.Enter(_invocationId, this, "DeleteAllUserDataDeleteUserProfile", tracingParameters);
+            }
+            // Construct URL
+            var _baseUrl = this.Client.BaseUri.AbsoluteUri;
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
+            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
+            _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
+            // Create HTTP transport objects
+            HttpRequestMessage _httpRequest = new HttpRequestMessage();
+            _httpRequest.Method = new HttpMethod("DELETE");
+            _httpRequest.RequestUri = new Uri(_url);
+            // Set Headers
+            if (customHeaders != null)
+            {
+                foreach(var _header in customHeaders)
+                {
+                    if (_httpRequest.Headers.Contains(_header.Key))
+                    {
+                        _httpRequest.Headers.Remove(_header.Key);
+                    }
+                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
+                }
+            }
+
+            // Set Credentials
+            if (this.Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
+            // Send Request
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            HttpResponseMessage _httpResponse = await this.Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
+            }
+            HttpStatusCode _statusCode = _httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            if ((int)_statusCode != 200 && (int)_statusCode != 400 && (int)_statusCode != 401 && (int)_statusCode != 403 && (int)_statusCode != 404 && (int)_statusCode != 412 && (int)_statusCode != 500 && (int)_statusCode != 503)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                ex.Request = _httpRequest;
+                ex.Response = _httpResponse;
+                if (_shouldTrace)
+                {
+                    ServiceClientTracing.Error(_invocationId, ex);
+                }
+                throw ex;
+            }
+            // Create Result
+            var _result = new HttpOperationResponse<object>();
+            _result.Request = _httpRequest;
+            _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<IList<string>>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            // Deserialize Response
+            if ((int)_statusCode == 400)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<APIResponse>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            // Deserialize Response
+            if ((int)_statusCode == 404)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<APIResponse>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            // Deserialize Response
+            if ((int)_statusCode == 412)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<APIResponse>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            // Deserialize Response
+            if ((int)_statusCode == 500)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<APIResponse>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            // Deserialize Response
+            if ((int)_statusCode == 503)
+            {
+                try
+                {
+                    string _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    _result.Body = SafeJsonConvert.DeserializeObject<APIResponse>(_responseContent, this.Client.DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    throw new RestException("Unable to deserialize the response.", ex);
+                }
+            }
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.Exit(_invocationId, _result);
+            }
+            return _result;
+        }
+
+        /// <summary>
         /// GetConversationData
         /// </summary>
-        /// get the bot data for a conversation
+        /// get the bots data for all users in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -597,7 +784,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SetConversationData
         /// </summary>
-        /// Update the bot conversation data
+        /// Update the bot's data for all users in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -795,9 +982,9 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// GetPerUserConversationData
+        /// GetPrivateConversationData
         /// </summary>
-        /// get the bot data for a user in a conversation
+        /// get bot's data for a single user in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -816,7 +1003,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> GetPerUserConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (botId == null)
             {
@@ -846,7 +1033,7 @@ namespace Microsoft.Bot.Connector
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "GetPerUserConversationData", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetPrivateConversationData", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
@@ -979,9 +1166,9 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// SetPerUserInConversationData
+        /// SetPrivateConversationData
         /// </summary>
-        /// Update the bot user in a conversation data
+        /// Update the bot's data for a single user in a conversation
         /// <param name='botId'>
         /// The BotId
         /// </param>
@@ -1003,7 +1190,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> SetPerUserInConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> SetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (botId == null)
             {
@@ -1038,7 +1225,7 @@ namespace Microsoft.Bot.Connector
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("botData", botData);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "SetPerUserInConversationData", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "SetPrivateConversationData", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;

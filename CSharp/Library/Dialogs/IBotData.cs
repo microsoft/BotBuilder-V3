@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Private bot data associated with a user in a conversation.
         /// </summary>
-        IBotDataBag PerUserInConversationData { get; }
+        IBotDataBag PrivateConversationData { get; }
 
         /// <summary>
         /// Loads the bot data from <see cref="IBotDataStore{T}"/>

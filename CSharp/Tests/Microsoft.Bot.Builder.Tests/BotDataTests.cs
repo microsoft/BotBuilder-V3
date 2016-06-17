@@ -87,10 +87,10 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var data = MakeBotData();
             await data.LoadAsync(default(CancellationToken)); 
-            var bag = data.PerUserInConversationData;
+            var bag = data.PrivateConversationData;
             Assert.AreEqual(0, bag.Count);
 
-            SetGet(data, d => d.PerUserInConversationData, "blob", Encoding.UTF8.GetBytes("PerUserInConversationData"));
+            SetGet(data, d => d.PrivateConversationData, "blob", Encoding.UTF8.GetBytes("PrivateConversationData"));
             SetGet(data, d => d.ConversationData, "blob", Encoding.UTF8.GetBytes("ConversationData"));
             SetGet(data, d => d.UserData, "blob", Encoding.UTF8.GetBytes("UserData"));
         }
@@ -100,8 +100,8 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var data = MakeBotData();
             await data.LoadAsync(default(CancellationToken)); 
-            var bag = data.PerUserInConversationData;
-            var key = "PerUserInConversationData";
+            var bag = data.PrivateConversationData;
+            var key = "PrivateConversationData";
 
             Assert.AreEqual(0, bag.Count);
 

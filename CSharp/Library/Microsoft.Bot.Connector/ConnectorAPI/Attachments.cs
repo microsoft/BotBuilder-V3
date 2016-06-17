@@ -45,8 +45,9 @@ namespace Microsoft.Bot.Connector
         public ConnectorClient Client { get; private set; }
 
         /// <summary>
-        /// Get AttachmentInfo structure describing the attachment views
+        /// GetAttachmentInfo
         /// </summary>
+        /// Get AttachmentInfo structure describing the attachment views
         /// <param name='attachmentId'>
         /// attachment id
         /// </param>
@@ -227,13 +228,14 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get attachment content
+        /// GetAttachment
         /// </summary>
+        /// Get the named view as binary content
         /// <param name='attachmentId'>
         /// attachment id
         /// </param>
         /// <param name='viewId'>
-        /// View from attachment metadata ("original" is original content)
+        /// View id from attachmentInfo
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.

@@ -40,8 +40,9 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentInfoWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get AttachmentInfo structure describing the attachment views
+            GetAttachmentInfo
             </summary>
+            Get AttachmentInfo structure describing the attachment views
             <param name='attachmentId'>
             attachment id
             </param>
@@ -54,13 +55,14 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get attachment content
+            GetAttachment
             </summary>
+            Get the named view as binary content
             <param name='attachmentId'>
             attachment id
             </param>
             <param name='viewId'>
-            View from attachment metadata ("original" is original content)
+            View id from attachmentInfo
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -71,8 +73,9 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfo(Microsoft.Bot.Connector.IAttachments,System.String)">
             <summary>
-            Get AttachmentInfo structure describing the attachment views
+            GetAttachmentInfo
             </summary>
+            Get AttachmentInfo structure describing the attachment views
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -82,8 +85,9 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfoAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get AttachmentInfo structure describing the attachment views
+            GetAttachmentInfo
             </summary>
+            Get AttachmentInfo structure describing the attachment views
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -96,8 +100,9 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachment(Microsoft.Bot.Connector.IAttachments,System.String,System.String)">
             <summary>
-            Get attachment content
+            GetAttachment
             </summary>
+            Get the named view as binary content
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -105,13 +110,14 @@
             attachment id
             </param>
             <param name='viewId'>
-            View from attachment metadata ("original" is original content)
+            View id from attachmentInfo
             </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get attachment content
+            GetAttachment
             </summary>
+            Get the named view as binary content
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -119,7 +125,7 @@
             attachment id
             </param>
             <param name='viewId'>
-            View from attachment metadata ("original" is original content)
+            View id from attachmentInfo
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -132,8 +138,9 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IAttachments.GetAttachmentInfoWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get AttachmentInfo structure describing the attachment views
+            GetAttachmentInfo
             </summary>
+            Get AttachmentInfo structure describing the attachment views
             <param name='attachmentId'>
             attachment id
             </param>
@@ -146,13 +153,14 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IAttachments.GetAttachmentWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get attachment content
+            GetAttachment
             </summary>
+            Get the named view as binary content
             <param name='attachmentId'>
             attachment id
             </param>
             <param name='viewId'>
-            View from attachment metadata ("original" is original content)
+            View id from attachmentInfo
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -361,7 +369,7 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Nullable{System.Boolean},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>
@@ -369,6 +377,11 @@
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Bot">
             <summary>
             The bot address of the bot requesting a conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationParameters.IsGroup">
+            <summary>
+            IsGroup
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Members">
@@ -634,24 +647,31 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters)">
             <summary>
-            Create a new conversation
+            CreateConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            Create a new Conversation.
+            
+            POST to this method with a
+            * Bot being the bot creating the conversation
+            * IsGroup set to true if this is not a direct message (default is false)
+            * Members array contining the members you want to have be in the
+            conversation.
+            
+            The return value is a ResourceResponse which contains a conversation id
+            which is suitable for use
+            in the message payload and REST API uris.
+            
+            Most channels only support the semantics of bots initiating a direct
+            message conversation.  An example of how to do that would be:
+            
+            ```
+            var resource = await connector.conversations.CreateConversation(new
+            ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new
+            ChannelAccount("user1") } );
+            await connect.Conversations.SendToConversationAsync(resource.Id, new
+            Activity() ... ) ;
+            
+            ```
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -661,24 +681,31 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters,System.Threading.CancellationToken)">
             <summary>
-            Create a new conversation
+            CreateConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            Create a new Conversation.
+            
+            POST to this method with a
+            * Bot being the bot creating the conversation
+            * IsGroup set to true if this is not a direct message (default is false)
+            * Members array contining the members you want to have be in the
+            conversation.
+            
+            The return value is a ResourceResponse which contains a conversation id
+            which is suitable for use
+            in the message payload and REST API uris.
+            
+            Most channels only support the semantics of bots initiating a direct
+            message conversation.  An example of how to do that would be:
+            
+            ```
+            var resource = await connector.conversations.CreateConversation(new
+            ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new
+            ChannelAccount("user1") } );
+            await connect.Conversations.SendToConversationAsync(resource.Id, new
+            Activity() ... ) ;
+            
+            ```
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -691,24 +718,25 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String)">
             <summary>
-            Send an activity to a conversation
+            SendToConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to send an activity to a conversation regardless of
+            previous posts to a conversation.
+            
+            This is slightly different then ReplyToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
+            
+            ReplyToConversation is preferable to SendToConversation() because it
+            maintains threaded conversations.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -721,24 +749,25 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.Threading.CancellationToken)">
             <summary>
-            Send an activity to a conversation
+            SendToConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to send an activity to a conversation regardless of
+            previous posts to a conversation.
+            
+            This is slightly different then ReplyToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
+            
+            ReplyToConversation is preferable to SendToConversation() because it
+            maintains threaded conversations.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -754,24 +783,24 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
             <summary>
-            Reply to an activity in a conversation
+            ReplyToActivity
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to reply to an activity.
+            
+            This is slightly different then SendToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            ReplyToConversation is almost always preferable to SendToConversation()
+            because it maintains threaded conversations.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -787,24 +816,24 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
-            Reply to an activity in a conversation
+            ReplyToActivity
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to reply to an activity.
+            
+            This is slightly different then SendToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            ReplyToConversation is almost always preferable to SendToConversation()
+            because it maintains threaded conversations.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -823,8 +852,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationMembers(Microsoft.Bot.Connector.IConversations,System.String)">
             <summary>
-            Get the list of members in this conversation
+            GetConversationMembers
             </summary>
+            Call this method to enumerate the members of a converstion.
+            
+            This REST API takes a ConversationId and returns an array of
+            ChannelAccount[] objects
+            which are the members of the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -834,8 +868,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in this conversation
+            GetConversationMembers
             </summary>
+            Call this method to enumerate the members of a converstion.
+            
+            This REST API takes a ConversationId and returns an array of
+            ChannelAccount[] objects
+            which are the members of the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -848,9 +887,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
             <summary>
-            Get the list of members in a single activity in a conversation
+            GetActivityMembers
             </summary>
-            for most channels this is the same as GetConversationMemebers
+            Call this method to enumerate the members of an activity.
+            
+            This REST API takes a ConversationId and a ActivityId, returning an array
+            of ChannelAccount[] objects
+            which are the members of the particular activity in the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -863,9 +906,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in a single activity in a conversation
+            GetActivityMembers
             </summary>
-            for most channels this is the same as GetConversationMemebers
+            Call this method to enumerate the members of an activity.
+            
+            This REST API takes a ConversationId and a ActivityId, returning an array
+            of ChannelAccount[] objects
+            which are the members of the particular activity in the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -883,22 +930,14 @@
             <summary>
             UploadAttachment
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to upload an attachment directly into a channels
+            blob storage.
+            
+            This is useful because it allows you to store data in a compliant store
+            when dealing with enterprises.
+            
+            The response is a ResourceResponse which contains an AttachmentId which is
+            suitable for using with the attachments api.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -912,22 +951,14 @@
             <summary>
             UploadAttachment
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to upload an attachment directly into a channels
+            blob storage.
+            
+            This is useful because it allows you to store data in a compliant store
+            when dealing with enterprises.
+            
+            The response is a ResourceResponse which contains an AttachmentId which is
+            suitable for using with the attachments api.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1238,7 +1269,7 @@
             <summary>
             GetUserData
             </summary>
-            Get a BotData record for the user
+            Get a bots data for the user across all conversations
             <param name='botId'>
             The BotId
             </param>
@@ -1259,7 +1290,7 @@
             <summary>
             SetUserData
             </summary>
-            Update the bot user data
+            Update the bot's data for a user
             <param name='botId'>
             The BotId
             </param>
@@ -1279,11 +1310,31 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            DeleteAllUserData
+            </summary>
+            Delete all data for a user in a channel (UserData and
+            PrivateConversationData)
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='userId'>
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationData
             </summary>
-            get the bot data for a conversation
+            get the bots data for all users in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1304,7 +1355,7 @@
             <summary>
             SetConversationData
             </summary>
-            Update the bot conversation data
+            Update the bot's data for all users in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1324,11 +1375,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.GetPerUserConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetPerUserConversationData
+            GetPrivateConversationData
             </summary>
-            get the bot data for a user in a conversation
+            get bot's data for a single user in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1348,11 +1399,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.SetPerUserInConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetPerUserInConversationData
+            SetPrivateConversationData
             </summary>
-            Update the bot user in a conversation data
+            Update the bot's data for a single user in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1379,7 +1430,7 @@
             <summary>
             GetUserData
             </summary>
-            Get a BotData record for the user
+            Get a bots data for the user across all conversations
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1397,7 +1448,7 @@
             <summary>
             GetUserData
             </summary>
-            Get a BotData record for the user
+            Get a bots data for the user across all conversations
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1418,7 +1469,7 @@
             <summary>
             SetUserData
             </summary>
-            Update the bot user data
+            Update the bot's data for a user
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1439,7 +1490,7 @@
             <summary>
             SetUserData
             </summary>
-            Update the bot user data
+            Update the bot's data for a user
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1459,11 +1510,48 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfile(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+            <summary>
+            DeleteAllUserData
+            </summary>
+            Delete all data for a user in a channel (UserData and
+            PrivateConversationData)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='userId'>
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfileAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            DeleteAllUserData
+            </summary>
+            Delete all data for a user in a channel (UserData and
+            PrivateConversationData)
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='userId'>
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
             <summary>
             GetConversationData
             </summary>
-            get the bot data for a conversation
+            get the bots data for all users in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1481,7 +1569,7 @@
             <summary>
             GetConversationData
             </summary>
-            get the bot data for a conversation
+            get the bots data for all users in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1502,7 +1590,7 @@
             <summary>
             SetConversationData
             </summary>
-            Update the bot conversation data
+            Update the bot's data for all users in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1523,7 +1611,7 @@
             <summary>
             SetConversationData
             </summary>
-            Update the bot conversation data
+            Update the bot's data for all users in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1543,11 +1631,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPerUserConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String)">
             <summary>
-            GetPerUserConversationData
+            GetPrivateConversationData
             </summary>
-            get the bot data for a user in a conversation
+            get bot's data for a single user in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1564,11 +1652,11 @@
             The user Id
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPerUserConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            GetPerUserConversationData
+            GetPrivateConversationData
             </summary>
-            get the bot data for a user in a conversation
+            get bot's data for a single user in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1588,11 +1676,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPerUserInConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
-            SetPerUserInConversationData
+            SetPrivateConversationData
             </summary>
-            Update the bot user in a conversation data
+            Update the bot's data for a single user in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1612,11 +1700,11 @@
             the new botdata
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPerUserInConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
-            SetPerUserInConversationData
+            SetPrivateConversationData
             </summary>
-            Update the bot user in a conversation data
+            Update the bot's data for a single user in a conversation
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1648,7 +1736,7 @@
             <summary>
             GetUserData
             </summary>
-            Get a BotData record for the user
+            Get a bots data for the user across all conversations
             <param name='botId'>
             The BotId
             </param>
@@ -1669,7 +1757,7 @@
             <summary>
             SetUserData
             </summary>
-            Update the bot user data
+            Update the bot's data for a user
             <param name='botId'>
             The BotId
             </param>
@@ -1689,11 +1777,31 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            DeleteAllUserData
+            </summary>
+            Delete all data for a user in a channel (UserData and
+            PrivateConversationData)
+            <param name='botId'>
+            The BotId
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='userId'>
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationData
             </summary>
-            get the bot data for a conversation
+            get the bots data for all users in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1714,7 +1822,7 @@
             <summary>
             SetConversationData
             </summary>
-            Update the bot conversation data
+            Update the bot's data for all users in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1734,11 +1842,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.GetPerUserConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetPerUserConversationData
+            GetPrivateConversationData
             </summary>
-            get the bot data for a user in a conversation
+            get bot's data for a single user in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1758,11 +1866,11 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.SetPerUserInConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetPerUserInConversationData
+            SetPrivateConversationData
             </summary>
-            Update the bot user in a conversation data
+            Update the bot's data for a single user in a conversation
             <param name='botId'>
             The BotId
             </param>
@@ -1976,24 +2084,31 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Create a new conversation
+            CreateConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            Create a new Conversation.
+            
+            POST to this method with a
+            * Bot being the bot creating the conversation
+            * IsGroup set to true if this is not a direct message (default is false)
+            * Members array contining the members you want to have be in the
+            conversation.
+            
+            The return value is a ResourceResponse which contains a conversation id
+            which is suitable for use
+            in the message payload and REST API uris.
+            
+            Most channels only support the semantics of bots initiating a direct
+            message conversation.  An example of how to do that would be:
+            
+            ```
+            var resource = await connector.conversations.CreateConversation(new
+            ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new
+            ChannelAccount("user1") } );
+            await connect.Conversations.SendToConversationAsync(resource.Id, new
+            Activity() ... ) ;
+            
+            ```
             <param name='parameters'>
             Parameters to create the conversation from
             </param>
@@ -2006,24 +2121,25 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.SendToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to a conversation
+            SendToConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to send an activity to a conversation regardless of
+            previous posts to a conversation.
+            
+            This is slightly different then ReplyToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
+            
+            ReplyToConversation is preferable to SendToConversation() because it
+            maintains threaded conversations.
             <param name='activity'>
             Activity to send
             </param>
@@ -2039,24 +2155,24 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Reply to an activity in a conversation
+            ReplyToActivity
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to reply to an activity.
+            
+            This is slightly different then SendToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            ReplyToConversation is almost always preferable to SendToConversation()
+            because it maintains threaded conversations.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2075,8 +2191,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in this conversation
+            GetConversationMembers
             </summary>
+            Call this method to enumerate the members of a converstion.
+            
+            This REST API takes a ConversationId and returns an array of
+            ChannelAccount[] objects
+            which are the members of the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2089,9 +2210,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in a single activity in a conversation
+            GetActivityMembers
             </summary>
-            for most channels this is the same as GetConversationMemebers
+            Call this method to enumerate the members of an activity.
+            
+            This REST API takes a ConversationId and a ActivityId, returning an array
+            of ChannelAccount[] objects
+            which are the members of the particular activity in the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2109,22 +2234,14 @@
             <summary>
             UploadAttachment
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode, FileAccess
-            access, Int32 rights, Boolean useRights, FileShare share, Int32
-            bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess
-            access, FileShare share, Int32 bufferSize, FileOptions options, String
-            msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean
-            detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding encoding,
-            Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to upload an attachment directly into a channels
+            blob storage.
+            
+            This is useful because it allows you to store data in a compliant store
+            when dealing with enterprises.
+            
+            The response is a ResourceResponse which contains an AttachmentId which is
+            suitable for using with the attachments api.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2170,29 +2287,34 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Create a new conversation
+            CreateConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the
-            path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String
-            maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode,
-            FileAccess access, Int32 rights, Boolean useRights, FileShare
-            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
-            secAttrs, String msgPath, Boolean bFromProxy, Boolean
-            useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode,
-            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
-            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
-            Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding,
-            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
-            Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding
-            encoding, Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            Create a new Conversation.
+            
+            POST to this method with a
+            * Bot being the bot creating the conversation
+            * IsGroup set to true if this is not a direct message (default is
+            false)
+            * Members array contining the members you want to have be in the
+            conversation.
+            
+            The return value is a ResourceResponse which contains a
+            conversation id which is suitable for use
+            in the message payload and REST API uris.
+            
+            Most channels only support the semantics of bots initiating a
+            direct message conversation.  An example of how to do that would
+            be:
+            
+            ```
+            var resource = await
+            connector.conversations.CreateConversation(new ConversationParameters(){
+            Bot = bot, members = new ChannelAccount[] { new
+            ChannelAccount("user1") } );
+            await connect.Conversations.SendToConversationAsync(resource.Id,
+            new Activity() ... ) ;
+            
+            ```
             <param name='parameters'>
             Parameters to create the conversation from
             </param>
@@ -2205,29 +2327,26 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.SendToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Send an activity to a conversation
+            SendToConversation
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the
-            path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String
-            maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode,
-            FileAccess access, Int32 rights, Boolean useRights, FileShare
-            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
-            secAttrs, String msgPath, Boolean bFromProxy, Boolean
-            useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode,
-            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
-            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
-            Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding,
-            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
-            Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding
-            encoding, Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to send an activity to a conversation
+            regardless of previous posts to a conversation.
+            
+            This is slightly different then ReplyToConversation().
+            * SendToConverstion(conversationId) - will simply append a message
+            to the end of the conversation according to the timestamp or
+            semantics of the channel
+            * ReplyToConversation(conversationId,ActivityId) - models the
+            semantics of threaded conversations, meaning it has the
+            information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            SendToConversation is appropriate for the first message which
+            initiates a conversation, or if you don't have a particular
+            activity you are responding to.
+            
+            ReplyToConversation is preferable to SendToConversation() because
+            it maintains threaded conversations.
             <param name='activity'>
             Activity to send
             </param>
@@ -2243,29 +2362,25 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Reply to an activity in a conversation
+            ReplyToActivity
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the
-            path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String
-            maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode,
-            FileAccess access, Int32 rights, Boolean useRights, FileShare
-            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
-            secAttrs, String msgPath, Boolean bFromProxy, Boolean
-            useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode,
-            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
-            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
-            Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding,
-            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
-            Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding
-            encoding, Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to reply to an activity.
+            
+            This is slightly different then SendToConversation().
+            * SendToConverstion(conversationId) - will simply append a message
+            to the end of the conversation according to the timestamp or
+            semantics of the channel
+            * ReplyToConversation(conversationId,ActivityId) - models the
+            semantics of threaded conversations, meaning it has the
+            information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            ReplyToConversation is almost always preferable to
+            SendToConversation() because it maintains threaded conversations.
+            
+            SendToConversation is appropriate for the first message which
+            initiates a conversation, or if you don't have a particular
+            activity you are responding to.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2284,8 +2399,13 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in this conversation
+            GetConversationMembers
             </summary>
+            Call this method to enumerate the members of a converstion.
+            
+            This REST API takes a ConversationId and returns an array of
+            ChannelAccount[] objects
+            which are the members of the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2298,9 +2418,14 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            Get the list of members in a single activity in a conversation
+            GetActivityMembers
             </summary>
-            for most channels this is the same as GetConversationMemebers
+            Call this method to enumerate the members of an activity.
+            
+            This REST API takes a ConversationId and a ActivityId, returning
+            an array of ChannelAccount[] objects
+            which are the members of the particular activity in the
+            conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2318,27 +2443,14 @@
             <summary>
             UploadAttachment
             </summary>
-            System.IO.DirectoryNotFoundException: Could not find a part of the
-            path
-            'C:\\\\source\\\\Intercom\\\\Channels\\\\SampleChannel\\\\Content\\\\Methods\\\\SendMessage.md'.
-            at System.IO.__Error.WinIOError(Int32 errorCode, String
-            maybeFullPath)
-            at System.IO.FileStream.Init(String path, FileMode mode,
-            FileAccess access, Int32 rights, Boolean useRights, FileShare
-            share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES
-            secAttrs, String msgPath, Boolean bFromProxy, Boolean
-            useLongPath, Boolean checkHost)
-            at System.IO.FileStream..ctor(String path, FileMode mode,
-            FileAccess access, FileShare share, Int32 bufferSize, FileOptions
-            options, String msgPath, Boolean bFromProxy, Boolean useLongPath,
-            Boolean checkHost)
-            at System.IO.StreamReader..ctor(String path, Encoding encoding,
-            Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize,
-            Boolean checkHost)
-            at System.IO.File.InternalReadAllText(String path, Encoding
-            encoding, Boolean checkHost)
-            at System.IO.File.ReadAllText(String path)
-            at MarkdownDocs.Program.Main(String[] args)
+            This method allows you to upload an attachment directly into a
+            channels blob storage.
+            
+            This is useful because it allows you to store data in a compliant
+            store when dealing with enterprises.
+            
+            The response is a ResourceResponse which contains an AttachmentId
+            which is suitable for using with the attachments api.
             <param name='conversationId'>
             Conversation ID
             </param>

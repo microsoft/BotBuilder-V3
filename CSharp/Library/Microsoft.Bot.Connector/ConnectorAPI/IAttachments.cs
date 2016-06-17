@@ -18,8 +18,9 @@ namespace Microsoft.Bot.Connector
     public partial interface IAttachments
     {
         /// <summary>
-        /// Get AttachmentInfo structure describing the attachment views
+        /// GetAttachmentInfo
         /// </summary>
+        /// Get AttachmentInfo structure describing the attachment views
         /// <param name='attachmentId'>
         /// attachment id
         /// </param>
@@ -31,13 +32,14 @@ namespace Microsoft.Bot.Connector
         /// </param>
         Task<HttpOperationResponse<object>> GetAttachmentInfoWithHttpMessagesAsync(string attachmentId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Get attachment content
+        /// GetAttachment
         /// </summary>
+        /// Get the named view as binary content
         /// <param name='attachmentId'>
         /// attachment id
         /// </param>
         /// <param name='viewId'>
-        /// View from attachment metadata ("original" is original content)
+        /// View id from attachmentInfo
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.

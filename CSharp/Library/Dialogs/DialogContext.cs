@@ -62,11 +62,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        IBotDataBag IBotData.PerUserInConversationData
+        IBotDataBag IBotData.PrivateConversationData
         {
             get
             {
-                return this.botData.PerUserInConversationData;
+                return this.botData.PrivateConversationData;
             }
         }
 

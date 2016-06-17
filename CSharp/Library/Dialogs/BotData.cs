@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public enum BotStoreType
     {
         BotConversationData,
-        BotPerUserInConversationData,
+        BotPrivateConversationData,
         BotUserData
     }
 
@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly Dictionary<BotStoreType, object> locks = new Dictionary<BotStoreType, object>()
         {
             { BotStoreType.BotConversationData, new object() },
-            { BotStoreType.BotPerUserInConversationData, new object() },
+            { BotStoreType.BotPrivateConversationData, new object() },
             { BotStoreType.BotUserData, new object() }
         };
         
@@ -147,8 +147,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     return $"conversation:{key.BotId}:{key.ChannelId}:{key.ConversationId}";
                 case BotStoreType.BotUserData:
                     return $"user:{key.BotId}:{key.ChannelId}:{key.UserId}";
-                case BotStoreType.BotPerUserInConversationData:
-                    return $"perUserInConversation:{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}";
+                case BotStoreType.BotPrivateConversationData:
+                    return $"privateConversation:{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}";
                 default:
                     throw new ArgumentException("Unsupported bot store type!");
             }
@@ -199,8 +199,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 case BotStoreType.BotUserData:
                     botData = await stateClient.BotState.GetUserDataAsync(key.BotId, key.ChannelId, key.UserId, cancellationToken);
                     break;
-                case BotStoreType.BotPerUserInConversationData:
-                    botData = await stateClient.BotState.GetPerUserConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, cancellationToken);
+                case BotStoreType.BotPrivateConversationData:
+                    botData = await stateClient.BotState.GetPrivateConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, cancellationToken);
                     break;
                 default:
                     throw new ArgumentException($"{botStoreType} is not a valid store type!");
@@ -218,8 +218,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 case BotStoreType.BotUserData:
                     await stateClient.BotState.SetUserDataAsync(key.BotId, key.ChannelId, key.UserId, botData, cancellationToken);
                     break;
-                case BotStoreType.BotPerUserInConversationData:
-                    await stateClient.BotState.SetPerUserInConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, botData, cancellationToken);
+                case BotStoreType.BotPrivateConversationData:
+                    await stateClient.BotState.SetPrivateConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, botData, cancellationToken);
                     break;
                 default:
                     throw new ArgumentException($"{botStoreType} is not a valid store type!");
@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         internal class DataEntry
         {
             public object BotConversationData { set; get; }
-            public object BotPerUserInConversationData { set; get; }
+            public object BotPrivateConversationData { set; get; }
             public object BotUserData { set; get;} 
         }
 
@@ -301,10 +301,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                             obj = entry.BotConversationData;
                         }
                         break;
-                    case BotStoreType.BotPerUserInConversationData:
-                        if (entry.BotPerUserInConversationData != null)
+                    case BotStoreType.BotPrivateConversationData:
+                        if (entry.BotPrivateConversationData != null)
                         {
-                            obj = entry.BotPerUserInConversationData;
+                            obj = entry.BotPrivateConversationData;
                         }
                         break;
                     case BotStoreType.BotUserData:
@@ -349,8 +349,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 case BotStoreType.BotConversationData:
                     entry.BotConversationData = value;
                     break;
-                case BotStoreType.BotPerUserInConversationData:
-                    entry.BotPerUserInConversationData = value;
+                case BotStoreType.BotPrivateConversationData:
+                    entry.BotPrivateConversationData = value;
                     break;
                 case BotStoreType.BotUserData:
                     entry.BotUserData = value;
@@ -366,8 +366,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     return $"conversation:{key.BotId}:{key.ConversationId}";
                 case BotStoreType.BotUserData:
                     return $"user:{key.BotId}:{key.UserId}";
-                case BotStoreType.BotPerUserInConversationData:
-                    return $"perUserInConversation:{key.BotId}:{key.UserId}:{key.ConversationId}";
+                case BotStoreType.BotPrivateConversationData:
+                    return $"privateConversation:{key.BotId}:{key.UserId}:{key.ConversationId}";
                 default:
                     throw new ArgumentException("Unsupported bot store type!");
             }
@@ -385,9 +385,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 await inner.SaveAsync(key, BotStoreType.BotUserData, new BotData { ETag = "*", Data = entry.BotUserData }, cancellationToken);
             }
 
-            if(entry?.BotPerUserInConversationData != null)
+            if(entry?.BotPrivateConversationData != null)
             {
-                await inner.SaveAsync(key, BotStoreType.BotPerUserInConversationData, new BotData { ETag = "*", Data = entry.BotPerUserInConversationData }, cancellationToken);
+                await inner.SaveAsync(key, BotStoreType.BotPrivateConversationData, new BotData { ETag = "*", Data = entry.BotPrivateConversationData }, cancellationToken);
             }
         }
     }
@@ -397,7 +397,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         protected readonly IBotDataStore botDataStore;
         protected readonly BotDataKey botDataKey;
         private IBotDataBag conversationData;
-        private IBotDataBag perUserInConversationData;
+        private IBotDataBag privateConversationData;
         private IBotDataBag userData;
 
         public BotDataBase(IMessageActivity message, IBotDataStore botDataStore)
@@ -413,11 +413,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public async Task LoadAsync(CancellationToken cancellationToken)
         {
             var conversationTask = LoadData(BotStoreType.BotConversationData, cancellationToken);
-            var perUserInConversationTask = LoadData(BotStoreType.BotPerUserInConversationData, cancellationToken);
+            var privateConversationTask = LoadData(BotStoreType.BotPrivateConversationData, cancellationToken);
             var userTask = LoadData(BotStoreType.BotUserData, cancellationToken);
 
             this.conversationData = await conversationTask;
-            this.perUserInConversationData = await perUserInConversationTask;
+            this.privateConversationData = await privateConversationTask;
             this.userData = await userTask; 
         }
 
@@ -435,12 +435,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        IBotDataBag IBotData.PerUserInConversationData
+        IBotDataBag IBotData.PrivateConversationData
         {
             get
             {
-                CheckNull(nameof(perUserInConversationData), perUserInConversationData);
-                return this.perUserInConversationData;
+                CheckNull(nameof(privateConversationData), privateConversationData);
+                return this.privateConversationData;
             }
         }
 

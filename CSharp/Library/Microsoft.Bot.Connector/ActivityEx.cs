@@ -42,6 +42,14 @@ namespace Microsoft.Bot.Connector
             return reply;
         }
 
+        public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
+
+        public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
+
+        public static IConversationUpdateActivity CreateConversationUpdateActivity() { return new Activity(ActivityTypes.ConversationUpdate); }
+
+        public static ITypingActivity CreateTypingActivity() { return new Activity(ActivityTypes.Typing); }
+
         /// <summary>
         /// Get StateClient appropriate for this activity
         /// </summary>

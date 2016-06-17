@@ -104,7 +104,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             if (matched != null)
             {
-                context.PerUserInConversationData.SetValue("ActiveCommandId", matched.CommandId);
+                context.PrivateConversationData.SetValue("ActiveCommandId", matched.CommandId);
                 await matched.CommandHandler(context, message);
             }
             else
@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             Delegate handler;
             string commandId;
-            if (context.PerUserInConversationData.TryGetValue("ActiveCommandId", out commandId) && resultHandlers.TryGetValue(commandId, out handler))
+            if (context.PrivateConversationData.TryGetValue("ActiveCommandId", out commandId) && resultHandlers.TryGetValue(commandId, out handler))
             {
                 await ((ResumeAfter<U>)handler).Invoke(context, result);
                 context.Wait(MessageReceived);

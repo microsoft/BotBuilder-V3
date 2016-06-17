@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Connector
             {
                 tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
-                
+
                 // Check to make sure the app ID in the token is ours
                 if (identity != null)
                 {

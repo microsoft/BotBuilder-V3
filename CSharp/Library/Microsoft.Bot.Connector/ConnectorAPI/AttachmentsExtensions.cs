@@ -10,79 +10,83 @@ namespace Microsoft.Bot.Connector
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
-    
+
 
     public static partial class AttachmentsExtensions
     {
-            /// <summary>
-            /// Get AttachmentInfo structure describing the attachment views
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='attachmentId'>
-            /// attachment id
-            /// </param>
-            public static object GetAttachmentInfo(this IAttachments operations, string attachmentId)
-            {
-                return Task.Factory.StartNew(s => ((IAttachments)s).GetAttachmentInfoAsync(attachmentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-            }
+        /// <summary>
+        /// GetAttachmentInfo
+        /// </summary>
+        /// Get AttachmentInfo structure describing the attachment views
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        public static AttachmentInfo GetAttachmentInfo(this IAttachments operations, string attachmentId)
+        {
+            return Task.Factory.StartNew(s => ((IAttachments)s).GetAttachmentInfoAsync(attachmentId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
 
-            /// <summary>
-            /// Get AttachmentInfo structure describing the attachment views
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='attachmentId'>
-            /// attachment id
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetAttachmentInfoAsync(this IAttachments operations, string attachmentId, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                var _result = await operations.GetAttachmentInfoWithHttpMessagesAsync(attachmentId, null, cancellationToken).ConfigureAwait(false);
-                return _result.Body;
-            }
+        /// <summary>
+        /// GetAttachmentInfo
+        /// </summary>
+        /// Get AttachmentInfo structure describing the attachment views
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<AttachmentInfo> GetAttachmentInfoAsync(this IAttachments operations, string attachmentId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var _result = await operations.GetAttachmentInfoWithHttpMessagesAsync(attachmentId, null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<AttachmentInfo>();
+        }
 
-            /// <summary>
-            /// Get attachment content
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='attachmentId'>
-            /// attachment id
-            /// </param>
-            /// <param name='viewId'>
-            /// View from attachment metadata ("original" is original content)
-            /// </param>
-            public static object GetAttachment(this IAttachments operations, string attachmentId, string viewId)
-            {
-                return Task.Factory.StartNew(s => ((IAttachments)s).GetAttachmentAsync(attachmentId, viewId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-            }
+        /// <summary>
+        /// GetAttachment
+        /// </summary>
+        /// Get the named view as binary content
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        /// <param name='viewId'>
+        /// View id from attachmentInfo
+        /// </param>
+        public static byte[] GetAttachment(this IAttachments operations, string attachmentId, string viewId)
+        {
+            return Task.Factory.StartNew(s => ((IAttachments)s).GetAttachmentAsync(attachmentId, viewId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
 
-            /// <summary>
-            /// Get attachment content
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='attachmentId'>
-            /// attachment id
-            /// </param>
-            /// <param name='viewId'>
-            /// View from attachment metadata ("original" is original content)
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<object> GetAttachmentAsync( this IAttachments operations, string attachmentId, string viewId, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false);
-                return _result.Body;
-            }
+        /// <summary>
+        /// GetAttachment
+        /// </summary>
+        /// Get the named view as binary content
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        /// <param name='viewId'>
+        /// View id from attachmentInfo
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<byte[]> GetAttachmentAsync(this IAttachments operations, string attachmentId, string viewId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false);
+            return _result.HandleError<byte[]>();
+        }
 
     }
 }

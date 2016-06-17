@@ -133,7 +133,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var botDataStore = scope.Resolve<IBotDataStore>();
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(default(CancellationToken));
-                    Assert.AreEqual(1, botData.PerUserInConversationData.Count);
+                    Assert.AreEqual(1, botData.PrivateConversationData.Count);
                 }
 
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
