@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return operations.SendToConversationAsync(activity, activity.Conversation.Id);
+            return operations.SendToConversationAsync(activity, activity.Conversation.Id, cancellationToken);
         }
 
         /// <summary>
@@ -134,7 +134,11 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity);
+            // TEMP TODO REMOVE THIS AFTER SKYPE DEPLOYS NEW SERVICE
+            if (activity.ChannelId == "skype")
+                return operations.SendToConversationAsync(activity);
+
+            return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity, cancellationToken);
         }
 
         private static ConversationParameters GetDirectParameters(string botId, string userId)
