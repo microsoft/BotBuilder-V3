@@ -55,23 +55,19 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="microsoftAppId"></param>
         /// <param name="microsoftAppPassword"></param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
         /// <param name="handlers"></param>
         /// <returns></returns>
-        public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, params DelegatingHandler[] handlers)
+        public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
-            var env = ConfigurationManager.AppSettings["IntercomEnvironment"];
             bool useServiceUrl = (this.ChannelId == "emulator" || this.ChannelId == "skypeteams");
             if (useServiceUrl)
                 return new StateClient(new Uri(this.ServiceUrl), microsoftAppId, microsoftAppPassword, handlers);
 
-            string url = "https://api.botframework.com";
+            if (serviceUrl != null)
+                return new StateClient(new Uri(serviceUrl), microsoftAppId, microsoftAppPassword, handlers);
 
-            if (env == "scratch" || env == "ppe")
-                url = $"https://intercom-api-{env}.azurewebsites.net";
-            else if (env == "localhost")
-                url = "http://localhost:8000";
-
-            return new StateClient(new Uri(url), microsoftAppId, microsoftAppPassword, handlers);
+            return new StateClient(new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), true, handlers);
         }
 
         /// <summary>

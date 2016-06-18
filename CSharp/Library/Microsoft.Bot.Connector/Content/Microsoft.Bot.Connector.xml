@@ -2479,12 +2479,13 @@
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(System.String,System.String,System.Net.Http.DelegatingHandler[])">
+        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
             <summary>
             Get StateClient appropriate for this activity
             </summary>
             <param name="microsoftAppId"></param>
             <param name="microsoftAppPassword"></param>
+            <param name="serviceUrl">alternate serviceurl to use for state service</param>
             <param name="handlers"></param>
             <returns></returns>
         </member>

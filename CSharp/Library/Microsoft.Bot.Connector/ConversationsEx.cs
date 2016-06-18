@@ -134,8 +134,8 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // TEMP TODO REMOVE THIS AFTER SKYPE DEPLOYS NEW SERVICE
-            if (activity.ChannelId == "skype")
+            // TEMP TODO REMOVE THIS AFTER SKYPE DEPLOYS NEW SERVICE WHICH PROPERLY IMPLEMENTS THIS ENDPOINT
+            if (activity.ReplyToId == "0")
                 return operations.SendToConversationAsync(activity);
 
             return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity, cancellationToken);

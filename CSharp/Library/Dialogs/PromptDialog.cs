@@ -207,6 +207,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             switch (PromptStyle)
             {
                 case PromptStyle.Auto:
+                    message.Type = ActivityTypes.MessageCard;
                     message.Text = prompt;
                     message.AddHeroCard(options);
                     break;

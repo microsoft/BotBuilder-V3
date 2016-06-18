@@ -152,6 +152,14 @@
             "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
+          "201": {
+            "description": "﻿A ResourceResponse object will be returned containing the id for the resource\r\n",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
+          },
+          "202": {
+            "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
+          },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -205,18 +213,9 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "﻿The operation succeeded.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "204": {
-            "description": "﻿Success - no content",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "200": { "description": "﻿The operation succeeded." },
+          "201": { "description": "" },
+          "202": { "description": "" },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -277,18 +276,9 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "﻿The operation succeeded.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "204": {
-            "description": "﻿Success - no content",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "200": { "description": "﻿The operation succeeded." },
+          "201": { "description": "" },
+          "202": { "description": "" },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -341,14 +331,6 @@
               "type": "array",
               "items": { "$ref": "#/definitions/ChannelAccount" }
             }
-          },
-          "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "204": {
-            "description": "﻿Success - no content",
-            "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
@@ -410,14 +392,6 @@
               "items": { "$ref": "#/definitions/ChannelAccount" }
             }
           },
-          "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "204": {
-            "description": "﻿Success - no content",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -471,7 +445,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
@@ -480,10 +454,6 @@
           },
           "202": {
             "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "204": {
-            "description": "﻿Success - no content",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "400": {
