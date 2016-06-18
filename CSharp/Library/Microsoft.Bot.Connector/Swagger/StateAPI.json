@@ -18,7 +18,7 @@
   "host": "state.api.botframework.com",
   "schemes": [ "https" ],
   "paths": {
-    "/v3/botstate/{botId}/{channelId}/users/{userId}": {
+    "/v3/botstate/{channelId}/users/{userId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetUserData",
@@ -28,23 +28,16 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "userId",
             "in": "path",
-            "description": "The user Id",
+            "description": "id for the user on the channel",
             "required": true,
             "type": "string"
           }
@@ -84,23 +77,16 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "userId",
             "in": "path",
-            "description": "The user Id",
+            "description": "id for the user on the channel",
             "required": true,
             "type": "string"
           },
@@ -151,21 +137,16 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "userId",
             "in": "path",
+            "description": "id for the user on the channel",
             "required": true,
             "type": "string"
           }
@@ -204,7 +185,7 @@
         "deprecated": false
       }
     },
-    "/v3/botstate/{botId}/{channelId}/conversations/{conversationId}": {
+    "/v3/botstate/{channelId}/conversations/{conversationId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetConversationData",
@@ -214,23 +195,16 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "the channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "conversationId",
             "in": "path",
-            "description": "The conversationId",
+            "description": "The id for the conversation on the channel",
             "required": true,
             "type": "string"
           }
@@ -270,23 +244,16 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "conversationId",
             "in": "path",
-            "description": "conversation id",
+            "description": "The id for the conversation on the channel",
             "required": true,
             "type": "string"
           },
@@ -329,7 +296,7 @@
         "deprecated": false
       }
     },
-    "/v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}": {
+    "/v3/botstate/{channelId}/conversations/{conversationId}/users/{userId}": {
       "get": {
         "tags": [ "BotState" ],
         "summary": "GetPrivateConversationData",
@@ -339,30 +306,23 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "conversationId",
             "in": "path",
-            "description": "The conversationId",
+            "description": "The id for the conversation on the channel",
             "required": true,
             "type": "string"
           },
           {
             "name": "userId",
             "in": "path",
-            "description": "The user Id",
+            "description": "id for the user on the channel",
             "required": true,
             "type": "string"
           }
@@ -402,30 +362,23 @@
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
-            "name": "botId",
-            "in": "path",
-            "description": "The BotId",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "channelId",
             "in": "path",
-            "description": "the channelId for the user",
+            "description": "channelId",
             "required": true,
             "type": "string"
           },
           {
             "name": "conversationId",
             "in": "path",
-            "description": "conversation id",
+            "description": "The id for the conversation on the channel",
             "required": true,
             "type": "string"
           },
           {
             "name": "userId",
             "in": "path",
-            "description": "user id",
+            "description": "id for the user on the channel",
             "required": true,
             "type": "string"
           },

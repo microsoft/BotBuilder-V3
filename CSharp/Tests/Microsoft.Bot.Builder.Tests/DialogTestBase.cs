@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
-        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(); 
+        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot")); 
 
         [Flags]
         public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory };
@@ -59,8 +59,8 @@ namespace Microsoft.Bot.Builder.Tests
             builder.RegisterModule(new DialogModule_MakeRoot());
 
             builder
-                .Register(c => new BotIdRsolver("testBot"))
-                .As<BotIdRsolver>()
+                .Register(c => new BotIdResolver("testBot"))
+                .As<IBotIdResolver>()
                 .SingleInstance();
             
             builder

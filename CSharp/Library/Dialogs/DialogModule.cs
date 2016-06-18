@@ -80,8 +80,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<BotIdRsolver>()
-                .AsSelf()
+                .RegisterType<BotIdResolver>()
+                .As<IBotIdResolver>()
                 .SingleInstance();
 
             builder

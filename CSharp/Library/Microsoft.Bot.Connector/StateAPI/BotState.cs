@@ -48,14 +48,11 @@ namespace Microsoft.Bot.Connector
         /// GetUserData
         /// </summary>
         /// Get a bots data for the user across all conversations
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -63,12 +60,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> GetUserDataWithHttpMessagesAsync(string botId, string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetUserDataWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -84,7 +77,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
@@ -92,8 +84,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
             // Create HTTP transport objects
@@ -223,14 +214,11 @@ namespace Microsoft.Bot.Connector
         /// SetUserData
         /// </summary>
         /// Update the bot's data for a user
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -241,12 +229,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> SetUserDataWithHttpMessagesAsync(string botId, string channelId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> SetUserDataWithHttpMessagesAsync(string channelId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -266,7 +250,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("botData", botData);
@@ -275,8 +258,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
             // Create HTTP transport objects
@@ -424,12 +406,11 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
+        /// channelId
         /// </param>
         /// <param name='userId'>
+        /// id for the user on the channel
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -437,12 +418,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string botId, string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -458,7 +435,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
@@ -466,8 +442,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/users/{userId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/users/{userId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
             // Create HTTP transport objects
@@ -610,14 +585,11 @@ namespace Microsoft.Bot.Connector
         /// GetConversationData
         /// </summary>
         /// get the bots data for all users in a conversation
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// the channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -625,12 +597,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> GetConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetConversationDataWithHttpMessagesAsync(string channelId, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -646,7 +614,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
@@ -654,8 +621,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/conversations/{conversationId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             // Create HTTP transport objects
@@ -785,14 +751,11 @@ namespace Microsoft.Bot.Connector
         /// SetConversationData
         /// </summary>
         /// Update the bot's data for all users in a conversation
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -803,12 +766,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> SetConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> SetConversationDataWithHttpMessagesAsync(string channelId, string conversationId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -828,7 +787,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("botData", botData);
@@ -837,8 +795,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/conversations/{conversationId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             // Create HTTP transport objects
@@ -985,17 +942,14 @@ namespace Microsoft.Bot.Connector
         /// GetPrivateConversationData
         /// </summary>
         /// get bot's data for a single user in a conversation
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1003,12 +957,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> GetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> GetPrivateConversationDataWithHttpMessagesAsync(string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -1028,7 +978,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("userId", userId);
@@ -1037,8 +986,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));
@@ -1169,17 +1117,14 @@ namespace Microsoft.Bot.Connector
         /// SetPrivateConversationData
         /// </summary>
         /// Update the bot's data for a single user in a conversation
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// user id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -1190,12 +1135,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> SetPrivateConversationDataWithHttpMessagesAsync(string botId, string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> SetPrivateConversationDataWithHttpMessagesAsync(string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (botId == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "botId");
-            }
             if (channelId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "channelId");
@@ -1219,7 +1160,6 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("botId", botId);
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("conversationId", conversationId);
                 tracingParameters.Add("userId", userId);
@@ -1229,8 +1169,7 @@ namespace Microsoft.Bot.Connector
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
-            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{botId}/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
-            _url = _url.Replace("{botId}", Uri.EscapeDataString(botId));
+            var _url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/conversations/{conversationId}/users/{userId}").ToString();
             _url = _url.Replace("{channelId}", Uri.EscapeDataString(channelId));
             _url = _url.Replace("{conversationId}", Uri.EscapeDataString(conversationId));
             _url = _url.Replace("{userId}", Uri.EscapeDataString(userId));

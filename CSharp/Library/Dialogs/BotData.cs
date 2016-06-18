@@ -195,13 +195,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             switch(botStoreType)
             {
                 case BotStoreType.BotConversationData:
-                    botData = await stateClient.BotState.GetConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, cancellationToken);
+                    botData = await stateClient.BotState.GetConversationDataAsync(key.ChannelId, key.ConversationId, cancellationToken);
                     break;
                 case BotStoreType.BotUserData:
-                    botData = await stateClient.BotState.GetUserDataAsync(key.BotId, key.ChannelId, key.UserId, cancellationToken);
+                    botData = await stateClient.BotState.GetUserDataAsync(key.ChannelId, key.UserId, cancellationToken);
                     break;
                 case BotStoreType.BotPrivateConversationData:
-                    botData = await stateClient.BotState.GetPrivateConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, cancellationToken);
+                    botData = await stateClient.BotState.GetPrivateConversationDataAsync(key.ChannelId, key.ConversationId, key.UserId, cancellationToken);
                     break;
                 default:
                     throw new ArgumentException($"{botStoreType} is not a valid store type!");
@@ -214,13 +214,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             switch(botStoreType)
             {
                 case BotStoreType.BotConversationData:
-                    await stateClient.BotState.SetConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, botData, cancellationToken);
+                    await stateClient.BotState.SetConversationDataAsync(key.ChannelId, key.ConversationId, botData, cancellationToken);
                     break;
                 case BotStoreType.BotUserData:
-                    await stateClient.BotState.SetUserDataAsync(key.BotId, key.ChannelId, key.UserId, botData, cancellationToken);
+                    await stateClient.BotState.SetUserDataAsync(key.ChannelId, key.UserId, botData, cancellationToken);
                     break;
                 case BotStoreType.BotPrivateConversationData:
-                    await stateClient.BotState.SetPrivateConversationDataAsync(key.BotId, key.ChannelId, key.ConversationId, key.UserId, botData, cancellationToken);
+                    await stateClient.BotState.SetPrivateConversationDataAsync(key.ChannelId, key.ConversationId, key.UserId, botData, cancellationToken);
                     break;
                 default:
                     throw new ArgumentException($"{botStoreType} is not a valid store type!");
@@ -401,7 +401,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private IBotDataBag privateConversationData;
         private IBotDataBag userData;
 
-        public BotDataBase(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
+        public BotDataBase(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
         {
             SetField.NotNull(out this.botDataStore, nameof(BotDataBase<T>.botDataStore), botDataStore);
             SetField.CheckNull(nameof(message), message);
@@ -476,7 +476,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class DictionaryBotData : BotDataBase<Dictionary<string, object>>
     {
-        public DictionaryBotData(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
+        public DictionaryBotData(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
             : base(botIdResolver, message, botDataStore)
         {
         }
@@ -532,7 +532,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class JObjectBotData : BotDataBase<JObject>
     {
-        public JObjectBotData(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
+        public JObjectBotData(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
             : base(botIdResolver, message, botDataStore)
         {
         }
@@ -618,13 +618,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class BotIdRsolver
+    public interface IBotIdResolver
     {
-        public readonly string BotId;
+        string BotId { get; }
+    }
 
-        public BotIdRsolver(string botId = null)
+    public sealed class BotIdResolver : IBotIdResolver
+    {
+        private readonly string botId;
+
+        public string BotId { get { return botId; } }
+
+        public BotIdResolver(string botId = null)
         {
-           SetField.NotNull(out this.BotId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"]);
+           SetField.NotNull(out this.botId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"]);
         }
     }
 

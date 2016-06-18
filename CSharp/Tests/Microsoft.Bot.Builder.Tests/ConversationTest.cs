@@ -54,6 +54,12 @@ namespace Microsoft.Bot.Builder.Tests
     {
         protected readonly ConcurrentDictionary<string, BotData> DataStore = new ConcurrentDictionary<string, BotData>();
         public StateClient StateClient;
+        public IBotIdResolver botIdResolver;
+
+        public MockConnectorFactory(IBotIdResolver botIdResolver)
+        {
+            SetField.NotNull(out this.botIdResolver, nameof(botIdResolver), botIdResolver);
+        }
 
         public IConnectorClient MakeConnectorClient()
         {
@@ -106,39 +112,39 @@ namespace Microsoft.Bot.Builder.Tests
 
         }
 
-        public static Mock<StateClient> MockIBots(MockConnectorFactory mockConnectorFactory)
+        public Mock<StateClient> MockIBots(MockConnectorFactory mockConnectorFactory)
         {
             var botsClient = new Moq.Mock<StateClient>(MockBehavior.Loose);
 
-            botsClient.Setup(d => d.BotState.SetConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-                .Returns<string, string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, data, headers, token) => {
-                    return mockConnectorFactory.UpsertData(botId, null, $"{channelId}-{conversationId}", data);
+            botsClient.Setup(d => d.BotState.SetConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+                .Returns<string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (channelId, conversationId, data, headers, token) => {
+                    return mockConnectorFactory.UpsertData(botIdResolver.BotId, null, $"{channelId}-{conversationId}", data);
                 });
 
-            botsClient.Setup(d => d.BotState.GetConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-                .Returns<string, string, string, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, headers, token) => {
-                    return mockConnectorFactory.GetData(botId, null, $"{channelId}-{conversationId}");
+            botsClient.Setup(d => d.BotState.GetConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+                .Returns<string, string, Dictionary<string, List<string>>, CancellationToken>(async (channelId, conversationId, headers, token) => {
+                    return mockConnectorFactory.GetData(botIdResolver.BotId, null, $"{channelId}-{conversationId}");
                 });
 
 
-            botsClient.Setup(d => d.BotState.SetUserDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-              .Returns<string, string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, userId, data, headers, token) => {
-                  return mockConnectorFactory.UpsertData(botId, $"{channelId}-{userId}", null, data);
+            botsClient.Setup(d => d.BotState.SetUserDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+              .Returns<string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (channelId, userId, data, headers, token) => {
+                  return mockConnectorFactory.UpsertData(botIdResolver.BotId, $"{channelId}-{userId}", null, data);
               });
 
-            botsClient.Setup(d => d.BotState.GetUserDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-                .Returns<string, string, string, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, userId, headers, token) => {
-                    return mockConnectorFactory.GetData(botId, $"{channelId}-{userId}", null);
+            botsClient.Setup(d => d.BotState.GetUserDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+                .Returns<string, string, Dictionary<string, List<string>>, CancellationToken>(async (channelId, userId, headers, token) => {
+                    return mockConnectorFactory.GetData(botIdResolver.BotId, $"{channelId}-{userId}", null);
                 });
 
-            botsClient.Setup(d => d.BotState.SetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-             .Returns<string, string, string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, userId, data, headers, token) => {
-                 return mockConnectorFactory.UpsertData(botId, $"{channelId}-{userId}", $"{channelId}-{conversationId}", data);
+            botsClient.Setup(d => d.BotState.SetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BotData>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+             .Returns<string, string, string, BotData, Dictionary<string, List<string>>, CancellationToken>(async (channelId, conversationId, userId, data, headers, token) => {
+                 return mockConnectorFactory.UpsertData(botIdResolver.BotId, $"{channelId}-{userId}", $"{channelId}-{conversationId}", data);
              });
 
-            botsClient.Setup(d => d.BotState.GetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
-             .Returns<string, string, string, string, Dictionary<string, List<string>>, CancellationToken>(async (botId, channelId, conversationId, userId, headers, token) => {
-                 return mockConnectorFactory.GetData(botId, $"{channelId}-{userId}", $"{channelId}-{conversationId}");
+            botsClient.Setup(d => d.BotState.GetPrivateConversationDataWithHttpMessagesAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Dictionary<string, List<string>>>(), It.IsAny<CancellationToken>()))
+             .Returns<string, string, string, Dictionary<string, List<string>>, CancellationToken>(async (channelId, conversationId, userId, headers, token) => {
+                 return mockConnectorFactory.GetData(botIdResolver.BotId, $"{channelId}-{userId}", $"{channelId}-{conversationId}");
              });
 
             return botsClient;
@@ -161,8 +167,8 @@ namespace Microsoft.Bot.Builder.Tests
                     .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new BotIdRsolver("testBot"))
-                .As<BotIdRsolver>()
+                .Register(c => new BotIdResolver("testBot"))
+                .As<IBotIdResolver>()
                 .SingleInstance();
 
             var r =
@@ -228,7 +234,7 @@ namespace Microsoft.Bot.Builder.Tests
             Func<IDialog<object>> MakeRoot = () => chain;
 
             using (new FiberTestBase.ResolveMoqAssembly(chain))
-            using (var container = Build(Options.InMemoryBotDataStore, new MockConnectorFactory(), chain))
+            using (var container = Build(Options.InMemoryBotDataStore, new MockConnectorFactory(new BotIdResolver("testBot")), chain))
             {
                 var msg = DialogTestBase.MakeTestMessage();
                 msg.Text = "test";
@@ -273,7 +279,7 @@ namespace Microsoft.Bot.Builder.Tests
                 new DefaultCase<string, IDialog<string>>((context, data) => { return Chain.Return(data); })).Unwrap().PostToUser();
 
             using (new FiberTestBase.ResolveMoqAssembly(chain))
-            using (var container = Build(Options.InMemoryBotDataStore, new MockConnectorFactory(), chain))
+            using (var container = Build(Options.InMemoryBotDataStore, new MockConnectorFactory(new BotIdResolver("testBot")), chain))
             {
                 var msg = DialogTestBase.MakeTestMessage();
                 msg.Text = "testMsg";
