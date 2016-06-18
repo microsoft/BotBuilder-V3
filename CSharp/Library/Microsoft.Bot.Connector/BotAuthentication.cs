@@ -17,11 +17,7 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppIdSettingName { get; set; }
         public bool DisableSelfIssuedTokens { get; set; }
-
-        public virtual string OpenIdConfigurationUrl
-        {
-            get { return JwtConfig.ToBotFromChannelOpenIdMetadataUrl; }
-        }
+        public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
         public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
