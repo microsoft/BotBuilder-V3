@@ -37,7 +37,6 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,7 +44,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.FormFlow
+namespace Microsoft.Bot.Builder.FormFlow.Json
 {
     #region Documentation
     /// <summary>Build a form by specifying messages, fields and confirmations through JSON Schema or programatically.</summary>
@@ -63,7 +62,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
     /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
     /// For example to define a template to override the <see cref="TemplateUsage.NotUnderstood"/> template
-    /// and specify a <see cref="TemplateBaseAttribute.ChoiceStyle"/> you would put this in your schema: 
+    /// and specify a TemplateBaseAttribute.ChoiceStyle, you would put this in your schema: 
     /// ~~~
     /// "Templates":{ "NotUnderstood": { Patterns: ["I don't get it"], "ChoiceStyle":"Auto"}}
     /// ~~~
@@ -71,7 +70,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// %Extensions defined at the root fo the schema
     /// * `OnCompletion: script` -- C# script with arguments (<see cref="IDialogContext"/> context, JObject state) for completing form.
     /// * `References: [assemblyReference, ...]` -- Define references to include in scripts.  Paths should be absolute, or relative to the current directory.  By default Microsoft.Bot.Builder.dll is included.
-    /// * `Imports: [import, ...]` -- Define imports to include in scripts with usings. By default these namespaces are included: Microsoft.Bot.Builder, Microsoft.Bot.Builder.Dialogs, Microsoft.Bot.Builder.FormFlow, Microsoft.Bot.Builder.FormFlow.Advanced, System.Collections.Generic, System.Linq)
+    /// * `Imports: [import, ...]` -- Define imports to include in scripts with usings. By default these namespaces are included: Microsoft.Bot.Builder, Microsoft.Bot.Builder.Dialogs, Microsoft.Bot.Builder.FormFlow, Microsoft.Bot.Builder.FormFlow.Advanced, System.Collections.Generic, System.Linq
     /// 
     /// %Extensions defined at the root of a schema or as a peer of the "type" property.  
     /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
@@ -119,11 +118,11 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public override IForm<JObject> Build(Assembly resourceAssembly = null, string resourceName = null)
         {
-            if (!_form._steps.Any((step) => step.Type == StepType.Field))
+            if (!_form.Fields.Any())
             {
                 // No fieldss means add default field and confirmation
                 AddRemainingFields();
-                Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
+                Confirm(new PromptAttribute(Configuration.Template(TemplateUsage.Confirmation)));
             }
             // Build all code into a single assembly and cache because assemblies have no GC.
             var builder = new StringBuilder("switch (choice) {");

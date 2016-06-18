@@ -804,6 +804,7 @@
     /// * `Dependencies`:[string, ...]` -- Fields that this field, message or confirm depends on.
     /// 
     /// Scripts can be any C# code you would find in a method body.  You can add references through "References" and using through "Imports". Special global variables include:
+    /// * `choice` -- internal dispatch for script to execute.
     /// * `state` -- JObject form state bound for all scripts.
     /// * `ifield` -- <see cref="IField{JObject}"/> to allow reasoning over the current field for all scripts except %Message/Confirm prompt builders.
     /// * `value` -- object value to be validated for Validate.

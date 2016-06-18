@@ -52,10 +52,7 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
-using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Newtonsoft.Json.Linq;
-using System.Dynamic;
 
 public class Globals
 {
@@ -176,32 +173,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         public static IFormDialog<T> MakeForm<T>(BuildFormDelegate<T> buildForm) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
-        }
-
-        public static async Task<T> Run<T>(Func<Task<T>> fun, string desc)
-        {
-            var memory = System.GC.GetTotalMemory(true);
-            var timer = System.Diagnostics.Stopwatch.StartNew();
-            var result = await fun();
-            var end = timer.ElapsedMilliseconds;
-            var endMemory = System.GC.GetTotalMemory(true);
-            Console.WriteLine($"{desc}: {end}ms, total {endMemory}, delta {endMemory - memory}");
-            return result;
-        }
-
-        public static void Run(string code, Globals globals, string prefix)
-        {
-            var options = Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default
-                .AddReferences(
-                    typeof(JObject).Assembly,
-                    typeof(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException).Assembly
-                    )
-                ;
-            var script = Run<Script<bool>>(async () => CSharpScript.Create<bool>(code, options, typeof(Globals)), prefix + "Create").Result;
-            var fun = Run<ScriptRunner<bool>>(async () => script.CreateDelegate(), prefix + "Delegate").Result;
-            var cResult = Run<bool>(async () => await fun(globals), prefix + "Compiled").Result;
-            var rResult = Run<ScriptState<bool>>(async () => await CSharpScript.RunAsync<bool>(code, options, globals), prefix + "Run").Result;
-            var eResult = Run<bool>(async () => await CSharpScript.EvaluateAsync<bool>(code, options, globals), prefix + "Eval").Result;
         }
 
         public static bool NonWord(string word)

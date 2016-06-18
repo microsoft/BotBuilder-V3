@@ -34,7 +34,9 @@
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Resource;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -49,16 +51,6 @@ namespace Microsoft.Bot.Builder.FormFlow
     public abstract class FormBuilderBase<T> : IFormBuilder<T>
         where T : class
     {
-        internal readonly Form<T> _form;
-
-        /// <summary>
-        /// Construct the form builder.
-        /// </summary>
-        protected FormBuilderBase()
-        {
-            _form = new Form<T>();
-        }
-
         public virtual IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
         {
             if (resourceAssembly == null)
@@ -274,6 +266,84 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
             return this;
         }
+
+        protected internal sealed class Form : IForm<T>
+        {
+            internal readonly FormConfiguration _configuration = new FormConfiguration();
+            internal readonly Fields<T> _fields = new Fields<T>();
+            internal readonly List<IStep<T>> _steps = new List<IStep<T>>();
+            internal OnCompletionAsyncDelegate<T> _completion = null;
+            internal ILocalizer _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
+
+            public Form()
+            {
+            }
+
+            internal override ILocalizer Resources
+            {
+                get
+                {
+                    return _resources;
+                }
+            }
+
+            public override void SaveResources(IResourceWriter writer)
+            {
+                _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
+                foreach (var step in _steps)
+                {
+                    step.SaveResources();
+                }
+                _resources.Save(writer);
+            }
+
+            public override void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
+            {
+                foreach (var step in _steps)
+                {
+                    step.SaveResources();
+                }
+                _resources = _resources.Load(reader, out missing, out extra);
+                foreach (var step in _steps)
+                {
+                    step.Localize();
+                }
+            }
+
+            internal override FormConfiguration Configuration
+            {
+                get
+                {
+                    return _configuration;
+                }
+            }
+
+            internal override IReadOnlyList<IStep<T>> Steps
+            {
+                get
+                {
+                    return _steps;
+                }
+            }
+
+            internal override OnCompletionAsyncDelegate<T> Completion
+            {
+                get
+                {
+                    return _completion;
+                }
+            }
+
+            public override IFields<T> Fields
+            {
+                get
+                {
+                    return _fields;
+                }
+            }
+        }
+
+        protected internal Form _form = new Form();
     }
 
     #region Documentation

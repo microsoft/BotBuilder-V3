@@ -100,32 +100,62 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        internal static bool IsICollection(this Type type)
+        /// <summary>
+        /// Type implements ICollection.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements ICollection.</returns>
+        public static bool IsICollection(this Type type)
         {
             return Array.Exists(type.GetInterfaces(), IsGenericCollectionType);
         }
 
-        internal static bool IsIEnumerable(this Type type)
+        /// <summary>
+        /// Type implements IEnumerable.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements IEnumerable.</returns>
+        public static bool IsIEnumerable(this Type type)
         {
             return Array.Exists(type.GetInterfaces(), IsGenericEnumerableType);
         }
 
-        internal static bool IsIList(this Type type)
+        /// <summary>
+        /// Type implements IList.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements IList.</returns>
+        public static bool IsIList(this Type type)
         {
             return Array.Exists(type.GetInterfaces(), IsListCollectionType);
         }
 
-        internal static bool IsGenericCollectionType(this Type type)
+        /// <summary>
+        /// Type implements generic ICollection.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements generic ICollection.</returns>
+        public static bool IsGenericCollectionType(this Type type)
         {
             return type.IsGenericType && (typeof(ICollection<>) == type.GetGenericTypeDefinition());
         }
 
-        internal static bool IsGenericEnumerableType(this Type type)
+        /// <summary>
+        /// Type implements generic IEnumerable.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements generic IEnumerable.</returns>
+        public static bool IsGenericEnumerableType(this Type type)
         {
             return type.IsGenericType && (typeof(IEnumerable<>) == type.GetGenericTypeDefinition());
         }
 
-        internal static bool IsIntegral(this Type type)
+        /// <summary>
+        /// Type is integral.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if integral.</returns>
+        public static bool IsIntegral(this Type type)
         {
             return (type == typeof(sbyte) ||
                     type == typeof(byte) ||
@@ -137,22 +167,42 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     type == typeof(ulong));
         }
 
-        internal static bool IsDouble(this Type type)
+        /// <summary>
+        /// Type is float or double.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if float or double.</returns>
+        public static bool IsDouble(this Type type)
         {
             return type == typeof(float) || type == typeof(double);
         }
 
-        internal static bool IsListCollectionType(this Type type)
+        /// <summary>
+        /// Type implements generic IList.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements generic IList.</returns>
+        public static bool IsListCollectionType(this Type type)
         {
             return type.IsGenericType && (typeof(IList<>) == type.GetGenericTypeDefinition());
         }
 
-        internal static bool IsNullable(this Type type)
+        /// <summary>
+        /// Type is nullable.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if nullable.</returns>
+        public static bool IsNullable(this Type type)
         {
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
-        internal static Type GetGenericElementType(this Type type)
+        /// <summary>
+        /// Return the underlying type of generic IEnumerable.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if implements generic IEnumerable.</returns>
+        public static Type GetGenericElementType(this Type type)
         {
             return (from i in type.GetInterfaces()
                     where i.IsGenericType && typeof(IEnumerable<>) == i.GetGenericTypeDefinition()

@@ -31,14 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 
-namespace Microsoft.Bot.Builder.FormFlow.Advanced
+namespace Microsoft.Bot.Builder.FormFlow.Json
 {
     /// <summary>
     /// %Field defined through JSON Schema.
@@ -263,7 +262,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         internal IEnumerable<MessageOrConfirmation> ProcessMessages(string fieldName, JObject fieldSchema)
         {
-            var messages = new List<MessageOrConfirmation>();
             JToken array;
             if (fieldSchema.TryGetValue(fieldName, out array))
             {

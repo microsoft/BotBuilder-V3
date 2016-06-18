@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public delegate Task<bool> DefineAsyncDelegate<T>(T state, Field<T> field)
     where T : class;
 
-    /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
+    /// <summary>Base class with declarative implementation of IField. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Field<T> : IField<T>
         where T : class
