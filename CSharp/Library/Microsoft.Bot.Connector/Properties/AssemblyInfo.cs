@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.9.9.0")]
+[assembly: AssemblyVersion("2.9.9.1")]
 
 // Uncomment to delay-sign
 //[assembly: AssemblyKeyFileAttribute(@"\\cp1pd2cdscvlt01\Public\StrongNamePublicKeys\35MSSharedLib1024.snk")]

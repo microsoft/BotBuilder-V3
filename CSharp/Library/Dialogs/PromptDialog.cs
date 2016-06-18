@@ -207,7 +207,6 @@ namespace Microsoft.Bot.Builder.Dialogs
             switch (PromptStyle)
             {
                 case PromptStyle.Auto:
-                    message.Type = ActivityTypes.MessageCard;
                     message.Text = prompt;
                     message.AddHeroCard(options);
                     break;
@@ -531,13 +530,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="options"> The options that cause generation of buttons.</param>
         public static void AddHeroCard<T>(this IMessageActivity message, IEnumerable<T> options)
         {
+            message.AttachmentLayout = AttachmentLayoutTypes.List;
             message.Attachments = options.GenerateHeroCard();
         }
 
         internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options)
         {
-            
-
             var actions = new List<CardAction>();
             foreach (var option in options)
             {

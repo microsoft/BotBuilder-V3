@@ -2445,16 +2445,15 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Type">
             <summary>
-            Activity type
-            The type of the activity (aka "message/carosel" "contactUpdate"
-            "typing" etc.
+            The type of the activity
+            [message|contactRelationUpdate|converationUpdate|typing]
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Id">
@@ -2490,6 +2489,17 @@
         <member name="P:Microsoft.Bot.Connector.Activity.Recipient">
             <summary>
             (Outbound to bot only) Bot's address that received the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.TextFormat">
+            <summary>
+            Format of text fields [plain|markdown] Default:markdown
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.AttachmentLayout">
+            <summary>
+            AttachmentLayout - hint for how to deal with multiple attachments
+            Values: [list|carousel] Default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
@@ -2889,6 +2899,16 @@
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
             <summary>
             Text for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.TextFormat">
+            <summary>
+            Format of text fields [plain|markdown] default:markdown
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.AttachmentLayout">
+            <summary>
+            AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Attachments">

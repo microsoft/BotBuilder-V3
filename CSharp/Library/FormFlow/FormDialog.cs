@@ -45,6 +45,7 @@ using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -313,6 +314,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     {
                         var msg = context.MakeMessage();
                         msg.Text = prompt.Prompt;
+                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
                         msg.Attachments = prompt.Buttons.GenerateAttachments();
                         await context.PostAsync(msg);
                     }
