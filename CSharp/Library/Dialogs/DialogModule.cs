@@ -167,6 +167,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterType<AlwaysSendDirect_BotToUser>()
                 .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new SkypeMessageTypeFixer_BotToUser(c.Resolve<AlwaysSendDirect_BotToUser>(), c.Resolve<IMessageActivity>()))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 

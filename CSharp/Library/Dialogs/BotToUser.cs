@@ -64,6 +64,59 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class SkypeMessageTypeFixer_BotToUser : IBotToUser
+    {
+        private readonly IMessageActivity toBot; 
+        private readonly IBotToUser inner;
+        private readonly string skypeChannelId = "skype";
+
+        public SkypeMessageTypeFixer_BotToUser(IBotToUser inner, IMessageActivity toBot)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.toBot, nameof(toBot), toBot);
+        }
+
+        IMessageActivity IBotToUser.MakeMessage()
+        {
+            var reply = inner.MakeMessage();
+            if (toBot.ChannelId == skypeChannelId)
+            {
+                reply.Type = toBot.Type;
+            }
+            return reply;
+        }
+
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
+        {
+            if(toBot.ChannelId == skypeChannelId)
+            {
+                if (message.Attachments != null && message.Attachments.Any())
+                {
+                    var count = message.Attachments.Count; 
+                    if (message.Attachments.Count > 1 && message.Attachments.Where(t => t.ContentType == HeroCard.ContentType || t.ContentType == ThumbnailCard.ContentType).Count() == count)
+                    {
+                        message.Type = "message/card.carousel";
+                    }
+                    else
+                    {
+                        var attachment = message.Attachments[0];
+                        if(attachment.ContentType != SigninCard.ContentType)
+                        {
+                            message.Type = "message/card";
+                        }
+                        else
+                        {
+                            message.Type = "message/signin";
+                        }
+                    }
+                }
+            }
+            await inner.PostAsync(message, cancellationToken);
+        }
+
+
+    }
+
     public sealed class BotToUserQueue : IBotToUser
     {
         private readonly IMessageActivity toBot;
