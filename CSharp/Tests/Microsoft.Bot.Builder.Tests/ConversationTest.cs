@@ -160,6 +160,11 @@ namespace Microsoft.Bot.Builder.Tests
                     .As<IConnectorClientFactory>()
                     .InstancePerLifetimeScope();
 
+            builder
+                .Register(c => new BotIdRsolver("testBot"))
+                .As<BotIdRsolver>()
+                .SingleInstance();
+
             var r =
               builder
               .Register<Queue<IMessageActivity>>(c => new Queue<IMessageActivity>())

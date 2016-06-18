@@ -58,6 +58,10 @@ namespace Microsoft.Bot.Builder.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
 
+            builder
+                .Register(c => new BotIdRsolver("testBot"))
+                .As<BotIdRsolver>()
+                .SingleInstance();
             
             builder
            .Register((c, p) => mockConnectorFactory)

@@ -38,6 +38,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -400,11 +401,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private IBotDataBag privateConversationData;
         private IBotDataBag userData;
 
-        public BotDataBase(IMessageActivity message, IBotDataStore botDataStore)
+        public BotDataBase(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
         {
             SetField.NotNull(out this.botDataStore, nameof(BotDataBase<T>.botDataStore), botDataStore);
             SetField.CheckNull(nameof(message), message);
-            this.botDataKey = message.GetBotDataKey(); 
+            this.botDataKey = message.GetBotDataKey(botIdResolver.BotId); 
         }
 
         protected abstract T MakeData();
@@ -475,8 +476,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class DictionaryBotData : BotDataBase<Dictionary<string, object>>
     {
-        public DictionaryBotData(IMessageActivity message, IBotDataStore botDataStore)
-            : base(message, botDataStore)
+        public DictionaryBotData(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
+            : base(botIdResolver, message, botDataStore)
         {
         }
 
@@ -531,8 +532,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class JObjectBotData : BotDataBase<JObject>
     {
-        public JObjectBotData(IMessageActivity message, IBotDataStore botDataStore)
-            : base(message, botDataStore)
+        public JObjectBotData(BotIdRsolver botIdResolver, IMessageActivity message, IBotDataStore botDataStore)
+            : base(botIdResolver, message, botDataStore)
         {
         }
 
@@ -617,13 +618,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class BotIdRsolver
+    {
+        public readonly string BotId;
+
+        public BotIdRsolver(string botId = null)
+        {
+           SetField.NotNull(out this.BotId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"]);
+        }
+    }
+
     public static partial class Extensions
     {
-        public static BotDataKey GetBotDataKey(this IMessageActivity message)
+        public static BotDataKey GetBotDataKey(this IMessageActivity message, string botId)
         {
+            SetField.CheckNull(nameof(botId), botId);
             return new BotDataKey
             {
-                BotId =  message.Recipient.Id,
+                BotId =  botId,
                 UserId = message.From.Id,
                 ConversationId = message.Conversation.Id,
                 ChannelId = message.ChannelId

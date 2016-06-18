@@ -140,7 +140,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new JObjectBotData(msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
+            return new JObjectBotData(new BotIdRsolver(msg.Recipient.Id), msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
         }
     }
 
@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new DictionaryBotData(msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
+            return new DictionaryBotData(new BotIdRsolver(msg.Recipient.Id), msg, new CachingBotDataStore_LastWriteWins(new InMemoryDataStore()));
         }
     }
 }
