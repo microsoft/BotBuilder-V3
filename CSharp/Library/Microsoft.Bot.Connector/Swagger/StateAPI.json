@@ -159,6 +159,7 @@
               "items": { "type": "string" }
             }
           },
+          "204": { "description": "Success - no content" },
           "400": {
             "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
             "schema": { "$ref": "#/definitions/APIResponse" }

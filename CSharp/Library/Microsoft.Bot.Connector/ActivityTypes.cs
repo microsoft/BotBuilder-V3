@@ -13,5 +13,6 @@ namespace Microsoft.Bot.Connector
         public const string ContactRelationUpdate = "contactRelationUpdate";
         public const string Typing = "typing";
         public const string DeleteUserData = "deleteUserData";
+        public const string Ping = "ping";
     }
 }

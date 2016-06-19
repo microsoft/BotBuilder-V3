@@ -141,7 +141,10 @@ namespace Microsoft.Bot.Connector
             if (String.Equals(type, ActivityTypes.Typing, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Typing;
 
-            return type;
+            if (String.Equals(type, ActivityTypes.Ping, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.Ping;
+            
+            return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }
     }
 }
