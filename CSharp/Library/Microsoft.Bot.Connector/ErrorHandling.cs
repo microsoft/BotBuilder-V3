@@ -39,6 +39,10 @@ namespace Microsoft.Bot.Connector
             if (typeof(ObjectT).IsArray)
             {
                 IList list = (IList)result.Body;
+                if(list == null)
+                {
+                    return default(ObjectT);
+                }
                 IList array = (IList)Array.CreateInstance(typeof(ObjectT).GetElementType(), list.Count);
                 int i = 0;
                 foreach (var el in list)
