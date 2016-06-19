@@ -101,7 +101,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
@@ -114,13 +114,13 @@ namespace Microsoft.Bot.Connector
         /// <param name='userId'>
         /// id for the user on the channel
         /// </param>
-        public static string[] DeleteAllUserDataDeleteUserProfile(this IBotState operations, string channelId, string userId)
+        public static string[] DeleteStateForUser(this IBotState operations, string channelId, string userId)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).DeleteAllUserDataDeleteUserProfileAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).DeleteStateForUserAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
@@ -136,9 +136,9 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<string[]> DeleteAllUserDataDeleteUserProfileAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string[]> DeleteStateForUserAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.DeleteStateForUserWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<string[]>();
         }
 

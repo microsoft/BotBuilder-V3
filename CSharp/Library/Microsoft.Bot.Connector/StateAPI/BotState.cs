@@ -402,7 +402,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
@@ -418,7 +418,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public async Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<object>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
             {
@@ -438,7 +438,7 @@ namespace Microsoft.Bot.Connector
                 tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "DeleteAllUserDataDeleteUserProfile", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "DeleteStateForUser", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;

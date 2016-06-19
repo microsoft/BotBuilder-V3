@@ -1304,9 +1304,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
@@ -1479,9 +1479,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfile(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUser(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
@@ -1495,9 +1495,9 @@
             id for the user on the channel
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfileAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUserAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
@@ -1714,9 +1714,9 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)

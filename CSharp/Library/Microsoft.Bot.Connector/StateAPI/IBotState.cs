@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         Task<HttpOperationResponse<object>> SetUserDataWithHttpMessagesAsync(string channelId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<object>> DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// GetConversationData
         /// </summary>

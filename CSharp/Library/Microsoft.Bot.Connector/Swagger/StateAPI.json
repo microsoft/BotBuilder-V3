@@ -130,9 +130,9 @@
       },
       "delete": {
         "tags": [ "BotState" ],
-        "summary": "DeleteAllUserData",
+        "summary": "DeleteStateForUser",
         "description": "Delete all data for a user in a channel (UserData and PrivateConversationData)",
-        "operationId": "BotState_DeleteAllUserDataDeleteUserProfile",
+        "operationId": "BotState_DeleteStateForUser",
         "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
