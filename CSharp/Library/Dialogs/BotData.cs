@@ -631,7 +631,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public BotIdResolver(string botId = null)
         {
-           SetField.NotNull(out this.botId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"]);
+           SetField.NotNull(out this.botId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"] ?? ConfigurationManager.AppSettings["MicrosoftAppId"]);
         }
     }
 
