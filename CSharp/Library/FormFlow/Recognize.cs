@@ -156,34 +156,29 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var group1 = match.Groups[1];
                     var group2 = match.Groups[2];
                     var group3 = match.Groups[3];
+                    object newValue;
                     if (group1.Success)
                     {
-                        yield return new TermMatch(group1.Index, group1.Length, 1.0, expression.Value);
+                        if (ConvertSpecial(expression.Value, defaultValue, out newValue))
+                        {
+                            yield return new TermMatch(group1.Index, group1.Length, 1.0, newValue);
+                        }
                     }
                     if (group2.Success)
                     {
                         var words = group2.Value.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
                         var confidence = System.Math.Min(words / maxWords, 1.0);
-                        if (expression.Value is Special)
+                        if (ConvertSpecial(expression.Value, defaultValue, out newValue))
                         {
-                            var special = (Special)expression.Value;
-                            if (special == Special.CurrentChoice && (_noPreference != null || defaultValue != null))
-                            {
-                                yield return new TermMatch(group2.Index, group2.Length, confidence, defaultValue);
-                            }
-                            else if (special == Special.NoPreference)
-                            {
-                                yield return new TermMatch(group2.Index, group2.Length, confidence, null);
-                            }
-                        }
-                        else
-                        {
-                            yield return new TermMatch(group2.Index, group2.Length, confidence, expression.Value);
+                            yield return new TermMatch(group2.Index, group2.Length, confidence, newValue);
                         }
                     }
                     else if (group3.Success)
                     {
-                        yield return new TermMatch(group3.Index, group3.Length, 1.0, expression.Value);
+                        if (ConvertSpecial(expression.Value, defaultValue, out newValue))
+                        {
+                            yield return new TermMatch(group3.Index, group3.Length, 1.0, newValue);
+                        }
                     }
                 }
             }
@@ -311,6 +306,29 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 ++n;
             }
             return n;
+        }
+
+        private bool ConvertSpecial(object value, object defaultValue, out object newValue)
+        {
+            bool ok = true;
+            newValue = value;
+            if (value is Special)
+            {
+                var special = (Special)value;
+                if (special == Special.CurrentChoice && (_noPreference != null || defaultValue != null))
+                {
+                    newValue = defaultValue;
+                }
+                else if (special == Special.NoPreference)
+                {
+                    newValue = null;
+                }
+                else
+                {
+                    ok = false;
+                }
+            }
+            return ok;
         }
 
         private class ValueAndExpression

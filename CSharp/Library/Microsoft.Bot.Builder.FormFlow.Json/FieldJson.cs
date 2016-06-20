@@ -163,16 +163,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
         {
             var schema = _builder.Schema;
             var parts = path.Split('.');
-            optional = true;
+            var required = true;
             foreach (var part in parts)
             {
-                optional = schema["required"] != null && schema["required"].Contains(part);
+                required = required && (schema["required"] == null || ((JArray)schema["required"]).Any((val) => (string)val == part));
                 schema = (JObject)((JObject)schema["properties"])[part];
                 if (part == null)
                 {
                     throw new MissingFieldException($"{part} is not a property in your schema.");
                 }
             }
+            optional = !required;
             return schema;
         }
 
