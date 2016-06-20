@@ -56,6 +56,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     ///
 }
 
+/// <summary>Root namespace for the %Microsoft %Bot %Connector %SDK.</summary>
+namespace Microsoft.Bot.Connector { }
+
 /// <summary>Root namespace for the %Microsoft %Bot %Builder %SDK.</summary>
 namespace Microsoft.Bot.Builder { }
 
