@@ -474,7 +474,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
         public Field<T> SetDefine(DefineAsyncDelegate<T> definition)
         {
-            if (definition != null)_define = definition;
+            if (definition != null) _define = definition;
             return this;
         }
 
@@ -541,8 +541,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _validate = async (T state, object value) =>
             {
                 var result = new ValidateResult { Value = value };
-                var match = regex.Match((string) value);
-                result.IsValid = match.Success;
+                if (value == null)
+                {
+                    result.IsValid = _optional;
+                }
+                else
+                {
+                    var match = regex.Match((string)value);
+                    result.IsValid = match.Success;
+                }
                 if (!result.IsValid)
                 {
                     result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, Name, value).Prompt;
@@ -694,7 +701,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// Dictionary of all fields indexed by name.
     /// </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
-     public class Fields<T> : IFields<T>
+    public class Fields<T> : IFields<T>
     {
         public IField<T> Field(string name)
         {

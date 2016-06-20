@@ -364,7 +364,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var builder = new StringBuilder();
                     var values = _recognizer.ValueDescriptions();
-                    if (_annotation.AllowDefault != BoolDefault.False && field.Optional && !field.IsUnknown(state))
+                    var useButtons = !field.AllowsMultiple && _annotation.ChoiceStyle == ChoiceStyleOptions.Auto;
+                    if (values.Any() && _annotation.AllowDefault != BoolDefault.False && field.Optional)
                     {
                         values = values.Concat(new DescribeAttribute[] { new DescribeAttribute(Language.Normalize(noValue, _annotation.ChoiceCase)) });
                     }
@@ -383,11 +384,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                             current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args, ref buttons);
                         }
                     }
-                    if (values.Count() > 0)
+                    if (values.Any())
                     {
-                        if (!field.AllowsMultiple && _annotation.ChoiceStyle == ChoiceStyleOptions.Auto)
+                        if (useButtons)
                         {
-                            // Buttons do not support multiple selection so we fall back to text
                             int i = 1;
                             foreach(var value in values)
                             {
@@ -402,6 +402,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         }
                         else
                         {
+                            // Buttons do not support multiple selection so we fall back to text
                             if (((_annotation.ChoiceStyle == ChoiceStyleOptions.Auto || _annotation.ChoiceStyle == ChoiceStyleOptions.AutoText)
                                 && values.Count() < 4)
                                 || (_annotation.ChoiceStyle == ChoiceStyleOptions.Inline))

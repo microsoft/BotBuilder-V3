@@ -333,7 +333,10 @@
   <data name="Bottles_description;VALUE" xml:space="preserve">
     <value>Bottles</value>
   </data>
-  <data name="message0;LIST" xml:space="preserve">
+	<data name="Phone_description;VALUE" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+	<data name="message0;LIST" xml:space="preserve">
     <value>Welcome to the pizza bot!!!</value>
   </data>
   <data name="message1;LIST" xml:space="preserve">
@@ -564,11 +567,11 @@
   <data name="Bottles_terms;LIST" xml:space="preserve">
     <value>bottles?</value>
   </data>
-  <data name="message24;LIST" xml:space="preserve">
-    <value>Rating = {Rating:F1} and [{Rating:F2}]</value>
+	<data name="Phone_terms;LIST" xml:space="preserve">
+    <value>phones?</value>
   </data>
-  <data name="confirmation25_promptDefinition;LIST" xml:space="preserve">
-    <value>Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</value>
+	<data name="message25;LIST" xml:space="preserve">
+    <value>Rating = {Rating:F1} and [{Rating:F2}]</value>
   </data>
   <data name="confirmation26_promptDefinition;LIST" xml:space="preserve">
     <value>Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</value>
@@ -579,7 +582,10 @@
   <data name="confirmation28_promptDefinition;LIST" xml:space="preserve">
     <value>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</value>
   </data>
-  <data name="NotUnderstood;Kind;TEMPLATE" xml:space="preserve">
+	<data name="confirmation29_promptDefinition;LIST" xml:space="preserve">
+    <value>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</value>
+  </data>
+	<data name="NotUnderstood;Kind;TEMPLATE" xml:space="preserve">
     <value>What does "{0}" mean???;Really "{0}"???</value>
   </data>
 </root>

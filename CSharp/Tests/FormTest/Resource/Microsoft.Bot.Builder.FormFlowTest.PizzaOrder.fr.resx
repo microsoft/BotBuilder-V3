@@ -459,12 +459,6 @@
   <data name="Bottles_terms;LIST" xml:space="preserve">
     <value>bouteilles?</value>
   </data>
-  <data name="message24;LIST" xml:space="preserve">
-    <value>Note = {Rating:F1} et [{Rating:F2}]</value>
-  </data>
-  <data name="confirmation25_promptDefinition;LIST" xml:space="preserve">
-    <value>Vous souhaitez une taille {}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} à {DeliveryAddress}?</value>
-  </data>
   <data name="confirmation26_promptDefinition;LIST" xml:space="preserve">
     <value>Vous souhaitez une {Size}, {&amp;Signature} envoyées de pizza {Signature} à {DeliveryAddress}?</value>
   </data>
@@ -476,5 +470,17 @@
   </data>
   <data name="NotUnderstood;Kind;TEMPLATE" xml:space="preserve">
     <value>« {0} » veut dire quoi??? ; Vraiment « {0} »???</value>
+  </data>
+  <data name="Phone_description;VALUE" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="Phone_terms;LIST" xml:space="preserve">
+    <value>les téléphones?</value>
+  </data>
+  <data name="message25;LIST" xml:space="preserve">
+    <value>Note = {Rating:F1} et [{Rating:F2}]</value>
+  </data>
+  <data name="confirmation29_promptDefinition;LIST" xml:space="preserve">
+    <value>Vous souhaitez une {Size}, {&amp;Stuffed} {Stuffed} pizza livrée à {DeliveryAddress}?</value>
   </data>
 </root>
