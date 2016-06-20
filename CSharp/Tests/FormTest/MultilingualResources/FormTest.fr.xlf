@@ -651,14 +651,6 @@
           <source>bottles?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">bouteilles?</target>
         </trans-unit>
-        <trans-unit id="message24;LIST" translate="yes" xml:space="preserve">
-          <source>Rating = {Rating:F1} and [{Rating:F2}]</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Note = {Rating:F1} et [{Rating:F2}]</target>
-        </trans-unit>
-        <trans-unit id="confirmation25_promptDefinition;LIST" translate="yes" xml:space="preserve">
-          <source>Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vous souhaitez une taille {}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} à {DeliveryAddress}?</target>
-        </trans-unit>
         <trans-unit id="confirmation26_promptDefinition;LIST" translate="yes" xml:space="preserve">
           <source>Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Vous souhaitez une {Size}, {&amp;Signature} envoyées de pizza {Signature} à {DeliveryAddress}?</target>
@@ -674,6 +666,22 @@
         <trans-unit id="NotUnderstood;Kind;TEMPLATE" translate="yes" xml:space="preserve">
           <source>What does "{0}" mean???;Really "{0}"???</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">« {0} » veut dire quoi??? ; Vraiment « {0} »???</target>
+        </trans-unit>
+        <trans-unit id="Phone_description;VALUE" translate="yes" xml:space="preserve">
+          <source>Phone</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Téléphone</target>
+        </trans-unit>
+        <trans-unit id="Phone_terms;LIST" translate="yes" xml:space="preserve">
+          <source>phones?</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">les téléphones?</target>
+        </trans-unit>
+        <trans-unit id="message25;LIST" translate="yes" xml:space="preserve">
+          <source>Rating = {Rating:F1} and [{Rating:F2}]</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Note = {Rating:F1} et [{Rating:F2}]</target>
+        </trans-unit>
+        <trans-unit id="confirmation29_promptDefinition;LIST" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vous souhaitez une {Size}, {&amp;Stuffed} {Stuffed} pizza livrée à {DeliveryAddress}?</target>
         </trans-unit>
       </group>
     </body>
