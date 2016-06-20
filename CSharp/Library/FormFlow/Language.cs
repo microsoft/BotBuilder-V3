@@ -223,7 +223,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var ngram = new ArraySegment<string>(words, start, length);
                     if (!ArticleOrNone(ngram.First()) && !ArticleOrNone(ngram.Last()))
                     {
-                        terms.Add(string.Join(" ", OptionalPlurals(ngram))); 
+                        terms.Add(string.Join(" ", OptionalPlurals(ngram)));
                     }
                 }
             }
@@ -306,8 +306,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             switch (normalization)
             {
                 case CaseNormalization.InitialUpper:
-                    string.Join(" ", (from word in Language.WordBreak(value)
-                                      select char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+                    value = string.Join(" ", (from word in Language.WordBreak(value)
+                                              select char.ToUpper(word[0]) + word.Substring(1).ToLower()));
                     break;
                 case CaseNormalization.Lower: value = value.ToLower(); break;
                 case CaseNormalization.Upper: value = value.ToUpper(); break;

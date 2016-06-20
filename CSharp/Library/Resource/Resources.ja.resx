@@ -106,14 +106,14 @@
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
-    <value>「{0}」{&amp;} {|} を意味するか</value>
+    <value>「{0}」{&amp;} {||} を意味するか</value>
     <comment>0-term being clarified</comment>
   </data>
   <data name="TemplateCurrentChoice" xml:space="preserve">
     <value>(現在の選択: {})</value>
   </data>
   <data name="TemplateDateTime" xml:space="preserve">
-    <value>{&amp;} {|} の日付と時刻 を入力してください。</value>
+    <value>{&amp;} {||} の日付と時刻 を入力してください。</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
     <value>日付または時刻の式を入力してください {?、{0}} {?、{1}}。</value>
@@ -129,7 +129,7 @@
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
     <value>数値を入力してください {? {2:F1} の間と {3:F1}} {?、{0}} {?、{1}}。
-{?{2:F1}と{3:F1}のあいだ}の数を入力してください{|}</value>
+{?{2:F1}と{3:F1}のあいだ}の数を入力してください{||}</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -183,7 +183,7 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateInteger" xml:space="preserve">
-    <value>{? {0}と{1}の間}の数を入力してください {&amp;} {|} </value>
+    <value>{? {0}と{1}の間}の数を入力してください {&amp;} {||} </value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateIntegerChoiceFormat" xml:space="preserve">
@@ -195,7 +195,7 @@
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
-    <value>何を変更したいですか。{|}</value>
+    <value>何を変更したいですか。{||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
     <value>その名を入力して、別のフィールドを切り替えることができます。({0})。</value>

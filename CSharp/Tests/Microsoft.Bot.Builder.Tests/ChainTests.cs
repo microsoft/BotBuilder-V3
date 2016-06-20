@@ -365,34 +365,22 @@ namespace Microsoft.Bot.Builder.Tests
                 .PostToUser().
                 Loop();
 
-            using (var container = Build(Options.None))
+            using (var container = Build(Options.ResolveDialogFromContainer))
             {
-                var toBot = MakeTestMessage();
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(joke)
+                    .As<IDialog<object>>();
+                builder.Update(container);
 
-                var toBotTexts = new[]
-                {
+                await AssertScriptAsync(container,
                     "chicken",
+                    "why did the chicken cross the road?",
                     "i don't know",
-                    "anything but chickens"
-                };
-
-                foreach (var word in toBotTexts)
-                {
-                    using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
-                    {
-                        DialogModule_MakeRoot.Register(scope, () => joke);
-
-                        var task = scope.Resolve<IPostToBot>();
-                        toBot.Text = word;
-                        await task.PostAsync(toBot, CancellationToken.None);
-                    }
-                }
-
-                var queue = container.Resolve<Queue<IMessageActivity>>();
-                var texts = queue.Select(m => m.Text).ToArray();
-                Assert.AreEqual("why did the chicken cross the road?", texts[0]);
-                Assert.AreEqual("to get to the other side", texts[1]);
-                Assert.AreEqual("why don't you like chicken jokes?", texts[2]);
+                    "to get to the other side",
+                    "anything but chickens",
+                    "why don't you like chicken jokes?"
+                    );
             }
         }
     }

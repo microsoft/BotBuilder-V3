@@ -40,23 +40,18 @@ using System.Resources;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
+#if DEAD_CODE
     internal sealed class Form<T> : IForm<T>
         where T : class
     {
-        internal readonly bool _ignoreAnnotations;
-        internal readonly FormConfiguration _configuration;
-        internal readonly Fields<T> _fields;
-        internal readonly List<IStep<T>> _steps;
-        internal OnCompletionAsyncDelegate<T> _completion;
+        internal readonly FormConfiguration _configuration = new FormConfiguration();
+        internal readonly Fields<T> _fields = new Fields<T>();
+        internal readonly List<IStep<T>> _steps = new List<IStep<T>>();
+        internal OnCompletionAsyncDelegate<T> _completion = null;
+        internal ILocalizer _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture};
 
-        public Form(bool ignoreAnnotations, FormConfiguration configuration = null, Fields<T> fields = null, List<IStep<T>> steps = null, OnCompletionAsyncDelegate<T> completion = null)
+        public Form()
         {
-            _ignoreAnnotations = ignoreAnnotations;
-            _configuration = configuration ?? new FormConfiguration();
-            _fields = fields ?? new Fields<T>();
-            _steps = steps ?? new List<IStep<T>>();
-            _completion = completion;
-            _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture};
         }
 
         internal override ILocalizer Resources
@@ -79,18 +74,14 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         public override void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
         {
+            foreach(var step in _steps)
+            {
+                step.SaveResources();
+            }
             _resources = _resources.Load(reader, out missing, out extra);
             foreach (var step in _steps)
             {
                 step.Localize();
-            }
-        }
-
-        internal override bool IgnoreAnnotations
-        {
-            get
-            {
-                return _ignoreAnnotations;
             }
         }
 
@@ -118,14 +109,13 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        internal override IFields<T> Fields
+        public override IFields<T> Fields
         {
             get
             {
                 return _fields;
             }
         }
-
-        private ILocalizer _resources;
     }
+#endif  
 }

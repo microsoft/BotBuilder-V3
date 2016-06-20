@@ -361,6 +361,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 var prompt = (field == null ? prop.GetCustomAttribute<PromptAttribute>() : field.GetCustomAttribute<PromptAttribute>());
                 var optional = (field == null ? prop.GetCustomAttribute<OptionalAttribute>() : field.GetCustomAttribute<OptionalAttribute>());
                 var numeric = (field == null ? prop.GetCustomAttribute<NumericAttribute>() : field.GetCustomAttribute<NumericAttribute>());
+                var pattern = (field == null ? prop.GetCustomAttribute<PatternAttribute>() : field.GetCustomAttribute<PatternAttribute>());
                 if (describe != null)
                 {
                     _description = describe;
@@ -391,6 +392,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     SetLimits(numeric.Min, numeric.Max, numeric.Min != oldMin || numeric.Max != oldMax);
                 }
 
+                if (pattern != null)
+                {
+                    SetPattern(pattern.Pattern);
+                }
+
                 _optional = (optional != null);
 
                 foreach (var attribute in (field == null ? prop.GetCustomAttributes<TemplateAttribute>() : field.GetCustomAttributes<TemplateAttribute>()))
@@ -412,6 +418,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var terms = enumField.GetCustomAttribute<TermsAttribute>();
                     if (describe != null && !_ignoreAnnotations)
                     {
+                        if (describe.Description == null)
+                        {
+                            describe.Description = Language.CamelCase(enumValue.ToString());
+                        }
                         _valueDescriptions.Add(enumValue, describe);
                     }
                     else
@@ -437,120 +447,5 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Path to field value in state. </summary>
         protected List<object> _path = new List<object>();
         #endregion
-    }
-
-    public class Conditional<T> : FieldReflector<T>
-        where T : class
-    {
-        public Conditional(string name, ActiveDelegate<T> condition, bool ignoreAnnotations = false)
-            : base(name, ignoreAnnotations)
-        {
-            SetActive(condition);
-        }
-    }
-}
-
-namespace Microsoft.Bot.Builder.FormFlow
-{
-    public static partial class Extensions
-    {
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        /// <returns>This form.</returns>
-        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
-            where T : class
-        {
-            var field = (active == null ? new FieldReflector<T>(name) : new Conditional<T>(name, active));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            return builder.Field(field);
-        }
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
-                where T : class
-        {
-            return builder.Field(name, new PromptAttribute(prompt), active, validate);
-        }
-
-        /// <summary>
-        /// Define a step for filling in a particular value in the form state.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// This step will use reflection to construct everything needed for a dialog from a combination
-        /// of the <see cref="DescribeAttribute"/>, <see cref="TermsAttribute"/>, <see cref="PromptAttribute"/>, <see cref="OptionalAttribute"/>
-        /// <see cref="NumericAttribute"/> and <see cref="TemplateAttribute"/> annotations that are supplied by default or you
-        /// override.
-        /// </remarks>
-        public static IFormBuilder<T> Field<T>(this IFormBuilder<T> builder, string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
-                where T : class
-        {
-            var field = (active == null ? new FieldReflector<T>(name) : new Conditional<T>(name, active));
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            field.SetPrompt(prompt);
-            return builder.Field(field);
-        }
-
-        /// <summary>
-        /// Add all fields not already added to the form.
-        /// </summary>
-        /// <param name="builder">Where to add fields.</param>
-        /// <param name="exclude">Fields not to include.</param>
-        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
-        /// <remarks>
-        /// This will add all fields defined in your form that have not already been
-        /// added if the fields are supported.
-        /// </remarks>
-        public static IFormBuilder<T> AddRemainingFields<T>(this IFormBuilder<T> builder, IEnumerable<string> exclude = null)
-            where T : class
-        {
-            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
-            var paths = new List<string>();
-            FormBuilder<T>.FieldPaths(typeof(T), "", paths);
-            foreach (var path in paths)
-            {
-                if (!exclusions.Contains(path) && !builder.HasField(path))
-                {
-                    builder.Field(new FieldReflector<T>(path));
-                }
-            }
-            return builder;
-        }
     }
 }

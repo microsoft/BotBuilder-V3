@@ -105,8 +105,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="max">Maximum possible value.</param>
         /// <returns>True if limits limit the underlying data type.</returns>
         /// <remarks>
-        /// This reflects the result of setting <see cref="NumericAttribute"/> limits on the possible values./></remarks>
+        /// This typically reflects the result of setting <see cref="NumericAttribute"/> limits on the possible values.</remarks>
         bool Limits(out double min, out double max);
+
+        /// <summary>
+        /// Regular expression for validating a string.
+        /// </summary>
+        /// <returns>Validation regular expression.</returns>
+        /// <remarks> This typically reflects the result of setting <see cref="PatternAttribute"/>.</remarks>
+        string Pattern { get; }
 
         /// <summary>
         /// Returns the other fields this one depends on.
@@ -174,14 +181,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Return the string describing a specific value.
         /// </summary>
         /// <param name="value">Value being described.</param>
-        /// <returns>String describing value.</returns>
-        string ValueDescription(object value);
+        /// <returns>Description of value.</returns>
+        DescribeAttribute ValueDescription(object value);
 
         /// <summary>
         /// Return all possible value descriptions in order to support enumeration.
         /// </summary>
         /// <returns>All possible value descriptions.</returns>
-        IEnumerable<string> ValueDescriptions { get; }
+        IEnumerable<DescribeAttribute> ValueDescriptions { get; }
 
         /// <summary>
         /// Given a value return terms that can be used in a dialog to match the object.
@@ -241,7 +248,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public enum StepDirection
     {
         /// <summary>
-        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletionAsync(OnCompletionAsyncDelegate{T})"/> should be called.
+        /// The form is complete and <see cref="IFormBuilder{T}.OnCompletion(OnCompletionAsyncDelegate{T})"/> should be called.
         /// </summary>
         Complete,
 

@@ -35,8 +35,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
@@ -53,7 +52,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     public delegate Task<bool> DefineAsyncDelegate<T>(T state, Field<T> field)
     where T : class;
 
-    /// <summary>Base class with declarative implementation of <see cref="IField{T}"/>. </summary>
+    /// <summary>Base class with declarative implementation of IField. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Field<T> : IField<T>
         where T : class
@@ -144,6 +143,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _limited;
         }
 
+        public virtual string Pattern
+        {
+            get { return _pattern; }
+        }
+
         public virtual IEnumerable<string> Dependencies
         {
             get
@@ -183,16 +187,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return _valueTerms[value].Alternatives;
         }
 
-        public virtual string ValueDescription(object value)
+        public virtual DescribeAttribute ValueDescription(object value)
         {
-            return _valueDescriptions[value].Description;
+            return _valueDescriptions[value];
         }
 
-        public virtual IEnumerable<string> ValueDescriptions
+        public virtual IEnumerable<DescribeAttribute> ValueDescriptions
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Value.Description);
+                return _valueDescriptions.Values;
             }
         }
 
@@ -200,7 +204,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return (from entry in _valueDescriptions select entry.Key);
+                return _valueDescriptions.Keys;
             }
         }
 
@@ -258,7 +262,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             string[] terms;
             if (localizer.Lookup(_name + nameof(_description), out description))
             {
-                _description = new DescribeAttribute(description);
+                _description = new DescribeAttribute(description, _description?.Image);
             }
             if (localizer.LookupValues(_name + nameof(_terms), out terms))
             {
@@ -375,10 +379,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Adds a description for a value. </summary>
         /// <param name="value">        The value. </param>
         /// <param name="description">  Description of the value. </param>
+        /// <param name="image">Image to use for value as button.</param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
-        public Field<T> AddDescription(object value, string description)
+        public Field<T> AddDescription(object value, string description, string image = null)
         {
-            _valueDescriptions[value] = new DescribeAttribute(description);
+            _valueDescriptions[value] = new DescribeAttribute(description, image);
             return this;
         }
 
@@ -456,7 +461,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
         public Field<T> SetActive(ActiveDelegate<T> condition)
         {
-            _condition = condition;
+            if (condition != null) _condition = condition;
             return this;
         }
 
@@ -469,7 +474,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
         public Field<T> SetDefine(DefineAsyncDelegate<T> definition)
         {
-            _define = definition;
+            if (definition != null)_define = definition;
             return this;
         }
 
@@ -510,7 +515,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>   A <see cref="Field{T}"/>. </returns>
         public Field<T> SetValidate(ValidateAsyncDelegate<T> validate)
         {
-            _validate = validate;
+            if (validate != null) _validate = validate;
             return this;
         }
 
@@ -523,6 +528,30 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetLimits(min, max, true);
             return this;
         }
+
+        /// <summary>
+        /// Regular expression for validating strings.
+        /// </summary>
+        /// <param name="pattern">Validation regular expression.</param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> SetPattern(string pattern)
+        {
+            _pattern = pattern;
+            var regex = new Regex(pattern, RegexOptions.Compiled);
+            _validate = async (T state, object value) =>
+            {
+                var result = new ValidateResult { Value = value };
+                var match = regex.Match((string) value);
+                result.IsValid = match.Success;
+                if (!result.IsValid)
+                {
+                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, Name, value).Prompt;
+                }
+                return result;
+            };
+            return this;
+        }
+
         #region Documentation
         /// <summary>   Define the fields this field depends on. </summary>
         /// <param name="dependencies"> A variable-length parameters list containing dependencies. </param>
@@ -641,7 +670,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
         protected double _min, _max;
         protected bool _limited;
-        protected string[] _dependencies = new string[0];
+        protected string _pattern;
+        protected string[] _dependencies = Array.Empty<string>();
         protected bool _allowsMultiple;
         protected Type _type;
         protected bool _optional;
@@ -660,6 +690,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #endregion
     }
 
+    /// <summary>
+    /// Dictionary of all fields indexed by name.
+    /// </summary>
+    /// <typeparam name="T">Underlying form state.</typeparam>
      public class Fields<T> : IFields<T>
     {
         public IField<T> Field(string name)

@@ -44,6 +44,11 @@ namespace Microsoft.Bot.Builder.FormFlow
     #endregion
     public abstract class IForm<T>
     {
+        /// <summary>
+        /// Fields that make up form.
+        /// </summary>
+        public abstract IFields<T> Fields { get; }
+
 #region Documentation
         /// <summary>   Save all string resources to binary stream for future localization. </summary>
         /// <param name="writer">   Where to write resources. </param>
@@ -61,17 +66,10 @@ namespace Microsoft.Bot.Builder.FormFlow
 #endregion
         public abstract void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
 
-#region Documentation
-        /// <summary>   Gets the resource localizer. </summary>
-        /// <value> Localizer for resources. </value>
-#endregion
-        internal abstract ILocalizer Resources { get; }
-
         // Internals
-        internal abstract bool IgnoreAnnotations { get; }
+        internal abstract ILocalizer Resources { get; }
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
         internal abstract OnCompletionAsyncDelegate<T> Completion { get; }
-        internal abstract IFields<T> Fields { get; }
     }   
 }

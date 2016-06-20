@@ -32,22 +32,21 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Json;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 using Moq;
 using Autofac;
+using Newtonsoft.Json.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -140,6 +139,88 @@ namespace Microsoft.Bot.Builder.Tests
                 }
 
                 mock.VerifyAll();
+            }
+        }
+
+        [TestMethod]
+        public async Task CanResolveDynamicFormFromContainer()
+        {
+            // This test has two purposes.
+            // 1. show that IFormDialog can be resolved from the container
+            // 2. show that json schema forms can be dynamically generated based on the incoming message
+            // You will likely find that the extensibility in IForm's callback methods may be sufficient enough for most scenarios.
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+
+                // make a dynamic IForm model based on the incoming message
+                builder
+                    .Register(c =>
+                    {
+                        var message = c.Resolve<IMessageActivity>();
+
+                        // use the user's name as the prompt
+                        const string TEMPLATE_PREFIX =
+                        @"
+                        {
+                          'type': 'object',
+                          'properties': {
+                            'name': {
+                              'type': 'string',
+                              'Prompt': { 'Patterns': [ '";
+
+                        const string TEMPLATE_SUFFIX = 
+                        @"' ] },
+                            }
+                          }
+                        }
+                        ";
+
+                        var text = TEMPLATE_PREFIX + message.From.Id + TEMPLATE_SUFFIX;
+                        var schema = JObject.Parse(text);
+
+                        return
+                            new FormBuilderJson(schema)
+                            .AddRemainingFields()
+                            .Build();
+                    })
+                    .As<IForm<JObject>>()
+                    // lifetime must match lifetime scope tag of Message, since we're dependent on the Message
+                    .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+
+                builder
+                    .Register<BuildFormDelegate<JObject>>(c =>
+                    {
+                        var cc = c.Resolve<IComponentContext>();
+                        return () => cc.Resolve<IForm<JObject>>();
+                    })
+                    // tell the serialization framework to recover this delegate from the container
+                    // rather than trying to serialize it with the dialog
+                    // normally, this delegate is a static method that is trivially serializable without any risk of a closure capturing the environment
+                    .Keyed<BuildFormDelegate<JObject>>(FiberModule.Key_DoNotSerialize)
+                    .AsSelf()
+                    .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+
+                builder
+                    .RegisterType<FormDialog<JObject>>()
+                    // root dialog is an IDialog<object>
+                    .As<IDialog<object>>()
+                    .InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+
+                builder
+                    // our default form state
+                    .Register<JObject>(c => new JObject())
+                    .AsSelf()
+                    .InstancePerDependency();
+
+                builder.Update(container);
+
+                // verify that the form dialog prompt is dynamically generated from the incoming message
+                await AssertScriptAsync(container,
+                    "hello",
+                    ChannelID.User
+                    );
             }
         }
     }

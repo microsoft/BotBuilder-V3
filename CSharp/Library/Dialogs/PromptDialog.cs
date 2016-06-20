@@ -235,6 +235,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     }
 
     /// <summary>   Dialog factory for simple prompts. </summary>
+    /// <remarks>The exception <see cref="TooManyAttemptsException"/> will be thrown if the number of allowed attempts is exceeded.</remarks>
     public class PromptDialog
     {
         /// <summary>   Prompt for a string. </summary>
@@ -267,7 +268,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> The dialog context.</param>
         /// <param name="resume"> Resume handler.</param>
         /// <param name="promptOptions"> The options for the prompt, <see cref="PromptOptions{T}"/>.</param>
-        internal static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions)
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions)
         {
             var child = new PromptConfirm(promptOptions);
             context.Call<bool>(child, resume);
@@ -603,7 +604,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     //too many attempts, throw.
                     await context.PostAsync(this.MakePrompt(context, promptOptions.TooManyAttempts));
-                    throw new Exception(promptOptions.TooManyAttempts);
+                    throw new TooManyAttemptsException(promptOptions.TooManyAttempts);
                 }
             }
         }

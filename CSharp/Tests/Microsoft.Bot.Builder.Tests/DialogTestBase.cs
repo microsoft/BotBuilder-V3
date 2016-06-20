@@ -34,6 +34,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
@@ -51,12 +53,19 @@ namespace Microsoft.Bot.Builder.Tests
         protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot")); 
 
         [Flags]
-        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory };
+        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory, ResolveDialogFromContainer };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule_MakeRoot());
+            if (options.HasFlag(Options.ResolveDialogFromContainer))
+            {
+                builder.RegisterModule(new DialogModule());
+            }
+            else
+            {
+                builder.RegisterModule(new DialogModule_MakeRoot());
+            }
 
             builder
                 .Register(c => new BotIdResolver("testBot"))
@@ -103,15 +112,54 @@ namespace Microsoft.Bot.Builder.Tests
             return builder.Build();
         }
 
+        public static class ChannelID
+        {
+            public const string User = "testUser";
+            public const string Bot = "testBot";
+        }
+
         public static IMessageActivity MakeTestMessage()
         {
             return new Activity() {
-                From = new ChannelAccount { Id = "testUser" },
+                From = new ChannelAccount { Id = ChannelID.User },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
-                Recipient = new ChannelAccount { Id = "testBot"},
+                Recipient = new ChannelAccount { Id = ChannelID.Bot },
                 ServiceUrl = "InvalidServiceUrl", 
                 ChannelId = "Test"
             };
+        }
+
+        public static async Task AssertScriptAsync(ILifetimeScope container, params string[] pairs)
+        {
+            Assert.AreNotEqual(0, pairs.Length);
+
+            var toBot = MakeTestMessage();
+
+            for (int index = 0; index < pairs.Length; ++index)
+            {
+                var toBotText = pairs[index];
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var task = scope.Resolve<IPostToBot>();
+                    toBot.Text = toBotText;
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                var queue = container.Resolve<Queue<IMessageActivity>>();
+
+                while (queue.Count > 0)
+                {
+                    ++index;
+
+                    var toUser = queue.Dequeue();
+
+                    var actual = toUser.Text;
+                    var expected = pairs[index];
+
+                    Assert.AreEqual(expected, actual);
+                }
+            }
         }
 
         public static void AssertMentions(string expectedText, IEnumerable<IMessageActivity> actualToUser)

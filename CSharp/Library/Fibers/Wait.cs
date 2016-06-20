@@ -34,6 +34,7 @@
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -322,7 +323,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             if (this.fail != null)
             {
-                throw this.fail;
+                // http://stackoverflow.com/a/17091351
+                ExceptionDispatchInfo.Capture(this.fail).Throw();
+
+                // just to satisfy compiler - should not reach this line
+                throw new InvalidOperationException();
             }
             else
             {

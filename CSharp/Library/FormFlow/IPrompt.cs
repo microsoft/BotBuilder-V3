@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         TemplateBaseAttribute Annotation { get; }
 
         /// <summary>
-        /// Return string to send to user.
+        /// Return prompt to send to user.
         /// </summary>
         /// <param name="state">Current form state.</param>
         /// <param name="path">Current field being processed.</param>
@@ -366,7 +366,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var values = _recognizer.ValueDescriptions();
                     if (_annotation.AllowDefault != BoolDefault.False && field.Optional && !field.IsUnknown(state))
                     {
-                        values = values.Concat(new string[] { Language.Normalize(noValue, _annotation.ChoiceCase) });
+                        values = values.Concat(new DescribeAttribute[] { new DescribeAttribute(Language.Normalize(noValue, _annotation.ChoiceCase)) });
                     }
                     string current = null;
                     if (_annotation.AllowDefault != BoolDefault.False)
@@ -391,7 +391,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                             int i = 1;
                             foreach(var value in values)
                             {
-                                var button = new FormButton() { Title = value };
+                                var button = new FormButton() { Title = value.Description, Image = value.Image };
                                 if (_annotation.AllowNumbers)
                                 {
                                     button.Message = i.ToString();
@@ -412,7 +412,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                                 var i = 1;
                                 foreach (var value in values)
                                 {
-                                    choices.Add(string.Format(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase)));
+                                    choices.Add(string.Format(_annotation.ChoiceFormat, i, Language.Normalize(value.Description, _annotation.ChoiceCase)));
                                     ++i;
                                 }
                                 builder.Append(Language.BuildList(choices, _annotation.ChoiceSeparator, _annotation.ChoiceLastSeparator));
@@ -439,7 +439,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                                     {
                                         builder.Append("* ");
                                     }
-                                    builder.AppendFormat(_annotation.ChoiceFormat, i, Language.Normalize(value, _annotation.ChoiceCase));
+                                    builder.AppendFormat(_annotation.ChoiceFormat, i, Language.Normalize(value.Description, _annotation.ChoiceCase));
                                     ++i;
                                 }
                             }
@@ -587,7 +587,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else
             {
-                result = field.Prompt.Recognizer.ValueDescription(value);
+                result = field.Prompt.Recognizer.ValueDescription(value).Description;
             }
             return result;
         }

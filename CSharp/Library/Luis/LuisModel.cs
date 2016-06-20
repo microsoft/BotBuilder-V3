@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Builder.Luis
     /// <summary>
     /// The LUIS model information.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     [Serializable]
     public class LuisModelAttribute : Attribute
     {

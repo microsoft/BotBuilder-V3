@@ -63,6 +63,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _next = (value, state) => value ? new NextStep() : noStep;
         }
 
+        /// <summary>
+        /// Construct a confirmation dynamically.
+        /// </summary>
+        /// <param name="generateMessage">Delegate for building confirmation.</param>
+        /// <param name="condition">Delegate to see if confirmation is active.</param>
+        /// <param name="dependencies">Fields that must have values before confirmation can run.</param>
+        /// <param name="form">Form that contains confirmation.</param>
         public Confirmation(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
             : base("confirmation" + form.Steps.Count, FieldRole.Confirm)
         {
