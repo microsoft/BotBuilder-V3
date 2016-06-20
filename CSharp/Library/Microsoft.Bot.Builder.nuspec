@@ -27,14 +27,14 @@
       <dependency id="Microsoft.Rest.ClientRuntime" version="1.8.2" />
       <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2.1" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
-      <dependency is="Microsoft.CodeAnalysis.CSharp.Scripting" version="1.2.2" />
+      <dependency id="Microsoft.CodeAnalysis.CSharp.Scripting" version="1.2.2" />
     </dependencies>
   </metadata>
   <files>
     <file src="bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
     <file src="bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.Json.dll" target="lib\net46"/>
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.Json.xml" target="lib\net46" />
+    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.dll" target="lib\net46"/>
+    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.xml" target="lib\net46" />
     <file src="..\tools\rview\bin\release\RView.exe" target="tools"/>
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>
