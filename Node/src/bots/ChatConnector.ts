@@ -131,7 +131,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 json: true
             };
             this.authenticatedRequest(options, (err, response, body) => {
-                var adr: IAddress;
+                var adr: IChatConnectorAddress;
                 if (!err) {
                     try {
                         var obj = typeof body === 'string' ? JSON.parse(body) : body;
@@ -427,9 +427,10 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
 
         // Append base path info.
-        return path + '/v3/botstate/' + 
+        return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
+/*        return path + '/v3/botstate/' + 
             encodeURIComponent(this.settings.botId) + '/' +
-            encodeURIComponent(address.channelId);
+            encodeURIComponent(address.channelId);*/
     }
 }
 
@@ -454,6 +455,7 @@ function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): vo
 }
 
 interface IChatConnectorAddress extends IAddress {
+    id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
 }
 

@@ -61,7 +61,6 @@ interface IAddress {
     user: IIdentity;                // User that sent or should receive the message
     bot?: IIdentity;                // Bot that either received or is sending the message
     conversation?: IIdentity;       // Represents the current conversation and tracks where replies should be routed to. 
-    id?: string;                    // Incoming Message ID
 }
 
 interface IAttachment {

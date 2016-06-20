@@ -353,9 +353,7 @@ var ChatConnector = (function () {
                 path = 'https://api.botframework.com';
                 break;
         }
-        return path + '/v3/botstate/' +
-            encodeURIComponent(this.settings.botId) + '/' +
-            encodeURIComponent(address.channelId);
+        return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
     };
     return ChatConnector;
 })();

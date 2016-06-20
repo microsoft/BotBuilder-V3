@@ -4,213 +4,263 @@
 //
 //=============================================================================
 
-/** A communication message recieved from a User or sent out of band from a Bot. */
-export interface IMessage {
-    /** What kind of message is this. */
-    type?: string;
+/** 
+ * A chat message sent between a User and a Bot. Messages from the bot to the user come in two flavors: 
+ * 
+ * * __reactive messages__ are messages sent from the Bot to the User as a reply to an incoming message from the user. 
+ * * __proactive messages__ are messages sent from the Bot to the User in response to some external event like an alarm triggering.
+ * 
+ * In the reactive case the you should copy the [address](#address) field from the incoming message to the outgoing message (if you use the [Message]( http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class and initialize it with the 
+ * [session](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html) this will happen automatically) and then set the [text](#text) or [attachments](#attachments).  For proactive messages you’ll need save the [address](#address) from the incoming message to 
+ * an external storage somewhere. You can then later pass this in to [UniversalBot.beginDialog()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#begindialog) or copy it to an outgoing message passed to 
+ * [UniversalBot.send()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#send). 
+ *
+ * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
+ * the [conversation](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
+ */
+interface IMessage {
+    /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
+    address: IAddress; 
+    
+    /** Timestamp of message given by chat service for incoming messages. */
+    timestamp: string;
 
-    /** Bot.Connector Id for the message (always assigned by transport.) */
-    id?: string;
+    /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
+    channelData: any;  
+    
+    /** Defines type of notification and name of feature. */
+    type: string;
 
-    /** Bot.Connector ConverationId id for the conversation (always assigned by transport.) */
-    conversationId?: string;
+    /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
+    summary: string; 
 
-    /** Timestamp of when the message was created. */
-    created?: string;
+    /** Message text. */
+    text: string;
 
-    /** (if translated) The OriginalText of the message. */
-    sourceText?: string;
+    /** Identified language of the message if known. */   
+    local: string;
 
-    /** (if translated) The language of the OriginalText of the message. */
-    sourceLanguage?: string;
+    /** For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.   */
+    attachments: IAttachment[]; 
 
-    /** The language that the Text is expressed in. */
-    language?: string;
+    /** Structured objects passed to the bot or user. */
+    entities: any[];
 
-    /** The text of the message (this will be target language depending on flags and destination.)*/
-    text?: string;
+    /** 
+     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
+     * [lookupUser](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
+     */
+    user: IIdentity;
+}
 
-    /** Array of attachments that can be anything. */
-    attachments?: IAttachment[];
+/** Implemented by classes that can be converted into a message. */
+interface IIsMessage {
+    /** Returns the JSON object for the message. */
+    toMessage(): IMessage;
+}
 
-    /** ChannelIdentity that sent the message. */
-    from?: IChannelAccount;
+/** Represents a user, bot, or conversation. */
+interface IIdentity {
+    /** Channel specific ID for this identity. */
+    id: string;
 
-    /** ChannelIdentity the message is sent to. */
-    to?: IChannelAccount;
+    /** Friendly name for this identity. */ 
+    name?: string;
 
-    /** Account to send replies to (for example, a group account that the message was part of.) */
-    replyTo?: IChannelAccount;
-
-    /** The message Id that this message is a reply to. */
-    replyToMessageId?: string;
-
-    /** List of ChannelAccounts in the conversation (NOTE: this is not for delivery means but for information.) */
-    participants?: IChannelAccount[];
-
-    /** Total participants in the conversation.  2 means 1:1 message. */
-    totalParticipants?: number;
-
-    /** Array of mentions from the channel context. */
-    mentions?: IMention[];
-
-    /** Place in user readable format: For example: "Starbucks, 140th Ave NE, Bellevue, WA" */
-    place?: string;
-
-    /** Channel Message Id. */
-    channelMessageId?: string;
-
-    /** Channel Conversation Id. */
-    channelConversationId?: string;
-
-    /** Channel specific properties.  For example: Email channel may pass the Subject field as a property. */
-    channelData?: any;
-
-    /** Location information (see https://dev.onedrive.com/facets/location_facet.htm) */
-    location?: ILocation;
-
-    /** Hashtags for the message. */
-    hashtags?: string[];
-
-    /** Required to modify messages when manually reading from a store. */
-    eTag?: string;
+    /** If true the identity is a group. Typically only found on conversation identities. */ 
+    isGroup?: boolean;   
 }
 
 /** 
- * Many messaging channels provide the ability to attach richer objects. You can pass these 
- * attachments to the Bot Connector Service using the cross channel format below and the 
- * Bot Connector will do its best render them using the channels native format. If you aren't
- * satisfied with the Bot Connectors cross channel rendering or would like more control you can
- * always pass attachments in the channels native format using [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata).  
- * 
- * Three types of message attachments are currently supported (_action_, _image/file_,
- * and _card_.) The valid fields very by attachment type:
- * * __action:__ An action for the user to take (typically rendered as a button.) Valid fields: [actions](#actions).
- * * __image/file:__ An image or a file to send the user. Valid fields: [contentType](#contenttype), [contentUrl](#contenturl).
- * * __card:__ A rich card displayed to the user. Valid fields: [actions](#actions), [fallbackText](#fallbacktext), [title](#title), [titleLink](#titlelink), [text](#text), [thumbnailUrl](#thumbnailurl).  
- *
- * Cross channel attachments can easily be sent to the user using the [Message.addAttachment()](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html#addattachment) method. 
- * 
- * Sending an image:
- * <pre><code>var msg = new Message().addAttachment({
- *     contentType: 'image/png',
- *     contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'
- * });
- * session.send(msg);
- * </code></pre>
- * 
- * Sending a card with actions:
- * <pre><code>var msg = new Message().addAttachment({
- *     text: 'Pick one:',
- *     actions: [
- *         { title: "Willy's Cheeseburger", message: "CB" },
- *         { title: "Curley Fries", message: "F" },
- *         { title: "Chocolate Shake", message: "S" }
- *     ]
- * });
- * session.send(msg);
- * </code></pre>
+ * Address routing information for a [message](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#address). 
+ * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
+ * [connectors](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
  */
-export interface IAttachment {
-    /** List of actions to map to buttons in the clients UI. Valid for _action_ & _card_ attachments. */
-    actions?: IAction[];
-    
-    /** The mimetype/ContentType of the [contentUrl](#contenturl). Valid for _image/file_ attachments. */
-    contentType?: string;
-
-    /** A link to the actual file. Valid for _image/file_ attachments. */
-    contentUrl?: string;
-
-    /** Fallback text used for downlevel clients, should be simple markup with links. Valid for _card_ attachments. */
-    fallbackText?: string;
-    
-    /** Title of the card. Valid for _card_ attachments. */
-    title?: string;
-
-    /** Link for the [title](#title). Valid for _card_ attachments. */
-    titleLink?: string;
-
-    /** Text of the card. Valid for _card_ attachments. */
-    text?: string;
-
-    /** Image to put on the card. Valid for _card_ attachments. */
-    thumbnailUrl?: string;
-}
-
-/**
- * An action is a representation of information that a user can use to take action. On many channels 
- * actions get mapped to buttons, while on other channels they simply become a list of options 
- * displayed to the user.
- * 
- * Regardless, a user can perform the action by clicking on a button or typing in the content as a 
- * response.
- */
-export interface IAction {
-    /** Label of the action (button.) */
-    title?: string;
-    
-    /** Message which will be sent for the user when they click the button. */
-    message?: string;
-    
-    /** Instead of a message when someone clicks on a button it should take them to a Url (Not all channels support URL based actions.) */
-    url?: string;
-    
-    /** Url to an image to put on the card (Not all channels will show an image.) */
-    image?: string;
-}
-
-/** Information needed to route a message. */
-export interface IChannelAccount {
-    /** Display friendly name of the user. */
-    name?: string;
-
-    /** Channel Id that the channelAccount is to be communicated with (Example: GroupMe.) */
+interface IAddress {
+    /** Unique identifier for channel. */
     channelId: string;
 
-    /** Channel Address for the channelAccount (Example: @thermous.) */
-    address: string;
+    /** User that sent or should receive the message. */
+    user: IIdentity;
 
-    /** Id - global intercom id. */
-    id?: string;
+    /** Bot that either received or is sending the message. */ 
+    bot: IIdentity;
 
-    /** Is this account id an bot? */
-    isBot?: boolean;
+    /** 
+     * Represents the current conversation and tracks where replies should be routed to. 
+     * Can be deleted to start a new conversation with a [user](#user) on channels that support new conversations.
+     */ 
+    conversation?: IIdentity;  
 }
 
-/** Mention information. */
-export interface IMention {
-    /** The mentioned user. */
-    mentioned?: IChannelAccount;
+/**  
+ * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
+ * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IMessage.channelData](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) to provide attachments using 
+ * the channels native schema. The types of attachments that can be sent varies by channel but these are the basic types:
+ * 
+ * * __Media and Files:__  Basic files can be sent by setting [contentType](#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](#contenturl).
+ * * __Cards and Keyboards:__  A rich set of visual cards and custom keyboards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
+ * [HeroCard](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
+ */
+interface IAttachment {
+    /** MIME type string which describes type of attachment. */
+    contentType: string;
 
-    /** Sub Text which represents the mention (can be null or empty.) */
+    /** (Optional) object structure of attachment. */  
+    content?: any;
+
+    /** (Optional) reference to location of attachment content. */  
+    contentUrl?: string; 
+}
+
+/** Implemented by classes that can be converted into an attachment. */
+interface IIsAttachment {
+    /** Returns the JSON object for the attachment. */
+    toAttachment(): IAttachment;
+}
+
+/** Displays a signin card and button to the user. Some channels may choose to render this as a text prompt and link to click. */
+interface ISigninCard {
+    /** Title of the Card. */
+    title: string;
+
+    /** Sign in action. */  
+    button: ICardAction;  
+}
+
+/** 
+ * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
+ * All of the cards fields are optional so this card can be used to specify things like a keyboard on certain channels. Some channels may choose to render a lower fidelity version of the card or use an alternate representation. 
+ */
+interface IThumbnailCard {
+    /** Title of the Card. */
+    title?: string;
+
+    /** Subtitle appears just below Title field, differs from Title in font styling only. */  
+    subtitle?: string;
+
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only. */
     text?: string;
+
+    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. */  
+    images?: ICardImage[];
+
+    /** This action will be activated when user taps on the card. Not all channels support tap actions and some channels may choose to render the tap action as the titles link. */  
+    tap?: ICardAction;
+
+    /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */  
+    buttons?: ICardAction[];  
 }
 
-/** A GEO location. */
-export interface ILocation {
-    /** Altitude. */
-    altitude?: number;
+/** Displays a rich receipt to a user for something they've either bought or are planning to buy. */
+interface IReceiptCard {
+    /** Title of the Card. */
+    title: string;
 
-    /** Latitude for the user when the message was created. */
-    latitude: number;
+    /** Array of receipt items. */  
+    items: IReceiptItem[];
 
-    /** Longitude for the user when the message was created. */
-    longitude: number;
+    /** Array of additional facts to display to user (shipping charges and such.) Not all facts will be displayed on all channels. */ 
+    facts: IFact[];
+
+    /** This action will be activated when user taps on the card. Not all channels support tap actions. */  
+    tap: ICardAction;
+
+    /** Total amount of money paid (or should be paid.) */  
+    total: string;
+
+    /** Total amount of TAX paid (or should be paid.) */
+    tax: string;
+
+    /** Total amount of VAT paid (or should be paid.) */  
+    vat: string;
+
+    /** Set of actions applicable to the current card. Not all channels support buttons and the number of allowed buttons varies by channel. */  
+    buttons: ICardAction[];  
 }
 
-/** Address info passed to Bot.beginDialog() calls. Specifies the address of the user to start a conversation with. */
-export interface IBeginDialogAddress {
-    /** Address of user to begin dialog with. */
-    to: IChannelAccount;
+/** An individual item within a [receipt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+interface IReceiptItem {
+    /** Title of the item. */
+    title: string;
+    
+    /** Subtitle appears just below Title field, differs from Title in font styling only. On some channels may be combined with the [title](#title) or [text](#text). */
+    subtitle: string;
 
-    /** Optional "from" address for the bot. Required if IConnectorSession.defaultFrom hasn't been specified. */
-    from?: IChannelAccount;
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only. */  
+    text: string;
 
-    /** Optional language to use when messaging the user. */
-    language?: string;
+    /** Image to display on the card. Some channels may either send the image as a seperate message or simply include a link to the image. */  
+    image: ICardImage;
+    
+    /** Amount with currency. */
+    price: string;
 
-    /** Optional text to initialize the dialogs message with. Useful for scenarios where the dialog being called is expecting to be replying to something the user said. */
-    text?: string;
+    /** Number of items of given kind. */  
+    quantity: string;
+
+    /** This action will be activated when user taps on the Item bubble. Not all channels support tap actions. */  
+    tap: ICardAction;  
+}
+
+/** Implemented by classes that can be converted into a receipt item. */
+interface IIsReceiptItem {
+    /** Returns the JSON object for the receipt item. */
+    toItem(): IReceiptItem;
+}
+
+/** The action that should be performed when a card, button, or image is tapped.  */
+interface ICardAction {
+    /** Defines the type of action implemented by this button. Not all action types are supported by all channels. */
+    type: string;
+
+    /** Text description for button actions. */   
+    title?: string;
+
+    /** Parameter for Action. Content of this property depends on Action type. */  
+    value: string;
+
+    /** (Optional) Picture to display for button actions. Not all channels support button images. */  
+    image?: string;  
+}
+
+/** Implemented by classes that can be converted into a card action. */
+interface IIsCardAction {
+    /** Returns the JSON object for the card attachment. */
+    toAction(): ICardAction;
+}
+
+/** An image on a card. */
+interface ICardImage {
+    /** Thumbnail image for major content property. */
+    url: string;
+
+    /** Image description intended for screen readers. Not all channels will support alt text. */  
+    alt: string;
+
+    /** Action assigned to specific Attachment. E.g. navigate to specific URL or play/open media content. Not all channels will support tap actions. */  
+    tap: ICardAction;  
+}
+
+/** Implemented by classes that can be converted into a card image. */
+interface IIsCardImage {
+    /** Returns the JSON object for the card image. */
+    toImage(): ICardImage;
+}
+
+/** A fact displayed on a card like a [receipt](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+interface IFact {
+    /** Display name of the fact. */
+    key: string;
+
+    /** Display value of the fact. */  
+    value: string;  
+}
+
+/** Implemented by classes that can be converted into a fact. */
+interface IIsFact {
+    /** Returns the JSON object for the fact. */
+    toFact(): IFact;
 }
 
 /** Plugin for localizing messages sent to the user by a bot. */
@@ -230,40 +280,6 @@ export interface ILocalizer {
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      */
     ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
-}
-
-/** 
- * Action object which exposes a partial set of session functionality and can be used to capture 
- * messages sent to a child dialog.
- */
-interface ISessionAction {
-    /** Data for the user that's persisted across all conversations with the bot. */
-    userData: any;
-
-    /** Data that's only visible to the current dialog. */
-    dialogData: any;
-
-    /** Does not capture anything and proceedes to the next parent dialog in the callstack. */
-    next(): void;
-
-    /**
-     * Ends all of the dialogs children and returns control to the current dialog. This permanently 
-     * captures back the users replies.
-     * @param result Optional results to pass to dialogResumed().
-     */
-    endDialog<T>(result?: IDialogResult<T>): void;
-    
-    /**
-     * Sends a message to the user. The message will be localized using the sessions 
-     * configured ILocalizer and if arguments are passed in the message will be formatted using
-     * sprintf-js. See https://github.com/alexei/sprintf.js for documentation. 
-     * @param msg
-     * * __msg:__ _{string}_ - Text of a message to send the user. The message will be localized using the sessions configured [localizer](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.session.html#localizer). If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
-     * * __msg:__ _{IMessage}_ - Message to send the user.
-     * @param args Optional arguments used to format the final output text when __msg__ is a _{string}_.
-     */
-    send(msg: string, ...args: any[]): void;
-    send(msg: IMessage): void;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
@@ -314,8 +330,9 @@ export interface IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
      */
-    retryPrompt?: string|string[]|IMessage;
+    retryPrompt?: string|string[]|IMessage|IIsMessage;
 
     /** Optional maximum number of times to reprompt the user. Default value is 2. */
     maxRetries?: number;
@@ -337,8 +354,9 @@ export interface IPromptArgs extends IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
      */
-    prompt: string|string[]|IMessage;
+    prompt: string|string[]|IMessage|IIsMessage;
 
     /** Enum values for a choice prompt. */
     enumsValues?: string[];
@@ -401,18 +419,6 @@ export interface IPromptRecognizerArgs {
 
     /** Optional reference date when recognizing times. */
     refDate?: number;
-
-    /**
-     * Lets a prompt recognizer compare its confidence that it understood an utterance with the prompts parent. 
-     * The callback will return true if the utterance was processed by the parent. This function lets a
-     * parent of the prompt handle utterances like "what can I say?" or "nevermind". 
-     * @param language The langauge of the utterance taken from IMessage.language.
-     * @param utterance The users utterance taken from IMessage.text.
-     * @param score The dialogs confidence level on a scale of 0 to 1.0 that it understood the users intent.
-     * @param callback Function to invoke with the result of the comparison. If handled is true the dialog should not process the utterance.
-     * @param callback.handled If true the utterance was handled by the parent and the recognizer should not continue. 
-     */
-    compareConfidence(language: string, utterance: string, score: number, callback: (handled: boolean) => void): void;
 }
 
 /** Global configuration options for the Prompts dialog. */
@@ -446,6 +452,43 @@ export interface IEntity {
 
     /** Confidence on a scale from 0.0 - 1.0 that the proper entity was recognized. */
     score?: number;
+}
+
+/** Order in which an [IntentDialogs](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
+export enum RecognizeOrder { 
+    /** All recognizers will be evaluated in parallel. */
+    parallel,
+
+    /** Recognizers will be evaluated in series. Any recognizer that returns a score of 1.0 will prevent the evaluation of the remaining recognizers. */
+    series 
+}
+
+/** Options used to configure an [IntentDialog](http://docs.botframework.com/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). */
+export interface IIntentDialogOptions {
+    /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
+    intentThreshold?: number;
+
+    /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
+    recognizeOrder?: RecognizeOrder;
+
+    /** Optional list of intent recognizers to run the users utterance through. */
+    recognizers?: IIntentRecognizer[];
+
+    /** Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
+    processLimit?: number;
+} 
+
+
+export interface IIntentRecognizer {
+    recognize(context: IRecognizeContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+export interface IIntentRecognizerResult extends IRecognizeResult {
+    intent: string;
+    expression?: RegExp;
+    matched?: string; 
+    intents?: IIntent[];
+    entities?: IEntity[]; 
 }
 
 /** Arguments passed to intent handlers when invoked. */
