@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Connector
         private void Initialize()
         {
             this.BotState = new BotState(this);
-            this.BaseUri = new Uri("https://state.api.botframework.com");
+            this.BaseUri = new Uri("https://state.botframework.com");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
