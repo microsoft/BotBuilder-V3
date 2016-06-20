@@ -207,8 +207,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             switch (PromptStyle)
             {
                 case PromptStyle.Auto:
-                    message.Text = prompt;
-                    message.AddHeroCard(options);
+                    if (options != null && options.Any())
+                    {
+                        message.AddHeroCard(prompt, options);
+                    }
+                    else
+                    {
+                        message.Text = prompt;
+                    }
                     break;
                 case PromptStyle.AutoText:
                     Apply(ref message, prompt, options, options?.Count() > 4 ? PromptStyle.PerLine : PromptStyle.Inline);
@@ -527,14 +533,15 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </remarks>
         /// <typeparam name="T"> Type of the options.</typeparam>
         /// <param name="message"> The message that the buttons will be added to.</param>
+        /// <param name="text"> The text in the <see cref="HeroCard"/>.</param>
         /// <param name="options"> The options that cause generation of buttons.</param>
-        public static void AddHeroCard<T>(this IMessageActivity message, IEnumerable<T> options)
+        public static void AddHeroCard<T>(this IMessageActivity message, string text, IEnumerable<T> options)
         {
             message.AttachmentLayout = AttachmentLayoutTypes.List;
-            message.Attachments = options.GenerateHeroCard();
+            message.Attachments = options.GenerateHeroCard(text);
         }
 
-        internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options)
+        internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options, string text)
         {
             var actions = new List<CardAction>();
             foreach (var option in options)
@@ -542,14 +549,14 @@ namespace Microsoft.Bot.Builder.Dialogs
                 actions.Add(new CardAction
                 {
                     Title = option.ToString(),
-                    Type = "postBack", 
+                    Type = "imBack", 
                     Value = option.ToString()
                 });
             }
 
             var attachments = new List<Attachment>
             {
-                new HeroCard(buttons: actions).ToAttachment()
+                new HeroCard(text: text, buttons: actions).ToAttachment()
             };
 
             return attachments; 

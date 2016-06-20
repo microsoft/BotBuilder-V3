@@ -177,7 +177,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return buttons; 
         }
 
-        internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons)
+        internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons, string text)
         {
             var actions = new List<CardAction>(); 
             foreach(var button in buttons)
@@ -189,7 +189,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    action = new CardAction("postBack", button.Title, button.Image, button.Message ?? button.Title);
+                    action = new CardAction("imBack", button.Title, button.Image, button.Message ?? button.Title);
                 }
 
                 actions.Add(action);
@@ -198,7 +198,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var attachments = new List<Attachment>();
             if (actions.Count > 0)
             {
-                attachments.Add(new HeroCard(buttons: actions).ToAttachment());
+                attachments.Add(new HeroCard(text: text, buttons: actions).ToAttachment());
             }
             return attachments;
         }

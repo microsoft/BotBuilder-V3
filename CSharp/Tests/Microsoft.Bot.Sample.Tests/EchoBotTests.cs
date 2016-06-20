@@ -101,6 +101,13 @@ namespace Microsoft.Bot.Sample.Tests
 
                 toBot.Text = "reset";
                 toUser = await GetResponse(container, MakeRoot, toBot);
+
+                // checking if there is any cards in the attachment and promote the card.text to message.text
+                if (toUser.Attachments != null && toUser.Attachments.Count > 0)
+                {
+                    var card = (HeroCard)toUser.Attachments.First().Content;
+                    toUser.Text = card.Text;
+                }
                 Assert.IsTrue(toUser.Text.ToLower().Contains("are you sure"));
 
                 toBot.Text = "yes";

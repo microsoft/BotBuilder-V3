@@ -313,9 +313,16 @@ namespace Microsoft.Bot.Builder.FormFlow
                     if (prompt != null)
                     {
                         var msg = context.MakeMessage();
-                        msg.Text = prompt.Prompt;
                         msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                        msg.Attachments = prompt.Buttons.GenerateAttachments();
+                        if (prompt.Buttons?.Count > 0)
+                        {
+                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
+                            msg.Attachments = prompt.Buttons.GenerateAttachments(prompt.Prompt);
+                        }
+                        else
+                        {
+                            msg.Text = prompt.Prompt;
+                        }
                         await context.PostAsync(msg);
                     }
                     return prompt;
