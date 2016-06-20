@@ -124,25 +124,25 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task PromptSuccess_Confirm_Yes()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "yes", true);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "yes", true);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_Yes_CaseInsensitive()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "Yes", true);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "Yes", true);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_No()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "no", false);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "no", false);
         }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_No_CaseInsensitive()
         {
-            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText), "No", false);
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "No", false);
         }
 
         [TestMethod]
@@ -161,21 +161,21 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptSuccess_Choice()
         {
             var choices = new[] { "one", "two", "three" };
-            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "two", "two");
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "two", "two");
         }
 
         [TestMethod]
         public async Task PromptSuccess_Choice_Overlapping()
         {
             var choices = new[] { "9", "19", "else" };
-            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "9", "9");
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "9", "9");
         }
 
         [TestMethod]
         public async Task PromptSuccess_Choice_Overlapping_Reverse()
         {
             var choices = new[] { "19", "9", "else" };
-            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText), "9", "9");
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "9", "9");
         }
     }
 
@@ -239,13 +239,13 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptFailure_Choice()
         {
             var choices = new[] { "one", "two", "three" };
-            await PromptFailureAsync<string>((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<string>((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, RetryText, MaximumAttempts, promptStyle: PromptStyle.None));
         }
 
         [TestMethod]
         public async Task PromptFailure_Confirm()
         {
-            await PromptFailureAsync<bool>((context, resume) => PromptDialog.Confirm(context, resume, PromptText, RetryText, MaximumAttempts));
+            await PromptFailureAsync<bool>((context, resume) => PromptDialog.Confirm(context, resume, PromptText, RetryText, MaximumAttempts, promptStyle: PromptStyle.None));
         }
     }
 }

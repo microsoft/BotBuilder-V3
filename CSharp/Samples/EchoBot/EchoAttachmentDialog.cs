@@ -17,7 +17,6 @@ namespace Microsoft.Bot.Sample.EchoBot
             if (message.Text.ToLower() == "makeattachment")
             {
                 var reply = context.MakeMessage();
-                reply.Type = ActivityTypes.MessageCarousel;
                 reply.Text = string.Format("{0}: You said {1}", this.count++, message.Text);
 
                 reply.Attachments = new List<Attachment>();
@@ -29,11 +28,11 @@ namespace Microsoft.Bot.Sample.EchoBot
                     {
                         Title = $"Button:{i}",
                         Value = $"Action:{i}", 
-                        Type = "postBack"
+                        Type = "imBack"
                     });
                 }
-                
-                for (int i = 0; i < 10; i++)
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel; 
+                for (int i = 0; i < 5; i++)
                 {
                     reply.Attachments.Add(
                          new HeroCard

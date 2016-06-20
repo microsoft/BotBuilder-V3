@@ -1265,19 +1265,16 @@
             Gets a reference to the StateClient
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetUserData
             </summary>
             Get a bots data for the user across all conversations
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1286,19 +1283,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetUserData
             </summary>
             Update the bot's data for a user
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1310,18 +1304,17 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
+            channelId
             </param>
             <param name='userId'>
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1330,19 +1323,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationData
             </summary>
             get the bots data for all users in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            the channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1351,19 +1341,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetConversationData
             </summary>
             Update the bot's data for all users in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1375,22 +1362,19 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetPrivateConversationData
             </summary>
             get bot's data for a single user in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -1399,22 +1383,19 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetPrivateConversationData
             </summary>
             Update the bot's data for a single user in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            user id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1426,7 +1407,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
             GetUserData
             </summary>
@@ -1434,17 +1415,14 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             GetUserData
             </summary>
@@ -1452,20 +1430,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='cancellationToken'>
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
             SetUserData
             </summary>
@@ -1473,20 +1448,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
             SetUserData
             </summary>
@@ -1494,14 +1466,11 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1510,44 +1479,42 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfile(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUser(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
+            channelId
             </param>
             <param name='userId'>
+            id for the user on the channel
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteAllUserDataDeleteUserProfileAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUserAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
+            channelId
             </param>
             <param name='userId'>
+            id for the user on the channel
             </param>
             <param name='cancellationToken'>
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
             GetConversationData
             </summary>
@@ -1555,17 +1522,14 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            the channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             GetConversationData
             </summary>
@@ -1573,20 +1537,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            the channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='cancellationToken'>
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
             SetConversationData
             </summary>
@@ -1594,20 +1555,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='botData'>
             the new botdata
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
             SetConversationData
             </summary>
@@ -1615,14 +1573,11 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1631,7 +1586,7 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
             <summary>
             GetPrivateConversationData
             </summary>
@@ -1639,20 +1594,17 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             GetPrivateConversationData
             </summary>
@@ -1660,23 +1612,20 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='cancellationToken'>
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
             SetPrivateConversationData
             </summary>
@@ -1684,23 +1633,20 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            user id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
             SetPrivateConversationData
             </summary>
@@ -1708,17 +1654,14 @@
             <param name='operations'>
             The operations group for this extension method.
             </param>
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            user id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1732,19 +1675,16 @@
             BotState operations.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetUserData
             </summary>
             Get a bots data for the user across all conversations
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1753,19 +1693,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetUserData
             </summary>
             Update the bot's data for a user
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1777,18 +1714,17 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteAllUserData
+            DeleteStateForUser
             </summary>
             Delete all data for a user in a channel (UserData and
             PrivateConversationData)
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
+            channelId
             </param>
             <param name='userId'>
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1797,19 +1733,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationData
             </summary>
             get the bots data for all users in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            the channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1818,19 +1751,16 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetConversationData
             </summary>
             Update the bot's data for all users in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -1842,22 +1772,19 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetPrivateConversationData
             </summary>
             get bot's data for a single user in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            The conversationId
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            The user Id
+            id for the user on the channel
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -1866,22 +1793,19 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             SetPrivateConversationData
             </summary>
             Update the bot's data for a single user in a conversation
-            <param name='botId'>
-            The BotId
-            </param>
             <param name='channelId'>
-            the channelId for the user
+            channelId
             </param>
             <param name='conversationId'>
-            conversation id
+            The id for the conversation on the channel
             </param>
             <param name='userId'>
-            user id
+            id for the user on the channel
             </param>
             <param name='botData'>
             the new botdata
@@ -2521,16 +2445,15 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Type">
             <summary>
-            Activity type
-            The type of the activity (aka "message/carosel" "contactUpdate"
-            "typing" etc.
+            The type of the activity
+            [message|contactRelationUpdate|converationUpdate|typing]
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Id">
@@ -2566,6 +2489,17 @@
         <member name="P:Microsoft.Bot.Connector.Activity.Recipient">
             <summary>
             (Outbound to bot only) Bot's address that received the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.TextFormat">
+            <summary>
+            Format of text fields [plain|markdown] Default:markdown
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.AttachmentLayout">
+            <summary>
+            AttachmentLayout - hint for how to deal with multiple attachments
+            Values: [list|carousel] Default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
@@ -2965,6 +2899,16 @@
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
             <summary>
             Text for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.TextFormat">
+            <summary>
+            Format of text fields [plain|markdown] default:markdown
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.AttachmentLayout">
+            <summary>
+            AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Attachments">

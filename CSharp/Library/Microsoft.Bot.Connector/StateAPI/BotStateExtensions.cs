@@ -21,18 +21,15 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
-        public static BotData GetUserData(this IBotState operations, string botId, string channelId, string userId)
+        public static BotData GetUserData(this IBotState operations, string channelId, string userId)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).GetUserDataAsync(botId, channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).GetUserDataAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -42,21 +39,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> GetUserDataAsync(this IBotState operations, string botId, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> GetUserDataAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetUserDataWithHttpMessagesAsync(botId, channelId, userId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.GetUserDataWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -67,21 +61,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
         /// </param>
-        public static BotData SetUserData(this IBotState operations, string botId, string channelId, string userId, BotData botData)
+        public static BotData SetUserData(this IBotState operations, string channelId, string userId, BotData botData)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).SetUserDataAsync(botId, channelId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).SetUserDataAsync(channelId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -91,14 +82,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -106,53 +94,51 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> SetUserDataAsync(this IBotState operations, string botId, string channelId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> SetUserDataAsync(this IBotState operations, string channelId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetUserDataWithHttpMessagesAsync(botId, channelId, userId, botData, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.SetUserDataWithHttpMessagesAsync(channelId, userId, botData, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
+        /// channelId
         /// </param>
         /// <param name='userId'>
+        /// id for the user on the channel
         /// </param>
-        public static string[] DeleteAllUserDataDeleteUserProfile(this IBotState operations, string botId, string channelId, string userId)
+        public static string[] DeleteStateForUser(this IBotState operations, string channelId, string userId)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).DeleteAllUserDataDeleteUserProfileAsync(botId, channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).DeleteStateForUserAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// DeleteAllUserData
+        /// DeleteStateForUser
         /// </summary>
         /// Delete all data for a user in a channel (UserData and
         /// PrivateConversationData)
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
+        /// channelId
         /// </param>
         /// <param name='userId'>
+        /// id for the user on the channel
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<string[]> DeleteAllUserDataDeleteUserProfileAsync(this IBotState operations, string botId, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<string[]> DeleteStateForUserAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.DeleteAllUserDataDeleteUserProfileWithHttpMessagesAsync(botId, channelId, userId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.DeleteStateForUserWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<string[]>();
         }
 
@@ -163,18 +149,15 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// the channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
-        public static BotData GetConversationData(this IBotState operations, string botId, string channelId, string conversationId)
+        public static BotData GetConversationData(this IBotState operations, string channelId, string conversationId)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).GetConversationDataAsync(botId, channelId, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).GetConversationDataAsync(channelId, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -184,21 +167,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// the channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> GetConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> GetConversationDataAsync(this IBotState operations, string channelId, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.GetConversationDataWithHttpMessagesAsync(channelId, conversationId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -209,21 +189,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
         /// </param>
-        public static BotData SetConversationData(this IBotState operations, string botId, string channelId, string conversationId, BotData botData)
+        public static BotData SetConversationData(this IBotState operations, string channelId, string conversationId, BotData botData)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).SetConversationDataAsync(botId, channelId, conversationId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).SetConversationDataAsync(channelId, conversationId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -233,14 +210,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -248,9 +222,9 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> SetConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> SetConversationDataAsync(this IBotState operations, string channelId, string conversationId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.SetConversationDataWithHttpMessagesAsync(channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -261,21 +235,18 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
-        public static BotData GetPrivateConversationData(this IBotState operations, string botId, string channelId, string conversationId, string userId)
+        public static BotData GetPrivateConversationData(this IBotState operations, string channelId, string conversationId, string userId)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).GetPrivateConversationDataAsync(botId, channelId, conversationId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).GetPrivateConversationDataAsync(channelId, conversationId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -285,24 +256,21 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// The conversationId
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// The user Id
+        /// id for the user on the channel
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> GetPrivateConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, string userId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> GetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.GetPrivateConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.GetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 
@@ -313,24 +281,21 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// user id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
         /// </param>
-        public static BotData SetPrivateConversationData(this IBotState operations, string botId, string channelId, string conversationId, string userId, BotData botData)
+        public static BotData SetPrivateConversationData(this IBotState operations, string channelId, string conversationId, string userId, BotData botData)
         {
-            return Task.Factory.StartNew(s => ((IBotState)s).SetPrivateConversationDataAsync(botId, channelId, conversationId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+            return Task.Factory.StartNew(s => ((IBotState)s).SetPrivateConversationDataAsync(channelId, conversationId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -340,17 +305,14 @@ namespace Microsoft.Bot.Connector
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
-        /// <param name='botId'>
-        /// The BotId
-        /// </param>
         /// <param name='channelId'>
-        /// the channelId for the user
+        /// channelId
         /// </param>
         /// <param name='conversationId'>
-        /// conversation id
+        /// The id for the conversation on the channel
         /// </param>
         /// <param name='userId'>
-        /// user id
+        /// id for the user on the channel
         /// </param>
         /// <param name='botData'>
         /// the new botdata
@@ -358,9 +320,9 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<BotData> SetPrivateConversationDataAsync(this IBotState operations, string botId, string channelId, string conversationId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<BotData> SetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var _result = await operations.SetPrivateConversationDataWithHttpMessagesAsync(botId, channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false);
+            var _result = await operations.SetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false);
             return _result.HandleError<BotData>();
         }
 

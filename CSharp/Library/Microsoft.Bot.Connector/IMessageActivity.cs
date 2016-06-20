@@ -30,6 +30,16 @@ namespace Microsoft.Bot.Connector
         string Summary { get; set; }
 
         /// <summary>
+        /// Format of text fields [plain|markdown] default:markdown
+        /// </summary>
+        string TextFormat { get; set; }
+
+        /// <summary>
+        /// AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
+        /// </summary>
+        string AttachmentLayout { get; set; }
+
+        /// <summary>
         /// content attachemnts
         /// </summary>
         IList<Attachment> Attachments { get; set; }

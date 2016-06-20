@@ -80,6 +80,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
+                .RegisterType<BotIdResolver>()
+                .As<IBotIdResolver>()
+                .SingleInstance();
+
+            builder
                 .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();

@@ -577,7 +577,7 @@
       "type": "object",
       "properties": {
         "type": {
-          "description": "Activity type\r\nThe type of the activity (aka \"message/carosel\" \"contactUpdate\" \"typing\" etc.",
+          "description": "The type of the activity [message|contactRelationUpdate|converationUpdate|typing]",
           "type": "string"
         },
         "id": {
@@ -608,6 +608,14 @@
         "recipient": {
           "$ref": "#/definitions/ChannelAccount",
           "description": "(Outbound to bot only) Bot's address that received the message"
+        },
+        "textFormat": {
+          "description": "Format of text fields [plain|markdown] Default:markdown",
+          "type": "string"
+        },
+        "attachmentLayout": {
+          "description": "AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] Default:list",
+          "type": "string"
         },
         "membersAdded": {
           "description": "Array of address added",

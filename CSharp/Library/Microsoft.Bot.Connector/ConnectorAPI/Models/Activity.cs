@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string))
         {
             Type = GetActivityType(type);
             Id = id;
@@ -33,6 +33,8 @@ namespace Microsoft.Bot.Connector
             From = from;
             Conversation = conversation;
             Recipient = recipient;
+            TextFormat = textFormat;
+            AttachmentLayout = attachmentLayout;
             MembersAdded = membersAdded;
             MembersRemoved = membersRemoved;
             TopicName = topicName;
@@ -48,9 +50,8 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Activity type
-        /// The type of the activity (aka "message/carosel" "contactUpdate"
-        /// "typing" etc.
+        /// The type of the activity
+        /// [message|contactRelationUpdate|converationUpdate|typing]
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
@@ -96,6 +97,19 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "recipient")]
         public ChannelAccount Recipient { get; set; }
+
+        /// <summary>
+        /// Format of text fields [plain|markdown] Default:markdown
+        /// </summary>
+        [JsonProperty(PropertyName = "textFormat")]
+        public string TextFormat { get; set; }
+
+        /// <summary>
+        /// AttachmentLayout - hint for how to deal with multiple attachments
+        /// Values: [list|carousel] Default:list
+        /// </summary>
+        [JsonProperty(PropertyName = "attachmentLayout")]
+        public string AttachmentLayout { get; set; }
 
         /// <summary>
         /// Array of address added
