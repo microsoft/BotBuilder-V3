@@ -288,13 +288,20 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 form.StepState = null;
                 if (fieldState.Unmatched != null)
                 {
-                    if (fieldState.Unmatched != "")
+                    if (feedback.Feedback != null)
                     {
-                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                        feedbackPrompt = new FormPrompt { Prompt = feedback.Feedback };
                     }
                     else
                     {
-                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                        if (fieldState.Unmatched != "")
+                        {
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                        }
+                        else
+                        {
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                        }
                     }
                 }
             }
