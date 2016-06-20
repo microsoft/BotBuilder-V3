@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E05398E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
@@ -41,11 +42,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Tests", "Tests\Microsoft.Bot.Builder.Tests\Microsoft.Bot.Builder.Tests.csproj", "{508661A7-F47A-4D60-8ED6-69E378ED0E74}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
@@ -61,6 +64,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Tests", "Tests\Microsoft.Bot.Sample.Tests\Microsoft.Bot.Sample.Tests.csproj", "{04DD63E9-0323-41B1-9949-EA6ABF005E86}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
