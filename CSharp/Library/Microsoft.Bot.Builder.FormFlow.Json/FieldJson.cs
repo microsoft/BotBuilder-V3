@@ -30,62 +30,33 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.Bot.Builder.FormFlow.Advanced
+namespace Microsoft.Bot.Builder.FormFlow.Json
 {
     /// <summary>
     /// %Field defined through JSON Schema.
     /// </summary>
-    /// <remarks>
-    /// This defines a field where the definition is driven through [JSON Schema](http://json-schema.org/latest/json-schema-validation.html)
-    /// with optional additional annotations that correspond to the attributes provided for C#.  The standard properties that are used
-    /// from JSON Schema include:
-    /// * `type` -- Defines the fields type.
-    /// * `enum` -- Defines the possible field values.
-    /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
-    /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
-    /// * `required` -- Defines what fields are required.
-    /// 
-    /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
-    /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
-    /// For example to define a template to override the <see cref="TemplateUsage.NotUnderstood"/> template
-    /// and specify a <see cref="TemplateBaseAttribute.ChoiceStyle"/> you would put this in your schema: 
-    /// `"Templates":{ "NotUnderstood": { Patterns: ["I don't get it"], "ChoiceStyle":"Auto"}}`.
-    /// 
-    /// %Extensions defined at the root of a schema or as a peer of the "type" property.  
-    /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
-    /// * `Prompt: { Patterns:[string, ...] &lt;args&gt;}` -- Define a prompt.
-    /// 
-    /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
-    /// * `DateTime:bool` -- Marks a field as being a DateTime field.
-    /// * `Describe:string` -- Description of a field.
-    /// * `Terms:[string ,...]` -- Regular expressions for matching a field.
-    /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
-    /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
-    /// 
-    /// %Fields defined through this class have the same ability to extend or override the definitions
-    /// programatically as any other field.  They can also be localized in the same way.
-    /// </remarks>
     public class FieldJson : Field<JObject>
     {
         /// <summary>
         /// Construct a field from a JSON schema.
         /// </summary>
-        /// <param name="schema">Schema for object.</param>
+        /// <param name="builder">Form builder.</param>
         /// <param name="name">Name of field within schema.</param>
-        public FieldJson(JObject schema, string name)
+        public FieldJson(FormBuilderJson builder, string name)
             : base(name, FieldRole.Value)
         {
-            _schema = schema;
+            _builder = builder;
             bool optional;
             var fieldSchema = FieldSchema(name, out optional);
             var eltSchema = ElementSchema(fieldSchema);
-            ProcessAnnotations(schema, fieldSchema, eltSchema);
+            ProcessAnnotations(fieldSchema, eltSchema);
             var fieldName = name.Split('.').Last();
             JToken date;
             if (eltSchema.TryGetValue("DateTime", out date) && date.Value<bool>())
@@ -184,9 +155,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         #endregion
 
+        internal IEnumerable<MessageOrConfirmation> Before { get; set; }
+
+        internal IEnumerable<MessageOrConfirmation> After { get; set; }
+
         protected JObject FieldSchema(string path, out bool optional)
         {
-            var schema = _schema;
+            var schema = _builder.Schema;
             var parts = path.Split('.');
             optional = true;
             foreach (var part in parts)
@@ -237,12 +212,109 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return result;
         }
 
-        protected void ProcessAnnotations(JObject schema, JObject fieldSchema, JObject eltSchema)
+        protected void ProcessAnnotations(JObject fieldSchema, JObject eltSchema)
         {
-            ProcessTemplates(schema);
+            ProcessTemplates(_builder.Schema);
+            Before = ProcessMessages("Before", fieldSchema);
             ProcessTemplates(fieldSchema);
             ProcessPrompt(fieldSchema);
             ProcessNumeric(fieldSchema);
+            ProcessPattern(fieldSchema);
+            ProcessActive(fieldSchema);
+            ProcessDefine(fieldSchema);
+            ProcessValidation(fieldSchema);
+            After = ProcessMessages("After", fieldSchema);
+        }
+
+        protected void ProcessDefine(JObject schema)
+        {
+            if (schema["Define"] != null)
+            {
+                SetDefine(_builder.DefineScript(this, (string)schema["Define"]));
+            }
+        }
+
+        protected void ProcessValidation(JObject schema)
+        {
+            if (schema["Validate"] != null)
+            {
+                SetValidate(_builder.ValidateScript(this, (string)schema["Validate"]));
+            }
+        }
+
+        protected void ProcessActive(JObject schema)
+        {
+            if (schema["Active"] != null)
+            {
+                var script = (string)schema["Active"];
+                SetActive(_builder.ActiveScript(this, (string)schema["Active"]));
+            }
+        }
+
+        internal class MessageOrConfirmation
+        {
+            public bool IsMessage;
+            public PromptAttribute Prompt;
+            public string ActiveScript;
+            public string MessageScript;
+            public IEnumerable<string> Dependencies;
+        }
+
+        internal IEnumerable<MessageOrConfirmation> ProcessMessages(string fieldName, JObject fieldSchema)
+        {
+            JToken array;
+            if (fieldSchema.TryGetValue(fieldName, out array))
+            {
+                foreach (var message in array.Children<JObject>())
+                {
+                    var info = new MessageOrConfirmation();
+                    if (GetPrompt("Message", message, info))
+                    {
+                        info.IsMessage = true;
+                        yield return info;
+                    }
+                    else if (GetPrompt("Confirm", message, info))
+                    {
+                        info.IsMessage = false;
+                        yield return info;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"{message} is not Message or Confirm");
+                    }
+                }
+            }
+        }
+
+        internal bool GetPrompt(string fieldName, JObject message, MessageOrConfirmation info)
+        {
+            bool found = false;
+            JToken val;
+            if (message.TryGetValue(fieldName, out val))
+            {
+                if (val is JValue)
+                {
+                    info.MessageScript = (string)val;
+                }
+                else if (val is JArray)
+                {
+                    info.Prompt = (PromptAttribute)ProcessTemplate(message, new PromptAttribute((from msg in val select (string)msg).ToArray()));
+                }
+                else
+                {
+                    throw new ArgumentException($"{val} must be string or array of strings.");
+                }
+                if (message["Active"] != null)
+                {
+                    info.ActiveScript = (string)message["Active"];
+                }
+                if (message["Dependencies"] != null)
+                {
+                    info.Dependencies = (from dependent in message["Dependencies"] select (string)dependent);
+                }
+                found = true;
+            }
+            return found;
         }
 
         protected void ProcessTemplates(JObject schema)
@@ -279,6 +351,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (min != -double.MaxValue || max != double.MaxValue)
             {
                 SetLimits(min, max);
+            }
+        }
+
+        protected void ProcessPattern(JObject schema)
+        {
+            JToken token;
+            if (schema.TryGetValue("pattern", out token))
+            {
+                SetPattern((string)token);
             }
         }
 
@@ -346,7 +427,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         protected TemplateBaseAttribute ProcessTemplate(JToken template, TemplateBaseAttribute attribute)
         {
-            attribute.Patterns = template["Patterns"].ToObject<string[]>();
+            if (template["Patterns"] != null)
+            {
+                attribute.Patterns = template["Patterns"].ToObject<string[]>();
+            }
             attribute.AllowDefault = ProcessEnum<BoolDefault>(template, "AllowDefault");
             attribute.ChoiceCase = ProcessEnum<CaseNormalization>(template, "ChoiceCase");
             attribute.ChoiceFormat = (string)template["ChoiceFormat"];
@@ -425,134 +509,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return result;
         }
 
-        protected JObject _schema;
-    }
-}
-
-namespace Microsoft.Bot.Builder.FormFlow
-{
-    public static partial class Extensions
-    {
-        internal static void Fields(JObject schema, string prefix, IList<string> fields)
-        {
-            if (schema["properties"] != null)
-            {
-                foreach (JProperty property in schema["properties"])
-                {
-                    var path = (prefix == null ? property.Name : $"{prefix}.{property.Name}");
-                    var childSchema = (JObject)property.Value;
-                    var eltSchema = FieldJson.ElementSchema(childSchema);
-                    if (FieldJson.IsPrimitiveType(eltSchema))
-                    {
-                        fields.Add(path);
-                    }
-                    else
-                    {
-                        Fields(childSchema, path, fields);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Add any remaining fields defined in <paramref name="schema"/>.
-        /// </summary>
-        /// <param name="builder">Where to add any defined fields.</param>
-        /// <param name="schema">JSON Schema that defines fields.</param>
-        /// <param name="exclude">Fields not to include.</param>
-        /// <returns>Modified <see cref="IFormBuilder{T}"/>.</returns>
-        /// <remarks>
-        /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
-        /// for defining your fields.
-        /// </remarks>
-        public static IFormBuilder<JObject> AddRemainingFields(this IFormBuilder<JObject> builder, JObject schema, IEnumerable<string> exclude = null)
-        {
-            var exclusions = (exclude == null ? new string[0] : exclude.ToArray());
-            var fields = new List<string>();
-            Fields(schema, null, fields);
-            foreach (var field in fields)
-            {
-                if (!exclusions.Contains(field) && !builder.HasField(field))
-                {
-                    builder.Field(schema, field);
-                }
-            }
-            return builder;
-        }
-
-        /// <summary>
-        /// Define a step for filling in a particular value in a JObject as defined by a JSON Schema.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="schema">JSON schema defining JObject.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
-        /// for defining your fields.
-        /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
-        {
-            var field = new FieldJson(schema, name);
-            if (active != null)
-            {
-                field.SetActive(active);
-            }
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            return builder.Field(field);
-        }
-
-        /// <summary>
-        /// Define a step for filling in a particular value in a JObject as defined by a JSON Schema.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="schema">JSON schema defining JObject.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Simple \ref patterns to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
-        /// for defining your fields.
-        /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, string prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
-        {
-            return builder.Field(schema, name, new PromptAttribute(prompt), active, validate);
-        }
-
-        /// <summary>
-        /// Define a step for filling in a particular value in a JObject as defined by a JSON Schema.
-        /// </summary>
-        /// <param name="builder">Form builder.</param>
-        /// <param name="schema">JSON schema defining JObject.</param>
-        /// <param name="name">Path in the form state to the value being filled in.</param>
-        /// <param name="prompt">Prompt pattern with more formatting control to describe prompt for field.</param>
-        /// <param name="active">Delegate to test form state to see if step is active.n</param>
-        /// <param name="validate">Delegate to validate the field value.</param>
-        /// <returns>This form.</returns>
-        /// <remarks>
-        /// See <see cref="FieldJson"/> for a description of JSON Schema extensions 
-        /// for defining your fields.
-        /// </remarks>
-        public static IFormBuilder<JObject> Field(this IFormBuilder<JObject> builder, JObject schema, string name, PromptAttribute prompt, ActiveDelegate<JObject> active = null, ValidateAsyncDelegate<JObject> validate = null)
-        {
-            var field = new FieldJson(schema, name);
-            field.SetPrompt(prompt);
-            if (active != null)
-            {
-                field.SetActive(active);
-            }
-            if (validate != null)
-            {
-                field.SetValidate(validate);
-            }
-            return builder.Field(field);
-        }
+        protected FormBuilderJson _builder;
     }
 }

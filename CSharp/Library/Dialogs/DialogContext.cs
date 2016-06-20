@@ -125,5 +125,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             await this.stack.PollAsync(token);
         }
+
+        async Task IBotData.LoadAsync()
+        {
+            await this.botData.LoadAsync(); 
+        }
+
+        async Task IBotData.FlushAsync()
+        {
+            await this.botData.FlushAsync(); 
+        }
     }
 }

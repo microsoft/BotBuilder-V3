@@ -72,6 +72,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals { }
 /// </remarks>
 namespace Microsoft.Bot.Builder.FormFlow { }
 
+/// <summary>
+/// Namespace for \ref FormFlow declaratively defined with JSON Schema.
+/// </summary>
+namespace Microsoft.Bot.Builder.FormFlow.Json { }
+
 /// <summary>Namespace for \ref FormFlow advanced building blocks.</summary>
 /// <remarks>
 /// For most developers the building blocks in this namespace are not necessary.

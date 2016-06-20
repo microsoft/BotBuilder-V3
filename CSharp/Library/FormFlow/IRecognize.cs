@@ -174,14 +174,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Return all possible value descriptions in order to support enumeration.
         /// </summary>
         /// <returns>All possible value descriptions.</returns>
-        IEnumerable<string> ValueDescriptions();
+        IEnumerable<DescribeAttribute> ValueDescriptions();
 
         /// <summary>
         /// Return the description of a specific value.
         /// </summary>
         /// <param name="value">Value to get description of.</param>
-        /// <returns></returns>
-        string ValueDescription(object value);
+        /// <returns>Description of the value.</returns>
+        DescribeAttribute ValueDescription(object value);
 
         /// <summary>
         /// Return valid inputs to describe a particular value.

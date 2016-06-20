@@ -435,8 +435,15 @@ namespace Microsoft.Bot.Builder.FormFlow
                             {
                                 if (matches.Count() == 0 && commands.Count() == 0)
                                 {
-                                    await PostAsync(step.NotUnderstood(context, _state, _formState, toBotText));
-                                    waitForMessage = true;
+                                    await PostAsync(step.NotUnderstood(context, _state, _formState, stepInput));
+                                    if (_formState.ProcessInputs)
+                                    {
+                                        _formState.SetPhase(StepPhase.Ready);
+                                    }
+                                    else
+                                    {
+                                        waitForMessage = true;
+                                    }
                                 }
                                 else
                                 {

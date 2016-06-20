@@ -34,10 +34,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Autofac;
 using Moq;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Dialogs;
@@ -45,13 +48,46 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Microsoft.Bot.Builder.Tests
 {
+    public abstract class LuisTestBase : DialogTestBase
+    {
+        public static IntentRecommendation[] IntentsFor<D>(Expression<Func<D, Task>> expression, double? score)
+        {
+            var body = (MethodCallExpression)expression.Body;
+            var attribute = body.Method.GetCustomAttribute<LuisIntentAttribute>();
+            var name = attribute.IntentName;
+            var intent = new IntentRecommendation(name, score);
+            return new[] { intent };
+        }
+
+        public static EntityRecommendation EntityFor(string type, string entity)
+        {
+            return new EntityRecommendation(type: type) { Entity = entity };
+        }
+
+        public static void SetupLuis<D>(
+            Mock<ILuisService> luis,
+            Expression<Func<D, Task>> expression,
+            double? score,
+            params EntityRecommendation[] entities
+            )
+        {
+            luis
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
+                .ReturnsAsync(new LuisResult()
+                {
+                    Intents = IntentsFor(expression, score),
+                    Entities = entities
+                });
+        }
+    }
+
     [TestClass]
-    public sealed class LuisTests
+    public sealed class LuisTests : LuisTestBase
     {
         public sealed class DerivedLuisDialog : LuisDialog<object>
         {
-            public DerivedLuisDialog(ILuisService service)
-                : base(service)
+            public DerivedLuisDialog(params ILuisService[] services)
+                : base(services)
             {
             }
 
@@ -107,6 +143,61 @@ namespace Microsoft.Bot.Builder.Tests
             var dialog = new DerivedLuisDialog(service.Object);
             var handlers = LuisDialog.EnumerateHandlers(dialog).ToArray();
             Assert.AreEqual(7, handlers.Length);
+        }
+
+        [Serializable]
+        public sealed class MultiServiceLuisDialog : LuisDialog<object>
+        {
+            public MultiServiceLuisDialog(params ILuisService[] services)
+                : base(services)
+            {
+            }
+
+            [LuisIntent("ServiceOne")]
+            public async Task ServiceOne(IDialogContext context, LuisResult luisResult)
+            {
+                await context.PostAsync(luisResult.Entities.Single().Type);
+                context.Wait(MessageReceived);
+            }
+
+            [LuisIntent("ServiceTwo")]
+            public async Task ServiceTwo(IDialogContext context, LuisResult luisResult)
+            {
+                await context.PostAsync(luisResult.Entities.Single().Type);
+                context.Wait(MessageReceived);
+            }
+        }
+
+        [TestMethod]
+        public async Task All_Services_Are_Called()
+        {
+            var service1 = new Mock<ILuisService>();
+            var service2 = new Mock<ILuisService>();
+
+            var dialog = new MultiServiceLuisDialog(service1.Object, service2.Object);
+
+            using (new FiberTestBase.ResolveMoqAssembly(service1.Object, service2.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, service1.Object, service2.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(dialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                const string EntityOne = "one";
+                const string EntityTwo = "two";
+
+                SetupLuis<MultiServiceLuisDialog>(service1, d => d.ServiceOne(null, null), 1.0, new EntityRecommendation(type: EntityOne));
+                SetupLuis<MultiServiceLuisDialog>(service2, d => d.ServiceTwo(null, null), 0.0, new EntityRecommendation(type: EntityTwo));
+
+                await AssertScriptAsync(container, "hello", EntityOne);
+
+                SetupLuis<MultiServiceLuisDialog>(service1, d => d.ServiceOne(null, null), 0.0, new EntityRecommendation(type: EntityOne));
+                SetupLuis<MultiServiceLuisDialog>(service2, d => d.ServiceTwo(null, null), 1.0, new EntityRecommendation(type: EntityTwo));
+
+                await AssertScriptAsync(container, "hello", EntityTwo);
+            }
         }
 
         public sealed class InvalidLuisDialog : LuisDialog<object>

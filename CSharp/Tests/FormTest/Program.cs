@@ -52,6 +52,15 @@ using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.Sandwic
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
+using Newtonsoft.Json.Linq;
+
+public class Globals
+{
+    public JObject state;
+    public dynamic dstate;
+    public object value;
+    public IField<JObject> field;
+}
 
 namespace Microsoft.Bot.Builder.FormFlowTest
 {
@@ -73,7 +82,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
         static public string Locale = CultureInfo.CurrentUICulture.Name;
 
-        static async Task Interactive<T>(IDialog<T> form) where T: class
+        static async Task Interactive<T>(IDialog<T> form) where T : class
         {
             // NOTE: I use the DejaVuSansMono fonts as described here: http://stackoverflow.com/questions/21751827/displaying-arabic-characters-in-c-sharp-console-application
             // But you don't have to reboot.
@@ -100,6 +109,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                 var task = scope.Resolve<IPostToBot>();
+                var botData = scope.Resolve<IBotData>();
+                await botData.LoadAsync();
                 var stack = scope.Resolve<IDialogStack>();
 
                 stack.Call(MakeRoot(), null);
@@ -162,6 +173,20 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         public static IFormDialog<T> MakeForm<T>(BuildFormDelegate<T> buildForm) where T : class, new()
         {
             return new FormDialog<T>(new T(), buildForm, options: FormOptions.PromptInStart);
+        }
+
+        public static bool NonWord(string word)
+        {
+            bool nonWord = true;
+            foreach (var ch in word)
+            {
+                if (!(char.IsControl(ch) || char.IsPunctuation(ch) || char.IsWhiteSpace(ch)))
+                {
+                    nonWord = false;
+                    break;
+                }
+            }
+            return nonWord;
         }
 
         static void Main(string[] args)

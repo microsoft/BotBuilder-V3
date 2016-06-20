@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         void IStore<T>.Flush()
         {
-            this.stream.Flush(); 
+            this.stream.Flush();
         }
     }
 

@@ -288,13 +288,20 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 form.StepState = null;
                 if (fieldState.Unmatched != null)
                 {
-                    if (fieldState.Unmatched != "")
+                    if (feedback.Feedback != null)
                     {
-                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                        feedbackPrompt = new FormPrompt { Prompt = feedback.Feedback };
                     }
                     else
                     {
-                        feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                        if (fieldState.Unmatched != "")
+                        {
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                        }
+                        else
+                        {
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                        }
                     }
                 }
             }
@@ -361,7 +368,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return new string[0];
+                return Array.Empty<string>();
             }
         }
 
@@ -424,7 +431,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 field.ReplaceTemplate(helpTemplate);
                 foreach (var value in clarify.Values)
                 {
-                    field.AddDescription(value, recognizer.ValueDescription(value));
+                    var desc = recognizer.ValueDescription(value);
+                    field.AddDescription(value, desc.Description, desc.Image);
                     field.AddTerms(value, recognizer.ValidInputs(value).ToArray());
                 }
                 var choiceRecognizer = new RecognizeEnumeration<T>(field);
@@ -716,7 +724,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                return new string[0];
+                return Array.Empty<string>();
             }
         }
 

@@ -5,6 +5,7 @@
     /// [LUIS]: http://luis.ai
     /// [Describe]: @ref DescribeAttribute 
     /// [Numeric]: @ref NumericAttribute 
+    /// [Pattern]: @ref PatternAttribute
     /// [Optional]: @ref OptionalAttribute 
     /// [Prompt]: @ref PromptAttribute 
     /// [Template]: @ref TemplateAttribute 
@@ -352,6 +353,7 @@
     /// [Describe] | Change how a field or a value is shown in text.
     /// [Numeric] | Provide limits on the values accepted in a numeric field.
     /// [Optional]| Mark a field as optional which means that one choice is not to supply a value.
+    /// [Pattern] | Define a regular expression to validate a string field.
     /// [Prompt]| Define a prompt to use when asking for a field.
     /// [Template] | Define a template that is used to generate prompts or values in prompts.
     /// [Terms] | Define the input terms that match a field or value.
@@ -438,9 +440,10 @@
     /// the templates that are used for autommatically generating your prompts.  Here we have redefined
     /// the default template used when you want to select one result from a set of choices to a different string and asked choices to always
     /// be listed one per line.  
-    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
-    /// \skip EnumSelectOne
-    /// \until class
+    /// ~~~
+    /// [Template(TemplateUsage.EnumSelectOne, "What kind of {&} would you like on your sandwich? {||}", ChoiceStyle = ChoiceStyleOptions.PerLine)]
+    /// public class SandwichOrder
+    /// ~~~
     /// With this change, here is how the cheese and bread prompts look.
     /// ~~~{.txt}
     /// What kind of bread would you like on your sandwich?
@@ -534,16 +537,25 @@
     /// > rotissary chechen
     /// For sandwich I understood Rotisserie Style Chicken. "chechen" is not an option.
     /// ~~~
+    /// Attributes can also be used to validate values.  For example [Numeric] can be used to restrict the range of 
+    /// allowed numbers.  In the below Rating must be a number between 1 and 5.
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Numeric
+    /// \until Rating
+    ///
+    /// Similarly [Pattern] can be used to specify a regular expression to validate a string field like PhoneNumber.
+    /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
+    /// \skip Pattern
+    /// \until PhoneNumber
     /// 
     /// \subsection logic Adding Business Logic
     /// Sometimes there are complex interdependencies between fields or you need to 
     /// add logic to setting or getting a value.  Here we want to add support
-    /// for including all toppings except some of them.  To do this, we change toppings
-    /// from a property to a field and add some logic to complement the selected toppings.
-    /// 
+    /// for including all toppings except some of them.  To do this, we add a validation function which complements
+    /// the list if the Everything enum value is included:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
-    /// \skip List<ToppingOptions>
-    /// \until private
+    /// \skip nameof(Toppings)
+    /// \until Message
     ///
     /// In addition to the processing we also need to add some terms to match expressions like
     /// "everything" and "not".  
@@ -590,7 +602,7 @@
     /// * Fill in SandwichOrder.Length    
     /// * Fill in SandwichOrder.Bread  
     /// * Fill in SandwichOrder.Cheese
-    /// * Fill in SandwichOrder.Toppings  
+    /// * Fill in SandwichOrder.Toppings and transform the value by complementing the list if it includes everything.
     /// * Show a message confirming the selected toppings.      
     /// * Fill in SandwichOrder.Sauces  
     /// * Dynamically defined field for SandwichOrder.Specials.  (See \ref dynamicFields for more information.)
@@ -751,41 +763,63 @@
     /// The advantage of using a [JObject] for your state is that the form definition is entirely driven by data
     /// rather than the static definition of your type in C#.
     /// 
-    /// %FormFlow makes use of a number of standard [JSON Schema] keywords including:
+    /// %FormFlow makes use of a number of standard [JSON Schema](http://json-schema.org/latest/json-schema-validation.html) keywords include:
     /// * `type` -- Defines the fields type.
     /// * `enum` -- Defines the possible field values.
     /// * `minimum` -- Defines the minimum allowed value as described in <see cref="NumericAttribute"/>.
     /// * `maximum` -- Defines the maximum allowed value as described in <see cref="NumericAttribute"/>.
     /// * `required` -- Defines what fields are required.
+    /// * `pattern` -- For string fields will be used to validate the entered pattern as described in <see cref="PatternAttribute"/>.
     /// 
     /// Templates and prompts use the same vocabulary as <see cref="TemplateAttribute"/> and <see cref="PromptAttribute"/>.  
     /// The property names are the same and the values are the same as those in the underlying C# enumeration.  
     /// For example to define a template to override the <see cref="TemplateUsage.NotUnderstood"/> template
-    /// and specify a [ChoiceStyle], you would put this in your schema:
+    /// and specify a <see cref="TemplateBaseAttribute.ChoiceStyle"/> you would put this in your schema: 
     /// ~~~
     /// "Templates":{ "NotUnderstood": { Patterns: ["I don't get it"], "ChoiceStyle":"Auto"}}
     /// ~~~
     /// 
-    /// %FormFlow %Extensions defined at the root of a schema or as a peer of the `type` property.  
+    /// %Extensions defined at the root fo the schema
+    /// * `OnCompletion: script` -- C# script with arguments (<see cref="IDialogContext"/> context, JObject state) for completing form.
+    /// * `References: [assemblyReference, ...]` -- Define references to include in scripts.  Paths should be absolute, or relative to the current directory.  By default Microsoft.Bot.Builder.dll is included.
+    /// * `Imports: [import, ...]` -- Define imports to include in scripts with usings. By default these namespaces are included: Microsoft.Bot.Builder, Microsoft.Bot.Builder.Dialogs, Microsoft.Bot.Builder.FormFlow, Microsoft.Bot.Builder.FormFlow.Advanced, System.Collections.Generic, System.Linq)
+    /// 
+    /// %Extensions defined at the root of a schema or as a peer of the "type" property.  
     /// * `Templates:{TemplateUsage: { Patterns:[string, ...], &lt;args&gt; }, ...}` -- Define templates.
     /// * `Prompt: { Patterns:[string, ...] &lt;args&gt;}` -- Define a prompt.
     /// 
-    /// %FormFlow %Extensions found in a property description as peers to the `type` property of a JSON Schema.
+    /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
     /// * `DateTime:bool` -- Marks a field as being a DateTime field.
-    /// * `Describe:string` -- Description of a field.
-    /// * `Terms:[string ,...]` -- Regular expressions for matching a field.
-    /// * `MaxPhrase:int` -- This will run your terms through Advanced.Language.GenerateTerms to expand them.
+    /// * `Describe:string` -- Description of a field as described in <see cref="DescribeAttribute"/>.
+    /// * `Terms:[string,...]` -- Regular expressions for matching a field value as described in <see cref="TermsAttribute"/>.
+    /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
     /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms.  If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
+    /// * `Active:script` -- C# script with arguments (JObject state)->bool to test to see if field/message/confirm is active.
+    /// * `Validate:script` -- C# script with arguments (JObject state, object value)->ValidateResult for validating a field value.
+    /// * `Define:script` -- C# script with arguments (JObject state, Field&lt;JObject&gt; field) for dynamically defining a field.  
+    /// * `Before:[confirm|message, ...]` -- Messages or confirmations before the containing field.
+    /// * `After:[confirm|message, ...]` -- Messages or confirmations after the containing field.
+    /// * `{Confirm:script|[string, ...], ...templateArgs}` -- With Before/After define a confirmation through either C# script with argument (JObject state) or through a set of patterns that will be randomly selected with optional template arguments.
+    /// * `{Message:script|[string, ...] ...templateArgs}` -- With Before/After define a message through either C# script with argument (JObject state) or through a set of patterns that will be randomly selected with optional template arguments.
+    /// * `Dependencies`:[string, ...]` -- Fields that this field, message or confirm depends on.
     /// 
-    /// The simplest way to define your form is to just call Extensions.AddRemainingFields, but you can also define each field
-    /// explicitly.  Here for example is the [JSON Schema] that corresponds to the Annotated Sandwich %Bot we have defined so far.
+    /// Scripts can be any C# code you would find in a method body.  You can add references through "References" and using through "Imports". Special global variables include:
+    /// * `choice` -- internal dispatch for script to execute.
+    /// * `state` -- JObject form state bound for all scripts.
+    /// * `ifield` -- <see cref="IField{JObject}"/> to allow reasoning over the current field for all scripts except %Message/Confirm prompt builders.
+    /// * `value` -- object value to be validated for Validate.
+    /// * `field` -- <see cref="Field{JObject}"/> to allow dynamically updating a field in Define.
+    /// * `context` -- <see cref="IDialogContext"/> context to allow posting results in OnCompletion.
+    /// 
+    /// %Fields defined through this class have the same ability to extend or override the definitions
+    /// programatically as any other field.  They can also be localized in the same way.
+    /// 
+    /// The simplest way to define your form is to define everything including any C# code directly in 
+    /// your schema definition.  Here for example is the [JSON Schema] that corresponds to the Annotated Sandwich %Bot we have defined so far.
     /// \include AnnotatedSandwichBot/AnnotatedSandwich.json
     /// 
-    /// In order to make use of your [JSON Schema] you use FormBuilder over a [JObject] and can make use of the same
-    /// kind of methods as you would with a C# class only parameterized by the JSON schema.  
-    /// The Advanced.FieldJson class is the underlying implementation of Advanced.Field and it 
-    /// can be used and localized in exactly the same way as Advanced.FieldReflector.  Here is a static method for 
-    /// building a [JSON Schema] form that has exactly the same functionality we have defined so far:
+    /// In order to make use of your [JSON Schema] you use FormBuilderJson which supports the same fluent interface
+    /// as FormBuilder.  Here is the code to make use of the [JSON Schema] above to define exactly the same functionality:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip BuildJsonForm
     /// \until .Build

@@ -178,6 +178,7 @@
     /// Chain.Do<T>               | Chains  | Allow for side-effects within the chain.
     /// Chain.ContinueWith<T, R>  | Chains  | Simple chaining of dialogs.
     /// Chain.Unwrap<T>           | Chains  | Unwrap a dialog nested in a dialog.
+    /// Chain.DefaultIfException<T> | Chains | Swallow exception from previous result and return default(T).
     /// Chain.Loop<T>             | Branch  | Loop the entire chain of dialogs.
     /// Chain.Switch<T, R>        | Branch  | Support branching into different dialog chains.
     /// Chain.PostToUser<T>       | Message | Post a message to the user.

@@ -59,15 +59,25 @@ namespace Microsoft.Bot.Builder.FormFlow
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum | AttributeTargets.Property)]
     public class DescribeAttribute : FormFlowAttribute
     {
-        public readonly string Description;
+        /// <summary>
+        /// Description of the field, property or enum.
+        /// </summary>
+        public string Description;
+
+        /// <summary>
+        /// URL of image to use when creating buttons.
+        /// </summary>
+        public string Image;
 
         /// <summary>
         /// Description for field, property or enum value.
         /// </summary>
-        /// <param name="description"></param>
-        public DescribeAttribute(string description)
+        /// <param name="description">Description of field, property or enum value.</param>
+        /// <param name="image">URL of image to use when generating buttons.</param>
+        public DescribeAttribute(string description = null, string image = null)
         {
             Description = description;
+            Image = image;
         }
     }
 
@@ -585,6 +595,27 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             Min = min;
             Max = max;
+        }
+    }
+
+    /// <summary>
+    /// Provide a regular expression to validate a string field.
+    /// </summary>
+    /// <remarks>
+    /// If the regular expression is not matched the <see cref="TemplateUsage.NotUnderstood"/> template will be used for feedback.
+    /// </remarks>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class PatternAttribute: Attribute
+    {
+        public readonly string Pattern;
+
+        /// <summary>
+        /// Regular expression for validating the content of a string field.
+        /// </summary>
+        /// <param name="pattern">Regular expression for validation.</param>
+        public PatternAttribute(string pattern)
+        {
+            Pattern = pattern;
         }
     }
 }

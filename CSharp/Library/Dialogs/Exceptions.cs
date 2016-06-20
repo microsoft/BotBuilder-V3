@@ -31,38 +31,52 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Dialogs.Internals
+namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
-    /// Private bot data.
+    /// The root of the exception hierarchy related to prompts.
     /// </summary>
-    public interface IBotData
+    [Serializable]
+    public abstract class PromptException : Exception
     {
         /// <summary>
-        /// Private bot data associated with a user (across all channels and conversations).
+        /// Initializes a new instance of the PromptException class with a specified error message.
         /// </summary>
-        IBotDataBag UserData { get; }
+        /// <param name="message">The message that describes the error.</param>
+        public PromptException(string message)
+            : base(message)
+        {
+        }
+        protected PromptException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 
+    /// <summary>
+    /// The exception representing too many attempts by the user to answer the question asked by the prompt.
+    /// </summary>
+    [Serializable]
+    public sealed class TooManyAttemptsException : PromptException
+    {
         /// <summary>
-        /// Private bot data associated with a conversation.
+        /// Initializes a new instance of the TooManyAttemptsException class with a specified error message.
         /// </summary>
-        IBotDataBag ConversationData { get; }
-
-        /// <summary>
-        /// Private bot data associated with a user in a conversation.
-        /// </summary>
-        IBotDataBag PerUserInConversationData { get; }
-
-        /// <summary>
-        /// Loads the bot data from <see cref="IBotDataStore"/>
-        /// </summary>
-        Task LoadAsync();
-
-        /// <summary>
-        /// Flushes the bot data to <see cref="IBotDataStore"/>
-        /// </summary>
-        Task FlushAsync(); 
+        /// <param name="message">The message that describes the error.</param>
+        public TooManyAttemptsException(string message)
+            : base(message)
+        {
+        }
+        private TooManyAttemptsException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

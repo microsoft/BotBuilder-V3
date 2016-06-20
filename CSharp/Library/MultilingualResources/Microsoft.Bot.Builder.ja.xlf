@@ -131,7 +131,7 @@
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
           <source>By "{0}" {&amp;} did you mean {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">「{0}」{&amp;} {|} を意味するか</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">「{0}」{&amp;} {||} を意味するか</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-term being clarified</note>
         </trans-unit>
         <trans-unit id="TemplateCurrentChoice" translate="yes" xml:space="preserve">
@@ -140,7 +140,7 @@
         </trans-unit>
         <trans-unit id="TemplateDateTime" translate="yes" xml:space="preserve">
           <source>Please enter a date and time for {&amp;} {||}</source>
-          <target state="translated">{&amp;} {|} の日付と時刻 を入力してください。</target>
+          <target state="translated">{&amp;} {||} の日付と時刻 を入力してください。</target>
         </trans-unit>
         <trans-unit id="TemplateDateTimeHelp" translate="yes" xml:space="preserve">
           <source>Please enter a date or time expression {?, {0}}{?, {1}}.</source>
@@ -160,7 +160,7 @@
         <trans-unit id="TemplateDoubleHelp" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}.</source>
           <target state="needs-review-translation">数値を入力してください {? {2:F1} の間と {3:F1}} {?、{0}} {?、{1}}。
-{?{2:F1}と{3:F1}のあいだ}の数を入力してください{|}</target>
+{?{2:F1}と{3:F1}のあいだ}の数を入力してください{||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyNumberHelp" translate="yes" xml:space="preserve">
@@ -234,7 +234,7 @@
         </trans-unit>
         <trans-unit id="TemplateInteger" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {0} and {1}} for {&amp;} {||}</source>
-          <target state="final">{? {0}と{1}の間}の数を入力してください {&amp;} {|} </target>
+          <target state="final">{? {0}と{1}の間}の数を入力してください {&amp;} {||} </target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateIntegerChoiceFormat" translate="yes" xml:space="preserve">
@@ -249,7 +249,7 @@
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
           <source>What do you want to change? {||}</source>
-          <target state="final" state-qualifier="mt-suggestion">何を変更したいですか。{|}</target>
+          <target state="final" state-qualifier="mt-suggestion">何を変更したいですか。{||}</target>
         </trans-unit>
         <trans-unit id="TemplateNavigationCommandHelp" translate="yes" xml:space="preserve">
           <source>You can switch to another field by entering its name. ({0}).</source>

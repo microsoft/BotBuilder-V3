@@ -99,6 +99,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<MessageBackedStore>()
+                .As<IBotDataStore>()
+                .InstancePerLifetimeScope();
+
             builder
                 .RegisterType<JObjectBotData>()
                 .As<IBotData>()
@@ -109,32 +113,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<Stream>()
                 .InstancePerLifetimeScope();
 
-            var key_PostToBot = new object();
-
             builder
                 .RegisterType<DialogTask>()
+                .AsSelf()
                 .As<IDialogStack>()
-                .Keyed<IPostToBot>(key_PostToBot)
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterDecorator<IPostToBot>(
-                    (c, inner) =>
-                       new PersistentDialogTask(
-                        new ScoringDialogTask<double>(
-                            new LocalizedDialogTask(
-                                new ReactiveDialogTask(inner, 
-                                    c.Resolve<IDialogStack>(), 
-                                    c.Resolve<IStore<IFiberLoop<DialogTask>>>(), 
-                                    c.Resolve<Func<IDialog<object>>>())),
-                            c.Resolve<IDialogStack>(), 
-                            c.Resolve<IComparer<double>>(), 
-                            c.Resolve<ITraits<double>>(),
-                            c.Resolve<IScorable<double>[]>()), 
-                        c.Resolve<Message>(), 
-                        c.Resolve<IConnectorClient>(), 
-                        c.Resolve<IBotToUser>()),
-                    key_PostToBot)
+                .Register(c =>
+                {
+                    var cc = c.Resolve<IComponentContext>();
+
+                    Func<IPostToBot> makeInner = () =>
+                    {
+                        var task = cc.Resolve<DialogTask>();
+                        IDialogStack stack = task;
+                        IPostToBot post = task;
+                        post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
+                        post = new LocalizedDialogTask(post);
+                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<IComparer<double>>(), cc.Resolve<ITraits<double>>(), cc.Resolve<IScorable<double>[]>());
+                        return post;
+                    };
+
+                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<Message>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    return outer;
+                })
+                .As<IPostToBot>()
                 .InstancePerLifetimeScope();
 
             builder

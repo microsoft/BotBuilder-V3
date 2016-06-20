@@ -101,7 +101,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public class LuisDialog<R> : IDialog<R>
     {
-        private readonly ILuisService service;
+        private readonly IReadOnlyList<ILuisService> services;
 
         /// <summary>   Mapping from intent string to the appropriate handler. </summary>
         [NonSerialized]
@@ -110,22 +110,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Construct the LUIS dialog.
         /// </summary>
-        /// <param name="service">The LUIS service.</param>
-        public LuisDialog(ILuisService service = null)
+        /// <param name="services">The LUIS service.</param>
+        public LuisDialog(params ILuisService[] services)
         {
-            if (service == null)
-            {
-                var type = this.GetType();
-                var luisModel = type.GetCustomAttribute<LuisModelAttribute>(inherit: true);
-                if (luisModel == null)
-                {
-                    throw new Exception("Luis model attribute is not set for the class");
-                }
-
-                service = new LuisService(luisModel);
-            }
-
-            SetField.NotNull(out this.service, nameof(service), service);
+            var type = this.GetType();
+            var luisModels = type.GetCustomAttributes<LuisModelAttribute>(inherit: true);
+            services = services.Concat(luisModels.Select(m => new LuisService(m))).ToArray();
+            SetField.NotNull(out this.services, nameof(services), services);
         }
 
         public virtual async Task StartAsync(IDialogContext context)
@@ -147,19 +138,25 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var message = await item;
             var messageText = await GetLuisQueryTextAsync(context, message);
-            var luisRes = await this.service.QueryAsync(messageText);
+            var tasks = this.services.Select(s => s.QueryAsync(messageText)).ToArray();
+            await Task.WhenAll(tasks);
 
-            var intent = BestIntentFrom(luisRes);
+            var intentTask = from task in tasks
+                             let result = task.Result
+                             from intent in result.Intents
+                             select new { result, intent };
+
+            var winner = intentTask.MaxBy(it => it.intent.Score ?? 0);
 
             IntentHandler handler = null;
-            if (intent == null || !this.handlerByIntent.TryGetValue(intent.Intent, out handler))
+            if (winner == null || !this.handlerByIntent.TryGetValue(winner.intent.Intent, out handler))
             {
                 handler = this.handlerByIntent[string.Empty];
             }
 
             if (handler != null)
             {
-                await handler(context, luisRes);
+                await handler(context, winner?.result);
             }
             else
             {

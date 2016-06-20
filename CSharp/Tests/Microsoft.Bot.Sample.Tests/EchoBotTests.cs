@@ -42,6 +42,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.EchoBot;
+using Microsoft.Bot.Builder.Tests;
 
 namespace Microsoft.Bot.Sample.Tests
 {
@@ -69,11 +70,8 @@ namespace Microsoft.Bot.Sample.Tests
         private async Task EchoDialogFlow(IDialog<object> echoDialog)
         {
             // arrange
-            var toBot = new Message()
-            {
-                ConversationId = Guid.NewGuid().ToString(),
-                Text = "Test"
-            };
+            var toBot = DialogTestBase.MakeTestMessage();
+            toBot.Text = "Test";
 
             Func<IDialog<object>> MakeRoot = () => echoDialog;
 

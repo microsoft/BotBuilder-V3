@@ -34,7 +34,9 @@
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Resource;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -43,36 +45,14 @@ using System.Threading;
 namespace Microsoft.Bot.Builder.FormFlow
 {
     #region Documentation
-    /// <summary>   Build a form by specifying messages, fields and confirmations.</summary>
-    /// <typeparam name="T">    Form state class. </typeparam>
+    /// <summary>Abstract base class for Form Builders.</summary>
+    /// <typeparam name="T">Form state class. </typeparam>
     #endregion
-    public sealed class FormBuilder<T> : IFormBuilder<T>
+    public abstract class FormBuilderBase<T> : IFormBuilder<T>
         where T : class
     {
-        private readonly Form<T> _form;
-
-        /// <summary>
-        /// Construct the form builder.
-        /// </summary>
-        /// <param name="ignoreAnnotations">True if you want to ignore any annotations on classes when doing reflection.</param>
-        public FormBuilder(bool ignoreAnnotations = false)
+        public virtual IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
         {
-            _form = new Form<T>(ignoreAnnotations);
-        }
-
-        public IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
-        {
-            if (!_form._steps.Any((step) => step.Type == StepType.Field))
-            {
-                var paths = new List<string>();
-                FormBuilder<T>.FieldPaths(typeof(T), "", paths);
-                IFormBuilder<T> builder = this;
-                foreach (var path in paths)
-                {
-                    builder.Field(new FieldReflector<T>(path));
-                }
-                builder.Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
-            }
             if (resourceAssembly == null)
             {
                 resourceAssembly = typeof(T).Assembly;
@@ -117,38 +97,42 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this._form;
         }
 
-        public FormConfiguration Configuration { get { return _form._configuration; } }
+        public FormConfiguration Configuration { get { return _form.Configuration; } }
 
-        public IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public bool HasField(string name)
+        {
+            return _form.Fields.Field(name) != null;
+        }
+
+        public virtual IFormBuilder<T> Message(string message, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(new PromptAttribute(message), condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Message(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(prompt, condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Message(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             _form._steps.Add(new MessageStep<T>(generateMessage, condition, dependencies, _form));
             return this;
         }
 
-        public IFormBuilder<T> Field(IField<T> field)
+        public virtual IFormBuilder<T> Field(IField<T> field)
         {
             return AddField(field);
         }
 
-        public IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(string prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
-            IFormBuilder<T> builder = this;
-            return builder.Confirm(new PromptAttribute(prompt) { ChoiceFormat = Resources.ConfirmChoiceFormat, AllowDefault = BoolDefault.False }, condition, dependencies);
+            return Confirm(new PromptAttribute(prompt) { ChoiceFormat = Resources.ConfirmChoiceFormat, AllowDefault = BoolDefault.False }, condition, dependencies);
         }
 
-        public IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(PromptAttribute prompt, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
@@ -159,7 +143,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
+        public virtual IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null)
         {
             if (condition == null) condition = state => true;
             dependencies = dependencies ?? _form.Dependencies(_form.Steps.Count());
@@ -170,33 +154,16 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
-        public IFormBuilder<T> OnCompletionAsync(OnCompletionAsyncDelegate<T> callback)
+        public virtual IFormBuilder<T> OnCompletion(OnCompletionAsyncDelegate<T> callback)
         {
             _form._completion = callback;
             return this;
         }
 
-        public bool HasField(string name)
-        {
-            return _form.Fields.Field(name) != null;
-        }
-
-        private IFormBuilder<T> AddField(IField<T> field)
-        {
-            field.Form = _form;
-            _form._fields.Add(field);
-            var step = new FieldStep<T>(field.Name, _form);
-            var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);
-            if (stepIndex >= 0)
-            {
-                _form._steps[stepIndex] = step;
-            }
-            else
-            {
-                _form._steps.Add(step);
-            }
-            return this;
-        }
+        public abstract IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
+        public abstract IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null);
 
         private Dictionary<TemplateUsage, int> _templateArgs = new Dictionary<TemplateUsage, int>
         {
@@ -283,7 +250,185 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        internal static void FieldPaths(Type type, string path, List<string> paths)
+        private IFormBuilder<T> AddField(IField<T> field)
+        {
+            field.Form = _form;
+            _form._fields.Add(field);
+            var step = new FieldStep<T>(field.Name, _form);
+            var stepIndex = this._form._steps.FindIndex(s => s.Name == field.Name);
+            if (stepIndex >= 0)
+            {
+                _form._steps[stepIndex] = step;
+            }
+            else
+            {
+                _form._steps.Add(step);
+            }
+            return this;
+        }
+
+        protected internal sealed class Form : IForm<T>
+        {
+            internal readonly FormConfiguration _configuration = new FormConfiguration();
+            internal readonly Fields<T> _fields = new Fields<T>();
+            internal readonly List<IStep<T>> _steps = new List<IStep<T>>();
+            internal OnCompletionAsyncDelegate<T> _completion = null;
+            internal ILocalizer _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
+
+            public Form()
+            {
+            }
+
+            internal override ILocalizer Resources
+            {
+                get
+                {
+                    return _resources;
+                }
+            }
+
+            public override void SaveResources(IResourceWriter writer)
+            {
+                _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
+                foreach (var step in _steps)
+                {
+                    step.SaveResources();
+                }
+                _resources.Save(writer);
+            }
+
+            public override void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra)
+            {
+                foreach (var step in _steps)
+                {
+                    step.SaveResources();
+                }
+                _resources = _resources.Load(reader, out missing, out extra);
+                foreach (var step in _steps)
+                {
+                    step.Localize();
+                }
+            }
+
+            internal override FormConfiguration Configuration
+            {
+                get
+                {
+                    return _configuration;
+                }
+            }
+
+            internal override IReadOnlyList<IStep<T>> Steps
+            {
+                get
+                {
+                    return _steps;
+                }
+            }
+
+            internal override OnCompletionAsyncDelegate<T> Completion
+            {
+                get
+                {
+                    return _completion;
+                }
+            }
+
+            public override IFields<T> Fields
+            {
+                get
+                {
+                    return _fields;
+                }
+            }
+        }
+
+        protected internal Form _form = new Form();
+    }
+
+    #region Documentation
+    /// <summary>   Build a form by specifying messages, fields and confirmations via reflection or programatically.</summary>
+    /// <typeparam name="T">Form state class. </typeparam>
+    /// <remarks>
+    /// Fields will be defined through reflection over the type <typeparamref name="T"/> and attributes like 
+    /// <see cref="DescribeAttribute"/>,
+    /// <see cref="NumericAttribute"/>, 
+    /// <see cref="OptionalAttribute"/>
+    /// <see cref="PatternAttribute"/>, 
+    /// <see cref="PromptAttribute"/>, 
+    /// <see cref="TermsAttribute"/> and 
+    /// <see cref="TemplateAttribute"/>.   
+    /// For all of the attributes, resonable defaults will be generated.
+    /// </remarks>
+    #endregion
+    public sealed class FormBuilder<T> : FormBuilderBase<T>
+        where T : class
+    {
+        private readonly bool _ignoreAnnotations;
+
+        /// <summary>
+        /// Create a new form builder for building a form using reflection.
+        /// </summary>
+        /// <param name="ignoreAnnotations">True to ignore any attributes on the form class.</param>
+        public FormBuilder(bool ignoreAnnotations = false)
+            : base()
+        {
+            _ignoreAnnotations = ignoreAnnotations;
+        }
+
+        public override IForm<T> Build(Assembly resourceAssembly = null, string resourceName = null)
+        {
+            if (!_form._steps.Any((step) => step.Type == StepType.Field))
+            {
+                var paths = new List<string>();
+                FieldPaths(typeof(T), "", paths);
+                foreach (var path in paths)
+                {
+                    Field(new FieldReflector<T>(path, _ignoreAnnotations));
+                }
+                Confirm(new PromptAttribute(_form.Configuration.Template(TemplateUsage.Confirmation)));
+            }
+            return base.Build(resourceAssembly, resourceName);
+        }
+
+        public override IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            var field = new FieldReflector<T>(name, _ignoreAnnotations);
+            field.SetActive(active);
+            field.SetValidate(validate);
+            return Field(field);
+        }
+
+        public override IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            return Field(name, new PromptAttribute(prompt), active, validate);
+        }
+
+        public override IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null)
+        {
+            var field = new FieldReflector<T>(name, _ignoreAnnotations);
+            field.SetActive(active);
+            field.SetValidate(validate);
+            field.SetPrompt(prompt);
+            return Field(field);
+        }
+
+        public override IFormBuilder<T> AddRemainingFields(IEnumerable<string> exclude = null)
+        {
+            var exclusions = (exclude == null ? Array.Empty<string>() : exclude.ToArray());
+            var paths = new List<string>();
+            FieldPaths(typeof(T), "", paths);
+            foreach (var path in paths)
+            {
+                if (!exclusions.Contains(path) && !HasField(path))
+                {
+                    Field(new FieldReflector<T>(path, _ignoreAnnotations));
+                }
+            }
+            return this;
+        }
+
+        private void FieldPaths(Type type, string path, List<string> paths)
         {
             var newPath = (path == "" ? path : path + ".");
             foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -300,7 +445,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             }
         }
 
-        internal static void TypePaths(Type type, string path, List<string> paths)
+        private void TypePaths(Type type, string path, List<string> paths)
         {
             if (type.IsClass)
             {

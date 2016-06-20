@@ -478,21 +478,29 @@
           <source>ratings?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">notations?</target>
         </trans-unit>
-        <trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message15;LIST" translate="yes" xml:space="preserve">
           <source>Thanks for ordering a sandwich!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Merci de commander un sandwich !</target>
-        </trans-unit>
-        <trans-unit id="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" translate="yes" xml:space="preserve">
-          <source>I do not understand "{0}".;Try again, I don't get "{0}".</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</target>
-        </trans-unit>
-        <trans-unit id="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" translate="yes" xml:space="preserve">
-          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de {&amp;} vous souhaitez sur votre "sandwich"? {||}</target>
         </trans-unit>
         <trans-unit id="NoPreference;Specials;TEMPLATE" translate="yes" xml:space="preserve">
           <source>None</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Aucun</target>
+        </trans-unit>
+        <trans-unit id="PhoneNumber_description;VALUE" translate="yes" xml:space="preserve">
+          <source>Phone Number</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Numéro de téléphone</target>
+        </trans-unit>
+        <trans-unit id="PhoneNumber_terms;LIST" translate="yes" xml:space="preserve">
+          <source>phones?;numbers?;phones? numbers?</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">téléphones? ; numéros de? ; les téléphones ? numéros ?</target>
+        </trans-unit>
+        <trans-unit id="NotUnderstood;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" translate="yes" xml:space="preserve">
+          <source>I do not understand "{0}".;Try again, I don't get "{0}".</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Je ne comprends pas « {0} ». ; Essayez encore une fois, je ne comprends pas « {0} ».</target>
+        </trans-unit>
+        <trans-unit id="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" translate="yes" xml:space="preserve">
+          <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Quel genre de {&amp;} vous souhaitez sur votre "sandwich" ? {||}</target>
         </trans-unit>
       </group>
     </body>
@@ -756,11 +764,11 @@
           <source>Delivery Time</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Délai de livraison</target>
         </trans-unit>
-				<trans-unit id="Rating_description;VALUE" translate="yes" xml:space="preserve">
+        <trans-unit id="Rating_description;VALUE" translate="yes" xml:space="preserve">
           <source>your experience today</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">votre expérience aujourd'hui</target>
         </trans-unit>
-				<trans-unit id="message0;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message0;LIST" translate="yes" xml:space="preserve">
           <source>Welcome to the sandwich order bot!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Bienvenue sur le bot d'ordre "sandwich" !</target>
         </trans-unit>
@@ -1008,11 +1016,11 @@
           <source>Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&amp;Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Vous souhaitez commander votre longueur {} {Sandwich} sur {Ingredients.Bread} {&amp;Ingredients.Bread} avec {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} à {DeliveryAddress} {? à {DeliveryTime:t}}?</target>
         </trans-unit>
-				<trans-unit id="Rating_terms;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="Rating_terms;LIST" translate="yes" xml:space="preserve">
           <source>ratings?</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">notations?</target>
         </trans-unit>
-				<trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="message14;LIST" translate="yes" xml:space="preserve">
           <source>Thanks for ordering a sandwich!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Merci de commander un sandwich !</target>
         </trans-unit>

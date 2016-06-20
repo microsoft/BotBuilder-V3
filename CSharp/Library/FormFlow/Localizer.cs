@@ -150,7 +150,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 string value;
                 if (_translations.TryGetValue(skey, out value))
                 {
-                    dictionary[key] = new DescribeAttribute(value);
+                    DescribeAttribute old;
+                    DescribeAttribute newDesc = new DescribeAttribute(value);
+                    if (dictionary.TryGetValue(key, out old))
+                    {
+                        newDesc.Image = old.Image;
+                    }
+                    dictionary[key] = newDesc;
                 }
             }
         }
