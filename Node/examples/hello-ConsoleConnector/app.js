@@ -10,9 +10,8 @@ A simple "Hello World" bot that can be run from a console window.
 
 var builder = require('../../');
 
-var bot = new builder.TextBot();
-bot.add('/', function (session) {
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector);
+bot.dialog('/', function (session) {
    session.send('Hello World'); 
 });
-
-bot.listenStdin();

@@ -52,11 +52,11 @@ export class SigninCard implements IIsAttachment {
     
     public button(title: string|string[], url: string): this {
         if (title && url) {
-            this.data.content.button = {
+            this.data.content.buttons = [{
                 type: 'signin',
                 title: msg.fmtText(this.session, title),
                 value: url
-            };
+            }];
         }
         return this;
     }

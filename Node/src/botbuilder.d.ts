@@ -131,7 +131,7 @@ interface ISigninCard {
     title: string;
 
     /** Sign in action. */  
-    button: ICardAction;  
+    buttons: ICardAction[];  
 }
 
 /** 
@@ -736,6 +736,18 @@ export interface IChannelDataMap {
     [channelId: string]: any;
 }
 
+/** Options passed to Middleware.dialogVersion(). */
+export interface IDialogVersionOptions {
+    /** Current major.minor version for the bots dialogs. Major version increments result in existing conversations between the bot and user being restarted. */
+    version: number;
+
+    /** Optional message to send the user when their conversation is ended due to a version number change. */
+    message?: string|string[]|IMessage|IIsMessage;
+
+    /** Optional regular expression to listen for to manually detect a request to reset the users session state. */
+    resetCommand?: RegExp;
+}
+
 //=============================================================================
 //
 // ENUMS
@@ -987,7 +999,7 @@ export class Session {
      */
     isReset(): boolean;
 }
-
+    
 /**
  * Message builder class that simplifies building complex messages with attachments.
  */
@@ -999,20 +1011,28 @@ export class Message implements IIsMessage {
      */
     constructor(session?: Session);
     
+    /** Language of the message. */   
     local(local: string): Message;
 
+    /** Format of text fields. */
     textFormat(style: string): Message;
     
+    /** Sets the message text. */
     text(text: string|string[], ...args: any[]): Message;
     
+    /** Conditionally set this message text given a specified count. */
     ntext(msg: string|string[], msg_plural: string|string[], count: number): Message;
     
+    /** Composes a complex and randomized reply to the user.  */
     compose(prompts: string[][], ...args: any[]): Message;
 
+    /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
     summary(text: string|string[], ...args: any[]): Message;
 
+    /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
     attachmentLayout(style: string): Message;
     
+    /** Cards or images to send to the user.   */
     attachments(list: IAttachment[]|IIsAttachment[]): Message;
        
     /**
@@ -1021,14 +1041,19 @@ export class Message implements IIsMessage {
      */    
     addAttachment(attachment: IAttachment|IIsAttachment): Message;
     
+    /** Structured objects passed to the bot or user. */
     entities(list: Object[]): Message;
     
+    /** Adds an entity to the message. */
     addEntity(obj: Object): Message;
     
+    /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
     address(adr: IAddress): Message;
     
+    /** Timestamp of the message. If called will default the timestamp to (now). */
     timestamp(time?: string): Message;
 
+    /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
     channelData(map: IChannelDataMap): Message;
 
     /** Returns the JSON for the message. */    
@@ -1075,29 +1100,43 @@ export class CardAction implements IIsCardAction {
      */
     constructor(session?: Session);
     
+    /** Type of card action. */
     type(t: string): CardAction;
     
+    /** Title of the action. For buttons this will be the label of the button.  For tap actions this may be used for accesibility purposes or shown on hover. */
     title(text: string|string[], ...args: any[]): CardAction;
-    
+
+    /** The actions value. */    
     value(v: string): CardAction;
     
+    /** For buttons an image to include next to the buttons label. Not supported by all channels. */
     image(url: string): CardAction;
     
     /** Returns the JSON for the action. */    
     toAction(): ICardAction;
+
+    /** Places a call to a phone number. The should include country code in +44/+1 format for Skype calls. */
+    static call(session: Session, number: string, title?: string|string[]): CardAction;
     
+    /** Opens the specified URL. */
     static openUrl(session: Session, url: string, title?: string|string[]): CardAction;
     
+    /** Sends a message to the bot for processing in a way that's visible to all members of the conversation. For some channels this may get mapped to a [postBack](#postback). */
     static imBack(session: Session, msg: string, title?: string|string[]): CardAction;
     
+    /** Sends a message to the bot for processing in a way that's hidden from all members of the conversation. For some channels this may get mapped to a [imBack](#imback). */
     static postBack(session: Session, msg: string, title?: string|string[]): CardAction;
     
+    /** Plays the specified audio file to the user. Not currently supported for Skype. */
     static playAudio(session: Session, url: string, title?: string|string[]): CardAction;
     
+    /** Plays the specified video to the user. Not currently supported for Skype. */
     static playVideo(session: Session, url: string, title?: string|string[]): CardAction;
     
+    /** Opens the specified image in a native image viewer. For Skype only valid as a tap action on a CardImage. */
     static showImage(session: Session, url: string, title?: string|string[]): CardAction;
     
+    /** Downloads the specified file to the users device. Not currently supported for Skype. */
     static downloadFile(session: Session, url: string, title?: string|string[]): CardAction;
 }
 
@@ -1110,15 +1149,19 @@ export class CardImage implements IIsCardImage {
      */
     constructor(session?: Session);
     
+    /** URL of the image to display. */
     url(u: string): CardImage;
     
+    /** Alternate text of the image to use for accessibility pourposes. */
     alt(text: string|string[], ...args: any[]): CardImage;
     
+    /** Action to take when the image is tapped. */
     tap(action: ICardAction|IIsCardAction): CardImage;
     
     /** Returns the JSON for the image. */
     toImage(): ICardImage;
 
+    /** Creates a new CardImage for a given url. */
     static create(session: Session, url: string): CardImage;
 }
 
@@ -1131,16 +1174,22 @@ export class ThumbnailCard implements IIsAttachment {
      */
     constructor(session?: Session);
     
+    /** Title of the Card. */
     title(text: string|string[], ...args: any[]): ThumbnailCard;
 
+    /** Subtitle appears just below Title field, differs from Title in font styling only. */  
     subtitle(text: string|string[], ...args: any[]): ThumbnailCard;
     
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only. */
     text(text: string|string[], ...args: any[]): ThumbnailCard;
     
+    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. */  
     images(list: ICardImage[]|IIsCardImage[]): ThumbnailCard;
 
+    /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */  
     buttons(list: ICardAction[]|IIsCardAction[]): ThumbnailCard;
     
+    /** This action will be activated when user taps on the card. Not all channels support tap actions and some channels may choose to render the tap action as the titles link. */  
     tap(action: ICardAction|IIsCardAction): ThumbnailCard;
 
     /** Returns the JSON for the card, */
@@ -1166,14 +1215,15 @@ export class SigninCard implements IIsAttachment {
      */
     constructor(session?: Session);
     
+    /** Title of the Card. */
     text(prompts: string|string[], ...args: any[]): SigninCard;
     
+    /** Signin button label and link. */  
     button(title: string|string[], url: string): SigninCard;
     
     /** Returns the JSON for the card, */
     toAttachment(): IAttachment;
 }
-
 
 /** Card builder class that simplifies building receipt cards. */
 export class ReceiptCard implements IIsAttachment {
@@ -1184,23 +1234,31 @@ export class ReceiptCard implements IIsAttachment {
      */
     constructor(session?: Session);
     
+    /** Title of the Card. */
     title(text: string|string[], ...args: any[]): ReceiptCard;
     
+    /** Array of receipt items. */  
     items(list: IReceiptItem[]|IIsReceiptItem[]): ReceiptCard;
 
+    /** Array of additional facts to display to user (shipping charges and such.) Not all facts will be displayed on all channels. */ 
     facts(list: IFact[]|IIsFact[]): ReceiptCard;
 
+    /** This action will be activated when user taps on the card. Not all channels support tap actions. */  
     tap(action: ICardAction|IIsCardAction): ReceiptCard;
     
+    /** Total amount of money paid (or should be paid.) */  
     total(v: string): ReceiptCard;
 
+    /** Total amount of TAX paid (or should be paid.) */
     tax(v: string): ReceiptCard;
 
+    /** Total amount of VAT paid (or should be paid.) */  
     vat(v: string): ReceiptCard;
 
+    /** Set of actions applicable to the current card. Not all channels support buttons and the number of allowed buttons varies by channel. */  
     buttons(list: ICardAction[]|IIsCardAction[]): ReceiptCard;
 
-    /** Returns the JSON for the card, */
+    /** Returns the JSON for the card. */
     toAttachment(): IAttachment;
 }
 
@@ -1213,23 +1271,31 @@ export class ReceiptItem implements IIsReceiptItem {
      */
     constructor(session?: Session);
     
+    /** Title of the item. */
     title(text: string|string[], ...args: any[]): ReceiptItem;
 
+    /** Subtitle appears just below Title field, differs from Title in font styling only. On some channels may be combined with the [title](#title) or [text](#text). */
     subtitle(text: string|string[], ...args: any[]): ReceiptItem;
     
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only. */  
     text(text: string|string[], ...args: any[]): ReceiptItem;
     
+    /** Image to display on the card. Some channels may either send the image as a seperate message or simply include a link to the image. */  
     image(img: ICardImage|IIsCardImage): ReceiptItem;
 
+    /** Amount with currency. */
     price(v: string): ReceiptItem;
     
+    /** Number of items of given kind. */  
     quantity(v: string): ReceiptItem;
     
+    /** This action will be activated when user taps on the Item bubble. Not all channels support tap actions. */  
     tap(action: ICardAction|IIsCardAction): ReceiptItem;
     
     /** Returns the JSON for the item. */
     toItem(): IReceiptItem;
 
+    /** Creates a new ReceiptItem. */
     static create(session: Session, price: string, title?: string|string[]): ReceiptItem;
 }
 
@@ -1242,13 +1308,16 @@ export class Fact implements IIsFact {
      */
     constructor(session?: Session);
     
+    /** Display name of the fact. */
     key(text: string|string[], ...args: any[]): Fact;
     
+    /** Display value of the fact. */  
     value(v: string): Fact;
 
     /** Returns the JSON for the fact. */   
     toFact(): IFact;
 
+    /** Creates a new Fact. */
     static create(session: Session, value: string, key?: string|string[]): Fact;
 }
 
@@ -1505,8 +1574,13 @@ export class IntentDialog extends Dialog {
  * with any entities, for further processing. 
  */
 export class LuisRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of a LUIS recognizer.
+     * @param models Either an individual LUIS model used for all utterances or a map of per/local models conditionally used depending on the local of the utterance. 
+     */
     constructor(models: string|ILuisModelMap);
 
+    /** Called by the IntentDialog to perform the actual recognition. */
     public recognize(context: IRecognizeContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
@@ -1644,52 +1718,82 @@ export class SimpleDialog extends Dialog {
 
 /** Default in memory storage implementation for storing user & session state data. */
 export class MemoryBotStorage implements IBotStorage {
+    /** Returns data from memmory for the given context. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
+    
+    /** Saves data to memory for the given context. */
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
+    
+    /** Deletes in-memory data for the given context. */
     deleteData(context: IBotStorageContext): void;
 }
 
 /** Manages your bots conversations with users across multiple channels. */
 export class UniversalBot  {
     
+    /** 
+     * Creates a new instance of the UniversalBot.
+     * @param connector (Optional) the default connector to use for requests. If there's not a more specific connector registered for a channel then this connector will be used./**
+     * @param settings (Optional) settings to configure the bot with.
+     */
     constructor(connector?: IConnector, settings?: IUniversalBotSettings);
 
+    /** Sets a setting on the bot. Valid names are properties on IUniversalBotSettings. */
     set(name: string, value: any): UniversalBot;
     
+    /** Returns the current value of a setting. Valid names are properties on IUniversalBotSettings. */
     get(name: string): any;
-    
+
+    /** Returns or registers a connector for a specific channel. Use a channelId of '*' to get the default connector. */    
     connector(channelId: string, connector?: IConnector): IConnector;
-    
+
+    /** Returns or registers a dialog for a given id. */    
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
     
+    /** Registers a piece of middleware with the bot. */
     use(middleware: IMiddlewareMap): UniversalBot;
     
+    /** Called when a new message is recieved. This can be called manually to mimic the bot receiving a message from the user.  */
     receive(messages: IMessage|IMessage[], done?: (err: Error) => void): void;
  
+    /** Proactively starts a new dialog with the user. Any current conversation between the bot and user will be replaced with a new dialog stack. */
     beginDialog(message: IMessage|IIsMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void;
 
+    /** Sends a message to the user without disrupting the current conversations dialog stack. */
     send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void;
 
+    /** Returns information about when the last turn between the user and a bot occured. */
     isInConversation(address: IAddress, cb: (err: Error, lastAccess: Date) => void): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */
 export class ChatConnector implements IConnector, IBotStorage {
 
+    /** 
+     * Creates a new instnace of the ChatConnector.
+     * @param settings (Optional) config params that let you specify the bots App ID & Password you were assigned in the Bot Frameworks developer portal. 
+     */
     constructor(settings?: IChatConnectorSettings);
 
+    /** Registers an Express or Restify style hook to listen for new messages. */
     listen(): (req: any, res: any) => void;
 
+    /** Express or Resitify style middleware that verifies recieved messages are from the Bot Framework. */
     verifyBotFramework(): (req: any, res: any, next: any) => void;
 
+    /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
     onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
     
+    /** Called by the UniversalBot to deliver outgoing messages to a user. */
     send(messages: IMessage[], done: (err: Error) => void): void;
 
+    /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, done: (err: Error, address?: IAddress) => void): void;
 
+    /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
 
+    /** Writes out data to the Bot Frameworks state service. */
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
 }
 
@@ -1697,11 +1801,19 @@ export class ChatConnector implements IConnector, IBotStorage {
 export class ConsoleConnector implements IConnector {
     listen(): ConsoleConnector;
     
+    /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
     onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
     
+    /** Called by the UniversalBot to deliver outgoing messages to a user. */
     send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void;
 
+    /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
+}
+
+export class Middleware {
+    /** Installs a piece of middleware that manages the versioning of a bots dialogs. */
+    static dialogVersion(options: IDialogVersionOptions): IMiddlewareMap;
 }
 
 /** __DEPRECATED__ use an IntentDialog with a LuisRecognizer instead. */

@@ -71,32 +71,36 @@ export class CardAction implements IIsCardAction {
     public toAction(): ICardAction {
         return this.data;
     }
+
+    static call(session: ses.Session, number: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('call').value(number).title(title || "Click to call");
+    }
     
     static openUrl(session: ses.Session, url: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('openUrl').value(url).title(title);
+        return new CardAction(session).type('openUrl').value(url).title(title || "Click to open website in your browser");
     }
     
     static imBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('imBack').value(msg).title(title);
+        return new CardAction(session).type('imBack').value(msg).title(title || "Click to send response to bot");
     }
     
     static postBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('postBack').value(msg).title(title);
+        return new CardAction(session).type('postBack').value(msg).title(title || "Click to send response to bot");
     }
     
     static playAudio(session: ses.Session, url: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('playAudio').value(url).title(title);
+        return new CardAction(session).type('playAudio').value(url).title(title || "Click to play audio file");
     }
     
     static playVideo(session: ses.Session, url: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('playVideo').value(url).title(title);
+        return new CardAction(session).type('playVideo').value(url).title(title || "Click to play video");
     }
     
     static showImage(session: ses.Session, url: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('showImage').value(url).title(title);
+        return new CardAction(session).type('showImage').value(url).title(title || "Click to view image");
     }
     
     static downloadFile(session: ses.Session, url: string, title?: string|string[]): CardAction {
-        return new CardAction(session).type('downloadFile').value(url).title(title);
+        return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
     }
 }

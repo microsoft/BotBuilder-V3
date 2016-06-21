@@ -32,8 +32,7 @@ var builder = require('../../');
 // Create bot and setup server
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD,
-    stateEndpoint: process.env.STATE_ENDPOINT
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 
@@ -264,7 +263,7 @@ bot.dialog('/cards', [
                     .images([
                         builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
                     ])
-                    //.tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
+                    .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
             ]);
         session.send(msg);
 
@@ -278,7 +277,7 @@ bot.dialog('/cards', [
                     .images([
                         builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
                     ])
-                    //.tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market"))
+                    .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market"))
             ]);
         session.endDialog(msg);
     }
@@ -421,18 +420,6 @@ bot.dialog('/receipt', [
                     ])
                     .tax("$4.40")
                     .total("$48.40")
-            ]);
-        session.endDialog(msg);
-    }
-]);
-
-bot.dialog('/signin', [
-    function (session) {
-        session.send("You can easily send pictures to a user...");
-        var msg = new builder.Message(session)
-            .attachments([
-                new builder.SigninCard(session)
-                    .title("Plea")
             ]);
         session.endDialog(msg);
     }

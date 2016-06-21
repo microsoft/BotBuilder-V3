@@ -19,11 +19,11 @@ var SigninCard = (function () {
     };
     SigninCard.prototype.button = function (title, url) {
         if (title && url) {
-            this.data.content.button = {
-                type: 'signin',
-                title: msg.fmtText(this.session, title),
-                value: url
-            };
+            this.data.content.buttons = [{
+                    type: 'signin',
+                    title: msg.fmtText(this.session, title),
+                    value: url
+                }];
         }
         return this;
     };

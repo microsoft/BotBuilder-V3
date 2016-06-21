@@ -77,7 +77,7 @@ interface IIsAttachment {
 
 interface ISigninCard {
     text: string;                   // Title of the Card 
-    button: ICardAction;            // Sign in action 
+    buttons: ICardAction[];         // Sign in action 
 }
 
 interface IThumbnailCard {

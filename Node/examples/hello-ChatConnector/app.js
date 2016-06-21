@@ -1,23 +1,32 @@
 /*-----------------------------------------------------------------------------
-A simple "Hello World" bot for the Microsoft Bot Connector Service. A detailed 
-walkthrough of creating and running this bot can be found at the link below.
-
-    http://docs.botframework.com/builder/node/bots/BotConnectorBot
-
+A simple "Hello World" bot for the Microsoft Bot Framework. 
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
 var builder = require('../../');
 
-// Create bot and add dialogs
-var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppSecret' });
-bot.add('/', function (session) {
-   session.send('Hello World'); 
+//=========================================================
+// Bot Setup
+//=========================================================
+  
+// Create bot and setup server
+var connector = new builder.ChatConnector({
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
+var bot = new builder.UniversalBot(connector);
 
 // Setup Restify Server
 var server = restify.createServer();
-server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
+server.post('/api/messages', connector.verifyBotFramework(), connector.listen());
 server.listen(process.env.port || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
+});
+
+//=========================================================
+// Bots Dialogs
+//=========================================================
+
+bot.dialog('/', function (session) {
+    session.send("Hello World");
 });
