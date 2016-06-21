@@ -202,7 +202,11 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
             context.Wait(MessageReceived);
         }
 
-        public SimpleAlarmDialog(ILuisService service = null)
+        public SimpleAlarmDialog()
+        {
+
+        }
+        public SimpleAlarmDialog(ILuisService service)
             : base(service)
         {
         }
