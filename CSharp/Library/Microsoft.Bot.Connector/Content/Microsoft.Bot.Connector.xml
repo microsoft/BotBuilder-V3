@@ -1287,7 +1287,7 @@
             Initializes a new instance of the SigninCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,Microsoft.Bot.Connector.CardAction)">
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
             <summary>
             Initializes a new instance of the SigninCard class.
             </summary>
@@ -1297,7 +1297,7 @@
             Text for signin request
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Button">
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Buttons">
             <summary>
             Action to use to perform signin
             </summary>
