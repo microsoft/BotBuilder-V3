@@ -10,13 +10,13 @@
  * * __reactive messages__ are messages sent from the Bot to the User as a reply to an incoming message from the user. 
  * * __proactive messages__ are messages sent from the Bot to the User in response to some external event like an alarm triggering.
  * 
- * In the reactive case the you should copy the [address](#address) field from the incoming message to the outgoing message (if you use the [Message]( /sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class and initialize it with the 
- * [session](/sdkreference/nodejs/classes/_botbuilder_d_.session.html) this will happen automatically) and then set the [text](#text) or [attachments](#attachments).  For proactive messages you’ll need save the [address](#address) from the incoming message to 
- * an external storage somewhere. You can then later pass this in to [UniversalBot.beginDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#begindialog) or copy it to an outgoing message passed to 
- * [UniversalBot.send()](/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#send). 
+ * In the reactive case the you should copy the [address](#address) field from the incoming message to the outgoing message (if you use the [Message]( /en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class and initialize it with the 
+ * [session](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html) this will happen automatically) and then set the [text](#text) or [attachments](#attachments).  For proactive messages you’ll need save the [address](#address) from the incoming message to 
+ * an external storage somewhere. You can then later pass this in to [UniversalBot.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#begindialog) or copy it to an outgoing message passed to 
+ * [UniversalBot.send()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#send). 
  *
  * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
- * the [conversation](/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
+ * the [conversation](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
  */
 interface IMessage {
     /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
@@ -53,8 +53,8 @@ interface IMessage {
     attachmentLayout: string; 
 
     /** 
-     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
-     * [lookupUser](/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
+     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
+     * [lookupUser](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
 }
@@ -78,9 +78,9 @@ interface IIdentity {
 }
 
 /** 
- * Address routing information for a [message](/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#address). 
+ * Address routing information for a [message](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#address). 
  * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
- * [connectors](/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
+ * [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
  */
 interface IAddress {
     /** Unique identifier for channel. */
@@ -100,13 +100,13 @@ interface IAddress {
 }
 
 /**  
- * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
- * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IMessage.channelData](/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) to provide attachments using 
+ * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
+ * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IMessage.channelData](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) to provide attachments using 
  * the channels native schema. The types of attachments that can be sent varies by channel but these are the basic types:
  * 
  * * __Media and Files:__  Basic files can be sent by setting [contentType](#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](#contenturl).
  * * __Cards and Keyboards:__  A rich set of visual cards and custom keyboards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
- * [HeroCard](/sdkreference/nodejs/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
+ * [HeroCard](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
  */
 interface IAttachment {
     /** MIME type string which describes type of attachment. */
@@ -135,7 +135,7 @@ interface ISigninCard {
 }
 
 /** 
- * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
+ * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
  * All of the cards fields are optional so this card can be used to specify things like a keyboard on certain channels. Some channels may choose to render a lower fidelity version of the card or use an alternate representation. 
  */
 interface IThumbnailCard {
@@ -185,7 +185,7 @@ interface IReceiptCard {
     buttons: ICardAction[];  
 }
 
-/** An individual item within a [receipt](/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+/** An individual item within a [receipt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
 interface IReceiptItem {
     /** Title of the item. */
     title: string;
@@ -254,7 +254,7 @@ interface IIsCardImage {
     toImage(): ICardImage;
 }
 
-/** A fact displayed on a card like a [receipt](/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+/** A fact displayed on a card like a [receipt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
 interface IFact {
     /** Display name of the fact. */
     key: string;
@@ -345,7 +345,7 @@ export interface IRecognizeResult {
 export interface IPromptOptions {
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with the configured [defaultRetryPrompt](/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
+     * reprompt with the configured [defaultRetryPrompt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
      * plus the original prompt. 
      * 
      * Note that if the original prompt is an _IMessage_ the retry prompt will be sent as a seperate 
@@ -354,7 +354,7 @@ export interface IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
      */
     retryPrompt?: string|string[]|IMessage|IIsMessage;
 
@@ -378,7 +378,7 @@ export interface IPromptArgs extends IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
      */
     prompt: string|string[]|IMessage|IIsMessage;
 
@@ -478,7 +478,7 @@ export interface IEntity {
     score?: number;
 }
 
-/** Options used to configure an [IntentDialog](/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). */
+/** Options used to configure an [IntentDialog](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). */
 export interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
@@ -663,23 +663,23 @@ export interface IMiddlewareMap {
 }
 
 /** 
- * Signature for functions passed as steps to [DialogAction.waterfall()](/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall). 
+ * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall). 
  * 
  * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
- * waterfall can either execute one of the built-in [Prompts](/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html),
- * start a new dialog by calling [session.beginDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog),
+ * waterfall can either execute one of the built-in [Prompts](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html),
+ * start a new dialog by calling [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog),
  * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
  * 
  * When either a dialog or built-in prompt is called from a waterfall step, the results from that 
  * dialog or prompt will be passed via the `results` parameter to the next step of the waterfall. 
  * Users can say things like "nevermind" to cancel the built-in prompts so you should guard against
- * that by at least checking for [results.response](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) 
+ * that by at least checking for [results.response](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) 
  * before proceeding. A more detailed explination of why the waterfall is being continued can be 
- * determined by looking at the [code](/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html) 
- * returned for [results.resumed](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed).
+ * determined by looking at the [code](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html) 
+ * returned for [results.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed).
  * 
  * You can manually advance to the next step of the waterfall using the `skip()` function passed
- * in. Calling `skip({ response: "some text" })` with an [IDialogResult](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html)
+ * in. Calling `skip({ response: "some text" })` with an [IDialogResult](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html)
  * lets you more accurately mimic the results from a built-in prompt and can simplify your overall
  * waterfall logic.
  * 
@@ -688,12 +688,12 @@ export interface IMiddlewareMap {
  * 
  * __note:__ Waterfalls have a hidden last step which will automatically end the current dialog if 
  * if you call a prompt or dialog from the last step. This is useful where you have a deep stack of
- * dialogs and want a call to [session.endDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog)
+ * dialogs and want a call to [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog)
  * from the last child on the stack to end the entire stack. The close of the last child will trigger
  * all of its parents to move to this hidden step which will cascade the close all the way up the stack.
  * This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the 
  * middle you'll need to add a step to the end of your waterfall that either does nothing or calls 
- * something liek [session.send()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send)
+ * something liek [session.send()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send)
  * which isn't going to advance the waterfall forward.   
  * @example
  * <pre><code>
@@ -772,7 +772,7 @@ export enum ResumeReason {
     forward
 }
 
-/** Order in which an [IntentDialogs](/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
+/** Order in which an [IntentDialogs](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
 export enum RecognizeOrder { 
     /** All recognizers will be evaluated in parallel. */
     parallel,
@@ -857,7 +857,7 @@ export class Session {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [ISessionErrorEvent](/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html)
+     * - __error:__ An error occured. [ISessionErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -945,10 +945,10 @@ export class Session {
     /**
      * Passes control of the conversation to a new dialog. The current dialog will be suspended 
      * until the child dialog completes. Once the child ends the current dialog will receive a
-     * call to [dialogResumed()](/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
+     * call to [dialogResumed()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
      * where it can inspect any results returned from the child. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     beginDialog<T>(id: string, args?: T): Session;
 
@@ -956,7 +956,7 @@ export class Session {
      * Ends the current dialog and starts a new one its place. The parent dialog will not be 
      * resumed until the new dialog completes. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     replaceDialog<T>(id: string, args?: T): Session;
 
@@ -972,8 +972,8 @@ export class Session {
 
 
     /**
-     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
-     * reason of [completed](/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * reason of [completed](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
      * @param message (Optional)
      * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
@@ -990,7 +990,7 @@ export class Session {
     /**
      * Clears the sessions callstack and restarts the conversation with the configured dialogId.
      * @param dialogId (Optional) ID of the dialog to start.
-     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     reset(dialogId?: string, dialogArgs?: any): Session;
 
@@ -1036,7 +1036,7 @@ export class Message implements IIsMessage {
     attachments(list: IAttachment[]|IIsAttachment[]): Message;
        
     /**
-     * Adds an attachment to the message. See [IAttachment](/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html) for examples.
+     * Adds an attachment to the message. See [IAttachment](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html) for examples.
      * @param attachment The attachment to add.   
      */    
     addAttachment(attachment: IAttachment|IIsAttachment): Message;
@@ -1368,10 +1368,10 @@ export class DialogCollection {
      * Adds dialog(s) to a bot.
      * @param id 
      * * __id:__ _{string}_ - Unique ID of the dialog being added.
-     * * __id:__ _{Object}_ - Map of [Dialog](/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
+     * * __id:__ _{Object}_ - Map of [Dialog](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
      * @param dialog
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
     add(id: string, dialog: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): DialogCollection;
@@ -1431,7 +1431,7 @@ export class DialogAction {
      * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
      * @param promptType Type of built-in prompt to validate.
      * @param validator Function used to validate the response. Should return true if the response is valid.
-     * @param validator.response The users [IDialogResult.response](/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
+     * @param validator.response The users [IDialogResult.response](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
@@ -1509,7 +1509,7 @@ export class Prompts extends Dialog {
      * @param prompt 
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
+     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
      * @param choices 
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
@@ -1696,7 +1696,7 @@ export class EntityRecognizer {
  *   existant of an `args.resumed` property. It's important to avoid getting yourself into an 
  *   infinite loop which can be easy to do.
  * * Unlike a waterfall your dialog will not automatically end. It will remain the active dialog 
- *   until you call [session.endDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
+ *   until you call [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
  */
 export class SimpleDialog extends Dialog {
     /**
@@ -1704,7 +1704,7 @@ export class SimpleDialog extends Dialog {
      * @param handler The function closure for your dialog. 
      * @param handler.session Session object for the current conversation.
      * @param handler.args 
-     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
      * * __args:__ _{IDialogResult}_ - If the handler takes an action that results in a new dialog being started those results will be returned via subsequent calls to the handler.
      */
     constructor(handler: (session: Session, args?: any | IDialogResult<any>) => void);
