@@ -107,7 +107,7 @@ export class MemoryBotStorage implements IBotStorage {
         callback(null);
     }
 
-    public deleteData(context: IBotStorageContext) {
+    public deleteData(context: IBotStorageContext): void {
         if (context.userId && this.userStore.hasOwnProperty(context.userId)) {
             if (context.conversationId) {
                 // Delete specified conversation

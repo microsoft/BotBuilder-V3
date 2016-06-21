@@ -69,7 +69,7 @@ export class BotConnectorBot  {
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.')
 
         // Map options into settings
-        var oConnector: chat.IChatConnectorSettings = { botId: options.botId };
+        var oConnector: chat.IChatConnectorSettings = {};
         var oBot: ub.IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {

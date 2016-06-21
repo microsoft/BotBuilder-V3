@@ -83,7 +83,7 @@ export interface IDialogMiddleware {
 }
 
 export interface ILookupUser {
-    (identity: IIdentity, done: (err: Error, user: IIdentity) => void): void;
+    (address: IAddress, done: (err: Error, user: IIdentity) => void): void;
 }
 
 export class UniversalBot extends events.EventEmitter {
@@ -474,24 +474,20 @@ export class UniversalBot extends events.EventEmitter {
     
     private lookupUser(address: IAddress, done: (user: IIdentity) => void, error?: (err: Error) => void): void {
         this.tryCatch(() => {
-            if (address.user) {
-                this.emit('lookupUser', address.user);
-                if (this.settings.lookupUser) {
-                    this.settings.lookupUser(address.user, (err, user) => {
-                        if (!err) {
-                            this.tryCatch(() => done(user || address.user), error);
-                        } else {
-                            this.emitError(err);
-                            if (error) {
-                                error(err);
-                            }
+            this.emit('lookupUser', address);
+            if (this.settings.lookupUser) {
+                this.settings.lookupUser(address, (err, user) => {
+                    if (!err) {
+                        this.tryCatch(() => done(user || address.user), error);
+                    } else {
+                        this.emitError(err);
+                        if (error) {
+                            error(err);
                         }
-                    });
-                } else {
-                    this.tryCatch(() => done(address.user), error);
-                }
+                    }
+                });
             } else {
-                this.tryCatch(() => done(null), error);
+                this.tryCatch(() => done(address.user), error);
             }
         }, error);
     }

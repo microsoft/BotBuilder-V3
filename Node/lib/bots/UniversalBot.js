@@ -342,27 +342,22 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.lookupUser = function (address, done, error) {
         var _this = this;
         this.tryCatch(function () {
-            if (address.user) {
-                _this.emit('lookupUser', address.user);
-                if (_this.settings.lookupUser) {
-                    _this.settings.lookupUser(address.user, function (err, user) {
-                        if (!err) {
-                            _this.tryCatch(function () { return done(user || address.user); }, error);
+            _this.emit('lookupUser', address);
+            if (_this.settings.lookupUser) {
+                _this.settings.lookupUser(address, function (err, user) {
+                    if (!err) {
+                        _this.tryCatch(function () { return done(user || address.user); }, error);
+                    }
+                    else {
+                        _this.emitError(err);
+                        if (error) {
+                            error(err);
                         }
-                        else {
-                            _this.emitError(err);
-                            if (error) {
-                                error(err);
-                            }
-                        }
-                    });
-                }
-                else {
-                    _this.tryCatch(function () { return done(address.user); }, error);
-                }
+                    }
+                });
             }
             else {
-                _this.tryCatch(function () { return done(null); }, error);
+                _this.tryCatch(function () { return done(address.user); }, error);
             }
         }, error);
     };

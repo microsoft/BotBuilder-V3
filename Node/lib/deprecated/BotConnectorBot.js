@@ -3,7 +3,7 @@ var chat = require('../bots/ChatConnector');
 var BotConnectorBot = (function () {
     function BotConnectorBot(options) {
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.');
-        var oConnector = { botId: options.botId };
+        var oConnector = {};
         var oBot = {};
         for (var key in options) {
             switch (key) {

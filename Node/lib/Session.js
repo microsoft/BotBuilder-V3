@@ -105,16 +105,6 @@ var Session = (function (_super) {
         this.startBatch();
         return this;
     };
-    Session.prototype.sendMessage = function (message) {
-        this.msgSent = true;
-        if (message) {
-            var m = message.toMessage ? message.toMessage() : message;
-            this.prepareMessage(m);
-            this.batch.push(m);
-        }
-        this.startBatch();
-        return this;
-    };
     Session.prototype.messageSent = function () {
         return this.msgSent;
     };

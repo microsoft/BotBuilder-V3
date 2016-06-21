@@ -4,8 +4,6 @@
     ResumeReason[ResumeReason["canceled"] = 2] = "canceled";
     ResumeReason[ResumeReason["back"] = 3] = "back";
     ResumeReason[ResumeReason["forward"] = 4] = "forward";
-    ResumeReason[ResumeReason["captureCompleted"] = 5] = "captureCompleted";
-    ResumeReason[ResumeReason["childEnded"] = 6] = "childEnded";
 })(exports.ResumeReason || (exports.ResumeReason = {}));
 var ResumeReason = exports.ResumeReason;
 var Dialog = (function () {

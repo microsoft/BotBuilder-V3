@@ -41,7 +41,6 @@ import http = require('http');
 import utils = require('../utils');
 
 export interface IChatConnectorSettings {
-    botId: string;
     appId?: string;
     appPassword?: string;
     endpoint?: IChatConnectorEndpoint;
@@ -61,7 +60,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     private accessToken: string;
     private accessTokenExpires: number;
 
-    constructor(private settings: IChatConnectorSettings) {
+    constructor(private settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',

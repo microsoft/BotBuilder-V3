@@ -76,8 +76,8 @@ interface IIsAttachment {
 }
 
 interface ISigninCard {
-    title: string;                  // Title of the Card 
-    button: ICardAction;                // Sign in action 
+    text: string;                   // Title of the Card 
+    button: ICardAction;            // Sign in action 
 }
 
 interface IThumbnailCard {
@@ -240,26 +240,15 @@ interface ISession {
     error(err: Error): ISession;
     gettext(msgid: string, ...args: any[]): string;
     ngettext(msgid: string, msgid_plural: string, count: number): string;
-    send(): ISession;
-    send(msg: string, ...args: any[]): ISession;
+    send(message: string, ...args: any[]): ISession;
     send(msg: IMessage): ISession;
     getMessageReceived(): any;
-    sendMessage(msg: any): ISession;
     messageSent(): boolean;
     beginDialog<T>(id: string, args?: T): ISession;
     replaceDialog<T>(id: string, args?: T): ISession;
     endDialog(result?: any): ISession;
     reset(id: string): ISession;
     isReset(): boolean;
-}
-
-interface ISessionAction {
-    userData: any;
-    dialogData: any;
-    next(): void;
-    endDialog(result?: any): void;
-    send(msg: string, ...args: any[]): void;
-    send(msg: IMessage): void;
 }
 
 interface ISessionState {

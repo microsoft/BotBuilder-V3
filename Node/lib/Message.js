@@ -95,6 +95,46 @@ var Message = (function () {
         }
         return this;
     };
+    Message.prototype.entities = function (list) {
+        this.data.entities = list || [];
+        return this;
+    };
+    Message.prototype.addEntity = function (obj) {
+        if (obj) {
+            if (!this.data.entities) {
+                this.data.entities = [obj];
+            }
+            else {
+                this.data.entities.push(obj);
+            }
+        }
+        return this;
+    };
+    Message.prototype.address = function (adr) {
+        if (adr) {
+            this.data.address = adr;
+        }
+        return this;
+    };
+    Message.prototype.timestamp = function (time) {
+        this.data.timestamp = time || new Date().toISOString();
+        return this;
+    };
+    Message.prototype.channelData = function (map) {
+        if (map) {
+            var channelId = this.data.address ? this.data.address.channelId : '*';
+            if (map.hasOwnProperty(channelId)) {
+                this.data.channelData = map[channelId];
+            }
+            else if (map.hasOwnProperty('*')) {
+                this.data.channelData = map['*'];
+            }
+        }
+        return this;
+    };
+    Message.prototype.toMessage = function () {
+        return utils.clone(this.data);
+    };
     Message.prototype.upgradeAttachment = function (a) {
         var isOldSchema = false;
         for (var prop in a) {
@@ -144,46 +184,6 @@ var Message = (function () {
         else {
             return a;
         }
-    };
-    Message.prototype.entities = function (list) {
-        this.data.entities = list || [];
-        return this;
-    };
-    Message.prototype.addEntity = function (obj) {
-        if (obj) {
-            if (!this.data.entities) {
-                this.data.entities = [obj];
-            }
-            else {
-                this.data.entities.push(obj);
-            }
-        }
-        return this;
-    };
-    Message.prototype.address = function (adr) {
-        if (adr) {
-            this.data.address = adr;
-        }
-        return this;
-    };
-    Message.prototype.timestamp = function (time) {
-        this.data.timestamp = time || new Date().toISOString();
-        return this;
-    };
-    Message.prototype.channelData = function (map) {
-        if (map) {
-            var channelId = this.data.address ? this.data.address.channelId : '*';
-            if (map.hasOwnProperty(channelId)) {
-                this.data.channelData = map[channelId];
-            }
-            else if (map.hasOwnProperty('*')) {
-                this.data.channelData = map['*'];
-            }
-        }
-        return this;
-    };
-    Message.prototype.toMessage = function () {
-        return utils.clone(this.data);
     };
     Message.randomPrompt = function (prompts) {
         if (Array.isArray(prompts)) {

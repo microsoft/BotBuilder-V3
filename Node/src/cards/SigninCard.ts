@@ -43,9 +43,9 @@ export class SigninCard implements IIsAttachment {
     constructor(private session?: ses.Session) {
     }
     
-    public title(prompts: string|string[], ...args: any[]): this {
+    public text(prompts: string|string[], ...args: any[]): this {
         if (prompts) {
-            this.data.content.title = msg.fmtText(this.session, prompts, args); 
+            this.data.content.text = msg.fmtText(this.session, prompts, args); 
         }
         return this; 
     }

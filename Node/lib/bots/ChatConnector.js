@@ -4,6 +4,7 @@ var url = require('url');
 var utils = require('../utils');
 var ChatConnector = (function () {
     function ChatConnector(settings) {
+        if (settings === void 0) { settings = {}; }
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {

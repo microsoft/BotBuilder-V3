@@ -155,6 +155,9 @@ bot.dialog('/menu', [
                 case 'receipt':
                     session.beginDialog('/receipt');
                     break;
+                case 'signin':
+                    session.beginDialog('/signin');
+                    break;
             }
         } else {
             // Exit the menu
@@ -422,3 +425,28 @@ bot.dialog('/receipt', [
         session.endDialog(msg);
     }
 ]);
+
+bot.dialog('/signin', [
+    function (session) {
+        session.send("You can easily send pictures to a user...");
+        var msg = new builder.Message(session)
+            .attachments([
+                new builder.SigninCard(session)
+                    .title("Plea")
+            ]);
+        session.endDialog(msg);
+    }
+]);
+
+bot.dialog('/signin', [ 
+    function (session) { 
+        // Send a signin 
+        var msg = new builder.Message(session) 
+            .attachments([ 
+                new builder.SigninCard(session) 
+                    .title("You must first signin to your account.") 
+                    .button("signin", "http://example.com/") 
+            ]); 
+        session.endDialog(msg); 
+    } 
+]); 

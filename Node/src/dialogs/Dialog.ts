@@ -38,7 +38,7 @@ export interface IDialog {
     recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void
 }
 
-export enum ResumeReason { completed, notCompleted, canceled, back, forward, captureCompleted, childEnded }
+export enum ResumeReason { completed, notCompleted, canceled, back, forward }
 
 export interface IDialogResult<T> {
     resumed: ResumeReason;

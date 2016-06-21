@@ -134,6 +134,51 @@ export class Message implements IIsMessage {
         }
         return this;
     }
+    
+    public entities(list: Object[]): this {
+        this.data.entities = list || [];
+        return this;
+    }
+    
+    public addEntity(obj: Object): this {
+        if (obj) {
+            if (!this.data.entities) {
+                this.data.entities = [obj];
+            } else {
+                this.data.entities.push(obj);
+            }
+        }
+        return this;
+    }
+    
+    public address(adr: IAddress): this {
+        if (adr) {
+            this.data.address = adr;
+        }
+        return this;
+    }
+    
+    public timestamp(time?: string): this {
+        this.data.timestamp = time || new Date().toISOString();
+        return this;
+    }
+
+    public channelData(map: IChannelDataMap): this {
+        if (map) {
+            var channelId = this.data.address ? this.data.address.channelId : '*';
+            if (map.hasOwnProperty(channelId)) {
+                this.data.channelData = map[channelId];
+            } else if (map.hasOwnProperty('*')) {
+                this.data.channelData = map['*'];
+            }
+        }
+        return this;
+    }
+    
+    public toMessage(): IMessage {
+        // Return cloned message
+        return utils.clone(this.data);
+    }
 
     private upgradeAttachment(a: IAttachment): IAttachment {
         var isOldSchema = false;
@@ -183,51 +228,6 @@ export class Message implements IIsMessage {
         } else {
             return a;
         }
-    }
-    
-    public entities(list: Object[]): this {
-        this.data.entities = list || [];
-        return this;
-    }
-    
-    public addEntity(obj: Object): this {
-        if (obj) {
-            if (!this.data.entities) {
-                this.data.entities = [obj];
-            } else {
-                this.data.entities.push(obj);
-            }
-        }
-        return this;
-    }
-    
-    public address(adr: IAddress): this {
-        if (adr) {
-            this.data.address = adr;
-        }
-        return this;
-    }
-    
-    public timestamp(time?: string): this {
-        this.data.timestamp = time || new Date().toISOString();
-        return this;
-    }
-
-    public channelData(map: IChannelDataMap): this {
-        if (map) {
-            var channelId = this.data.address ? this.data.address.channelId : '*';
-            if (map.hasOwnProperty(channelId)) {
-                this.data.channelData = map[channelId];
-            } else if (map.hasOwnProperty('*')) {
-                this.data.channelData = map['*'];
-            }
-        }
-        return this;
-    }
-    
-    public toMessage(): IMessage {
-        // Return cloned message
-        return utils.clone(this.data);
     }
 
     static randomPrompt(prompts: string|string[]): string {

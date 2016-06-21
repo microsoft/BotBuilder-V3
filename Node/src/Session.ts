@@ -134,7 +134,7 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
-    public send(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+    public send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
         this.msgSent = true;
         if (message) {
             var m: IMessage;
@@ -148,17 +148,6 @@ export class Session extends events.EventEmitter implements ISession {
             this.prepareMessage(m);
             this.batch.push(m);
         }
-        this.startBatch();
-        return this;
-    }
-    
-    public sendMessage(message: IMessage|IIsMessage): this {
-        this.msgSent = true;
-        if (message) {
-            var m = (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
-            this.prepareMessage(m);
-            this.batch.push(m);
-        }    
         this.startBatch();
         return this;
     }
