@@ -81,7 +81,7 @@ export class Session extends events.EventEmitter implements ISession {
         };
 
         // Make sure dialogData is properly initialized
-        this.sessionState = sessionState || { callstack: [], lastAccess: 0 };
+        this.sessionState = sessionState || { callstack: [], lastAccess: 0, version: 0.0 };
         this.sessionState.lastAccess = new Date().getTime();
         var cur = this.curDialog();
         if (cur) {

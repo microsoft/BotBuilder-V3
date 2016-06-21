@@ -42,19 +42,19 @@ export interface IChannelDataMap {
     [channelId: string]: any;
 }
 
-export var LayoutStyle = {
-    auto: <string>null,
-    image: 'image',
-    moji: 'moji',
-    card: 'card',
-    signinCard: 'card.signin',
-    receiptCard: 'card.receipt',
-    carouselCard: 'card.carousel'
+export var TextFormat = {
+    plain: 'plain',
+    markdown: 'markdown',
+    xml: 'xml'
+};
+
+export var AttachmentLayout = {
+    list: 'list',
+    carousel: 'carousel'
 };
 
 export class Message implements IIsMessage {
     private data = <IMessage>{};
-    private style = LayoutStyle.auto;
     
     constructor(private session?: ses.Session) {
         this.data.type = 'message';
@@ -69,13 +69,13 @@ export class Message implements IIsMessage {
         }
     }
     
-    public layoutStyle(style: string): this {
-        this.style = style;
-        return this;
-    }
-    
     public local(local: string): this {
         this.data.local = local;
+        return this;
+    }
+
+    public textFormat(style: string): this {
+        this.data.textFormat = style;
         return this;
     }
     
@@ -106,6 +106,11 @@ export class Message implements IIsMessage {
         return this; 
     }
 
+    public attachmentLayout(style: string): this {
+        this.data.attachmentLayout = style;
+        return this;
+    }
+    
     public attachments(list: IAttachment[]|IIsAttachment[]): this {
         this.data.attachments = [];
         if (list) {
@@ -165,7 +170,7 @@ export class Message implements IIsMessage {
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ? 
-                        ca.CardAction.postBack(null, old.message, old.title) : 
+                        ca.CardAction.imBack(null, old.message, old.title) : 
                         ca.CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
@@ -221,50 +226,8 @@ export class Message implements IIsMessage {
     }
     
     public toMessage(): IMessage {
-        // Find layout style
-        var style = this.style;
-        if (!style && this.data.attachments) {
-            var cards = 0;
-            var hasReceipt = false;
-            var hasSignin = false;
-            var attachments = this.data.attachments;
-            for (var i = 0; i < attachments.length; i++) {
-                var ct = attachments[i].contentType || '';
-                if (ct.indexOf('vnd.microsoft.card') > 0) {
-                    cards++;
-                    if (ct.indexOf('card.signin') > 0) {
-                        hasSignin = true;
-                    } else if (ct.indexOf('card.receipt') > 0) {
-                        hasReceipt = true;
-                    }
-                }
-            }
-            if (cards > 0) {
-                if (cards > 1) {
-                    style = LayoutStyle.carouselCard;
-                } else if (hasSignin) {
-                    style = LayoutStyle.signinCard;
-                } else if (hasReceipt) {
-                    style = LayoutStyle.receiptCard;
-                } else {
-                    style = LayoutStyle.card;
-                }
-            } else if (attachments.length > 0) {
-                var ct = attachments[0].contentType || '';
-                if (ct.indexOf('image') == 0 || ct.indexOf('vnd.microsoft.image') > 0) {
-                    style = LayoutStyle.image;
-                } else if (ct.indexOf('vnd.microsoft.moji') > 0) {
-                    style = LayoutStyle.moji;
-                }
-            }
-        } 
-        
         // Return cloned message
-        var msg: IMessage = utils.clone(this.data);
-        if (style) {
-            msg.type += '/' + style;
-        }
-        return msg;
+        return utils.clone(this.data);
     }
 
     static randomPrompt(prompts: string|string[]): string {

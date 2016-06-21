@@ -268,7 +268,7 @@ export class Prompts extends dialog.Dialog {
                     var buttons: ca.CardAction[] = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
                         var option = session.dialogData.enumValues[i];
-                        buttons.push(ca.CardAction.postBack(session, option, option));
+                        buttons.push(ca.CardAction.imBack(session, option, option));
                     }
                     msg.text(prompt)
                        .attachments([new hero.HeroCard(session).buttons(buttons)]);

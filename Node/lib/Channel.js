@@ -1,6 +1,7 @@
 function preferButtons(session, choiceCnt, rePrompt) {
     switch (getChannelId(session)) {
         case 'facebook':
+        case 'skype':
             return (choiceCnt <= 3);
         case 'telegram':
         case 'kik':

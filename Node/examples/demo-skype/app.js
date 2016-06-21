@@ -24,12 +24,16 @@ recieve uploaded photos and videos.
 
 var restify = require('restify');
 var builder = require('../../');
+
+//=========================================================
+// Bot Setup
+//=========================================================
   
 // Create bot and setup server
 var connector = new builder.ChatConnector({
-    botId: process.env.BOT_ID,
     appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appPassword: process.env.MICROSOFT_APP_PASSWORD,
+    stateEndpoint: process.env.STATE_ENDPOINT
 });
 var bot = new builder.UniversalBot(connector);
 
@@ -40,7 +44,11 @@ server.listen(process.env.port || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
 
-// Listen for activity events
+
+//=========================================================
+// Activity Events
+//=========================================================
+
 bot.on('conversationUpdate', function (message) {
    // Check for group conversations
     if (message.address.conversation.isGroup) {
@@ -90,7 +98,18 @@ bot.on('deleteUserData', function (message) {
     // User asked to delete their data
 });
 
-// Add dialogs to your bot
+
+//=========================================================
+// Bots Middleware
+//=========================================================
+
+// Anytime the major version is incremented any existign conversations will be restarted.
+bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+
+//=========================================================
+// Bots Dialogs
+//=========================================================
+
 bot.dialog('/', [
     function (session) {
         // Send a greeting and start the menu.
@@ -98,9 +117,8 @@ bot.dialog('/', [
             .title("Microsoft Bot Framework")
             .text("Your bots - wherever your users are talking.")
             .images([
-                builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
-            ])
-            .tap(builder.CardAction.openUrl(session, "https://dev.botframework.com/"))
+                 builder.CardImage.create(session, "http://docs.botframework.com/images/demo_bot_image.png")
+            ]);
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
         session.send("Hi... I'm the Microsoft Bot Framework demo bot for Skype. I can show you everything you can use our Bot Builder SDK to do on Skype.");
@@ -114,7 +132,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|video|cards|carousel|receipt|signin|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -125,20 +143,17 @@ bot.dialog('/menu', [
                 case 'picture':
                     session.beginDialog('/picture');
                     break;
-                case 'video':
-                    session.beginDialog('/video');
-                    break;
                 case 'cards':
                     session.beginDialog('/cards');
+                    break;
+                case 'list':
+                    session.beginDialog('/list');
                     break;
                 case 'carousel':
                     session.beginDialog('/carousel');
                     break;
                 case 'receipt':
                     session.beginDialog('/receipt');
-                    break;
-                case 'signin':
-                    session.beginDialog('/signin');
                     break;
             }
         } else {
@@ -232,60 +247,61 @@ bot.dialog('/picture', [
     }
 ]);
 
-
-
-bot.dialog('/video', [
-    function (session) {
-        session.send("Skype bots can recieve videos but Skype doesn't currently support sending videos. You can however share links to videos using bubbles.");
-        builder.Prompts.attachment(session, "Send me a video (or any type of attachment) and I'll send it back to you as a Hero Card.");
-    },
-    function (session, results) {
-        if (results.response && results.response.length) {
-            var first = results.response[0];
-            var card = new builder.HeroCard(session)
-                .title("Attachment Received")
-                .text("Attachment Type: "  + first.contentType)
-                .tap(builder.CardAction.openUrl(session, first.contentUrl));
-            if (first.contentType.indexOf('image') == 0) {
-                card.images([
-                    builder.CardImage.create(session, first.contentUrl)
-                ]);
-            }
-            var msg = new builder.Message(session).attachments([card]);
-            session.endDialog(msg);
-        } else {
-            session.endDialog("I didn't get any attachments :(");
-        }
-    }
-]);
-
 bot.dialog('/cards', [
     function (session) {
-        session.send("You can use Hero & Thumbnail cards to send the user a vsually rich information...");
+        session.send("You can use Hero & Thumbnail cards to send the user a visually rich information...");
 
         var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
             .attachments([
                 new builder.HeroCard(session)
                     .title("Hero Card")
                     .subtitle("Space Needle")
                     .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
                     .images([
-                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
                     ])
-                    .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
+                    //.tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
             ]);
         session.send(msg);
 
         msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
             .attachments([
                 new builder.ThumbnailCard(session)
                     .title("Thumbnail Card")
                     .subtitle("Pikes Place Market")
                     .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
                     .images([
-                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
                     ])
-                    .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market"))
+                    //.tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market"))
+            ]);
+        session.endDialog(msg);
+    }
+]);
+
+bot.dialog('/list', [
+    function (session) {
+        session.send("You can send the user a list of cards...");
+
+        var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Hero Card")
+                    .subtitle("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
+                    ]),
+                new builder.ThumbnailCard(session)
+                    .title("Thumbnail Card")
+                    .subtitle("Pikes Place Market")
+                    .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
+                    ])
             ]);
         session.endDialog(msg);
     }
@@ -297,40 +313,42 @@ bot.dialog('/carousel', [
         
         // Ask the user to select an item from a carousel.
         var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
             .attachments([
                 new builder.HeroCard(session)
                     .title("Space Needle")
                     .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
                     .images([
-                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/800px-Seattlenighttimequeenanne.jpg")),
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle", "Wikipedia"),
-                        builder.CardAction.postBack(session, "select:100", "Select")
-                    ])
-                    .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seattlenighttimequeenanne.jpg")),
+                        builder.CardAction.imBack(session, "select:100", "Select")
+                    ]),
                 new builder.HeroCard(session)
                     .title("Pikes Place Market")
                     .text("<b>Pike Place Market</b> is a public market overlooking the Elliott Bay waterfront in Seattle, Washington, United States.")
                     .images([
-                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/320px-PikePlaceMarket.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/PikePlaceMarket.jpg/800px-PikePlaceMarket.jpg")),
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Pike_Place_Market", "Wikipedia"),
-                        builder.CardAction.postBack(session, "select:101", "Select")
-                    ])
-                    .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/en/2/2a/PikePlaceMarket.jpg")),
+                        builder.CardAction.imBack(session, "select:101", "Select")
+                    ]),
                 new builder.HeroCard(session)
                     .title("EMP Museum")
                     .text("<b>EMP Musem</b> is a leading-edge nonprofit museum, dedicated to the ideas and risk-taking that fuel contemporary popular culture.")
                     .images([
-                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/a/a0/Night_Exterior_EMP.jpg")
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/320px-Night_Exterior_EMP.jpg")
+                            .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Night_Exterior_EMP.jpg/800px-Night_Exterior_EMP.jpg"))
                     ])
                     .buttons([
                         builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/EMP_Museum", "Wikipedia"),
-                        builder.CardAction.postBack(session, "select:102", "Select")
+                        builder.CardAction.imBack(session, "select:102", "Select")
                     ])
-                    .tap(builder.CardAction.showImage(session, "https://upload.wikimedia.org/wikipedia/commons/a/a0/Night_Exterior_EMP.jpg"))
             ]);
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
@@ -400,19 +418,6 @@ bot.dialog('/receipt', [
                     ])
                     .tax("$4.40")
                     .total("$48.40")
-            ]);
-        session.endDialog(msg);
-    }
-]);
-
-bot.dialog('/signin', [
-    function (session) {
-        // Send a signin
-        var msg = new builder.Message(session)
-            .attachments([
-                new builder.SigninCard(session)
-                    .title("You must first signin to your account.")
-                    .button("signin", "http://foo.com")
             ]);
         session.endDialog(msg);
     }

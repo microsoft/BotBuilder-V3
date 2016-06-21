@@ -45,6 +45,7 @@ export interface IChatConnectorSettings {
     appId?: string;
     appPassword?: string;
     endpoint?: IChatConnectorEndpoint;
+    stateEndpoint?: string;
 }
 
 export interface IChatConnectorEndpoint {
@@ -52,6 +53,7 @@ export interface IChatConnectorEndpoint {
     refreshScope: string;
     verifyEndpoint: string;
     verifyIssuer: string;
+    stateEndpoint: string;
 }
 
 export class ChatConnector implements ub.IConnector, bs.IBotStorage {
@@ -65,7 +67,8 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
-                verifyIssuer: 'https://api.botframework.com'
+                verifyIssuer: 'https://api.botframework.com',
+                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             }
         }
     }
@@ -294,6 +297,11 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                     }
                 }
 
+                // Ensure basic fields are there
+                msg.text = msg.text || '';
+                msg.attachments = msg.attachments || [];
+                msg.entities = msg.entities || [];
+
                 // Dispatch message
                 this.handler([msg]);
             } catch (e) {
@@ -422,15 +430,12 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 }
                 break;
             default:
-                path = 'https://api.botframework.com'
+                path = this.settings.endpoint.stateEndpoint;
                 break;
         }
 
         // Append base path info.
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
-/*        return path + '/v3/botstate/' + 
-            encodeURIComponent(this.settings.botId) + '/' +
-            encodeURIComponent(address.channelId);*/
     }
 }
 

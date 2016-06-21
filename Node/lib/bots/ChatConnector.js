@@ -10,7 +10,8 @@ var ChatConnector = (function () {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
-                verifyIssuer: 'https://api.botframework.com'
+                verifyIssuer: 'https://api.botframework.com',
+                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
     }
@@ -226,6 +227,9 @@ var ChatConnector = (function () {
                         console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
                     }
                 }
+                msg.text = msg.text || '';
+                msg.attachments = msg.attachments || [];
+                msg.entities = msg.entities || [];
                 _this.handler([msg]);
             }
             catch (e) {
@@ -350,7 +354,7 @@ var ChatConnector = (function () {
                 }
                 break;
             default:
-                path = 'https://api.botframework.com';
+                path = this.settings.endpoint.stateEndpoint;
                 break;
         }
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);

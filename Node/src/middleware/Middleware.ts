@@ -31,22 +31,32 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('./Session');
+import ub = require('../bots/UniversalBot');
 
-export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt: boolean): boolean {
-    switch (getChannelId(session)) {
-        case 'facebook':
-        case 'skype':
-            return (choiceCnt <= 3);
-        case 'telegram':
-        case 'kik':
-        case 'emulator':
-            return true;
-        default:
-            return false;
-    }
+
+export interface IDialogVersionOptions {
+    version: number;
+    message?: string|string[]|IMessage|IIsMessage;
+    resetCommand?: RegExp;
 }
 
-export function getChannelId(session: ses.Session): string {
-    return session.message.address.channelId.toLowerCase();    
+export class Middleware {
+
+    static dialogVersion(options: IDialogVersionOptions): ub.IMiddlewareMap {
+        return {
+            dialog: (session, next) => {
+                var cur = session.sessionState.version || 0.0;
+                var curMajor = Math.floor(cur);
+                var major = Math.floor(options.version);
+                if (session.sessionState.callstack.length && curMajor !== major) {
+                    session.endConversation(options.message || "Sorry. The service was upgraded and we need to start over.");
+                } else if (options.resetCommand && session.message.text && options.resetCommand.test(session.message.text)) {
+                    session.endConversation(options.message || "Sorry. The service was upgraded and we need to start over.");
+                } else {
+                    session.sessionState.version = options.version;
+                    next(); 
+                }
+            }
+        };
+    }
 }

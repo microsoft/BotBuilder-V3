@@ -53,12 +53,14 @@ import img = require('./cards/CardImage');
 import rc = require('./cards/ReceiptCard');
 import signin = require('./cards/SigninCard');
 import thumb = require('./cards/ThumbnailCard');
+import middleware = require('./middleware/Middleware');
 
 declare var exports: any;
 
 exports.Session = ses.Session;
 exports.Message = msg.Message;
-exports.LayoutStyle = msg.LayoutStyle;
+exports.AttachmentLayout = msg.AttachmentLayout;
+exports.TextFormat = msg.TextFormat;
 exports.CardAction = ca.CardAction;
 exports.HeroCard = hero.HeroCard;
 exports.CardImage = img.CardImage;
@@ -84,6 +86,7 @@ exports.UniversalBot = ub.UniversalBot;
 exports.ChatConnector = chat.ChatConnector;
 exports.ConsoleConnector = cc.ConsoleConnector;
 exports.MemoryBotStorage = bs.MemoryBotStorage;
+exports.Middleware = middleware.Middleware;
 
 // Deprecated classes
 import deprecatedBCB = require('./deprecated/BotConnectorBot');

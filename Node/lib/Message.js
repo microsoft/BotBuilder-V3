@@ -3,20 +3,19 @@ var utils = require('./utils');
 var hc = require('./cards/HeroCard');
 var img = require('./cards/CardImage');
 var ca = require('./cards/CardAction');
-exports.LayoutStyle = {
-    auto: null,
-    image: 'image',
-    moji: 'moji',
-    card: 'card',
-    signinCard: 'card.signin',
-    receiptCard: 'card.receipt',
-    carouselCard: 'card.carousel'
+exports.TextFormat = {
+    plain: 'plain',
+    markdown: 'markdown',
+    xml: 'xml'
+};
+exports.AttachmentLayout = {
+    list: 'list',
+    carousel: 'carousel'
 };
 var Message = (function () {
     function Message(session) {
         this.session = session;
         this.data = {};
-        this.style = exports.LayoutStyle.auto;
         this.data.type = 'message';
         if (this.session) {
             var m = this.session.message;
@@ -28,12 +27,12 @@ var Message = (function () {
             }
         }
     }
-    Message.prototype.layoutStyle = function (style) {
-        this.style = style;
-        return this;
-    };
     Message.prototype.local = function (local) {
         this.data.local = local;
+        return this;
+    };
+    Message.prototype.textFormat = function (style) {
+        this.data.textFormat = style;
         return this;
     };
     Message.prototype.text = function (text) {
@@ -68,6 +67,10 @@ var Message = (function () {
             args[_i - 1] = arguments[_i];
         }
         this.data.summary = text ? fmtText(this.session, text, args) : '';
+        return this;
+    };
+    Message.prototype.attachmentLayout = function (style) {
+        this.data.attachmentLayout = style;
         return this;
     };
     Message.prototype.attachments = function (list) {
@@ -127,7 +130,7 @@ var Message = (function () {
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ?
-                        ca.CardAction.postBack(null, old.message, old.title) :
+                        ca.CardAction.imBack(null, old.message, old.title) :
                         ca.CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
@@ -180,53 +183,7 @@ var Message = (function () {
         return this;
     };
     Message.prototype.toMessage = function () {
-        var style = this.style;
-        if (!style && this.data.attachments) {
-            var cards = 0;
-            var hasReceipt = false;
-            var hasSignin = false;
-            var attachments = this.data.attachments;
-            for (var i = 0; i < attachments.length; i++) {
-                var ct = attachments[i].contentType || '';
-                if (ct.indexOf('vnd.microsoft.card') > 0) {
-                    cards++;
-                    if (ct.indexOf('card.signin') > 0) {
-                        hasSignin = true;
-                    }
-                    else if (ct.indexOf('card.receipt') > 0) {
-                        hasReceipt = true;
-                    }
-                }
-            }
-            if (cards > 0) {
-                if (cards > 1) {
-                    style = exports.LayoutStyle.carouselCard;
-                }
-                else if (hasSignin) {
-                    style = exports.LayoutStyle.signinCard;
-                }
-                else if (hasReceipt) {
-                    style = exports.LayoutStyle.receiptCard;
-                }
-                else {
-                    style = exports.LayoutStyle.card;
-                }
-            }
-            else if (attachments.length > 0) {
-                var ct = attachments[0].contentType || '';
-                if (ct.indexOf('image') == 0 || ct.indexOf('vnd.microsoft.image') > 0) {
-                    style = exports.LayoutStyle.image;
-                }
-                else if (ct.indexOf('vnd.microsoft.moji') > 0) {
-                    style = exports.LayoutStyle.moji;
-                }
-            }
-        }
-        var msg = utils.clone(this.data);
-        if (style) {
-            msg.type += '/' + style;
-        }
-        return msg;
+        return utils.clone(this.data);
     };
     Message.randomPrompt = function (prompts) {
         if (Array.isArray(prompts)) {

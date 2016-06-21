@@ -28,7 +28,7 @@ interface IMessage {
     /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
     channelData: any;  
     
-    /** Defines type of notification and name of feature. */
+    /** Defines type of notification. */
     type: string;
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
@@ -45,6 +45,12 @@ interface IMessage {
 
     /** Structured objects passed to the bot or user. */
     entities: any[];
+
+    /** Format of text fields. The default value is 'markdown'. */
+    textFormat: string;
+
+    /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
+    attachmentLayout: string; 
 
     /** 
      * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](http://docs.botframework.com/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
@@ -289,6 +295,9 @@ export interface ISessionState {
 
     /** Timestamp of when the session was last accessed. */
     lastAccess: number;
+
+    /** Version number of the current callstack. */
+    version: number;
 }
 
 /** An entry on the sessions dialog stack. */
