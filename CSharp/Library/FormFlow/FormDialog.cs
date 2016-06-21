@@ -226,15 +226,26 @@ namespace Microsoft.Bot.Builder.FormFlow
                     if (step != null)
                     {
                         var builder = new StringBuilder();
+                        var first = true;
                         foreach (var entity in entityGroup)
                         {
+                            if (first)
+                            {
+                                first = false;
+                            }
+                            else
+                            {
+                                builder.Append(' ');
+                            }
                             builder.Append(entity.Entity);
-                            builder.Append(' ');
                         }
                         inputs.Add(Tuple.Create(_form.StepIndex(step), builder.ToString()));
                     }
                 }
-                _formState.FieldInputs = (from input in inputs orderby input.Item1 descending select input).ToList();
+                if (inputs.Any())
+                {
+                    _formState.FieldInputs = (from input in inputs orderby input.Item1 descending select input).ToList();
+                }
             }
             if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
             {
