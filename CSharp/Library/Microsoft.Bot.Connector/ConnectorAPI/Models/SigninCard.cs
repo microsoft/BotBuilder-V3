@@ -24,23 +24,23 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the SigninCard class.
         /// </summary>
-        public SigninCard(string title = default(string), CardAction button = default(CardAction))
+        public SigninCard(string text = default(string), IList<CardAction> buttons = default(IList<CardAction>))
         {
-            Text = title;
-            Button = button;
+            Text = text;
+            Buttons = buttons;
         }
 
         /// <summary>
         /// Text for signin request
         /// </summary>
-        [JsonProperty(PropertyName = "title")]
+        [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
         /// <summary>
         /// Action to use to perform signin
         /// </summary>
-        [JsonProperty(PropertyName = "button")]
-        public CardAction Button { get; set; }
+        [JsonProperty(PropertyName = "buttons")]
+        public IList<CardAction> Buttons { get; set; }
 
     }
 }

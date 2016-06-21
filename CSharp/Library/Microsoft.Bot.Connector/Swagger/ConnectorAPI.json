@@ -439,6 +439,7 @@
           {
             "name": "attachmentUpload",
             "in": "body",
+            "description": "Attachment data",
             "required": true,
             "schema": { "$ref": "#/definitions/AttachmentData" }
           }
@@ -527,13 +528,13 @@
     "ConversationParameters": {
       "type": "object",
       "properties": {
-        "bot": {
-          "$ref": "#/definitions/ChannelAccount",
-          "description": "The bot address of the bot requesting a conversation"
-        },
         "isGroup": {
           "description": "IsGroup",
           "type": "boolean"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The bot address for this conversation"
         },
         "members": {
           "description": "Members to add to the conversation",
@@ -801,7 +802,6 @@
       "properties": {
         "type": {
           "description": "Defines the type of action implemented by this button.",
-          "enum": [ "openUrl", "imBack", "postBack", "playAudio", "playVideo", "showImage", "downloadFile" ],
           "type": "string"
         },
         "title": {
@@ -934,13 +934,14 @@
       "description": "A card representing a request to signing",
       "type": "object",
       "properties": {
-        "title": {
-          "description": "Title for signin request",
+        "text": {
+          "description": "Text for signin request",
           "type": "string"
         },
-        "button": {
-          "$ref": "#/definitions/CardAction",
-          "description": "Action to use to perform signin"
+        "buttons": {
+          "description": "Action to use to perform signin",
+          "type": "array",
+          "items": { "$ref": "#/definitions/CardAction" }
         }
       }
     },
