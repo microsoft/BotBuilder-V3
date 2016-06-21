@@ -9,18 +9,14 @@ var files =
     [ "ActionParameterValue.cs", "dc/dfa/_action_parameter_value_8cs.html", [
       [ "ActionParameterValue", "d6/d90/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action_parameter_value.html", "d6/d90/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action_parameter_value" ]
     ] ],
-    [ "AssemblyInfo.cs", "d7/d2f/_assembly_info_8cs.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Json/Properties/AssemblyInfo.cs", "db/d7e/_microsoft_8_bot_8_builder_8_form_flow_8_json_2_properties_2_assembly_info_8cs.html", null ],
+    [ "Properties/AssemblyInfo.cs", "d7/dac/_properties_2_assembly_info_8cs.html", null ],
     [ "Attributes.cs", "dc/dfd/_attributes_8cs.html", "dc/dfd/_attributes_8cs" ],
     [ "Awaitable.cs", "df/df4/_awaitable_8cs.html", [
       [ "IAwaitable", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable" ],
       [ "IAwaiter", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter.html", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter" ]
     ] ],
-    [ "BotData.cs", "d0/dd4/_bot_data_8cs.html", [
-      [ "BotDataBagStream", "d4/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_bag_stream.html", "d4/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_bag_stream" ],
-      [ "BotDataBase", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base" ],
-      [ "DictionaryBotData", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data.html", "dd/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dictionary_bot_data" ],
-      [ "JObjectBotData", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data.html", "d0/def/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_j_object_bot_data" ]
-    ] ],
+    [ "BotData.cs", "d0/dd4/_bot_data_8cs.html", "d0/dd4/_bot_data_8cs" ],
     [ "BotToUser.cs", "de/dfc/_bot_to_user_8cs.html", [
       [ "AlwaysSendDirect_BotToUser", "dc/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_always_send_direct___bot_to_user.html", "dc/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_always_send_direct___bot_to_user" ],
       [ "BotToUserQueue", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue" ],
@@ -57,7 +53,11 @@ var files =
     [ "EntityRecommendation.cs", "dc/d40/_entity_recommendation_8cs.html", [
       [ "EntityRecommendation", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation" ]
     ] ],
-    [ "Exceptions.cs", "d9/dac/_exceptions_8cs.html", [
+    [ "Dialogs/Exceptions.cs", "d3/dcd/_dialogs_2_exceptions_8cs.html", [
+      [ "PromptException", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception.html", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception" ],
+      [ "TooManyAttemptsException", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception.html", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception" ]
+    ] ],
+    [ "Fibers/Exceptions.cs", "de/d8f/_fibers_2_exceptions_8cs.html", [
       [ "ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception" ],
       [ "InvalidNeedException", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception.html", "d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception" ],
       [ "InvalidNextException", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception.html", "d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception" ],
@@ -71,7 +71,7 @@ var files =
       [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ]
     ] ],
     [ "FormFlow/Extensions.cs", "d5/d49/_form_flow_2_extensions_8cs.html", [
-      [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ]
+      [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions" ]
     ] ],
     [ "Luis/Models/Extensions.cs", "d1/db6/_luis_2_models_2_extensions_8cs.html", [
       [ "Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions" ]
@@ -97,17 +97,19 @@ var files =
     ] ],
     [ "Field.cs", "d2/d6b/_field_8cs.html", "d2/d6b/_field_8cs" ],
     [ "FieldJson.cs", "d7/d1c/_field_json_8cs.html", [
-      [ "FieldJson", "d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json.html", "d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json" ],
-      [ "Extensions", "d2/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_extensions.html", "d2/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_extensions" ]
+      [ "FieldJson", "d1/db2/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_field_json.html", "d1/db2/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_field_json" ]
     ] ],
     [ "FieldReflector.cs", "d9/d4b/_field_reflector_8cs.html", [
-      [ "Conditional", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional" ],
-      [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ],
-      [ "Extensions", "d2/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_extensions.html", "d2/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_extensions" ]
+      [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ]
     ] ],
     [ "Form.cs", "db/d24/_form_8cs.html", null ],
     [ "FormBuilder.cs", "d3/df3/_form_builder_8cs.html", [
-      [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ]
+      [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ],
+      [ "FormBuilderBase", "d3/dca/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder_base.html", "d3/dca/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder_base" ]
+    ] ],
+    [ "FormBuilderJson.cs", "de/d06/_form_builder_json_8cs.html", [
+      [ "ScriptGlobals", "d0/df5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_script_globals.html", "d0/df5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_script_globals" ],
+      [ "FormBuilderJson", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_form_builder_json.html", "da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_form_builder_json" ]
     ] ],
     [ "FormDialog.cs", "d5/def/_form_dialog_8cs.html", "d5/def/_form_dialog_8cs" ],
     [ "forms.cs", "d0/dd1/forms_8cs.html", null ],
@@ -152,7 +154,7 @@ var files =
       [ "IntentRecommendation", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation" ]
     ] ],
     [ "IPrompt.cs", "d9/db9/_i_prompt_8cs.html", [
-      [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
+      [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions" ],
       [ "FormButton", "d3/dde/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_button.html", "d3/dde/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_button" ],
       [ "FormPrompt", "d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt.html", "d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt" ],
       [ "IPrompt", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt" ],

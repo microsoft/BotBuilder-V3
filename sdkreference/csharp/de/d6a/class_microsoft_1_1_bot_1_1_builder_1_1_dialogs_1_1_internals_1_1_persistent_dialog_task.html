@@ -131,14 +131,14 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialog
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a61f03cd0b9f25968c9efa7a49b5758a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html#a61f03cd0b9f25968c9efa7a49b5758a6">PersistentDialogTask</a> (<a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> inner, Message message, IConnectorClient client, <a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a> botToUser)</td></tr>
-<tr class="separator:a61f03cd0b9f25968c9efa7a49b5758a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a213f113f7eb50da21eefc0d3d60a727a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html#a213f113f7eb50da21eefc0d3d60a727a">PersistentDialogTask</a> (Func&lt; <a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> &gt; makeInner, Message message, IConnectorClient client, <a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a> botToUser, <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html">IBotData</a> botData)</td></tr>
+<tr class="separator:a213f113f7eb50da21eefc0d3d60a727a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00348">348</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a61f03cd0b9f25968c9efa7a49b5758a6"></a>
+<a class="anchor" id="a213f113f7eb50da21eefc0d3d60a727a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -148,8 +148,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask.PersistentDialogTask </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a>&#160;</td>
-          <td class="paramname"><em>inner</em>, </td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> &gt;&#160;</td>
+          <td class="paramname"><em>makeInner</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -167,7 +167,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a>&#160;</td>
-          <td class="paramname"><em>botToUser</em>&#160;</td>
+          <td class="paramname"><em>botToUser</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html">IBotData</a>&#160;</td>
+          <td class="paramname"><em>botData</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -182,7 +188,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00355">355</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00356">356</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
 
 </div>
 </div>

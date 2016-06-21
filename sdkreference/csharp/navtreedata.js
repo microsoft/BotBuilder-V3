@@ -61,12 +61,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html#a2bc8f31e7ffdd0ff22b565d372889b6d",
-"d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html",
-"d8/d21/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_json.html#a29035024fd64f70e8c4cffe0a55030e1",
-"da/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_conditional.html#a048ce0f4bd1841ad37f3ed5f6e2df933",
-"dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html#a24a11cee9db4c3b1132a16f76b8cec6d",
-"de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af56437de1c229b461816559c2350810c"
+"d1/db2/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_field_json.html#a2bc8f31e7ffdd0ff22b565d372889b6d",
+"d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html#a31716120c39d4e39418c18f2fdd094e8",
+"d6/d90/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action_parameter_value.html#a7c95505795c9754458bcc90144eca40c",
+"d9/d63/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_double.html#acd40cb3dbfd8f7ddfcd218d2e4bb9ed2",
+"dc/d40/_entity_recommendation_8cs_source.html",
+"de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a09544c8f03aa32560534f7cd6be0eea3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

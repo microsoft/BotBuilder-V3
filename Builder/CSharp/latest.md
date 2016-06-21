@@ -24,6 +24,47 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v1.2.4](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.4)
+
+#### Breaking Changes
+
+* Renamed IFormBuilder.OnCompletionAsync to OnCompletion since the method itself is not async.
+* JSON FormFlow has changed substantially. (See New Features)
+* Missing resources cuases an error to be thrown.
+
+#### New Features
+
+
+* JSON FormFlow now allows completely specifying everything through the JSON Schema file:
+
+    1. There is a completely seperate builder, FormBuilderJson which takes the schema.
+    2. JSON Schema now supports message, confirmation, validation with regex and dynamically compiled code.
+    3. You no longer need to specify the schema on every field.
+    4. It is packaged as a seperate dll Microsoft.Bot.Builder.FormFlow.Json which depends on Microsoft.CodeAnalysis.CSharp.Scripting which brings in lots of dependencies.
+
+* LuisDialog supports multiple LuisModel and ILuisService instances.
+* New attribute PatternAttribute for field validation via regex.
+* IBotDataStore now allows supplying your own storage implementation.
+* We continue to update the documentation. :-)
+
+#### Bug Fixes
+
+* [#414](https://github.com/Microsoft/BotBuilder/issues/414) if an entity did not match a value, a blank string would be returned.
+* [#434](https://github.com/Microsoft/BotBuilder/issues/434) add calculator scorable/dialog as an example of IDialogStack.Forward from IScorable.PostAsync
+* [#465](https://github.com/Microsoft/BotBuilder/issues/465) preserve exception stack trace when re-throwing
+* [#466](https://github.com/Microsoft/BotBuilder/issues/466) add a typed TooManyAttemptsException for prompts
+* [#472](https://github.com/Microsoft/BotBuilder/issues/472) test showing how to resolve dynamic form from container
+* [#416](https://github.com/Microsoft/BotBuilder/issues/416) Fix bug in enumeration where if a term included numbers it would result in no match.
+* [#440](https://github.com/Microsoft/BotBuilder/issues/440) Fix syntax error in Japanese localization.
+* [#446](https://github.com/Microsoft/BotBuilder/issues/446) by exposing a Confirm method mistakenly marked internal.
+* [#449](https://github.com/Microsoft/BotBuilder/issues/449) InitialUpper for Normalize did not return value.
+* Make it so validation feedback is surfaced if FeedbackOptions.Always.
+* Buttons did not include no preference.
+* JSON Forms were not handling optional correctly.
+
+***
+
+
 ### [v1.2.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.3)
 
 #### Changes

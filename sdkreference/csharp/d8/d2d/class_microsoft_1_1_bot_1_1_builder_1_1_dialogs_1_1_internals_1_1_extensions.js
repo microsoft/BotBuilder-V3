@@ -1,5 +1,6 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions =
 [
+    [ "GetBotDataKey", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a20045c2291b8d5896b4f8cdc74bca670", null ],
     [ "GetValue< T >", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a99f2d99ced27f0db05cd89081cee3eda", null ],
     [ "LoadMessageData", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#ab59af762289432a6f4cef743fdd86b6a", null ],
     [ "LoadMessageData", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#aff9383af16e0f49efa8d800615811e5c", null ],
