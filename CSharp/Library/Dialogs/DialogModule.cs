@@ -142,6 +142,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IDialogStack>()
                 .InstancePerLifetimeScope();
 
+            // Scorable implementing "/deleteprfoile"
+            builder
+                .RegisterType<DeleteProfileScorable>()
+                .As<IScorable<double>>()
+                .InstancePerLifetimeScope();
+
             builder
                 .Register(c =>
                 {
