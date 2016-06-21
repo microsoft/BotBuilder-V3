@@ -185,11 +185,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 CardAction action; 
                 if (button.Url != null)
                 {
-                    action = new CardAction("openUrl", button.Title, button.Image, button.Url);
+                    action = new CardAction(ActionTypes.OpenUrl, button.Title, button.Image, button.Url);
                 }
                 else
                 {
-                    action = new CardAction("imBack", button.Title, button.Image, button.Message ?? button.Title);
+                    action = new CardAction(ActionTypes.ImBack, button.Title, button.Image, button.Message ?? button.Title);
                 }
 
                 actions.Add(action);

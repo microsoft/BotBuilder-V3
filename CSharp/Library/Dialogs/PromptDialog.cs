@@ -550,7 +550,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 actions.Add(new CardAction
                 {
                     Title = option.ToString(),
-                    Type = "imBack", 
+                    Type = ActionTypes.ImBack, 
                     Value = option.ToString()
                 });
             }

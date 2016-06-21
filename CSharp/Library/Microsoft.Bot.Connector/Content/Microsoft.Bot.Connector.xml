@@ -4,6 +4,61 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.OpenUrl">
+            <summary>
+            Client will open given url in the built-in browser.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.ImBack">
+            <summary>
+            Client will post message to bot, so all other participants will see that was posted to the bot and who posted this.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.PostBack">
+            <summary>
+            Client will post message to bot privately, so other participants inside conversation will not see that was posted. 
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.PlayAudio">
+            <summary>
+            playback audio container referenced by url
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.PlayVideo">
+            <summary>
+            playback video container referenced by url
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.ShowImage">
+            <summary>
+            show image referenced by url
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.DownloadFile">
+            <summary>
+            download file referenced by url
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.Signin">
+            <summary>
+            Signin button
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
+            <summary>
+            Default- interpret text fields as markdown
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Plain">
+            <summary>
+            Plain text (do not interpret as anything)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Xml">
+            <summary>
+            B, I, S, U, A NOTE: Only supported on Skype for now
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.Attachments">
             <summary>
             Attachments operations.
@@ -1237,9 +1292,9 @@
             Initializes a new instance of the SigninCard class.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Title">
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Text">
             <summary>
-            Title for signin request
+            Text for signin request
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.SigninCard.Button">

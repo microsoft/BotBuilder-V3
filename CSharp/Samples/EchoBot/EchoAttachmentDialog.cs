@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                     {
                         Title = $"Button:{i}",
                         Value = $"Action:{i}", 
-                        Type = "imBack"
+                        Type = ActionTypes.ImBack
                     });
                 }
                 reply.AttachmentLayout = AttachmentLayoutTypes.Carousel; 

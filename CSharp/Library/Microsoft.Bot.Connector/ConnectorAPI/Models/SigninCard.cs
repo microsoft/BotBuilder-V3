@@ -26,15 +26,15 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         public SigninCard(string title = default(string), CardAction button = default(CardAction))
         {
-            Title = title;
+            Text = title;
             Button = button;
         }
 
         /// <summary>
-        /// Title for signin request
+        /// Text for signin request
         /// </summary>
         [JsonProperty(PropertyName = "title")]
-        public string Title { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// Action to use to perform signin

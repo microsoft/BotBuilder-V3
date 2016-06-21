@@ -15,7 +15,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "state.api.botframework.com",
+  "host": "state.botframework.com",
   "schemes": [ "https" ],
   "paths": {
     "/v3/botstate/{channelId}/users/{userId}": {
