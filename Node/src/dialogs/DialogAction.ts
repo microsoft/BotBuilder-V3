@@ -93,7 +93,7 @@ export class DialogAction {
                 try {
                     valid = validator(r.response);
                 } catch (e) {
-                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.error(e);
                 }
             } 
             
@@ -167,8 +167,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
                     s.dialogData[consts.Data.WaterfallStep] = step;
                     steps[step](s, r, skip);
                 } catch (e) {
-                    delete s.dialogData[consts.Data.WaterfallStep];
-                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.error(e);
                 }
             } else {
                 // End the current dialog and return results to parent
@@ -180,8 +179,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             } catch (e) {
-                delete s.dialogData[consts.Data.WaterfallStep];
-                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                s.error(e);
             }
         } else {
             // Empty waterfall so end dialog with not completed

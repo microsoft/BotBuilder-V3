@@ -224,7 +224,7 @@ export class UniversalBot extends events.EventEmitter {
                     }
                 }, cb);
             }, cb);
-        }, done);
+        }, this.errorLogger(done));
     }
  
     public beginDialog(message: IMessage|IIsMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
@@ -246,13 +246,9 @@ export class UniversalBot extends events.EventEmitter {
                     persistUserData: this.settings.persistUserData,
                     persistConversationData: this.settings.persistConversationData 
                 };
-                this.route(storageCtx, msg, dialogId, dialogArgs, (err) => {
-                    if (done) {
-                        done(err);
-                    }    
-                });
-            }, done);
-        }, done);
+                this.route(storageCtx, msg, dialogId, dialogArgs, this.errorLogger(done));
+            }, this.errorLogger(done));
+        }, this.errorLogger(done));
     }
     
     public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void {
@@ -273,7 +269,7 @@ export class UniversalBot extends events.EventEmitter {
                     cb(null);
                 }, cb);
             }, cb);
-        }, (err) => {
+        }, this.errorLogger((err) => {
             if (!err) {
                 this.tryCatch(() => {
                     // All messages should be targeted at the same channel.
@@ -282,19 +278,12 @@ export class UniversalBot extends events.EventEmitter {
                     if (!connector) {
                         throw new Error("Invalid channelId='" + channelId + "'");
                     }
-                    connector.send(list, (err) => {
-                        if (done) {
-                            if (err) {
-                                this.emitError(err);
-                            }
-                            done(err);
-                        }    
-                    });
-                }, done);
+                    connector.send(list, this.errorLogger(done));
+                }, this.errorLogger(done));
             } else if (done) {
-                done(err);
+                done;
             }
-        });
+        }));
     }
 
     public isInConversation(address: IAddress, cb: (err: Error, lastAccess: Date) => void): void {
@@ -316,8 +305,8 @@ export class UniversalBot extends events.EventEmitter {
                     }
                 }
                 cb(null, lastAccess);
-            }, <any>cb);
-        }, <any>cb);
+            }, this.errorLogger(<any>cb));
+        }, this.errorLogger(<any>cb));
     }
 
     //-------------------------------------------------------------------------
@@ -366,11 +355,12 @@ export class UniversalBot extends events.EventEmitter {
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 onSave: (cb) => {
+                    var finish = this.errorLogger(cb);
                     loadedData.userData = utils.clone(session.userData);
                     loadedData.conversationData = utils.clone(session.conversationData);
                     loadedData.privateConversationData = utils.clone(session.privateConversationData);
                     loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
-                    this.saveStorageData(storageCtx, loadedData, cb, cb);
+                    this.saveStorageData(storageCtx, loadedData, finish, finish);
                 },
                 onSend: (messages, cb) => {
                     this.send(messages, cb);
@@ -459,11 +449,8 @@ export class UniversalBot extends events.EventEmitter {
                 connector.startConversation(address, (err, adr) => {
                     if (!err) {
                         this.tryCatch(() => done(adr), error);
-                    } else {
-                        this.emitError(err);
-                        if (error) {
-                            error(err);
-                        }
+                    } else if (error) {
+                        error(err);
                     }
                 });
             } else {
@@ -479,11 +466,8 @@ export class UniversalBot extends events.EventEmitter {
                 this.settings.lookupUser(address, (err, user) => {
                     if (!err) {
                         this.tryCatch(() => done(user || address.user), error);
-                    } else {
-                        this.emitError(err);
-                        if (error) {
-                            error(err);
-                        }
+                    } else if (error) {
+                        error(err);
                     }
                 });
             } else {
@@ -499,11 +483,8 @@ export class UniversalBot extends events.EventEmitter {
             storage.getData(storageCtx, (err, data) => {
                 if (!err) {
                     this.tryCatch(() => done(data || {}), error);
-                } else {
-                    this.emitError(err);
-                    if (error) {
-                        error(err);
-                    }
+                } else if (error) {
+                    error(err);
                 } 
             });  
         }, error);
@@ -518,11 +499,8 @@ export class UniversalBot extends events.EventEmitter {
                     if (done) {
                         this.tryCatch(() => done(), error);
                     }
-                } else {
-                    this.emitError(err);
-                    if (error) {
-                        error(err);
-                    }
+                } else if (error) {
+                    error(err);
                 } 
             });  
         }, error);
@@ -539,7 +517,6 @@ export class UniversalBot extends events.EventEmitter {
         try {
             fn();
         } catch (e) {
-            this.emitError(e);
             try {
                 if (error) {
                     error(e);
@@ -549,7 +526,19 @@ export class UniversalBot extends events.EventEmitter {
             }
         }
     }
-    
+
+    private errorLogger(done?: (err: Error) => void): (err: Error) => void {
+        return (err: Error) => {
+            if (err) {
+                this.emitError;
+            }
+            if (done) {
+                done(err);
+                done = null;
+            }
+        };
+    }
+     
     private emitError(err: Error): void {
         this.emit("error", err instanceof Error ? err : new Error(err.toString()));
     }

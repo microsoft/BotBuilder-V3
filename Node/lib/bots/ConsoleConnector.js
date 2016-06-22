@@ -15,19 +15,25 @@ var ConsoleConnector = (function () {
                 _this.rl.close();
                 process.exit();
             }
-            else if (_this.handler) {
-                var msg = new mb.Message()
-                    .address({
-                    channelId: 'console',
-                    user: { id: 'user', name: 'User1' },
-                    bot: { id: 'bot', name: 'Bot' },
-                    conversation: { id: 'Convo1' }
-                })
-                    .timestamp()
-                    .text(line);
-                _this.handler([msg.toMessage()]);
+            else {
+                _this.processMessage(line);
             }
         });
+        return this;
+    };
+    ConsoleConnector.prototype.processMessage = function (line) {
+        if (this.handler) {
+            var msg = new mb.Message()
+                .address({
+                channelId: 'console',
+                user: { id: 'user', name: 'User1' },
+                bot: { id: 'bot', name: 'Bot' },
+                conversation: { id: 'Convo1' }
+            })
+                .timestamp()
+                .text(line);
+            this.handler([msg.toMessage()]);
+        }
         return this;
     };
     ConsoleConnector.prototype.onMessage = function (handler) {

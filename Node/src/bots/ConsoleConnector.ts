@@ -49,20 +49,27 @@ export class ConsoleConnector implements ub.IConnector {
             if (line.toLowerCase() == 'quit') {
                 this.rl.close();
                 process.exit();
-            } else if (this.handler) {
-                // TODO: Add some sort of logic to support attachment uploads.
-                var msg = new mb.Message()
-                    .address({
-                        channelId: 'console',
-                        user: { id: 'user', name: 'User1' },
-                        bot: { id: 'bot', name: 'Bot' },
-                        conversation: { id: 'Convo1' }
-                    })
-                    .timestamp()
-                    .text(line);
-                this.handler([msg.toMessage()]);
+            } else {
+                this.processMessage(line);
             }
         });
+        return this;
+    }
+
+    public processMessage(line: string): this {
+        if (this.handler) {
+            // TODO: Add some sort of logic to support attachment uploads.
+            var msg = new mb.Message()
+                .address({
+                    channelId: 'console',
+                    user: { id: 'user', name: 'User1' },
+                    bot: { id: 'bot', name: 'Bot' },
+                    conversation: { id: 'Convo1' }
+                })
+                .timestamp()
+                .text(line);
+            this.handler([msg.toMessage()]);
+        }
         return this;
     }
     

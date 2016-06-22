@@ -54,7 +54,7 @@ var Session = (function (_super) {
     };
     Session.prototype.error = function (err) {
         err = err instanceof Error ? err : new Error(err.toString());
-        console.error('ERROR: Session Error: ' + err.message);
+        this.endConversation('Sorry. Something went wrong.');
         this.emit('error', err);
         return this;
     };
@@ -192,7 +192,7 @@ var Session = (function (_super) {
                 dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
             }
             else {
-                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
         }
         return this;
@@ -216,7 +216,7 @@ var Session = (function (_super) {
                 dlg.dialogResumed(this, result);
             }
             else {
-                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
         }
         return this;

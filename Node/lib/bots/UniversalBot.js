@@ -130,7 +130,7 @@ var UniversalBot = (function (_super) {
                     }
                 }, cb);
             }, cb);
-        }, done);
+        }, this.errorLogger(done));
     };
     UniversalBot.prototype.beginDialog = function (message, dialogId, dialogArgs, done) {
         var _this = this;
@@ -152,13 +152,9 @@ var UniversalBot = (function (_super) {
                     persistUserData: _this.settings.persistUserData,
                     persistConversationData: _this.settings.persistConversationData
                 };
-                _this.route(storageCtx, msg, dialogId, dialogArgs, function (err) {
-                    if (done) {
-                        done(err);
-                    }
-                });
-            }, done);
-        }, done);
+                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done));
+            }, _this.errorLogger(done));
+        }, this.errorLogger(done));
     };
     UniversalBot.prototype.send = function (messages, done) {
         var _this = this;
@@ -181,7 +177,7 @@ var UniversalBot = (function (_super) {
                     cb(null);
                 }, cb);
             }, cb);
-        }, function (err) {
+        }, this.errorLogger(function (err) {
             if (!err) {
                 _this.tryCatch(function () {
                     var channelId = list[0].address.channelId;
@@ -189,20 +185,13 @@ var UniversalBot = (function (_super) {
                     if (!connector) {
                         throw new Error("Invalid channelId='" + channelId + "'");
                     }
-                    connector.send(list, function (err) {
-                        if (done) {
-                            if (err) {
-                                _this.emitError(err);
-                            }
-                            done(err);
-                        }
-                    });
-                }, done);
+                    connector.send(list, _this.errorLogger(done));
+                }, _this.errorLogger(done));
             }
             else if (done) {
-                done(err);
+                done;
             }
-        });
+        }));
     };
     UniversalBot.prototype.isInConversation = function (address, cb) {
         var _this = this;
@@ -224,8 +213,8 @@ var UniversalBot = (function (_super) {
                     }
                 }
                 cb(null, lastAccess);
-            }, cb);
-        }, cb);
+            }, _this.errorLogger(cb));
+        }, this.errorLogger(cb));
     };
     UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
         var _this = this;
@@ -238,11 +227,12 @@ var UniversalBot = (function (_super) {
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 onSave: function (cb) {
+                    var finish = _this.errorLogger(cb);
                     loadedData.userData = utils.clone(session.userData);
                     loadedData.conversationData = utils.clone(session.conversationData);
                     loadedData.privateConversationData = utils.clone(session.privateConversationData);
                     loadedData.privateConversationData[consts.Data.SessionState] = session.sessionState;
-                    _this.saveStorageData(storageCtx, loadedData, cb, cb);
+                    _this.saveStorageData(storageCtx, loadedData, finish, finish);
                 },
                 onSend: function (messages, cb) {
                     _this.send(messages, cb);
@@ -326,11 +316,8 @@ var UniversalBot = (function (_super) {
                     if (!err) {
                         _this.tryCatch(function () { return done(adr); }, error);
                     }
-                    else {
-                        _this.emitError(err);
-                        if (error) {
-                            error(err);
-                        }
+                    else if (error) {
+                        error(err);
                     }
                 });
             }
@@ -348,11 +335,8 @@ var UniversalBot = (function (_super) {
                     if (!err) {
                         _this.tryCatch(function () { return done(user || address.user); }, error);
                     }
-                    else {
-                        _this.emitError(err);
-                        if (error) {
-                            error(err);
-                        }
+                    else if (error) {
+                        error(err);
                     }
                 });
             }
@@ -370,11 +354,8 @@ var UniversalBot = (function (_super) {
                 if (!err) {
                     _this.tryCatch(function () { return done(data || {}); }, error);
                 }
-                else {
-                    _this.emitError(err);
-                    if (error) {
-                        error(err);
-                    }
+                else if (error) {
+                    error(err);
                 }
             });
         }, error);
@@ -390,11 +371,8 @@ var UniversalBot = (function (_super) {
                         _this.tryCatch(function () { return done(); }, error);
                     }
                 }
-                else {
-                    _this.emitError(err);
-                    if (error) {
-                        error(err);
-                    }
+                else if (error) {
+                    error(err);
                 }
             });
         }, error);
@@ -410,7 +388,6 @@ var UniversalBot = (function (_super) {
             fn();
         }
         catch (e) {
-            this.emitError(e);
             try {
                 if (error) {
                     error(e);
@@ -420,6 +397,18 @@ var UniversalBot = (function (_super) {
                 this.emitError(e2);
             }
         }
+    };
+    UniversalBot.prototype.errorLogger = function (done) {
+        var _this = this;
+        return function (err) {
+            if (err) {
+                _this.emitError;
+            }
+            if (done) {
+                done(err);
+                done = null;
+            }
+        };
     };
     UniversalBot.prototype.emitError = function (err) {
         this.emit("error", err instanceof Error ? err : new Error(err.toString()));

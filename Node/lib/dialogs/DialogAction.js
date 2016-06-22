@@ -51,7 +51,7 @@ var DialogAction = (function () {
                     valid = validator(r.response);
                 }
                 catch (e) {
-                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.error(e);
                 }
             }
             var canceled = false;
@@ -114,8 +114,7 @@ function waterfall(steps) {
                     steps[step](s, r, skip);
                 }
                 catch (e) {
-                    delete s.dialogData[consts.Data.WaterfallStep];
-                    s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                    s.error(e);
                 }
             }
             else {
@@ -128,8 +127,7 @@ function waterfall(steps) {
                 steps[0](s, r, skip);
             }
             catch (e) {
-                delete s.dialogData[consts.Data.WaterfallStep];
-                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: e instanceof Error ? e : new Error(e.toString()) });
+                s.error(e);
             }
         }
         else {

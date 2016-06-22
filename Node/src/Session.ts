@@ -108,7 +108,7 @@ export class Session extends events.EventEmitter implements ISession {
 
     public error(err: Error): ISession {
         err = err instanceof Error ? err : new Error(err.toString());
-        console.error('ERROR: Session Error: ' + err.message);
+        this.endConversation('Sorry. Something went wrong.');
         this.emit('error', err);
         return this;
     }
@@ -255,7 +255,7 @@ export class Session extends events.EventEmitter implements ISession {
             } else {
                 // Bad dialog on the stack so just end it.
                 // - Because of the stack validation we should never actually get here.
-                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
         }
         return this;
@@ -287,7 +287,7 @@ export class Session extends events.EventEmitter implements ISession {
             } else {
                 // Bad dialog on the stack so just end it.
                 // - Because of the stack validation we should never actually get here.
-                this.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted, error: new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'.") });
+                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
         }
         return this;

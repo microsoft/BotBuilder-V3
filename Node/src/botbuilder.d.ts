@@ -1799,7 +1799,11 @@ export class ChatConnector implements IConnector, IBotStorage {
 
 /** Connects a UniversalBot to the command line via a console window. */
 export class ConsoleConnector implements IConnector {
+    /** Starts the connector listening to stdIn. */
     listen(): ConsoleConnector;
+
+    /** Sends a message through the connector. */
+    processMessage(line: string): ConsoleConnector;
     
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
     onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
