@@ -298,46 +298,53 @@ var ChatConnector = (function () {
             }
         });
     };
-    ChatConnector.prototype.addAccessToken = function (options, cb) {
+    ChatConnector.prototype.getAccessToken = function (cb) {
         var _this = this;
-        if (this.settings.appId && this.settings.appPassword) {
-            if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
-                var opt = {
-                    method: 'POST',
-                    url: this.settings.endpoint.refreshEndpoint,
-                    form: {
-                        grant_type: 'client_credentials',
-                        client_id: this.settings.appId,
-                        client_secret: this.settings.appPassword,
-                        scope: this.settings.endpoint.refreshScope
-                    }
-                };
-                request(opt, function (err, response, body) {
-                    if (!err) {
-                        if (body && response.statusCode < 300) {
-                            var oauthResponse = JSON.parse(body);
-                            _this.accessToken = oauthResponse.access_token;
-                            _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                            options.headers = {
-                                'Authorization': 'Bearer ' + _this.accessToken
-                            };
-                            cb(null);
-                        }
-                        else {
-                            cb(new Error('Refresh access token failed with status code: ' + response.statusCode));
-                        }
+        if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
+            var opt = {
+                method: 'POST',
+                url: this.settings.endpoint.refreshEndpoint,
+                form: {
+                    grant_type: 'client_credentials',
+                    client_id: this.settings.appId,
+                    client_secret: this.settings.appPassword,
+                    scope: this.settings.endpoint.refreshScope
+                }
+            };
+            request(opt, function (err, response, body) {
+                if (!err) {
+                    if (body && response.statusCode < 300) {
+                        var oauthResponse = JSON.parse(body);
+                        _this.accessToken = oauthResponse.access_token;
+                        _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                        cb(null, _this.accessToken);
                     }
                     else {
-                        cb(err);
+                        cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
                     }
-                });
-            }
-            else {
-                options.headers = {
-                    'Authorization': 'Bearer ' + this.accessToken
-                };
-                cb(null);
-            }
+                }
+                else {
+                    cb(err, null);
+                }
+            });
+        }
+        else {
+            cb(null, this.accessToken);
+        }
+    };
+    ChatConnector.prototype.addAccessToken = function (options, cb) {
+        if (this.settings.appId && this.settings.appPassword) {
+            this.getAccessToken(function (err, token) {
+                if (!err && token) {
+                    options.headers = {
+                        'Authorization': 'Bearer ' + token
+                    };
+                    cb(null);
+                }
+                else {
+                    cb(err);
+                }
+            });
         }
         else {
             cb(null);

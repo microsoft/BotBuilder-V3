@@ -372,45 +372,52 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         });
     }
 
+    public getAccessToken(cb: (err: Error, accessToken: string) => void): void {
+        if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
+            // Refresh access token
+            var opt: request.Options = {
+                method: 'POST',
+                url: this.settings.endpoint.refreshEndpoint,
+                form: {
+                    grant_type: 'client_credentials',
+                    client_id: this.settings.appId,
+                    client_secret: this.settings.appPassword,
+                    scope: this.settings.endpoint.refreshScope
+                }
+            };
+            request(opt, (err, response, body) => {
+                if (!err) {
+                    if (body && response.statusCode < 300) {
+                        // Subtract 5 minutes from expires_in so they'll we'll get a
+                        // new token before it expires.
+                        var oauthResponse = JSON.parse(body);
+                        this.accessToken = oauthResponse.access_token;
+                        this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000); 
+                        cb(null, this.accessToken);
+                    } else {
+                        cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
+                    }
+                } else {
+                    cb(err, null);
+                }
+            });
+        } else {
+            cb(null, this.accessToken);
+        }
+    }
+
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
         if (this.settings.appId && this.settings.appPassword) {
-            if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
-                // Refresh access token
-                var opt: request.Options = {
-                    method: 'POST',
-                    url: this.settings.endpoint.refreshEndpoint,
-                    form: {
-                        grant_type: 'client_credentials',
-                        client_id: this.settings.appId,
-                        client_secret: this.settings.appPassword,
-                        scope: this.settings.endpoint.refreshScope
-                    }
-                };
-                request(opt, (err, response, body) => {
-                    if (!err) {
-                        if (body && response.statusCode < 300) {
-                            // Subtract 5 minutes from expires_in so they'll we'll get a
-                            // new token before it expires.
-                            var oauthResponse = JSON.parse(body);
-                            this.accessToken = oauthResponse.access_token;
-                            this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000); 
-                            options.headers = {
-                                'Authorization': 'Bearer ' + this.accessToken
-                            };
-                            cb(null);
-                        } else {
-                            cb(new Error('Refresh access token failed with status code: ' + response.statusCode));
-                        }
-                    } else {
-                        cb(err);
-                    }
-                });
-            } else {
-                options.headers = {
-                    'Authorization': 'Bearer ' + this.accessToken
-                };
-                cb(null);
-            }
+            this.getAccessToken((err, token) => {
+                if (!err && token) {
+                    options.headers = {
+                        'Authorization': 'Bearer ' + token
+                    };
+                    cb(null);
+                } else {
+                    cb(err);
+                }
+            });
         } else {
             cb(null);
         }
