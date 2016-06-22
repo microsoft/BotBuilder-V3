@@ -91,7 +91,7 @@ export class Message implements IMessage {
         var connector = '';
         var prompt = '';
         for (var i = 0; i < prompts.length; i++) {
-            prompt += connector + ses.gettext(Message.randomPrompt(prompts[1]));
+            prompt += connector + ses.gettext(Message.randomPrompt(prompts[i]));
             connector = ' ';
         }
         return args && args.length > 0 ? sprintf.vsprintf(prompt, args) : prompt;
