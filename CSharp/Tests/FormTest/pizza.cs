@@ -192,7 +192,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         [Numeric(1, 3)]
         public int? Bottles;
-        public string Specials;
+        public List<string> Specials;
 
         [Pattern(@"(\(\d{3}\))?\s*\d{3}(-|\s*)\d{4}")]
         public string Phone;
@@ -298,9 +298,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 .AddDescription("special1", DynamicPizza.Special1)
                                 .AddTerms("special1", DynamicPizza.Special1Terms.SplitList());
                         }
-                        specials
-                            .AddDescription("special2", DynamicPizza.Special2)
-                            .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
+                    specials
+                        .AddDescription("special2", DynamicPizza.Special2)
+                        .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
                         return true;
                     }))
                 .Field("BYO.HalfAndHalf", isBYO)
