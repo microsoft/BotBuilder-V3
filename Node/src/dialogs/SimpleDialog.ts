@@ -35,7 +35,7 @@ import dialog = require('./Dialog');
 import ses = require('../Session');
 
 export class SimpleDialog extends dialog.Dialog {
-    constructor(private fn: (session: ses.Session, arg?: any) => void) {
+    constructor(private fn: (session: ses.Session, args?: any) => void) {
         super();
     }
 

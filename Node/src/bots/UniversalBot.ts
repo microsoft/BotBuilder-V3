@@ -52,6 +52,7 @@ export interface IUniversalBotSettings {
     storage?: bs.IBotStorage;
     persistUserData?: boolean;
     persistConversationData?: boolean;
+    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
 }
 
 export interface IConnector {
@@ -354,6 +355,7 @@ export class UniversalBot extends events.EventEmitter {
                 dialogs: this.dialogs,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
+                dialogErrorMessage: this.settings.dialogErrorMessage,
                 onSave: (cb) => {
                     var finish = this.errorLogger(cb);
                     loadedData.userData = utils.clone(session.userData);

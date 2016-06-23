@@ -31,8 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import ses = require('../Session');
 import ub = require('../bots/UniversalBot');
-
+import dlg = require('../dialogs/Dialog');
+import dc = require('../dialogs/DialogCollection');
+import sd = require('../dialogs/SimpleDialog');
+import consts = require('../consts');
 
 export interface IDialogVersionOptions {
     version: number;
@@ -40,8 +44,15 @@ export interface IDialogVersionOptions {
     resetCommand?: RegExp;
 }
 
-export class Middleware {
+export interface IFirstRunOptions {
+    version: number;
+    dialogId: string;
+    dialogArgs?: any;
+    upgradeDialogId?: string;
+    upgradeDialogArgs?: string;
+}
 
+export class Middleware {
     static dialogVersion(options: IDialogVersionOptions): ub.IMiddlewareMap {
         return {
             dialog: (session, next) => {
@@ -59,4 +70,59 @@ export class Middleware {
             }
         };
     }
+
+    static firstRun(options: IFirstRunOptions): ub.IMiddlewareMap {
+        return {
+            dialog: (session, next) => {
+                if (session.sessionState.callstack.length == 0) {
+                    // New conversation so check first run version
+                    var cur = session.userData[consts.Data.FirstRunVersion] || 0.0;
+                    var curMajor = Math.floor(cur);
+                    var major = Math.floor(options.version);
+                    if (major > curMajor) {
+                        // Run user through full first run experience
+                        session.beginDialog(consts.DialogId.FirstRun, <IFirstRunDialogArgs>{
+                            version: options.version,
+                            dialogId: options.dialogId,
+                            dialogArgs: options.dialogArgs
+                        });
+                    } else if (options.version > cur && options.upgradeDialogId) {
+                        // Run user through upgrade experience
+                        session.beginDialog(consts.DialogId.FirstRun, <IFirstRunDialogArgs>{
+                            version: options.version,
+                            dialogId: options.upgradeDialogId,
+                            dialogArgs: options.upgradeDialogArgs
+                        });
+                    } else {
+                        next();
+                    }
+                } else {
+                    next();
+                }
+            }
+        }
+    }
 }
+
+// FirstRun Helper
+interface IFirstRunDialogArgs {
+    version: number;
+    dialogId: string;
+    dialogArgs: any;
+}
+
+dc.systemDialogs[consts.DialogId.FirstRun] = new sd.SimpleDialog((session: ses.Session, args: IFirstRunDialogArgs) => {
+    if (args && args.hasOwnProperty('resumed')) {
+        // Returning from dialog
+        var result: dlg.IDialogResult<any> = <any>args;
+        if (result.resumed == dlg.ResumeReason.completed) {
+            // First run successfully completed so update stored version.
+            session.userData[consts.Data.FirstRunVersion] = session.dialogData.version;
+        }
+        session.endDialogWithResult(result);
+    } else {
+        // Save version and launch dialog
+        session.dialogData.version = args.version;
+        session.beginDialog(args.dialogId, args.dialogArgs);
+    }
+});

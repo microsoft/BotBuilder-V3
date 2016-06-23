@@ -39,11 +39,13 @@ export var Data = {
     Intent: 'BotBuilder.Data.Intent',
     WaterfallStep: 'BotBuilder.Data.WaterfallStep',
     Form: 'BotBuilder.Data.Form',
-    Field: 'BotBuilder.Data.Field'
+    Field: 'BotBuilder.Data.Field',
+    FirstRunVersion: 'BotBuilder.Data.FirstRunVersion'
 };
 
 export var DialogId = {
     Prompts: 'BotBuilder.Dialogs.Prompts',
+    FirstRun: 'BotBuilder.Dialogs.FirstRun',
     Field: 'BotBuilder.Dialogs.Field'
 };
 

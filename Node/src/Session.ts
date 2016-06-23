@@ -47,6 +47,7 @@ export interface ISessionOptions {
     dialogArgs?: any;
     localizer?: ILocalizer;
     autoBatchDelay?: number;
+    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
 }
 
 export class Session extends events.EventEmitter implements ISession {
@@ -108,7 +109,7 @@ export class Session extends events.EventEmitter implements ISession {
 
     public error(err: Error): ISession {
         err = err instanceof Error ? err : new Error(err.toString());
-        this.endConversation('Sorry. Something went wrong.');
+        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;
     }
@@ -206,6 +207,9 @@ export class Session extends events.EventEmitter implements ISession {
             this.prepareMessage(m);
             this.batch.push(m);
         }
+
+        // Clear private conversation data
+        this.privateConversationData = {};
                 
         // Clear stack and save.
         var ss = this.sessionState;

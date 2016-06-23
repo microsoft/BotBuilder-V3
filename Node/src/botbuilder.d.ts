@@ -632,6 +632,9 @@ export interface IUniversalBotSettings {
 
     /** (Optional) if true shared conversationData will be persisted. The default value is false. */
     persistConversationData?: boolean;
+
+    /** (Optional) message to send the user should an unexpected error occur during a conversation. A default message is provided. */
+    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
 }
 
 /** Implemented by connector plugins for the UniversalBot. */
@@ -741,12 +744,31 @@ export interface IDialogVersionOptions {
     /** Current major.minor version for the bots dialogs. Major version increments result in existing conversations between the bot and user being restarted. */
     version: number;
 
-    /** Optional message to send the user when their conversation is ended due to a version number change. */
+    /** Optional message to send the user when their conversation is ended due to a version number change. A default message is provided. */
     message?: string|string[]|IMessage|IIsMessage;
 
     /** Optional regular expression to listen for to manually detect a request to reset the users session state. */
     resetCommand?: RegExp;
 }
+
+/** Options passed to Middleware.firstRun(). */
+export interface IFirstRunOptions {
+    /** Current major.minor version for the bots first run experience. Major version increments result in redirecting users to [dialogId](#dialogid) and minor increments redirect users to [upgradeDialogId](#upgradedialogid). */
+    version: number;
+
+    /** Dialog to redirect users to when the major [version](#version) changes. */
+    dialogId: string;
+
+    /** (Optional) args to pass to [dialogId](#dialogid). */
+    dialogArgs?: any;
+
+    /** (Optional) dialog to redirect users to when the minor [version](#version) changes. Useful for minor Terms of Use changes. */
+    upgradeDialogId?: string;
+
+    /** (Optional) args to pass to [upgradeDialogId](#upgradedialogid). */
+    upgradeDialogArgs?: string;
+}
+
 
 //=============================================================================
 //
@@ -1818,6 +1840,9 @@ export class ConsoleConnector implements IConnector {
 export class Middleware {
     /** Installs a piece of middleware that manages the versioning of a bots dialogs. */
     static dialogVersion(options: IDialogVersionOptions): IMiddlewareMap;
+
+    /** Adds a first run experience to a bot. The middleware uses Session.userData to store the latest version of the first run dialog the user has been through. Incrementing the version number can force users to run back through either the full or a partial first run dialog. */
+    static firstRun(options: IFirstRunOptions): IMiddlewareMap;
 }
 
 /** __DEPRECATED__ use an IntentDialog with a LuisRecognizer instead. */
