@@ -298,9 +298,9 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 .AddDescription("special1", DynamicPizza.Special1)
                                 .AddTerms("special1", DynamicPizza.Special1Terms.SplitList());
                         }
-                    specials
-                        .AddDescription("special2", DynamicPizza.Special2)
-                        .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
+                        specials
+                            .AddDescription("special2", DynamicPizza.Special2)
+                            .AddTerms("special2", DynamicPizza.Special2Terms.SplitList());
                         return true;
                     }))
                 .Field("BYO.HalfAndHalf", isBYO)
@@ -327,11 +327,17 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         else
                         {
                             result.Feedback = DynamicPizza.AddressFine;
+                            if (str == "1")
+                            {
+                                // Test to see if step is skipped
+                                state.Phone = "111-1111";
+                            }
                         }
                         return result;
                     })
                 .Message(costDelegate)
-                .Confirm(async (state) => {
+                .Confirm(async (state) =>
+                {
                     var cost = computeCost(state);
                     return new PromptAttribute(string.Format(DynamicPizza.CostConfirm, cost));
                 })

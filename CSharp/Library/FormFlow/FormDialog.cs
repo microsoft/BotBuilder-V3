@@ -247,39 +247,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     _formState.FieldInputs = (from input in inputs orderby input.Item1 descending select input).ToList();
                 }
             }
-            if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
-            {
-                // Skip steps that already have a value if they are nullable and valid.
-                foreach (var step in _form.Steps)
-                {
-                    if (step.Type == StepType.Field
-                        && !step.Field.IsUnknown(_state)
-                        && step.Field.IsNullable)
-                    {
-                        var defined = await step.DefineAsync(_state);
-                        if (defined)
-                        {
-                            var val = step.Field.GetValue(_state);
-                            var result = await step.Field.ValidateAsync(_state, val);
-                            if (result.IsValid)
-                            {
-                                bool ok = true;
-                                double min, max;
-                                if (step.Field.Limits(out min, out max))
-                                {
-                                    var num = (double)Convert.ChangeType(val, typeof(double));
-                                    ok = (num >= min && num <= max);
-                                }
-                                if (ok)
-                                {
-                                    _formState.Step = _form.StepIndex(step);
-                                    _formState.SetPhase(StepPhase.Completed);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            SkipSteps();
             _formState.Step = 0;
             _formState.StepState = null;
 
@@ -332,6 +300,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 Func<IStep<T>, IEnumerable<TermMatch>, Task<bool>> DoStepAsync = async (step, matches) =>
                 {
                     var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
+                    SkipSteps();
                     next = result.Next;
                     if (result.Feedback?.Prompt != null)
                     {
@@ -536,6 +505,44 @@ namespace Microsoft.Bot.Builder.FormFlow
         #endregion
 
         #region Implementation
+
+        private async void SkipSteps()
+        {
+            if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
+            {
+                // Skip steps that already have a value if they are nullable and valid.
+                foreach (var step in _form.Steps)
+                {
+                    int stepi = _form.StepIndex(step);
+                    if (step.Type == StepType.Field
+                        && _formState.Phase(stepi) == StepPhase.Ready
+                        && !step.Field.IsUnknown(_state)
+                        && step.Field.IsNullable)
+                    {
+                        var defined = await step.DefineAsync(_state);
+                        if (defined)
+                        {
+                            var val = step.Field.GetValue(_state);
+                            var result = await step.Field.ValidateAsync(_state, val);
+                            if (result.IsValid)
+                            {
+                                bool ok = true;
+                                double min, max;
+                                if (step.Field.Limits(out min, out max))
+                                {
+                                    var num = (double)Convert.ChangeType(val, typeof(double));
+                                    ok = (num >= min && num <= max);
+                                }
+                                if (ok)
+                                {
+                                    _formState.SetPhase(stepi, StepPhase.Completed);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         private NextStep ActiveSteps(NextStep next, T state)
         {
