@@ -46,7 +46,7 @@ This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Co
 
 ![Create a new C\# project using the new Bot Application template.](/images/connector-getstarted-create-project.png)
 
-5. The template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output.  You can build, run, and test your bot locally before ever deploying it to the cloud by following the instructions below.
+The template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output.  You can build, run, and test your bot locally before ever deploying it to the cloud by following the instructions below.
 
 
 ## Building your Bot
