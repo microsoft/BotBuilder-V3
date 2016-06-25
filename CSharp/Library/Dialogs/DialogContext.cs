@@ -126,6 +126,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.stack.PollAsync(token);
         }
 
+        void IDialogStack.Reset()
+        {
+            this.stack.Reset();
+        }
+
         async Task IBotData.LoadAsync(CancellationToken cancellationToken)
         {
             await this.botData.LoadAsync(cancellationToken); 

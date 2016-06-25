@@ -1,5 +1,6 @@
 ﻿using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Resource;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         private readonly IDialogStack stack;
         private readonly Regex regex = new Regex("^(\\s)*/deleteprofile", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
         private readonly Func<IDialog<object>> makeroot;
-        private readonly IStateClient stateClient; 
+        private readonly IBotData botData;
+        private readonly IBotToUser botToUser;
 
-
-        public DeleteProfileScorable(IDialogStack stack, IStateClient stateClient, Func<IDialog<object>> makeroot)
+        public DeleteProfileScorable(IDialogStack stack, IBotData botData, IBotToUser botToUser, Func<IDialog<object>> makeroot)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
-            SetField.NotNull(out this.stateClient, nameof(stateClient), stateClient);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.makeroot, nameof(makeroot), makeroot);
         }
 
@@ -51,13 +53,12 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         async Task IScorable<double>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
         {
-            var dialog = makeroot();
-
             var message = (IMessageActivity)(object)item;
-            await stateClient.BotState.DeleteStateForUserAsync(message.ChannelId, message.From.Id, token);
-            
-            await this.stack.Forward(dialog.Void<object, IMessageActivity>(), null, item, token);
-            await this.stack.PollAsync(token);
+            this.stack.Reset();
+            botData.UserData.Clear();
+            botData.PrivateConversationData.Clear();
+            await botData.FlushAsync(token);
+            await botToUser.PostAsync(Resources.UserProfileDeleted);
         }
     }
 

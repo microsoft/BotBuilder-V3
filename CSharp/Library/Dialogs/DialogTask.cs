@@ -233,6 +233,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.fiber.PollAsync(this);
         }
 
+        void IDialogStack.Reset()
+        {
+            this.store.Reset();
+            this.store.Flush();
+            this.fiber.Reset();
+        }
+
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
             try

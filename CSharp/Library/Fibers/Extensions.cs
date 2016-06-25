@@ -73,6 +73,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return fiber.Wait;
         }
 
+        public static void Reset<C>(this IFiber<C> fiber)
+        {
+            while (fiber.Frames.Count > 0)
+            {
+                fiber.Done();
+            }
+        }
+
         public static IWait<C> Post<C, T>(this IFiber<C> fiber, T item)
         {
             fiber.Wait.Post(item);

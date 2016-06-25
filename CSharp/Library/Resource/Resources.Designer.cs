@@ -653,5 +653,14 @@ namespace Microsoft.Bot.Builder.Resource {
                 return ResourceManager.GetString("TooManyAttempts", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User profile deleted!.
+        /// </summary>
+        internal static string UserProfileDeleted {
+            get {
+                return ResourceManager.GetString("UserProfileDeleted", resourceCulture);
+            }
+        }
     }
 }

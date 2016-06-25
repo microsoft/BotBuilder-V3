@@ -243,4 +243,7 @@
   <data name="TooManyAttempts" xml:space="preserve">
     <value>demasiados intentos de</value>
   </data>
+  <data name="UserProfileDeleted" xml:space="preserve">
+    <value>Perfil de usuario eliminado!</value>
+  </data>
 </root>

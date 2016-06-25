@@ -93,6 +93,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <param name="token">A cancellation token.</param>
         /// <returns>A task representing the poll operation.</returns>
         Task PollAsync(CancellationToken token);
+
+        /// <summary>
+        /// Resets the stack.
+        /// </summary>
+        void Reset();
     }
 
     /// <summary>
