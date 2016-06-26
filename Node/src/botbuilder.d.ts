@@ -883,7 +883,7 @@ export class Session {
     dialogs: DialogCollection;
 
     /** Sessions current state information. */
-    ISessionState: ISessionState;
+    sessionState: ISessionState;
 
     /** The message recieved from the user. For bot originated messages this may only contain the "to" & "from" fields. */
     message: IMessage;
