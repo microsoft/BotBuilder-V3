@@ -31,6 +31,7 @@
     /// [CurrentCulture]: https://msdn.microsoft.com/en-us/library/system.threading.thread.currentculture(v=vs.110).aspx
     /// [JSON Schema]: http://json-schema.org/documentation.html
     /// [JObject]: http://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
+    /// [Microsoft.Bot.Builder.FormFlow.Json]: https://www.nuget.org/packages/Microsoft.Bot.Builder.FormFlow.Json/
     /// 
     /// \section Overview
     /// \ref dialogs are very powerful and flexible, but handling a guided conversation like ordering a sandwich
@@ -761,7 +762,10 @@
     /// through [JSON Schema].  The schema provides a way of describing the fields that make up your [JObject] 
     /// and also allow annotations similar to C# attributes for controlling prompts, templates and terms.  
     /// The advantage of using a [JObject] for your state is that the form definition is entirely driven by data
-    /// rather than the static definition of your type in C#.
+    /// rather than the static definition of your type in C#.  
+    /// 
+    /// In order to utilize this feature you need to ensure that you add the NuGet project [Microsoft.Bot.Builder.FormFlow.Json] to your project.  
+    /// This defines the new namespace %Microsoft.Bot.Builder.FormFlow.Json that contains the code to allows using JSON Schema for %FormFlow.
     /// 
     /// %FormFlow makes use of a number of standard [JSON Schema](http://json-schema.org/latest/json-schema-validation.html) keywords include:
     /// * `type` -- Defines the fields type.
