@@ -1,5 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html" title="Autofac module for Dialog components. " alt="" coords="129,5,323,47"/>
-<area shape="rect" id="node3" href="$d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html" title="Autofac module for Fiber components. " alt="" coords="126,95,326,136"/>
-<area shape="rect" id="node4" href="$dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html" title="Microsoft.Bot.Builder.Internals.\lFibers.ReflectionSurrogateModule" alt="" coords="117,160,335,201"/>
+<area shape="rect" id="node1" href="$d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IAwaiter\&lt; T \&gt;" alt="" coords="248,201,448,243"/>
+<area shape="rect" id="node2" href="$d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.Wait\&lt; C, T \&gt;" alt="" coords="496,169,696,211"/>
+<area shape="rect" id="node3" href="$dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html" title="Microsoft.Bot.Builder.Dialogs.\lIDialog\&lt; T \&gt;" alt="" coords="5,449,200,491"/>
+<area shape="rect" id="node4" href="$dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html" title="Dialog that dispatches based on a regex matching input. " alt="" coords="251,449,445,491"/>
+<area shape="rect" id="node5" href="$d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.Prompt\&lt; T, U \&gt;" alt="" coords="251,515,445,556"/>
+<area shape="rect" id="node6" href="$dc/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_dialog.html" title="Interface for controlling a FormFlow dialog. " alt="" coords="259,384,437,425"/>
+<area shape="rect" id="node7" href="$db/de5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_dialog.html" title="Static factory methods for creating form dialogs. " alt="" coords="507,359,685,400"/>
+<area shape="rect" id="node9" href="$d9/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_item.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IItem\&lt; T \&gt;" alt="" coords="248,71,448,112"/>
+<area shape="rect" id="node10" href="$dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IPost\&lt; T \&gt;" alt="" coords="248,267,448,308"/>
+<area shape="rect" id="node11" href="$db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html" title="Microsoft.Bot.Builder.Internals.\lFibers.PostStruct\&lt; T \&gt;" alt="" coords="496,267,696,308"/>
+<area shape="rect" id="node13" href="$de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IWait\&lt; C, T \&gt;" alt="" coords="248,136,448,177"/>
 </map>

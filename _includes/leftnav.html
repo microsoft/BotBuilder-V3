@@ -4,7 +4,7 @@
 	{% endcomment %}
 	<div class="trigger">
 		<ul class="level0 backToHome" style="display:none;">
-			<li><a class="page-link" href="/">&lt; Documentation Home</li>
+			<li><a class="page-link" href="/">&lt; Documentation Home</a></li>
 		</ul>
 	{% assign sorted_pages = (site.pages | sort: 'weight') %}
 	{% assign grouped_pages1 = (sorted_pages | group_by: 'parent1') %}
@@ -17,17 +17,18 @@
 		</ul>
 	  {% endif %}
 	  {% if group1.name <> 'none' and group1.name <> '' %}
-   		<div class="level1 parent" style="display: none;">{{group1.name}}</div>
+   		<div class="level1 parent" style="display: none;">{{group1.name}}
         <div class="navContainer" style="display: none;">
-		{% include _function_nav-section-block.html page = page group = group1 level = 'level1' %}
-		{% assign grouped_pages2 = (group1.items | group_by: 'parent2') %}
-		{% for group2 in grouped_pages2 %}
-			{% if group2.name <> '' %}
-   		        <div class="level2 parent">{{group2.name}}</div>
-				{% include _function_nav-section-block.html page = page group = group2 level = 'level2' %}
-			{% endif %}
-		{% endfor %}
+					{% include _function_nav-section-block.html page = page group = group1 level = 'level1' %}
+					{% assign grouped_pages2 = (group1.items | group_by: 'parent2') %}
+					{% for group2 in grouped_pages2 %}
+						{% if group2.name <> '' %}
+										<div class="level2 parent">{{group2.name}}</div>
+							{% include _function_nav-section-block.html page = page group = group2 level = 'level2' %}
+						{% endif %}
+					{% endfor %}
         </div>
+			</div>
 	  {% endif %}	
 	{% endfor %}
 

@@ -127,11 +127,10 @@ $(document).ready(function(){initNavTree('d8/d2d/class_microsoft_1_1_bot_1_1_bui
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a20045c2291b8d5896b4f8cdc74bca670"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_key.html">BotDataKey</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a20045c2291b8d5896b4f8cdc74bca670">GetBotDataKey</a> (this Message message)</td></tr>
+<tr class="separator:a20045c2291b8d5896b4f8cdc74bca670"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99f2d99ced27f0db05cd89081cee3eda"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a99f2d99ced27f0db05cd89081cee3eda">GetValue&lt; T &gt;</a> (this SerializationInfo info, string name)</td></tr>
 <tr class="separator:a99f2d99ced27f0db05cd89081cee3eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e869d43d592a2c89771eaaf580d0b5b"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a4e869d43d592a2c89771eaaf580d0b5b">LoadAsync&lt; R &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
-<tr class="memdesc:a4e869d43d592a2c89771eaaf580d0b5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load or create the dialog task from the store.  <a href="#a4e869d43d592a2c89771eaaf580d0b5b">More...</a><br /></td></tr>
-<tr class="separator:a4e869d43d592a2c89771eaaf580d0b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab59af762289432a6f4cef743fdd86b6a"><td class="memItemLeft" align="right" valign="top">static async Task&lt; Message &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#ab59af762289432a6f4cef743fdd86b6a">LoadMessageData</a> (this IConnectorClient client, string botId, string userId, string conversationId, CancellationToken token=default(CancellationToken))</td></tr>
 <tr class="memdesc:ab59af762289432a6f4cef743fdd86b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the message data from connector.  <a href="#ab59af762289432a6f4cef743fdd86b6a">More...</a><br /></td></tr>
 <tr class="separator:ab59af762289432a6f4cef743fdd86b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,24 +139,40 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:aff9383af16e0f49efa8d800615811e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57fb4a558e4abcb702f1208352ef5e92"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a57fb4a558e4abcb702f1208352ef5e92">MaxBy&lt; T, R &gt;</a> (this IEnumerable&lt; T &gt; items, Func&lt; T, R &gt; selectRank, IComparer&lt; R &gt; comparer=null)</td></tr>
 <tr class="separator:a57fb4a558e4abcb702f1208352ef5e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abae85330a1ee118a10d4659d02ded16a"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#abae85330a1ee118a10d4659d02ded16a">PollAsync&lt; R &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
-<tr class="memdesc:abae85330a1ee118a10d4659d02ded16a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the dialog task for any work to be done.  <a href="#abae85330a1ee118a10d4659d02ded16a">More...</a><br /></td></tr>
-<tr class="separator:abae85330a1ee118a10d4659d02ded16a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb69f8a09d48d3b6f91925c45e4a6677"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#acb69f8a09d48d3b6f91925c45e4a6677">PostAsync&lt; T &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, T toBot, CancellationToken token=default(CancellationToken))</td></tr>
-<tr class="memdesc:acb69f8a09d48d3b6f91925c45e4a6677"><td class="mdescLeft">&#160;</td><td class="mdescRight">PostAsync&lt;T, R&gt;(IDialogTask, T, Func&lt;IDialog&lt;R&gt;&gt;, CancellationToken)  <a href="#acb69f8a09d48d3b6f91925c45e4a6677">More...</a><br /></td></tr>
-<tr class="separator:acb69f8a09d48d3b6f91925c45e4a6677"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab54c4752a9dae3752bcb1b8f17e68c27"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#ab54c4752a9dae3752bcb1b8f17e68c27">PostAsync&lt; T, R &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, T toBot, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt; MakeRoot, CancellationToken token=default(CancellationToken))</td></tr>
-<tr class="memdesc:ab54c4752a9dae3752bcb1b8f17e68c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an item to the dialog task and poll the dialog task for any work to be done.  <a href="#ab54c4752a9dae3752bcb1b8f17e68c27">More...</a><br /></td></tr>
-<tr class="separator:ab54c4752a9dae3752bcb1b8f17e68c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d724055959e9cef5a15c7c31f03723e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a7d724055959e9cef5a15c7c31f03723e">WithScorable&lt; T, Score &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, <a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html">IScorable</a>&lt; Score &gt; scorable)</td></tr>
 <tr class="separator:a7d724055959e9cef5a15c7c31f03723e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>connector client extensions. </p>
-<p>Helper methods for dialog contexts. </p>
 
-<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00041">41</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d0/dd4/_bot_data_8cs_source.html#l00552">552</a> of file <a class="el" href="../../d0/dd4/_bot_data_8cs_source.html">BotData.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a20045c2291b8d5896b4f8cdc74bca670"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_key.html">BotDataKey</a> Microsoft.Bot.Builder.Dialogs.Internals.Extensions.GetBotDataKey </td>
+          <td>(</td>
+          <td class="paramtype">this Message&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d0/dd4/_bot_data_8cs_source.html#l00554">554</a> of file <a class="el" href="../../d0/dd4/_bot_data_8cs_source.html">BotData.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a99f2d99ced27f0db05cd89081cee3eda"></a>
 <div class="memitem">
 <div class="memproto">
@@ -191,65 +206,6 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00043">43</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4e869d43d592a2c89771eaaf580d0b5b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.LoadAsync&lt; R &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
-          <td class="paramname"><em>MakeRoot</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Load or create the dialog task from the store. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The dialog task.</td></tr>
-    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
-    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A task representing the dialog task load operation.</dd></dl>
-
-<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00188">188</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
 
 </div>
 </div>
@@ -316,7 +272,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A message with appropriate data fields.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00111">111</a> of file <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00100">100</a> of file <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -369,7 +325,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A message with appropriate data fields.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00135">135</a> of file <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html#l00124">124</a> of file <a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -415,192 +371,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abae85330a1ee118a10d4659d02ded16a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.PollAsync&lt; R &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
-          <td class="paramname"><em>MakeRoot</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Poll the dialog task for any work to be done. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The dialog task.</td></tr>
-    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
-    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A task representing the poll operation.</dd></dl>
-
-<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00207">207</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acb69f8a09d48d3b6f91925c45e4a6677"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.PostAsync&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>toBot</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>PostAsync&lt;T, R&gt;(IDialogTask, T, Func&lt;IDialog&lt;R&gt;&gt;, CancellationToken) </p>
-<p>This function trys to resume the conversation based on the call stack. It throws InvalidOperationException if loading the call stack from context store fails. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of the item.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The dialog task.</td></tr>
-    <tr><td class="paramname">toBot</td><td>The item to be sent to the bot.</td></tr>
-    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A task representing the post operation.</dd></dl>
-
-<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00253">253</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab54c4752a9dae3752bcb1b8f17e68c27"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.PostAsync&lt; T, R &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>toBot</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&gt;&#160;</td>
-          <td class="paramname"><em>MakeRoot</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>token</em> = <code>default(CancellationToken)</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Post an item to the dialog task and poll the dialog task for any work to be done. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">R</td><td>The type of the root dialog.</td></tr>
-    <tr><td class="paramname">T</td><td>The type of the item.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">task</td><td>The dialog task.</td></tr>
-    <tr><td class="paramname">toBot</td><td>The item to be sent to the bot.</td></tr>
-    <tr><td class="paramname">MakeRoot</td><td>The factory method for the root dialog.</td></tr>
-    <tr><td class="paramname">token</td><td>An optional cancellation token.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A task representing the post operation.</dd></dl>
-
-<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00223">223</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a7d724055959e9cef5a15c7c31f03723e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -633,14 +403,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00149">149</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00151">151</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="../../d0/dd4/_bot_data_8cs_source.html">BotData.cs</a></li>
 <li><a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a></li>
 <li><a class="el" href="../../de/de9/_i_connector_client_factory_8cs_source.html">IConnectorClientFactory.cs</a></li>
-<li><a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a></li>
 <li><a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a></li>
 </ul>
 </div><!-- contents -->

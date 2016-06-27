@@ -13,7 +13,7 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fie
     [ "Template", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a8d09d1ecf1f6e0f9f93b9dde5d9bf142", null ],
     [ "Terms", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a3b906acb7dcdd0aa1b84efe988513a59", null ],
     [ "ValidateAsync", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a39ae99cba6b14c1719b178cd66a10ad0", null ],
-    [ "ValueDescription", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#ac7b7c00a8aeec7e03da8ef031fe4c2a7", null ],
+    [ "ValueDescription", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a21a86733702c8898cd61d178d5284a7e", null ],
     [ "AllowDefault", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a4a437a3b354914355fdb30e64b98846a", null ],
     [ "AllowNumbers", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#af8eca2cad4a049db44767515b9e7451b", null ],
     [ "AllowsMultiple", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#ab85ac9d97c3014c3db9188f73f048de9", null ],
@@ -25,9 +25,10 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fie
     [ "IsNullable", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a8a654bf757db07b9d664d701add0d0f5", null ],
     [ "Name", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a4093d0904de3dbde758fb08c21e89d17", null ],
     [ "Optional", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a5d607b8704afeab5216e22dbe7b1f13f", null ],
+    [ "Pattern", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#ab75613953726e216a17791e642a3d6ce", null ],
     [ "Prompt", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a44f0dca673e03356ff2d3e9c81bf6d3c", null ],
     [ "Role", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#af6d502794c107300ab4066b24c07e017", null ],
     [ "Type", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a80a4089e743c06f149aa27a1728182e8", null ],
-    [ "ValueDescriptions", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a177496b4b6b5c52a9235d9294dfb344d", null ],
+    [ "ValueDescriptions", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a14ecec5594d68a47804aa5f3e726ad1f", null ],
     [ "Values", "d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html#a25c9bde3621eba2f963c4a7d1f1c9fa0", null ]
 ];

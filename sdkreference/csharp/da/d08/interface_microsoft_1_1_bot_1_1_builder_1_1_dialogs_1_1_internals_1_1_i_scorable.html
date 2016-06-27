@@ -123,10 +123,10 @@ $(document).ready(function(){initNavTree('da/d08/interface_microsoft_1_1_bot_1_1
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af84e63351b06d9dc40cee99777958cd3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html#af84e63351b06d9dc40cee99777958cd3">PostAsync&lt; Item &gt;</a> (<a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, Item item, object state)</td></tr>
-<tr class="separator:af84e63351b06d9dc40cee99777958cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84038af254339aec0f6d79d98e7fcac4"><td class="memItemLeft" align="right" valign="top">Task&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html#a84038af254339aec0f6d79d98e7fcac4">PrepareAsync&lt; Item &gt;</a> (Item item, Delegate method)</td></tr>
-<tr class="separator:a84038af254339aec0f6d79d98e7fcac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eef164098d4c9fd2ddcd4073d8e4b31"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html#a7eef164098d4c9fd2ddcd4073d8e4b31">PostAsync&lt; Item &gt;</a> (<a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> inner, Item item, object state, CancellationToken token)</td></tr>
+<tr class="separator:a7eef164098d4c9fd2ddcd4073d8e4b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d4b290630adf05185122852df8de425"><td class="memItemLeft" align="right" valign="top">Task&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html#a3d4b290630adf05185122852df8de425">PrepareAsync&lt; Item &gt;</a> (Item item, Delegate method, CancellationToken token)</td></tr>
+<tr class="separator:a3d4b290630adf05185122852df8de425"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6005ded62b9f775b46b9b54b69eaea2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html#a6005ded62b9f775b46b9b54b69eaea2f">TryScore</a> (object state, out Score score)</td></tr>
 <tr class="separator:a6005ded62b9f775b46b9b54b69eaea2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -134,15 +134,15 @@ Public Member Functions</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af84e63351b06d9dc40cee99777958cd3"></a>
+<a class="anchor" id="a7eef164098d4c9fd2ddcd4073d8e4b31"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task <a class="el" href="../../da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html">Microsoft.Bot.Builder.Dialogs.Internals.IScorable</a>&lt; Score &gt;.PostAsync&lt; Item &gt; </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
-          <td class="paramname"><em>task</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a>&#160;</td>
+          <td class="paramname"><em>inner</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -154,7 +154,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -166,7 +172,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a84038af254339aec0f6d79d98e7fcac4"></a>
+<a class="anchor" id="a3d4b290630adf05185122852df8de425"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -180,7 +186,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Delegate&#160;</td>
-          <td class="paramname"><em>method</em>&#160;</td>
+          <td class="paramname"><em>method</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

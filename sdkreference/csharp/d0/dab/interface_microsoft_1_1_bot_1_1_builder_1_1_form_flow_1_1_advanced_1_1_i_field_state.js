@@ -8,5 +8,6 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fie
     [ "Dependencies", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a201ddda7662b6abe402009d749305772", null ],
     [ "IsNullable", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a8a654bf757db07b9d664d701add0d0f5", null ],
     [ "Optional", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a5d607b8704afeab5216e22dbe7b1f13f", null ],
+    [ "Pattern", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#ab75613953726e216a17791e642a3d6ce", null ],
     [ "Type", "d0/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_state.html#a80a4089e743c06f149aa27a1728182e8", null ]
 ];

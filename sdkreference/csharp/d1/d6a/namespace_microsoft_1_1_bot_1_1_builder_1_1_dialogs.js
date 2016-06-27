@@ -21,8 +21,11 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
     [ "LuisDialog", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog" ],
     [ "LuisIntentAttribute", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute" ],
     [ "PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog" ],
+    [ "PromptException", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception.html", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception" ],
     [ "PromptOptions", "d0/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_options.html", "d0/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_options" ],
     [ "PromptStyler", "dd/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_styler.html", "dd/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_styler" ],
     [ "RegexCase", "d0/d38/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_regex_case.html", "d0/d38/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_regex_case" ],
-    [ "ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie" ]
+    [ "ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie" ],
+    [ "TooManyAttemptsException", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception.html", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception" ],
+    [ "UrlToken", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token.html", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token" ]
 ];

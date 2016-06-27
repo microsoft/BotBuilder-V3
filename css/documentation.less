@@ -22,6 +22,7 @@ body, table, div, p, dl {
     float: left;
     padding: 15px 20px;
     background-color: @C11;
+    height: 100% !important;
 
     ul {
         list-style-type: none;
@@ -310,4 +311,22 @@ a {
     margin: 0px;
     padding: 0px;
     font: 15px "Segoe UI", sans-serif;
+}
+
+
+#global-message {
+    border: none; 
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #BCDDEA;
+}
+
+#close:before{
+    font-family: Glyphs;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    content: '\E10A';
+    float:right;
 }

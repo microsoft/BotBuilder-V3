@@ -7,7 +7,7 @@ ECHO usage:
 ECHO To build the Jekyll site and debug locally "build-docs local"
 ECHO To build the Jekyll site and debug locally (faster build) "build-docs incremental"
 ECHO To build the jekyll site and copy it to http://fuseserver01/ "build-docs fuseserver01"
-ECHO To copy the current build to http://fuseserver01:9090/ "build-docs fusecopy"
+ECHO To copy the current build to http://fuseserver01/ "build-docs fusecopy"
 GOTO :end
 
 :local

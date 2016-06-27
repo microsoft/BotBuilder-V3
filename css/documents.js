@@ -10,7 +10,7 @@ $( document ).ready(function() {
 		}
 	}
     // open left nav container if a page is currently selected
-    var currentNav = $(".page-link.navselected").closest(".navContainer").prev();
+    var currentNav = $(".page-link.navselected").closest(".navContainer").parent();
     if (currentNav.length == 0 && !isNodeRefDoc()) {
         // show all nodes
         $( ".level1.parent" ).show();
@@ -21,7 +21,7 @@ $( document ).ready(function() {
         if (isNodeRefDoc()) {
             var currentListHref = $('a[href*="/builder/node/sdkreference/"]').first();
             currentListHref.addClass("navselected");
-            currentNav = currentListHref.closest(".navContainer").prev();
+            currentNav = currentListHref.closest(".navContainer").parent();
         } 
         toggleNav(currentNav, 0);
     }
@@ -30,10 +30,11 @@ $( document ).ready(function() {
     $( ".level1.parent" ).click(function() {
         toggleNav($(this), 400);
     });
+
 });
 
 function toggleNav(parent, dur) {    
-    $content = parent.next();
+    $content = parent.children().first();
     $content.slideToggle(dur);
     parent.show();
     parent.toggleClass("rotate");
@@ -46,4 +47,16 @@ function isNodeRefDoc() {
         return true;
     } 
     return false;
+}
+
+function isGlobalMessageDismissed() {
+    if (localStorage.globalMessageDismissed) {
+        return true;
+    }
+    return false;
+}
+
+function dismissGlobalMessage() {
+    $('#global-message').hide('slow');
+    localStorage.setItem("globalMessageDismissed",Date.now());
 }

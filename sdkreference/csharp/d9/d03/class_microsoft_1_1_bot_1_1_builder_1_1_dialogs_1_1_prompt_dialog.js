@@ -8,6 +8,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog =
     [ "Choice< T >", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#ac5a7087c517793c9a48e94aff0c7666d", null ],
     [ "Choice< T >", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#af496bcdf80a5467cfbb0087809d8b591", null ],
     [ "Confirm", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a3e9963cd37505fe6cb68ea46acbd639e", null ],
+    [ "Confirm", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a7ba87d38805c0fb4a6a9bcb5acd7565c", null ],
     [ "Number", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#abff8dbc92feeab383a6269768c67f55d", null ],
     [ "Number", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a4f068dec66f3f82a016289b7750e11d9", null ],
     [ "Text", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#afa994f742676d605eef73404d22d1c6b", null ]
