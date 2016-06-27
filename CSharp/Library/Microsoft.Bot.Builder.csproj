@@ -166,6 +166,7 @@
     <None Include="createpackage.cmd" />
     <None Include="Luis\generateLuisModels.bat" />
     <None Include="Luis\Luis-q.json" />
+    <None Include="Microsoft.Bot.Builder.FormFlow.Json.nuspec" />
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>
