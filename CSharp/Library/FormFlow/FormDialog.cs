@@ -247,7 +247,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     _formState.FieldInputs = (from input in inputs orderby input.Item1 descending select input).ToList();
                 }
             }
-            SkipSteps();
+            await SkipSteps();
             _formState.Step = 0;
             _formState.StepState = null;
 
@@ -300,7 +300,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 Func<IStep<T>, IEnumerable<TermMatch>, Task<bool>> DoStepAsync = async (step, matches) =>
                 {
                     var result = await step.ProcessAsync(context, _state, _formState, stepInput, matches);
-                    SkipSteps();
+                    await SkipSteps();
                     next = result.Next;
                     if (result.Feedback?.Prompt != null)
                     {
@@ -506,7 +506,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         #region Implementation
 
-        private async void SkipSteps()
+        private async Task SkipSteps()
         {
             if (!_options.HasFlag(FormOptions.PromptFieldsWithValues))
             {

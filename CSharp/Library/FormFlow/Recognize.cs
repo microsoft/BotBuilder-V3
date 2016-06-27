@@ -251,7 +251,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             int maxWords = 0;
             if (orderedTerms.Length > 0)
             {
-                maxWords = terms.Max((term) => NumberOfWords(term));
+                maxWords = terms.Max(NumberOfWords);
                 foreach (var term in orderedTerms)
                 {
                     var nterm = term.Trim().Replace(" ", @"\s+");
