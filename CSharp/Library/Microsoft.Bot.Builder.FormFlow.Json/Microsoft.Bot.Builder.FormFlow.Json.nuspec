@@ -20,9 +20,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.dll" target="lib\net46"/>
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.xml" target="lib\net46" />
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.pdb" target="lib\net46" />
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\*.cs" target="src" />
+    <file src="bin\release\Microsoft.Bot.Builder.FormFlow.Json.dll" target="lib\net46"/>
+    <file src="bin\release\Microsoft.Bot.Builder.FormFlow.Json.xml" target="lib\net46" />
+    <file src="bin\release\Microsoft.Bot.Builder.FormFlow.Json.pdb" target="lib\net46" />
+    <file src="*.cs" target="src" />
   </files>
 </package>
