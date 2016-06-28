@@ -46,6 +46,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Json
 {
+    // No need to document overrides of interface methods
+    #pragma warning disable CS1591
+
     #region Documentation
     /// <summary>Build a form by specifying messages, fields and confirmations through JSON Schema or programatically.</summary>
     /// <remarks>
@@ -488,7 +491,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     /// <summary>
-    /// Global values to pass into scripts defined using <see cref="FormBuilderJson"/>.
+    /// Global values to pass into scripts defined using <see cref="Microsoft.Bot.Builder.FormFlow.Json.FormBuilderJson"/>.
     /// </summary>
     public class ScriptGlobals
     {
