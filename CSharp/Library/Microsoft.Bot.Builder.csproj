@@ -161,16 +161,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="createallpackages.cmd" />
     <None Include="createpackage.cmd" />
     <None Include="Luis\generateLuisModels.bat" />
     <None Include="Luis\Luis-q.json" />
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="pushpackage.cmd" />
+    <None Include="packages.config" />
+    <None Include="pushpackages.cmd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource\Resources.ar.resx">

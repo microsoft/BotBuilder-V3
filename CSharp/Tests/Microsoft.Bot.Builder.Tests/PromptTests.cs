@@ -31,20 +31,18 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Bot.Connector;
+using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-
-using Moq;
-using Autofac;
-
+using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -69,7 +67,6 @@ namespace Microsoft.Bot.Builder.Tests
                 .Setup(d => d.PromptResult(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<T>>()))
                 .Returns<IDialogContext, IAwaitable<T>>(async (c, a) => { c.Done(default(T)); });
 
-
             return dialog;
         }
     }
@@ -82,10 +79,16 @@ namespace Microsoft.Bot.Builder.Tests
 
         public async Task PromptSuccessAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt, string text, T expected)
         {
+            var toBot = MakeTestMessage();
+            toBot.Text = text;
+            await PromptSuccessAsync(prompt, toBot, a => a.Equals(expected));
+        }
+
+        public async Task PromptSuccessAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt, IMessageActivity toBot, Func<T, bool> expected)
+        {
             var dialogRoot = MockDialog<T>(prompt);
 
             Func<IDialog<object>> MakeRoot = () => dialogRoot.Object;
-            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialogRoot.Object))
             using (var container = Build(Options.ScopedQueue, dialogRoot.Object))
@@ -105,14 +108,31 @@ namespace Microsoft.Bot.Builder.Tests
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                     var task = scope.Resolve<IPostToBot>();
-
-                    toBot.Text = text;
-
                     await task.PostAsync(toBot, CancellationToken.None);
                     AssertNoMessages(scope);
-                    dialogRoot.Verify(d => d.PromptResult(It.IsAny<IDialogContext>(), It.Is<IAwaitable<T>>(actual => actual.GetAwaiter().GetResult().Equals(expected))), Times.Once);
+                    dialogRoot.Verify(d => d.PromptResult(It.IsAny<IDialogContext>(), It.Is<IAwaitable<T>>(actual => expected(actual.GetAwaiter().GetResult()))), Times.Once);
                 }
             }
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Attachment()
+        {
+            var jpgAttachment = new Attachment { ContentType = "image/jpeg", Content = "http://a.jpg" };
+            var bJpgAttachment = new Attachment { ContentType = "image/jpeg", Content = "http://b.jpg" };
+            var pdfAttachment = new Attachment { ContentType = "application/pdf", Content = "http://a.pdf" };
+            var toBot = MakeTestMessage();
+            toBot.Attachments = new List<Attachment>
+            {
+                jpgAttachment,
+                pdfAttachment
+            };
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText), toBot, actual => new [] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "application/pdf" }), toBot, actual => new[] { pdfAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg", "application/pdf" }), toBot, actual => new[] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
+            toBot.Attachments.Add(bJpgAttachment);
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment, bJpgAttachment }.SequenceEqual(actual));
         }
 
         [TestMethod]
@@ -246,6 +266,12 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptFailure_Confirm()
         {
             await PromptFailureAsync<bool>((context, resume) => PromptDialog.Confirm(context, resume, PromptText, RetryText, MaximumAttempts, promptStyle: PromptStyle.None));
+        }
+
+        [TestMethod]
+        public async Task PromptFailure_Attachment()
+        {
+            await PromptFailureAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, retry: RetryText, attempts: MaximumAttempts));
         }
     }
 }

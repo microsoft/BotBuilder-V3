@@ -98,5 +98,10 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             Phases[Step] = phase;
         }
+
+        public void SetPhase(int step, StepPhase phase)
+        {
+            Phases[step] = phase;
+        }
     }
 }
