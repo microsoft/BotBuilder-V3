@@ -14,8 +14,11 @@
       * Built-in dialogs that utilize powerful AI frameworks like LUIS http://luis.ai.
       * Bots are stateless which helps them scale.
       * Form Flow for automatically generating a Bot from a C# class for filling in the class and that supports help, navigation, clarification and confirmation.
-      See http://docs.botframework.com/sdkreference/csharp/ for documentation.
+
+      You might also be interested in the NuGet package Microsoft.Bot.Builder.FormFlow.Json that extends the Bot Builder with the abilitity to declaratively define FormFlow dialogs with JSON Schema.
     </description>
+    <projectUrl>https://github.com/Microsoft/BotBuilder</projectUrl>
+    <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
     <summary>Microsoft.Bot.Builder is a framework for easily building stateless bots that span from regular expressions to AI based natural language.</summary>
     <language>en-US</language>
     <dependencies>
@@ -27,14 +30,13 @@
       <dependency id="Microsoft.Rest.ClientRuntime" version="1.8.2" />
       <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.2.1" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
-      <dependency id="Microsoft.CodeAnalysis.CSharp.Scripting" version="1.2.2" />
     </dependencies>
   </metadata>
   <files>
     <file src="bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
     <file src="bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.dll" target="lib\net46"/>
-    <file src="Microsoft.Bot.Builder.FormFlow.Json\bin\release\Microsoft.Bot.Builder.FormFlow.Json.xml" target="lib\net46" />
+    <file src="bin\release\Microsoft.Bot.Builder.pdb" target="lib\net46" />
+    <file src="**\*.cs" exclude="**\obj\**\*.cs;Microsoft.Bot.Builder.FormFlow.Json\**\*.cs" target="src" />
     <file src="..\tools\rview\bin\release\RView.exe" target="tools"/>
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>

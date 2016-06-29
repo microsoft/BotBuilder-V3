@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
@@ -37,6 +38,33 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                 });
         }
 
+        internal static IDialog<JObject> MakeJsonRootDialog()
+        {
+            return Chain.From(() => FormDialog.FromForm(SandwichOrder.BuildJsonForm))
+                .Do(async (context, order) =>
+                {
+                    try
+                    {
+                        var completed = await order;
+                        // Actually process the sandwich order...
+                        await context.PostAsync("Processed your order!");
+                    }
+                    catch (FormCanceledException<JObject> e)
+                    {
+                        string reply;
+                        if (e.InnerException == null)
+                        {
+                            reply = $"You quit on {e.Last}--maybe you can finish next time!";
+                        }
+                        else
+                        {
+                            reply = "Sorry, I've had a short circuit.  Please try again.";
+                        }
+                        await context.PostAsync(reply);
+                    }
+                });
+        }
+
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and reply to it
@@ -45,7 +73,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         {
             if (message.Type == "Message")
             {
-                return await Conversation.SendAsync(message, MakeRootDialog);
+                return await Conversation.SendAsync(message, MakeJsonRootDialog);
             }
             else
             {

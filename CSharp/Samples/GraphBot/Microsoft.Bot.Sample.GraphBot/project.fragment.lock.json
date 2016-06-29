@@ -17,6 +17,13 @@
         "../packages/Microsoft.WindowsAzure.ConfigurationManager.3.2.1/lib/net40/Microsoft.WindowsAzure.Configuration.dll": {},
         "../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
         "bin/Debug/Microsoft.Bot.Builder.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Microsoft.Bot.Builder.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
       }
     }
   }

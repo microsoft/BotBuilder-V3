@@ -32,6 +32,8 @@
 //
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -41,6 +43,7 @@ using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Json;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis.Models;
 
 using Moq;
 using Autofac;
@@ -62,84 +65,87 @@ namespace Microsoft.Bot.Builder.Tests
             float Float { get; set; }
         }
 
-        [TestMethod]
-        public async Task Can_Fill_In_Scalar_Types()
+        private static class Input
         {
-            var mock = new Mock<IFormTarget>();
-            mock.SetupAllProperties();
+            public const string Text = "some text here";
+            public const int Integer = 99;
+            public const float Float = 1.5f;
+        }
 
-            Func<IDialog<IFormTarget>> MakeRoot = () => new FormDialog<IFormTarget>(mock.Object);
+        [Serializable]
+        private sealed class FormTarget : IFormTarget
+        {
+            float IFormTarget.Float { get; set; }
+            int IFormTarget.Integer { get; set; }
+            string IFormTarget.Text { get; set; }
+        }
 
-            // arrange
-            var toBot = MakeTestMessage();
-
-            using (new FiberTests.ResolveMoqAssembly(mock.Object))
-            using (var container = Build(Options.ScopedQueue, mock.Object))
+        private static async Task RunScriptAgainstForm(IEnumerable<EntityRecommendation> entities, params string[] script)
+        {
+            IFormTarget target = new FormTarget();
+            using (var container = Build(Options.ResolveDialogFromContainer, target))
             {
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    DialogModule_MakeRoot.Register(scope, MakeRoot);
-
-                    var task = scope.Resolve<IPostToBot>();
-
-                    // act
-                    await task.PostAsync(toBot, CancellationToken.None);
-
-                    // assert
-                    AssertMentions(nameof(mock.Object.Text), scope);
+                    var root = new FormDialog<IFormTarget>(target, entities: entities);
+                    var builder = new ContainerBuilder();
+                    builder
+                        .RegisterInstance(root)
+                        .AsSelf()
+                        .As<IDialog<object>>();
+                    builder.Update(container);
                 }
 
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                await AssertScriptAsync(container, script);
+
                 {
-                    DialogModule_MakeRoot.Register(scope, MakeRoot);
-
-                    var task = scope.Resolve<IPostToBot>();
-
-                    // arrange
-                    // note: this can not be "text" as that is a navigation command
-                    toBot.Text = "words";
-
-                    // act
-                    await task.PostAsync(toBot, CancellationToken.None);
-
-                    // assert
-                    AssertMentions(nameof(mock.Object.Integer), scope);
+                    Assert.AreEqual(Input.Text, target.Text);
+                    Assert.AreEqual(Input.Integer, target.Integer);
+                    Assert.AreEqual(Input.Float, target.Float);
                 }
-
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
-                {
-                    DialogModule_MakeRoot.Register(scope, MakeRoot);
-
-                    var task = scope.Resolve<IPostToBot>();
-
-                    // arrange
-                    toBot.Text = "3";
-
-                    // act
-                    await task.PostAsync(toBot, CancellationToken.None);
-
-                    // assert
-                    AssertMentions(nameof(mock.Object.Float), scope);
-                }
-
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
-                {
-                    DialogModule_MakeRoot.Register(scope, MakeRoot);
-
-                    var task = scope.Resolve<IPostToBot>();
-
-                    // arrange
-                    toBot.Text = "3.5";
-
-                    // act
-                    await task.PostAsync(toBot, CancellationToken.None);
-
-                    // assert
-                    AssertNoMessages(scope);
-                }
-
-                mock.VerifyAll();
             }
+        }
+
+        [TestMethod]
+        public async Task Form_Can_Fill_In_Scalar_Types()
+        {
+            IEnumerable<EntityRecommendation> entities = Enumerable.Empty<EntityRecommendation>();
+            await RunScriptAgainstForm(entities,
+                    "hello",
+                    "Please enter text ",
+                    Input.Text,
+                    "Please enter a number for integer (current choice: 0)",
+                    Input.Integer.ToString(),
+                    "Please enter a number for float (current choice: 0)",
+                    Input.Float.ToString()
+                );
+        }
+
+        [TestMethod]
+        public async Task Form_Can_Handle_Luis_Entity()
+        {
+            IEnumerable<EntityRecommendation> entities = new[] { new EntityRecommendation(type: nameof(IFormTarget.Text), entity: Input.Text) };
+            await RunScriptAgainstForm(entities,
+                    "hello",
+                    "Please enter a number for integer (current choice: 0)",
+                    Input.Integer.ToString(),
+                    "Please enter a number for float (current choice: 0)",
+                    Input.Float.ToString()
+                );
+        }
+
+        [TestMethod]
+        public async Task Form_Can_Handle_Irrelevant_Luis_Entity()
+        {
+            IEnumerable<EntityRecommendation> entities = new[] { new EntityRecommendation(type: "some random entity", entity: Input.Text) };
+            await RunScriptAgainstForm(entities,
+                    "hello",
+                    "Please enter text ",
+                    Input.Text,
+                    "Please enter a number for integer (current choice: 0)",
+                    Input.Integer.ToString(),
+                    "Please enter a number for float (current choice: 0)",
+                    Input.Float.ToString()
+                );
         }
 
         [TestMethod]
@@ -170,7 +176,7 @@ namespace Microsoft.Bot.Builder.Tests
                               'type': 'string',
                               'Prompt': { 'Patterns': [ '";
 
-                        const string TEMPLATE_SUFFIX = 
+                        const string TEMPLATE_SUFFIX =
                         @"' ] },
                             }
                           }

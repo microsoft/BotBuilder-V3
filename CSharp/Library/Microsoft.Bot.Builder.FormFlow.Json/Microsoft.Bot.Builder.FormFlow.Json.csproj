@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="createpackage.cmd" />
+    <None Include="Microsoft.Bot.Builder.FormFlow.Json.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
