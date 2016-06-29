@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // If bot wants to use InMemoryDataStore instead of 
             // ConnectorStore, the below registration should be used
             /*builder.RegisterType<InMemoryDataStore>()
-                .As<IDataStore<BotData>>()
+                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance(); */
 

@@ -100,10 +100,22 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(new DialogModule_MakeRoot());
+
+            builder.RegisterType<InMemoryDataStore>()
+                .As<IBotDataStore<BotData>>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder
+                .Register(c => new BotIdResolver("testBot"))
+                .As<IBotIdResolver>()
+                .SingleInstance();
+
             builder
                 .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<IMessageActivity>()), Console.Out))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
+
             using (var container = builder.Build())
             using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {
