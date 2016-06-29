@@ -21,13 +21,13 @@ namespace Microsoft.Bot.Connector
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
             if (this.Unathorized(response.StatusCode))
             {
-                var token = await credentials.GetTokenAsync(true);
-                await credentials.ProcessHttpRequestAsync(request, cancellationToken);
-                response = await base.SendAsync(request, cancellationToken);
+                var token = await credentials.GetTokenAsync(true).ConfigureAwait(false);
+                await credentials.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
+                response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
 
             if (this.Unathorized(response.StatusCode))

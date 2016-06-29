@@ -47,15 +47,18 @@ namespace Microsoft.Bot.Connector
         public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
         {
             if (request.Headers.Authorization != null)
-                return await GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter);
+                return await GetIdentityAsync(request.Headers.Authorization.Scheme, request.Headers.Authorization.Parameter).ConfigureAwait(false);
             return null;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(string authorizationHeader)
         {
-            string[] parts = authorizationHeader.Split(' ');
+            if (authorizationHeader == null)
+                return null;
+
+            string[] parts = authorizationHeader?.Split(' ');
             if (parts.Length == 2)
-                return await GetIdentityAsync(parts[0], parts[1]);
+                return await GetIdentityAsync(parts[0], parts[1]).ConfigureAwait(false);
             return null;
         }
 

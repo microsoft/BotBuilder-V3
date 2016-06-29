@@ -15,8 +15,14 @@ namespace Microsoft.Bot.Connector
         public TypeT GetProperty<TypeT>( string property)
         {
             if (this.Data == null)
+                this.Data = new JObject();
+
+            dynamic data = this.Data;
+            if (data[property] == null)
                 return default(TypeT);
-            return GetPropertyData<TypeT>(this.Data, property);
+
+            // convert jToken (JArray or JObject) to the given typeT
+            return (TypeT)(data[property].ToObject(typeof(TypeT)));
         }
 
 
@@ -29,36 +35,9 @@ namespace Microsoft.Bot.Connector
         {
             if (this.Data == null)
                 this.Data = new JObject();
-            SetPropertyData(this.Data, property, data);
-        }
 
-        private TypeT GetPropertyData<TypeT>(dynamic dynamicData, string property)
-        {
-            if (dynamicData?[property] == null)
-                return default(TypeT);
-            else if (typeof(TypeT) == typeof(byte[]))
-                return (TypeT)(dynamic)Convert.FromBase64String((string)dynamicData?[property]);
-            else if (typeof(TypeT).IsValueType)
-                return (TypeT)dynamicData?[property];
-            return dynamicData?[property]?.ToObject<TypeT>();
+            // convert (object or array) to JToken (JObject/JArray)
+            ((JObject)this.Data)[property] = JToken.FromObject(data);
         }
-
-        private dynamic SetPropertyData(dynamic dynamicData, string property, object data)
-        {
-            if (data == null)
-                dynamicData.Remove(property);
-            else if (data is byte[])
-                dynamicData[property] = Convert.ToBase64String((byte[])data);
-            else if (data is string)
-                dynamicData[property] = (string)data;
-            else if (data.GetType().IsValueType)
-                dynamicData[property] = JValue.FromObject(data);
-            else if (data.GetType().IsArray)
-                dynamicData[property] = JArray.FromObject(data);
-            else
-                dynamicData[property] = JObject.FromObject(data);
-            return dynamicData;
-        }
-
     }
 }

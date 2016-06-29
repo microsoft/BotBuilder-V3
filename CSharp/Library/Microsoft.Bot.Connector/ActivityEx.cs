@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Connector
     using System.Net.Http;
     using System.Configuration;/// <summary>
                                /// </summary>
-    public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity
+    public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity, IActionActivity
     {
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public JObject Properties { get; set; }
@@ -23,7 +23,6 @@ namespace Microsoft.Bot.Connector
         /// Take a message and create a reply message for it with the routing information 
         /// set up to correctly route a reply to the source message
         /// </summary>
-        /// <param name="activity">the message being used to create the ReplyActivity from</param>
         /// <param name="text">text you want to reply with</param>
         /// <param name="locale">language of your reply</param>
         /// <returns>message set up to route back to the sender</returns>
@@ -41,6 +40,8 @@ namespace Microsoft.Bot.Connector
             reply.Locale = locale ?? this.Locale;
             return reply;
         }
+
+        public static IActionActivity CreateActionActivity() { return new Activity(ActivityTypes.Action); }
 
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
@@ -104,7 +105,6 @@ namespace Microsoft.Bot.Connector
         /// Get channeldata as typed structure
         /// </summary>
         /// <typeparam name="TypeT">type to use</typeparam>
-        /// <param name="activity">message</param>
         /// <returns>typed object or default(TypeT)</returns>
         public TypeT GetChannelData<TypeT>()
         {
@@ -116,7 +116,6 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Return the "major" portion of the activity
         /// </summary>
-        /// <param name="activity"></param>
         /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
         public string GetActivityType()
         {
@@ -143,7 +142,10 @@ namespace Microsoft.Bot.Connector
 
             if (String.Equals(type, ActivityTypes.Ping, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Ping;
-            
+
+            if (String.Equals(type, ActivityTypes.Action, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.Action;
+
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }
     }

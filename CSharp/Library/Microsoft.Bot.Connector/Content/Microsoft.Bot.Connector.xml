@@ -44,6 +44,39 @@
             Signin button
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Add">
+            <summary>
+            Bot added to user contacts
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Remove">
+            <summary>
+            Bot removed from user contacts
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IActionActivity">
+            <summary>
+            User took action on a message (button click)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActionActivity.ChannelData">
+            <summary>
+            Channel specific payload
+            </summary>
+            <remarks>
+            Some channels will provide channel specific data.
+            
+            For a message originating in the channel it might provide the original native schema object for the channel. 
+            
+            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
+            
+            Example:
+            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
+            on incoming message a Subject property, and a HtmlBody which can contain Html.  
+            
+            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
+            </remarks>
+        </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
             <summary>
             Default- interpret text fields as markdown
@@ -604,51 +637,35 @@
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='parameters'>
-            Parameters to create the conversation from
-            </param>
+            <param name='operations'>The operations group for this extension method.</param>
+            <param name='bot'>Bot to create conversation from</param>
+            <param name='user'>User to create conversation with</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,System.Threading.CancellationToken)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='parameters'>
-            Parameters to create the conversation from
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
+            <param name='operations'>The operations group for this extension method.</param>
+            <param name='bot'>Bot to create conversation from</param>
+            <param name='user'>User to create conversation with</param>
+            <param name='cancellationToken'>The cancellation token.</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='parameters'>
-            Parameters to create the conversation from
-            </param>
+            <param name='operations'>The operations group for this extension method.</param>
+            <param name='botAddress'>Bot to create conversation from</param>
+            <param name='userAddress'>User to create conversation with</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='parameters'>
-            Parameters to create the conversation from
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
+            <param name='operations'>The operations group for this extension method.</param>
+            <param name='botAddress'>Bot to create conversation from</param>
+            <param name='userAddress'>User to create conversation with</param>
+            <param name='cancellationToken'>The cancellation token</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
             <summary>
@@ -2453,7 +2470,6 @@
             Take a message and create a reply message for it with the routing information 
             set up to correctly route a reply to the source message
             </summary>
-            <param name="activity">the message being used to create the ReplyActivity from</param>
             <param name="text">text you want to reply with</param>
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
@@ -2485,14 +2501,12 @@
             Get channeldata as typed structure
             </summary>
             <typeparam name="TypeT">type to use</typeparam>
-            <param name="activity">message</param>
             <returns>typed object or default(TypeT)</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.GetActivityType">
             <summary>
             Return the "major" portion of the activity
             </summary>
-            <param name="activity"></param>
             <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.#ctor">
@@ -3011,14 +3025,12 @@
             Get channeldata as typed structure
             </summary>
             <typeparam name="TypeT">type to use</typeparam>
-            <param name="activity">message</param>
             <returns>typed object or default(TypeT)</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetActivityType">
             <summary>
             Return the "major" portion of the activity
             </summary>
-            <param name="activity"></param>
             <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
         </member>
     </members>

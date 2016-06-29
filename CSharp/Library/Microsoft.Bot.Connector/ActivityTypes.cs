@@ -14,5 +14,6 @@ namespace Microsoft.Bot.Connector
         public const string Typing = "typing";
         public const string DeleteUserData = "deleteUserData";
         public const string Ping = "ping";
+        public const string Action = "action";
     }
 }

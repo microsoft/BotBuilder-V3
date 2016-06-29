@@ -14,12 +14,9 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Create a new direct conversation between a bot and a user
         /// </summary>
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters to create the conversation from
-        /// </param>
+        /// <param name='operations'>The operations group for this extension method.</param>
+        /// <param name='bot'>Bot to create conversation from</param>
+        /// <param name='user'>User to create conversation with</param>
         public static ResourceResponse CreateDirectConversation(this IConversations operations, ChannelAccount bot, ChannelAccount user)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(GetDirectParameters(bot, user)), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -28,15 +25,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Create a new direct conversation between a bot and a user
         /// </summary>
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters to create the conversation from
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
+        /// <param name='operations'>The operations group for this extension method.</param>
+        /// <param name='bot'>Bot to create conversation from</param>
+        /// <param name='user'>User to create conversation with</param>
+        /// <param name='cancellationToken'>The cancellation token.</param>
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, ChannelAccount bot, ChannelAccount user, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user), null, cancellationToken).ConfigureAwait(false);
@@ -46,12 +38,9 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Create a new direct conversation between a bot and a user
         /// </summary>
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters to create the conversation from
-        /// </param>
+        /// <param name='operations'>The operations group for this extension method.</param>
+        /// <param name='botAddress'>Bot to create conversation from</param>
+        /// <param name='userAddress'>User to create conversation with</param>
         public static ResourceResponse CreateDirectConversation(this IConversations operations, string botAddress, string userAddress)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(GetDirectParameters(botAddress, userAddress)), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -60,15 +49,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Create a new direct conversation between a bot and a user
         /// </summary>
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='parameters'>
-        /// Parameters to create the conversation from
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
+        /// <param name='operations'>The operations group for this extension method.</param>
+        /// <param name='botAddress'>Bot to create conversation from</param>
+        /// <param name='userAddress'>User to create conversation with</param>
+        /// <param name='cancellationToken'>The cancellation token</param>
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, string botAddress, string userAddress, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress), null, cancellationToken).ConfigureAwait(false);
