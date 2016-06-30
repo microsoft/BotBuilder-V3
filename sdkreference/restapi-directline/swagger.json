@@ -3,7 +3,7 @@
   "info": {
     "version": "v1",
     "title": "Bot Connector - Direct Line API - V1.0",
-    "description": "Direct Line\r\n===========\r\n\r\n\r\nThe Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers\r\nwriting their own client applications, web chat controls, or mobile apps that will talk to their bot.\r\n\r\nCredentials for the Direct Line API may be obtained from the Bot Framework developer portal, and will only allow the\r\ncaller to connect to the bot for which they were generated. If you are writing a server-to-server application,\r\nthe Direct Line secret may be used directly against the API. If instead you are writing an application where a client\r\nconnects directly (and possibly insecurely) to the Direct Line API, you may exchange the secret for a token that will\r\nwork only for a single conversation and only for a limited amount of time. Tokens expire by default after 30 minutes\r\nalthough they may be renewed up until their expiration.\r\n\r\nThe secret or token (depending on the authorization model) are supplied as basic auth with the \"BotConnector\" scheme\r\nand no further encoding. Example auth header:\r\n\r\n    -- connect to directline.botframework.com --\r\n    GET /api/tokens\r\n    Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n\r\nEach conversation on the Direct Line channel must be explicitly started using a POST to the\r\nhttps://directline.botframework.com/api/conversations endpoint.\r\nIf the call was authorized with a token, the conversation ID is the conversation ID in the scoped token. If a\r\nsecret was used to start the conversation, the conversation will be started with a new, random ID.\r\n\r\nThe client may send messages to the bot by calling POST on https://directline.botframework.com/api/messages/conversationId.\r\n\r\nThe client may retrieve messages sent by the bot by calling GET on https://directline.botframework.com/api/messages/conversationId.\r\nThe JSON structure returned contains a watermark that can be sent on subsequent requests to skip old messages.\r\n\r\nThe Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before\r\nthey are deleted.\r\n\r\nSee the [Direct Line REST API reference](/sdkreference/restapi-directline/).",
+    "description": "Direct Line\r\n===========\r\n\r\n\r\nThe Direct Line API is a simple REST API for connecting directly to a single bot. This API is intended for developers\r\nwriting their own client applications, web chat controls, or mobile apps that will talk to their bot.\r\n\r\nCredentials for the Direct Line API may be obtained from the Bot Framework developer portal, and will only allow the\r\ncaller to connect to the bot for which they were generated. If you are writing a server-to-server application,\r\nthe Direct Line secret may be used directly against the API. If instead you are writing an application where a client\r\nconnects directly (and possibly insecurely) to the Direct Line API, you may exchange the secret for a token that will\r\nwork only for a single conversation and only for a limited amount of time. Tokens expire by default after 30 minutes\r\nalthough they may be renewed up until their expiration.\r\n\r\nThe secret or token (depending on the authorization model) are supplied as basic auth with the \"BotConnector\" scheme\r\nand no further encoding. Example auth header:\r\n\r\n    -- connect to directline.botframework.com --\r\n    GET /api/tokens\r\n    Authorization: BotConnector RCurR_XV9ZA.cwA.BKA.iaJrC8xpy8qbOF5xnR2vtCX7CZj0LdjAPGfiCpg4Fv0\r\n\r\nDon't include the Ocp-Apim-Subscription-Key header. The contents of this header are your bot's secret key. The\r\nbot's secret key is not necessary when using the Direct Line API.\r\n\r\nEach conversation on the Direct Line channel must be explicitly started using a POST to the\r\nhttps://directline.botframework.com/api/conversations endpoint.\r\nIf the call was authorized with a token, the conversation ID is the conversation ID in the scoped token. If a\r\nsecret was used to start the conversation, the conversation will be started with a new, random ID.\r\n\r\nThe client may send messages to the bot by calling POST on https://directline.botframework.com/api/conversations/{conversationId}/messages.\r\n\r\nThe client may retrieve messages sent by the bot by calling GET on https://directline.botframework.com/api/conversations/{conversationId}/messages.\r\nThe JSON structure returned contains a watermark that can be sent on subsequent requests to skip old messages.\r\n\r\nThe Direct Line API does not store messages indefinitely. Your client application must pick them up quickly before\r\nthey are deleted.\r\n\r\nSee the [Direct Line REST API reference](/sdkreference/restapi-directline/).",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -15,9 +15,55 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8011",
+  "host": "directline.botframework.com",
   "schemes": [ "https" ],
   "paths": {
+    "/api/tokens/{conversationId}/renew": {
+      "get": {
+        "tags": [ "Tokens" ],
+        "summary": "Renew a token for a conversation",
+        "operationId": "Tokens_RenewToken",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A string is returned\r\n",
+            "schema": { "type": "string" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/tokens/conversation": {
+      "post": {
+        "tags": [ "Tokens" ],
+        "summary": "Generate a token for a new conversation",
+        "operationId": "Tokens_GenerateTokenForNewConversation",
+        "consumes": [ ],
+        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
+        "responses": {
+          "200": {
+            "description": "A string is returned\r\n",
+            "schema": { "type": "string" }
+          },
+          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
+          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
+          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
+        },
+        "deprecated": false
+      }
+    },
     "/api/conversations": {
       "post": {
         "tags": [ "Conversations" ],
@@ -95,7 +141,10 @@
           }
         ],
         "responses": {
-          "204": { "description": "Success - no content" },
+          "204": {
+            "description": "Success - no content",
+            "schema": { "$ref": "#/definitions/ErrorMessage" }
+          },
           "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
           "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
           "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
@@ -121,52 +170,6 @@
         ],
         "responses": {
           "204": { "description": "Success - no content" },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
-          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
-          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
-        },
-        "deprecated": false
-      }
-    },
-    "/api/tokens/{conversationId}/renew": {
-      "get": {
-        "tags": [ "Tokens" ],
-        "summary": "Renew a token for a conversation",
-        "operationId": "Tokens_RenewToken",
-        "consumes": [ ],
-        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
-        "parameters": [
-          {
-            "name": "conversationId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A string is returned\r\n",
-            "schema": { "type": "string" }
-          },
-          "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
-          "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
-          "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
-        },
-        "deprecated": false
-      }
-    },
-    "/api/tokens/conversation": {
-      "post": {
-        "tags": [ "Tokens" ],
-        "summary": "Generate a token for a new conversation",
-        "operationId": "Tokens_GenerateTokenForNewConversation",
-        "consumes": [ ],
-        "produces": [ "application/json", "text/json", "text/html", "application/xml", "text/xml" ],
-        "responses": {
-          "200": {
-            "description": "A string is returned\r\n",
-            "schema": { "type": "string" }
-          },
           "401": { "description": "No content is returned with this status code.\r\n\r\nThe BasicAuth header is missing for this request.\r\n" },
           "403": { "description": "You are forbidden from performing this action because your token or secret is invalid.\r\n\r\n" },
           "404": { "description": "The response is an ErrorMessage response.  Look at the Code field for a breakdown and message field for description of the error.\r\n\r\nresource was not found" }
@@ -208,7 +211,7 @@
       }
     },
     "Message": {
-      "description": "A communication message sent to/from Bot Connector",
+      "description": "A communication message sent to/from Direct Line",
       "type": "object",
       "properties": {
         "id": {
@@ -233,8 +236,8 @@
           "type": "string"
         },
         "channelData": {
-          "description": "Opaque block of data passed to/from bot via the ChannelData field",
-          "type": "string"
+          "$ref": "#/definitions/Object",
+          "description": "Opaque block of data passed to/from bot via the ChannelData field"
         },
         "images": {
           "description": "Array of URLs for images included in this message",
@@ -249,6 +252,10 @@
         "eTag": { "type": "string" }
       }
     },
+    "Object": {
+      "type": "object",
+      "properties": { }
+    },
     "Attachment": {
       "description": "An attachment",
       "type": "object",
@@ -260,6 +267,30 @@
         "contentType": {
           "description": "Content type for this attachment",
           "type": "string"
+        }
+      }
+    },
+    "ErrorMessage": {
+      "description": "A standardized message error payload",
+      "type": "object",
+      "properties": { "error": { "$ref": "#/definitions/Error" } }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "enum": [ "MissingProperty", "MalformedData", "NotFound", "ServiceError", "Internal", "InvalidRange", "NotSupported", "NotAllowed", "BadCertificate" ],
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message",
+          "type": "string"
+        },
+        "statusCode": {
+          "format": "int32",
+          "description": "Status code",
+          "type": "integer"
         }
       }
     }
