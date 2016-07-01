@@ -2,79 +2,107 @@ var request = require('request');
 var async = require('async');
 var url = require('url');
 var utils = require('../utils');
-var Busboy = require('busboy');
-var CallConnector = (function () {
-    function CallConnector(settings) {
+var ChatConnector = (function () {
+    function ChatConnector(settings) {
+        if (settings === void 0) { settings = {}; }
         this.settings = settings;
-        this.responses = {};
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
                 verifyIssuer: 'https://api.botframework.com',
-                stateEndpoint: this.settings.stateUri || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
     }
-    CallConnector.prototype.listen = function () {
+    ChatConnector.prototype.listen = function () {
         var _this = this;
         return function (req, res) {
-            var callback = _this.responseCallback(req, res);
-            if (req.is('application/json')) {
-                _this.parseBody(req, function (err, body) {
-                    if (!err) {
-                        _this.dispatch(body, callback);
-                    }
-                    else {
-                        callback(err);
-                    }
-                });
-            }
-            else if (req.is('multipart/form-data')) {
-                _this.parseFormData(req, function (err, body) {
-                    if (!err) {
-                        _this.dispatch(body, callback);
-                    }
-                    else {
-                        callback(err);
-                    }
-                });
+            if (req.body) {
+                _this.dispatch(req.body, res);
             }
             else {
-                callback(new Error('Invalid content type.'));
+                var requestData = '';
+                req.on('data', function (chunk) {
+                    requestData += chunk;
+                });
+                req.on('end', function () {
+                    var body = JSON.parse(requestData);
+                    _this.dispatch(body, res);
+                });
             }
         };
     };
-    CallConnector.prototype.verifyBotFramework = function () {
+    ChatConnector.prototype.verifyBotFramework = function () {
         return function (req, res, next) {
             next();
         };
     };
-    CallConnector.prototype.onMessage = function (handler) {
+    ChatConnector.prototype.onMessage = function (handler) {
         this.handler = handler;
     };
-    CallConnector.prototype.send = function (message, cb) {
-        if (message.type == 'workflow' && message.address) {
-            if (this.responses.hasOwnProperty(message.address.id)) {
-                var callback = this.responses[message.address.id];
-                delete this.responses[message.address.id];
-                var response = utils.clone(message);
-                response.links = { 'callback': this.settings.callbackUri };
-                response.appState = JSON.stringify(response.address);
-                delete response.type;
-                delete response.address;
-                callback(null, response);
+    ChatConnector.prototype.send = function (messages, done) {
+        var _this = this;
+        var conversationId;
+        async.eachSeries(messages, function (msg, cb) {
+            try {
+                var address = msg.address;
+                if (address && address.serviceUrl) {
+                    delete msg.address;
+                    if (!address.conversation && conversationId) {
+                        address.conversation = { id: conversationId };
+                    }
+                    _this.postMessage(address, msg, cb);
+                }
+                else {
+                    cb(new Error('Message missing address or serviceUrl.'));
+                }
             }
-        }
-        else {
-            cb(new Error('Invalid message sent to CallConnector.send().'));
+            catch (e) {
+                cb(e);
+            }
+        }, done);
+    };
+    ChatConnector.prototype.startConversation = function (address, done) {
+        if (address && address.user && address.bot && address.serviceUrl) {
+            var options = {
+                method: 'POST',
+                url: url.resolve(address.serviceUrl, '/v3/conversations'),
+                body: {
+                    bot: address.bot,
+                    members: [address.user]
+                },
+                json: true
+            };
+            this.authenticatedRequest(options, function (err, response, body) {
+                var adr;
+                if (!err) {
+                    try {
+                        var obj = typeof body === 'string' ? JSON.parse(body) : body;
+                        if (obj && obj.hasOwnProperty('id')) {
+                            adr = utils.clone(address);
+                            adr.conversation = { id: obj['id'] };
+                            if (adr.id) {
+                                delete adr.id;
+                            }
+                        }
+                        else {
+                            err = new Error('Failed to start conversation: no conversation ID returned.');
+                        }
+                    }
+                    catch (e) {
+                        err = e instanceof Error ? e : new Error(e.toString());
+                    }
+                }
+                done(err, adr);
+            });
         }
     };
-    CallConnector.prototype.getData = function (context, callback) {
+    ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
         try {
-            var root = this.getStoragePath();
+            var root = this.getStoragePath(context.address);
             var list = [];
             if (context.userId) {
                 if (context.persistUserData) {
@@ -130,7 +158,7 @@ var CallConnector = (function () {
             callback(e instanceof Error ? e : new Error(e.toString()), null);
         }
     };
-    CallConnector.prototype.saveData = function (context, data, callback) {
+    ChatConnector.prototype.saveData = function (context, data, callback) {
         var _this = this;
         var list = [];
         function addWrite(field, botData, url) {
@@ -142,7 +170,7 @@ var CallConnector = (function () {
             }
         }
         try {
-            var root = this.getStoragePath();
+            var root = this.getStoragePath(context.address);
             if (context.userId) {
                 if (context.persistUserData) {
                     addWrite('userData', data.userData || {}, root + '/users/' + encodeURIComponent(context.userId));
@@ -183,34 +211,53 @@ var CallConnector = (function () {
             }
         }
     };
-    CallConnector.prototype.dispatch = function (body, response) {
+    ChatConnector.prototype.dispatch = function (messages, res) {
         var _this = this;
-        var msg;
-        this.responses[body.id] = response;
-        if (body.hasOwnProperty('participants')) {
-            msg = body;
-            msg.type = 'conversation';
-            msg.address = {};
-            moveFields(body, msg.address, toAddress);
-        }
-        else {
-            msg = body;
-            msg.type = 'conversationResult';
-            msg.address = JSON.parse(body.appState);
-            if (msg.id !== msg.address.id) {
-                console.warn("CallConnector received a 'conversationResult' with an invalid conversation id.");
+        var list = Array.isArray(messages) ? messages : [messages];
+        list.forEach(function (msg) {
+            try {
+                var address = {};
+                moveFields(msg, address, toAddress);
+                msg.address = address;
+                if (address.serviceUrl) {
+                    try {
+                        var u = url.parse(address.serviceUrl);
+                        address.serviceUrl = u.protocol + '//' + u.host;
+                    }
+                    catch (e) {
+                        console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
+                    }
+                }
+                msg.text = msg.text || '';
+                msg.attachments = msg.attachments || [];
+                msg.entities = msg.entities || [];
+                _this.handler([msg]);
             }
-            delete msg.id;
-            delete msg.appState;
-        }
-        this.handler(body, function (err) {
-            if (err && _this.responses.hasOwnProperty(body.id)) {
-                delete _this.responses[body.id];
-                response(err);
+            catch (e) {
+                console.error(e.toString());
             }
         });
+        res.status(202);
+        res.end();
     };
-    CallConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
+    ChatConnector.prototype.postMessage = function (address, msg, cb) {
+        var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
+        if (address.id && address.channelId !== 'skype') {
+            path += '/' + encodeURIComponent(address.id);
+        }
+        msg['from'] = address.bot;
+        msg['recipient'] = address.user;
+        var options = {
+            method: 'POST',
+            url: url.resolve(address.serviceUrl, path),
+            body: msg,
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) {
+            cb(err);
+        });
+    };
+    ChatConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
         var _this = this;
         if (refresh === void 0) { refresh = false; }
         if (refresh) {
@@ -251,7 +298,7 @@ var CallConnector = (function () {
             }
         });
     };
-    CallConnector.prototype.getAccessToken = function (cb) {
+    ChatConnector.prototype.getAccessToken = function (cb) {
         var _this = this;
         if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
             var opt = {
@@ -285,7 +332,7 @@ var CallConnector = (function () {
             cb(null, this.accessToken);
         }
     };
-    CallConnector.prototype.addAccessToken = function (options, cb) {
+    ChatConnector.prototype.addAccessToken = function (options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
@@ -303,70 +350,33 @@ var CallConnector = (function () {
             cb(null);
         }
     };
-    CallConnector.prototype.getStoragePath = function () {
-        return url.resolve(this.settings.endpoint.stateEndpoint, '/v3/botstate/skype/');
-    };
-    CallConnector.prototype.parseBody = function (req, cb) {
-        if (typeof req.body === 'undefined') {
-            var data = '';
-            req.on('data', function (chunk) { return data += chunk; });
-            req.on('end', function () {
-                var err;
-                var body;
-                try {
-                    body = JSON.parse(data);
+    ChatConnector.prototype.getStoragePath = function (address) {
+        var path;
+        switch (address.channelId) {
+            case 'emulator':
+                if (address.serviceUrl) {
+                    path = address.serviceUrl;
                 }
-                catch (e) {
-                    err = e;
+                else {
+                    throw new Error('ChatConnector.getStoragePath() missing address.serviceUrl.');
                 }
-                cb(err, body);
-            });
+                break;
+            default:
+                path = this.settings.endpoint.stateEndpoint;
+                break;
         }
-        else {
-            cb(null, req.body);
-        }
+        return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
     };
-    CallConnector.prototype.parseFormData = function (req, cb) {
-        var busboy = new Busboy({ headers: req.headers, defCharset: 'binary' });
-        var result;
-        var recordedAudio;
-        busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-            if (fieldname === 'recordedAudio') {
-                recordedAudio = new Buffer(val, 'binary');
-            }
-            else if (fieldname === 'conversationResult') {
-                result = JSON.parse(val);
-            }
-        });
-        busboy.on('finish', function () {
-            if (result && recordedAudio) {
-                result.recordedAudio = recordedAudio;
-            }
-            cb(null, result);
-        });
-        req.pipe(busboy);
-    };
-    CallConnector.prototype.responseCallback = function (req, res) {
-        return function (err, response) {
-            if (err) {
-                res.status(500);
-                res.end();
-            }
-            else {
-                res.status(200);
-                res.send(response);
-            }
-        };
-    };
-    return CallConnector;
+    return ChatConnector;
 })();
-exports.CallConnector = CallConnector;
+exports.ChatConnector = ChatConnector;
 var toAddress = {
     'id': 'id',
-    'participants': 'participants',
-    'isMultiParty': 'isMultiParty',
-    'threadId': 'threadId',
-    'subject': 'subject'
+    'channelId': 'channelId',
+    'from': 'user',
+    'conversation': 'conversation',
+    'recipient': 'bot',
+    'serviceUrl': 'serviceUrl'
 };
 function moveFields(frm, to, map) {
     if (frm && to) {

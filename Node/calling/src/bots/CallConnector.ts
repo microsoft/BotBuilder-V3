@@ -42,11 +42,12 @@ import utils = require('../utils');
 var Busboy = require('busboy');
 
 export interface ICallConnectorSettings {
-    callbackEndpoint: string;
+    callbackUri: string;
     appId?: string;
     appPassword?: string;
     endpoint?: ICallConnectorEndpoint;
-    stateEndpoint?: string;
+    serviceUri?: string;
+    stateUri?: string;
 }
 
 export interface ICallConnectorEndpoint {
@@ -70,7 +71,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
                 verifyIssuer: 'https://api.botframework.com',
-                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateUri || 'https://state.botframework.com'
             }
         }
     }
@@ -120,7 +121,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 
                 // Deliver message
                 var response: IWorkflow = utils.clone(message);
-                response.links = { 'callback': this.settings.callbackEndpoint };
+                response.links = { 'callback': this.settings.callbackUri };
                 response.appState = JSON.stringify(response.address);
                 delete response.type;
                 delete response.address;
