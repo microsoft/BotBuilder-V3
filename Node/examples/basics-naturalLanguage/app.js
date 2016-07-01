@@ -9,7 +9,7 @@ For a complete walkthrough of creating this bot see the article below.
 
 -----------------------------------------------------------------------------*/
 
-var builder = require('../../');
+var builder = require('../../core/');
 
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);

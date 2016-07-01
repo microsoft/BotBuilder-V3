@@ -56,7 +56,7 @@ context for future questions and returns an answer for data that was asked for.
 
 -----------------------------------------------------------------------------*/
 
-var builder = require('../../');
+var builder = require('../../core/');
 var prompts = require('./prompts');
 
 var connector = new builder.ConsoleConnector().listen();

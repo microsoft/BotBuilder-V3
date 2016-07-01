@@ -2,7 +2,7 @@
 This Bot demonstrates how to use Bongs Dialog Manager service.
 -----------------------------------------------------------------------------*/
 
-var builder = require('../../');
+var builder = require('../../core/');
 
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
