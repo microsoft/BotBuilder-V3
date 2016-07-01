@@ -105,6 +105,9 @@ bot.on('deleteUserData', function (message) {
 // Anytime the major version is incremented any existign conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
+// Add a download file method.
+bot.use(downloadFile(connector));
+
 //=========================================================
 // Bots Dialogs
 //=========================================================
@@ -131,7 +134,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|upload|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -156,6 +159,9 @@ bot.dialog('/menu', [
                     break;
                 case 'signin':
                     session.beginDialog('/signin');
+                    break;
+                case 'upload':
+                    session.beginDialog('/upload');
                     break;
             }
         } else {
@@ -437,3 +443,52 @@ bot.dialog('/signin', [
         session.endDialog(msg); 
     } 
 ]); 
+
+bot.dialog('/upload', [ 
+    function (session) { 
+        builder.Prompts.attachment(session, "Send me an image and I'll save it locally.");
+    }, 
+    function (session, results) {
+        if (results && results.response) {
+            var attachment = results.response[0];
+            session.send("I'm saving your file now");
+            session.downloadFile(attachment.contentUrl, "file1", function (err) {
+                if (!err) {
+                    session.endDialog("1 file saved.");
+                } else {
+                    session.endDialog("Oops... Something went wrong: %s", err.toString());    
+                }
+            });
+        } else {
+            session.endDialog("You canceled.")
+        }
+    }
+]); 
+
+
+var fs = require('fs');
+var request = require('request');
+
+function downloadFile(connector) {
+    return {
+        dialog: function (session, next) {
+            session.downloadFile = function downloadFile(url, filename, cb) {
+                connector.getAccessToken(function (err, token) {
+                    if (!err && token) {
+                        var headers = {};
+                        if (url.indexOf('skype.com/')) {
+                            headers['Authorization'] = 'Bearer ' + token;
+                        }
+                        request({
+                            url: url,
+                            headers: headers
+                        }).pipe(fs.createWriteStream(filename)).on('close', cb);
+                    } else {
+                        cb(err);
+                    }
+                });
+            }
+            next();
+        }
+    };
+}
