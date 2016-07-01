@@ -46,6 +46,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Json
 {
+    // No need to document overrides of interface methods
+    #pragma warning disable CS1591
+
     #region Documentation
     /// <summary>Build a form by specifying messages, fields and confirmations through JSON Schema or programatically.</summary>
     /// <remarks>
@@ -252,7 +255,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                     imports.Add((string)import);
                 }
             }
-            var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+            var dir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
             _options = CodeAnalysis.Scripting.ScriptOptions.Default
                 .AddReferences((from assembly in assemblies select System.IO.Path.Combine(dir, assembly)).ToArray())
                 .AddImports("Microsoft.Bot.Builder", "Microsoft.Bot.Builder.Dialogs",
@@ -488,7 +491,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     /// <summary>
-    /// Global values to pass into scripts defined using <see cref="FormBuilderJson"/>.
+    /// Global values to pass into scripts defined using <see cref="Microsoft.Bot.Builder.FormFlow.Json.FormBuilderJson"/>.
     /// </summary>
     public class ScriptGlobals
     {

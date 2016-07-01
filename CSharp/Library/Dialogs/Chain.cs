@@ -254,6 +254,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Fold items from an enumeration of dialogs.
+        /// </summary>
+        /// <typeparam name="T"> The type of the dialogs in the enumeration produced by the antecedent dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog that produces an enumeration of <see cref="IDialog{T}"/>.</param>
+        /// <param name="folder">The accumulator for the dialog enumeration.</param>
+        /// <returns>The accumulated result.</returns>
+        public static IDialog<T> Fold<T>(this IDialog<IEnumerable<IDialog<T>>> antecedent, Func<T, T, T> folder)
+        {
+            return new FoldDialog<T>(antecedent, folder);
+        }
+
+        /// <summary>
         /// Constructs a case. 
         /// </summary>
         /// <typeparam name="T"> The type of incoming value to case.</typeparam>
@@ -652,6 +664,58 @@ namespace Microsoft.Bot.Builder.Dialogs
             public async Task StartAsync(IDialogContext context)
             {
                 context.Done(Value);
+            }
+        }
+
+        [Serializable]
+        private sealed class FoldDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<IEnumerable<IDialog<T>>> Antecedent;
+            public readonly Func<T, T, T> Folder;
+            public FoldDialog(IDialog<IEnumerable<IDialog<T>>> antecedent, Func<T, T, T> folder)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Folder, nameof(folder), folder);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call(this.Antecedent, this.AfterAntecedent);
+            }
+            private IReadOnlyList<IDialog<T>> items;
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<IEnumerable<IDialog<T>>> result)
+            {
+                this.items = (await result).ToArray();
+                await Iterate(context);
+            }
+            private int index = 0;
+            private T folded = default(T);
+            private async Task Iterate(IDialogContext context)
+            {
+                if (this.index < this.items.Count)
+                {
+                    var child = this.items[this.index];
+                    context.Call(child, AfterItem);
+                }
+                else
+                {
+                    context.Done(this.folded);
+                }
+            }
+            private async Task AfterItem(IDialogContext context, IAwaitable<T> result)
+            {
+                var itemT = await result;
+                if (this.index == 0)
+                {
+                    this.folded = itemT;
+                }
+                else
+                {
+                    this.folded = this.Folder(this.folded, itemT);
+                }
+
+                ++this.index;
+
+                await this.Iterate(context);
             }
         }
     }

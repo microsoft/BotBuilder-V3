@@ -242,4 +242,7 @@
   <data name="TooManyAttempts" xml:space="preserve">
     <value>太多的尝试</value>
   </data>
+  <data name="UserProfileDeleted" xml:space="preserve">
+    <value>用户配置文件删除 ！</value>
+  </data>
 </root>

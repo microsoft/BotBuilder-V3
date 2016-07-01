@@ -311,6 +311,10 @@
           <source>too many attempts</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">demasiados intentos de</target>
         </trans-unit>
+        <trans-unit id="UserProfileDeleted" translate="yes" xml:space="preserve">
+          <source>User profile deleted!</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Perfil de usuario eliminado!</target>
+        </trans-unit>
       </group>
     </body>
   </file>

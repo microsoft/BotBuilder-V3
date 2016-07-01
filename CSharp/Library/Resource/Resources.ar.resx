@@ -242,4 +242,7 @@
   <data name="TooManyAttempts" xml:space="preserve">
     <value>محاولات كثيرة جداً</value>
   </data>
+  <data name="UserProfileDeleted" xml:space="preserve">
+    <value>حذف التشكيل الجانبي للمستخدم!</value>
+  </data>
 </root>

@@ -192,7 +192,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
         [Optional]
         [Numeric(1, 3)]
         public int? Bottles;
-        public string Specials;
+        public List<string> Specials;
 
         [Pattern(@"(\(\d{3}\))?\s*\d{3}(-|\s*)\d{4}")]
         public string Phone;
@@ -327,11 +327,17 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         else
                         {
                             result.Feedback = DynamicPizza.AddressFine;
+                            if (str == "1")
+                            {
+                                // Test to see if step is skipped
+                                state.Phone = "111-1111";
+                            }
                         }
                         return result;
                     })
                 .Message(costDelegate)
-                .Confirm(async (state) => {
+                .Confirm(async (state) =>
+                {
                     var cost = computeCost(state);
                     return new PromptAttribute(string.Format(DynamicPizza.CostConfirm, cost));
                 })

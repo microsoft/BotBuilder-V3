@@ -522,6 +522,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 return this.bag.Remove(key);
             }
+
+            void IBotDataBag.Clear()
+            {
+                this.bag.Clear();
+            }
         }
 
         protected override IBotDataBag WrapData(Dictionary<string, object> data)
@@ -578,6 +583,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 return this.bag.Remove(key);
             }
+
+            void IBotDataBag.Clear()
+            {
+                this.bag.RemoveAll();
+            }
+
         }
 
         protected override IBotDataBag WrapData(JObject data)

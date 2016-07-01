@@ -310,6 +310,10 @@
           <source>too many attempts</source>
           <target state="new">too many attempts</target>
         </trans-unit>
+        <trans-unit id="UserProfileDeleted" translate="yes" xml:space="preserve">
+          <source>User profile deleted!</source>
+          <target state="new">User profile deleted!</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -71,6 +71,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="key">They key of the element to remove</param>
         /// <returns>True if removal of the key is successful; otherwise, false</returns>
         bool RemoveValue(string key);
+
+        /// <summary>
+        /// Removes all of the values from data bag.
+        /// </summary>
+        void Clear();
     }
 
     /// <summary>

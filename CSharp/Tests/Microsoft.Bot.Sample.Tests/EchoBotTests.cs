@@ -45,6 +45,7 @@ using Microsoft.Bot.Sample.EchoBot;
 using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Autofac;
+using System.Threading;
 
 namespace Microsoft.Bot.Sample.Tests
 {
@@ -117,7 +118,18 @@ namespace Microsoft.Bot.Sample.Tests
                 //send a random message and check count
                 toBot.Text = "test";
                 toUser = await GetResponse(container, MakeRoot, toBot);
-                Assert.IsTrue(toUser.Text.StartsWith("1")); 
+                Assert.IsTrue(toUser.Text.StartsWith("1"));
+
+                toBot.Text = "/deleteprofile"; 
+                toUser = await GetResponse(container, MakeRoot, toBot);
+                Assert.IsTrue(toUser.Text.ToLower().Contains("deleted"));
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+                    var stack = scope.Resolve<IDialogStack>();
+                    Assert.AreEqual(0, stack.Frames.Count); 
+                }
             }
         }
 

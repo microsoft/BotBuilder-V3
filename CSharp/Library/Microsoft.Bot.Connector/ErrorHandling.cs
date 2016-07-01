@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Connector
             if (typeof(ObjectT).IsArray)
             {
                 IList list = (IList)result.Body;
-                if (list == null)
+                if(list == null)
                 {
                     return default(ObjectT);
                 }

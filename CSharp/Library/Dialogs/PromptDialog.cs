@@ -325,6 +325,21 @@ namespace Microsoft.Bot.Builder.Dialogs
             context.Call<T>(child, resume);
         }
 
+        /// <summary>
+        /// Prompt for an attachment
+        /// </summary>
+        /// <param name="context"> The dialog context. </param>
+        /// <param name="resume"> Resume handler. </param>
+        /// <param name="prompt"> The prompt to show to the user. </param>
+        /// <param name="contentTypes">The optional content types the attachment type should be part of</param>
+        /// <param name="retry"> What to show on retry</param>
+        /// <param name="attempts"> The number of times to retry</param>
+        public static void Attachment(IDialogContext context, ResumeAfter<IEnumerable<Attachment>> resume, string prompt, IEnumerable<string> contentTypes = null, string retry = null, int attempts = 3)
+        {
+            var child = new PromptAttachment(prompt, retry, attempts, contentTypes);
+            context.Call<IEnumerable<Attachment>>(child, resume);
+        }
+
         /// <summary>   Prompt for a text string. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Text(IDialogContext, ResumeAfter{string}, string, string, int)"/>.</remarks>
         [Serializable]
@@ -519,6 +534,45 @@ namespace Microsoft.Bot.Builder.Dialogs
 
                 result = default(T);
                 return false;
+            }
+        }
+
+        /// <summary> Prompt for an attachment</summary>
+        /// <remarks> Normally used through <see cref="PromptDialog.Attachment(IDialogContext, ResumeAfter{IEnumerable{Connector.Attachment}}, string, IEnumerable{string}, string, int)"/>.</remarks>
+        [Serializable]
+        public sealed class PromptAttachment : Prompt<IEnumerable<Attachment>, Attachment>
+        {
+            public IEnumerable<string> ContentTypes
+            {
+                get;
+                private set;
+            }
+
+            /// <summary>   Constructor for a prompt attachment dialog. </summary> 
+            /// <param name="prompt">   The prompt. </param> 
+            /// <param name="retry">    What to display on retry. </param> 
+            /// <param name="attempts"> The optional content types the attachment type should be part of.</param>
+            /// <param name="contentTypes"> The content types that is used to filter the attachments. Null implies any content type.</param>
+            public PromptAttachment(string prompt, string retry, int attempts, IEnumerable<string> contentTypes = null)
+                : base(new PromptOptions<Attachment>(prompt, retry, attempts: attempts))
+            {
+                this.ContentTypes = contentTypes ?? new List<string>();
+            }
+
+            protected override bool TryParse(IMessageActivity message, out IEnumerable<Attachment> result)
+            {
+                if (message.Attachments != null && message.Attachments.Any())
+                {
+                    // Retrieve attachments corresponding to content types if any
+                    result = ContentTypes.Any() ? message.Attachments.Join(ContentTypes, a => a.ContentType, c => c, (a, c) => a)
+                                                         : message.Attachments;
+                    return result != null && result.Any();
+                }
+                else
+                {
+                    result = null;
+                    return false;
+                }
             }
         }
 

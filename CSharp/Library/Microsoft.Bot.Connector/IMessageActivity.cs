@@ -84,14 +84,12 @@ namespace Microsoft.Bot.Connector
         /// Get channeldata as typed structure
         /// </summary>
         /// <typeparam name="TypeT">type to use</typeparam>
-        /// <param name="activity">message</param>
         /// <returns>typed object or default(TypeT)</returns>
         TypeT GetChannelData<TypeT>();
 
         /// <summary>
         /// Return the "major" portion of the activity
         /// </summary>
-        /// <param name="activity"></param>
         /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
         string GetActivityType();
 

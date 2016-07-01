@@ -275,17 +275,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     else if (ftype.IsIEnumerable())
                     {
                         var elt = ftype.GetGenericElementType();
+                        _type = elt;
+                        _allowsMultiple = true;
+                        ProcessFieldAttributes(field);
                         if (elt.IsEnum)
                         {
-                            _type = elt;
-                            _allowsMultiple = true;
-                            ProcessFieldAttributes(field);
                             ProcessEnumAttributes(elt);
-                        }
-                        else
-                        {
-                            // TODO: What to do about enumerations of things other than enums?
-                            throw new NotImplementedException();
                         }
                     }
                     else

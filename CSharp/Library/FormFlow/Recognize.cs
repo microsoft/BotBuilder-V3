@@ -244,13 +244,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
+            var words = new StringBuilder();
+            var nonWords = new StringBuilder();
+            var first = true;
+            var firstNonWord = true;
+            int maxWords = 0;
             if (orderedTerms.Length > 0)
             {
-                var maxWords = terms.Max((term) => NumberOfWords(term));
-                var words = new StringBuilder();
-                var nonWords = new StringBuilder();
-                var first = true;
-                var firstNonWord = true;
+                maxWords = terms.Max(NumberOfWords);
                 foreach (var term in orderedTerms)
                 {
                     var nterm = term.Trim().Replace(" ", @"\s+");
@@ -288,23 +289,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         }
                     }
                 }
-                if (first)
-                {
-                    words.Append('(');
-                    words.Append(NOMATCH);
-                }
-                words.Append(@")\b)");
-                if (firstNonWord)
-                {
-                    nonWords.Append('(');
-                    nonWords.Append(NOMATCH);
-                }
-                nonWords.Append(')');
-                var numbers = allowNumbers ? $"(\\b{n}\\b)" : NOMATCH;
-                var expr = $"{numbers}|{words.ToString()}|{nonWords.ToString()}";
-                _expressions.Add(new ValueAndExpression(value, new Regex(expr.ToString(), RegexOptions.IgnoreCase), maxWords));
-                ++n;
             }
+            if (first)
+            {
+                words.Append(@"(\b(?:");
+                words.Append(NOMATCH);
+            }
+            words.Append(@")\b)");
+            if (firstNonWord)
+            {
+                nonWords.Append('(');
+                nonWords.Append(NOMATCH);
+            }
+            nonWords.Append(')');
+            var numbers = allowNumbers ? $"(\\b{n}\\b)" : NOMATCH;
+            var expr = $"{numbers}|{words.ToString()}|{nonWords.ToString()}";
+            _expressions.Add(new ValueAndExpression(value, new Regex(expr.ToString(), RegexOptions.IgnoreCase), maxWords));
+            ++n;
             return n;
         }
 
