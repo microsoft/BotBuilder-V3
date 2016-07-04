@@ -1021,7 +1021,6 @@ export class Session {
      */
     endConversation(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
 
-
     /**
      * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
      * reason of [completed](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
@@ -1045,10 +1044,11 @@ export class Session {
      */
     reset(dialogId?: string, dialogArgs?: any): Session;
 
-    /**
-     * Returns true if the session has been reset.
-     */
+    /** Returns true if the session has been reset. */
     isReset(): boolean;
+
+    /** Immediately ends the current batch and delivers any queued up messages. */
+    sendBatch(): void;
 }
     
 /**

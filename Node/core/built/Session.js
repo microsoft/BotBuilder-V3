@@ -154,7 +154,7 @@ var Session = (function (_super) {
         this.privateConversationData = {};
         var ss = this.sessionState;
         ss.callstack = [];
-        this.startBatch();
+        this.sendBatch();
         return this;
     };
     Session.prototype.endDialog = function (message) {
@@ -237,20 +237,15 @@ var Session = (function (_super) {
     Session.prototype.isReset = function () {
         return this._isReset;
     };
-    Session.prototype.startBatch = function () {
-        var _this = this;
-        this.batchStarted = true;
-        if (!this.sendingBatch) {
-            if (this.batchTimer) {
-                clearTimeout(this.batchTimer);
-            }
-            this.batchTimer = setTimeout(function () {
-                _this.sendBatch();
-            }, this.options.autoBatchDelay);
-        }
-    };
     Session.prototype.sendBatch = function () {
         var _this = this;
+        if (this.sendingBatch) {
+            return;
+        }
+        if (this.batchTimer) {
+            clearTimeout(this.batchTimer);
+            this.batchTimer = null;
+        }
         this.batchTimer = null;
         var batch = this.batch;
         this.batch = [];
@@ -276,6 +271,18 @@ var Session = (function (_super) {
                 }
             }
         });
+    };
+    Session.prototype.startBatch = function () {
+        var _this = this;
+        this.batchStarted = true;
+        if (!this.sendingBatch) {
+            if (this.batchTimer) {
+                clearTimeout(this.batchTimer);
+            }
+            this.batchTimer = setTimeout(function () {
+                _this.sendBatch();
+            }, this.options.autoBatchDelay);
+        }
     };
     Session.prototype.createMessage = function (text, args) {
         args.unshift(text);

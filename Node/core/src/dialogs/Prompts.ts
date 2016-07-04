@@ -302,6 +302,7 @@ export class Prompts extends dialog.Dialog {
             // Send message
             session.send(msg);
         }
+        session.sendBatch();
     }
 
     static configure(options: IPromptsOptions): void {

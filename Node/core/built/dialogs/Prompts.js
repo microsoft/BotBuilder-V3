@@ -229,6 +229,7 @@ var Prompts = (function (_super) {
             }
             session.send(msg);
         }
+        session.sendBatch();
     };
     Prompts.configure = function (options) {
         if (options) {

@@ -68,7 +68,7 @@ export class Session extends events.EventEmitter implements ISession {
         super();
         this.library = options.library;
         if (typeof this.options.autoBatchDelay !== 'number') {
-            this.options.autoBatchDelay = 150;  // 150ms delay
+            this.options.autoBatchDelay = 250;  // 250ms delay
         }
     }
 
@@ -220,7 +220,7 @@ export class Session extends events.EventEmitter implements ISession {
         // Clear stack and save.
         var ss = this.sessionState;
         ss.callstack = [];
-        this.startBatch();
+        this.sendBatch();
         return this;
     }
 
@@ -318,22 +318,14 @@ export class Session extends events.EventEmitter implements ISession {
         return this._isReset;
     }
 
-    //-----------------------------------------------------
-    // PRIVATE HELPERS
-    //-----------------------------------------------------
-    private startBatch(): void {
-        this.batchStarted = true;
-        if (!this.sendingBatch) {
-            if (this.batchTimer) {
-                clearTimeout(this.batchTimer);
-            }
-            this.batchTimer = setTimeout(() => {
-                this.sendBatch();
-            }, this.options.autoBatchDelay);
+    public sendBatch(): void {
+        if (this.sendingBatch) {
+            return;
         }
-    }
-
-    private sendBatch(): void {
+        if (this.batchTimer) {
+            clearTimeout(this.batchTimer);
+            this.batchTimer = null;
+        }
         this.batchTimer = null;
         var batch = this.batch;
         this.batch = [];
@@ -358,6 +350,22 @@ export class Session extends events.EventEmitter implements ISession {
                 }
             }
         });
+    }
+
+    //-----------------------------------------------------
+    // PRIVATE HELPERS
+    //-----------------------------------------------------
+
+    private startBatch(): void {
+        this.batchStarted = true;
+        if (!this.sendingBatch) {
+            if (this.batchTimer) {
+                clearTimeout(this.batchTimer);
+            }
+            this.batchTimer = setTimeout(() => {
+                this.sendBatch();
+            }, this.options.autoBatchDelay);
+        }
     }
 
     private createMessage(text: string|string[], args?: any[]): IMessage {
