@@ -1,5 +1,5 @@
 var dlg = require('../dialogs/Dialog');
-var dc = require('../dialogs/DialogCollection');
+var dl = require('../bots/Library');
 var sd = require('../dialogs/SimpleDialog');
 var consts = require('../consts');
 var Middleware = (function () {
@@ -7,7 +7,7 @@ var Middleware = (function () {
     }
     Middleware.dialogVersion = function (options) {
         return {
-            dialog: function (session, next) {
+            botbuilder: function (session, next) {
                 var cur = session.sessionState.version || 0.0;
                 var curMajor = Math.floor(cur);
                 var major = Math.floor(options.version);
@@ -26,7 +26,7 @@ var Middleware = (function () {
     };
     Middleware.firstRun = function (options) {
         return {
-            dialog: function (session, next) {
+            botbuilder: function (session, next) {
                 if (session.sessionState.callstack.length == 0) {
                     var cur = session.userData[consts.Data.FirstRunVersion] || 0.0;
                     var curMajor = Math.floor(cur);
@@ -58,7 +58,7 @@ var Middleware = (function () {
     return Middleware;
 })();
 exports.Middleware = Middleware;
-dc.systemDialogs[consts.DialogId.FirstRun] = new sd.SimpleDialog(function (session, args) {
+dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog(function (session, args) {
     if (args && args.hasOwnProperty('resumed')) {
         var result = args;
         if (result.resumed == dlg.ResumeReason.completed) {
@@ -70,4 +70,4 @@ dc.systemDialogs[consts.DialogId.FirstRun] = new sd.SimpleDialog(function (sessi
         session.dialogData.version = args.version;
         session.beginDialog(args.dialogId, args.dialogArgs);
     }
-});
+}));

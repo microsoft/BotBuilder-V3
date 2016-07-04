@@ -8,7 +8,7 @@ var consts = require('../consts');
 var entities = require('./EntityRecognizer');
 var mb = require('../Message');
 var Channel = require('../Channel');
-var dc = require('./DialogCollection');
+var dl = require('../bots/Library');
 var hero = require('../cards/HeroCard');
 var ca = require('../cards/CardAction');
 (function (PromptType) {
@@ -135,7 +135,7 @@ var Prompts = (function (_super) {
         Prompts.options.recognizer.recognize({
             promptType: args.promptType,
             utterance: session.message.text,
-            local: session.message.local,
+            locale: session.message.textLocale,
             attachments: session.message.attachments,
             enumValues: args.enumValues,
             refDate: args.refDate
@@ -293,7 +293,7 @@ var Prompts = (function (_super) {
     return Prompts;
 })(dialog.Dialog);
 exports.Prompts = Prompts;
-dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
+dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {
     if (typeof args.prompt == 'object' && args.prompt.toMessage) {
         args.prompt = args.prompt.toMessage();

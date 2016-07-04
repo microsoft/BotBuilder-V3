@@ -37,7 +37,7 @@ import consts = require('../consts');
 import entities = require('./EntityRecognizer');
 import mb = require('../Message');
 import Channel = require('../Channel');
-import dc = require('./DialogCollection');
+import dl = require('../bots/Library');
 import hero = require('../cards/HeroCard');
 import ca = require('../cards/CardAction');
 
@@ -68,7 +68,7 @@ export interface IPromptRecognizer {
 
 export interface IPromptRecognizerArgs {
     promptType: PromptType;
-    local: string;
+    locale: string;
     utterance: string;
     attachments: IAttachment[];
     enumValues?: string[];
@@ -207,7 +207,7 @@ export class Prompts extends dialog.Dialog {
             {
                 promptType: args.promptType,
                 utterance: session.message.text,
-                local: session.message.local,
+                locale: session.message.textLocale,
                 attachments: session.message.attachments,
                 enumValues: args.enumValues,
                 refDate: args.refDate
@@ -360,7 +360,7 @@ export class Prompts extends dialog.Dialog {
         beginPrompt(session, args);
     }
 }
-dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
+dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 
 function beginPrompt(session: ses.Session, args: IPromptArgs) {
     // Fixup prompts

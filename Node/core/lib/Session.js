@@ -3,7 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dialog = require('./dialogs/Dialog');
+var dlg = require('./dialogs/Dialog');
+var consts = require('./consts');
 var sprintf = require('sprintf-js');
 var events = require('events');
 var msg = require('./Message');
@@ -18,7 +19,7 @@ var Session = (function (_super) {
         this.batch = [];
         this.batchStarted = false;
         this.sendingBatch = false;
-        this.dialogs = options.dialogs;
+        this.library = options.library;
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 150;
         }
@@ -26,10 +27,10 @@ var Session = (function (_super) {
     Session.prototype.dispatch = function (sessionState, message) {
         var _this = this;
         var index = 0;
-        var handlers;
         var session = this;
+        var middleware = this.options.middleware || [];
         var next = function () {
-            var handler = index < handlers.length ? handlers[index] : null;
+            var handler = index < middleware.length ? middleware[index] : null;
             if (handler) {
                 index++;
                 handler(session, next);
@@ -46,15 +47,14 @@ var Session = (function (_super) {
         }
         this.message = (message || { text: '' });
         if (!this.message.type) {
-            this.message.type = 'message';
+            this.message.type = consts.messageType;
         }
-        handlers = this.dialogs.getMiddleware();
         next();
         return this;
     };
     Session.prototype.error = function (err) {
         err = err instanceof Error ? err : new Error(err.toString());
-        this.endConversation('Sorry. Something went wrong.');
+        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;
     };
@@ -68,7 +68,7 @@ var Session = (function (_super) {
     Session.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.local || '', messageid, messageid_plural, count);
+            tmpl = this.options.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
         }
         else if (count == 1) {
             tmpl = messageid;
@@ -109,24 +109,26 @@ var Session = (function (_super) {
         return this.msgSent;
     };
     Session.prototype.beginDialog = function (id, args) {
-        var dlg = this.dialogs.getDialog(id);
-        if (!dlg) {
+        var id = this.resolveDialogId(id);
+        var dialog = this.findDialog(id);
+        if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.pushDialog({ id: id, state: {} });
         this.startBatch();
-        dlg.begin(this, args);
+        dialog.begin(this, args);
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
-        var dlg = this.dialogs.getDialog(id);
-        if (!dlg) {
+        var id = this.resolveDialogId(id);
+        var dialog = this.findDialog(id);
+        if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.popDialog();
         this.pushDialog({ id: id, state: {} });
         this.startBatch();
-        dlg.begin(this, args);
+        dialog.begin(this, args);
         return this;
     };
     Session.prototype.endConversation = function (message) {
@@ -149,6 +151,7 @@ var Session = (function (_super) {
             this.prepareMessage(m);
             this.batch.push(m);
         }
+        this.privateConversationData = {};
         var ss = this.sessionState;
         ss.callstack = [];
         this.startBatch();
@@ -187,9 +190,9 @@ var Session = (function (_super) {
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
-            var dlg = this.dialogs.getDialog(cur.id);
-            if (dlg) {
-                dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
+            var dialog = this.findDialog(cur.id);
+            if (dialog) {
+                dialog.dialogResumed(this, { resumed: dlg.ResumeReason.completed, response: true, childId: childId });
             }
             else {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
@@ -205,15 +208,15 @@ var Session = (function (_super) {
         }
         result = result || {};
         if (!result.hasOwnProperty('resumed')) {
-            result.resumed = dialog.ResumeReason.completed;
+            result.resumed = dlg.ResumeReason.completed;
         }
         result.childId = cur.id;
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
-            var dlg = this.dialogs.getDialog(cur.id);
-            if (dlg) {
-                dlg.dialogResumed(this, result);
+            var dialog = this.findDialog(cur.id);
+            if (dialog) {
+                dialog.dialogResumed(this, result);
             }
             else {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
@@ -287,8 +290,8 @@ var Session = (function (_super) {
         if (!msg.address) {
             msg.address = this.message.address;
         }
-        if (!msg.local && this.message.local) {
-            msg.local = this.message.local;
+        if (!msg.textLocale && this.message.textLocale) {
+            msg.textLocale = this.message.textLocale;
         }
     };
     Session.prototype.routeMessage = function () {
@@ -298,7 +301,7 @@ var Session = (function (_super) {
                 this.beginDialog(this.options.dialogId, this.options.dialogArgs);
             }
             else if (this.validateCallstack()) {
-                var dialog = this.dialogs.getDialog(cur.id);
+                var dialog = this.findDialog(cur.id);
                 this.dialogData = cur.state;
                 dialog.replyReceived(this);
             }
@@ -314,7 +317,7 @@ var Session = (function (_super) {
     Session.prototype.vgettext = function (messageid, args) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.local || '', messageid);
+            tmpl = this.options.localizer.gettext(this.message.textLocale || '', messageid);
         }
         else {
             tmpl = messageid;
@@ -325,21 +328,33 @@ var Session = (function (_super) {
         var ss = this.sessionState;
         for (var i = 0; i < ss.callstack.length; i++) {
             var id = ss.callstack[i].id;
-            if (!this.dialogs.hasDialog(id)) {
+            if (!this.findDialog(id)) {
                 return false;
             }
         }
         return true;
     };
-    Session.prototype.pushDialog = function (dlg) {
+    Session.prototype.resolveDialogId = function (id) {
+        if (id.indexOf(':') >= 0) {
+            return id;
+        }
+        var cur = this.curDialog();
+        var libName = cur ? cur.id.split(':')[0] : consts.Library.default;
+        return libName + ':' + id;
+    };
+    Session.prototype.findDialog = function (id) {
+        var parts = id.split(':');
+        return this.library.findDialog(parts[0] || consts.Library.default, parts[1]);
+    };
+    Session.prototype.pushDialog = function (ds) {
         var ss = this.sessionState;
         var cur = this.curDialog();
         if (cur) {
             cur.state = this.dialogData || {};
         }
-        ss.callstack.push(dlg);
-        this.dialogData = dlg.state || {};
-        return dlg;
+        ss.callstack.push(ds);
+        this.dialogData = ds.state || {};
+        return ds;
     };
     Session.prototype.popDialog = function () {
         var ss = this.sessionState;

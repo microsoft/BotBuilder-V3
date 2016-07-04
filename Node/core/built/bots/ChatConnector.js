@@ -39,21 +39,15 @@ var ChatConnector = (function () {
             next();
         };
     };
-    ChatConnector.prototype.onMessage = function (handler) {
+    ChatConnector.prototype.onEvent = function (handler) {
         this.handler = handler;
     };
     ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
-        var conversationId;
         async.eachSeries(messages, function (msg, cb) {
             try {
-                var address = msg.address;
-                if (address && address.serviceUrl) {
-                    delete msg.address;
-                    if (!address.conversation && conversationId) {
-                        address.conversation = { id: conversationId };
-                    }
-                    _this.postMessage(address, msg, cb);
+                if (msg.address && msg.address.serviceUrl) {
+                    _this.postMessage(msg, cb);
                 }
                 else {
                     cb(new Error('Message missing address or serviceUrl.'));
@@ -217,8 +211,9 @@ var ChatConnector = (function () {
         list.forEach(function (msg) {
             try {
                 var address = {};
-                moveFields(msg, address, toAddress);
+                utils.moveFieldsTo(msg, address, toAddress);
                 msg.address = address;
+                msg.source = address.channelId;
                 if (address.serviceUrl) {
                     try {
                         var u = url.parse(address.serviceUrl);
@@ -228,6 +223,10 @@ var ChatConnector = (function () {
                         console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
                     }
                 }
+                utils.moveFieldsTo(msg, msg, {
+                    'locale': 'textLocale',
+                    'channelData': 'originalEvent'
+                });
                 msg.text = msg.text || '';
                 msg.attachments = msg.attachments || [];
                 msg.entities = msg.entities || [];
@@ -240,13 +239,18 @@ var ChatConnector = (function () {
         res.status(202);
         res.end();
     };
-    ChatConnector.prototype.postMessage = function (address, msg, cb) {
+    ChatConnector.prototype.postMessage = function (msg, cb) {
+        var address = msg.address;
+        msg['from'] = address.bot;
+        msg['recipient'] = address.user;
+        delete msg.address;
+        utils.moveFieldsTo(msg, msg, {
+            'textLocale': 'locale'
+        });
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
-        msg['from'] = address.bot;
-        msg['recipient'] = address.user;
         var options = {
             method: 'POST',
             url: url.resolve(address.serviceUrl, path),
@@ -378,13 +382,3 @@ var toAddress = {
     'recipient': 'bot',
     'serviceUrl': 'serviceUrl'
 };
-function moveFields(frm, to, map) {
-    if (frm && to) {
-        for (var key in map) {
-            if (frm.hasOwnProperty(key)) {
-                to[map[key]] = frm[key];
-                delete frm[key];
-            }
-        }
-    }
-}

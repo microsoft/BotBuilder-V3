@@ -36,7 +36,7 @@ var ConsoleConnector = (function () {
         }
         return this;
     };
-    ConsoleConnector.prototype.onMessage = function (handler) {
+    ConsoleConnector.prototype.onEvent = function (handler) {
         this.handler = handler;
     };
     ConsoleConnector.prototype.send = function (messages, cb) {

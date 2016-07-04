@@ -4,6 +4,23 @@
 //
 //=============================================================================
 
+/**
+ * An event recieved from or being sent to a source.
+ */
+interface IEvent {
+    /** Defines type of event. Should be 'message' for an IMessage. */
+    type: string;
+
+    /** SDK thats processing the event. Will always be 'botbuilder'. */
+    agent: string;
+
+    /** The original source of the event (i.e. 'facebook', 'skype', 'slack', etc.) */
+    source: string;
+
+    /** The original event in the sources native schema. */
+    originalEvent: any;
+}
+
 /** 
  * A chat message sent between a User and a Bot. Messages from the bot to the user come in two flavors: 
  * 
@@ -18,7 +35,7 @@
  * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
  * the [conversation](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
  */
-interface IMessage {
+interface IMessage extends IEvent {
     /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
     address: IAddress; 
     
@@ -27,9 +44,6 @@ interface IMessage {
 
     /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
     channelData: any;  
-    
-    /** Defines type of notification. */
-    type: string;
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
     summary: string; 
@@ -37,8 +51,8 @@ interface IMessage {
     /** Message text. */
     text: string;
 
-    /** Identified language of the message if known. */   
-    local: string;
+    /** Identified language of the message text if known. */   
+    textLocale: string;
 
     /** For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.   */
     attachments: IAttachment[]; 
@@ -525,8 +539,11 @@ export interface ISessionOptions {
     /** Function to invoke when a batch of messages are sent. */
     onSend: (messages: IMessage[], done: (err: Error) => void) => void;
 
-    /** Collection of dialogs to use for routing purposes. Typically this is just the bot. */
-    dialogs: DialogCollection;
+    /** The bots root library of dialogs. */
+    library: Library;
+
+    /** Array of session middleware to execute prior to each request. */
+    middleware: ISessionMiddleware[];
 
     /** Unique ID of the dialog to use when starting a new conversation with a user. */
     dialogId: string;
@@ -649,20 +666,28 @@ export interface IConnector {
     startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
 }
 
-/** 
- * Map of middleware hooks that can be registered in a call to __UniversalBot.use()__. */
-export interface IMiddlewareMap {
-    /** Called in series when an incoming message is received. */
-    receive?: (message: IMessage, next: Function) => void;
+/** Function signature for a piece of middleware that hooks the 'recieve' or 'send' events. */
+export interface IEventMiddleware {
+    (event: IEvent, next: Function): void;
+}
 
-    /** Called in parallel when an incoming message has been received. Executed immediately after [receive](#receive) middleware. */
-    analyze?: (message: IMessage, done: (analysis: any) => void) => void;
+/** Function signature for a piece of middleware that hooks the 'botbuilder' event. */
+export interface ISessionMiddleware {
+    (session: Session, next: Function): void;
+}
+
+/** 
+ * Map of middleware hooks that can be registered in a call to __UniversalBot.use()__. 
+ */
+export interface IMiddlewareMap {
+    /** Called in series when an incoming event is received. */
+    receive?: IEventMiddleware|IEventMiddleware[];
+
+    /** Called in series before an outgoing event is sent. */
+    send?: IEventMiddleware|IEventMiddleware[];
 
     /** Called in series once an incoming message has been bound to a session. Executed after [analyze](#analyze) middleware.  */
-    dialog?: (session: Session, next: Function) => void;
-
-    /** Called in series before an outgoing message is sent. */
-    send?: (message: IMessage, next: Function) => void;
+    botbuilder?: ISessionMiddleware|ISessionMiddleware[];
 }
 
 /** 
@@ -769,6 +794,10 @@ export interface IFirstRunOptions {
     upgradeDialogArgs?: string;
 }
 
+/** Function signature for an error event handler. */
+export interface IErrorEvent {
+    (err: Error): void;
+}
 
 //=============================================================================
 //
@@ -879,7 +908,7 @@ export class Session {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [ISessionErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.isessionerrorevent.html)
+     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -901,8 +930,8 @@ export class Session {
      */
     dispatch(sessionState: ISessionState, message: IMessage): Session;
 
-    /** The sessions collection of available dialogs & middleware for message routing purposes. */
-    dialogs: DialogCollection;
+    /** The bots root library of dialogs. */
+    library: Library;
 
     /** Sessions current state information. */
     sessionState: ISessionState;
@@ -1034,7 +1063,7 @@ export class Message implements IIsMessage {
     constructor(session?: Session);
     
     /** Language of the message. */   
-    local(local: string): Message;
+    textLocale(locale: string): Message;
 
     /** Format of text fields. */
     textFormat(style: string): Message;
@@ -1075,7 +1104,10 @@ export class Message implements IIsMessage {
     /** Timestamp of the message. If called will default the timestamp to (now). */
     timestamp(time?: string): Message;
 
-    /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
+    /** Message in original/native format of the channel for incoming messages. */
+    originalEvent(event: any): Message;
+
+    /** For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
     channelData(map: IChannelDataMap): Message;
 
     /** Returns the JSON for the message. */    
@@ -1376,54 +1408,61 @@ export abstract class Dialog {
 }
 
 /**
- * A collection of dialogs & middleware that's used for routing purposes. Bots typically derive from this class.
+ * A library of related dialogs used for routing purposes. Libraries can be chained together to enable
+ * the development of complex bots. The [UniversalBot](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html)
+ * class is itself a Library that forms the root of this chain. 
+ * 
+ * Libraries of reusable parts can be developed by creating a new Library instance and adding dialogs 
+ * just as you would to a bot. Your library should have a unique name that corresponds to either your 
+ * libraries website or NPM module name.  Bots can then reuse your library by simply adding your parts
+ * Library instance to their bot using [UniversalBot.library()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#library).
+ * If your library itself depends on other libraries you should add them to your library as a dependency 
+ * using [Library.library()](#library). You can easily manage multiple versions of your library by 
+ * adding a version number to your library name.
+ * 
+ * To invoke dialogs within your library bots will need to call [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog)
+ * with a fully qualified dialog id in the form of '<libName>:<dialogId>'. You'll typically hide 
+ * this from the devloper by exposing a function from their module that starts the dialog for them.
+ * So calling something like `myLib.someDialog(session, { arg: '' });` would end up calling
+ * `session.beginDialog('myLib:someDialog', args);` under the covers.
+ * 
+ * Its worth noting that dialogs are always invoked within the current dialog so once your within
+ * a dialog from your library you don't need to prefix every beginDialog() call your with your 
+ * libraries name. Its only when crossing from one library context to another that you need to 
+ * include the library name prefix.  
  */
-export class DialogCollection {
-    /**
-     * Raises an event.
-     * @param event Name of the event to raise.
-     * @param args (Optional) arguments for the event.
-     */
-    emit(event: string, ...args: any[]): void;
+export class Library {
+    /** Unique name of the library. */
+    name: string;
+
+    /** Creates a new instance of the library. */
+    constructor(name: string);
 
     /**
-     * Adds dialog(s) to a bot.
-     * @param id 
-     * * __id:__ _{string}_ - Unique ID of the dialog being added.
-     * * __id:__ _{Object}_ - Map of [Dialog](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html) objects to add to the collection. Each entry in the map should be keyed off the ID of the dialog being added. `{ [id: string]: Dialog; }` 
-     * @param dialog
+     * Registers or returns a dialog from the library.
+     * @param id Unique ID of the dialog being regsitered or retrieved.
+     * @param dialog (Optional) dialog or waterfall to register.
      * * __dialog:__ _{Dialog}_ - Dialog to add.
      * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
-    add(id: string, dialog: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): DialogCollection;
-    add(id: { [id: string]: Dialog; }): DialogCollection;
+    dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
+
+    /**  
+     * Registers or returns a library dependency.
+     * @param lib 
+     * * __lib:__ _{Library}_ - Library to register as a dependency.
+     * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
+     */
+    library(lib: Library|string): Library;
 
     /**
-     * Returns a dialog given its ID.
-     * @param id ID of the dialog to lookup. 
+     * Searches the library and all of its dependencies for a specific dialog. Returns the dialog 
+     * if found, otherwise null.
+     * @param libName Name of the library containing the dialog.
+     * @param dialogId Unique ID of the dialog within the library.
      */
-    getDialog(id: string): Dialog;
-
-    /**
-     * Returns an array of middleware to invoke.
-     * @returns Array of middleware functions.
-     */
-    getMiddleware(): { (session: Session, next: Function): void; }[];
-
-    /**
-     * Returns true if a dialog with a given ID exists within the collection.
-     * @param id ID of the dialog to lookup. 
-     */
-    hasDialog(id: string): boolean;
-
-    /**
-     * Registers a piece of middleware that will be called for every message receieved.
-     * @param middleware Function to execute anytime a message is received.
-     * @param middleware.session Session object for the current conversation.
-     * @param middleware.next Function to invoke to call the next piece of middleware and continue processing of the message. Middleware can intercept a message by not calling next().
-     */
-    use(middleware: (session: Session, next: Function) => void): void;
+    findDialog(libName: string, dialogId: string): Dialog;
 }
 
 /** Dialog actions offer shortcuts to implementing common actions. */
@@ -1760,6 +1799,14 @@ export class UniversalBot  {
      */
     constructor(connector?: IConnector, settings?: IUniversalBotSettings);
 
+    /**
+     * Registers an event listener.
+     * @param event Name of the event. Event types:
+     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
+     * @param listener Function to invoke.
+     */
+    on(event: string, listener: Function): void;
+
     /** Sets a setting on the bot. Valid names are properties on IUniversalBotSettings. */
     set(name: string, value: any): UniversalBot;
     
@@ -1769,8 +1816,23 @@ export class UniversalBot  {
     /** Returns or registers a connector for a specific channel. Use a channelId of '*' to get the default connector. */    
     connector(channelId: string, connector?: IConnector): IConnector;
 
-    /** Returns or registers a dialog for a given id. */    
+    /**
+     * Registers or returns a dialog for the bot.
+     * @param id Unique ID of the dialog being regsitered or retrieved.
+     * @param dialog (Optional) dialog or waterfall to register.
+     * * __dialog:__ _{Dialog}_ - Dialog to add.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
+    
+    /**  
+     * Registers or returns a library dependency.
+     * @param lib 
+     * * __lib:__ _{Library}_ - Library to register as a dependency.
+     * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
+     */
+    library(lib: Library|string): Library;
     
     /** Registers a piece of middleware with the bot. */
     use(middleware: IMiddlewareMap): UniversalBot;
@@ -1856,9 +1918,11 @@ export class CommandDialog extends Dialog {
 }
 
 /** __DEPRECATED__ use UniversalBot and a ChatConnector instead. */
-export class BotConnectorBot extends DialogCollection {
+export class BotConnectorBot extends Dialog {
+    replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }
 
 /** __DEPRECATED__ use UniversalBot and a ConsoleConnector instead. */
-export class TextBot extends DialogCollection {
+export class TextBot extends Dialog {
+    replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }

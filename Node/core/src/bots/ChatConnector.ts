@@ -56,7 +56,7 @@ export interface IChatConnectorEndpoint {
 }
 
 export class ChatConnector implements ub.IConnector, bs.IBotStorage {
-    private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
+    private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
 
@@ -96,21 +96,15 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         };
     }
 
-    public onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void {
+    public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
         this.handler = handler;
     }
     
     public send(messages: IMessage[], done: (err: Error) => void): void {
-        var conversationId: string;
         async.eachSeries(messages, (msg, cb) => {
             try {
-                var address = <IChatConnectorAddress>msg.address;
-                if (address && address.serviceUrl) {
-                    delete msg.address;
-                    if (!address.conversation && conversationId) {
-                        address.conversation = { id: conversationId };
-                    }
-                    this.postMessage(address, msg, cb);
+                if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
+                    this.postMessage(msg, cb);
                 } else {
                     cb(new Error('Message missing address or serviceUrl.'));
                 }
@@ -283,8 +277,9 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             try {
                 // Break out address fields
                 var address = <IChatConnectorAddress>{};
-                moveFields(msg, address, <any>toAddress);
+                utils.moveFieldsTo(msg, address, <any>toAddress);
                 msg.address = address;
+                msg.source = address.channelId;
 
                 // Patch serviceUrl
                 if (address.serviceUrl) {
@@ -295,6 +290,12 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                         console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
                     }
                 }
+
+                // Patch locale and channelData
+                utils.moveFieldsTo(msg, msg, <any>{ 
+                    'locale': 'textLocale',
+                    'channelData': 'originalEvent'
+                });
 
                 // Ensure basic fields are there
                 msg.text = msg.text || '';
@@ -313,17 +314,24 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         res.end();
     }
 
-    private postMessage(address: IChatConnectorAddress, msg: IMessage, cb: (err: Error) => void): void {
+    private postMessage(msg: IMessage, cb: (err: Error) => void): void {
+        // Apply address fields
+        var address = <IChatConnectorAddress>msg.address;
+        (<any>msg)['from'] = address.bot;
+        (<any>msg)['recipient'] = address.user; 
+        delete msg.address;
+
+        // Patch message fields
+        utils.moveFieldsTo(msg, msg, <any>{
+            'textLocale': 'locale'
+        });
+
         // Calculate path
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
-
-        // Update message with address info
-        (<any>msg)['from'] = address.bot;
-        (<any>msg)['recipient'] = address.user; 
-
+        
         // Issue request
         var options: request.Options = {
             method: 'POST',
@@ -452,17 +460,6 @@ var toAddress = {
     'conversation': 'conversation',
     'recipient': 'bot',
     'serviceUrl': 'serviceUrl'
-}
-
-function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): void {
-    if (frm && to) {
-        for (var key in map) {
-            if (frm.hasOwnProperty(key)) {
-                (<any>to)[map[key]] = (<any>frm)[key];
-                delete (<any>frm)[key];
-            }
-        }
-    }
 }
 
 interface IChatConnectorAddress extends IAddress {

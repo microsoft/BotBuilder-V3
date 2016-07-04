@@ -37,6 +37,7 @@ import utils = require('./utils');
 import hc = require('./cards/HeroCard');
 import img = require('./cards/CardImage');
 import ca = require('./cards/CardAction');
+import consts = require('./consts');
 
 export interface IChannelDataMap {
     [channelId: string]: any;
@@ -57,11 +58,16 @@ export class Message implements IIsMessage {
     private data = <IMessage>{};
     
     constructor(private session?: ses.Session) {
-        this.data.type = 'message';
+        this.data.type = consts.messageType;
+        this.data.agent = consts.agent;
+        this.data.originalEvent = {};
         if (this.session) {
             var m = this.session.message;
-            if (m.local) {
-                this.data.local = m.local;
+            if (m.source) {
+                this.data.source = m.source;
+            }
+            if (m.textLocale) {
+                this.data.textLocale = m.textLocale;
             }
             if (m.address) {
                 this.data.address = m.address;
@@ -69,8 +75,8 @@ export class Message implements IIsMessage {
         }
     }
     
-    public local(local: string): this {
-        this.data.local = local;
+    public textLocale(locale: string): this {
+        this.data.textLocale = locale;
         return this;
     }
 
@@ -154,12 +160,18 @@ export class Message implements IIsMessage {
     public address(adr: IAddress): this {
         if (adr) {
             this.data.address = adr;
+            this.data.source = adr.channelId;
         }
         return this;
     }
     
     public timestamp(time?: string): this {
         this.data.timestamp = time || new Date().toISOString();
+        return this;
+    }
+
+    public originalEvent(event: any): this {
+        this.data.originalEvent = event || {};
         return this;
     }
 
@@ -256,7 +268,7 @@ export class Message implements IIsMessage {
     
     public setLanguage(local: string): this {
         console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
-        return this.local(local);
+        return this.textLocale(local);
     }
     
     public setText(session: ses.Session, prompts: string|string[], ...args: any[]): this {

@@ -38,7 +38,7 @@ import action = require('./DialogAction');
 import prompts = require('./Prompts');
 import mb = require('../Message'); 
 import sd = require('./SimpleDialog');
-import dc = require('./DialogCollection');
+import dl = require('../bots/Library');
 import utils = require('../utils');
 import er = require('./EntityRecognizer');
 
@@ -189,7 +189,7 @@ export class Fields {
 }
 
 // Add field dialog
-dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog((session, args) => {
+dl.systemLib.dialog(consts.DialogId.Field, new sd.SimpleDialog((session, args) => {
     var fieldArgs: IFieldArgs = session.dialogData;
     function callPrompt() {
         fieldArgs.returnResults = true;
@@ -229,7 +229,7 @@ dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog((session, args) =>
             callPrompt();
         }
     }
-});
+}));
 
 function processField(session: ses.Session, results: dialog.IDialogResult<any>, next: (results?: dialog.IDialogResult<any>) => void, args: IFieldArgs) {
     // Save results and see if we should continue.

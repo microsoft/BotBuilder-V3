@@ -3,7 +3,7 @@ var consts = require('../consts');
 var prompts = require('./Prompts');
 var mb = require('../Message');
 var sd = require('./SimpleDialog');
-var dc = require('./DialogCollection');
+var dl = require('../bots/Library');
 var utils = require('../utils');
 var er = require('./EntityRecognizer');
 var FieldType;
@@ -128,7 +128,7 @@ var Fields = (function () {
     return Fields;
 })();
 exports.Fields = Fields;
-dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog(function (session, args) {
+dl.systemLib.dialog(consts.DialogId.Field, new sd.SimpleDialog(function (session, args) {
     var fieldArgs = session.dialogData;
     function callPrompt() {
         fieldArgs.returnResults = true;
@@ -168,7 +168,7 @@ dc.systemDialogs[consts.DialogId.Field] = new sd.SimpleDialog(function (session,
             callPrompt();
         }
     }
-});
+}));
 function processField(session, results, next, args) {
     var r = saveResults(session, results);
     if (r.resumed == dialog.ResumeReason.completed) {

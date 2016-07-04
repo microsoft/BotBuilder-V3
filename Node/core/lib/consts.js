@@ -1,3 +1,10 @@
+exports.agent = 'botbuilder';
+exports.messageType = 'message';
+exports.defaultConnector = '*';
+exports.Library = {
+    system: 'BotBuilder',
+    default: '*'
+};
 exports.Data = {
     SessionState: 'BotBuilder.Data.SessionState',
     SessionId: 'BotBuilder.Data.SessionId',
@@ -6,11 +13,13 @@ exports.Data = {
     Intent: 'BotBuilder.Data.Intent',
     WaterfallStep: 'BotBuilder.Data.WaterfallStep',
     Form: 'BotBuilder.Data.Form',
-    Field: 'BotBuilder.Data.Field'
+    Field: 'BotBuilder.Data.Field',
+    FirstRunVersion: 'BotBuilder.Data.FirstRunVersion'
 };
 exports.DialogId = {
-    Prompts: 'BotBuilder.Dialogs.Prompts',
-    Field: 'BotBuilder.Dialogs.Field'
+    Prompts: 'BotBuilder:Prompts',
+    FirstRun: 'BotBuilder:FirstRun',
+    Field: 'BotBuilder:Field'
 };
 exports.Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'

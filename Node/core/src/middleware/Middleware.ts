@@ -34,7 +34,7 @@
 import ses = require('../Session');
 import ub = require('../bots/UniversalBot');
 import dlg = require('../dialogs/Dialog');
-import dc = require('../dialogs/DialogCollection');
+import dl = require('../bots/Library');
 import sd = require('../dialogs/SimpleDialog');
 import consts = require('../consts');
 
@@ -55,7 +55,7 @@ export interface IFirstRunOptions {
 export class Middleware {
     static dialogVersion(options: IDialogVersionOptions): ub.IMiddlewareMap {
         return {
-            dialog: (session, next) => {
+            botbuilder: (session, next) => {
                 var cur = session.sessionState.version || 0.0;
                 var curMajor = Math.floor(cur);
                 var major = Math.floor(options.version);
@@ -73,7 +73,7 @@ export class Middleware {
 
     static firstRun(options: IFirstRunOptions): ub.IMiddlewareMap {
         return {
-            dialog: (session, next) => {
+            botbuilder: (session, next) => {
                 if (session.sessionState.callstack.length == 0) {
                     // New conversation so check first run version
                     var cur = session.userData[consts.Data.FirstRunVersion] || 0.0;
@@ -111,7 +111,7 @@ interface IFirstRunDialogArgs {
     dialogArgs: any;
 }
 
-dc.systemDialogs[consts.DialogId.FirstRun] = new sd.SimpleDialog((session: ses.Session, args: IFirstRunDialogArgs) => {
+dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog((session: ses.Session, args: IFirstRunDialogArgs) => {
     if (args && args.hasOwnProperty('resumed')) {
         // Returning from dialog
         var result: dlg.IDialogResult<any> = <any>args;
@@ -125,4 +125,4 @@ dc.systemDialogs[consts.DialogId.FirstRun] = new sd.SimpleDialog((session: ses.S
         session.dialogData.version = args.version;
         session.beginDialog(args.dialogId, args.dialogArgs);
     }
-});
+}));

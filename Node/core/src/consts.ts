@@ -31,6 +31,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+export var agent = 'botbuilder';
+export var messageType = 'message';
+export var defaultConnector = '*';
+
+export var Library =  {
+    system: 'BotBuilder',
+    default: '*'
+};
+
 export var Data = {
     SessionState: 'BotBuilder.Data.SessionState',
     SessionId: 'BotBuilder.Data.SessionId',
@@ -44,9 +53,9 @@ export var Data = {
 };
 
 export var DialogId = {
-    Prompts: 'BotBuilder.Dialogs.Prompts',
-    FirstRun: 'BotBuilder.Dialogs.FirstRun',
-    Field: 'BotBuilder.Dialogs.Field'
+    Prompts: 'BotBuilder:Prompts',
+    FirstRun: 'BotBuilder:FirstRun',
+    Field: 'BotBuilder:Field'
 };
 
 export var Id = {

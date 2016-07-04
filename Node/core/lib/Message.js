@@ -3,6 +3,7 @@ var utils = require('./utils');
 var hc = require('./cards/HeroCard');
 var img = require('./cards/CardImage');
 var ca = require('./cards/CardAction');
+var consts = require('./consts');
 exports.TextFormat = {
     plain: 'plain',
     markdown: 'markdown',
@@ -16,19 +17,24 @@ var Message = (function () {
     function Message(session) {
         this.session = session;
         this.data = {};
-        this.data.type = 'message';
+        this.data.type = consts.messageType;
+        this.data.agent = consts.agent;
+        this.data.originalEvent = {};
         if (this.session) {
             var m = this.session.message;
-            if (m.local) {
-                this.data.local = m.local;
+            if (m.source) {
+                this.data.source = m.source;
+            }
+            if (m.textLocale) {
+                this.data.textLocale = m.textLocale;
             }
             if (m.address) {
                 this.data.address = m.address;
             }
         }
     }
-    Message.prototype.local = function (local) {
-        this.data.local = local;
+    Message.prototype.textLocale = function (locale) {
+        this.data.textLocale = locale;
         return this;
     };
     Message.prototype.textFormat = function (style) {
@@ -113,11 +119,16 @@ var Message = (function () {
     Message.prototype.address = function (adr) {
         if (adr) {
             this.data.address = adr;
+            this.data.source = adr.channelId;
         }
         return this;
     };
     Message.prototype.timestamp = function (time) {
         this.data.timestamp = time || new Date().toISOString();
+        return this;
+    };
+    Message.prototype.originalEvent = function (event) {
+        this.data.originalEvent = event || {};
         return this;
     };
     Message.prototype.channelData = function (map) {
@@ -198,7 +209,7 @@ var Message = (function () {
         var connector = '';
         var prompt = '';
         for (var i = 0; i < prompts.length; i++) {
-            var txt = Message.randomPrompt(prompts[1]);
+            var txt = Message.randomPrompt(prompts[i]);
             prompt += connector + (session ? session.gettext(txt) : txt);
             connector = ' ';
         }
@@ -206,7 +217,7 @@ var Message = (function () {
     };
     Message.prototype.setLanguage = function (local) {
         console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
-        return this.local(local);
+        return this.textLocale(local);
     };
     Message.prototype.setText = function (session, prompts) {
         var args = [];

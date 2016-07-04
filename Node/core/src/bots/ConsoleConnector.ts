@@ -37,7 +37,7 @@ import mb = require('../Message');
 import utils = require('../utils');
 
 export class ConsoleConnector implements ub.IConnector {
-    private handler: (messages: IMessage[], cb?: (err: Error) => void) => void;
+    private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private rl: readline.ReadLine;
     private replyCnt = 0;
     
@@ -73,7 +73,7 @@ export class ConsoleConnector implements ub.IConnector {
         return this;
     }
     
-    public onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void {
+    public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
         this.handler = handler;
     }
     

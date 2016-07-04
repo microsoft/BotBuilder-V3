@@ -12,8 +12,8 @@ var LuisRecognizer = (function () {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
-            var local = context.message.local || '*';
-            var model = this.models.hasOwnProperty(local) ? this.models[local] : this.models['*'];
+            var locale = context.message.textLocale || '*';
+            var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
                 LuisRecognizer.recognize(utterance, model, function (err, intents, entities) {
                     if (!err) {
@@ -49,7 +49,7 @@ var LuisRecognizer = (function () {
                 });
             }
             else {
-                cb(new Error("LUIS model not found for local '" + local + "'."), null);
+                cb(new Error("LUIS model not found for locale '" + locale + "'."), null);
             }
         }
         else {

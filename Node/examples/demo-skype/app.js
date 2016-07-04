@@ -173,7 +173,7 @@ bot.dialog('/menu', [
         // The menu runs a loop until the user chooses to (quit).
         session.replaceDialog('/menu');
     }
-])
+]);
 
 bot.dialog('/prompts', [
     function (session) {
@@ -471,7 +471,7 @@ var request = require('request');
 
 function downloadFile(connector) {
     return {
-        dialog: function (session, next) {
+        botbuilder: function (session, next) {
             session.downloadFile = function downloadFile(url, filename, cb) {
                 connector.getAccessToken(function (err, token) {
                     if (!err && token) {

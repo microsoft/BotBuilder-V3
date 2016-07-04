@@ -31,14 +31,20 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-interface IMessage {
+interface IEvent {
+    type: string;
+    agent: string;
+    source: string;
+    originalEvent: any;
+}
+
+interface IMessage extends IEvent {
     address: IAddress;              // Address routing information for the message.
     timestamp: string;              // Timestamp of message given by chat service 
     channelData: any;               // Message in original/native format of the channel, may also contain extra payload added by Bot Framework 
-    type: string;                   // Defines type of notification 
     summary: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text: string;                   // Message text  
-    local: string;                  // Identified language of the message.
+    textLocale: string;             // Identified language of the message text.
     attachments: IAttachment[];     // This is placeholder for structured objects attached to this message 
     entities: any[];                // This property is intended to keep structured data objects intended for Client application e.g.: Contacts, Reservation, Booking, Tickets. Structure of these object objects should be known to Client application.
     textFormat: string;             // Format of text fields [plain|markdown|xml] default:markdown

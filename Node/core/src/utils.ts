@@ -45,6 +45,49 @@ export function clone(obj: any): any {
     return cpy;
 }
 
+export function copyTo(frm: any, to: any): void {
+    if (frm) {
+        for (var key in frm) {
+            if (frm.hasOwnProperty(key)) {
+                if (typeof to[key] === 'function') {
+                    to[key](frm[key]);
+                } else {
+                    to[key] = frm[key];
+                }
+            }
+        }
+    }
+}
+
+export function copyFieldsTo(frm: any, to: any, fields: string): void {
+    if (frm && to) {
+        fields.split('|').forEach((f) => {
+            if (frm.hasOwnProperty(f)) {
+                if (typeof to[f] === 'function') {
+                    to[f](frm[f]);
+                } else {
+                    to[f] = frm[f];
+                }
+            }
+        });
+    }
+}
+
+export function moveFieldsTo(frm: any, to: any, fields: { [id:string]: string; }): void {
+    if (frm && to) {
+        for (var f in fields) {
+            if (frm.hasOwnProperty(f)) {
+                if (typeof to[f] === 'function') {
+                    to[fields[f]](frm[f]);
+                } else {
+                    to[fields[f]] = frm[f];
+                }
+                delete frm[f];
+            }
+        }
+    }
+}
+
 export function toDate8601(date: Date): string {
     return sprintf.sprintf('%04d-%02d-%02d', date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
 }
