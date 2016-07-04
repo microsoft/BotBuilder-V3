@@ -1,6 +1,6 @@
 var ses = require('../CallSession');
 var consts = require('../consts');
-var dialog = require('./Dialog');
+var dlg = require('./Dialog');
 var DialogAction = (function () {
     function DialogAction() {
     }
@@ -48,14 +48,17 @@ function waterfall(steps) {
         var skip = function (result) {
             result = result || {};
             if (!result.resumed) {
-                result.resumed = dialog.ResumeReason.forward;
+                result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
         };
+        if (!r && s.dialogData.hasOwnProperty(consts.Data.WaterfallStep)) {
+            r = { resumed: dlg.ResumeReason.completed };
+        }
         if (r && r.hasOwnProperty('resumed')) {
             var step = s.dialogData[consts.Data.WaterfallStep];
             switch (r.resumed) {
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.back:
                     step -= 1;
                     break;
                 default:
@@ -84,7 +87,7 @@ function waterfall(steps) {
             }
         }
         else {
-            s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
         }
     };
 }

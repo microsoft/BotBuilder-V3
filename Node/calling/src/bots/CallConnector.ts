@@ -78,10 +78,12 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
 
     public listen(): IWebMiddleware {
         return (req: IWebRequest, res: IWebResponse) => {
+            var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
             var callback = this.responseCallback(req, res);
             if (req.is('application/json')) {
                 this.parseBody(req, (err, body) => {
                     if (!err) {
+                        body.correlationId = correlationId;
                         this.dispatch(body, callback);
                     } else {
                         callback(err);
@@ -90,6 +92,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             } else if (req.is('multipart/form-data')) {
                 this.parseFormData(req, (err, body) => {
                     if (!err) {
+                        body.correlationId = correlationId;
                         this.dispatch(body, callback);
                     } else {
                         callback(err);
@@ -254,6 +257,9 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
     }
 
     private dispatch(body: any, response: (err: Error, response?: any) => void) {
+        if ((<IConversationResult>body).callState == 'terminated') {
+            return response(null);
+        }
         var msg: IMessage;
         this.responses[body.id] = response;
         if (body.hasOwnProperty('participants')) {
@@ -271,7 +277,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             delete (<any>msg).id;
             delete (<any>msg).appState;
         }
-        this.handler(body, (err) => {
+        this.handler(msg, (err) => {
             if (err && this.responses.hasOwnProperty(body.id)) {
                 delete this.responses[body.id];
                 response(err);
@@ -428,7 +434,8 @@ var toAddress = {
     'participants': 'participants',
     'isMultiParty': 'isMultiParty',
     'threadId': 'threadId',
-    'subject': 'subject'
+    'subject': 'subject',
+    'correlationId': 'correlationId'
 };
 
 function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): void {

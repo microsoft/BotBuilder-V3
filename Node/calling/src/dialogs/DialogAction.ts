@@ -34,12 +34,12 @@
 import ses = require('../CallSession');
 import consts = require('../consts');
 import utils = require('../utils');
-import dialog = require('./Dialog');
+import dlg = require('./Dialog');
 import prompts = require('./Prompts');
 import simple = require('./SimpleDialog');
 
 export interface IDialogWaterfallStep {
-    (session: ses.CallSession, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
+    (session: ses.CallSession, result?: any, skip?: (results?: dlg.IDialogResult<any>) => void): void;
 }
 
 export class DialogAction {
@@ -55,7 +55,7 @@ export class DialogAction {
         return function beginDialogAction(s: ses.CallSession, a: any) {
             // Handle calls where we're being resumed.
             if (a && a.hasOwnProperty('resumed')) {
-                var r = <dialog.IDialogResult<any>>a;
+                var r = <dlg.IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
                 }
@@ -85,21 +85,29 @@ export class DialogAction {
 }
 
 export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
-    return function waterfallAction(s: ses.CallSession, r: dialog.IDialogResult<any>) {
-        var skip = (result?: dialog.IDialogResult<any>) => {
+    return function waterfallAction(s: ses.CallSession, r: dlg.IDialogResult<any>) {
+        var skip = (result?: dlg.IDialogResult<any>) => {
             result = result || <any>{};
             if (!result.resumed) {
-                result.resumed = dialog.ResumeReason.forward;
+                result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
         };
+
+        // Check for a playPromptOutcome
+        // - There's an issue with callign bots that sending a playPrompt action causes
+        //   a recursive callback into the waterfall step. We want to catch that and treat
+        //   it like any other dialog completing to get the waterfall to advance.
+        if (!r && s.dialogData.hasOwnProperty(consts.Data.WaterfallStep)) {
+            r = { resumed: dlg.ResumeReason.completed };
+        }
 
         // Check for continuation of waterfall
         if (r && r.hasOwnProperty('resumed')) {
             // Adjust step based on users utterance
             var step = s.dialogData[consts.Data.WaterfallStep];
             switch (r.resumed) {
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.back:
                     step -= 1;
                     break;
                 default:
@@ -129,7 +137,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             }
         } else {
             // Empty waterfall so end dialog with not completed
-            s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
         }
     }; 
 }

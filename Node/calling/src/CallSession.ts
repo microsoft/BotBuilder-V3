@@ -271,11 +271,14 @@ export class CallSession extends events.EventEmitter implements ISession {
 
         // Clear private conversation data
         this.privateConversationData = {};
+
+        // Upsert reject/hangup commands.
+        this.addCallControl(true);
                 
         // Clear stack and save.
         var ss = this.sessionState;
         ss.callstack = [];
-        this.startBatch();
+        this.sendBatch();
         return this;
     }
 
@@ -315,6 +318,8 @@ export class CallSession extends events.EventEmitter implements ISession {
                 // - Because of the stack validation we should never actually get here.
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
+        } else {
+            this.endConversation();
         }
         return this;
     }
@@ -347,6 +352,8 @@ export class CallSession extends events.EventEmitter implements ISession {
                 // - Because of the stack validation we should never actually get here.
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
+        } else {
+            this.endConversation();
         }
         return this;
     }
@@ -376,6 +383,7 @@ export class CallSession extends events.EventEmitter implements ISession {
         }
         this.batchStarted = false;
         this.sendingBatch = true;
+        this.addCallControl(false);
         var workflow: IWorkflow = {
             type: 'workflow',
             address: this.message.address,
@@ -389,24 +397,6 @@ export class CallSession extends events.EventEmitter implements ISession {
         }
         this.options.onSave((err) => {
             if (!err && workflow.actions.length) {
-                // Upsert an answer
-                if (this.message.type == 'conversation') {
-                    var hasCallControl = false;
-                    var convo = <IConversation>this.message;
-                    workflow.actions.forEach((a) => {
-                        switch (a.action) {
-                            case 'answer':
-                            case 'hangup':
-                            case 'reject':
-                                hasCallControl = true;
-                                break;
-                        }
-                    });
-                    if (!hasCallControl && convo.callState === CallState.incoming) {
-                        workflow.actions.unshift(new answer.AnswerAction(this).toAction());
-                    }
-                }
-
                 // Send workflow
                 this.options.onSend(workflow, (err) => {
                     this.sendingBatch = false;
@@ -426,6 +416,38 @@ export class CallSession extends events.EventEmitter implements ISession {
     //-----------------------------------------------------
     // PRIVATE HELPERS
     //-----------------------------------------------------
+    
+    private addCallControl(alsoEndCall: boolean): void {
+        var hasAnswer = (this.message.type !== 'conversation');
+        var hasEndCall = false;
+        var hasOtherActions = false;
+        this.actions.forEach((a) => {
+            switch (a.action) {
+                case 'answer':
+                    hasAnswer = true;
+                    break;
+                case 'hangup':
+                case 'reject':
+                    hasEndCall = true;
+                    break;
+                default:
+                    hasOtherActions = true;
+                    break;
+            }
+        });
+        if (!hasAnswer && hasOtherActions) {
+            this.actions.unshift(new answer.AnswerAction(this).toAction());
+            hasAnswer = true;
+        }
+        if (alsoEndCall && !hasEndCall) {
+            if (hasAnswer) {
+                this.actions.push(new hangup.HangupAction(this).toAction());     
+            } else {
+                this.actions.push(new reject.RejectAction(this).toAction());     
+            }
+        }
+    }
+
     private startBatch(): void {
         this.batchStarted = true;
         if (!this.sendingBatch) {

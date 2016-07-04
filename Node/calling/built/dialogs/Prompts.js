@@ -54,7 +54,7 @@ var Prompts = (function (_super) {
                     switch (choiceOutcome.completionReason) {
                         case recognize.RecognitionCompletionReason.dtmfOptionMatched:
                         case recognize.RecognitionCompletionReason.speechOptionMatched:
-                            response = choiceOutcome.choiceName;
+                            response = { entity: choiceOutcome.choiceName };
                             break;
                         case recognize.RecognitionCompletionReason.callTerminated:
                             state = PromptResponseState.terminated;
@@ -243,7 +243,7 @@ var Prompts = (function (_super) {
         if (options === void 0) { options = {}; }
         var action = createRecognizeAction(session, playPrompt, options).choices(choices);
         beginPrompt(session, {
-            promptType: PromptType.confirm,
+            promptType: PromptType.choice,
             action: action.toAction(),
             maxRetries: options.maxRetries
         });
@@ -256,7 +256,7 @@ var Prompts = (function (_super) {
         }
         var action = createRecognizeAction(session, playPrompt, options).collectDigits(collectDigits);
         beginPrompt(session, {
-            promptType: PromptType.confirm,
+            promptType: PromptType.digits,
             action: action.toAction(),
             maxRetries: options.maxRetries
         });

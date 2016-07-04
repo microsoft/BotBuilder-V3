@@ -127,7 +127,7 @@ export class Prompts extends dlg.Dialog {
                     switch (choiceOutcome.completionReason) {
                         case recognize.RecognitionCompletionReason.dtmfOptionMatched:
                         case recognize.RecognitionCompletionReason.speechOptionMatched:
-                            response = choiceOutcome.choiceName;
+                            response = { entity: choiceOutcome.choiceName };
                             break;
                         case recognize.RecognitionCompletionReason.callTerminated:
                             state = PromptResponseState.terminated;
@@ -319,7 +319,7 @@ export class Prompts extends dlg.Dialog {
     static choice(session: ses.CallSession, playPrompt: string|string[]|IAction|IIsAction, choices: IRecognitionChoice[], options: IRecognizerPromptOptions = {}): void {
         var action = createRecognizeAction(session, playPrompt, options).choices(choices);
         beginPrompt(session, {
-            promptType: PromptType.confirm,
+            promptType: PromptType.choice,
             action: action.toAction(),
             maxRetries: options.maxRetries
         });
@@ -332,7 +332,7 @@ export class Prompts extends dlg.Dialog {
         }
         var action = createRecognizeAction(session, playPrompt, options).collectDigits(collectDigits);
         beginPrompt(session, {
-            promptType: PromptType.confirm,
+            promptType: PromptType.digits,
             action: action.toAction(),
             maxRetries: options.maxRetries
         });

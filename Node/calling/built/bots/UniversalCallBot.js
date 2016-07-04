@@ -14,6 +14,7 @@ var events = require('events');
 var UniversalCallBot = (function (_super) {
     __extends(UniversalCallBot, _super);
     function UniversalCallBot(connector, settings) {
+        var _this = this;
         _super.call(this);
         this.connector = connector;
         this.settings = {
@@ -36,6 +37,7 @@ var UniversalCallBot = (function (_super) {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
+        this.connector.onMessage(function (message, cb) { return _this.receive(message, cb); });
     }
     UniversalCallBot.prototype.set = function (name, value) {
         this.settings[name] = value;
@@ -157,24 +159,24 @@ var UniversalCallBot = (function (_super) {
     };
     UniversalCallBot.prototype.messageMiddleware = function (message, middleware, done, error) {
         var i = -1;
-        var _this = this;
+        var _that = this;
         function next() {
             if (++i < middleware.length) {
-                _this.tryCatch(function () {
+                _that.tryCatch(function () {
                     middleware[i](message, next);
                 }, function () { return next(); });
             }
             else {
-                _this.tryCatch(function () { return done(); }, error);
+                _that.tryCatch(function () { return done(); }, error);
             }
         }
         next();
     };
     UniversalCallBot.prototype.analyzeMiddleware = function (message, done, error) {
         var cnt = this.mwAnalyze.length;
-        var _this = this;
+        var _that = this;
         function analyze(fn) {
-            _this.tryCatch(function () {
+            _that.tryCatch(function () {
                 fn(message, function (analysis) {
                     if (analysis && typeof analysis == 'object') {
                         for (var prop in analysis) {
@@ -188,7 +190,7 @@ var UniversalCallBot = (function (_super) {
             }, function () { return finish(); });
         }
         function finish() {
-            _this.tryCatch(function () {
+            _that.tryCatch(function () {
                 if (--cnt <= 0) {
                     done();
                 }

@@ -100,6 +100,7 @@ interface IConversationAddress {
     isMultiParty: boolean;
     threadId?: string;
     subject?: string;
+    correlationId?: string;
 }
 
 interface IConversation extends IMessage {

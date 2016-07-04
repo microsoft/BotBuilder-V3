@@ -185,6 +185,9 @@ var CallConnector = (function () {
     };
     CallConnector.prototype.dispatch = function (body, response) {
         var _this = this;
+        if (body.callState == 'terminated') {
+            return response(null);
+        }
         var msg;
         this.responses[body.id] = response;
         if (body.hasOwnProperty('participants')) {
@@ -203,7 +206,7 @@ var CallConnector = (function () {
             delete msg.id;
             delete msg.appState;
         }
-        this.handler(body, function (err) {
+        this.handler(msg, function (err) {
             if (err && _this.responses.hasOwnProperty(body.id)) {
                 delete _this.responses[body.id];
                 response(err);

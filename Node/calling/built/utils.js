@@ -35,6 +35,22 @@ function copyFieldsTo(frm, to, fields) {
     }
 }
 exports.copyFieldsTo = copyFieldsTo;
+function moveFieldsTo(frm, to, fields) {
+    if (frm && to) {
+        fields.split('|').forEach(function (f) {
+            if (frm.hasOwnProperty(f)) {
+                if (typeof to[f] === 'function') {
+                    to[f](frm[f]);
+                }
+                else {
+                    to[f] = frm[f];
+                }
+                delete frm[f];
+            }
+        });
+    }
+}
+exports.moveFieldsTo = moveFieldsTo;
 function toDate8601(date) {
     return sprintf.sprintf('%04d-%02d-%02d', date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
 }

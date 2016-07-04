@@ -110,6 +110,7 @@ export class UniversalCallBot extends events.EventEmitter {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
+        this.connector.onMessage((message, cb) => this.receive(message, cb));
     }
     
     //-------------------------------------------------------------------------
@@ -290,14 +291,14 @@ export class UniversalCallBot extends events.EventEmitter {
 
     private messageMiddleware(message: IMessage, middleware: IMessageMiddleware[], done: Function, error?: (err: Error) => void): void {
         var i = -1;
-        var _this = this;
+        var _that = this;
         function next() {
             if (++i < middleware.length) {
-                _this.tryCatch(() => {
+                _that.tryCatch(() => {
                     middleware[i](message, next);
                 }, () => next());
             } else {
-                _this.tryCatch(() => done(), error);
+                _that.tryCatch(() => done(), error);
             }
         }
         next();
@@ -305,9 +306,9 @@ export class UniversalCallBot extends events.EventEmitter {
     
     private analyzeMiddleware(message: IMessage, done: Function, error?: (err: Error) => void): void {
         var cnt = this.mwAnalyze.length;
-        var _this = this;
+        var _that = this;
         function analyze(fn: IAnalysisMiddleware) {
-            _this.tryCatch(() => {
+            _that.tryCatch(() => {
                 fn(message, function (analysis) {
                     if (analysis && typeof analysis == 'object') {
                         // Copy analysis to message
@@ -322,7 +323,7 @@ export class UniversalCallBot extends events.EventEmitter {
             }, () => finish());
         }
         function finish() {
-            _this.tryCatch(() => {
+            _that.tryCatch(() => {
                 if (--cnt <= 0) {
                     done();
                 }

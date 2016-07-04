@@ -198,9 +198,10 @@ var CallSession = (function (_super) {
             this.actions.push(a);
         }
         this.privateConversationData = {};
+        this.addCallControl(true);
         var ss = this.sessionState;
         ss.callstack = [];
-        this.startBatch();
+        this.sendBatch();
         return this;
     };
     CallSession.prototype.endDialog = function (action) {
@@ -239,6 +240,9 @@ var CallSession = (function (_super) {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
         }
+        else {
+            this.endConversation();
+        }
         return this;
     };
     CallSession.prototype.endDialogWithResult = function (result) {
@@ -262,6 +266,9 @@ var CallSession = (function (_super) {
             else {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
             }
+        }
+        else {
+            this.endConversation();
         }
         return this;
     };
@@ -289,6 +296,7 @@ var CallSession = (function (_super) {
         }
         this.batchStarted = false;
         this.sendingBatch = true;
+        this.addCallControl(false);
         var workflow = {
             type: 'workflow',
             address: this.message.address,
@@ -302,22 +310,6 @@ var CallSession = (function (_super) {
         }
         this.options.onSave(function (err) {
             if (!err && workflow.actions.length) {
-                if (_this.message.type == 'conversation') {
-                    var hasCallControl = false;
-                    var convo = _this.message;
-                    workflow.actions.forEach(function (a) {
-                        switch (a.action) {
-                            case 'answer':
-                            case 'hangup':
-                            case 'reject':
-                                hasCallControl = true;
-                                break;
-                        }
-                    });
-                    if (!hasCallControl && convo.callState === exports.CallState.incoming) {
-                        workflow.actions.unshift(new answer.AnswerAction(_this).toAction());
-                    }
-                }
                 _this.options.onSend(workflow, function (err) {
                     _this.sendingBatch = false;
                     if (_this.batchStarted) {
@@ -332,6 +324,37 @@ var CallSession = (function (_super) {
                 }
             }
         });
+    };
+    CallSession.prototype.addCallControl = function (alsoEndCall) {
+        var hasAnswer = (this.message.type !== 'conversation');
+        var hasEndCall = false;
+        var hasOtherActions = false;
+        this.actions.forEach(function (a) {
+            switch (a.action) {
+                case 'answer':
+                    hasAnswer = true;
+                    break;
+                case 'hangup':
+                case 'reject':
+                    hasEndCall = true;
+                    break;
+                default:
+                    hasOtherActions = true;
+                    break;
+            }
+        });
+        if (!hasAnswer && hasOtherActions) {
+            this.actions.unshift(new answer.AnswerAction(this).toAction());
+            hasAnswer = true;
+        }
+        if (alsoEndCall && !hasEndCall) {
+            if (hasAnswer) {
+                this.actions.push(new hangup.HangupAction(this).toAction());
+            }
+            else {
+                this.actions.push(new reject.RejectAction(this).toAction());
+            }
+        }
     };
     CallSession.prototype.startBatch = function () {
         var _this = this;

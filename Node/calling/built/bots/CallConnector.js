@@ -20,10 +20,12 @@ var CallConnector = (function () {
     CallConnector.prototype.listen = function () {
         var _this = this;
         return function (req, res) {
+            var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
             var callback = _this.responseCallback(req, res);
             if (req.is('application/json')) {
                 _this.parseBody(req, function (err, body) {
                     if (!err) {
+                        body.correlationId = correlationId;
                         _this.dispatch(body, callback);
                     }
                     else {
@@ -34,6 +36,7 @@ var CallConnector = (function () {
             else if (req.is('multipart/form-data')) {
                 _this.parseFormData(req, function (err, body) {
                     if (!err) {
+                        body.correlationId = correlationId;
                         _this.dispatch(body, callback);
                     }
                     else {
@@ -185,6 +188,9 @@ var CallConnector = (function () {
     };
     CallConnector.prototype.dispatch = function (body, response) {
         var _this = this;
+        if (body.callState == 'terminated') {
+            return response(null);
+        }
         var msg;
         this.responses[body.id] = response;
         if (body.hasOwnProperty('participants')) {
@@ -203,7 +209,7 @@ var CallConnector = (function () {
             delete msg.id;
             delete msg.appState;
         }
-        this.handler(body, function (err) {
+        this.handler(msg, function (err) {
             if (err && _this.responses.hasOwnProperty(body.id)) {
                 delete _this.responses[body.id];
                 response(err);
@@ -366,7 +372,8 @@ var toAddress = {
     'participants': 'participants',
     'isMultiParty': 'isMultiParty',
     'threadId': 'threadId',
-    'subject': 'subject'
+    'subject': 'subject',
+    'correlationId': 'correlationId'
 };
 function moveFields(frm, to, map) {
     if (frm && to) {

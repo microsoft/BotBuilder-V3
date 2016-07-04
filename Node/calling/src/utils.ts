@@ -68,6 +68,21 @@ export function copyFieldsTo(frm: any, to: any, fields: string): void {
     }
 }
 
+export function moveFieldsTo(frm: any, to: any, fields: { [id:string]: string; }): void {
+    if (frm && to) {
+        for (var f in fields) {
+            if (frm.hasOwnProperty(f)) {
+                if (typeof to[f] === 'function') {
+                    to[fields[f]](frm[f]);
+                } else {
+                    to[fields[f]] = frm[f];
+                }
+                delete frm[f];
+            }
+        }
+    }
+}
+
 export function toDate8601(date: Date): string {
     return sprintf.sprintf('%04d-%02d-%02d', date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
 }
