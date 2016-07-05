@@ -60,7 +60,7 @@
     ///
     /// \subsection emulator Use the Bot Framework Emulator to test your Bot application
     ///
-    /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from**[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
+    /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
     ///
     /// One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application host. The image below uses %Microsoft Edge.
     ///
@@ -291,10 +291,10 @@
     ///\subsubsection ChannelAccount
     ///The ChannelAccount object is a core object which describes an alias for a user. 
     ///
-    ///| **Property** | **Description**                     | **Examples**                     |**V1 Property**|   
+    ///| **Property** | **Description**                     | **Examples**                     | **V1 Property** |   
     ///|--------------|-------------------------------------|---------------------------------|---------------|
-    ///|**name**      | A name for the user or %bot          | Joe Smith | name |
-    ///|**id**        | A global id which represents a %bot or user | 1jsk1jkdidr4F| id |
+    ///| **name**      | A name for the user or %bot          | Joe Smith | name |
+    ///| **id**        | A global id which represents a %bot or user | 1jsk1jkdidr4F| id |
     ///| n/a  | The channel that the address is for | email, slack, groupme, sms, etc.| ChannelId |
     ///|  n/a  | The address on the channel          | joe @hotmail.com, +14258828080, etc.| Address |
     ///
