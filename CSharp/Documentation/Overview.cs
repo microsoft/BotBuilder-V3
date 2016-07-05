@@ -51,7 +51,6 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 
     /// If you have problems or suggestions, please visit our [support page](/support/).
     /// 
-    /// \tableofcontents
     ///
     ///
 }
