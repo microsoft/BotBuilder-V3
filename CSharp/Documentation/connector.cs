@@ -3,32 +3,32 @@
     /// \page connector %Connector 
     /// \tableofcontents
     /// \section gettingstarted Getting started
-    /// The %Microsoft %Bot %Builder for REST is a communication service that helps you connect your Bot with many different communication channels(GroupMe, SMS, email, and others). If you write a conversational Bot or agent and expose a Microsoft Bot Framework-compatible API on the internet, the Bot Framework connector service will forward messages from your Bot to a user, and will send user messages back to your Bot.
-    /// To use the Microsoft Bot Framework Connector, you must have:
+    /// The %Microsoft %Bot %Builder for REST is a communication service that helps you connect your %Bot with many different communication channels(GroupMe, SMS, email, and others). If you write a conversational %Bot or agent and expose a %Microsoft %Bot Framework-compatible API on the internet, the %Bot Framework %Connector service will forward messages from your %Bot to a user, and will send user messages back to your %Bot.
+    /// To use the %Microsoft %Bot Framework %Connector, you must have:
     /// 
-    ///1. A Microsoft Account (Hotmail, Live, Outlook.Com) to log into the Bot Framework developer portal, which you will use to register your Bot.
-    ///2. An Azure-accessible REST endpoint exposing a callback for the Connector service.
-    ///3. Developer accounts on one or more communication services(such as Skype) where your Bot will communicate.
-    ///In addition you may wish to have an Azure App Insights account so you can capture telemetry from your Bot.There are different ways to go about building a Bot; from scratch, coded directly to the Bot Builder for REST, the Bot Builder SDK's for Node.JS & .NET, and the Bot Connector .NET template which is what this QuickStart guide demonstrates.
+    ///1. A %Microsoft Account (Hotmail, Live, Outlook.Com) to log into the %Bot Framework developer portal, which you will use to register your %Bot.
+    ///2. An Azure-accessible REST endpoint exposing a callback for the %Connector service.
+    ///3. Developer accounts on one or more communication services(such as Skype) where your %Bot will communicate.
+    ///In addition you may wish to have an Azure App Insights account so you can capture telemetry from your %Bot.There are different ways to go about building a Bot; from scratch, coded directly to the %Bot Builder for REST, the %Bot Builder SDK's for Node.JS & .NET, and the %Bot %Connector .NET template which is what this QuickStart guide demonstrates.
     /// \subsection started Getting started in .NET    
-    ///This is a step-by-step guide to writing an Bot in C\# using the Bot Framework Connector SDK .NET template.
+    ///This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework %Connector SDK .NET template.
     ///1. Install prerequisite software
     /// * Visual Studio 2015 (latest update) - you can download the community version here for free:
     ///     [www.visualstudio.com](https://www.visualstudio.com/)
     /// * Important: Please update all VS extensions to their latest versions
     ///     Tools->Extensions and Updates->Updates
-    ///2. Download and install the Bot Application template
+    ///2. Download and install the %Bot Application template
     /// * Download the file from the direct download link**[here(hackathon only)](https://aka.ms/hackathon-bf-vs-template)**:
     /// * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
     ///3. Open Visual Studio
-    ///4. Create a new C\# project using the new Bot Application template.
-    ///   ![Create a new C\# project using the new Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
-    ///5. The template is a fully functional Echo Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
-    /// * The bot has to be registered with Bot Connector
-    /// * The AppId and AppPassword from the Bot Framework registration page have to be recorded in the project's web.config
+    ///4. Create a new C\# project using the new %Bot Application template.
+    ///   ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
+    ///5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
+    /// * The %bot has to be registered with %Bot Connector
+    /// * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
     /// * The project needs to be published to the web
     /// \subsection building Building your Bot
-    ///The core functionality of the Bot Template is all in the Post function within Controllers\MessagesController.cs.In this case the code takes the message text for the user, then creates replyMessage using the CreateReplyMessage function.The BotAuthentication decoration on the method is used to validate your Bot Connector credentials over HTTPS.
+    ///The core functionality of the %Bot Template is all in the Post function within Controllers\MessagesController.cs.In this case the code takes the message text for the user, then creates replyMessage using the CreateReplyMessage function.The BotAuthentication decoration on the method is used to validate your %Bot %Connector credentials over HTTPS.
     ///\code{.cs}
     /// [BotAuthentication]
     /// public class MessagesController : ApiController
@@ -59,42 +59,42 @@
     ///
     ///\endcode
     ///
-    /// \subsection emulator Use the Bot Framework Emulator to test your Bot application
+    /// \subsection emulator Use the %Bot Framework Emulator to test your %Bot application
     ///
-    /// The Bot Framework provides a a channel emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service.To install the Bot Framework Emulator, download it from**[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
+    /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from**[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
     ///
-    /// One installed, you're ready to test. First, start your Bot in Visual Studio using a browser as the application host. The image below uses Microsoft Edge.
+    /// One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application host. The image below uses %Microsoft Edge.
     ///
     ///   ![Start your Bot in VS2015 targeting the browser](/en-us/images/connector/connector-getstarted-start-bot-locally.png)
     ///
-    ///When the application is built and deployed the web browser will open and display the application Default.htm file(which is part of the Bot Application project). Feel free to modify the Default.html file to match the name and description of your Bot Application.
+    ///When the application is built and deployed the web browser will open and display the application Default.htm file(which is part of the %Bot Application project). Feel free to modify the Default.html file to match the name and description of your %Bot Application.
     ///
-    ///Here's the Bot Application Default.htm file in Microsoft Edge
+    ///Here's the %Bot Application Default.htm file in %Microsoft Edge
     ///
     ///   ![Bot running the browser targeting localhost](/en-us/images/connector/connector-getstarted-bot-running-localhost.png)
     ///
-    ///When using the emulator to test your Bot application, make note of the port that the application is running on, which in this example is port 3978. You will need this information to run the Bot Framework Emulator.
+    ///When using the emulator to test your %Bot application, make note of the port that the application is running on, which in this example is port 3978. You will need this information to run the %Bot Framework Emulator.
     ///
-    ///Now open the Bot Framework Emulator. There are a few items that you will need to configure in the tool before you can interact with your Bot Application.
+    ///Now open the %Bot Framework Emulator. There are a few items that you will need to configure in the tool before you can interact with your %Bot Application.
     ///
     ///The three items you will need to enter are:
-    ///	1. Url, this should match the URL displayed in your web browser that is displaying the Default.htm file. Note that you will need to add  "/api/messages" to the URL when using the Bot Application template.
+    ///	1. Url, this should match the URL displayed in your web browser that is displaying the Default.htm file. Note that you will need to add  "/api/messages" to the URL when using the %Bot Application template.
     ///	2. The MicrosoftAppId from your Web.Config file.
     ///	3. The MicrosoftAppPassword from your Web.Config file.
     ///
     ///   ![Configure the emulator with your locahost URL, AppId & AppPassword](/en-us/images/connector/connector-getstarted-configure-emulator.png)
     ///
-    ///Now that everything is configured you can interact with your service.The bottom of the Bot Framework Emulator application has a Text Box that you can use to enter a message, this message will be echoed back to you, like below.
+    ///Now that everything is configured you can interact with your service.The bottom of the %Bot Framework Emulator application has a Text Box that you can use to enter a message, this message will be echoed back to you, like below.
     ///
     ///   ![Testing the interaction with the Bot via the emulator](/en-us/images/connector/connector-getstarted-test-conversation-emulator.png)
     ///
-    ///If we take a look at the code in the Bot Application that was generated by the Visual Studio 2015 Bot Application Template, specifically the file called MessageController.cs we can see how the message entered by a user is converted into the reply Activity, sending "You sent {activity.Text} which was {length} characters" back to the user.     
+    ///If we take a look at the code in the %Bot Application that was generated by the Visual Studio 2015 %Bot Application Template, specifically the file called MessageController.cs we can see how the message entered by a user is converted into the reply Activity, sending "You sent {activity.Text} which was {length} characters" back to the user.     
     ///
-    /// \subsection publishing Publishing your Bot Application to Microsoft Azure
+    /// \subsection publishing Publishing your %Bot Application to %Microsoft Azure
     ///
-    ///In this tutorial, we use Microsoft Azure to host the Bot application. To publish your Bot Application you will need a Microsoft Azure subscription. You can get a free trial from here: https://azure.microsoft.com/en-us/ 
+    ///In this tutorial, we use %Microsoft Azure to host the %Bot application. To publish your %Bot Application you will need a %Microsoft Azure subscription. You can get a free trial from here: https://azure.microsoft.com/en-us/ 
     ///
-    /// Make what changes you like to the project, and now you're ready to publish. Right click on the project and choose "Publish", and then your appropriate Azure subscription information. By default, the bot should be published as an Microsoft Azure App Service. When publishing, keep track of the URL you chose because we'll need it to update the Bot Framework registration endpoint. The first time you publish there are a few extra steps; but you only have to do them once.
+    /// Make what changes you like to the project, and now you're ready to publish. Right click on the project and choose "Publish", and then your appropriate Azure subscription information. By default, the %bot should be published as an %Microsoft Azure App Service. When publishing, keep track of the URL you chose because we'll need it to update the %Bot Framework registration endpoint. The first time you publish there are a few extra steps; but you only have to do them once.
     ///
     ///
     /// In Visual Studio, right clicking on the project in Solution Explorer and select "Publish" - or alternately selecting "Build \| Publish" displays the following dialog:
@@ -103,7 +103,7 @@
     ///
     ///The Publish to Azure wizard will start.For this tutorial you will need to select "Microsoft Azure App Service" as your project type.
     ///
-    ///   ![Select Microsoft Azure App Service and click Next](/en-us/images/connector/connector-getstarted-publish.png)
+    ///   ![Select %Microsoft Azure App Service and click Next](/en-us/images/connector/connector-getstarted-publish.png)
     ///
     ///The next step in the Azure App Service publishing process is to create your App Service. Click on "New…" on the right side of the dialog to create the App Service.
     ///
@@ -125,30 +125,30 @@
     ///
     ///   ![Validate and click next to move on to the last step.](/en-us/images/connector/connector-getstarted-publish-configuration.png)
     ///
-    ///By default your Bot will be published in a Release configuration.If you want to debug your Bot, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your Bot will be published to Azure.
+    ///By default your %Bot will be published in a Release configuration.If you want to debug your %Bot, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your %Bot will be published to Azure.
     ///
     ///   ![Last step; click Publish to submit to Azure](/en-us/images/connector/connector-getstarted-publish-preview.png)
     ///
-    ///You will see a number of messages displayed in the Visual Studio 2015 "Output" window.Once publishing is complete you will also see the web page for your Bot Application displayed in your browser(the browser will launch, and render your Bot Application HTML page), see below.
+    ///You will see a number of messages displayed in the Visual Studio 2015 "Output" window.Once publishing is complete you will also see the web page for your %Bot Application displayed in your browser(the browser will launch, and render your %Bot Application HTML page), see below.
     ///
     ///   ![Voila, your Bot has been publisehd and is running.](/en-us/images/connector/connector-getstarted-publish-output.png)
     ///
-    /// \subsection registering Registering your Bot with the Microsoft Bot Framework 
+    /// \subsection registering Registering your %Bot with the %Microsoft %Bot Framework 
     ///
-    ///Registering your Bot tells the Connector how to call your Bot's web service. Note that the MicrosoftAppId and MicrosoftAppPassword are generated when your Bot is registered with the Microsoft Bot Framework Connector, the MicrosoftAppId and MicrosoftAppPassword are used to authenticate the conversation, and allows the developer to configure their Bot with the Channels they'd like to be visible on.The BotId, which you specify, is used for the URL in the directory and developer portal.
+    ///Registering your %Bot tells the %Connector how to call your %Bot's web service. Note that the MicrosoftAppId and MicrosoftAppPassword are generated when your %Bot is registered with the %Microsoft %Bot Framework %Connector, the MicrosoftAppId and MicrosoftAppPassword are used to authenticate the conversation, and allows the developer to configure their %Bot with the Channels they'd like to be visible on.The BotId, which you specify, is used for the URL in the directory and developer portal.
     ///
     ///
-    ///1.Go to the Microsoft Bot Framework portal at[https://dev.botframework.com](https://dev.botframework.com) and sign in with your Microsoft Account.
+    ///1.Go to the %Microsoft %Bot Framework portal at[https://dev.botframework.com](https://dev.botframework.com) and sign in with your %Microsoft Account.
     ///
-    ///2.Click the "Register a Bot" button and fill out the form.Many of the fields on this form can be changed later.Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at / API / Messages.You should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your bot.Save your changes by hitting "Create" at the bottom of the form.
+    ///2.Click the "Register a Bot" button and fill out the form.Many of the fields on this form can be changed later.Use a the endpoint generated from your Azure deployment, and don't forget that when using the %Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at / API / Messages.You should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your bot.Save your changes by hitting "Create" at the bottom of the form.
     ///
     ///   ![Register a bot](/en-us/images/connector/connector-getstarted-register-agent.png)
     ///
-    ///3.Once your registration is created, Microsoft Bot Framework will have generated your MicrosoftAppId and MicrosofAppPassword. These are used to authenticate your Bot with the Microsoft Bot Framework.
+    ///3.Once your registration is created, %Microsoft %Bot Framework will have generated your MicrosoftAppId and MicrosofAppPassword. These are used to authenticate your %Bot with the %Microsoft %Bot Framework.
     ///
     ///   ![Microsoft Bot Framework will have generated your MicrosoftAppId and MicrosoftAppPassword](/en-us/images/connector/connector-getstarted-subscription-keys.png)
     ///
-    ///Now that the Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build. You need only the primary AppPassword, the secondary is used when you wish to regenerate your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the regenerate link if you ever need to change your AppPassword. Update your web.config, and re-publish your bot to Azure.
+    ///Now that the %Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. Change the following keys in the web.config file to match the ones generated when you saved your registration, and you're ready to build. You need only the primary AppPassword, the secondary is used when you wish to regenerate your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the regenerate link if you ever need to change your AppPassword. Update your web.config, and re-publish your %bot to Azure.
     ///
     ///~~~
     ///
@@ -167,33 +167,33 @@
     ///
     /// \subsection testing Testing the connection to your bot
     ///
-    /// Back in the developer dashboard for your Bot there's a test chat window that you can use to interact with your Bot without further configuration, and verify that the Bot Framework can communicate with your Bot's web service.
+    /// Back in the developer dashboard for your %Bot there's a test chat window that you can use to interact with your %Bot without further configuration, and verify that the %Bot Framework can communicate with your %Bot's web service.
     ///
-    /// Note that the first request after your Bot starts up can take 10 - 15 s as Azure starts up the web service for the first time.Subsequent requests will be quick.This simple viewer will let you see the JSON object returned by your Bot.
+    /// Note that the first request after your %Bot starts up can take 10 - 15 s as Azure starts up the web service for the first time.Subsequent requests will be quick.This simple viewer will let you see the JSON object returned by your %Bot.
     ///
     ///
     ///   ![Test communication with your now deployed bot in the test channel.](/en-us/images/connector/connector-getstarted-test-channel-verification.png)
     ///
     /// \subsection channels Configuring Channels
     ///
-    ///Now that you have a Bot up and running, you'll want to configure it for one or more channels your users are using. Configuring channels is a combination of Microsoft Bot Framework workflow and conversation service workflow, and is unique for each channel you wish to configure.  
+    ///Now that you have a %Bot up and running, you'll want to configure it for one or more channels your users are using. Configuring channels is a combination of %Microsoft %Bot Framework workflow and conversation service workflow, and is unique for each channel you wish to configure.  
     ///
     ///
-    ///1.To configure a channel, go back to the Bot Framework portal at https://www.botframework.com. Sign in, select your Bot, and go to the channels panel.
-    ///   ![Sign in, select your Bot, and go to the Channels panel.](/en-us/images/connector/connector-getstarted-configure-channels.png)
+    ///1.To configure a channel, go back to the %Bot Framework portal at https://www.botframework.com. Sign in, select your %Bot, and go to the channels panel.
+    ///   ![Sign in, select your %Bot, and go to the Channels panel.](/en-us/images/connector/connector-getstarted-configure-channels.png)
     ///
     ///
-    ///2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf.
+    ///2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a %Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that %Microsoft %Bot Framework can use on your behalf.
     ///   ![Configuring a channel, for example, Skype.](/en-us/images/connector/connector_channel_config_skype.png)
     ///
     ///
     ///3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".
     ///
-    ///That's the end of configuration - your Bot is ready for your users.  They will have their own steps to follow to give the Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the Bot Directory page for your Bot. The link to this is at the top of the Bot Details page in the dev portal. 
+    ///That's the end of configuration - your %Bot is ready for your users.  They will have their own steps to follow to give the %Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the %Bot Directory page for your %Bot. The link to this is at the top of the %Bot Details page in the dev portal. 
     ///  
     ///\section Routing
     ///\subsection replying Replying to a message Activity
-    ///When your bot receives a message Activity it most likely will want to respond. The minimum amount of information that is needed to respond is to send back the text that you want to send back to the user as a reply.
+    ///When your %bot receives a message Activity it most likely will want to respond. The minimum amount of information that is needed to respond is to send back the text that you want to send back to the user as a reply.
     ///
     ///To do that, you need a new Activity() with
     ///
@@ -284,7 +284,7 @@
     ///
     /// 
     ///\subsection addresses Addresses in messages
-    ///The Bot Framework API uses ChannelAccount records to represent an contact address for a user or bot
+    ///The %Bot Framework API uses ChannelAccount records to represent an contact address for a user or bot
     /// on a communication channel.Numerous fields in the Activity object have ChannelAccount
     /// references in them to represent the relationships between the users and bots that are participating in
     ///a conversation. 
@@ -294,17 +294,17 @@
     ///
     ///| **Property** | **Description**                     | **Examples**                     |**V1 Property**|   
     ///|--------------|-------------------------------------|---------------------------------|---------------|
-    ///|**name**      | A name for the user or bot          | Joe Smith | name |
-    ///|**id**        | A global id which represents a bot or user | 1jsk1jkdidr4F| id |
+    ///|**name**      | A name for the user or %bot          | Joe Smith | name |
+    ///|**id**        | A global id which represents a %bot or user | 1jsk1jkdidr4F| id |
     ///| n/a  | The channel that the address is for | email, slack, groupme, sms, etc.| ChannelId |
     ///|  n/a  | The address on the channel          | joe @hotmail.com, +14258828080, etc.| Address |
     ///
     ///
     /// Each user has 1..N ChannelAccounts which represent their identities on each channel.
     ///
-    /// Each bot has 1..N ChannelAccounts which represent their identities on each channel.
+    /// Each %bot has 1..N ChannelAccounts which represent their identities on each channel.
     ///
-    /// The Bot Framework connector service is primarily a switch which routes messages between bots and users represented by ChannelAccount records.
+    /// The %Bot Framework %Connector service is primarily a switch which routes messages between bots and users represented by ChannelAccount records.
     ///
     ///\subsubsection channelaccounts Activity object properties that use ChannelAccounts
     ///
@@ -321,9 +321,9 @@
     ///user who created the message and the Recipient field will always be your bot's identity
     ///in that conversation.
     ///
-    ///>It is important to note that a bot doesn't always know
+    ///>It is important to note that a %bot doesn't always know
     ///it's identity before hand because some channels assign out new identities for
-    ///a bot when a bot is added to a conversation. (For example groupme and slack do this.)
+    ///a %bot when a %bot is added to a conversation. (For example groupme and slack do this.)
     ///
     ///As a result, it is important when you are replying to a conversation to create a new
     ///message which appropriately sets the From and Recipient fields(see[Replying to an Activity](/en-us/connector/replying/) for more details). 
@@ -335,9 +335,9 @@
     ///
     ///\subsubsection Mentions
     ///Many communication clients have mechanisms to "mention" someone.Knowing that someone is 
-    ///mentioned can be an important piece of information for a bot that the channel knows and needs to be able to pass to you.
+    ///mentioned can be an important piece of information for a %bot that the channel knows and needs to be able to pass to you.
     ///
-    ///Frequently a bot needs to know that **they** were mentioned, but with some channels
+    ///Frequently a %bot needs to know that **they** were mentioned, but with some channels
     ///they don't always know what their name is on that channel. (again see Slack and Group me where names
     ///are assigned per conversation)
     ///
@@ -358,10 +358,10 @@
     /// }
     ///~~~
     ///
-    ///This allows the bot to know that they were mentioned and to ignore the @ColorBot part of the input when
+    ///This allows the %bot to know that they were mentioned and to ignore the @ColorBot part of the input when
     ///trying to determine the user intent.
     ///
-    ///> NOTE: Mentions go both ways.  A bot may want to mention a user in a reply to a conversation.If they fill out the Mentions object
+    ///> NOTE: Mentions go both ways.  A %bot may want to mention a user in a reply to a conversation.If they fill out the Mentions object
     /// with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
     ///
     ///\section Messages
@@ -371,7 +371,7 @@
     ///user when they receive it.
     ///
     ///\subsubsection textlanguages Text and Language 
-    ///Most of the time Text is the only property you need to worry about.  A person sent you some text, or your bot is sending some text back.
+    ///Most of the time Text is the only property you need to worry about.  A person sent you some text, or your %bot is sending some text back.
     ///
     ///| Property    | Description                               | Example
     ///| ------------|-------- ----------------------------------| ----------
@@ -434,7 +434,7 @@
     ///|**ContentUrl**  | A link to content of type ContentType     | http://somedomain.com/cat.jpg 
     ///|**Content**     | An embedded object of type contentType    | If contentType = Location then this could be an object that represents the location
     ///
-    ///> When images are sent by a user to the bot they will come in as attachments with a ContentType and ContentUrl pointing to the image.  
+    ///> When images are sent by a user to the %bot they will come in as attachments with a ContentType and ContentUrl pointing to the image.  
     ///
     ///Some channels allow you to represent a card responses made up of a title, link, description and images. There are multiple card formats, including HeroCard,
     ///ThumbnailCard, Receipt Card and Sign in.  Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
@@ -446,7 +446,7 @@
     ///
     ///
     ///If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
-    ///metadata to that channel giving you much deeper control over how your bot interacts on a channel.The way you do this is to pass
+    ///metadata to that channel giving you much deeper control over how your %bot interacts on a channel.The way you do this is to pass
     ///extra properties via the *ChannelData* property. 
     ///
     ///
@@ -454,7 +454,7 @@
     ///
     ///
     ///\subsection attachmentscardsactions Attachments, Cards and Actions
-    ///Many messaging channels provide the ability to attach richer objects.In the Bot Connector we map
+    ///Many messaging channels provide the ability to attach richer objects.In the %Bot %Connector we map
     ///our attachment data structure to media attachments and rich cards on each channel.
     ///
     ///\subsubsection imagefileattachments Image and File Attachments
@@ -500,7 +500,7 @@
     ///| Hero Card | A card with one big image | Single or Carousel |
     ///| Thumbnail Card | A card with a single small image | Single or Carousel |
     ///| Receipt Card | A card that lets the user deliver an invoice or receipt | Single |
-    ///| Sign-In Card | A card that lets the bot initiatea sign-in procedure | Single |
+    ///| Sign-In Card | A card that lets the %bot initiatea sign-in procedure | Single |
     ///
     ///\subsubsection herocard Hero Card
     ///The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card.
@@ -693,7 +693,7 @@
     ///~~~
     ///
     ///\subsubsection receiptcard Receipt Card
-    ///The receipt card allows the Bot to present a receipt to the user.
+    ///The receipt card allows the %Bot to present a receipt to the user.
     ///
     ///| Property | Description |
     ///|-----|------|
@@ -1035,7 +1035,7 @@
     ///
     ///\subsubsection channeldataproperty Activity.ChannelData Property
     ///If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
-    ///metadata to that channel giving you much deeper control over how your bot interacts on a channel.The way you do this is to pass
+    ///metadata to that channel giving you much deeper control over how your %bot interacts on a channel.The way you do this is to pass
     ///extra properties via the *ChannelData* property.
     ///
     ///>NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal Activity.
@@ -1091,7 +1091,7 @@
     ///|*unfurl_links*  | true or false *See[Slack unfurling](https://api.slack.com/docs/unfurling)*
     ///|*unfurl_media*  | true or false *See[Slack unfurling](https://api.slack.com/docs/unfurling)*
     ///
-    ///When slack processes a bot connector message it will use the normal message properties to create a slack message, and
+    ///When slack processes a %bot %Connector message it will use the normal message properties to create a slack message, and
     ///then it will merge in the values from the *channelData* property if they are provided by the sender.
     ///
     ///Example Message:
@@ -1234,11 +1234,11 @@
     ///
     ///\subsubsection customtelegrammessages Custom Telegram Messages
     ///
-    ///The Telegram channel supports calling Telegram Bot API methods via the channelData field.This allows your bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
+    ///The Telegram channel supports calling Telegram %Bot API methods via the channelData field.This allows your %bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
     ///
     ///|**Property** | **Description**
     ///|---------|  -----
-    ///|*method* | The Telegram Bot API method to call.See below for supported methods.
+    ///|*method* | The Telegram %Bot API method to call.See below for supported methods.
     ///|*parameters* | Associative array containing method parameters.Parameters are method-specific.
     ///
     ///>See the [Telegram Bot API Documentation](https://core.telegram.org/bots/api) for a description of all available methods, parameters, and types.
@@ -1247,8 +1247,8 @@
     ///Special Notes:
     ///
     ///1. The `chat_id` parameter is common to all Telegram methods.If not provided, the framework will fill in this value for you.
-    ///2. The Telegram channel expresses Telegram's `InputFile` type differently than the way it appears in the [Telegram Bot API](https://core.telegram.org/bots/api#inputfile). Rather than sending the file contents, your bot should pass the file's `url` and `mediaType`. This is shown in the example message below.
-    ///3. When your bot receives a Connector message from the Telegram channel, the original Telegram message will be present in the channelData field.
+    ///2. The Telegram channel expresses Telegram's `InputFile` type differently than the way it appears in the [Telegram Bot API](https://core.telegram.org/bots/api#inputfile). Rather than sending the file contents, your %bot should pass the file's `url` and `mediaType`. This is shown in the example message below.
+    ///3. When your %bot receives a %Connector message from the Telegram channel, the original Telegram message will be present in the channelData field.
     ///
     ///Example Message:
     ///
@@ -1365,15 +1365,15 @@
     ///}
     ///~~~
     ///
-    ///\subsection trackingstate Tracking Bot State
+    ///\subsection trackingstate Tracking %Bot State
     ///
     ///
-    ///If a bot is implemented in a stateless way then it is very easy to scale your bot to handle load. 
+    ///If a %bot is implemented in a stateless way then it is very easy to scale your %bot to handle load. 
     ///
-    ///Unfortunately a bot is all about conversations and as soon as you introduce conversation into a bot then
-    ///your bot needs to track state in order to remember things like "what was the last question I asked them?". 
+    ///Unfortunately a %bot is all about conversations and as soon as you introduce conversation into a %bot then
+    ///your %bot needs to track state in order to remember things like "what was the last question I asked them?". 
     ///
-    ///We make it easy for the bot developer to track this information because we provide contextual information that
+    ///We make it easy for the %bot developer to track this information because we provide contextual information that
     ///they can use to store data in their own store or database.
     ///
     ///In addition, we provide a simple cookie like system for tracking state that makes it super easy for most bots to not have 
@@ -1391,11 +1391,11 @@
     ///
     ///You can use these keys to store information in your own database as appropriate to your needs.
     ///
-    ///\subsubsection botstateapi Bot State API
+    ///\subsubsection botstateapi %Bot State API
     ///After writing a bunch of bots we came to the realization that many bots have pretty simple needs for tracking state. 
-    ///To support this case we have state objects exopsed by the Bot State API which can be used by the developer for simple user & conversation keyed storage.
+    ///To support this case we have state objects exopsed by the %Bot State API which can be used by the developer for simple user & conversation keyed storage.
     ///
-    ///Here are the Bot State Methods 
+    ///Here are the %Bot State Methods 
     ///
     ///|**Method**                            | **Description**                                                | **Use cases**                                                
     ///|------------------------------------|------------------------------------------------------------|----------------------------------------------------------
@@ -1405,9 +1405,9 @@
     ///|**botState.SetUserData**                 | an object saved based on the channel and from.Id                      | Remembering context object with a user
     ///|**botState.SetConversationData**         | an object saved based on the channel and conversationId                 | Remembering context object with a conversation
     ///|**botState.SetPrivateConversationData**| an object saved based on the channel, from.Id & conversationId      | Remembering context object with a person in a conversation
-    ///|**botState.DeleteStateForUser**         | deletes all user data based on the from.Id  | When the user requests data be deleted or removes the bot contact
+    ///|**botState.DeleteStateForUser**         | deletes all user data based on the from.Id  | When the user requests data be deleted or removes the %bot contact
     ///
-    ///When your bot sends a reply you  simply set your object in one of the BotData records properties and it will be persisted and
+    ///When your %bot sends a reply you  simply set your object in one of the BotData records properties and it will be persisted and
     ///played back to you on future messages when the context is the same. 
     ///
     ///Example of setting the data for the sender of an incoming message:
@@ -1451,7 +1451,7 @@
     /// the convenience of just storing your state inline is worth the possibility of stomping on a
     ///previous message.   
     ///
-    ///Other bots can are sensitive to data getting stomped and desire a more reliable storage system.  the ETag can be used to help your bot manage concurrency.
+    ///Other bots can are sensitive to data getting stomped and desire a more reliable storage system.  the ETag can be used to help your %bot manage concurrency.
     ///
     ///Or you can simply use the userId and conversationId to store you own data in your own database.
     ///
@@ -1481,23 +1481,23 @@
     ///
     ///Your bot's endpoint will recieve Activity objects that are communications to the bot.
     ///There more than one type of Activity which are used to convey system operations or channel system operations
-    ///to the bot.  They exist to give the bot information about the state of the channel and the opportunity to respond
+    ///to the bot.  They exist to give the %bot information about the state of the channel and the opportunity to respond
     ///to them.
     ///
     ///This table gives you basic overview of the Activity types:
     ///
     ///| **ActivityType**           | **Description**                                                        | **V1 Message Type** 
     ///| --- ----------------------|-------------------------------------------------------------------------|--------------|
-    ///| **message**                   | a simple communication between a user <-> bot                                 | message      
+    ///| **message**                   | a simple communication between a user <-> %bot                                 | message      
     ///| **deleteUserData**            | A compliance request from the the user to delete any profile / user data      | deleteUserData
-    ///| **conversationUpdate**        | your bot was added to a conversation or other conversation metadata changed   | Bot/UserAddedTo/RemovedFromConversation                
-    ///| **contactRelationUpdate**     | The bot was added to or removed from a user's contact list                    | n/a         
-    ///| **typing**                    | The user or bot on the other end of the conversation is typing                | n/a
+    ///| **conversationUpdate**        | your %bot was added to a conversation or other conversation metadata changed   | Bot/UserAddedTo/RemovedFromConversation                
+    ///| **contactRelationUpdate**     | The %bot was added to or removed from a user's contact list                    | n/a         
+    ///| **typing**                    | The user or %bot on the other end of the conversation is typing                | n/a
     ///
     ///\subsubsection message 
     ///> a simple communication between a user <-> bot
     ///
-    ///Each Activity being routed through the connector has a Type field. Primarily, these will be of type message unless they are system notifications for the Bot.
+    ///Each Activity being routed through the %Connector has a Type field. Primarily, these will be of type message unless they are system notifications for the %Bot.
     ///
     ///\subsubsection deleteUserData
     ///>A compliance request from the the user to delete any profile / user data 
@@ -1507,50 +1507,50 @@
     ///you should remove any personally identifyable information (PII) for the user.  
     ///
     ///\subsubsection conversationUpdate
-    ///> the membership or metadata of a conversation involving the bot changed
+    ///> the membership or metadata of a conversation involving the %bot changed
     ///
-    ///Your bot often needs to know when the state of the conversation it's in has changed.  This may represent the bot being added to the conversation, or a person added or remove from the chat.  When these changes happen, your bot will receive a conversationUpdate Activity.
+    ///Your %bot often needs to know when the state of the conversation it's in has changed.  This may represent the %bot being added to the conversation, or a person added or remove from the chat.  When these changes happen, your %bot will receive a conversationUpdate Activity.
     ///
     ///In this event, the membersAdded and membersRemoved lists will contain the changes to the conversation since the last event. One of the members may be the Bot; which can be tested for by comparing the membersAdded\[n].id field with the recipient.id field. 
     ///
     ///The message From field will have an Address of **$service$**
     ///
-    ///conversationUpdate is a great opportunity for the Bot to send welcome messages to users.
+    ///conversationUpdate is a great opportunity for the %Bot to send welcome messages to users.
     ///
     ///\subsubsection contactRelationUpdate
-    ///> The bot was added to or removed from a user's contact list
+    ///> The %bot was added to or removed from a user's contact list
     ///
-    ///For some channels your bot can be a member of the user's contact list on that chat service (Skype for example). In the event the channel supports this action, it can notify the Bot that this has occurred. When this event is delivered, the **Action** property will indicate whether the operation was an **add** or a **remove**.
+    ///For some channels your %bot can be a member of the user's contact list on that chat service (Skype for example). In the event the channel supports this action, it can notify the %Bot that this has occurred. When this event is delivered, the **Action** property will indicate whether the operation was an **add** or a **remove**.
     ///
     ///\subsubsection typing
-    ///> A message that indicates that the user or Bot is typing
+    ///> A message that indicates that the user or %Bot is typing
     ///
-    ///Typing is an indicator of activity on the other side of the conversation.  Generally it's used by Bots to cover "dead air" while the bot is fulfilling a request of some sort.  The Bot may also receive Typing messages from the user, for whatever purposes it might find useful.
+    ///Typing is an indicator of activity on the other side of the conversation.  Generally it's used by Bots to cover "dead air" while the %bot is fulfilling a request of some sort.  The %Bot may also receive Typing messages from the user, for whatever purposes it might find useful.
     ///
     ///
-    ///\subsection botoptions Bot Options
+    ///\subsection botoptions %Bot Options
     ///
     /// 
-    ///When you configure your bot there are several optional features you can select which are described in more depth here.
+    ///When you configure your %bot there are several optional features you can select which are described in more depth here.
     ///
     ///\subsubsection listeningspeaking Listening and speaking modes
     ///
     ///### Listen to all messages
     ///* **Option is off** *(default)*-  when this is option is off, bots are in **Group conversation mode**. 
-    ///* **Option is on**-  the bot will receive ALL messages in the conversation.  It is up to the bot
+    ///* **Option is on**-  the %bot will receive ALL messages in the conversation.  It is up to the bot
     /// to make sure that it's interaction is appropriate for the conversation.
     ///
     ///### Group conversation mode 
-    ///1. if bot is in a conversation which is only the user and the bot, all messages will be sent to the bot regardless of mentions.
+    ///1. if %bot is in a conversation which is only the user and the bot, all messages will be sent to the %bot regardless of mentions.
     ///2. if in group conversation
-    ///    * if a user mentions the bot then the message will be sent to the bot and the user and bot will be in an *Active Conversation*
-    ///    * While in *Active Conversation* all future messages from that user will be sent to the bot regardless of mentions until
+    ///    * if a user mentions the %bot then the message will be sent to the %bot and the user and %bot will be in an *Active Conversation*
+    ///    * While in *Active Conversation* all future messages from that user will be sent to the %bot regardless of mentions until
     ///        * the user says a goodbye statement (like 'see you later', or 'goodbye', etc.) 
     ///        * 5 minutes of inactivity pass
     ///
-    ///\subsubsection publishdirectory Publish in Bot directory
-    ///* **Off** *(default)*- Your bot will only be visible to you or to someone you give the link to your contact card to. 
-    ///* **On**- Your bot will show up on the [Bot Gallery](https://bots.botframework.com)
+    ///\subsubsection publishdirectory Publish in %Bot directory
+    ///* **Off** *(default)*- Your %bot will only be visible to you or to someone you give the link to your contact card to. 
+    ///* **On**- Your %bot will show up on the [Bot Gallery](https://bots.botframework.com)
     ///
     ///\subsection configurationconventions Configuration conventions
     ///\subsubsection serialization Serialization
@@ -1592,12 +1592,12 @@
     ///
     ///\subsection securing Securing your bot
     ///
-    ///Developers should ensure that their bot's endpoint can only be called by the Bot Connector.
+    ///Developers should ensure that their bot's endpoint can only be called by the %Bot %Connector.
     ///
     ///To do this you should
     ///
     ///* Configure your endpoint to only use HTTPS
-    ///* Use the Bot Framework SDK's authentication: MicrosoftAppId Password: MicrosoftAppPassword 
+    ///* Use the %Bot Framework SDK's authentication: MicrosoftAppId Password: MicrosoftAppPassword 
     ///
     ///\subsubsection botauthattributes BotAuthentication Attribute
     ///To make it easy for our C# developers we have created an attribute which does this for your method or controller.
