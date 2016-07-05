@@ -1527,7 +1527,7 @@
     ///Typing is an indicator of activity on the other side of the conversation.  Generally it's used by Bots to cover "dead air" while the %bot is fulfilling a request of some sort.  The %Bot may also receive Typing messages from the user, for whatever purposes it might find useful.
     ///
     ///
-    ///\subsection botoptions %Bot Options
+    ///\subsection botoptions Bot Options
     ///
     /// 
     ///When you configure your %bot there are several optional features you can select which are described in more depth here.
