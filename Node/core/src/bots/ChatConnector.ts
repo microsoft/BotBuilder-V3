@@ -55,6 +55,11 @@ export interface IChatConnectorEndpoint {
     stateEndpoint: string;
 }
 
+export interface IChatConnectorAddress extends IAddress {
+    id?: string;            // Incoming Message ID
+    serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
+}
+
 export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private accessToken: string;
@@ -292,9 +297,9 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 }
 
                 // Patch locale and channelData
-                utils.moveFieldsTo(msg, msg, <any>{ 
+                utils.moveFieldsTo(msg, msg, { 
                     'locale': 'textLocale',
-                    'channelData': 'originalEvent'
+                    'channelData': 'sourceEvent'
                 });
 
                 // Ensure basic fields are there
@@ -322,8 +327,9 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         delete msg.address;
 
         // Patch message fields
-        utils.moveFieldsTo(msg, msg, <any>{
-            'textLocale': 'locale'
+        utils.moveFieldsTo(msg, msg, {
+            'textLocale': 'locale',
+            'sourceEvent': 'channelData'
         });
 
         // Calculate path
@@ -460,11 +466,6 @@ var toAddress = {
     'conversation': 'conversation',
     'recipient': 'bot',
     'serviceUrl': 'serviceUrl'
-}
-
-interface IChatConnectorAddress extends IAddress {
-    id?: string;            // Incoming Message ID
-    serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
 }
 
 interface IChatConnectorStorageData extends bs.IBotStorageData {

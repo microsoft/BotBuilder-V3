@@ -39,6 +39,7 @@ import async = require('async');
 import url = require('url');
 import http = require('http');
 import utils = require('../utils');
+import consts = require('../consts');
 var Busboy = require('busboy');
 
 export interface ICallConnectorSettings {
@@ -59,7 +60,7 @@ export interface ICallConnectorEndpoint {
 }
 
 export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
-    private handler: (message: IMessage, cb?: (err: Error) => void) => void;
+    private handler: (event: IEvent, cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
     private responses: { [id:string]: (err: Error, repsonse?: any) => void; } = {};
@@ -111,21 +112,22 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
         };
     }
 
-    public onMessage(handler: (message: IMessage, cb?: (err: Error) => void) => void): void {
+    public onEvent(handler: (event: IEvent, cb?: (err: Error) => void) => void): void {
         this.handler = handler;
     }
 
-    public send(message: IMessage, cb: (err: Error) => void): void {
-        if (message.type == 'workflow' && message.address) {
-            if (this.responses.hasOwnProperty(message.address.id)) {
+    public send(event: IEvent, cb: (err: Error) => void): void {
+        if (event.type == 'workflow' && event.address && event.address.conversation) {
+            var conversation = event.address.conversation;
+            if (this.responses.hasOwnProperty(conversation.id)) {
                 // Pop callback off responses list
-                var callback = this.responses[message.address.id];
-                delete this.responses[message.address.id];
+                var callback = this.responses[conversation.id];
+                delete this.responses[conversation.id];
                 
                 // Deliver message
-                var response: IWorkflow = utils.clone(message);
+                var response: IWorkflow = utils.clone(event);
                 response.links = { 'callback': this.settings.callbackUri };
-                response.appState = JSON.stringify(response.address);
+                (<any>response).appState = JSON.stringify(response.address);
                 delete response.type;
                 delete response.address;
                 callback(null, response);
@@ -260,24 +262,53 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
         if ((<IConversationResult>body).callState == 'terminated') {
             return response(null);
         }
-        var msg: IMessage;
+        var event = <IEvent>{};
+        event.agent = consts.agent;
+        event.source = 'skype';
+        event.sourceEvent = body;
         this.responses[body.id] = response;
-        if (body.hasOwnProperty('participants')) {
-            msg = body;
-            msg.type = 'conversation';
-            msg.address = <IConversationAddress>{};
-            moveFields(body, msg.address, <any>toAddress);
+        if (event.hasOwnProperty('participants')) {
+            // Initialize event
+            var convo = <ISkypeConversation>body;
+            event.type = 'conversation';
+            utils.copyFieldsTo(convo, event, 'callState|links|presentedModalityTypes');
+
+            // Populate address
+            var address = event.address = <ICallConnectorAddress>{};
+            address.channelId = event.source;
+            address.correlationId = convo.correlationId;
+            address.serviceUri = this.settings.serviceUri || '';
+            address.conversation = { id: convo.id, isGroup: convo.isMultiparty };
+            utils.copyFieldsTo(convo, address, 'threadId|subject');
+            if (address.subject) {
+                address.conversation.name = address.subject;
+            }
+            address.participants = [];
+            convo.participants.forEach((p) => {
+                var identity = <IIdentity>{
+                    id: p.identity,
+                    name: p.displayName,
+                    locale: p.languageId,
+                    originator: p.originator
+                };
+                address.participants.push(identity);
+                if (identity.originator) {
+                    address.user = identity;
+                } else if (identity.id.indexOf('28:') == 0) {
+                    address.bot = identity;
+                }
+            });
         } else {
-            msg = body;
-            msg.type = 'conversationResult';
-            msg.address = <IConversationAddress>JSON.parse(body.appState);
-            if ((<any>msg).id !== msg.address.id) {
+            // Initialize event
+            var result = <ISkypeConversationResult>body;
+            event.type = 'conversationResult';
+            event.address = <ICallConnectorAddress>JSON.parse(result.appState);
+            utils.copyFieldsTo(result, event, 'links|operationOutcome|recordedAudio');
+            if (result.id !== event.address.conversation.id) {
                 console.warn("CallConnector received a 'conversationResult' with an invalid conversation id.");
             }
-            delete (<any>msg).id;
-            delete (<any>msg).appState;
         }
-        this.handler(msg, (err) => {
+        this.handler(event, (err) => {
             if (err && this.responses.hasOwnProperty(body.id)) {
                 delete this.responses[body.id];
                 response(err);
@@ -429,26 +460,6 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
     }
 }
 
-var toAddress = {
-    'id': 'id',
-    'participants': 'participants',
-    'isMultiParty': 'isMultiParty',
-    'threadId': 'threadId',
-    'subject': 'subject',
-    'correlationId': 'correlationId'
-};
-
-function moveFields(frm: Object, to: Object, map: { [key:string]: string; }): void {
-    if (frm && to) {
-        for (var key in map) {
-            if (frm.hasOwnProperty(key)) {
-                (<any>to)[map[key]] = (<any>frm)[key];
-                delete (<any>frm)[key];
-            }
-        }
-    }
-}
-
 interface ICallConnectorStorageData extends bs.IBotStorageData {
     userDataHash?: string;
     conversationDataHash?: string;
@@ -482,4 +493,33 @@ interface IWebResponse {
 /** Express or Restify Middleware Function. */
 interface IWebMiddleware {
     (req: IWebRequest, res: IWebResponse, next?: Function): void;
+}
+
+interface ISkypeConversation {
+    id: string;
+    callState: string;
+    appId?: string;
+    links?: any;
+    presentedModalityTypes: string[];
+    participants: ISkypeParticipant[];
+    threadId?: string;
+    subject?: string;
+    correlationId?: string;
+    isMultiparty?: boolean;
+}
+
+interface ISkypeParticipant {
+    identity: string;
+    displayName: string;
+    languageId: string;
+    originator: boolean;
+}
+
+interface ISkypeConversationResult {
+    id: string;
+    appId?: string;
+    appState?: any;
+    links?: any;
+    operationOutcome: IActionOutcome; 
+    recordedAudio?: Buffer;
 }

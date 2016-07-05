@@ -35,13 +35,13 @@ interface IEvent {
     type: string;
     agent: string;
     source: string;
-    originalEvent: any;
+    sourceEvent: any;
+    address: IAddress;
+    user: IIdentity;
 }
 
 interface IMessage extends IEvent {
-    address: IAddress;              // Address routing information for the message.
     timestamp: string;              // Timestamp of message given by chat service 
-    channelData: any;               // Message in original/native format of the channel, may also contain extra payload added by Bot Framework 
     summary: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text: string;                   // Message text  
     textLocale: string;             // Identified language of the message text.
@@ -49,9 +49,6 @@ interface IMessage extends IEvent {
     entities: any[];                // This property is intended to keep structured data objects intended for Client application e.g.: Contacts, Reservation, Booking, Tickets. Structure of these object objects should be known to Client application.
     textFormat: string;             // Format of text fields [plain|markdown|xml] default:markdown
     attachmentLayout: string;       // AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
-
-    // SDK specific fields
-    user: IIdentity;                // Normalized user that this message is either from or going to.
 }
 
 interface IIsMessage {

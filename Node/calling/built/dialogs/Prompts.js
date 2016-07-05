@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var dlg = require('./Dialog');
 var ses = require('../CallSession');
 var consts = require('../consts');
-var dc = require('./DialogCollection');
+var dl = require('../bots/Library');
 var recognize = require('../workflow/RecognizeAction');
 var record = require('../workflow/RecordAction');
 var prompt = require('../workflow/PlayPromptAction');
@@ -54,7 +54,7 @@ var Prompts = (function (_super) {
                     switch (choiceOutcome.completionReason) {
                         case recognize.RecognitionCompletionReason.dtmfOptionMatched:
                         case recognize.RecognitionCompletionReason.speechOptionMatched:
-                            response = { entity: choiceOutcome.choiceName };
+                            response = { entity: choiceOutcome.choiceName, score: 1.0 };
                             break;
                         case recognize.RecognitionCompletionReason.callTerminated:
                             state = PromptResponseState.terminated;
@@ -213,12 +213,11 @@ var Prompts = (function (_super) {
     Prompts.configure = function (settings) {
         utils.copyTo(settings, Prompts.settings);
     };
-    Prompts.action = function (session, action, options) {
-        if (options === void 0) { options = {}; }
+    Prompts.action = function (session, action) {
         beginPrompt(session, {
             promptType: PromptType.action,
             action: action.toAction ? action.toAction() : action,
-            maxRetries: options.maxRetries
+            maxRetries: 0
         });
     };
     Prompts.confirm = function (session, playPrompt, options) {
@@ -282,7 +281,7 @@ var Prompts = (function (_super) {
     return Prompts;
 })(dlg.Dialog);
 exports.Prompts = Prompts;
-dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
+dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {
     if (typeof args.maxRetries !== 'number') {
         args.maxRetries = 2;

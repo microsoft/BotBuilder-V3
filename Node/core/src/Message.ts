@@ -39,8 +39,8 @@ import img = require('./cards/CardImage');
 import ca = require('./cards/CardAction');
 import consts = require('./consts');
 
-export interface IChannelDataMap {
-    [channelId: string]: any;
+export interface ISourceEventMap {
+    [source: string]: any;
 }
 
 export var TextFormat = {
@@ -60,7 +60,7 @@ export class Message implements IIsMessage {
     constructor(private session?: ses.Session) {
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
-        this.data.originalEvent = {};
+        this.data.sourceEvent = {};
         if (this.session) {
             var m = this.session.message;
             if (m.source) {
@@ -170,18 +170,13 @@ export class Message implements IIsMessage {
         return this;
     }
 
-    public originalEvent(event: any): this {
-        this.data.originalEvent = event || {};
-        return this;
-    }
-
-    public channelData(map: IChannelDataMap): this {
+    public sourceEvent(map: ISourceEventMap): this {
         if (map) {
             var channelId = this.data.address ? this.data.address.channelId : '*';
             if (map.hasOwnProperty(channelId)) {
-                this.data.channelData = map[channelId];
+                this.data.sourceEvent = map[channelId];
             } else if (map.hasOwnProperty('*')) {
-                this.data.channelData = map['*'];
+                this.data.sourceEvent = map['*'];
             }
         }
         return this;
@@ -298,8 +293,8 @@ export class Message implements IIsMessage {
     }
 
     public setChannelData(data: any): this {
-        console.warn("Message.setChannelData() is deprecated. Use Message.channelData() instead.");
-        return this.channelData({ '*': data });
+        console.warn("Message.setChannelData() is deprecated. Use Message.sourceEvent() instead.");
+        return this.sourceEvent({ '*': data });
     }
 }
 

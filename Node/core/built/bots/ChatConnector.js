@@ -225,7 +225,7 @@ var ChatConnector = (function () {
                 }
                 utils.moveFieldsTo(msg, msg, {
                     'locale': 'textLocale',
-                    'channelData': 'originalEvent'
+                    'channelData': 'sourceEvent'
                 });
                 msg.text = msg.text || '';
                 msg.attachments = msg.attachments || [];
@@ -245,7 +245,8 @@ var ChatConnector = (function () {
         msg['recipient'] = address.user;
         delete msg.address;
         utils.moveFieldsTo(msg, msg, {
-            'textLocale': 'locale'
+            'textLocale': 'locale',
+            'sourceEvent': 'channelData'
         });
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {

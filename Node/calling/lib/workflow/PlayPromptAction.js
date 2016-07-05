@@ -31,7 +31,10 @@ var PlayPromptAction = (function () {
         return new PlayPromptAction(session).prompts([p]);
     };
     PlayPromptAction.file = function (session, uri) {
-        return new PlayPromptAction(session).prompts([new prompt.Prompt(session).fileUri(uri)]);
+        return new PlayPromptAction(session).prompts([prompt.Prompt.file(session, uri)]);
+    };
+    PlayPromptAction.silence = function (session, time) {
+        return new PlayPromptAction(session).prompts([prompt.Prompt.silence(session, time)]);
     };
     return PlayPromptAction;
 })();

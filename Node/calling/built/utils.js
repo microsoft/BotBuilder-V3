@@ -37,17 +37,17 @@ function copyFieldsTo(frm, to, fields) {
 exports.copyFieldsTo = copyFieldsTo;
 function moveFieldsTo(frm, to, fields) {
     if (frm && to) {
-        fields.split('|').forEach(function (f) {
+        for (var f in fields) {
             if (frm.hasOwnProperty(f)) {
                 if (typeof to[f] === 'function') {
-                    to[f](frm[f]);
+                    to[fields[f]](frm[f]);
                 }
                 else {
-                    to[f] = frm[f];
+                    to[fields[f]] = frm[f];
                 }
                 delete frm[f];
             }
-        });
+        }
     }
 }
 exports.moveFieldsTo = moveFieldsTo;

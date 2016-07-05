@@ -36,7 +36,7 @@ import utils = require('../utils');
 export interface IBotStorageContext {
     userId?: string;
     conversationId?: string;
-    address?: IConversationAddress;
+    address?: ICallConnectorAddress;
     persistUserData: boolean;
     persistConversationData: boolean;
 }

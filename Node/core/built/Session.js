@@ -21,7 +21,7 @@ var Session = (function (_super) {
         this.sendingBatch = false;
         this.library = options.library;
         if (typeof this.options.autoBatchDelay !== 'number') {
-            this.options.autoBatchDelay = 150;
+            this.options.autoBatchDelay = 250;
         }
     }
     Session.prototype.dispatch = function (sessionState, message) {
@@ -381,8 +381,8 @@ var Session = (function (_super) {
         return cur;
     };
     Session.prototype.getMessageReceived = function () {
-        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");
-        return this.message.channelData;
+        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.sourceEvent instead.");
+        return this.message.sourceEvent;
     };
     return Session;
 })(events.EventEmitter);

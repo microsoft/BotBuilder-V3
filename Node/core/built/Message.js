@@ -19,7 +19,7 @@ var Message = (function () {
         this.data = {};
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
-        this.data.originalEvent = {};
+        this.data.sourceEvent = {};
         if (this.session) {
             var m = this.session.message;
             if (m.source) {
@@ -127,18 +127,14 @@ var Message = (function () {
         this.data.timestamp = time || new Date().toISOString();
         return this;
     };
-    Message.prototype.originalEvent = function (event) {
-        this.data.originalEvent = event || {};
-        return this;
-    };
-    Message.prototype.channelData = function (map) {
+    Message.prototype.sourceEvent = function (map) {
         if (map) {
             var channelId = this.data.address ? this.data.address.channelId : '*';
             if (map.hasOwnProperty(channelId)) {
-                this.data.channelData = map[channelId];
+                this.data.sourceEvent = map[channelId];
             }
             else if (map.hasOwnProperty('*')) {
-                this.data.channelData = map['*'];
+                this.data.sourceEvent = map['*'];
             }
         }
         return this;
@@ -251,8 +247,8 @@ var Message = (function () {
         return Message.prototype.compose.apply(this, args);
     };
     Message.prototype.setChannelData = function (data) {
-        console.warn("Message.setChannelData() is deprecated. Use Message.channelData() instead.");
-        return this.channelData({ '*': data });
+        console.warn("Message.setChannelData() is deprecated. Use Message.sourceEvent() instead.");
+        return this.sourceEvent({ '*': data });
     };
     return Message;
 })();

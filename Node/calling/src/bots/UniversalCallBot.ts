@@ -33,7 +33,7 @@
 
 import dlg = require('../dialogs/Dialog');
 import da = require('../dialogs/DialogAction');
-import dc = require('../dialogs/DialogCollection');
+import dl = require('./Library');
 import sd = require('../dialogs/SimpleDialog');
 import ses = require('../CallSession');
 import bs = require('../storage/BotStorage');
@@ -52,38 +52,29 @@ export interface IUniversalCallBotSettings {
     storage?: bs.IBotStorage;
     persistUserData?: boolean;
     persistConversationData?: boolean;
-    dialogErrorMessage?: string|string[];
+    dialogErrorMessage?: string|string[]|IAction|IIsAction;
     promptDefaults?: IPrompt;
     recognizeDefaults?: IRecognizeAction;
     recordDefaults?: IRecordAction;
 }
 
 export interface ICallConnector {
-    onMessage(handler: (message: IMessage, cb?: (err: Error) => void) => void): void;
-    send(message: IMessage, cb: (err: Error) => void): void;
+    onEvent(handler: (event: IEvent, cb?: (err: Error) => void) => void): void;
+    send(event: IEvent, cb: (err: Error) => void): void;
 }
 
-export interface IMiddlewareMap {
-    receive?: IMessageMiddleware;
-    analyze?: IAnalysisMiddleware;
-    dialog?: IDialogMiddleware;
-    send?: IMessageMiddleware;
+export interface ICallMiddlewareMap {
+    receive?: IEventMiddleware|IEventMiddleware[];
+    send?: IEventMiddleware|IEventMiddleware[];
+    botbuilder?: ses.ICallSessionMiddleware|ses.ICallSessionMiddleware[];
 }
 
-export interface IMessageMiddleware {
-    (message: IMessage, next: Function): void;
-}
-
-export interface IAnalysisMiddleware {
-    (message: IMessage, done: (analysis: any) => void): void;
-}
-
-export interface IDialogMiddleware {
-    (session: ses.CallSession, next: Function): void;
+export interface IEventMiddleware {
+    (event: IEvent, next: Function): void;
 }
 
 export interface ILookupUser {
-    (address: IConversationAddress, done: (err: Error, user: IParticipant) => void): void;
+    (address: IAddress, done: (err: Error, user: IIdentity) => void): void;
 }
 
 export class UniversalCallBot extends events.EventEmitter {
@@ -92,10 +83,10 @@ export class UniversalCallBot extends events.EventEmitter {
         persistUserData: true, 
         persistConversationData: false 
     };
-    private dialogs = new dc.DialogCollection();
-    private mwReceive = <IMessageMiddleware[]>[];
-    private mwAnalyze = <IAnalysisMiddleware[]>[];
-    private mwSend = <IMessageMiddleware[]>[];
+    private lib = new dl.Library(consts.Library.default);
+    private mwReceive = <IEventMiddleware[]>[];
+    private mwSend = <IEventMiddleware[]>[];
+    private mwSession = <ses.ICallSessionMiddleware[]>[]; 
     
     constructor(private connector: ICallConnector, settings?: IUniversalCallBotSettings) {
         super();
@@ -110,7 +101,7 @@ export class UniversalCallBot extends events.EventEmitter {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
-        this.connector.onMessage((message, cb) => this.receive(message, cb));
+        this.connector.onEvent((event, cb) => this.receive(event, cb));
     }
     
     //-------------------------------------------------------------------------
@@ -127,43 +118,40 @@ export class UniversalCallBot extends events.EventEmitter {
     }
     
     //-------------------------------------------------------------------------
-    // Dialogs
+    // Library Management
     //-------------------------------------------------------------------------
 
     public dialog(id: string, dialog?: dlg.IDialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
-        var d: dlg.Dialog;
-        if (dialog) {
-            if (Array.isArray(dialog)) {
-                d = new sd.SimpleDialog(da.waterfall(dialog));
-            } if (typeof dialog == 'function') {
-                d = new sd.SimpleDialog(da.waterfall([<any>dialog]));
-            } else {
-                d = <any>dialog;
-            }
-            this.dialogs.add(id, d);
-        } else {
-            d = this.dialogs.getDialog(id);
-        }
-        return d;
+        return this.lib.dialog(id, dialog);
+    }
+
+    public library(lib: dl.Library|string): dl.Library {
+        return this.lib.library(lib);
     }
 
     //-------------------------------------------------------------------------
     // Middleware
     //-------------------------------------------------------------------------
     
-    public use(middleware: IMiddlewareMap): this {
-        if (middleware.receive) {
-            this.mwReceive.push(middleware.receive);
-        }
-        if (middleware.analyze) {
-            this.mwAnalyze.push(middleware.analyze);
-        }
-        if (middleware.dialog) {
-            this.dialogs.use(middleware.dialog);
-        }
-        if (middleware.send) {
-            this.mwSend.push(middleware.send);
-        }
+    public use(...args: ICallMiddlewareMap[]): this {
+        args.forEach((mw) => {
+            var added = 0;
+            if (mw.receive) {
+                Array.prototype.push.apply(this.mwReceive, Array.isArray(mw.receive) ? mw.receive : [mw.receive]);
+                added++;
+            }
+            if (mw.send) {
+                Array.prototype.push.apply(this.mwSend, Array.isArray(mw.send) ? mw.send : [mw.send]);
+                added++;
+            }
+            if (mw.botbuilder) {
+                Array.prototype.push.apply(this.mwSession, Array.isArray(mw.botbuilder) ? mw.botbuilder : [mw.botbuilder]);
+                added++;
+            }
+            if (added < 1) {
+                console.warn('UniversalBot.use: no compatible middleware hook found to install.')
+            }
+        });
         return this;    
     }
     
@@ -171,40 +159,35 @@ export class UniversalCallBot extends events.EventEmitter {
     // Messaging
     //-------------------------------------------------------------------------
     
-    private receive(message: IMessage, done?: (err: Error) => void): void {
+    private receive(event: IEvent, done?: (err: Error) => void): void {
         var logger = this.errorLogger(done);
-        this.lookupUser(message.address, (user) => {
+        this.lookupUser(event.address, (user) => {
             if (user) {
-                message.user = user;
+                event.user = user;
             }
-            this.emit('receive', message);
-            this.messageMiddleware(message, this.mwReceive, () => {
-                // Analyze message and route to dialog system
-                this.emit('analyze', message);
-                this.analyzeMiddleware(message, () => {
-                    this.emit('incoming', message);
-                    var userId = message.user.identity;
-                    var conversationId = message.address.id;
-                    var storageCtx: bs.IBotStorageContext = { 
-                        userId: userId, 
-                        conversationId: conversationId, 
-                        address: message.address,
-                        persistUserData: this.settings.persistUserData,
-                        persistConversationData: this.settings.persistConversationData 
-                    };
-                    this.route(storageCtx, message, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, logger);
-                }, logger);
+            this.emit('receive', event);
+            this.eventMiddleware(event, this.mwReceive, () => {
+                this.emit('incoming', event);
+                var userId = event.user.id;
+                var storageCtx: bs.IBotStorageContext = { 
+                    userId: userId, 
+                    conversationId: event.address.conversation.id, 
+                    address: event.address,
+                    persistUserData: this.settings.persistUserData,
+                    persistConversationData: this.settings.persistConversationData 
+                };
+                this.route(storageCtx, event, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, logger);
             }, logger);
         }, logger);
     }
     
-    private send(message: IIsMessage|IMessage, done?: (err: Error) => void): void {
+    private send(event: IIsEvent|IEvent, done?: (err: Error) => void): void {
         var logger = this.errorLogger(done);
-        var msg = (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message; 
-        this.emit('send', msg);
-        this.messageMiddleware(msg, this.mwSend, () => {
-            this.emit('outgoing', msg);
-            this.connector.send(msg, logger);
+        var evt = (<IIsEvent>event).toEvent ? (<IIsEvent>event).toEvent() : <IEvent>event; 
+        this.emit('send', evt);
+        this.eventMiddleware(evt, this.mwSend, () => {
+            this.emit('outgoing', evt);
+            this.connector.send(evt, logger);
         }, logger);
     }
 
@@ -212,7 +195,7 @@ export class UniversalCallBot extends events.EventEmitter {
     // Helpers
     //-------------------------------------------------------------------------
     
-    private route(storageCtx: bs.IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error) => void): void {
+    private route(storageCtx: bs.IBotStorageContext, event: IEvent, dialogId: string, dialogArgs: any, done: (err: Error) => void): void {
         // --------------------------------------------------------------------
         // Theory of Operation
         // --------------------------------------------------------------------
@@ -250,7 +233,8 @@ export class UniversalCallBot extends events.EventEmitter {
             var session = new ses.CallSession({
                 localizer: this.settings.localizer,
                 autoBatchDelay: this.settings.autoBatchDelay,
-                dialogs: this.dialogs,
+                library: this.lib,
+                middleware: this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 dialogErrorMessage: this.settings.dialogErrorMessage,
@@ -284,18 +268,18 @@ export class UniversalCallBot extends events.EventEmitter {
             
             // Dispatch message
             this.emit('routing', session);
-            session.dispatch(sessionState, message);
+            session.dispatch(sessionState, event);
             done(null);
         }, done);
     }
 
-    private messageMiddleware(message: IMessage, middleware: IMessageMiddleware[], done: Function, error?: (err: Error) => void): void {
+    private eventMiddleware(event: IEvent, middleware: IEventMiddleware[], done: Function, error?: (err: Error) => void): void {
         var i = -1;
         var _that = this;
         function next() {
             if (++i < middleware.length) {
                 _that.tryCatch(() => {
-                    middleware[i](message, next);
+                    middleware[i](event, next);
                 }, () => next());
             } else {
                 _that.tryCatch(() => done(), error);
@@ -304,62 +288,19 @@ export class UniversalCallBot extends events.EventEmitter {
         next();
     }
     
-    private analyzeMiddleware(message: IMessage, done: Function, error?: (err: Error) => void): void {
-        var cnt = this.mwAnalyze.length;
-        var _that = this;
-        function analyze(fn: IAnalysisMiddleware) {
-            _that.tryCatch(() => {
-                fn(message, function (analysis) {
-                    if (analysis && typeof analysis == 'object') {
-                        // Copy analysis to message
-                        for (var prop in analysis) {
-                            if (analysis.hasOwnProperty(prop)) {
-                                (<any>message)[prop] = analysis[prop];
-                            }
-                        }
-                    }
-                    finish();
-                });
-            }, () => finish());
-        }
-        function finish() {
-            _that.tryCatch(() => {
-                if (--cnt <= 0) {
-                    done();
-                }
-            }, error);
-        }
-        if (cnt > 0) {
-            for (var i = 0; i < this.mwAnalyze.length; i++) {
-                analyze(this.mwAnalyze[i]);
-            }
-        } else {
-            finish();
-        }
-    }
-    
-    private lookupUser(address: IConversationAddress, done: (user: IParticipant) => void, error?: (err: Error) => void): void {
+    private lookupUser(address: IAddress, done: (user: IIdentity) => void, error?: (err: Error) => void): void {
         this.tryCatch(() => {
             this.emit('lookupUser', address);
-            // Find originator
-            var originator: IParticipant;
-            address.participants.forEach((participant) => {
-                if (participant.originator) {
-                    originator = participant;
-                }
-            });
-
-            // Map to user object
             if (this.settings.lookupUser) {
                 this.settings.lookupUser(address, (err, user) => {
                     if (!err) {
-                        this.tryCatch(() => done(user || originator), error);
+                        this.tryCatch(() => done(user || address.user), error);
                     } else if (error) {
                         error(err);
                     }
                 });
             } else {
-                this.tryCatch(() => done(originator), error);
+                this.tryCatch(() => done(address.user), error);
             }
         }, error);
     }

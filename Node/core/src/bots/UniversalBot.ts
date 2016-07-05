@@ -216,16 +216,19 @@ export class UniversalBot extends events.EventEmitter {
         }, this.errorLogger(done));
     }
  
-    public beginDialog(message: IMessage|IIsMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
-        var msg = message && (<IIsMessage>message).toMessage ? (<IIsMessage>message).toMessage() : <IMessage>message;
-        if (!msg || !msg.address) {
-            throw new Error('Invalid message passed to UniversalBot.beginDialog().');
-        }
-        msg.text = msg.text || '';
-        msg.type = 'message';
-        this.lookupUser(msg.address, (user) => {
-            if (user) {
-                msg.user = user;
+    public beginDialog(address: IAddress, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void {
+        this.lookupUser(address, (user) => {
+            var msg = <IMessage>{
+                type: consts.messageType,
+                agent: consts.agent,
+                source: address.channelId,
+                sourceEvent: {},
+                address: utils.clone(address),
+                text: '',
+                user: user
+            };
+            if (msg.address.conversation) {
+                delete msg.address.conversation;
             }
             this.ensureConversation(msg.address, (adr) => {
                 msg.address = adr;

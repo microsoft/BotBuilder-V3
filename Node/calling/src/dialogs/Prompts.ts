@@ -34,7 +34,7 @@
 import dlg = require('./Dialog');
 import ses = require('../CallSession');
 import consts = require('../consts');
-import dc = require('./DialogCollection');
+import dl = require('../bots/Library');
 import recognize = require('../workflow/RecognizeAction');
 import record = require('../workflow/RecordAction');
 import prompt = require('../workflow/PlayPromptAction');
@@ -127,7 +127,7 @@ export class Prompts extends dlg.Dialog {
                     switch (choiceOutcome.completionReason) {
                         case recognize.RecognitionCompletionReason.dtmfOptionMatched:
                         case recognize.RecognitionCompletionReason.speechOptionMatched:
-                            response = { entity: choiceOutcome.choiceName };
+                            response = { entity: choiceOutcome.choiceName, score: 1.0 };
                             break;
                         case recognize.RecognitionCompletionReason.callTerminated:
                             state = PromptResponseState.terminated;
@@ -287,11 +287,11 @@ export class Prompts extends dlg.Dialog {
         utils.copyTo(settings, Prompts.settings);
     }
 
-    static action(session: ses.CallSession, action: IAction|IIsAction, options: IPromptOptions = {}): void {
+    static action(session: ses.CallSession, action: IAction|IIsAction): void {
         beginPrompt(session, {
             promptType: PromptType.action,
             action: (<IIsAction>action).toAction ? (<IIsAction>action).toAction() : <IAction>action,
-            maxRetries: options.maxRetries
+            maxRetries: 0
         });
     }
 
@@ -348,7 +348,7 @@ export class Prompts extends dlg.Dialog {
         });
     }
 }
-dc.systemDialogs[consts.DialogId.Prompts] = new Prompts();
+dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 
 function beginPrompt(session: ses.CallSession, args: IPromptArgs) {
     if (typeof args.maxRetries !== 'number') {

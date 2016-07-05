@@ -2,6 +2,7 @@ var request = require('request');
 var async = require('async');
 var url = require('url');
 var utils = require('../utils');
+var consts = require('../consts');
 var Busboy = require('busboy');
 var CallConnector = (function () {
     function CallConnector(settings) {
@@ -54,15 +55,16 @@ var CallConnector = (function () {
             next();
         };
     };
-    CallConnector.prototype.onMessage = function (handler) {
+    CallConnector.prototype.onEvent = function (handler) {
         this.handler = handler;
     };
-    CallConnector.prototype.send = function (message, cb) {
-        if (message.type == 'workflow' && message.address) {
-            if (this.responses.hasOwnProperty(message.address.id)) {
-                var callback = this.responses[message.address.id];
-                delete this.responses[message.address.id];
-                var response = utils.clone(message);
+    CallConnector.prototype.send = function (event, cb) {
+        if (event.type == 'workflow' && event.address && event.address.conversation) {
+            var conversation = event.address.conversation;
+            if (this.responses.hasOwnProperty(conversation.id)) {
+                var callback = this.responses[conversation.id];
+                delete this.responses[conversation.id];
+                var response = utils.clone(event);
                 response.links = { 'callback': this.settings.callbackUri };
                 response.appState = JSON.stringify(response.address);
                 delete response.type;
@@ -191,25 +193,51 @@ var CallConnector = (function () {
         if (body.callState == 'terminated') {
             return response(null);
         }
-        var msg;
+        var event = {};
+        event.agent = consts.agent;
+        event.source = 'skype';
+        event.sourceEvent = body;
         this.responses[body.id] = response;
-        if (body.hasOwnProperty('participants')) {
-            msg = body;
-            msg.type = 'conversation';
-            msg.address = {};
-            moveFields(body, msg.address, toAddress);
+        if (event.hasOwnProperty('participants')) {
+            var convo = body;
+            event.type = 'conversation';
+            utils.copyFieldsTo(convo, event, 'callState|links|presentedModalityTypes');
+            var address = event.address = {};
+            address.channelId = event.source;
+            address.correlationId = convo.correlationId;
+            address.serviceUri = this.settings.serviceUri || '';
+            address.conversation = { id: convo.id, isGroup: convo.isMultiparty };
+            utils.copyFieldsTo(convo, address, 'threadId|subject');
+            if (address.subject) {
+                address.conversation.name = address.subject;
+            }
+            address.participants = [];
+            convo.participants.forEach(function (p) {
+                var identity = {
+                    id: p.identity,
+                    name: p.displayName,
+                    locale: p.languageId,
+                    originator: p.originator
+                };
+                address.participants.push(identity);
+                if (identity.originator) {
+                    address.user = identity;
+                }
+                else if (identity.id.indexOf('28:') == 0) {
+                    address.bot = identity;
+                }
+            });
         }
         else {
-            msg = body;
-            msg.type = 'conversationResult';
-            msg.address = JSON.parse(body.appState);
-            if (msg.id !== msg.address.id) {
+            var result = body;
+            event.type = 'conversationResult';
+            event.address = JSON.parse(result.appState);
+            utils.copyFieldsTo(result, event, 'links|operationOutcome|recordedAudio');
+            if (result.id !== event.address.conversation.id) {
                 console.warn("CallConnector received a 'conversationResult' with an invalid conversation id.");
             }
-            delete msg.id;
-            delete msg.appState;
         }
-        this.handler(msg, function (err) {
+        this.handler(event, function (err) {
             if (err && _this.responses.hasOwnProperty(body.id)) {
                 delete _this.responses[body.id];
                 response(err);
@@ -367,21 +395,3 @@ var CallConnector = (function () {
     return CallConnector;
 })();
 exports.CallConnector = CallConnector;
-var toAddress = {
-    'id': 'id',
-    'participants': 'participants',
-    'isMultiParty': 'isMultiParty',
-    'threadId': 'threadId',
-    'subject': 'subject',
-    'correlationId': 'correlationId'
-};
-function moveFields(frm, to, map) {
-    if (frm && to) {
-        for (var key in map) {
-            if (frm.hasOwnProperty(key)) {
-                to[map[key]] = frm[key];
-                delete frm[key];
-            }
-        }
-    }
-}

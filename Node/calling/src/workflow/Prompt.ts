@@ -70,6 +70,8 @@ export class Prompt implements IIsPrompt {
     public value(text: string|string[], ...args: any[]): this {
         if (text) {
             this.data.value = utils.fmtText(this.session, text, args);
+        } else {
+            this.data.value = null; // Silence being played.
         }
         return this;
     }
@@ -127,5 +129,9 @@ export class Prompt implements IIsPrompt {
 
     static file(session: ses.CallSession, uri: string): Prompt {
         return new Prompt(session).fileUri(uri);
+    }
+
+    static silence(session: ses.CallSession, time: number): Prompt {
+        return new Prompt(session).value(null).silenceLengthInMilliseconds(time);
     }
 }

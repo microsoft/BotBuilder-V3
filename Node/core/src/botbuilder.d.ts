@@ -17,8 +17,17 @@ interface IEvent {
     /** The original source of the event (i.e. 'facebook', 'skype', 'slack', etc.) */
     source: string;
 
-    /** The original event in the sources native schema. */
-    originalEvent: any;
+    /** The original event in the sources native schema. For outgoing messages can be used to pass source specific event data like custom attachments. */
+    sourceEvent: any;
+
+    /** Address routing information for the event. Save this field to external storage somewhere to later compose a proactive message to the user. */
+    address: IAddress; 
+
+    /** 
+     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
+     * [lookupUser](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
+     */
+    user: IIdentity;
 }
 
 /** 
@@ -36,14 +45,8 @@ interface IEvent {
  * the [conversation](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
  */
 interface IMessage extends IEvent {
-    /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
-    address: IAddress; 
-    
     /** Timestamp of message given by chat service for incoming messages. */
     timestamp: string;
-
-    /** Message in original/native format of the channel for incoming messages. For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
-    channelData: any;  
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
     summary: string; 
@@ -65,12 +68,6 @@ interface IMessage extends IEvent {
 
     /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
     attachmentLayout: string; 
-
-    /** 
-     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
-     * [lookupUser](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
-     */
-    user: IIdentity;
 }
 
 /** Implemented by classes that can be converted into a message. */
@@ -113,9 +110,18 @@ interface IAddress {
     conversation?: IIdentity;  
 }
 
+/** Chat connector specific address. */
+interface IChatConnectorAddress extends IAddress {
+    /** Incoming Message ID. */
+    id?: string;
+
+    /** Specifies the URL to post messages back. */ 
+    serviceUrl?: string; 
+}
+
 /**  
  * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
- * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IMessage.channelData](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#channeldata) to provide attachments using 
+ * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IEvent.sourceEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ievent.html#sourceevent) to provide attachments using 
  * the channels native schema. The types of attachments that can be sent varies by channel but these are the basic types:
  * 
  * * __Media and Files:__  Basic files can be sent by setting [contentType](#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](#contenturl).
@@ -284,7 +290,7 @@ interface IIsFact {
 }
 
 /** Plugin for localizing messages sent to the user by a bot. */
-export interface ILocalizer {
+interface ILocalizer {
     /**
      * Loads a localized string for the specified language.
      * @param language Desired language of the string to return.
@@ -303,7 +309,7 @@ export interface ILocalizer {
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
-export interface ISessionState {
+interface ISessionState {
     /** Dialog stack for the current session. */
     callstack: IDialogState[];
 
@@ -315,7 +321,7 @@ export interface ISessionState {
 }
 
 /** An entry on the sessions dialog stack. */
-export interface IDialogState {
+interface IDialogState {
     /** ID of the dialog. */
     id: string;
 
@@ -326,7 +332,7 @@ export interface IDialogState {
 /** 
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
-export interface IDialogResult<T> {
+interface IDialogResult<T> {
     /** The reason why the current dialog is being resumed. */
     resumed: ResumeReason;
 
@@ -341,7 +347,7 @@ export interface IDialogResult<T> {
 }
 
 /** Context of the recieved message passed to the Dialog.recognize() method. */
-export interface IRecognizeContext {
+interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
 
@@ -350,13 +356,13 @@ export interface IRecognizeContext {
 }
 
 /** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
-export interface IRecognizeResult {
+interface IRecognizeResult {
     /** Confidence that the users utterance was understood on a scale from 0.0 - 1.0.  */
     score: number;
 }
 
 /** Options passed to built-in prompts. */
-export interface IPromptOptions {
+interface IPromptOptions {
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
      * reprompt with the configured [defaultRetryPrompt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
@@ -383,7 +389,7 @@ export interface IPromptOptions {
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
-export interface IPromptArgs extends IPromptOptions {
+interface IPromptArgs extends IPromptOptions {
     /** Type of prompt invoked. */
     promptType: PromptType;
 
@@ -401,37 +407,37 @@ export interface IPromptArgs extends IPromptOptions {
 }
 
 /** Dialog result returned by a system prompt. */
-export interface IPromptResult<T> extends IDialogResult<T> {
+interface IPromptResult<T> extends IDialogResult<T> {
     /** Type of prompt completing. */
     promptType?: PromptType;
 }
 
 /** Result returned from an IPromptRecognizer. */
-export interface IPromptRecognizerResult<T> extends IPromptResult<T> {
+interface IPromptRecognizerResult<T> extends IPromptResult<T> {
     /** Returned from a prompt recognizer to indicate that a parent dialog handled (or captured) the utterance. */
     handled?: boolean;
 }
 
 /** Strongly typed Text Prompt Result. */
-export interface IPromptTextResult extends IPromptResult<string> { }
+interface IPromptTextResult extends IPromptResult<string> { }
 
 /** Strongly typed Number Prompt Result. */
-export interface IPromptNumberResult extends IPromptResult<number> { }
+interface IPromptNumberResult extends IPromptResult<number> { }
 
 /** Strongly typed Confirm Prompt Result. */
-export interface IPromptConfirmResult extends IPromptResult<boolean> { } 
+interface IPromptConfirmResult extends IPromptResult<boolean> { } 
 
 /** Strongly typed Choice Prompt Result. */
-export interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
+interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
 
 /** Strongly typed Time Prompt Result. */
-export interface IPromptTimeResult extends IPromptResult<IEntity> { }
+interface IPromptTimeResult extends IPromptResult<IEntity> { }
 
 /** Strongly typed Attachment Prompt Result. */
-export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
+interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
 
 /** Plugin for recognizing prompt responses recieved by a user. */
-export interface IPromptRecognizer {
+interface IPromptRecognizer {
     /**
       * Attempts to match a users reponse to a given prompt.
       * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
@@ -442,7 +448,7 @@ export interface IPromptRecognizer {
 }
 
 /** Arguments passed to the IPromptRecognizer.recognize() method.*/
-export interface IPromptRecognizerArgs {
+interface IPromptRecognizerArgs {
     /** Type of prompt being responded to. */
     promptType: PromptType;
 
@@ -460,13 +466,13 @@ export interface IPromptRecognizerArgs {
 }
 
 /** Global configuration options for the Prompts dialog. */
-export interface IPromptsOptions {
+interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
 }
 
 /** A recognized intent. */
-export interface IIntent {
+interface IIntent {
     /** Intent that was recognized. */
     intent: string;
 
@@ -475,7 +481,7 @@ export interface IIntent {
 }
 
 /** A recognized entity. */
-export interface IEntity {
+interface IEntity {
     /** Type of entity that was recognized. */
     type: string;
 
@@ -493,7 +499,7 @@ export interface IEntity {
 }
 
 /** Options used to configure an [IntentDialog](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). */
-export interface IIntentDialogOptions {
+interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
@@ -508,13 +514,13 @@ export interface IIntentDialogOptions {
 } 
 
 /** Interface implemented by intent recognizers like the LuisRecognizer class. */
-export interface IIntentRecognizer {
+interface IIntentRecognizer {
     /** Attempts to match a users text utterance to an intent. */
     recognize(context: IRecognizeContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /** Results returned by an intent recognizer. */
-export interface IIntentRecognizerResult extends IRecognizeResult {
+interface IIntentRecognizerResult extends IRecognizeResult {
     /** Top intent that was matched. */
     intent: string;
 
@@ -532,7 +538,7 @@ export interface IIntentRecognizerResult extends IRecognizeResult {
 }
 
 /** Options passed to the constructor of a session. */
-export interface ISessionOptions {
+interface ISessionOptions {
     /** Function to invoke when the sessions state is saved. */
     onSave: (done: (err: Error) => void) => void;
 
@@ -556,10 +562,13 @@ export interface ISessionOptions {
     
     /** (Optional) time to allow between each message sent as a batch. The default value is 150ms.  */
     autoBatchDelay?: number;
+
+    /** Default error message to send users when a dialog error occurs. */
+    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
 }
 
 /** result returnd from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
-export interface IFindMatchResult {
+interface IFindMatchResult {
     /** Index of the matched value. */
     index: number;
 
@@ -571,7 +580,7 @@ export interface IFindMatchResult {
 }
 
 /** Context object passed to IBotStorage calls. */
-export interface IBotStorageContext {
+interface IBotStorageContext {
     /** (Optional) ID of the user being persisted. If missing __userData__ won't be persisted.  */
     userId?: string;
 
@@ -589,7 +598,7 @@ export interface IBotStorageContext {
 }
 
 /** Data values persisted to IBotStorage. */
-export interface IBotStorageData {
+interface IBotStorageData {
     /** The bots data about a user. This data is global across all of the users conversations. */
     userData?: any;
 
@@ -604,7 +613,7 @@ export interface IBotStorageData {
 }
 
 /** Replacable storage system used by UniversalBot. */
-export interface IBotStorage {
+interface IBotStorage {
     /** Reads in data from storage. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
     
@@ -613,7 +622,7 @@ export interface IBotStorage {
 }
 
 /** Options used to initialize a ChatConnector instance. */
-export interface IChatConnectorSettings {
+interface IChatConnectorSettings {
     /** The bots App ID assigned in the Bot Framework portal. */
     appId?: string;
 
@@ -622,7 +631,7 @@ export interface IChatConnectorSettings {
 }
 
 /** Options used to initialize a UniversalBot instance. */
-export interface IUniversalBotSettings {
+interface IUniversalBotSettings {
     /** (Optional) dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
     
@@ -655,9 +664,9 @@ export interface IUniversalBotSettings {
 }
 
 /** Implemented by connector plugins for the UniversalBot. */
-export interface IConnector {
-    /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
-    onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
+interface IConnector {
+    /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
+    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
 
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
     send(messages: IMessage[], cb: (err: Error) => void): void;
@@ -667,19 +676,19 @@ export interface IConnector {
 }
 
 /** Function signature for a piece of middleware that hooks the 'recieve' or 'send' events. */
-export interface IEventMiddleware {
+interface IEventMiddleware {
     (event: IEvent, next: Function): void;
 }
 
 /** Function signature for a piece of middleware that hooks the 'botbuilder' event. */
-export interface ISessionMiddleware {
+interface ISessionMiddleware {
     (session: Session, next: Function): void;
 }
 
 /** 
  * Map of middleware hooks that can be registered in a call to __UniversalBot.use()__. 
  */
-export interface IMiddlewareMap {
+interface IMiddlewareMap {
     /** Called in series when an incoming event is received. */
     receive?: IEventMiddleware|IEventMiddleware[];
 
@@ -742,7 +751,7 @@ export interface IMiddlewareMap {
  * ]);
  * </code></pre>
  */
-export interface IDialogWaterfallStep {
+interface IDialogWaterfallStep {
     /**
      * @param session Session object for the current conversation.
      * @param result 
@@ -755,17 +764,17 @@ export interface IDialogWaterfallStep {
 }
 
 /** A per/local mapping of LUIS service url's to use for a LuisRecognizer.  */
-export interface ILuisModelMap {
+interface ILuisModelMap {
     [local: string]: string;
 }
 
-/** A per/channel mapping of custom channel data to send. */
-export interface IChannelDataMap {
-    [channelId: string]: any;
+/** A per/source mapping of custom event data to send. */
+interface ISourceEventMap {
+    [source: string]: any;
 }
 
 /** Options passed to Middleware.dialogVersion(). */
-export interface IDialogVersionOptions {
+interface IDialogVersionOptions {
     /** Current major.minor version for the bots dialogs. Major version increments result in existing conversations between the bot and user being restarted. */
     version: number;
 
@@ -777,7 +786,7 @@ export interface IDialogVersionOptions {
 }
 
 /** Options passed to Middleware.firstRun(). */
-export interface IFirstRunOptions {
+interface IFirstRunOptions {
     /** Current major.minor version for the bots first run experience. Major version increments result in redirecting users to [dialogId](#dialogid) and minor increments redirect users to [upgradeDialogId](#upgradedialogid). */
     version: number;
 
@@ -795,7 +804,7 @@ export interface IFirstRunOptions {
 }
 
 /** Function signature for an error event handler. */
-export interface IErrorEvent {
+interface IErrorEvent {
     (err: Error): void;
 }
 
@@ -912,9 +921,6 @@ export class Session {
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
-
-    /** Sessions configuration options. */
-    protected options: ISessionOptions;
 
     /**
      * Creates an instance of the session.
@@ -1107,8 +1113,8 @@ export class Message implements IIsMessage {
     /** Message in original/native format of the channel for incoming messages. */
     originalEvent(event: any): Message;
 
-    /** For outgoing messages can be used to pass channel specific message data like channel specific attachments. */  
-    channelData(map: IChannelDataMap): Message;
+    /** For outgoing messages can be used to pass source specific event data like custom attachments. */  
+    sourceEvent(map: ISourceEventMap): Message;
 
     /** Returns the JSON for the message. */    
     toMessage(): IMessage;
@@ -1125,7 +1131,7 @@ export class Message implements IIsMessage {
     /** __DEPRECATED__ use [compose()](#compose) instead. */ 
     composePrompt(session: Session, prompts: string[][], ...args: any[]): Message;
     
-    /** __DEPRECATED__ use [channelData()](#channeldata) instead. */ 
+    /** __DEPRECATED__ use [sourceEvent()](#sourceevent) instead. */ 
     setChannelData(data: any): Message;
     
     /**
@@ -1807,13 +1813,24 @@ export class UniversalBot  {
      */
     on(event: string, listener: Function): void;
 
-    /** Sets a setting on the bot. Valid names are properties on IUniversalBotSettings. */
+    /** 
+     * Sets a setting on the bot. 
+     * @param name Name of the property to set. Valid names are properties on [IUniversalBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
+     * @param value The value to assign to the setting.
+     */
     set(name: string, value: any): UniversalBot;
-    
-    /** Returns the current value of a setting. Valid names are properties on IUniversalBotSettings. */
+
+    /** 
+     * Returns the current value of a setting.
+     * @param name Name of the property to return. Valid names are properties on [IUniversalBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
+     */
     get(name: string): any;
 
-    /** Returns or registers a connector for a specific channel. Use a channelId of '*' to get the default connector. */    
+    /** 
+     * Registers or returns a connector for a specific channel. 
+     * @param channelId Unique ID of the channel. Use a channelId of '*' to reference the default connector.
+     * @param connector (Optional) connector to register. If ommited the connector for __channelId__ will be returned. 
+     */    
     connector(channelId: string, connector?: IConnector): IConnector;
 
     /**
@@ -1834,19 +1851,42 @@ export class UniversalBot  {
      */
     library(lib: Library|string): Library;
     
-    /** Registers a piece of middleware with the bot. */
-    use(middleware: IMiddlewareMap): UniversalBot;
+    /** 
+     * Installs middleware for the bot. Middleware lets you intercept incoming and outgoing events/messages. 
+     * @param args One or more sets of middleware hooks to install.
+     */
+    use(...args: IMiddlewareMap[]): UniversalBot;
     
-    /** Called when a new message is recieved. This can be called manually to mimic the bot receiving a message from the user.  */
-    receive(messages: IMessage|IMessage[], done?: (err: Error) => void): void;
+    /** 
+     * Called when a new event is recieved. This can be called manually to mimic the bot receiving a message from the user.
+     * @param events Event or (array of events) recieved.
+     * @param done (Optional) function to invoke once the operation is completed. 
+     */
+    receive(events: IEvent|IEvent[], done?: (err: Error) => void): void;
  
-    /** Proactively starts a new dialog with the user. Any current conversation between the bot and user will be replaced with a new dialog stack. */
-    beginDialog(message: IMessage|IIsMessage, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void;
+    /** 
+     * Proactively starts a new dialog with the user. Any current conversation between the bot and user will be replaced with a new dialog stack.
+     * @param address Address of the user to start a new conversation with. This should be saved during a previous conversation with the user. Any existing conversation or dialog will be immediately terminated.
+     * @param dialogId ID of the dialog to begin.
+     * @param dialogArgs (Optional) arguments to pass to dialog.
+     * @param done (Optional) function to invoke once the operation is completed. 
+     */
+    beginDialog(address: IAddress, dialogId: string, dialogArgs?: any, done?: (err: Error) => void): void;
 
-    /** Sends a message to the user without disrupting the current conversations dialog stack. */
+    /** 
+     * Sends a message to the user without disrupting the current conversations dialog stack.
+     * @param messages The message (or array of messages) to send the user.
+     * @param done (Optional) function to invoke once the operation is completed. 
+     */
     send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void;
 
-    /** Returns information about when the last turn between the user and a bot occured. */
+    /** 
+     * Returns information about when the last turn between the user and a bot occured. This can be called
+     * before [beginDialog](#begindialog) to determine if the user is currently in a conversation with the
+     * bot. 
+     * @param address Address of the user to lookup. This should be saved during a previous conversation with the user.
+     * @param cb Function to invoke with the results of the query.
+     */
     isInConversation(address: IAddress, cb: (err: Error, lastAccess: Date) => void): void;
 }
 
@@ -1865,8 +1905,8 @@ export class ChatConnector implements IConnector, IBotStorage {
     /** Express or Resitify style middleware that verifies recieved messages are from the Bot Framework. */
     verifyBotFramework(): (req: any, res: any, next: any) => void;
 
-    /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
-    onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
+    /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
+    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
     send(messages: IMessage[], done: (err: Error) => void): void;
@@ -1889,8 +1929,8 @@ export class ConsoleConnector implements IConnector {
     /** Sends a message through the connector. */
     processMessage(line: string): ConsoleConnector;
     
-    /** Called by the UniversalBot at registration time to register a handler for receiving incoming messages from a user. */
-    onMessage(handler: (messages: IMessage[], cb?: (err: Error) => void) => void): void;
+    /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
+    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
     send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void;

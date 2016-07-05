@@ -3,7 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dialog = require('./dialogs/Dialog');
+var dlg = require('./dialogs/Dialog');
+var consts = require('./consts');
 var sprintf = require('sprintf-js');
 var events = require('events');
 var answer = require('./workflow/AnswerAction');
@@ -47,7 +48,7 @@ var CallSession = (function (_super) {
         this.actions = [];
         this.batchStarted = false;
         this.sendingBatch = false;
-        this.dialogs = options.dialogs;
+        this.library = options.library;
         this.promptDefaults = options.promptDefaults;
         this.recognizeDefaults = options.recognizeDefaults;
         this.recordDefaults = options.recordDefaults;
@@ -58,10 +59,10 @@ var CallSession = (function (_super) {
     CallSession.prototype.dispatch = function (sessionState, message) {
         var _this = this;
         var index = 0;
-        var handlers;
+        var middleware = this.options.middleware || [];
         var session = this;
         var next = function () {
-            var handler = index < handlers.length ? handlers[index] : null;
+            var handler = index < middleware.length ? middleware[index] : null;
             if (handler) {
                 index++;
                 handler(session, next);
@@ -76,11 +77,7 @@ var CallSession = (function (_super) {
         if (cur) {
             this.dialogData = cur.state;
         }
-        this.message = (message || { text: '' });
-        if (!this.message.type) {
-            this.message.type = 'message';
-        }
-        handlers = this.dialogs.getMiddleware();
+        this.message = (message || {});
         next();
         return this;
     };
@@ -100,7 +97,7 @@ var CallSession = (function (_super) {
     CallSession.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.user.languageId || '', messageid, messageid_plural, count);
+            tmpl = this.options.localizer.ngettext(this.message.user.locale || '', messageid, messageid_plural, count);
         }
         else if (count == 1) {
             tmpl = messageid;
@@ -158,24 +155,26 @@ var CallSession = (function (_super) {
         return this.msgSent;
     };
     CallSession.prototype.beginDialog = function (id, args) {
-        var dlg = this.dialogs.getDialog(id);
-        if (!dlg) {
+        id = this.resolveDialogId(id);
+        var dialog = this.findDialog(id);
+        if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.pushDialog({ id: id, state: {} });
         this.startBatch();
-        dlg.begin(this, args);
+        dialog.begin(this, args);
         return this;
     };
     CallSession.prototype.replaceDialog = function (id, args) {
-        var dlg = this.dialogs.getDialog(id);
-        if (!dlg) {
+        var id = this.resolveDialogId(id);
+        var dialog = this.findDialog(id);
+        if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
         this.popDialog();
         this.pushDialog({ id: id, state: {} });
         this.startBatch();
-        dlg.begin(this, args);
+        dialog.begin(this, args);
         return this;
     };
     CallSession.prototype.endConversation = function (action) {
@@ -232,9 +231,9 @@ var CallSession = (function (_super) {
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
-            var dlg = this.dialogs.getDialog(cur.id);
-            if (dlg) {
-                dlg.dialogResumed(this, { resumed: dialog.ResumeReason.completed, response: true, childId: childId });
+            var dialog = this.findDialog(cur.id);
+            if (dialog) {
+                dialog.dialogResumed(this, { resumed: dlg.ResumeReason.completed, response: true, childId: childId });
             }
             else {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
@@ -253,15 +252,15 @@ var CallSession = (function (_super) {
         }
         result = result || {};
         if (!result.hasOwnProperty('resumed')) {
-            result.resumed = dialog.ResumeReason.completed;
+            result.resumed = dlg.ResumeReason.completed;
         }
         result.childId = cur.id;
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
-            var dlg = this.dialogs.getDialog(cur.id);
-            if (dlg) {
-                dlg.dialogResumed(this, result);
+            var dialog = this.findDialog(cur.id);
+            if (dialog) {
+                dialog.dialogResumed(this, result);
             }
             else {
                 this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
@@ -299,6 +298,8 @@ var CallSession = (function (_super) {
         this.addCallControl(false);
         var workflow = {
             type: 'workflow',
+            agent: consts.agent,
+            source: this.message.source,
             address: this.message.address,
             actions: this.actions,
             notificationSubscriptions: ["callStateChange"]
@@ -382,7 +383,7 @@ var CallSession = (function (_super) {
                 this.beginDialog(this.options.dialogId, this.options.dialogArgs);
             }
             else if (this.validateCallstack()) {
-                var dialog = this.dialogs.getDialog(cur.id);
+                var dialog = this.findDialog(cur.id);
                 this.dialogData = cur.state;
                 dialog.replyReceived(this);
             }
@@ -398,7 +399,7 @@ var CallSession = (function (_super) {
     CallSession.prototype.vgettext = function (messageid, args) {
         var tmpl;
         if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.user.languageId || '', messageid);
+            tmpl = this.options.localizer.gettext(this.message.user.locale || '', messageid);
         }
         else {
             tmpl = messageid;
@@ -409,21 +410,33 @@ var CallSession = (function (_super) {
         var ss = this.sessionState;
         for (var i = 0; i < ss.callstack.length; i++) {
             var id = ss.callstack[i].id;
-            if (!this.dialogs.hasDialog(id)) {
+            if (!this.findDialog(id)) {
                 return false;
             }
         }
         return true;
     };
-    CallSession.prototype.pushDialog = function (dlg) {
+    CallSession.prototype.resolveDialogId = function (id) {
+        if (id.indexOf(':') >= 0) {
+            return id;
+        }
+        var cur = this.curDialog();
+        var libName = cur ? cur.id.split(':')[0] : consts.Library.default;
+        return libName + ':' + id;
+    };
+    CallSession.prototype.findDialog = function (id) {
+        var parts = id.split(':');
+        return this.library.findDialog(parts[0] || consts.Library.default, parts[1]);
+    };
+    CallSession.prototype.pushDialog = function (dialog) {
         var ss = this.sessionState;
         var cur = this.curDialog();
         if (cur) {
             cur.state = this.dialogData || {};
         }
-        ss.callstack.push(dlg);
-        this.dialogData = dlg.state || {};
-        return dlg;
+        ss.callstack.push(dialog);
+        this.dialogData = dialog.state || {};
+        return dialog;
     };
     CallSession.prototype.popDialog = function () {
         var ss = this.sessionState;

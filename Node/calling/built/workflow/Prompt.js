@@ -36,6 +36,9 @@ var Prompt = (function () {
         if (text) {
             this.data.value = utils.fmtText(this.session, text, args);
         }
+        else {
+            this.data.value = null;
+        }
         return this;
     };
     Prompt.prototype.fileUri = function (uri) {
@@ -87,6 +90,9 @@ var Prompt = (function () {
     };
     Prompt.file = function (session, uri) {
         return new Prompt(session).fileUri(uri);
+    };
+    Prompt.silence = function (session, time) {
+        return new Prompt(session).value(null).silenceLengthInMilliseconds(time);
     };
     return Prompt;
 })();

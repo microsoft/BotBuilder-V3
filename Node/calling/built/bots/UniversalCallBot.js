@@ -3,9 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var da = require('../dialogs/DialogAction');
-var dc = require('../dialogs/DialogCollection');
-var sd = require('../dialogs/SimpleDialog');
+var dl = require('./Library');
 var ses = require('../CallSession');
 var bs = require('../storage/BotStorage');
 var consts = require('../consts');
@@ -22,10 +20,10 @@ var UniversalCallBot = (function (_super) {
             persistUserData: true,
             persistConversationData: false
         };
-        this.dialogs = new dc.DialogCollection();
+        this.lib = new dl.Library(consts.Library.default);
         this.mwReceive = [];
-        this.mwAnalyze = [];
         this.mwSend = [];
+        this.mwSession = [];
         if (settings) {
             for (var name in settings) {
                 this.set(name, settings[name]);
@@ -37,7 +35,7 @@ var UniversalCallBot = (function (_super) {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
-        this.connector.onMessage(function (message, cb) { return _this.receive(message, cb); });
+        this.connector.onEvent(function (event, cb) { return _this.receive(event, cb); });
     }
     UniversalCallBot.prototype.set = function (name, value) {
         this.settings[name] = value;
@@ -47,83 +45,78 @@ var UniversalCallBot = (function (_super) {
         return this.settings[name];
     };
     UniversalCallBot.prototype.dialog = function (id, dialog) {
-        var d;
-        if (dialog) {
-            if (Array.isArray(dialog)) {
-                d = new sd.SimpleDialog(da.waterfall(dialog));
-            }
-            if (typeof dialog == 'function') {
-                d = new sd.SimpleDialog(da.waterfall([dialog]));
-            }
-            else {
-                d = dialog;
-            }
-            this.dialogs.add(id, d);
-        }
-        else {
-            d = this.dialogs.getDialog(id);
-        }
-        return d;
+        return this.lib.dialog(id, dialog);
     };
-    UniversalCallBot.prototype.use = function (middleware) {
-        if (middleware.receive) {
-            this.mwReceive.push(middleware.receive);
+    UniversalCallBot.prototype.library = function (lib) {
+        return this.lib.library(lib);
+    };
+    UniversalCallBot.prototype.use = function () {
+        var _this = this;
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
         }
-        if (middleware.analyze) {
-            this.mwAnalyze.push(middleware.analyze);
-        }
-        if (middleware.dialog) {
-            this.dialogs.use(middleware.dialog);
-        }
-        if (middleware.send) {
-            this.mwSend.push(middleware.send);
-        }
+        args.forEach(function (mw) {
+            var added = 0;
+            if (mw.receive) {
+                Array.prototype.push.apply(_this.mwReceive, Array.isArray(mw.receive) ? mw.receive : [mw.receive]);
+                added++;
+            }
+            if (mw.send) {
+                Array.prototype.push.apply(_this.mwSend, Array.isArray(mw.send) ? mw.send : [mw.send]);
+                added++;
+            }
+            if (mw.botbuilder) {
+                Array.prototype.push.apply(_this.mwSession, Array.isArray(mw.botbuilder) ? mw.botbuilder : [mw.botbuilder]);
+                added++;
+            }
+            if (added < 1) {
+                console.warn('UniversalBot.use: no compatible middleware hook found to install.');
+            }
+        });
         return this;
     };
-    UniversalCallBot.prototype.receive = function (message, done) {
+    UniversalCallBot.prototype.receive = function (event, done) {
         var _this = this;
         var logger = this.errorLogger(done);
-        this.lookupUser(message.address, function (user) {
+        this.lookupUser(event.address, function (user) {
             if (user) {
-                message.user = user;
+                event.user = user;
             }
-            _this.emit('receive', message);
-            _this.messageMiddleware(message, _this.mwReceive, function () {
-                _this.emit('analyze', message);
-                _this.analyzeMiddleware(message, function () {
-                    _this.emit('incoming', message);
-                    var userId = message.user.identity;
-                    var conversationId = message.address.id;
-                    var storageCtx = {
-                        userId: userId,
-                        conversationId: conversationId,
-                        address: message.address,
-                        persistUserData: _this.settings.persistUserData,
-                        persistConversationData: _this.settings.persistConversationData
-                    };
-                    _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, logger);
-                }, logger);
+            _this.emit('receive', event);
+            _this.eventMiddleware(event, _this.mwReceive, function () {
+                _this.emit('incoming', event);
+                var userId = event.user.id;
+                var storageCtx = {
+                    userId: userId,
+                    conversationId: event.address.conversation.id,
+                    address: event.address,
+                    persistUserData: _this.settings.persistUserData,
+                    persistConversationData: _this.settings.persistConversationData
+                };
+                _this.route(storageCtx, event, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, logger);
             }, logger);
         }, logger);
     };
-    UniversalCallBot.prototype.send = function (message, done) {
+    UniversalCallBot.prototype.send = function (event, done) {
         var _this = this;
         var logger = this.errorLogger(done);
-        var msg = message.toMessage ? message.toMessage() : message;
-        this.emit('send', msg);
-        this.messageMiddleware(msg, this.mwSend, function () {
-            _this.emit('outgoing', msg);
-            _this.connector.send(msg, logger);
+        var evt = event.toEvent ? event.toEvent() : event;
+        this.emit('send', evt);
+        this.eventMiddleware(evt, this.mwSend, function () {
+            _this.emit('outgoing', evt);
+            _this.connector.send(evt, logger);
         }, logger);
     };
-    UniversalCallBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
+    UniversalCallBot.prototype.route = function (storageCtx, event, dialogId, dialogArgs, done) {
         var _this = this;
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.CallSession({
                 localizer: _this.settings.localizer,
                 autoBatchDelay: _this.settings.autoBatchDelay,
-                dialogs: _this.dialogs,
+                library: _this.lib,
+                middleware: _this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
                 dialogErrorMessage: _this.settings.dialogErrorMessage,
@@ -153,17 +146,17 @@ var UniversalCallBot = (function (_super) {
             }
             loadedData = data;
             _this.emit('routing', session);
-            session.dispatch(sessionState, message);
+            session.dispatch(sessionState, event);
             done(null);
         }, done);
     };
-    UniversalCallBot.prototype.messageMiddleware = function (message, middleware, done, error) {
+    UniversalCallBot.prototype.eventMiddleware = function (event, middleware, done, error) {
         var i = -1;
         var _that = this;
         function next() {
             if (++i < middleware.length) {
                 _that.tryCatch(function () {
-                    middleware[i](message, next);
+                    middleware[i](event, next);
                 }, function () { return next(); });
             }
             else {
@@ -172,53 +165,14 @@ var UniversalCallBot = (function (_super) {
         }
         next();
     };
-    UniversalCallBot.prototype.analyzeMiddleware = function (message, done, error) {
-        var cnt = this.mwAnalyze.length;
-        var _that = this;
-        function analyze(fn) {
-            _that.tryCatch(function () {
-                fn(message, function (analysis) {
-                    if (analysis && typeof analysis == 'object') {
-                        for (var prop in analysis) {
-                            if (analysis.hasOwnProperty(prop)) {
-                                message[prop] = analysis[prop];
-                            }
-                        }
-                    }
-                    finish();
-                });
-            }, function () { return finish(); });
-        }
-        function finish() {
-            _that.tryCatch(function () {
-                if (--cnt <= 0) {
-                    done();
-                }
-            }, error);
-        }
-        if (cnt > 0) {
-            for (var i = 0; i < this.mwAnalyze.length; i++) {
-                analyze(this.mwAnalyze[i]);
-            }
-        }
-        else {
-            finish();
-        }
-    };
     UniversalCallBot.prototype.lookupUser = function (address, done, error) {
         var _this = this;
         this.tryCatch(function () {
             _this.emit('lookupUser', address);
-            var originator;
-            address.participants.forEach(function (participant) {
-                if (participant.originator) {
-                    originator = participant;
-                }
-            });
             if (_this.settings.lookupUser) {
                 _this.settings.lookupUser(address, function (err, user) {
                     if (!err) {
-                        _this.tryCatch(function () { return done(user || originator); }, error);
+                        _this.tryCatch(function () { return done(user || address.user); }, error);
                     }
                     else if (error) {
                         error(err);
@@ -226,7 +180,7 @@ var UniversalCallBot = (function (_super) {
                 });
             }
             else {
-                _this.tryCatch(function () { return done(originator); }, error);
+                _this.tryCatch(function () { return done(address.user); }, error);
             }
         }, error);
     };

@@ -129,17 +129,20 @@ var UniversalBot = (function (_super) {
             }, cb);
         }, this.errorLogger(done));
     };
-    UniversalBot.prototype.beginDialog = function (message, dialogId, dialogArgs, done) {
+    UniversalBot.prototype.beginDialog = function (address, dialogId, dialogArgs, done) {
         var _this = this;
-        var msg = message && message.toMessage ? message.toMessage() : message;
-        if (!msg || !msg.address) {
-            throw new Error('Invalid message passed to UniversalBot.beginDialog().');
-        }
-        msg.text = msg.text || '';
-        msg.type = 'message';
-        this.lookupUser(msg.address, function (user) {
-            if (user) {
-                msg.user = user;
+        this.lookupUser(address, function (user) {
+            var msg = {
+                type: consts.messageType,
+                agent: consts.agent,
+                source: address.channelId,
+                sourceEvent: {},
+                address: utils.clone(address),
+                text: '',
+                user: user
+            };
+            if (msg.address.conversation) {
+                delete msg.address.conversation;
             }
             _this.ensureConversation(msg.address, function (adr) {
                 msg.address = adr;

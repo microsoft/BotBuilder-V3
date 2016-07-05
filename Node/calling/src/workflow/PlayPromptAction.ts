@@ -66,7 +66,10 @@ export class PlayPromptAction implements IIsAction {
     }
 
     static file(session: ses.CallSession, uri: string): PlayPromptAction {
-        return new PlayPromptAction(session).prompts([new prompt.Prompt(session).fileUri(uri)]);
+        return new PlayPromptAction(session).prompts([prompt.Prompt.file(session, uri)]);
     }
     
+    static silence(session: ses.CallSession, time: number): PlayPromptAction {
+        return new PlayPromptAction(session).prompts([prompt.Prompt.silence(session, time)]);
+    }
 }

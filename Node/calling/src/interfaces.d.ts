@@ -63,74 +63,62 @@ interface IDialogState {
     state: any;
 }
 
-interface IBeginDialogHandler {
-    (session: ISession, args: any, next: (handled: boolean) => void): void; 
-}
-
 interface IDialogHandler<T> {
     (session: ISession, args?: T): void;
 }
 
-interface IIntent {
-    intent: string;
-    score: number;
-}
-
-interface IEntity {
-    entity: string;
+interface IEvent {
     type: string;
-    startIndex?: number;
-    endIndex?: number;
-    score?: number;
+    agent: string;
+    source: string;
+    sourceEvent?: any;
+    address: ICallConnectorAddress;
+    user?: IIdentity;
 }
 
-interface IMessage {
-    type: string;
-    address: IConversationAddress;
-    user?: IParticipant;
+interface IIsEvent {
+    toEvent(): IEvent;
 }
 
-interface IIsMessage {
-    toMessage(): IMessage;
+interface IIdentity {
+    id: string;                     // Channel specific ID for this identity
+    name?: string;                  // Friendly name for this identity
+    isGroup?: boolean;              // If true the identity is a group.
+    locale?: string;
+    originator?: boolean; 
 }
 
-interface IConversationAddress {
-    id: string;
-    participants: IParticipant[];
-    isMultiParty: boolean;
+interface IAddress {
+    channelId: string;              // Unique identifier for channel
+    user: IIdentity;                // User that sent or should receive the message
+    bot?: IIdentity;                // Bot that either received or is sending the message
+    conversation?: IIdentity;       // Represents the current conversation and tracks where replies should be routed to. 
+}
+
+interface ICallConnectorAddress extends IAddress {
+    participants: IIdentity[];
     threadId?: string;
     subject?: string;
     correlationId?: string;
+    serviceUri?: string;
 }
 
-interface IConversation extends IMessage {
+interface IConversation extends IEvent {
     callState: string;
-    appId?: string;
     links?: any;
     presentedModalityTypes: string[];
 }
 
-interface IParticipant {
-    identity: string;
-    displayName?: string;
-    languageId?: string;
-    originator: boolean;
-}
-
-
-interface IConversationResult extends IMessage {
+interface IConversationResult extends IEvent {
     callState: string;
-    appId?: string;
-    appState?: any;
     links?: any;
     operationOutcome: IActionOutcome; 
     recordedAudio?: Buffer;
 }
 
-interface IWorkflow extends IMessage {
+interface IWorkflow extends IEvent {
     actions: IAction[];
     links?: any;
-    appState?: string;
     notificationSubscriptions?: string[]; 
 }
 

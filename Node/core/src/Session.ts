@@ -477,7 +477,7 @@ export class Session extends events.EventEmitter implements ISession {
     //-----------------------------------------------------
     
     public getMessageReceived(): any {
-        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.channelData instead.");
-        return this.message.channelData;
+        console.warn("Session.getMessageReceived() is deprecated. Use Session.message.sourceEvent instead.");
+        return this.message.sourceEvent;
     }
 }
