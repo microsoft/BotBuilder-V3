@@ -58,7 +58,7 @@
     ///
     ///\endcode
     ///
-    /// \subsection emulator Use the %Bot Framework Emulator to test your %Bot application
+    /// \subsection emulator Use the Bot Framework Emulator to test your Bot application
     ///
     /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from**[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
     ///
