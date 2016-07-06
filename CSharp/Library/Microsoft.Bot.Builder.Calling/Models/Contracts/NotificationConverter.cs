@@ -13,11 +13,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         protected override NotificationBase Create(Type objectType, JObject jsonObject)
         {
             var type = (string)jsonObject.Property("type");
-            if (String.Equals(type, NotificationType.RosterUpdate.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                return new RosterUpdateNotification();
-            }
-            else if (String.Equals(type, NotificationType.CallStateChange.ToString(), StringComparison.OrdinalIgnoreCase))
+            if (String.Equals(type, NotificationType.CallStateChange.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return new CallStateChangeNotification();
             }

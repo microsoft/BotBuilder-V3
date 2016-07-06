@@ -1130,6 +1130,13 @@ dl {
     text-align: center;
 }
 
+.image img {
+    max-width: 70%;
+    display: block;
+    margin: 20px auto 30px auto;
+    border: 1px solid lightgrey;
+}
+
 .dotgraph {
     text-align: center;
 }

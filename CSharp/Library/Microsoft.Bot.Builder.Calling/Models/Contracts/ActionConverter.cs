@@ -29,10 +29,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             {
                 return new Answer();
             }
-            else if (String.Equals(type, ValidActions.AnswerAppHostedMediaAction, StringComparison.OrdinalIgnoreCase))
-            {
-                return new AnswerAppHostedMedia();
-            }
             else if (String.Equals(type, ValidActions.HangupAction, StringComparison.OrdinalIgnoreCase))
             {
                 return new Hangup();
@@ -52,14 +48,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             else if (String.Equals(type, ValidActions.RecognizeAction, StringComparison.OrdinalIgnoreCase))
             {
                 return new Recognize();
-            }
-            else if (String.Equals(type, ValidActions.PlaceCallAction, StringComparison.OrdinalIgnoreCase))
-            {
-                return new PlaceCall();
-            }
-            else if (String.Equals(type, ValidActions.VideoSubscriptionAction, StringComparison.OrdinalIgnoreCase))
-            {
-                return new VideoSubscription();
             }
             else if (String.Equals(type, ValidActions.TransferAction, StringComparison.OrdinalIgnoreCase))
             {

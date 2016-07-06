@@ -17,10 +17,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             {
                 return new AnswerOutcome();
             }
-            else if (String.Equals(type, ValidOutcomes.AnswerAppHostedMediaOutcome, StringComparison.OrdinalIgnoreCase))
-            {
-                return new AnswerAppHostedMediaOutcome();
-            }
             else if (String.Equals(type, ValidOutcomes.HangupOutcome, StringComparison.OrdinalIgnoreCase))
             {
                 return new HangupOutcome();
@@ -28,10 +24,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             else if (String.Equals(type, ValidOutcomes.RejectOutcome, StringComparison.OrdinalIgnoreCase))
             {
                 return new RejectOutcome();
-            }
-            else if (String.Equals(type, ValidOutcomes.PlaceCallOutcome, StringComparison.OrdinalIgnoreCase))
-            {
-                return new PlaceCallOutcome();
             }
             else if (String.Equals(type, ValidOutcomes.PlayPromptOutcome, StringComparison.OrdinalIgnoreCase))
             {
@@ -48,10 +40,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             else if (String.Equals(type, ValidOutcomes.WorkflowValidationOutcome, StringComparison.OrdinalIgnoreCase))
             {
                 return new WorkflowValidationOutcome();
-            }
-            else if (String.Equals(type, ValidOutcomes.VideoSubscriptionOutcome, StringComparison.OrdinalIgnoreCase))
-            {
-                return new VideoSubscriptionOutcome();
             }
             else if (String.Equals(type, ValidOutcomes.TransferOutcome, StringComparison.OrdinalIgnoreCase))
             {

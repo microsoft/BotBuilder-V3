@@ -1,7 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.FormFlow
 {
     /// \page forms %FormFlow 
-    /// \tableofcontents
     /// [LUIS]: http://luis.ai
     /// [Describe]: @ref DescribeAttribute 
     /// [Numeric]: @ref NumericAttribute 

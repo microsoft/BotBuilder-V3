@@ -1,7 +1,6 @@
 ﻿namespace Microsoft.Bot.Builder.Dialogs
 {
     /// \page dialogs %Dialogs
-    /// \tableofcontents
     /// [LUIS]: http://luis.ai 
     /// [How to Setup LUIS]: http://aka.ms/bf-node-nl 
     /// [Buttons]: http://docs.botframework.com/connector/message-actions/#actions-on-attachments
