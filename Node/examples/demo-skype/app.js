@@ -1,24 +1,30 @@
 /*-----------------------------------------------------------------------------
 This Bot uses the Bot Connector Service but is designed to showcase whats 
 possible on Skype using the framework. The demo shows how to create a looping 
-menu, how send things like Pictures, Hero & Thumbnail Cards, Receipts, and use 
-Carousels. It alsoshows all of the prompts supported by Bot Builder and how to 
-recieve uploaded photos and videos.
+menu, use the built-in prompts, send Pictures, send Hero & Thumbnail Cards, 
+send Receipts, and use Carousels. 
 
 # RUN THE BOT:
 
     You can run the bot locally using the Bot Framework Emulator but for the best
-    experience you should register a new bot on Facebook and bind it to the demo 
-    bot. You can run the bot locally using ngrok found at https://ngrok.com/.
+    experience you should register a new bot on Skype and bind it to the demo 
+    bot. You can then run the bot locally using ngrok found at https://ngrok.com/.
 
     * Install and run ngrok in a console window using "ngrok http 3978".
     * Create a bot on https://dev.botframework.com and follow the steps to setup
       a Skype channel.
     * For the endpoint you setup on dev.botframework.com, copy the https link 
       ngrok setup and set "<ngrok link>/api/messages" as your bots endpoint.
-    * In a separate console window set MICROSOFT_APP_ID and MICROSOFT_APP_PASSWORD
-      and run "node app.js" from the example directory. You should be ready to add 
-      your bot as a contact and say "hello" to start the demo.
+    * Next you need to configure your bots MICROSOFT_APP_ID, and
+      MICROSOFT_APP_PASSWORD environment variables. If you're running VSCode you 
+      can add these variables to your the bots launch.json file. If you're not 
+      using VSCode you'll need to setup these variables in a console window.
+      - MICROSOFT_APP_ID: This is the App ID assigned when you created your bot.
+      - MICROSOFT_APP_PASSWORD: This was also assigned when you created your bot.
+    * To use the bot you'll need to click the join link in the portal which will
+      add it as a contact to your skype account. 
+    * To run the bot you can launch it from VSCode or run "node app.js" from a 
+      console window. 
 
 -----------------------------------------------------------------------------*/
 
@@ -102,11 +108,8 @@ bot.on('deleteUserData', function (message) {
 // Bots Middleware
 //=========================================================
 
-// Anytime the major version is incremented any existign conversations will be restarted.
+// Anytime the major version is incremented any existing conversations will be restarted.
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-
-// Add a download file method.
-bot.use(downloadFile(connector));
 
 //=========================================================
 // Bots Dialogs
@@ -134,36 +137,12 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|upload|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
-            switch (results.response.entity) {
-                case 'prompts':
-                    session.beginDialog('/prompts');
-                    break;
-                case 'picture':
-                    session.beginDialog('/picture');
-                    break;
-                case 'cards':
-                    session.beginDialog('/cards');
-                    break;
-                case 'list':
-                    session.beginDialog('/list');
-                    break;
-                case 'carousel':
-                    session.beginDialog('/carousel');
-                    break;
-                case 'receipt':
-                    session.beginDialog('/receipt');
-                    break;
-                case 'signin':
-                    session.beginDialog('/signin');
-                    break;
-                case 'upload':
-                    session.beginDialog('/upload');
-                    break;
-            }
+            // Launch demo dialog
+            session.beginDialog('/' + results.response.entity);
         } else {
             // Exit the menu
             session.endDialog();
@@ -443,52 +422,3 @@ bot.dialog('/signin', [
         session.endDialog(msg); 
     } 
 ]); 
-
-bot.dialog('/upload', [ 
-    function (session) { 
-        builder.Prompts.attachment(session, "Send me an image and I'll save it locally.");
-    }, 
-    function (session, results) {
-        if (results && results.response) {
-            var attachment = results.response[0];
-            session.send("I'm saving your file now");
-            session.downloadFile(attachment.contentUrl, "file1", function (err) {
-                if (!err) {
-                    session.endDialog("1 file saved.");
-                } else {
-                    session.endDialog("Oops... Something went wrong: %s", err.toString());    
-                }
-            });
-        } else {
-            session.endDialog("You canceled.")
-        }
-    }
-]); 
-
-
-var fs = require('fs');
-var request = require('request');
-
-function downloadFile(connector) {
-    return {
-        botbuilder: function (session, next) {
-            session.downloadFile = function downloadFile(url, filename, cb) {
-                connector.getAccessToken(function (err, token) {
-                    if (!err && token) {
-                        var headers = {};
-                        if (url.indexOf('skype.com/')) {
-                            headers['Authorization'] = 'Bearer ' + token;
-                        }
-                        request({
-                            url: url,
-                            headers: headers
-                        }).pipe(fs.createWriteStream(filename)).on('close', cb);
-                    } else {
-                        cb(err);
-                    }
-                });
-            }
-            next();
-        }
-    };
-}

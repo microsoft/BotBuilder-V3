@@ -28,8 +28,9 @@ and even send a caller a chat message.
       your skype client you should see an option to call your bot. If you're 
       adding calling to an existing bot can take a few minutes for the calling 
       option to show up.
-    * To use the bot call it from within your skype client. For the best 
-      experience you should use the mobile client for either iOS or Android.
+    * You can run the bot by launching it from VSCode or running "node app.js"
+      from a console window.  Then call your bot from a skype client to start
+      the demo. 
 
 -----------------------------------------------------------------------------*/
 
