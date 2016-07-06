@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 {
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         /// <summary>

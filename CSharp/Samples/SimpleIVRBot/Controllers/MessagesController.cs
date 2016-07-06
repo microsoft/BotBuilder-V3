@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Sample.SimpleIVRBot
         }
     }
 
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         [Route("api/messages")]

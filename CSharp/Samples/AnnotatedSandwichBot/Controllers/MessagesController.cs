@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
-    // [BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         internal static IDialog<SandwichOrder> MakeRootDialog()

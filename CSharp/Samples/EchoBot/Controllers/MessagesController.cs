@@ -28,10 +28,10 @@ namespace Microsoft.Bot.Sample.EchoBot
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        //return await DirectConversation.SendDirectAsync(activity, () => new EchoDialog());
-                        //return await Conversation.SendAsync(activity, () => new EchoDialog());
-                        //return await Conversation.SendAsync(activity, () => EchoCommandDialog.dialog);
-                        //return await Conversation.SendAsync(activity, () => new EchoAttachmentDialog());
+                        //await DirectConversation.SendDirectAsync(activity, () => new EchoDialog());
+                        //await Conversation.SendAsync(activity, () => new EchoDialog());
+                        //await Conversation.SendAsync(activity, () => EchoCommandDialog.dialog);
+                        //await Conversation.SendAsync(activity, () => new EchoAttachmentDialog());
                         await Conversation.SendAsync(activity, () => EchoChainDialog.dialog);
                         break;
 
@@ -61,6 +61,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                     case ActivityTypes.ContactRelationUpdate:
                     case ActivityTypes.Typing:
                     case ActivityTypes.DeleteUserData:
+                    case ActivityTypes.Ping:
                     default:
                         Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
                         break;

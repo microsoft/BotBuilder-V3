@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
 {
     public class OAuthCallbackController : ApiController
     {
-        private static Lazy<string> botId = new Lazy<string>(() => ConfigurationManager.AppSettings["AppId"]);
+        private static Lazy<string> botId = new Lazy<string>(() => ConfigurationManager.AppSettings["MicrosoftAppId"]);
 
         /// <summary>
         /// OAuth call back that is called by Facebook. Read https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow for more details.
