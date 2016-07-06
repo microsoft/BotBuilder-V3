@@ -54,6 +54,14 @@
             Bot removed from user contacts
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.HttpClientEx.AddAPIAuthorization(System.Net.Http.HttpClient,System.String,System.String)">
+            <summary>
+            add Bearer authorization token for making API calls
+            </summary>
+            <param name="appId">(default)Setting["microsoftAppId"]</param>
+            <param name="password">(default)Setting["microsoftAppPassword"]</param>
+            <returns>HttpClient with Bearer Authorization header</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IActionActivity">
             <summary>
             User took action on a message (button click)
@@ -76,14 +84,6 @@
             
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.HttpClientEx.AddAPIAuthorization(System.Net.Http.HttpClient,System.String,System.String)">
-            <summary>
-            add Bearer authorization token for making API calls
-            </summary>
-            <param name="appId">(default)Setting["microsoftAppId"]</param>
-            <param name="password">(default)Setting["microsoftAppPassword"]</param>
-            <returns>HttpClient with Bearer Authorization header</returns>
         </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
             <summary>

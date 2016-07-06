@@ -147,14 +147,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="createpackage.cmd" />
-    <None Include="generateClient.cmd" />
     <None Include="Microsoft.Bot.Connector.nuspec" />
     <None Include="Swagger\StateAPI.json" />
     <None Include="Swagger\ConnectorAPI.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="pushpackage.cmd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Microsoft.Bot.Connector.xml">
