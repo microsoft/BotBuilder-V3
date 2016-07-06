@@ -131,7 +131,7 @@ export class BotConnectorBot  {
             console.error("Calling BotConnectorBot.verifyBotFramework() with options is no longer supported. You should either pass all options into the constructor or update code to use the new UniversalBot class.");
             throw new Error("Calling BotConnectorBot.verifyBotFramework() with options is no longer supported.");
         }
-        return this.connector.verifyBotFramework();
+        return (req: any, res: any, next: Function) => next();
     }
 
     public listen(dialogId?: string, dialogArgs?: any): any {

@@ -1902,9 +1902,6 @@ export class ChatConnector implements IConnector, IBotStorage {
     /** Registers an Express or Restify style hook to listen for new messages. */
     listen(): (req: any, res: any) => void;
 
-    /** Express or Resitify style middleware that verifies recieved messages are from the Bot Framework. */
-    verifyBotFramework(): (req: any, res: any, next: any) => void;
-
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
     

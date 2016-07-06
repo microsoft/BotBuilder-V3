@@ -20,7 +20,7 @@ var ChatConnector = (function () {
         var _this = this;
         return function (req, res) {
             if (req.body) {
-                _this.dispatch(req.body, res);
+                _this.verifyBotFramework(req, res);
             }
             else {
                 var requestData = '';
@@ -28,16 +28,33 @@ var ChatConnector = (function () {
                     requestData += chunk;
                 });
                 req.on('end', function () {
-                    var body = JSON.parse(requestData);
-                    _this.dispatch(body, res);
+                    req.body = JSON.parse(requestData);
+                    _this.verifyBotFramework(req, res);
                 });
             }
         };
     };
-    ChatConnector.prototype.verifyBotFramework = function () {
-        return function (req, res, next) {
-            next();
-        };
+    ChatConnector.prototype.verifyBotFramework = function (req, res) {
+        var token;
+        var isEmulator = req.body['channelId'] === 'emulator';
+        if (req.headers && req.headers.hasOwnProperty('Authorization')) {
+            var auth = req.headers['Authorization'].trim().split(' ');
+            ;
+            if (auth.length == 2 && auth[0].toLowerCase() == 'Bearer') {
+                token = auth[1];
+            }
+        }
+        if (token) {
+            req.body['useAuth'] = true;
+        }
+        else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
+            req.body['useAuth'] = false;
+            this.dispatch(req.body, res);
+        }
+        else {
+            res.status(401);
+            res.end();
+        }
     };
     ChatConnector.prototype.onEvent = function (handler) {
         this.handler = handler;
@@ -258,10 +275,18 @@ var ChatConnector = (function () {
             body: msg,
             json: true
         };
-        console.log(JSON.stringify(msg));
-        this.authenticatedRequest(options, function (err, response, body) {
-            cb(err);
-        });
+        if (address.userAuth) {
+            this.authenticatedRequest(options, function (err, response, body) { return cb(err); });
+        }
+        else {
+            request(options, function (err, response, body) {
+                if (!err && response.statusCode >= 400) {
+                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                    err = new Error(txt);
+                }
+                cb(err);
+            });
+        }
     };
     ChatConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
         var _this = this;
@@ -382,5 +407,6 @@ var toAddress = {
     'from': 'user',
     'conversation': 'conversation',
     'recipient': 'bot',
-    'serviceUrl': 'serviceUrl'
+    'serviceUrl': 'serviceUrl',
+    'useAuth': 'useAuth'
 };

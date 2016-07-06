@@ -23,7 +23,8 @@
     "chrono-node": "^1.1.3",
     "node-uuid": "^1.4.7",
     "request": "^2.69.0",
-    "sprintf-js": "^1.0.3"
+    "sprintf-js": "^1.0.3",
+    "jsonwebtoken": "^7.0.1"
   },
   "devDependencies": {
     "mocha": "^2.4.5"

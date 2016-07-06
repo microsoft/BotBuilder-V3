@@ -57,7 +57,8 @@ export interface IChatConnectorEndpoint {
 
 export interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
-    serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete 
+    serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
+    userAuth?: string;
 }
 
 export class ChatConnector implements ub.IConnector, bs.IBotStorage {
@@ -80,25 +81,51 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     public listen(): IWebMiddleware {
         return (req: IWebRequest, res: IWebResponse) => {
             if (req.body) {
-                this.dispatch(req.body, res);
+                this.verifyBotFramework(req, res);
             } else {
                 var requestData = '';
                 req.on('data', (chunk: string) => {
                     requestData += chunk
                 });
                 req.on('end', () => {
-                    var body = JSON.parse(requestData);
-                    this.dispatch(body, res);
+                    req.body = JSON.parse(requestData);
+                    this.verifyBotFramework(req, res);
                 });
             }
         };
     }
 
-    public verifyBotFramework(): IWebMiddleware {
-        return (req: IWebRequest, res: IWebResponse, next: Function) => {
-            // TODO: Add logic to verify framework calls.
-            next();
-        };
+    private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
+        var token: string;
+        var isEmulator = req.body['channelId'] === 'emulator';
+        if (req.headers && req.headers.hasOwnProperty('Authorization')) {
+            var auth = req.headers['Authorization'].trim().split(' ');;
+            if (auth.length == 2 && auth[0].toLowerCase() == 'Bearer') {
+                token = auth[1];
+            }
+        }
+
+        // Verify token
+        if (token) {
+            req.body['useAuth'] = true;
+
+            // Add logic to cache OpenIdConfiguration
+            // - this.settings.endpoint.verifyEndpoint
+
+            // Add logic to parse token
+
+            // Add logic to verify token payload against certs
+
+
+        } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
+            // Emulator running without auth enabled
+            req.body['useAuth'] = false;
+            this.dispatch(req.body, res);
+        } else {
+            // Token not provided so 
+            res.status(401);
+            res.end();
+        }
     }
 
     public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
@@ -345,9 +372,17 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             body: msg,
             json: true
         };
-        this.authenticatedRequest(options, (err, response, body) => {
-            cb(err);
-        });
+        if (address.userAuth) {
+            this.authenticatedRequest(options, (err, response, body) => cb(err));
+        } else {
+            request(options, (err, response, body) => {
+                if (!err && response.statusCode >= 400) {
+                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                    err = new Error(txt);
+                }
+                cb(err);
+            });
+        }
     }
 
     private authenticatedRequest(options: request.Options, callback: (error: any, response: http.IncomingMessage, body: any) => void, refresh = false): void {
@@ -465,7 +500,8 @@ var toAddress = {
     'from': 'user',
     'conversation': 'conversation',
     'recipient': 'bot',
-    'serviceUrl': 'serviceUrl'
+    'serviceUrl': 'serviceUrl',
+    'useAuth': 'useAuth'
 }
 
 interface IChatConnectorStorageData extends bs.IBotStorageData {
