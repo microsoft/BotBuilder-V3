@@ -28,7 +28,6 @@ namespace Microsoft.Bot.Sample.EchoBot
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        //await DirectConversation.SendDirectAsync(activity, () => new EchoDialog());
                         //await Conversation.SendAsync(activity, () => new EchoDialog());
                         //await Conversation.SendAsync(activity, () => EchoCommandDialog.dialog);
                         //await Conversation.SendAsync(activity, () => new EchoAttachmentDialog());
