@@ -85,8 +85,6 @@
     <Compile Include="Models\Contracts\ActionConverter.cs" />
     <Compile Include="Models\Contracts\AgentContactNotification.cs" />
     <Compile Include="Models\Contracts\Answer.cs" />
-    <Compile Include="Models\Contracts\AnswerAppHostedMedia.cs" />
-    <Compile Include="Models\Contracts\AnswerAppHostedMediaOutcome.cs" />
     <Compile Include="Models\Contracts\AnswerOutcome.cs" />
     <Compile Include="Models\Contracts\BaseMessage.cs" />
     <Compile Include="Models\Contracts\CallbackLink.cs" />
@@ -105,8 +103,6 @@
     <Compile Include="Models\Contracts\OperationOutcomeBase.cs" />
     <Compile Include="Models\Contracts\OperationOutcomeConverter.cs" />
     <Compile Include="Models\Contracts\Participant.cs" />
-    <Compile Include="Models\Contracts\PlaceCall.cs" />
-    <Compile Include="Models\Contracts\PlaceCallOutcome.cs" />
     <Compile Include="Models\Contracts\PlayPrompt.cs" />
     <Compile Include="Models\Contracts\PlayPromptOutcome.cs" />
     <Compile Include="Models\Contracts\Prompt.cs" />
@@ -117,15 +113,11 @@
     <Compile Include="Models\Contracts\RecordOutcome.cs" />
     <Compile Include="Models\Contracts\Reject.cs" />
     <Compile Include="Models\Contracts\RejectOutcome.cs" />
-    <Compile Include="Models\Contracts\RosterParticipant.cs" />
-    <Compile Include="Models\Contracts\RosterUpdateNotification.cs" />
     <Compile Include="Models\Contracts\Transfer.cs" />
     <Compile Include="Models\Contracts\TransferOutcome.cs" />
     <Compile Include="Models\Contracts\ValidActions.cs" />
     <Compile Include="Models\Contracts\ValidDtmfs.cs" />
     <Compile Include="Models\Contracts\ValidOutcomes.cs" />
-    <Compile Include="Models\Contracts\VideoSubscription.cs" />
-    <Compile Include="Models\Contracts\VideoSubscriptionOutcome.cs" />
     <Compile Include="Models\Contracts\Workflow.cs" />
     <Compile Include="Models\Contracts\WorkflowValidationOutcome.cs" />
     <Compile Include="Models\Misc\ApplicationState.cs" />
@@ -148,7 +140,6 @@
     <Compile Include="Models\Misc\Serializer.cs" />
     <Compile Include="Models\Misc\StringEnumConverterWithDefault.cs" />
     <Compile Include="Models\Misc\Utils.cs" />
-    <Compile Include="Models\Misc\VideoSubscriptionMode.cs" />
     <Compile Include="Models\Misc\VoiceGender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
