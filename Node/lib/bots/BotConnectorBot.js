@@ -157,7 +157,8 @@ var BotConnectorBot = (function (_super) {
                         }
                         if (res) {
                             _this.emit('reply', reply);
-                            res.status(200).send(reply);
+                            res.status(200)
+                            res.send(reply);
                             res = null;
                         }
                         else if (ses.message.conversationId) {
