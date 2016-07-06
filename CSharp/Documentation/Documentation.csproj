@@ -60,6 +60,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="calling.cs" />
     <Compile Include="connector.cs" />
     <Compile Include="dialogs.cs" />
     <Compile Include="forms.cs" />

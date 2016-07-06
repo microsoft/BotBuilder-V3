@@ -183,7 +183,7 @@
     ///
     ///
     ///2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a %Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that %Microsoft %Bot Framework can use on your behalf.
-    ///   ![Configuring a channel, for example, Skype.](/en-us/images/connector/connector_channel_config_skype.png)
+    ///   ![Configuring a channel, for example, Facebook Messenger.](/en-us/images/connector/connector_channel_config_facebook.png)
     ///
     ///
     ///3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".
