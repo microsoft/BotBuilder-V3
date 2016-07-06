@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Web;
+using System.Security.Claims;
 
 namespace Microsoft.Bot.Connector
 {
@@ -35,7 +37,14 @@ namespace Microsoft.Bot.Connector
         /// <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         public override async Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            Token = await GetTokenAsync();
+            if (ShouldSetToken())
+            {
+                Token = await GetTokenAsync();
+            }
+            else
+            {
+                Token = null;
+            }
             await base.ProcessHttpRequestAsync(request, cancellationToken);
         }
 
@@ -43,7 +52,7 @@ namespace Microsoft.Bot.Connector
         {
             string token;
             var oAuthToken = (OAuthResponse)System.Web.HttpRuntime.Cache.Get(TokenCacheKey);
-            if (oAuthToken != null && !forceRefresh && TokenExpired(oAuthToken))
+            if (oAuthToken != null && !forceRefresh && TokenNotExpired(oAuthToken))
             {
                 token = oAuthToken.access_token;
             }
@@ -58,6 +67,25 @@ namespace Microsoft.Bot.Connector
                 token = oAuthToken.access_token;
             }
             return token;
+        }
+
+        private bool ShouldSetToken()
+        {
+            // There is no current http context, proactive message
+            // assuming that developer is not calling drop context
+            if (HttpContext.Current == null)
+            {
+                return true;
+            }
+            else if (HttpContext.Current.User != null)
+            {
+                ClaimsIdentity identity = (ClaimsIdentity)HttpContext.Current.User.Identity;
+                if (identity != null && identity.Claims.FirstOrDefault(c => c.Type == "appid" && JwtConfig.ToBotFromMSATokenValidationParameters.ValidIssuers.Contains(c.Issuer)) != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private async Task<OAuthResponse> RefreshTokenAsync()
@@ -85,7 +113,7 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        private bool TokenExpired(OAuthResponse token)
+        private bool TokenNotExpired(OAuthResponse token)
         {
             return token.expiration_time > DateTime.UtcNow;
         }

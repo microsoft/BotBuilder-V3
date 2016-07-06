@@ -12,8 +12,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json.Linq;
     using System.Net.Http;
-    using System.Configuration;/// <summary>
-                               /// </summary>
+    using System.Configuration;
+    using System.Text;
+
     public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity, IActionActivity
     {
         [JsonExtensionData(ReadData = true, WriteData = true)]
@@ -40,9 +41,7 @@ namespace Microsoft.Bot.Connector
             reply.Locale = locale ?? this.Locale;
             return reply;
         }
-
-        public static IActionActivity CreateActionActivity() { return new Activity(ActivityTypes.Action); }
-
+                
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
         public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
@@ -61,7 +60,7 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
-            bool useServiceUrl = (this.ChannelId == "emulator" || this.ChannelId == "skypeteams");
+            bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
             if (useServiceUrl)
                 return new StateClient(new Uri(this.ServiceUrl), microsoftAppId, microsoftAppPassword, handlers);
 
@@ -99,6 +98,51 @@ namespace Microsoft.Bot.Connector
         public Mention[] GetMentions()
         {
             return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
+        }
+
+        /// <summary>
+        /// Is there a mention of Id in the Text Property 
+        /// </summary>
+        /// <param name="id">ChannelAccount.Id</param>
+        /// <returns>true if this id is mentioned in the text</returns>
+        public bool MentionsId(string id)
+        {
+            return this.GetMentions().Where(mention => mention.Mentioned.Id == id).Any();
+        }
+
+        /// <summary>
+        /// Is there a mention of Recipient.Id in the Text Property 
+        /// </summary>
+        /// <param name="id">ChannelAccount.Id</param>
+        /// <returns>true if this id is mentioned in the text</returns>
+        public bool MentionsRecipient()
+        {
+            return this.GetMentions().Where(mention => mention.Mentioned.Id == this.Recipient.Id).Any();
+        }
+
+        /// <summary>
+        /// Remove recipient mention text from Text property
+        /// </summary>
+        /// <returns>new .Text property value</returns>
+        public string RemoveRecipientMention()
+        {
+            return RemoveMentionText(this.Recipient.Id);
+        }
+
+        /// <summary>
+        /// Replace any mention text for given id from Text property
+        /// </summary>
+        /// <param name="id">id to match</param>
+        /// <returns>new .Text property value</returns>
+        public string RemoveMentionText(string id)
+        {
+            StringBuilder sb = new StringBuilder(this.Text);
+            foreach (var mention in this.GetMentions().Where(mention => mention.Mentioned.Id == id))
+            {
+                sb.Replace(mention.Text, "");
+            }
+            this.Text = sb.ToString();
+            return this.Text;
         }
 
         /// <summary>
@@ -142,9 +186,6 @@ namespace Microsoft.Bot.Connector
 
             if (String.Equals(type, ActivityTypes.Ping, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Ping;
-
-            if (String.Equals(type, ActivityTypes.Action, StringComparison.OrdinalIgnoreCase))
-                return ActivityTypes.Action;
 
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }

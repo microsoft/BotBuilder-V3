@@ -14,7 +14,7 @@
     <summary>A Microsoft Bot Builder extension for declaratively specifying FormFlow dialogs using JSON Schema.</summary>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Microsoft.Bot.Builder" version="$version$" />
+      <dependency id="Microsoft.Bot.Builder" version="$builder$" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
       <dependency id="Microsoft.CodeAnalysis.CSharp.Scripting" version="1.2.2" />
     </dependencies>

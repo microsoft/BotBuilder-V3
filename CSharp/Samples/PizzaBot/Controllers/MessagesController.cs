@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         private static IForm<PizzaOrder> BuildForm()

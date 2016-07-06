@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Sample.SimpleEchoBot
         }
     }
 
-    //[BotAuthentication]
+    [BotAuthentication]
     public class MessagesController : ApiController
     {
         /// <summary>
