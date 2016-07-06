@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="ActionTypes.cs" />
     <Compile Include="ContactRelationUpdateActionTypes.cs" />
+    <Compile Include="HttpClientEx.cs" />
     <Compile Include="IActionActivity.cs" />
     <Compile Include="TextFormatTypes.cs" />
     <Compile Include="AttachmentLayoutTypes.cs" />

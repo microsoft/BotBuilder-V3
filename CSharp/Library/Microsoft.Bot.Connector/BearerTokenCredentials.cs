@@ -30,7 +30,10 @@ namespace Microsoft.Bot.Connector
         /// <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         public override Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            if (!string.IsNullOrEmpty(this.Token))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.Token);
+            }
             return base.ProcessHttpRequestAsync(request, cancellationToken);
         }
     }
