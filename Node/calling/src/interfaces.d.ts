@@ -100,7 +100,7 @@ interface ICallConnectorAddress extends IAddress {
     threadId?: string;
     subject?: string;
     correlationId?: string;
-    serviceUri?: string;
+    serviceUrl?: string;
 }
 
 interface IConversation extends IEvent {

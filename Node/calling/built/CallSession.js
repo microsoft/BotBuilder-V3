@@ -7,6 +7,7 @@ var dlg = require('./dialogs/Dialog');
 var consts = require('./consts');
 var sprintf = require('sprintf-js');
 var events = require('events');
+var utils = require('./utils');
 var answer = require('./workflow/AnswerAction');
 var hangup = require('./workflow/HangupAction');
 var reject = require('./workflow/RejectAction');
@@ -78,6 +79,7 @@ var CallSession = (function (_super) {
             this.dialogData = cur.state;
         }
         this.message = (message || {});
+        this.address = utils.clone(this.message.address);
         next();
         return this;
     };
@@ -299,8 +301,8 @@ var CallSession = (function (_super) {
         var workflow = {
             type: 'workflow',
             agent: consts.agent,
-            source: this.message.source,
-            address: this.message.address,
+            source: this.address.channelId,
+            address: this.address,
             actions: this.actions,
             notificationSubscriptions: ["callStateChange"]
         };

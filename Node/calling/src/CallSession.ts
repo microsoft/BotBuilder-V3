@@ -99,6 +99,7 @@ export class CallSession extends events.EventEmitter implements ISession {
     private batchTimer: NodeJS.Timer;
     private batchStarted = false;
     private sendingBatch = false;
+    private address: ICallConnectorAddress;
 
     constructor(protected options: ICallSessionOptions) {
         super();
@@ -135,6 +136,7 @@ export class CallSession extends events.EventEmitter implements ISession {
 
         // Dispatch message
         this.message = <IEvent>(message || {});
+        this.address = utils.clone(this.message.address);
         next();
         return this;
     }
@@ -390,8 +392,8 @@ export class CallSession extends events.EventEmitter implements ISession {
         var workflow: IWorkflow = {
             type: 'workflow',
             agent: consts.agent,
-            source: this.message.source,
-            address: this.message.address,
+            source: this.address.channelId,
+            address: this.address,
             actions: this.actions,
             notificationSubscriptions: ["callStateChange"]
         };

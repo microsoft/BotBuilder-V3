@@ -112,7 +112,7 @@ export class Prompts extends dlg.Dialog {
     public replyReceived(session: ses.CallSession): void {
         var args: IPromptArgs = session.dialogData;
         var results = <IConversationResult>session.message;
-        if (results.operationOutcome && results.operationOutcome.outcome === ses.OperationOutcome.success) {
+        if (results.operationOutcome) {
             // Parse response
             var state = PromptResponseState.completed;
             var retryPrompt: any;

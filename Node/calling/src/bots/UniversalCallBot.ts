@@ -101,6 +101,7 @@ export class UniversalCallBot extends events.EventEmitter {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
+        this.lib.library(dl.systemLib);
         this.connector.onEvent((event, cb) => this.receive(event, cb));
     }
     

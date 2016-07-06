@@ -252,10 +252,10 @@ interface IPlayPromptAction extends IAction {
 
 /** Prompt played as part of the PlayPrompt action. */
 interface IPrompt {
-    /** Text-To-Speech text to be played to Skype user. Either [value](#value) or [fileUri](#fileUri) must be specified. */
+    /** Text-To-Speech text to be played to Skype user. Either [value](#value) or [fileUri](#fileuri) must be specified. */
     value?: string;
 
-    /** HTTP of played media file. Supported formats are WMA or WAV. The file is limited to 512kb in size and cached by Skype Bot Platform for Calling. Either [value](#value) or [fileUri](#fileUri) must be specified. */
+    /** HTTP of played media file. Supported formats are WMA or WAV. The file is limited to 512kb in size and cached by Skype Bot Platform for Calling. Either [value](#value) or [fileUri](#fileuri) must be specified. */
     fileUri?: string;
 
     /** VoiceGender enum value. The default value is “female”. */

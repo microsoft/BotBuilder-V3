@@ -258,6 +258,7 @@ var ChatConnector = (function () {
             body: msg,
             json: true
         };
+        console.log(JSON.stringify(msg));
         this.authenticatedRequest(options, function (err, response, body) {
             cb(err);
         });

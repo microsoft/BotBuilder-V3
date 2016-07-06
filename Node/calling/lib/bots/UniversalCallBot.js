@@ -35,6 +35,7 @@ var UniversalCallBot = (function (_super) {
             typeof asStorage.saveData === 'function') {
             this.settings.storage = asStorage;
         }
+        this.lib.library(dl.systemLib);
         this.connector.onEvent(function (event, cb) { return _this.receive(event, cb); });
     }
     UniversalCallBot.prototype.set = function (name, value) {

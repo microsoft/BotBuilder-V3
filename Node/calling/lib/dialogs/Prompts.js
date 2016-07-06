@@ -4,7 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var dlg = require('./Dialog');
-var ses = require('../CallSession');
 var consts = require('../consts');
 var dl = require('../bots/Library');
 var recognize = require('../workflow/RecognizeAction');
@@ -40,7 +39,7 @@ var Prompts = (function (_super) {
     Prompts.prototype.replyReceived = function (session) {
         var args = session.dialogData;
         var results = session.message;
-        if (results.operationOutcome && results.operationOutcome.outcome === ses.OperationOutcome.success) {
+        if (results.operationOutcome) {
             var state = PromptResponseState.completed;
             var retryPrompt;
             var response;

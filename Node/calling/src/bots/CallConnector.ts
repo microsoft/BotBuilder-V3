@@ -43,12 +43,12 @@ import consts = require('../consts');
 var Busboy = require('busboy');
 
 export interface ICallConnectorSettings {
-    callbackUri: string;
+    callbackUrl: string;
     appId?: string;
     appPassword?: string;
     endpoint?: ICallConnectorEndpoint;
-    serviceUri?: string;
-    stateUri?: string;
+    serviceUrl?: string;
+    stateUrl?: string;
 }
 
 export interface ICallConnectorEndpoint {
@@ -72,13 +72,13 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
                 verifyIssuer: 'https://api.botframework.com',
-                stateEndpoint: this.settings.stateUri || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateUrl || 'https://state.botframework.com'
             }
         }
     }
 
     public listen(): IWebMiddleware {
-        return (req: IWebRequest, res: IWebResponse) => {
+        return this.verifyBotFramework((req: IWebRequest, res: IWebResponse) => {
             var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
             var callback = this.responseCallback(req, res);
             if (req.is('application/json')) {
@@ -102,13 +102,13 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             } else {
                 callback(new Error('Invalid content type.'));
             }
-        };
+        });
     }
 
-    public verifyBotFramework(): IWebMiddleware {
+    private verifyBotFramework(listen?: IWebMiddleware): IWebMiddleware {
         return (req: IWebRequest, res: IWebResponse, next: Function) => {
             // TODO: Add logic to verify framework calls.
-            next();
+            listen ? listen(req, res, next) : next();
         };
     }
 
@@ -126,7 +126,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 
                 // Deliver message
                 var response: IWorkflow = utils.clone(event);
-                response.links = { 'callback': this.settings.callbackUri };
+                response.links = { 'callback': this.settings.callbackUrl };
                 (<any>response).appState = JSON.stringify(response.address);
                 delete response.type;
                 delete response.address;
@@ -267,7 +267,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
         event.source = 'skype';
         event.sourceEvent = body;
         this.responses[body.id] = response;
-        if (event.hasOwnProperty('participants')) {
+        if (body.hasOwnProperty('participants')) {
             // Initialize event
             var convo = <ISkypeConversation>body;
             event.type = 'conversation';
@@ -277,7 +277,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             var address = event.address = <ICallConnectorAddress>{};
             address.channelId = event.source;
             address.correlationId = convo.correlationId;
-            address.serviceUri = this.settings.serviceUri || '';
+            address.serviceUrl = this.settings.serviceUrl || 'https://skype.botframework.com';
             address.conversation = { id: convo.id, isGroup: convo.isMultiparty };
             utils.copyFieldsTo(convo, address, 'threadId|subject');
             if (address.subject) {

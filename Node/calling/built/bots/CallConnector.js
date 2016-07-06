@@ -14,13 +14,13 @@ var CallConnector = (function () {
                 refreshScope: 'https://graph.microsoft.com/.default',
                 verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
                 verifyIssuer: 'https://api.botframework.com',
-                stateEndpoint: this.settings.stateUri || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateUrl || 'https://state.botframework.com'
             };
         }
     }
     CallConnector.prototype.listen = function () {
         var _this = this;
-        return function (req, res) {
+        return this.verifyBotFramework(function (req, res) {
             var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
             var callback = _this.responseCallback(req, res);
             if (req.is('application/json')) {
@@ -48,11 +48,11 @@ var CallConnector = (function () {
             else {
                 callback(new Error('Invalid content type.'));
             }
-        };
+        });
     };
-    CallConnector.prototype.verifyBotFramework = function () {
+    CallConnector.prototype.verifyBotFramework = function (listen) {
         return function (req, res, next) {
-            next();
+            listen ? listen(req, res, next) : next();
         };
     };
     CallConnector.prototype.onEvent = function (handler) {
@@ -65,7 +65,7 @@ var CallConnector = (function () {
                 var callback = this.responses[conversation.id];
                 delete this.responses[conversation.id];
                 var response = utils.clone(event);
-                response.links = { 'callback': this.settings.callbackUri };
+                response.links = { 'callback': this.settings.callbackUrl };
                 response.appState = JSON.stringify(response.address);
                 delete response.type;
                 delete response.address;
@@ -198,14 +198,14 @@ var CallConnector = (function () {
         event.source = 'skype';
         event.sourceEvent = body;
         this.responses[body.id] = response;
-        if (event.hasOwnProperty('participants')) {
+        if (body.hasOwnProperty('participants')) {
             var convo = body;
             event.type = 'conversation';
             utils.copyFieldsTo(convo, event, 'callState|links|presentedModalityTypes');
             var address = event.address = {};
             address.channelId = event.source;
             address.correlationId = convo.correlationId;
-            address.serviceUri = this.settings.serviceUri || '';
+            address.serviceUrl = this.settings.serviceUrl || 'https://skype.botframework.com';
             address.conversation = { id: convo.id, isGroup: convo.isMultiparty };
             utils.copyFieldsTo(convo, address, 'threadId|subject');
             if (address.subject) {
