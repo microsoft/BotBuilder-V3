@@ -54,14 +54,6 @@
             Bot removed from user contacts
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.HttpClientEx.AddAPIAuthorization(System.Net.Http.HttpClient,System.String,System.String)">
-            <summary>
-            add Bearer authorization token for making API calls
-            </summary>
-            <param name="appId">(default)Setting["microsoftAppId"]</param>
-            <param name="password">(default)Setting["microsoftAppPassword"]</param>
-            <returns>HttpClient with Bearer Authorization header</returns>
-        </member>
         <member name="T:Microsoft.Bot.Connector.IActionActivity">
             <summary>
             User took action on a message (button click)
@@ -84,6 +76,14 @@
             
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.HttpClientEx.AddAPIAuthorization(System.Net.Http.HttpClient,System.String,System.String)">
+            <summary>
+            add Bearer authorization token for making API calls
+            </summary>
+            <param name="appId">(default)Setting["microsoftAppId"]</param>
+            <param name="password">(default)Setting["microsoftAppPassword"]</param>
+            <returns>HttpClient with Bearer Authorization header</returns>
         </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
             <summary>
@@ -166,6 +166,36 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Message">
+            <summary>
+            Message from a user -> bot or bot -> User
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
+            <summary>
+             Bot added removed to contact list
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ContactRelationUpdate">
+            <summary>
+             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Typing">
+            <summary>
+            A from is typing
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
+            <summary>
+            Delete user data
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Ping">
+            <summary>
+            Ping message
+            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfo(Microsoft.Bot.Connector.IAttachments,System.String)">
             <summary>

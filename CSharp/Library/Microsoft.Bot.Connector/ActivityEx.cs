@@ -41,9 +41,7 @@ namespace Microsoft.Bot.Connector
             reply.Locale = locale ?? this.Locale;
             return reply;
         }
-
-        public static IActionActivity CreateActionActivity() { return new Activity(ActivityTypes.Action); }
-
+                
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
         public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
@@ -62,7 +60,7 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
-            bool useServiceUrl = (this.ChannelId == "emulator" || this.ChannelId == "skypeteams");
+            bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
             if (useServiceUrl)
                 return new StateClient(new Uri(this.ServiceUrl), microsoftAppId, microsoftAppPassword, handlers);
 
@@ -188,9 +186,6 @@ namespace Microsoft.Bot.Connector
 
             if (String.Equals(type, ActivityTypes.Ping, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Ping;
-
-            if (String.Equals(type, ActivityTypes.Action, StringComparison.OrdinalIgnoreCase))
-                return ActivityTypes.Action;
 
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }
