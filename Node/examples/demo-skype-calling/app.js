@@ -1,24 +1,35 @@
 /*-----------------------------------------------------------------------------
-This Bot uses the Bot Connector Service but is designed to showcase whats 
-possible on Skype using the framework. The demo shows how to create a looping 
-menu, how send things like Pictures, Hero & Thumbnail Cards, Receipts, and use 
-Carousels. It alsoshows all of the prompts supported by Bot Builder and how to 
-recieve uploaded photos and videos.
+This Bot is a sample calling bot for Skype.  It's designed to showcase whats 
+possible on Skype using the BotBuilder SDK. The demo shows how to create a 
+looping menu, recognize speech & DTMF, record messages, play multiple prompts,
+and even send a caller a chat message.
 
 # RUN THE BOT:
 
-    You can run the bot locally using the Bot Framework Emulator but for the best
-    experience you should register a new bot on Facebook and bind it to the demo 
-    bot. You can run the bot locally using ngrok found at https://ngrok.com/.
+    You can run the bot locally using ngrok found at https://ngrok.com/.
 
     * Install and run ngrok in a console window using "ngrok http 3978".
     * Create a bot on https://dev.botframework.com and follow the steps to setup
-      a Skype channel.
-    * For the endpoint you setup on dev.botframework.com, copy the https link 
-      ngrok setup and set "<ngrok link>/api/messages" as your bots endpoint.
-    * In a separate console window set MICROSOFT_APP_ID and MICROSOFT_APP_PASSWORD
-      and run "node app.js" from the example directory. You should be ready to add 
-      your bot as a contact and say "hello" to start the demo.
+      a Skype channel. Ensure that you enable calling support for your bots skype
+      channel. 
+    * For the calling endpoint you setup on dev.botframework.com, copy the https 
+      link ngrok setup and set "<ngrok link>/api/calling" as your bots calling 
+      endpoint.
+    * Next you need to configure your bots CALLBACK_URL, MICROSOFT_APP_ID, and
+      MICROSOFT_APP_PASSWORD environment variables. If you're running VSCode you 
+      can add these variables to your the bots launch.json file. If you're not 
+      using VSCode you'll need to setup these variables in a console window.
+      - CALLBACK_URL: This should be the same endpoint you set as your calling
+             endpoint in the developer portal.
+      - MICROSOFT_APP_ID: This is the App ID assigned when you created your bot.
+      - MICROSOFT_APP_PASSWORD: This was also assigned when you created your bot.
+    * To use the bot you'll need to click the join link in the portal which will
+      add it as a contact to your skype account. When you click on the bot in 
+      your skype client you should see an option to call your bot. If you're 
+      adding calling to an existing bot can take a few minutes for the calling 
+      option to show up.
+    * To use the bot call it from within your skype client. For the best 
+      experience you should use the mobile client for either iOS or Android.
 
 -----------------------------------------------------------------------------*/
 
@@ -82,7 +93,7 @@ bot.dialog('/demoMenu', [
             { name: 'dtmf', speechVariation: ['dtmf'] },
             { name: 'digits', speechVariation: ['digits'] },
             { name: 'record', speechVariation: ['record', 'recordings'] },
-            { name: 'chat', speechVariation: ['chat', 'chat message'], dtmfVariation: '1'  },
+            { name: 'chat', speechVariation: ['chat', 'chat message'] },
             { name: 'choices', speechVariation: ['choices', 'options', 'list'] },
             { name: 'help', speechVariation: ['help', 'repeat'] },
             { name: 'quit', speechVariation: ['quit', 'end call', 'hangup', 'goodbye'] }
