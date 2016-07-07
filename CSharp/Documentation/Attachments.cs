@@ -10,11 +10,11 @@ our attachment data structure to media attachments and rich cards on each channe
 To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the
 content, setting the contenttype, contentUrl and name properties.
 
-| Property | Description | Example |
+| **Property** | **Description** | **Example** |
 |-----|------| ---- |
-| ContentType | mimetype/contenttype of the url | image/jpg |
-| ContentUrl  | a link to the actual file | http://foo.com/1312312 |
-| Name | the name of the file | foo.jpg |
+| **ContentType** | mimetype/contenttype of the url | image/jpg |
+| **ContentUrl**  | a link to the actual file | http://foo.com/1312312 |
+| **Name** | the name of the file | foo.jpg |
 
 If the content type is a image or media content type then it will be passed to the channel in a way that
 allows the image to be displayed. If it is a file then it will simply come through as a link.
@@ -46,24 +46,24 @@ replyMessage.Attachments.Add(new Attachment()
 \section richcards Rich card attachments
 We also have the ability to render rich cards as attachments.There are several types of cards supported:
 
-| Card Type | Description | Supported Modes |
+| **Card Type** | **Description** | **Supported Modes** |
 |-----------|-------------|-----------------|
-| Hero Card | A card with one big image | Single or Carousel |
-| Thumbnail Card | A card with a single small image | Single or Carousel |
-| Receipt Card | A card that lets the user deliver an invoice or receipt | Single |
-| Sign-In Card | A card that lets the %bot initiatea sign-in procedure | Single |
+| **Hero Card** | A card with one big image | Single or Carousel |
+| **Thumbnail Card** | A card with a single small image | Single or Carousel |
+| **Receipt Card** | A card that lets the user deliver an invoice or receipt | Single |
+| **Sign-In Card** | A card that lets the %bot initiatea sign-in procedure | Single |
 
 \subsection herocard Hero Card
 The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card.
 
-| Property | Description |
+| **Property** | **Description** |
 |-----|------|
-| Title | Title of card|
-| Subtitle | Link for the title |
-| Text | Text of the card |
-| Images[] | For a hero card, a single image is supported |
-| Buttons[] | Hero cards support one or more buttons |
-| Tap | An action to take when tapping on the card |
+| **Title** | Title of card|
+| **Subtitle** | Link for the title |
+| **Text** | Text of the card |
+| **Images[]** | For a hero card, a single image is supported |
+| **Buttons[]** | Hero cards support one or more buttons |
+| **Tap** | An action to take when tapping on the card |
 
 Sample using the C# SDK:
 
@@ -137,14 +137,14 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 \subsection thumbnailcard Thumbnail Card
 The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
-| Property | Description |
+| **Property** | **Description** |
 |-----|------|
-| Title | Title of card|
-| Subtitle | Link for the title |
-| Text | Text of the card |
-| Images[] | For a hero card, a single image is supported |
-| Buttons[] | Hero cards support one or more buttons |
-| Tap | An action to take when tapping on the card |
+| **Title** | Title of card|
+| **Subtitle** | Link for the title |
+| **Text** | Text of the card |
+| **Images[]** | For a hero card, a single image is supported |
+| **Buttons[]** | Hero cards support one or more buttons |
+| **Tap** | An action to take when tapping on the card |
 
 Sample using the C# SDK:
 
@@ -214,16 +214,16 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 \subsection receiptcard Receipt Card
 The receipt card allows the %Bot to present a receipt to the user.
 
-| Property | Description |
+| **Property** | **Description** |
 |-----|------|
-| Title | Title of card |
-| Facts[] | Key Value pair list of information to display on the receipt |
-| Items[] | The list of ReceiptItem objects on this receipt |
-| Tap | An action to take when tapping on the card |
-| Tax | Tax on this receipt |
-| VAT | Any additional VAT on this receipt |
-| Total | The Sum Total of the Receipt |
-| Buttons[] | Hero cards support one or more buttons |
+| **Title** | **Title of card** |
+| **Facts[]** | Key Value pair list of information to display on the receipt |
+| **Items[]** | The list of ReceiptItem objects on this receipt |
+| **Tap** | An action to take when tapping on the card |
+| **Tax** | Tax on this receipt |
+| **VAT** | Any additional VAT on this receipt |
+| **Total** | The Sum Total of the Receipt |
+| **Buttons[]** | Hero cards support one or more buttons |
 
 
 Sample using the C# SDK:
@@ -338,12 +338,12 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
-| Property  | Type      | Description 
+| **Property**  | **Type**      | **Description**
 |-----------|---------- | ----- 
-| Title     | string    | Title of card
-| Text      | string    | Text of the card 
-| Buttons[] | Action[]  | Hero cards support one or more buttons 
-| Tap       | Action    | An action to take when tapping on the card 
+| **Title**     | string    | Title of card
+| **Text**      | string    | Text of the card 
+| **Buttons[]** | Action[]  | Hero cards support one or more buttons 
+| **Tap**       | Action    | An action to take when tapping on the card 
 
 ~~~{.json}
 
@@ -402,24 +402,24 @@ Generates JSON
 
 The CardAction type is used to represent the information needed to process a button or a tap on a section of a rich card.
 
-| Property  | Type      | Description 
+| **Property**  | **Type**      | **Description**
 |-----------|---------- | ----- 
-| Type      | string    | action types as specified in table below
-| Title     | string    | Title for button
-| Image     | string    | Image Url for button
-| Value     | string    | value to perform action
+| **Type**      | string    | action types as specified in table below
+| **Title**     | string    | Title for button
+| **Image**     | string    | Image Url for button
+| **Value**     | string    | value to perform action
 
-| Action types	| Content of value property
+| **Action types**	| **Content of value property**
 |---------------|------------------------------
-| openUrl	    | URL to be opened in the built-in browser.
-| imBack	    | Text of message which client will sent back to bot as ordinary chat message. All other participants will see that was posted to the bot and who posted this.
-| postBack	    | Text of message which client will post to bot. Client applications will not display this message.
-| call	        | Destination for a call in following format: "tel:123123123123"
-| playAudio	    | playback audio container referenced by url
-| playVideo	    | playback video container referenced by url
-| showImage	    | show image referenced by url
-| downloadFile  | download file referenced by url
-| signin        | oauth flow url
+| **openUrl**	    | URL to be opened in the built-in browser.
+| **imBack**	    | Text of message which client will sent back to bot as ordinary chat message. All other participants will see that was posted to the bot and who posted this.
+| **postBack**	    | Text of message which client will post to bot. Client applications will not display this message.
+| **call**	        | Destination for a call in following format: "tel:123123123123"
+| **playAudio**	    | playback audio container referenced by url
+| **playVideo**	    | playback video container referenced by url
+| **showImage**	    | show image referenced by url
+| **downloadFile**  | download file referenced by url
+| **signin**        | oauth flow url
 
 ~~~{.json}
 CardAction button = new CardAction()

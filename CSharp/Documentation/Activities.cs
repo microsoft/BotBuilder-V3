@@ -262,12 +262,13 @@ they don't always know what their name is on that channel. (again see Slack and 
 are assigned per conversation)
 
 To accomodate these needs the Entities property includes Mention objects, accessible through the GetMentions() method.
-A Mention object is made up of:
-| __Property__ | __Description__                     |                   
+
+> The Mention object 
+| **Property** | **Description**                     |                   
 |--------------|-------------------------------------|
-| __type__     | type of the entity ("mention") |
-| __mentioned__| ChannelAccount of the person or user who was mentiond |
-| __text__     | the text in the Activity.Text property which represents the mention. (this can be empty or null) |
+| **type**     | type of the entity ("mention") |
+| **mentioned**| ChannelAccount of the person or user who was mentiond |
+| **text**     | the text in the Activity.Text property which represents the mention. (this can be empty or null) |
 
 Example:
 The user on slack says:
@@ -294,8 +295,76 @@ trying to determine the user intent.
 > NOTE: Mentions go both ways.  A %bot may want to mention a user in a reply to a conversation.If they fill out 
 > the Mentions object with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
 
-\subsubsection locations Location Entities
-[MISSING]
+\subsubsection places Place Entities
+Place represents information from <https://schema.org/Place>.  We currently send address and geo information from the channels.
+
+The %Connector client library defines two typed classes to make it easier to work with:
+
+> The Place Object
+| **Property**    | **Description**                     |                   
+|--------------   |-------------------------------------|
+| **Type**        | 'Place' |
+| **Address**     | string description or PostalAddress (future) |
+| **Geo**         | GeoCoordinates |
+| **HasMap**      | url to a map or complex "Map" object (future) |
+| **Name**        | Name of the place |
+
+> GeoCoordinates Object
+| **Property**    | **Description**                     |                   
+|--------------   |-------------------------------------|
+| **Type**        | 'GeoCoordinates' |
+| **Name**        | Name of the place |
+| **Longitude**   | Longitude of the location [WGS 84](https://en.wikipedia.org/wiki/World**Geodetic**System)|
+| **Latitude**    | Latitude of the location [WGS 84](https://en.wikipedia.org/wiki/World**Geodetic**System)|
+| **Elevation**   | Elevation of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)|
+
+Example of adding Geo place data to Entities using strong types:
+~~~{.cs}
+	var entity = new Entity();
+	entity.SetAs(new Place()
+	{
+		Geo = new GeoCoordinates()
+		{
+			Latitude = 32.4141,
+			Longitude = 43.1123123,
+		}
+	});
+    entities.Add(entity);
+~~~
+
+~~~{.json}
+"entities":[
+    {
+      "type": "Place",
+      "geo": {
+        "latitude": 32.4141,
+        "longitude": 43.1123123,
+        "type": "GeoCoordinates"
+      }
+    }
+]
+~~~
+
+When consuming entities you can use dynamic keyword like this:
+~~~{.cs}
+    if (entity.Type == "Place")
+    {
+	    dynamic place = entity.Properties;
+        if (place.geo.latitude > 34)
+            // do something
+    }
+~~~
+
+Or you can use the strongly typed classes like this:
+~~~{.cs}
+    if (entity.Type == "Place")
+    {
+    	Place place = entity.GetAs<Place>();
+	    GeoCoordinates geo = place.Geo.ToObject<GeoCoordinates>();
+        if (geo.Latitude > 34)
+            // do something
+    }   
+~~~
 
 \subsection channeldataproperty ChannelData Property
 With the combination of the Attachments section below the common message schema gives you a rich pallete to describe your response in way 
@@ -316,10 +385,10 @@ the conversation, or a person added or remove from the chat.  When these changes
 Activity.
 
 Conversation Update properties
-| Properties   | Description                    |  
-| ------------ |------------------------------------------| 
-| MembersAdded | array of ChannelAccount[] for the added accounts | 
-| MembersRemoved | array of ChannelAccount[] for the removed accounts | 
+| **Properties**     | **Description**                    |  
+| ------------------ |------------------------------------------| 
+| **MembersAdded**   | array of ChannelAccount[] for the added accounts | 
+| **MembersRemoved** | array of ChannelAccount[] for the removed accounts | 
 
 In this event, the membersAdded and membersRemoved lists will contain the changes to the conversation since the last event. One of 
 the members may be the Bot; which can be tested for by comparing the membersAdded\[n].id field with the recipient.id field. 
@@ -333,10 +402,10 @@ For some channels your %bot can be a member of the user's contact list on that c
 event the channel supports this action, it can notify the %Bot that this has occurred. When this event is delivered, 
 the **Action** property will indicate whether the operation was an **add** or a **remove**.
 
-| Action values | Description                    |  
-| ------------  |------------------------------------------| 
-| add           | if the user in the From proprety added the bot to their contacts | 
-| remove        | if the user in the From proprety removed the bot from their contacts | 
+| **Action values** | **Description**                    |  
+| ----------------- |------------------------------------------| 
+| **add**           | if the user in the From proprety added the bot to their contacts | 
+| **remove**        | if the user in the From proprety removed the bot from their contacts | 
 
 \section typing Typing 
 > A message that indicates that the user or %Bot is typing

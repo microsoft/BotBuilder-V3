@@ -281,8 +281,8 @@ You may pass multiple Telegram methods as an array:
 
 Supported Methods:
 
-
-|---------|---------|---------
+|         |         |        |
+|---------|---------|---------|
 | [sendMessage](https://core.telegram.org/bots/api#sendmessage) | [forwardMessage](https://core.telegram.org/bots/api#forwardmessage) | [sendPhoto](https://core.telegram.org/bots/api#sendphoto)
 | [sendAudio](https://core.telegram.org/bots/api#sendaudio) | [sendDocument](https://core.telegram.org/bots/api#senddocument) | [sendSticker](https://core.telegram.org/bots/api#sendsticker)
 | [sendVideo](https://core.telegram.org/bots/api#sendvideo) | [sendVoice](https://core.telegram.org/bots/api#sendvoice) | [sendLocation](https://core.telegram.org/bots/api#sendlocation)
@@ -297,7 +297,7 @@ natively that Kik supports.
 
 | **Property** | **Description**
 |---------|  -----
-| *messages*  | An array of messages. *See[Kik Messages](https://dev.kik.com/#/docs/messaging#message-formats)*
+| *messages*  | An array of messages. *See [Kik Messages](https://dev.kik.com/#/docs/messaging#message-formats)*
 
 Example Message:
 

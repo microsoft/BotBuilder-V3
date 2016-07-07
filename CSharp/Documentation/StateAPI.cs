@@ -7,8 +7,8 @@ A key to good bot design is to
 - make the web service stateless so that it can be scaled
 - make it track context of a conversation.
 
-Since all bots have these requirements the %Bot Framework has a service for storing bot state.  This lets your bot track things like
-"what was the last question I asked them?". 
+Since all bots have these requirements the %Bot Framework has a service for storing bot state.  This lets your bot track things 
+like _what was the last question I asked them?_. 
 
 \section contextualproperties Useful properties for tracking state
 Every Activity has several properties which are useful for tracking state.
@@ -21,8 +21,8 @@ Every Activity has several properties which are useful for tracking state.
 
 You can use these keys to store information in your own database as appropriate to your needs.
 
-\section botstateapi Bot State API
-Here are the %Bot State Methods 
+\section botstateapi State Methods
+The %Bot State service exposes the following methods 
 
 | **Method**                       | **Scoped to**              | **Use cases**                                                
 |----------------------------------|----------------------------| ------
@@ -44,9 +44,9 @@ played back to you on future messages when the context is the same.
 The default state client is stored in central service.  For some channel ids you may want to use a state API hosted in the channel itself
 (for example with the "emulator" channel) so that state can be stored in a compliant store which the channel supplies.
 
-Here is example code showing how to use a channel state API or the default one based on the channelId:
+We have provided a helper method on the Activity object which makes it easy to get an appropriate StateClient for a given message
 ~~~{.cs}
-var stateClient = (message.ChannelId == "emulator") ? new StateClient(message.ServiceUrl) : new StateClient();
+var stateClient = this.Activity.GetStateClient();
 ~~~
 
 \section getsetproperties Get/SetProperty Methods
