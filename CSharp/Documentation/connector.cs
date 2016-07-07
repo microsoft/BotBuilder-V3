@@ -12,6 +12,8 @@ The following sections provide details of how the schema and APIs are used to bu
 - \subpage gettingstarted 
 - \subpage routing 
 - \subpage activities
+- \subpage attachments
+- \subpage channels
 - \subpage configure
   
     **/

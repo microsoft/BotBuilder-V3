@@ -35,7 +35,7 @@ that should be used for API operations like sending a reply.
 | __ChannelId__    | The channel for the activity        | skype                                |
 |  __ServiceUrl__  | The url to use for sending activities back | http://skype.botframework.com |
 
-\subsection connectorclient Creating Connector Client
+\section connectorclient Creating Connector Client
 The ServiceUrl provides the appropriate endpoint for API calls.  All you have to do is pass it into the 
 constructor of the ConnectorClient() class.
 
@@ -102,13 +102,13 @@ ReplyToActivity() method.
 
 ~~~{.cs}
 var connector = new ConnectorClient(incomingMessage.ServiceUrl);
-var newMessage =  new Activity)(;
+IMessageActivity newMessage =  Activity.CreateMessageActivity();
 newMessage.Type = ActivityTypes.Message;
 newMessage.From = botAccount;
 newMessage.Conversation = conversation;
 newMessage.Recipient = userAccount;
 newMessage.Text = "Yo yo yo!";
-await connector.Conversations.SendToConversation(newMessage); 
+await connector.Conversations.SendToConversation((Activity)newMessage); 
 ~~~
 
 \subsection multiplereplies Multiple replies
@@ -135,11 +135,11 @@ Example:
 ~~~{.cs}
 var connector = new ConnectorClient(incomingMessage.ServiceUrl);
 var ConversationId = await connector.Conversations.CreateDirectConversationAsync(incomingMessage.Recipient, incomingMessage.From);
-Activity message = new Activity();
+IMessageActivity message =  Activity.CreateMessageActivity();
 message.From = botChannelAccount;
 message.Recipient = new ChannelAccount() { name: "Larry", "id":"@UV357341"};
 message.Conversation = new ConversationAccount(id: ConversationId.Id);
-message.Text = "Hey, what's up homey?";
+message.Text = "Hello";
 message.Locale = "en-Us";
 var reply = await connector.Conversations.ReplyToActivityAsync(message);
 ~~~
@@ -159,14 +159,14 @@ participants.Add(new ChannelAccount("sara@contso.com", "Sara in Finance"));
 ConversationParameters cpMessage = new ConversationParameters(message.Recipient, participants, "Quarter End Discussion");
 var ConversationId = connector.Conversations.CreateConversationAsync(cpMessage);
 
-Activity message = new Activity();
+IMessageActivity message =  Activity.CreateMessageActivity();
 message.From = botChannelAccount;
 message.Recipient = new ChannelAccount("lydia@contoso.com", "Lydia the CFO"));
 message.Conversation = ConversationId;
 message.ChannelId = "email";
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
-var reply = await connector.Conversations.ReplyToActivityAsync(message);
+var reply = await connector.Conversations.ReplyToActivityAsync((Activity)message);
 ~~~
 
     **/
