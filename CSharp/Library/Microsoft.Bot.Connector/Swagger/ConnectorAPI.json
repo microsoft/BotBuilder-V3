@@ -3,7 +3,7 @@
   "info": {
     "version": "v3",
     "title": "Microsoft Bot Connector API - v3.0",
-    "description": "© 2016 Microsoft",
+    "description": "The Bot Connector REST API allows your bot to send and receive messages to channels configured in the [Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST and JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n\r\n© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -24,7 +24,7 @@
         "summary": "GetAttachmentInfo",
         "description": "Get AttachmentInfo structure describing the attachment views",
         "operationId": "Attachments_GetAttachmentInfo",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -74,7 +74,7 @@
         "summary": "GetAttachment",
         "description": "Get the named view as binary content",
         "operationId": "Attachments_GetAttachment",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -313,7 +313,7 @@
         "summary": "GetConversationMembers",
         "description": "Call this method to enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount[] objects \r\nwhich are the members of the conversation.",
         "operationId": "Conversations_GetConversationMembers",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -366,7 +366,7 @@
         "summary": "GetActivityMembers",
         "description": "Call this method to enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount[] objects \r\nwhich are the members of the particular activity in the conversation.",
         "operationId": "Conversations_GetActivityMembers",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -563,7 +563,7 @@
     },
     "Object": {
       "type": "object",
-      "properties": { }
+      "properties": {}
     },
     "ResourceResponse": {
       "type": "object",
@@ -999,12 +999,6 @@
           "type": "string"
         }
       }
-    }
-  },
-  "securityDefinitions": {
-    "basic": {
-      "type": "basic",
-      "description": "Basic HTTP Authentication using AppId/AppSecret"
     }
   }
 }
