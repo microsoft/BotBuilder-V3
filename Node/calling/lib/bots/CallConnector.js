@@ -4,6 +4,12 @@ var url = require('url');
 var utils = require('../utils');
 var consts = require('../consts');
 var Busboy = require('busboy');
+var jwt = require('jsonwebtoken');
+var getPem = require('rsa-pem-from-mod-exp');
+var base64url = require('base64url');
+var keysLastFetched = 0;
+var cachedKeys;
+var issuer;
 var CallConnector = (function () {
     function CallConnector(settings) {
         this.settings = settings;
@@ -12,7 +18,7 @@ var CallConnector = (function () {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
                 verifyIssuer: 'https://api.botframework.com',
                 stateEndpoint: this.settings.stateUrl || 'https://state.botframework.com'
             };
@@ -20,17 +26,18 @@ var CallConnector = (function () {
     }
     CallConnector.prototype.listen = function () {
         var _this = this;
-        return this.verifyBotFramework(function (req, res) {
+        return function (req, res) {
             var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
-            var callback = _this.responseCallback(req, res);
             if (req.is('application/json')) {
                 _this.parseBody(req, function (err, body) {
                     if (!err) {
                         body.correlationId = correlationId;
-                        _this.dispatch(body, callback);
+                        req.body = body;
+                        _this.verifyBotFramework(req, res);
                     }
                     else {
-                        callback(err);
+                        res.status(400);
+                        res.end();
                     }
                 });
             }
@@ -38,22 +45,122 @@ var CallConnector = (function () {
                 _this.parseFormData(req, function (err, body) {
                     if (!err) {
                         body.correlationId = correlationId;
-                        _this.dispatch(body, callback);
+                        req.body = body;
+                        _this.verifyBotFramework(req, res);
                     }
                     else {
-                        callback(err);
+                        res.status(400);
+                        res.end();
                     }
                 });
             }
             else {
-                callback(new Error('Invalid content type.'));
+                res.status(400);
+                res.end();
             }
-        });
-    };
-    CallConnector.prototype.verifyBotFramework = function (listen) {
-        return function (req, res, next) {
-            listen ? listen(req, res, next) : next();
         };
+    };
+    CallConnector.prototype.ensureCachedKeys = function (cb) {
+        var now = new Date().getTime();
+        if (keysLastFetched < (now - 1000 * 60 * 60 * 24)) {
+            var options = {
+                method: 'GET',
+                url: this.settings.endpoint.verifyEndpoint,
+                json: true
+            };
+            request(options, function (err, response, body) {
+                if (!err && (response.statusCode >= 400 || !body)) {
+                    err = new Error("Failed to load openID config: " + response.statusCode);
+                }
+                if (err) {
+                    cb(err, null);
+                }
+                else {
+                    var openIdConfig = body;
+                    issuer = openIdConfig.issuer;
+                    var options = {
+                        method: 'GET',
+                        url: openIdConfig.jwks_uri,
+                        json: true
+                    };
+                    request(options, function (err, response, body) {
+                        if (!err && (response.statusCode >= 400 || !body)) {
+                            err = new Error("Failed to load Keys: " + response.statusCode);
+                        }
+                        if (!err) {
+                            keysLastFetched = now;
+                        }
+                        cachedKeys = body.keys;
+                        cb(err, cachedKeys);
+                    });
+                }
+            });
+        }
+        else {
+            cb(null, cachedKeys);
+        }
+    };
+    CallConnector.prototype.getSecretForKey = function (keyId) {
+        for (var i = 0; i < cachedKeys.length; i++) {
+            if (cachedKeys[i].kid == keyId) {
+                var jwt = cachedKeys[i];
+                var modulus = base64url.toBase64(jwt.n);
+                var exponent = jwt.e;
+                return getPem(modulus, exponent);
+            }
+        }
+        return null;
+    };
+    CallConnector.prototype.verifyBotFramework = function (req, res) {
+        var _this = this;
+        var token;
+        var isEmulator = req.body['channelId'] === 'emulator';
+        if (req.headers && req.headers.hasOwnProperty('authorization')) {
+            var auth = req.headers['authorization'].trim().split(' ');
+            ;
+            if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
+                token = auth[1];
+            }
+        }
+        var callback = this.responseCallback(req, res);
+        if (token) {
+            req.body['useAuth'] = true;
+            this.ensureCachedKeys(function (err, keys) {
+                if (!err) {
+                    var decoded = jwt.decode(token, { complete: true });
+                    var now = new Date().getTime() / 1000;
+                    if (decoded.payload.aud != _this.settings.appId || decoded.payload.iss != issuer ||
+                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                        res.status(403);
+                        res.end();
+                    }
+                    else {
+                        var keyId = decoded.header.kid;
+                        var secret = _this.getSecretForKey(keyId);
+                        try {
+                            decoded = jwt.verify(token, secret);
+                            _this.dispatch(req.body, callback);
+                        }
+                        catch (err) {
+                            res.status(403);
+                            res.end();
+                        }
+                    }
+                }
+                else {
+                    res.status(500);
+                    res.end();
+                }
+            });
+        }
+        else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
+            req.body['useAuth'] = false;
+            this.dispatch(req.body, callback);
+        }
+        else {
+            res.status(401);
+            res.end();
+        }
     };
     CallConnector.prototype.onEvent = function (handler) {
         this.handler = handler;

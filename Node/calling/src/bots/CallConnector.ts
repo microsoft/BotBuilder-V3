@@ -41,6 +41,14 @@ import http = require('http');
 import utils = require('../utils');
 import consts = require('../consts');
 var Busboy = require('busboy');
+var jwt = require('jsonwebtoken');
+var getPem = require('rsa-pem-from-mod-exp');
+var base64url = require('base64url');
+
+// Fetch token once per day
+var keysLastFetched = 0;
+var cachedKeys: IKey[];
+var issuer: string;
 
 export interface ICallConnectorSettings {
     callbackUrl: string;
@@ -70,7 +78,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
                 verifyIssuer: 'https://api.botframework.com',
                 stateEndpoint: this.settings.stateUrl || 'https://state.botframework.com'
             }
@@ -78,38 +86,143 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
     }
 
     public listen(): IWebMiddleware {
-        return this.verifyBotFramework((req: IWebRequest, res: IWebResponse) => {
+        return (req: IWebRequest, res: IWebResponse) => {
             var correlationId = req.headers['X-Microsoft-Skype-Chain-ID'];
-            var callback = this.responseCallback(req, res);
             if (req.is('application/json')) {
                 this.parseBody(req, (err, body) => {
                     if (!err) {
                         body.correlationId = correlationId;
-                        this.dispatch(body, callback);
+                        req.body = body;
+                        this.verifyBotFramework(req, res);
                     } else {
-                        callback(err);
+                        res.status(400);
+                        res.end();
                     }
                 });
             } else if (req.is('multipart/form-data')) {
                 this.parseFormData(req, (err, body) => {
                     if (!err) {
                         body.correlationId = correlationId;
-                        this.dispatch(body, callback);
+                        req.body = body;
+                        this.verifyBotFramework(req, res);
                     } else {
-                        callback(err);
+                        res.status(400);
+                        res.end();
                     }
                 });
             } else {
-                callback(new Error('Invalid content type.'));
+                res.status(400);
+                res.end();
             }
-        });
+        };
     }
 
-    private verifyBotFramework(listen?: IWebMiddleware): IWebMiddleware {
-        return (req: IWebRequest, res: IWebResponse, next: Function) => {
-            // TODO: Add logic to verify framework calls.
-            listen ? listen(req, res, next) : next();
-        };
+    private ensureCachedKeys(cb: (err: Error, keys: IKey[]) => void ): void {
+        var now = new Date().getTime();
+        // refetch keys every 24 hours
+        if (keysLastFetched < (now - 1000*60*60*24)) {
+            var options: request.Options = {
+                method: 'GET',
+                url: this.settings.endpoint.verifyEndpoint,
+                json: true
+            };
+            
+            request(options, (err, response, body) => {
+                if (!err && (response.statusCode >= 400 || !body)) {
+                    err = new Error("Failed to load openID config: " + response.statusCode);
+                }
+
+                if (err) {
+                    cb(err, null);
+                } else {
+                    var openIdConfig = <IOpenIdConfig> body;
+                    issuer = openIdConfig.issuer;
+
+                    var options: request.Options = {
+                        method: 'GET',
+                        url: openIdConfig.jwks_uri,
+                        json: true
+                    };
+                    
+                    request(options, (err, response, body) => {
+                        if (!err && (response.statusCode >= 400 || !body)) {
+                            err = new Error("Failed to load Keys: " + response.statusCode);
+                        }
+                        if (!err) {
+                            keysLastFetched = now;
+                        }
+                        cachedKeys = <IKey[]> body.keys;
+                        cb(err, cachedKeys);
+                    });
+                }
+            });
+        }
+        else {
+            cb(null, cachedKeys);
+        }
+    }
+
+    private getSecretForKey(keyId: string): string {
+        
+        for (var i = 0; i < cachedKeys.length; i++) {
+            if (cachedKeys[i].kid == keyId) {
+
+                var jwt = cachedKeys[i];
+                
+                var modulus = base64url.toBase64(jwt.n);
+
+                var exponent = jwt.e;
+
+                return getPem(modulus, exponent);
+            }
+        }
+        return null;
+    }
+
+    private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
+        var token: string;
+        if (req.headers && req.headers.hasOwnProperty('authorization')) {
+            var auth = req.headers['authorization'].trim().split(' ');;
+            if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
+                token = auth[1];
+            }
+        }
+
+        // Verify token
+        var callback = this.responseCallback(req, res);
+        if (token) {
+            this.ensureCachedKeys((err, keys) => {
+                if (!err) {
+                    var decoded = jwt.decode(token, { complete: true });
+                    var now = new Date().getTime() / 1000;
+
+                    // verify appId, issuer, token expirs and token notBefore
+                    if (decoded.payload.aud != this.settings.appId || decoded.payload.iss != issuer || 
+                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                        res.status(403);
+                        res.end();   
+                    } else {
+                        var keyId = decoded.header.kid;
+                        var secret = this.getSecretForKey(keyId);
+
+                        try {
+                            decoded = jwt.verify(token, secret);
+                            this.dispatch(req.body, callback);
+                        } catch(err) {
+                            res.status(403);
+                            res.end();     
+                        }
+                    }
+                } else {
+                    res.status(500);
+                    res.end();
+                }
+            });
+        } else {
+            // Token not provided so 
+            res.status(401);
+            res.end();
+        }
     }
 
     public onEvent(handler: (event: IEvent, cb?: (err: Error) => void) => void): void {
@@ -522,4 +635,22 @@ interface ISkypeConversationResult {
     links?: any;
     operationOutcome: IActionOutcome; 
     recordedAudio?: Buffer;
+}
+
+interface IOpenIdConfig {
+  issuer: string;
+  authorization_endpoint: string;
+  jwks_uri: string;
+  id_token_signing_alg_values_supported: string[];
+  token_endpoint_auth_methods_supported: string[];
+}
+
+interface IKey {
+      kty: string;
+      use: string;
+      kid: string;
+      x5t: string;
+      n: string;
+      e: string;
+      x5c: string[];
 }

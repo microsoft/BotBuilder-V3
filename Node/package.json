@@ -6,13 +6,14 @@
   "license": "MIT",
   "dependencies": {
     "async": "^1.5.2",
+    "base64url": "^1.0.6",
     "busboy": "^0.2.13",
     "chrono-node": "^1.1.3",
     "jsonwebtoken": "^7.0.1",
-    "node-rsa": "^0.4.0",
     "node-uuid": "^1.4.7",
     "request": "^2.69.0",
     "restify": "^4.0.4",
+    "rsa-pem-from-mod-exp": "^0.8.4",
     "sprintf-js": "^1.0.3"
   },
   "devDependencies": {

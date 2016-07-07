@@ -39,6 +39,14 @@ import async = require('async');
 import url = require('url');
 import http = require('http');
 import utils = require('../utils');
+import jwt = require('jsonwebtoken');
+var getPem = require('rsa-pem-from-mod-exp');
+var base64url = require('base64url');
+
+// Fetch token once per day
+var keysLastFetched = 0;
+var cachedKeys: IKey[];
+var issuer: string;
 
 export interface IChatConnectorSettings {
     appId?: string;
@@ -58,7 +66,7 @@ export interface IChatConnectorEndpoint {
 export interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
-    userAuth?: string;
+    useAuth?: string;
 }
 
 export class ChatConnector implements ub.IConnector, bs.IBotStorage {
@@ -71,7 +79,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
                 verifyIssuer: 'https://api.botframework.com',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             }
@@ -95,12 +103,74 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         };
     }
 
+    private ensureCachedKeys(cb: (err: Error, keys: IKey[]) => void ): void {
+        var now = new Date().getTime();
+        // refetch keys every 24 hours
+        if (keysLastFetched < (now - 1000*60*60*24)) {
+            var options: request.Options = {
+                method: 'GET',
+                url: this.settings.endpoint.verifyEndpoint,
+                json: true
+            };
+            
+            request(options, (err, response, body) => {
+                if (!err && (response.statusCode >= 400 || !body)) {
+                    err = new Error("Failed to load openID config: " + response.statusCode);
+                }
+
+                if (err) {
+                    cb(err, null);
+                } else {
+                    var openIdConfig = <IOpenIdConfig> body;
+                    issuer = openIdConfig.issuer;
+
+                    var options: request.Options = {
+                        method: 'GET',
+                        url: openIdConfig.jwks_uri,
+                        json: true
+                    };
+                    
+                    request(options, (err, response, body) => {
+                        if (!err && (response.statusCode >= 400 || !body)) {
+                            err = new Error("Failed to load Keys: " + response.statusCode);
+                        }
+                        if (!err) {
+                            keysLastFetched = now;
+                        }
+                        cachedKeys = <IKey[]> body.keys;
+                        cb(err, cachedKeys);
+                    });
+                }
+            });
+        }
+        else {
+            cb(null, cachedKeys);
+        }
+    }
+
+    private getSecretForKey(keyId: string): string {
+        
+        for (var i = 0; i < cachedKeys.length; i++) {
+            if (cachedKeys[i].kid == keyId) {
+
+                var jwt = cachedKeys[i];
+                
+                var modulus = base64url.toBase64(jwt.n);
+
+                var exponent = jwt.e;
+
+                return getPem(modulus, exponent);
+            }
+        }
+        return null;
+    }
+
     private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
         var token: string;
         var isEmulator = req.body['channelId'] === 'emulator';
-        if (req.headers && req.headers.hasOwnProperty('Authorization')) {
-            var auth = req.headers['Authorization'].trim().split(' ');;
-            if (auth.length == 2 && auth[0].toLowerCase() == 'Bearer') {
+        if (req.headers && req.headers.hasOwnProperty('authorization')) {
+            var auth = req.headers['authorization'].trim().split(' ');;
+            if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
                 token = auth[1];
             }
         }
@@ -109,14 +179,33 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         if (token) {
             req.body['useAuth'] = true;
 
-            // Add logic to cache OpenIdConfiguration
-            // - this.settings.endpoint.verifyEndpoint
+            this.ensureCachedKeys((err, keys) => {
+                if (!err) {
+                    var decoded = jwt.decode(token, { complete: true });
+                    var now = new Date().getTime() / 1000;
 
-            // Add logic to parse token
+                    // verify appId, issuer, token expirs and token notBefore
+                    if (decoded.payload.aud != this.settings.appId || decoded.payload.iss != issuer || 
+                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                        res.status(403);
+                        res.end();   
+                    } else {
+                        var keyId = decoded.header.kid;
+                        var secret = this.getSecretForKey(keyId);
 
-            // Add logic to verify token payload against certs
-
-
+                        try {
+                            decoded = jwt.verify(token, secret);
+                            this.dispatch(req.body, res);
+                        } catch(err) {
+                            res.status(403);
+                            res.end();     
+                        }
+                    }
+                } else {
+                    res.status(500);
+                    res.end();
+                }
+            });
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             // Emulator running without auth enabled
             req.body['useAuth'] = false;
@@ -372,7 +461,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             body: msg,
             json: true
         };
-        if (address.userAuth) {
+        if (address.useAuth) {
             this.authenticatedRequest(options, (err, response, body) => cb(err));
         } else {
             request(options, (err, response, body) => {
@@ -535,4 +624,22 @@ interface IWebResponse {
 /** Express or Restify Middleware Function. */
 interface IWebMiddleware {
     (req: IWebRequest, res: IWebResponse, next?: Function): void;
+}
+
+interface IOpenIdConfig {
+  issuer: string;
+  authorization_endpoint: string;
+  jwks_uri: string;
+  id_token_signing_alg_values_supported: string[];
+  token_endpoint_auth_methods_supported: string[];
+}
+
+interface IKey {
+      kty: string;
+      use: string;
+      kid: string;
+      x5t: string;
+      n: string;
+      e: string;
+      x5c: string[];
 }

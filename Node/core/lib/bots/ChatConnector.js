@@ -2,6 +2,12 @@ var request = require('request');
 var async = require('async');
 var url = require('url');
 var utils = require('../utils');
+var jwt = require('jsonwebtoken');
+var getPem = require('rsa-pem-from-mod-exp');
+var base64url = require('base64url');
+var keysLastFetched = 0;
+var cachedKeys;
+var issuer;
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
@@ -10,7 +16,7 @@ var ChatConnector = (function () {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.botframework.com/api/.well-known/OpenIdConfiguration',
+                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
                 verifyIssuer: 'https://api.botframework.com',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
@@ -34,18 +40,97 @@ var ChatConnector = (function () {
             }
         };
     };
+    ChatConnector.prototype.ensureCachedKeys = function (cb) {
+        var now = new Date().getTime();
+        if (keysLastFetched < (now - 1000 * 60 * 60 * 24)) {
+            var options = {
+                method: 'GET',
+                url: this.settings.endpoint.verifyEndpoint,
+                json: true
+            };
+            request(options, function (err, response, body) {
+                if (!err && (response.statusCode >= 400 || !body)) {
+                    err = new Error("Failed to load openID config: " + response.statusCode);
+                }
+                if (err) {
+                    cb(err, null);
+                }
+                else {
+                    var openIdConfig = body;
+                    issuer = openIdConfig.issuer;
+                    var options = {
+                        method: 'GET',
+                        url: openIdConfig.jwks_uri,
+                        json: true
+                    };
+                    request(options, function (err, response, body) {
+                        if (!err && (response.statusCode >= 400 || !body)) {
+                            err = new Error("Failed to load Keys: " + response.statusCode);
+                        }
+                        if (!err) {
+                            keysLastFetched = now;
+                        }
+                        cachedKeys = body.keys;
+                        cb(err, cachedKeys);
+                    });
+                }
+            });
+        }
+        else {
+            cb(null, cachedKeys);
+        }
+    };
+    ChatConnector.prototype.getSecretForKey = function (keyId) {
+        for (var i = 0; i < cachedKeys.length; i++) {
+            if (cachedKeys[i].kid == keyId) {
+                var jwt = cachedKeys[i];
+                var modulus = base64url.toBase64(jwt.n);
+                var exponent = jwt.e;
+                return getPem(modulus, exponent);
+            }
+        }
+        return null;
+    };
     ChatConnector.prototype.verifyBotFramework = function (req, res) {
+        var _this = this;
         var token;
         var isEmulator = req.body['channelId'] === 'emulator';
-        if (req.headers && req.headers.hasOwnProperty('Authorization')) {
-            var auth = req.headers['Authorization'].trim().split(' ');
+        if (req.headers && req.headers.hasOwnProperty('authorization')) {
+            var auth = req.headers['authorization'].trim().split(' ');
             ;
-            if (auth.length == 2 && auth[0].toLowerCase() == 'Bearer') {
+            if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
                 token = auth[1];
             }
         }
         if (token) {
             req.body['useAuth'] = true;
+            this.ensureCachedKeys(function (err, keys) {
+                if (!err) {
+                    var decoded = jwt.decode(token, { complete: true });
+                    var now = new Date().getTime() / 1000;
+                    if (decoded.payload.aud != _this.settings.appId || decoded.payload.iss != issuer ||
+                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                        res.status(403);
+                        res.end();
+                    }
+                    else {
+                        var keyId = decoded.header.kid;
+                        var secret = _this.getSecretForKey(keyId);
+                        try {
+                            decoded = jwt.verify(token, secret);
+                            _this.dispatch(req.body, res);
+                        }
+                        catch (err) {
+                            res.status(403);
+                            res.end();
+                        }
+                    }
+                }
+                else {
+                    res.status(500);
+                    res.end();
+                }
+            });
         }
         else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             req.body['useAuth'] = false;
@@ -275,7 +360,7 @@ var ChatConnector = (function () {
             body: msg,
             json: true
         };
-        if (address.userAuth) {
+        if (address.useAuth) {
             this.authenticatedRequest(options, function (err, response, body) { return cb(err); });
         }
         else {
