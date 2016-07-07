@@ -25,6 +25,16 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v1.2.5](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.5)
+
+### Changes
+* Moving Microsoft.Bot.Builder.FormFlow.Json into a separate nuget package
+* Add PromptDialog Attachment
+* General bug fixes
+* Added nuget symbols to nuget.org
+
+***
+
 ### [v1.2.4](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.4)
 
 #### Breaking Changes
