@@ -35,30 +35,47 @@ and even send a caller a chat message.
 -----------------------------------------------------------------------------*/
 
 var restify = require('restify');
+var builder = require('../../core/');
 var calling = require('../../calling/');
 var prompts = require('./prompts');
 
 //=========================================================
 // Bot Setup
 //=========================================================
-  
-// Create bot and setup server
+
+// Setup server
+var server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+   console.log('%s listening to %s', server.name, server.url); 
+});
+
+// Create chat bot
+var chatConnector = new builder.ChatConnector({
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
+});
+var chatBot = new builder.UniversalBot(chatConnector);
+server.post('/api/messages', chatConnector.listen());
+
+// Create calling bot
 var connector = new calling.CallConnector({
     callbackUrl: process.env.CALLBACK_URL,
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new calling.UniversalCallBot(connector);
+server.post('/api/calls', connector.listen());
 
-// Setup Restify Server
-var server = restify.createServer();
-server.post('/api/calling', connector.listen());
-server.listen(process.env.port || 3978, function () {
-   console.log('%s listening to %s', server.name, server.url); 
+//=========================================================
+// Chat Dialogs
+//=========================================================
+
+chatBot.dialog('/', function (session) {
+    session.send(prompts.chatGreeting); 
 });
 
 //=========================================================
-// Bots Dialogs
+// Calling Dialogs
 //=========================================================
 
 bot.dialog('/', [
@@ -196,11 +213,6 @@ bot.dialog('/record', [
 ]);
 
 // Import botbuilder core library and setup chat bot
-var builder = require('../../core/');
-var chatBot = new builder.UniversalBot(new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
-}));
 
 bot.dialog('/chat', [
     function (session) {

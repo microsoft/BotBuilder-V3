@@ -1,5 +1,6 @@
 module.exports = {
-    welcome: "Hi... I'm the Microsoft Bot Framework demo bot for Skype. You can build rich bots that work over a Skype call, chat, or both.",
+    chatGreeting: "Hi... Please call me to interact with me.",
+    welcome: "Hi... I'm the Microsoft Bot Framework demo calling bot for Skype. You can build rich bots that work over a Skype call, chat, or both.",
     welcomeBack: "Welcome back.",
     canceled: "You canceled",
     goodbye: "Ok... See you later!",
