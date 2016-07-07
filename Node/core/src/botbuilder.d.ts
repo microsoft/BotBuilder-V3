@@ -24,8 +24,8 @@ interface IEvent {
     address: IAddress; 
 
     /** 
-     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
-     * [lookupUser](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
+     * For incoming messages this is the user that sent the message. By default this is a copy of [address.user](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
+     * [lookupUser](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
 }
@@ -36,13 +36,13 @@ interface IEvent {
  * * __reactive messages__ are messages sent from the Bot to the User as a reply to an incoming message from the user. 
  * * __proactive messages__ are messages sent from the Bot to the User in response to some external event like an alarm triggering.
  * 
- * In the reactive case the you should copy the [address](#address) field from the incoming message to the outgoing message (if you use the [Message]( /en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class and initialize it with the 
- * [session](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html) this will happen automatically) and then set the [text](#text) or [attachments](#attachments).  For proactive messages you’ll need save the [address](#address) from the incoming message to 
- * an external storage somewhere. You can then later pass this in to [UniversalBot.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#begindialog) or copy it to an outgoing message passed to 
- * [UniversalBot.send()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#send). 
+ * In the reactive case the you should copy the [address](#address) field from the incoming message to the outgoing message (if you use the [Message]( /en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class and initialize it with the 
+ * [session](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html) this will happen automatically) and then set the [text](#text) or [attachments](#attachments).  For proactive messages you’ll need save the [address](#address) from the incoming message to 
+ * an external storage somewhere. You can then later pass this in to [UniversalBot.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#begindialog) or copy it to an outgoing message passed to 
+ * [UniversalBot.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#send). 
  *
  * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
- * the [conversation](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
+ * the [conversation](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
  */
 interface IMessage extends IEvent {
     /** Timestamp of message given by chat service for incoming messages. */
@@ -89,9 +89,9 @@ interface IIdentity {
 }
 
 /** 
- * Address routing information for a [message](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#address). 
+ * Address routing information for a [message](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#address). 
  * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
- * [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
+ * [connectors](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
  */
 interface IAddress {
     /** Unique identifier for channel. */
@@ -120,13 +120,13 @@ interface IChatConnectorAddress extends IAddress {
 }
 
 /**  
- * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
- * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IEvent.sourceEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ievent.html#sourceevent) to provide attachments using 
+ * Many messaging channels provide the ability to attach richer objects. Bot Builder lets you express these attachments in a cross channel way and [connectors](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html) will do their best to render the 
+ * attachments using the channels native constructs. If you desire more control over the channels rendering of a message you can use [IEvent.sourceEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html#sourceevent) to provide attachments using 
  * the channels native schema. The types of attachments that can be sent varies by channel but these are the basic types:
  * 
  * * __Media and Files:__  Basic files can be sent by setting [contentType](#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](#contenturl).
  * * __Cards and Keyboards:__  A rich set of visual cards and custom keyboards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
- * [HeroCard](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
+ * [HeroCard](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
  */
 interface IAttachment {
     /** MIME type string which describes type of attachment. */
@@ -155,7 +155,7 @@ interface ISigninCard {
 }
 
 /** 
- * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
+ * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
  * All of the cards fields are optional so this card can be used to specify things like a keyboard on certain channels. Some channels may choose to render a lower fidelity version of the card or use an alternate representation. 
  */
 interface IThumbnailCard {
@@ -205,7 +205,7 @@ interface IReceiptCard {
     buttons: ICardAction[];  
 }
 
-/** An individual item within a [receipt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+/** An individual item within a [receipt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ireceiptcard.html). */
 interface IReceiptItem {
     /** Title of the item. */
     title: string;
@@ -274,7 +274,7 @@ interface IIsCardImage {
     toImage(): ICardImage;
 }
 
-/** A fact displayed on a card like a [receipt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ireceiptcard.html). */
+/** A fact displayed on a card like a [receipt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ireceiptcard.html). */
 interface IFact {
     /** Display name of the fact. */
     key: string;
@@ -365,7 +365,7 @@ interface IRecognizeResult {
 interface IPromptOptions {
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with the configured [defaultRetryPrompt](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
+     * reprompt with the configured [defaultRetryPrompt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
      * plus the original prompt. 
      * 
      * Note that if the original prompt is an _IMessage_ the retry prompt will be sent as a seperate 
@@ -374,7 +374,7 @@ interface IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
     retryPrompt?: string|string[]|IMessage|IIsMessage;
 
@@ -398,7 +398,7 @@ interface IPromptArgs extends IPromptOptions {
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.message.html) builder class. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
     prompt: string|string[]|IMessage|IIsMessage;
 
@@ -498,7 +498,7 @@ interface IEntity {
     score?: number;
 }
 
-/** Options used to configure an [IntentDialog](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html). */
+/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
 interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
@@ -700,23 +700,23 @@ interface IMiddlewareMap {
 }
 
 /** 
- * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall). 
+ * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html#waterfall). 
  * 
  * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
- * waterfall can either execute one of the built-in [Prompts](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html),
- * start a new dialog by calling [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog),
+ * waterfall can either execute one of the built-in [Prompts](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts.html),
+ * start a new dialog by calling [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog),
  * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
  * 
  * When either a dialog or built-in prompt is called from a waterfall step, the results from that 
  * dialog or prompt will be passed via the `results` parameter to the next step of the waterfall. 
  * Users can say things like "nevermind" to cancel the built-in prompts so you should guard against
- * that by at least checking for [results.response](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) 
+ * that by at least checking for [results.response](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#response) 
  * before proceeding. A more detailed explination of why the waterfall is being continued can be 
- * determined by looking at the [code](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html) 
- * returned for [results.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed).
+ * determined by looking at the [code](/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html) 
+ * returned for [results.resumed](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed).
  * 
  * You can manually advance to the next step of the waterfall using the `skip()` function passed
- * in. Calling `skip({ response: "some text" })` with an [IDialogResult](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html)
+ * in. Calling `skip({ response: "some text" })` with an [IDialogResult](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html)
  * lets you more accurately mimic the results from a built-in prompt and can simplify your overall
  * waterfall logic.
  * 
@@ -725,12 +725,12 @@ interface IMiddlewareMap {
  * 
  * __note:__ Waterfalls have a hidden last step which will automatically end the current dialog if 
  * if you call a prompt or dialog from the last step. This is useful where you have a deep stack of
- * dialogs and want a call to [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog)
+ * dialogs and want a call to [session.endDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog)
  * from the last child on the stack to end the entire stack. The close of the last child will trigger
  * all of its parents to move to this hidden step which will cascade the close all the way up the stack.
  * This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the 
  * middle you'll need to add a step to the end of your waterfall that either does nothing or calls 
- * something liek [session.send()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send)
+ * something liek [session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send)
  * which isn't going to advance the waterfall forward.   
  * @example
  * <pre><code>
@@ -832,7 +832,7 @@ export enum ResumeReason {
     forward
 }
 
-/** Order in which an [IntentDialogs](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
+/** Order in which an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
 export enum RecognizeOrder { 
     /** All recognizers will be evaluated in parallel. */
     parallel,
@@ -917,7 +917,7 @@ export class Session {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
+     * - __error:__ An error occured. [IErrorEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ierrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1002,10 +1002,10 @@ export class Session {
     /**
      * Passes control of the conversation to a new dialog. The current dialog will be suspended 
      * until the child dialog completes. Once the child ends the current dialog will receive a
-     * call to [dialogResumed()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
+     * call to [dialogResumed()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog.html#dialogresumed) 
      * where it can inspect any results returned from the child. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     beginDialog<T>(id: string, args?: T): Session;
 
@@ -1013,7 +1013,7 @@ export class Session {
      * Ends the current dialog and starts a new one its place. The parent dialog will not be 
      * resumed until the new dialog completes. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     replaceDialog<T>(id: string, args?: T): Session;
 
@@ -1028,8 +1028,8 @@ export class Session {
     endConversation(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
 
     /**
-     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
-     * reason of [completed](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * reason of [completed](/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html#completed).  
      * @param message (Optional)
      * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
@@ -1046,7 +1046,7 @@ export class Session {
     /**
      * Clears the sessions callstack and restarts the conversation with the configured dialogId.
      * @param dialogId (Optional) ID of the dialog to start.
-     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     reset(dialogId?: string, dialogArgs?: any): Session;
 
@@ -1093,7 +1093,7 @@ export class Message implements IIsMessage {
     attachments(list: IAttachment[]|IIsAttachment[]): Message;
        
     /**
-     * Adds an attachment to the message. See [IAttachment](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iattachment.html) for examples.
+     * Adds an attachment to the message. See [IAttachment](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) for examples.
      * @param attachment The attachment to add.   
      */    
     addAttachment(attachment: IAttachment|IIsAttachment): Message;
@@ -1415,18 +1415,18 @@ export abstract class Dialog {
 
 /**
  * A library of related dialogs used for routing purposes. Libraries can be chained together to enable
- * the development of complex bots. The [UniversalBot](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html)
+ * the development of complex bots. The [UniversalBot](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html)
  * class is itself a Library that forms the root of this chain. 
  * 
  * Libraries of reusable parts can be developed by creating a new Library instance and adding dialogs 
  * just as you would to a bot. Your library should have a unique name that corresponds to either your 
  * libraries website or NPM module name.  Bots can then reuse your library by simply adding your parts
- * Library instance to their bot using [UniversalBot.library()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.universalbot.html#library).
+ * Library instance to their bot using [UniversalBot.library()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#library).
  * If your library itself depends on other libraries you should add them to your library as a dependency 
  * using [Library.library()](#library). You can easily manage multiple versions of your library by 
  * adding a version number to your library name.
  * 
- * To invoke dialogs within your library bots will need to call [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog)
+ * To invoke dialogs within your library bots will need to call [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog)
  * with a fully qualified dialog id in the form of '<libName>:<dialogId>'. You'll typically hide 
  * this from the devloper by exposing a function from their module that starts the dialog for them.
  * So calling something like `myLib.someDialog(session, { arg: '' });` would end up calling
@@ -1449,7 +1449,7 @@ export class Library {
      * @param id Unique ID of the dialog being regsitered or retrieved.
      * @param dialog (Optional) dialog or waterfall to register.
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
@@ -1498,7 +1498,7 @@ export class DialogAction {
      * to define a new dialog for the prompt using bot.add('/myPrompt', builder.DialogAction.)
      * @param promptType Type of built-in prompt to validate.
      * @param validator Function used to validate the response. Should return true if the response is valid.
-     * @param validator.response The users [IDialogResult.response](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
+     * @param validator.response The users [IDialogResult.response](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#response) returned by the built-in prompt. 
      * @example
      * <pre><code>
      * var bot = new builder.BotConnectorBot();
@@ -1529,8 +1529,9 @@ export class Prompts extends Dialog {
     /**
      * Processes messages received from the user. Called by the dialog system. 
      * @param session Session object for the current conversation.
+     * @param (Optional) recognition results returned from a prior call to the dialogs [recognize()](#recognize) method.
      */
-    replyReceived(session: Session): void;
+    replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 
     /**
      * Updates global options for the Prompts dialog. 
@@ -1576,7 +1577,7 @@ export class Prompts extends Dialog {
      * @param prompt 
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
+     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
      * @param choices 
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
@@ -1624,14 +1625,53 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
 
 /** Identifies a users intent and optionally extracts entities from a users utterance. */
 export class IntentDialog extends Dialog {
+    /**  
+     * Constructs a new instance of an IntentDialog.
+     * @param options (Optional) options used to initialize the dialog.
+     */
     constructor(options?: IIntentDialogOptions);
 
+    /**
+     * Processes messages received from the user. Called by the dialog system. 
+     * @param session Session object for the current conversation.
+     * @param (Optional) recognition results returned from a prior call to the dialogs [recognize()](#recognize) method.
+     */
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 
+    /**
+     * Called when the dialog is first loaded after a call to [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#begindialog). This gives the bot an opportunity to process arguments passed to the dialog.  Handlers should always call the `next()` function to continue execution of the dialogs main logic. 
+     * @param handler Function to invoke when the dialog begins.
+     * @param handler.session Session object for the current conversation.
+     * @param handler.args Arguments passed to the dialog in the `session.beginDialog()` call.
+     * @param handler.next Function to call when handler is finished to continue execution of the dialog.
+     */
     onBegin(handler: (session: Session, args: any, next: () => void) => void): IntentDialog;
 
-    matches(intent: string|RegExp, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    /**
+     * Invokes a handler when a given intent is detected in the users utterance.
+     *
+     * > __NOTE:__ The full details of the match, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param intent
+     * * __intent:__ _{RegExp}_ - A regular expression that will be evaluated to detect the users intent.
+     * * __intent:__ _{string}_ - A named intent returned by an [IIntentRecognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer) plugin that will be used to match the users intent.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
+    matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
+    /**
+     * The default handler to invoke when there are no handlers that match the users intent.
+     * 
+     * > __NOTE:__ The full details of the recognition attempt, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
     onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 }
 
@@ -1763,7 +1803,7 @@ export class EntityRecognizer {
  *   existant of an `args.resumed` property. It's important to avoid getting yourself into an 
  *   infinite loop which can be easy to do.
  * * Unlike a waterfall your dialog will not automatically end. It will remain the active dialog 
- *   until you call [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
+ *   until you call [session.endDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog). 
  */
 export class SimpleDialog extends Dialog {
     /**
@@ -1771,7 +1811,7 @@ export class SimpleDialog extends Dialog {
      * @param handler The function closure for your dialog. 
      * @param handler.session Session object for the current conversation.
      * @param handler.args 
-     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog).
      * * __args:__ _{IDialogResult}_ - If the handler takes an action that results in a new dialog being started those results will be returned via subsequent calls to the handler.
      */
     constructor(handler: (session: Session, args?: any | IDialogResult<any>) => void);
@@ -1808,21 +1848,21 @@ export class UniversalBot  {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
+     * - __error:__ An error occured. [IErrorEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ierrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
 
     /** 
      * Sets a setting on the bot. 
-     * @param name Name of the property to set. Valid names are properties on [IUniversalBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
+     * @param name Name of the property to set. Valid names are properties on [IUniversalBotSettings](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
      * @param value The value to assign to the setting.
      */
     set(name: string, value: any): UniversalBot;
 
     /** 
      * Returns the current value of a setting.
-     * @param name Name of the property to return. Valid names are properties on [IUniversalBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
+     * @param name Name of the property to return. Valid names are properties on [IUniversalBotSettings](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html).
      */
     get(name: string): any;
 
@@ -1838,7 +1878,7 @@ export class UniversalBot  {
      * @param id Unique ID of the dialog being regsitered or retrieved.
      * @param dialog (Optional) dialog or waterfall to register.
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
@@ -1944,22 +1984,22 @@ export class Middleware {
     static firstRun(options: IFirstRunOptions): IMiddlewareMap;
 }
 
-/** __DEPRECATED__ use an IntentDialog with a LuisRecognizer instead. */
+/** __DEPRECATED__ use an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog) with a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) instead. */
 export class LuisDialog extends Dialog {
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }
 
-/** __DEPRECATED__ use an IntentDialog instead. */
+/** __DEPRECATED__ use an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog) instead. */
 export class CommandDialog extends Dialog {
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }
 
-/** __DEPRECATED__ use UniversalBot and a ChatConnector instead. */
+/** __DEPRECATED__ use [UniversalBot](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot) and a [ChatConnector](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.chatconnector) instead. */
 export class BotConnectorBot extends Dialog {
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }
 
-/** __DEPRECATED__ use UniversalBot and a ConsoleConnector instead. */
+/** __DEPRECATED__ use [UniversalBot](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot) and a [ConsoleConnector](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.consoleconnector) instead. */
 export class TextBot extends Dialog {
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 }
