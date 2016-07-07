@@ -4,7 +4,7 @@
 \page gettingstarted Getting started with the %Connector
 
 The %Microsoft %Bot %Connector is a communication service that helps you connect your %Bot with many different 
-communication channels(GroupMe, SMS, email, and others). If you write a conversational %Bot or agent and expose a 
+communication channels (Skype, SMS, email, and others). If you write a conversational %Bot or agent and expose a 
 %Microsoft %Bot Framework-compatible API on the internet, the %Bot Framework %Connector service will forward messages 
 from your %Bot to a user, and will send user messages back to your %Bot.
 
@@ -15,7 +15,7 @@ To use the %Microsoft %Bot Framework %Connector, you must have:
 3. Developer accounts on one or more communication services(such as Skype) where your %Bot will communicate.
 
 In addition you may wish to have an Azure App Insights account so you can capture telemetry from your %Bot. There are different ways to go 
-about building a %Bot; from scratch, coded directly to the %Bot %Connector API, the %Bot Builder SDK's for Node.JS & .NET, and the 
+about building a %Bot; from scratch, coded directly to the %Bot %Connector API, the %Bot %Builder SDK's for Node.JS & .NET, and the 
 %Bot %Connector .NET template which is what this QuickStart guide demonstrates.
 
 \section started Getting started in .NET    
@@ -30,7 +30,7 @@ This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework 
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
 5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
-        - The %bot has to be registered with %Bot Connector
+        - The %bot has to be registered with %Bot %Connector
         - The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
         - The project needs to be published to the web
 
@@ -66,11 +66,12 @@ public class MessagesController : ApiController
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
+}
 
 \endcode
 
     \section emulator Emulator
-Use the Bot Framework Emulator to test your Bot application
+Use the %Bot Framework Emulator to test your %Bot application
 
 The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called 
 by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
@@ -124,9 +125,9 @@ do them once.
 
 
 In Visual Studio, right clicking on the project in Solution Explorer and select "Publish" - or alternately 
-selecting "Build \| Publish" displays the following dialog:
+selecting "Build | Publish" displays the following dialog:
 
-![Right click on the project and choose "Publish" to start the Azure publish wizard](/en-us/images/connector/connector-getstarted-publish-dialog.png)
+![Right click on the project and choose __Publish__ to start the Azure publish wizard](/en-us/images/connector/connector-getstarted-publish-dialog.png)
 
 The Publish to Azure wizard will start.For this tutorial you will need to select "Microsoft Azure App Service" as 
 your project type.
@@ -136,7 +137,7 @@ your project type.
 The next step in the Azure App Service publishing process is to create your App Service. Click on "New…" on the 
 right side of the dialog to create the App Service.
 
-![Click new to create a "New..." Azure App Service](/en-us/images/connector/connector-getstarted-publish-app-service.png)
+![Click new to create a _New..._ Azure App Service](/en-us/images/connector/connector-getstarted-publish-app-service.png)
 
 The Create App Service dialog will be displayed, fill in the details as appropriate.Make sure to choose "Web App" 
 from the Change Type drop down in the top right instead of "API App"(which is the default).
@@ -179,7 +180,7 @@ configure their %Bot with the Channels they'd like to be visible on. The BotId, 
 URL in the directory and developer portal.
 
 
-1.Go to the %Microsoft %Bot Framework portal at[https://dev.botframework.com](https://dev.botframework.com) and 
+1.Go to the %Microsoft %Bot Framework portal at [https://dev.botframework.com](https://dev.botframework.com) and 
 sign in with your %Microsoft Account.
 
 2.Click the "Register a Bot" button and fill out the form.Many of the fields on this form can be changed later. 
@@ -190,15 +191,15 @@ bot.Save your changes by hitting "Create" at the bottom of the form.
 
 ![Register a bot](/en-us/images/connector/connector-getstarted-register-agent.png)
 
-3.Once your registration is created, %Microsoft %Bot Framework will have generated your **MicrosoftAppId** and **MicrosofAppPassword**. 
-These are used to authenticate your %Bot with the %Microsoft %Bot Framework.
+3.Once your registration is created, %Microsoft %Bot Framework will take you through generating your **MicrosoftAppId** and **MicrosoftAppPassword**. 
+These are used to authenticate your %Bot with the %Microsoft %Bot Framework. __NOTE:__ When you generate your MicrosoftAppPassword, be sure to record 
+it somewhere as you won't be able to see it again.
 
 ![Microsoft Bot Framework will have generated your MicrosoftAppId and MicrosoftAppPassword](/en-us/images/connector/connector-getstarted-subscription-keys.png)
 
 Now that the %Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. 
 Change the following keys in the web.config file to match the ones generated when you saved your registration, and 
-you're ready to build. You need only the primary AppPassword, the secondary is used when you wish to regenerate 
-your primary key without downtime. Clicking the "show" link will show the value, along wtih exposing the 
+you're ready to build. Clicking the "show" link will show the value, along wtih exposing the 
 regenerate link if you ever need to change your AppPassword. Update your web.config, and re-publish your 
 %bot to Azure.
 
@@ -213,8 +214,8 @@ regenerate link if you ever need to change your AppPassword. Update your web.con
 < appSettings >
         < !--update these with your appid and one of your appsecret keys-->
         < add key = "MicrosoftAppId" value = "[GUID]" />
-           < add key = "MicrosoftAppPassword" value = "[PASSWORD]" />
-          </ appSettings >
+        < add key = "MicrosoftAppPassword" value = "[PASSWORD]" />
+</ appSettings >
 ~~~
 
 \section testing Testing the connection to your bot
