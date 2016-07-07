@@ -80,7 +80,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Changes.cs" />
     <Compile Include="StateAPI.cs" />
     <Compile Include="Channels.cs" />
     <Compile Include="Attachments.cs" />
