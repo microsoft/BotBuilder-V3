@@ -114,7 +114,6 @@ var CallConnector = (function () {
     CallConnector.prototype.verifyBotFramework = function (req, res) {
         var _this = this;
         var token;
-        var isEmulator = req.body['channelId'] === 'emulator';
         if (req.headers && req.headers.hasOwnProperty('authorization')) {
             var auth = req.headers['authorization'].trim().split(' ');
             ;
@@ -124,7 +123,6 @@ var CallConnector = (function () {
         }
         var callback = this.responseCallback(req, res);
         if (token) {
-            req.body['useAuth'] = true;
             this.ensureCachedKeys(function (err, keys) {
                 if (!err) {
                     var decoded = jwt.decode(token, { complete: true });
@@ -152,10 +150,6 @@ var CallConnector = (function () {
                     res.end();
                 }
             });
-        }
-        else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
-            req.body['useAuth'] = false;
-            this.dispatch(req.body, callback);
         }
         else {
             res.status(401);

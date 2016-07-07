@@ -24,8 +24,8 @@ interface IEvent {
     address: IAddress; 
 
     /** 
-     * For incoming event this is the user that sent the event. By default this is a copy of [address.user](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
-     * [lookupUser](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iuniversalcallbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
+     * For incoming event this is the user that sent the event. By default this is a copy of [address.user](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iaddress.html#user) but you can configure your bot with a 
+     * [lookupUser](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iuniversalcallbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
 }
@@ -55,9 +55,9 @@ interface IIdentity {
 }
 
 /** 
- * Address routing information for a [message](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.imessage.html#address). 
+ * Address routing information for a [message](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.imessage.html#address). 
  * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
- * [connectors](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
+ * [connectors](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
  */
 interface IAddress {
     /** Unique identifier for channel. */
@@ -912,23 +912,23 @@ interface IMiddlewareMap {
 }
 
 /** 
- * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialogaction.html#waterfall). 
+ * Signature for functions passed as steps to [DialogAction.waterfall()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.dialogaction.html#waterfall). 
  * 
  * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
- * waterfall can either execute one of the built-in [Prompts](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.prompts.html),
- * start a new dialog by calling [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog),
+ * waterfall can either execute one of the built-in [Prompts](en-us/node/builder/calling-reference/classes/_botbuilder_d_.prompts.html),
+ * start a new dialog by calling [session.beginDialog()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#begindialog),
  * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
  * 
  * When either a dialog or built-in prompt is called from a waterfall step, the results from that 
  * dialog or prompt will be passed via the `results` parameter to the next step of the waterfall. 
  * Users can say things like "nevermind" to cancel the built-in prompts so you should guard against
- * that by at least checking for [results.response](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#response) 
+ * that by at least checking for [results.response](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogresult.html#response) 
  * before proceeding. A more detailed explination of why the waterfall is being continued can be 
- * determined by looking at the [code](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html) 
- * returned for [results.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed).
+ * determined by looking at the [code](en-us/node/builder/calling-reference/enums/_botbuilder_d_.resumereason.html) 
+ * returned for [results.resumed](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed).
  * 
  * You can manually advance to the next step of the waterfall using the `skip()` function passed
- * in. Calling `skip({ response: "some text" })` with an [IDialogResult](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html)
+ * in. Calling `skip({ response: "some text" })` with an [IDialogResult](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogresult.html)
  * lets you more accurately mimic the results from a built-in prompt and can simplify your overall
  * waterfall logic.
  * 
@@ -937,12 +937,12 @@ interface IMiddlewareMap {
  * 
  * __note:__ Waterfalls have a hidden last step which will automatically end the current dialog if 
  * if you call a prompt or dialog from the last step. This is useful where you have a deep stack of
- * dialogs and want a call to [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog)
+ * dialogs and want a call to [session.endDialog()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#enddialog)
  * from the last child on the stack to end the entire stack. The close of the last child will trigger
  * all of its parents to move to this hidden step which will cascade the close all the way up the stack.
  * This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the 
  * middle you'll need to add a step to the end of your waterfall that either does nothing or calls 
- * something liek [session.send()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#send)
+ * something liek [session.send()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#send)
  * which isn't going to advance the waterfall forward.   
  * @example
  * <pre><code>
@@ -1038,7 +1038,7 @@ export class CallSession {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
+     * - __error:__ An error occured. [IErrorEvent](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.ierrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
@@ -1131,10 +1131,10 @@ export class CallSession {
     /**
      * Passes control of the conversation to a new dialog. The current dialog will be suspended 
      * until the child dialog completes. Once the child ends the current dialog will receive a
-     * call to [dialogResumed()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#dialogresumed) 
+     * call to [dialogResumed()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.dialog.html#dialogresumed) 
      * where it can inspect any results returned from the child. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     beginDialog<T>(id: string, args?: T): CallSession;
 
@@ -1142,7 +1142,7 @@ export class CallSession {
      * Ends the current dialog and starts a new one its place. The parent dialog will not be 
      * resumed until the new dialog completes. 
      * @param id Unique ID of the dialog to start.
-     * @param args (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param args (Optional) arguments to pass to the dialogs [begin()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     replaceDialog<T>(id: string, args?: T): CallSession;
 
@@ -1157,8 +1157,8 @@ export class CallSession {
     endConversation(action?: string|string[]|IAction|IIsAction, ...args: any[]): CallSession;
 
     /**
-     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
-     * reason of [completed](/en-us/sdkreference/nodejs/enums/_botbuilder_d_.resumereason.html#completed).  
+     * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
+     * reason of [completed](en-us/node/builder/calling-reference/enums/_botbuilder_d_.resumereason.html#completed).  
      * @param action (Optional)
      * * __action:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __action:__ _{string[]}_ - The sent message will be chosen at random from the array.
@@ -1175,7 +1175,7 @@ export class CallSession {
     /**
      * Clears the sessions callstack and restarts the conversation with the configured dialogId.
      * @param dialogId (Optional) ID of the dialog to start.
-     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.dialog.html#begin) method.
+     * @param dialogArgs (Optional) arguments to pass to the dialogs [begin()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.dialog.html#begin) method.
      */
     reset(dialogId?: string, dialogArgs?: any): CallSession;
 
@@ -1217,18 +1217,18 @@ export abstract class Dialog {
 
 /**
  * A library of related dialogs used for routing purposes. Libraries can be chained together to enable
- * the development of complex bots. The [UniversalCallBot](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.UniversalCallBot.html)
+ * the development of complex bots. The [UniversalCallBot](en-us/node/builder/calling-reference/classes/_botbuilder_d_.UniversalCallBot.html)
  * class is itself a Library that forms the root of this chain. 
  * 
  * Libraries of reusable parts can be developed by creating a new Library instance and adding dialogs 
  * just as you would to a bot. Your library should have a unique name that corresponds to either your 
  * libraries website or NPM module name.  Bots can then reuse your library by simply adding your parts
- * Library instance to their bot using [UniversalCallBot.library()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.UniversalCallBot.html#library).
+ * Library instance to their bot using [UniversalCallBot.library()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.UniversalCallBot.html#library).
  * If your library itself depends on other libraries you should add them to your library as a dependency 
  * using [Library.library()](#library). You can easily manage multiple versions of your library by 
  * adding a version number to your library name.
  * 
- * To invoke dialogs within your library bots will need to call [session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog)
+ * To invoke dialogs within your library bots will need to call [session.beginDialog()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#begindialog)
  * with a fully qualified dialog id in the form of '<libName>:<dialogId>'. You'll typically hide 
  * this from the devloper by exposing a function from their module that starts the dialog for them.
  * So calling something like `myLib.someDialog(session, { arg: '' });` would end up calling
@@ -1251,7 +1251,7 @@ export class Library {
      * @param id Unique ID of the dialog being regsitered or retrieved.
      * @param dialog (Optional) dialog or waterfall to register.
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
@@ -1378,7 +1378,7 @@ export class Prompts extends Dialog {
  *   existant of an `args.resumed` property. It's important to avoid getting yourself into an 
  *   infinite loop which can be easy to do.
  * * Unlike a waterfall your dialog will not automatically end. It will remain the active dialog 
- *   until you call [session.endDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#enddialog). 
+ *   until you call [session.endDialog()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#enddialog). 
  */
 export class SimpleDialog extends Dialog {
     /**
@@ -1386,7 +1386,7 @@ export class SimpleDialog extends Dialog {
      * @param handler The function closure for your dialog. 
      * @param handler.session Session object for the current conversation.
      * @param handler.args 
-     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](/en-us/sdkreference/nodejs/classes/_botbuilder_d_.session.html#begindialog).
+     * * __args:__ _{any}_ - For the first call to the handler this will be either `null` or the value of any arguments passed to [Session.beginDialog()](en-us/node/builder/calling-reference/classes/_botbuilder_d_.session.html#begindialog).
      * * __args:__ _{IDialogResult}_ - If the handler takes an action that results in a new dialog being started those results will be returned via subsequent calls to the handler.
      */
     constructor(handler: (session: CallSession, args?: any | IDialogResult<any>) => void);
@@ -1423,21 +1423,21 @@ export class UniversalCallBot  {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.ierrorevent.html)
+     * - __error:__ An error occured. [IErrorEvent](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.ierrorevent.html)
      * @param listener Function to invoke.
      */
     on(event: string, listener: Function): void;
 
     /** 
      * Sets a setting on the bot. 
-     * @param name Name of the property to set. Valid names are properties on [IUniversalCallBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iUniversalCallBotsettings.html).
+     * @param name Name of the property to set. Valid names are properties on [IUniversalCallBotSettings](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iUniversalCallBotsettings.html).
      * @param value The value to assign to the setting.
      */
     set(name: string, value: any): UniversalCallBot;
 
     /** 
      * Returns the current value of a setting.
-     * @param name Name of the property to return. Valid names are properties on [IUniversalCallBotSettings](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.iUniversalCallBotsettings.html).
+     * @param name Name of the property to return. Valid names are properties on [IUniversalCallBotSettings](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iUniversalCallBotsettings.html).
      */
     get(name: string): any;
 
@@ -1446,7 +1446,7 @@ export class UniversalCallBot  {
      * @param id Unique ID of the dialog being regsitered or retrieved.
      * @param dialog (Optional) dialog or waterfall to register.
      * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/sdkreference/nodejs/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
+     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
      */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
