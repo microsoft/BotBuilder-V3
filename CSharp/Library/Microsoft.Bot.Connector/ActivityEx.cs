@@ -113,7 +113,6 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Is there a mention of Recipient.Id in the Text Property 
         /// </summary>
-        /// <param name="id">ChannelAccount.Id</param>
         /// <returns>true if this id is mentioned in the text</returns>
         public bool MentionsRecipient()
         {

@@ -13,6 +13,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// add Bearer authorization token for making API calls
         /// </summary>
+        /// <param name="client">The http client</param>
         /// <param name="appId">(default)Setting["microsoftAppId"]</param>
         /// <param name="password">(default)Setting["microsoftAppPassword"]</param>
         /// <returns>HttpClient with Bearer Authorization header</returns>
