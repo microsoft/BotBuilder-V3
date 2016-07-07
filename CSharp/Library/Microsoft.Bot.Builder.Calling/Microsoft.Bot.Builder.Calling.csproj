@@ -113,8 +113,6 @@
     <Compile Include="Models\Contracts\RecordOutcome.cs" />
     <Compile Include="Models\Contracts\Reject.cs" />
     <Compile Include="Models\Contracts\RejectOutcome.cs" />
-    <Compile Include="Models\Contracts\Transfer.cs" />
-    <Compile Include="Models\Contracts\TransferOutcome.cs" />
     <Compile Include="Models\Contracts\ValidActions.cs" />
     <Compile Include="Models\Contracts\ValidDtmfs.cs" />
     <Compile Include="Models\Contracts\ValidOutcomes.cs" />

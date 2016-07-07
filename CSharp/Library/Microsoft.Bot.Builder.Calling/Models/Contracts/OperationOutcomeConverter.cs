@@ -41,10 +41,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             {
                 return new WorkflowValidationOutcome();
             }
-            else if (String.Equals(type, ValidOutcomes.TransferOutcome, StringComparison.OrdinalIgnoreCase))
-            {
-                return new TransferOutcome();
-            }
             
             throw new ArgumentException(String.Format("The given outcome type '{0}' is not supported!", type));
         }
