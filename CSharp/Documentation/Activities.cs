@@ -1090,15 +1090,14 @@ they can use to store data in their own store or database.
 In addition, we provide a simple cookie like system for tracking state that makes it super easy for most bots to not have 
 to worry about having their own store.
 
-\subsection contextualproperties Contextual properties
+\subsection contextualproperties Contextual properties for State
 Every Activity has several properties which are useful for tracking state.
 
-| **Property**                    | **Description**                                        | **Use cases**                                                
-|----------------------------|----------------------------------------------------|----------------------------------------------------------
-| **From.Id**                     | An ID for the user across all channels and conversations| Remembering context for a user
-| **ChannelId + From.Id** | A Users's address on a channel (ex: email address) | Remembering context for a user on a channel                 
+| **Property**                  | **Description**                                    | **Use cases**                                                
+|------------------------------ |----------------------------------------------------|----------------------------------------------------------
+| **ChannelId + From.Id**       | A Users's address on a channel (ex: email address) | Remembering context for a user on a channel                 
 | **Conversation**              | A unique id for a conversation                     | Remembering context all users in a conversation    
-| **From.Id + Conversation**    | A user in a conversation                           | Remembering context for a user in a conversation   
+| **ChannelId + From.Id + Conversation**    | A user in a conversation                           | Remembering context for a user in a conversation   
 
 You can use these keys to store information in your own database as appropriate to your needs.
 
@@ -1124,67 +1123,54 @@ played back to you on future messages when the context is the same.
 Example of setting the data for the sender of an incoming message:
 
 ~~~{.cs}
-
-           StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
-           BotState botState = new BotState(sc);
-           botData = new BotData(eTag: "*");
-           botData.SetProperty("UserData", myUserData);
-           var response = await botState.SetUserDataAsync(incomingMessage.ChannelId, incomingMessage.From.Id, botData);
-           
+StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
+BotState botState = new BotState(sc);
+botData = new BotData(eTag: "*");
+botData.SetProperty("UserData", myUserData);
+var response = await botState.SetUserDataAsync(incomingMessage.ChannelId, incomingMessage.From.Id, botData);
 ~~~
 
 When a new message comes in, you can retrieve data from GetPrivateConversationData() which will have your conversation state for the user.
 
 ~~~{.cs}
-
-           pigLatinBotUserData addedUserData = new pigLatinBotUserData();
-           BotData botData = new BotData();
-           try
-           {
-               botData = (BotData)await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
-           }
-           catch (Exception e)
-           {
-               if (e.Message == "Resource not found")
-               { // No data was stored for that user }
-               else
-                   throw e;
-           }
-           myUserData = botData.GetProperty<myUserData>("UserData") ?? new myUserData();
+pigLatinBotUserData addedUserData = new pigLatinBotUserData();
+BotData botData = new BotData();
+try
+{
+    botData = (BotData)await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
+}
+catch (Exception e)
+{
+    if (e.Message == "Resource not found")
+    { // No data was stored for that user }
+    else
+        throw e;
+}
+myUserData = botData.GetProperty<myUserData>("UserData") ?? new myUserData();
 
 ~~~
 
 \subsection concurrency Concurrency
-When these botData objects are being setthey are not able to be stored
-in a way which guarentees you won't overwrite data from another overlapping storage operation from your bot
-
-For many bots which have low load or simple sequential conversations with non-overlapping messages
-the convenience of just storing your state inline is worth the possibility of stomping on a
-previous message.   
-
-Other bots can are sensitive to data getting stomped and desire a more reliable storage system.  the ETag can be used to help your %bot manage concurrency.
-
-Or you can simply use the userId and conversationId to store you own data in your own database.
-
-
+These botData objects will fail to be stored if another instance of your bot has changed the object already.
+    
 Example of using the REST API client library:
 ~~~{.cs}
-           var client = new ConnectorClient();
-           try
-           {
-               // get the user data object
-               var userData = await botState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
+var client = new ConnectorClient();
+try
+{
+    // get the user data object
+    var userData = await botState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
          
-               // modify it...
-               userData.Data = ...modify...;
+    // modify it...
+    userData.Data = ...modify...;
            
-               // save it
-               await botState.SetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id, userData);
-           }
-           catch(HttpOperationException err)
-           {
-               // handle precondition failed error if someone else has modified your object
-           }
+    // save it
+    await botState.SetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id, userData);
+}
+catch(HttpOperationException err)
+{
+    // handle precondition failed error if someone else has modified your object
+}
 ~~~
 
     **/
