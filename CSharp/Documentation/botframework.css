@@ -1501,6 +1501,22 @@ tr.heading h2 {
     width: auto;
 }
 
+#nav-tree .selected {
+    background-image: none;
+    color: inherit;
+    text-shadow: none;
+}
+
+#nav-tree .selected a {
+    color: #1E425C;
+    text-decoration: underline;
+}
+
+#nav-tree a:hover {
+    color: #307AB3;
+    text-decoration: underline;
+}
+
 .ui-resizable-e {
     background: none;
 }
