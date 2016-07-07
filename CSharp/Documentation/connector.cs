@@ -183,7 +183,7 @@
     ///
     ///
     ///2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a %Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that %Microsoft %Bot Framework can use on your behalf.
-    ///   ![Configuring a channel, for example, Skype.](/en-us/images/connector/connector_channel_config_skype.png)
+    ///   ![Configuring a channel, for example, Facebook Messenger.](/en-us/images/connector/connector_channel_config_facebook.png)
     ///
     ///
     ///3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".
@@ -523,8 +523,8 @@
     ///replyToConversation.Attachments = new List<Attachment>();
     ///
     ///List<CardImage> cardImages = new List<CardImage>();
-    ///cardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
-    ///cardImages.Add(new CardImage(url: "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"));
+    ///cardImages.Add(new CardImage(url: "https://<ImageUrl1>"));
+    ///cardImages.Add(new CardImage(url: "https://<ImageUrl2>"));
     ///
     ///List<CardAction> cardButtons = new List<CardAction>();
     ///
@@ -554,21 +554,6 @@
     ///~~~{.json}
     ///
     ///	{
-    ///	  "type": "message",
-    ///	  "timestamp": "2016-06-20T14:42:59.3314511Z",
-    ///	  "from": {
-    ///	    "id": "1a392f33",
-    ///	    "name": "piglatinbotv3d"
-    ///	  },
-    ///	  "conversation": {
-    ///	    "id": "8a684db8",
-    ///	    "name": "Conv1"
-    ///	  },
-    ///	  "recipient": {
-    ///	    "id": "2c1c7fa3",
-    ///	    "name": "User1"
-    ///	  },
-    ///	  "text": "Should go to conversation, with a hero card",
     ///	  "attachments": [
     ///	    {
     ///	      "contentType": "application/vnd.microsoft.card.hero",
@@ -577,10 +562,10 @@
     ///	        "subtitle": "Pig Latin Wikipedia Page",
     ///	        "images": [
     ///	          {
-    ///	            "url": "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"
+    ///	            "url": "https://<ImageUrl1>"
     ///	          },
     ///	          {
-    ///	            "url": "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"
+    ///	            "url": "https://<ImageUrl2>"
     ///	          }
     ///	        ],
     ///	        "buttons": [
@@ -593,7 +578,6 @@
     ///	      }
     ///	    }
     ///	  ],
-    ///	  "replyToId": "bb6316f968184744bf080531dfe10e11"
     ///}
     ///
     ///~~~
@@ -620,7 +604,7 @@
     ///replyToConversation.Attachments = new List<Attachment>();
     ///
     ///List<CardImage> cardImages = new List<CardImage>();
-    ///cardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
+    ///cardImages.Add(new CardImage(url: "https://<ImageUrl1>"));
     ///
     ///List<CardAction> cardButtons = new List<CardAction>();
     ///
@@ -650,21 +634,6 @@
     ///~~~{.json}
     ///
     ///	{
-    ///	  "type": "message",
-    ///	  "timestamp": "2016-06-20T14:43:00.3167215Z",
-    ///	  "from": {
-    ///	    "id": "1a392f33",
-    ///	    "name": "piglatinbotv3d"
-    ///	  },
-    ///	  "conversation": {
-    ///	    "id": "8a684db8",
-    ///	    "name": "Conv1"
-    ///	  },
-    ///	  "recipient": {
-    ///	    "id": "2c1c7fa3",
-    ///	    "name": "User1"
-    ///	  },
-    ///	  "text": "Should go to conversation, with a thumbnail card",
     ///	  "attachments": [
     ///	    {
     ///	      "contentType": "application/vnd.microsoft.card.thumbnail",
@@ -673,7 +642,7 @@
     ///	        "subtitle": "Pig Latin Wikipedia Page",
     ///	        "images": [
     ///	          {
-    ///	            "url": "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"
+    ///	            "url": "https://<ImageUrl1>"
     ///	          }
     ///	        ],
     ///	        "buttons": [
@@ -686,7 +655,6 @@
     ///	      }
     ///	    }
     ///	  ],
-    ///	  "replyToId": "bb6316f968184744bf080531dfe10e11"
     ///}
     ///
     ///~~~
@@ -716,7 +684,7 @@
     ///replyToConversation.Attachments = new List<Attachment>();
     ///
     ///List<CardImage> cardImages = new List<CardImage>();
-    ///cardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
+    ///cardImages.Add(new CardImage(url: "https://<ImageUrl1>"));
     ///
     ///List<CardAction> cardButtons = new List<CardAction>();
     ///
@@ -733,7 +701,7 @@
     ///    Title = "Pork Shoulder",
     ///    Subtitle = "8 lbs",
     ///    Text = null,
-    ///    Image = new CardImage(url: "https://3.bp.blogspot.com/-_sl51G9E5io/TeFkYbJ2lDI/AAAAAAAAAL8/Ug_naHX6pAk/s400/porkshoulder.jpg"),
+    ///    Image = new CardImage(url: "https://<ImageUrl1>"),
     ///    Price = "16.25",
     ///    Quantity = "1",
     ///    Tap = null
@@ -744,7 +712,7 @@
     ///Title = "Bacon",
     ///Subtitle = "5 lbs",
     ///Text = null,
-    ///Image = new CardImage(url: "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"),
+    ///Image = new CardImage(url: "https://<ImageUrl2>"),
     ///Price = "34.50",
     ///Quantity = "2",
     ///Tap = null
@@ -773,21 +741,6 @@
     ///~~~{.json}
     ///
     ///	{
-    ///	  "type": "message",
-    ///	  "timestamp": "2016-06-20T14:43:00.4573774Z",
-    ///	  "from": {
-    ///	    "id": "1a392f33",
-    ///	    "name": "piglatinbotv3d"
-    ///	  },
-    ///	  "conversation": {
-    ///	    "id": "8a684db8",
-    ///	    "name": "Conv1"
-    ///	  },
-    ///	  "recipient": {
-    ///	    "id": "2c1c7fa3",
-    ///	    "name": "User1"
-    ///	  },
-    ///	  "text": "Receipt card",
     ///	  "attachments": [
     ///	    {
     ///	      "contentType": "application/vnd.microsoft.card.receipt",
@@ -798,7 +751,7 @@
     ///	            "title": "Pork Shoulder",
     ///	            "subtitle": "8 lbs",
     ///	            "image": {
-    ///	              "url": "https://3.bp.blogspot.com/-_sl51G9E5io/TeFkYbJ2lDI/AAAAAAAAAL8/Ug_naHX6pAk/s400/porkshoulder.jpg"
+    ///	              "url": "https://<ImageUrl1>"
     ///	            },
     ///	            "price": "16.25",
     ///	            "quantity": "1"
@@ -807,7 +760,7 @@
     ///	            "title": "Bacon",
     ///	            "subtitle": "5 lbs",
     ///	            "image": {
-    ///	              "url": "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"
+    ///	              "url": "https://<ImageUrl2>"
     ///	            },
     ///	            "price": "34.50",
     ///	            "quantity": "2"
@@ -825,7 +778,6 @@
     ///	      }
     ///	    }
     ///	  ],
-    ///	  "replyToId": "bb6316f968184744bf080531dfe10e11"
     ///}
     ///
     ///~~~
@@ -852,7 +804,7 @@
     ///
     ///CardAction plButton = new CardAction()
     ///{
-    ///Value = "https://oauthbot.azurewebsites.net/?LinkId=RegistrationLink_1HEuPKSba6cwj9Sn6j6U8MOpPuAKgNZSt4mJ28f3bXJDN%2B4fWTV8SmC6jFsJcq0yYHLa5QYeuKKvMKQNJ8UO%2Fz4jo4LajhN%2Bjc3W%2FpBP%2BiTGfziBEa%2B03TPS4YSLRrursLWSEdnKYk4AJY4EE6UGYiMNAlIb0HbvnICLuFHDwnI%3D",
+    ///Value = "https://<OAuthSignInURL>",
     ///Type = "signin",
     ///Title = "Connect"
     ///};
@@ -884,7 +836,7 @@
     ///	            {
     ///	                "type": "signin",
     ///	                "title": "Connect",
-    ///	                "value": "https://oauthbot.azurewebsites.net/?LinkId=RegistrationLink_1HEuPKSba6cwj9Sn6j6U8MOpPuAKgNZSt4mJ28f3bXJDN%2B4fWTV8SmC6jFsJcq0yYHLa5QYeuKKvMKQNJ8UO%2Fz4jo4LajhN%2Bjc3W%2FpBP%2BiTGfziBEa%2B03TPS4YSLRrursLWSEdnKYk4AJY4EE6UGYiMNAlIb0HbvnICLuFHDwnI%3D"
+    ///	                "value": "https://<OAuthSignInURL>"
     ///	            }
     ///	            ]
     ///	        }
@@ -909,9 +861,9 @@
     ///replyToConversation.Attachments = new List<Attachment>();
     ///
     ///Dictionary<string, string> cardContentList = new Dictionary<string, string>();
-    ///cardContentList.Add("PigLatin", "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png");
-    ///cardContentList.Add("Pork Shoulder", "https://3.bp.blogspot.com/-_sl51G9E5io/TeFkYbJ2lDI/AAAAAAAAAL8/Ug_naHX6pAk/s400/porkshoulder.jpg");
-    ///cardContentList.Add("Bacon", "http://www.drinkamara.com/wp-content/uploads/2015/03/bacon_blog_post.jpg");
+    ///cardContentList.Add("PigLatin", "https://<ImageUrl1>");
+    ///cardContentList.Add("Pork Shoulder", "https://<ImageUrl2>");
+    ///cardContentList.Add("Bacon", "https://<ImageUrl3>");
     ///
     ///foreach(KeyValuePair<string, string> cardContent in cardContentList)
     ///{
@@ -948,23 +900,6 @@
     ///
     ///~~~{.json}
     ///
-    ///{
-    ///"type": "message",
-    ///"timestamp": "2016-06-20T16:04:22.8213061Z",
-    ///"from": {
-    ///    "id": "1a392f33",
-    ///    "name": "piglatinbotv3d"
-    ///},
-    ///"conversation": {
-    ///    "id": "8a684db8",
-    ///    "name": "Conv1"
-    ///},
-    ///"recipient": {
-    ///    "id": "2c1c7fa3",
-    ///    "name": "User1"
-    ///},
-    ///"attachmentLayout": "carousel",
-    ///"text": "Should go to conversation, with a carousel",
     ///"attachments": [
     ///    {
     ///    "contentType": "application/vnd.microsoft.card.hero",
@@ -973,7 +908,7 @@
     ///        "subtitle": "PigLatin Wikipedia Page",
     ///        "images": [
     ///        {
-    ///            "url": "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"
+    ///            "url": "https://<ImageUrl1>"
     ///        }
     ///        ],
     ///        "buttons": [
@@ -992,7 +927,7 @@
     ///        "subtitle": "Pork Shoulder Wikipedia Page",
     ///        "images": [
     ///        {
-    ///            "url": "https://3.bp.blogspot.com/-_sl51G9E5io/TeFkYbJ2lDI/AAAAAAAAAL8/Ug_naHX6pAk/s400/porkshoulder.jpg"
+    ///            "url": "https://<ImageUrl2>"
     ///        }
     ///        ],
     ///        "buttons": [
@@ -1011,7 +946,7 @@
     ///        "subtitle": "Bacon Wikipedia Page",
     ///        "images": [
     ///        {
-    ///            "url": "http://www.drinkamara.com/wp-content/uploads/2015/03/bacon_blog_post.jpg"
+    ///            "url": "https://<ImageUrl3>"
     ///        }
     ///        ],
     ///        "buttons": [
@@ -1024,7 +959,6 @@
     ///    }
     ///    }
     ///],
-    ///"replyToId": "80514c1703e047a3b42aa8eff22367c6"
     ///}   
     ///
     ///~~~

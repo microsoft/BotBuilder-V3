@@ -79,6 +79,11 @@ namespace Microsoft.Bot.Builder.FormFlow { }
 /// </summary>
 namespace Microsoft.Bot.Builder.FormFlow.Json { }
 
+/// <summary>
+/// Root namespace for the %Microsoft %Bot %Builder %Calling %SDK.
+/// </summary>
+namespace Microsoft.Bot.Builder.Calling { }
+
 /// <summary>Namespace for \ref FormFlow advanced building blocks.</summary>
 /// <remarks>
 /// For most developers the building blocks in this namespace are not necessary.
