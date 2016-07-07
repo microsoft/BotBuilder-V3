@@ -17,7 +17,7 @@
     /// * Important: Please update all VS extensions to their latest versions
     ///     Tools->Extensions and Updates->Updates
     ///2. Download and install the %Bot Application template
-    /// * Download the file from the direct download link**[here(hackathon only)](https://aka.ms/hackathon-bf-vs-template)**:
+    /// * Download the file from the direct download link **[here](http://aka.ms/bf-bc-vstemplate)**:
     /// * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
     ///3. Open Visual Studio
     ///4. Create a new C\# project using the new %Bot Application template.
@@ -60,7 +60,7 @@
     ///
     /// \subsection emulator Use the Bot Framework Emulator to test your Bot application
     ///
-    /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here(hackathon only)](https://aka.ms/hackathon-bot-framework-emulator)**.
+    /// The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
     ///
     /// One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application host. The image below uses %Microsoft Edge.
     ///
