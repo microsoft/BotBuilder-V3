@@ -1,51 +1,56 @@
 ﻿namespace Microsoft.Bot.Builder.Calling
 {
-    /// \page calling %Calling 
-    ///\section tutorialivr Tutorial: Interactive Voice Response (IVR) Bot
+    /// \page calling %Calling
+    /// <div class="docs-text-note"><strong>Note:</strong> This is a Skype only feature.</div>
+    ///\section tutorialivr Building a simple Skype Calling Bot
     ///
-    ///Let's say you want to build an [IVR](https://en.wikipedia.org/wiki/Interactive_voice_response) bot to automate common tasks for incoming customer calls.
+    ///Let's say you want to build an Interactive Voice Response ([IVR](https://en.wikipedia.org/wiki/Interactive_voice_response)) bot to automate common tasks for incoming customer calls.
+    ///You can read more about [Skype Calling API](/en-us/skype/calling/) to understand the mechanism for receiving and handling Skype voice calls by bots. Below, you can read how to build
+    ///a simple Skype Calling bot.
     ///
     ///\subsection ivrrequirements Requirements
     ///
     ///If you don't already have them, download:
     ///
-    ///* Visual Studio 2013 or later
-    ///    Make sure you have [.Net Framework 4.5.2](https://www.microsoft.com/en-us/download/details.aspx?id=42637) or later and [Azure SDK for .NET](https://azure.microsoft.com/en-gb/documentation/articles/dotnet-sdk/).
+    ///* Visual Studio 2015 (latest update) - you can download the community version here for free:
+    ///    [www.visualstudio.com](https://www.visualstudio.com/)
+    ///    Make sure you have [.Net Framework 4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137) or later and [Azure SDK for .NET](https://azure.microsoft.com/en-gb/documentation/articles/dotnet-sdk/).
     ///* A free Azure account or [an active Visual Studio subscription](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F)
     ///    You get \$200 in free credits with your account. If you've used up your credits, you can still use the free services and features (such as the Web Apps in the Azure App Service).
     ///
     /// <div class="docs-text-note"><strong>Note:</strong> If you're using a different version of Visual Studio, your screens will look a little different.</div>
     ///
-    ///\subsection ivrquickstarts Quick Starts
+    ///\subsection ivrquickstarts Quick Start
     ///
-    ///If you don't feel like working through the tutorial, you can use the completed quick start solution:
+    ///If you don't feel like working through the tutorial, you can use the following step-by-step guide to have a working bot:
+    ///1. Install prerequisite software
+    /// * Visual Studio 2015 (latest update) - you can download the community version here for free:
+    ///     [www.visualstudio.com](https://www.visualstudio.com/)
+    /// * Important: Please update all VS extensions to their latest versions
+    ///     Tools->Extensions and Updates->Updates
+    ///2. Download and install the %Calling %Bot Application template
+    /// * Download the file from the direct download link **[here](https://aka.ms/bf-builder-calling)**:
+    /// * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
+    ///3. Open Visual Studio
+    ///4. Create a new C\# project using the new %Calling %Bot Application template.
+    ///   ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/calling-getstarted-create-project.png)
+    ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice.  In order to run however, 
+    /// * The %bot has to be registered with [%Bot Framework developer portal](https://dev.botframework.com). After registration is complete you should go to Skype channel configuration page and enable calling for you bot.
+    /// * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
+    /// * The `Microsoft.Bot.Builder.Calling.CallbackUrl` should match the route set for CallingEvent in the template. Template will setup the callback route to `https://<your domain>/api/calling/callback`.
+    ///         Example: if your service is deployed to ivrtest.azurewebsites.net, then the URL will be *https://ivrtest.azurewebsites.net/api/calling/callback*
+    /// * Modify the Routes for both methods in Controllers\CallingController.cs
+    ///    -   **ProcessIncomingCallAsync** - Route depends on the calling URL that was used during registration. For example if [https://ivrtest.azurewebsites.net/api/calling/call](https://ivrtest.azurewebsites.net/api/calling/call) was configured the route should be **"v1/calling"**
     ///
-    ///1.  Download the [completed quick start](https://microsoft.sharepoint.com/teams/SkypeSMS/Shared%20Documents/Agents/CallingQuickStartWebApp.zip) solution and unzip it.
-    ///2.  Navigate to the IvrSample folder. While running VisualStudio from an Administrator account, open the .sln file.
-    ///3.  Edit the application settings in appSettings section of Web.config file. Use the settings registered on the portal.  
+    ///    -   **ProcessCallingEventAsync** - Route needs to match the URL specified in Service configuration. It will be **"api/calling/callback"** in our template
+    /// * The project needs to be published to the web
+    /// 
+    ///\section ivrstepbystep Step-by-step tutorial
     ///
-    ///    You'll need to populate these settings:
-    ///
-    ///    -   ​Skype.Bots.Calling.CallbackUrl – Defines the URL that should be used for
-    ///        callbacks from Calling Platform.
-    ///
-    ///        Example: if your route is set to v1/callback and your service is deployed to ivrtest.azurewebsites.net, then the URL configured on the portal will be *https://ivrtest.azurewebsites.net/v1/callback*
-    ///
-    ///4.  Modify the Routes for both methods in Controllers\CallingController.cs
-    ///
-    ///    -   **ProcessIncomingCall** - Route depends on the calling URL that was used during registration. For example if [https://ivrtest.azurewebsites.net/v1/calling/](https://ivrtest.cloudapp.net/v1/calling/) was configured the route should be **"v1/calling"**
-    ///
-    ///    -   **ProcessCallingEvent** - Route needs to match the URL specified in Service configuration. It will be **"v1/callback"** in our example
-    ///
-    ///You should have a working bot now.
-    ///
-    ///
-    ///\subsection ivrstepbystep Step-by-step tutorial
-    ///
-    ///Let's build a Skype Bot. 
+    ///Let's build a Skype %Calling %Bot. 
     ///
     ///Create an ASP.NET Web Application.   
-    ///Don't know how?  Follow the steps in [Creating ASP.NET Web Projects in Visual Studio](http://www.asp.net/visual-studio/overview/2013/creating-web-projects-in-visual-studio). In "Select a template" window choose the "Empty" option. In the same window please choose "Web API" option from "Add folders and core references" menu.
+    ///Don't know how?  Follow the steps in [Creating ASP.NET Web Projects in Visual Studio](http://www.asp.net/visual-studio/overview/2015/creating-web-projects-in-visual-studio). In "Select a template" window choose the "Empty" option. In the same window please choose "Web API" option from "Add folders and core references" menu.
     ///
     /// <div class="docs-text-note"><strong>Note:</strong> The Library Package Manager has been renamed. As of Visual Studio 2015 (and updated versions of 2013) it's called the NuGet Package Manager</div>
     ///
@@ -57,125 +62,64 @@
     ///~~~
     ///<configuration>
     ///  <appSettings>
-    ///    <add key="Skype.Bots.Calling.CallbackUrl" value="https://put your service URL here/v1/callback" />
+    ///    <add key="Microsoft.Bot.Builder.Calling.CallbackUrl" value="https://put your service URL here/api/calling/callback" />
     ///  </appSettings>
     ///~~~
     ///
     ///
-    ///\subsection ivraddskypebotsreference Add the Microsoft.Skype.Bots reference
+    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling
     ///
-    ///The C\# Botkit is provided as a Nuget package. To get started follow the next steps:
+    ///The %Bot builder calling SDK is provided as a Nuget package. You can install the nuget package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
     ///
-    ///1.  Download the [C\# botkit Nuget](https://microsoft.sharepoint.com/teams/SkypeSMS/Shared%20Documents/Agents/Microsoft.Skype.Bots.1.0.39.113.nupkg) package
-    ///
-    ///2.  Create a local [NuGet feed](https://docs.nuget.org/create/hosting-your-own-nuget-feeds) on your system and drop the package there.
-    ///
-    ///3.  Right click the your web project.
-    ///
-    ///4.  Select Manage NuGet Packages...
-    ///
-    ///5.  Select the local repository you created earlier.
-    ///
-    ///6.  Enter Microsoft.Skype.Bots
-    ///
-    ///7.  Click Install.
-    ///
-    /// ![](/en-us/images/ivr/image1.png)
-    ///
-    ///
-    ///\subsection ivraddunityioccontainerreference Add reference to the Unity IoC container
-    ///
-    ///The Unity Container Library is a dependency injection container which interoperates with WebAPI. It resolves and injects reference for the core %Bot service instance.
-    ///
-    ///Let's add a reference:
-    ///
-    ///1.  Right click on your web project.
-    ///
-    ///2.  Select Manage NuGet Packages...
-    ///
-    ///3.  Enter Unity.WebAPI
-    ///
-    ///4.  Select the latest version.
-    ///
-    ///5.  Click Install.
-    ///
-    ///After the Unity container reference is added, ignore the instructions in the package's readme.txt file. We will setup the container differently. If it's automatically added, completely remove UnityConfig.cs class. If not, add reference to the .NET framework System.Runtime package.
-    ///
-    ///\subsection ivr implementation Implementation
+    ///\subsection ivrimplementation Implementation
     ///
     ///\subsubsection ivrimplementationcreatecontrollerclass Create Controller class
     ///
-    ///The controller needs to inherit from BotController class. It needs to take *ICallingBotService* as contructor parameter.
+    ///The controller needs to inherit from ApiController class and be decorated with `BotAuthentication` attribute. The BotAuthentication decoration on the class is used to validate your %Bot credentials over HTTPS.
+    ///In the constructor of the controller you should register the factory method that creates your bot with the CallingConversation module.
     ///
-    ///Let's assume that during registration the bot's URL for calling was set to [https://ivrtest.azurewebsites.net/v1/call](https://ivrtest.cloudapp.net/v1/call) and
-    ///**Skype.Bots.Calling.CallbackUrl**  option was set to [https://ivrtest.azurewebsites.net/v1/callback](https://ivrtest.cloudapp.net/v1/callback).  
+    ///Let's assume that during registration the bot's URL for calling was set to [https://ivrtest.azurewebsites.net/api/calling/call](https://ivrtest.cloudapp.net/api/calling/call) and
+    ///**Microsoft.Bot.Builder.Calling.CallbackUrl**  option was set to [https://ivrtest.azurewebsites.net/api/calling/callback](https://ivrtest.cloudapp.net/api/calling/callback).  
     ///
     ///Route attributes for methods:
     ///
-    ///-   **ProcessIncomingCall** - Route depends on the calling URL that was used during registration, it's *"v1/call"* in our example
+    ///-   **ProcessIncomingCallAsync** - Route depends on the calling URL that was used during registration, it's *"api/calling/call"* in our example
     ///
-    ///-   **ProcessCallingEvent** - Route needs to match the URL specified in Service configuration. It needs to be **"v1/callback"** in our example
-    ///
-    ///
-    ///It is strongly recommended to validate the incoming request – verify that it originates from %Bot Platform. To use this feature, you need to configure your Azure service to require client certificate. Follow "Configure Web App for Client Certificate Authentication" paragraph at
-    ///[https://azure.microsoft.com/en-gb/documentation/articles/app-service-web-configure-tls-mutual-auth/](https://azure.microsoft.com/en-gb/documentation/articles/app-service-web-configure-tls-mutual-auth/) to turn on this feature. The feature requires at least B1 Basic pricing tier for
-    ///Web App.
-    ///
+    ///-   **ProcessCallingEventAsync** - Route needs to match the URL specified in Service configuration. It needs to be **"api/calling/callback"** in our example
     ///
     ///The code of controller should look like:
     ///
     ///~~~{.cs}
-    ///using System.Net;
+    ///using Microsoft.Bot.Builder.Calling;
+    ///using Microsoft.Bot.Connector;
     ///using System.Net.Http;
     ///using System.Threading.Tasks;
-    ///using System.Web;
     ///using System.Web.Http;
-    ///using Microsoft.Skype.Bots;
-    ///using Microsoft.Skype.Bots.Filters;
-    ///using Microsoft.Skype.Bots.Interfaces;
     ///
-    ///namespace IvrSample.Controllers
+    ///namespace Microsoft.Bot.Sample.SimpleIVRBot
     ///{
-    ///    public class CallingController : BotController
-    ///    {
-    ///        private static readonly MtlsAuthenticationFromHeader MtlsAuth = new MtlsAuthenticationFromHeader();
-    ///        public CallingController(ICallingBotService callingBotService) : base(callingBotService, "CallingQuickStart")
-    ///        {
-    ///        }
+    ///     [BotAuthentication]
+    ///     [RoutePrefix("api/calling")]
+    ///     public class CallingController : ApiController
+    ///     {
+    ///         public CallingController()
+    ///             : base()
+    ///         {
+    ///             CallingConversation.RegisterCallingBot(c => new SimpleIVRBot(c));
+    ///         }
     ///
-    ///        [Route("v1/callback")]
-    ///        public override Task<HttpResponseMessage> ProcessCallingEventAsync()
-    ///        {
-    ///            if (!MtlsAuth.ValidateClientCertificate(Request.RequestUri.ToString(), Request.Headers, GetClientIp()))
-    ///            {
-    ///                return Task.FromResult(Request.CreateResponse(HttpStatusCode.Forbidden));
-    ///            }
+    ///         [Route("callback")]
+    ///         public async Task<HttpResponseMessage> ProcessCallingEventAsync()
+    ///         {
+    ///             return await CallingConversation.SendAsync(Request, CallRequestType.CallingEvent);
+    ///         }
     ///
-    ///            return base.ProcessCallingEventAsync();
-    ///        }
-    ///
-    ///        [Route("v1/call")]
-    ///        public override Task<HttpResponseMessage> ProcessIncomingCallAsync()
-    ///        {
-    ///            if (!MtlsAuth.ValidateClientCertificate(Request.RequestUri.ToString(), Request.Headers, GetClientIp()))
-    ///            {
-    ///                return Task.FromResult(Request.CreateResponse(HttpStatusCode.Forbidden));
-    ///            }
-    ///
-    ///            return base.ProcessIncomingCallAsync();
-    ///        }
-    ///
-    ///        private string GetClientIp()
-    ///        {
-    ///            const string MsHttpContextName = "MS_HttpContext";
-    ///            if (Request.Properties.ContainsKey(MsHttpContextName))
-    ///            {
-    ///                return ((HttpContextWrapper)Request.Properties[MsHttpContextName]).Request.UserHostAddress;
-    ///            }
-    ///
-    ///            return null;
-    ///        }
-    ///    }
+    ///         [Route("call")]
+    ///         public async Task<HttpResponseMessage> ProcessIncomingCallAsync()
+    ///         {
+    ///             return await CallingConversation.SendAsync(Request, CallRequestType.IncomingCall);
+    ///         }
+    ///     }
     ///}
     ///~~~
     ///
@@ -203,22 +147,23 @@
     ///
     ///\subsubsection ivrimplementationmainbotclass Implementation of main Bot class
     ///
-    ///The main %Bot class needs to accept IBotService as one of the arguments of its constructor. In our example we also wire the events there.
+    ///The main %Bot class needs to accept IBotService as one of the arguments of its constructor and implement ICallingBot. In our example we also wire the events there.
     ///
     ///~~~{.cs}
-    ///private readonly ICallingBotService _callingBotService;
+    ///public ICallingBotService CallingBotService { get; private set; }
     ///
-    ///public IvrBot(ICallingBotService callingBotService)
+    ///public SimpleIVRBot(ICallingBotService callingBotService)
     ///{
     ///    if (callingBotService == null)
     ///        throw new ArgumentNullException(nameof(callingBotService));
-    ///
-    ///    _callingBotService = callingBotService;
-    ///    _callingBotService.OnIncomingCallReceived += OnIncomingCallReceived;
-    ///    _callingBotService.OnPlayPromptCompleted += OnPlayPromptCompleted;
-    ///    _callingBotService.OnRecordCompleted += OnRecordCompleted;
-    ///    _callingBotService.OnRecognizeCompleted += OnRecognizeCompleted;
-    ///    _callingBotService.OnHangupCompleted += OnHangupCompleted;
+    ///        
+    ///    CallingBotService = callingBotService;
+    ///    
+    ///     CallingBotService.OnIncomingCallReceived += OnIncomingCallReceived;
+    ///     CallingBotService.OnPlayPromptCompleted += OnPlayPromptCompleted;
+    ///     CallingBotService.OnRecordCompleted += OnRecordCompleted;
+    ///     CallingBotService.OnRecognizeCompleted += OnRecognizeCompleted;
+    ///     CallingBotService.OnHangupCompleted += OnHangupCompleted;
     ///}
     ///~~~
     ///
@@ -562,71 +507,12 @@
     ///}
     ///~~~
     ///
-    ///
-    ///\subsection ivrsetuowebapi Setup the Web API configuration
-    ///
-    ///The next step is to configure the Asp.Net WebApi service to use the Route, Controller and IvrBot classes that we created so far.
-    ///
-    ///We're going to edit the App\_Start\WebApiConfig.cs file. You'll need to:
-    ///
-    ///-   Create a Unity Container.
-    ///-   Register the needed types/instances.
-    ///-   Set it as the DependencyResolver for the Web API.
-    ///
-    ///Your code should look like:
-    ///
-    ///~~~{.cs}
-    ///using System;
-    ///using System.Collections.Generic;
-    ///using System.Linq;
-    ///using System.Web.Http;
-    ///using Microsoft.Practices.Unity;
-    ///using Microsoft.Skype.Bots;
-    ///using Microsoft.Skype.Bots.Interfaces;
-    ///using Unity.WebApi;
-    ///
-    ///namespace CallingQuickStart
-    ///{
-    ///    public static class WebApiConfig
-    ///    {
-    ///        public static void Register(HttpConfiguration config)
-    ///        {
-    ///            // Web API routes
-    ///            config.MapHttpAttributeRoutes();
-    ///
-    ///            var container = new UnityContainer();
-    ///            RegisterTypes(container);
-    ///            config.DependencyResolver = new UnityDependencyResolver(container);
-    ///        }
-    ///
-    ///        private static void RegisterTypes(UnityContainer container)
-    ///        {
-    ///            CallingBotServiceSettings callingSettings = CallingBotServiceSettings.LoadFromCloudConfiguration();
-    ///
-    ///            var callingService = new CallingBotService(callingSettings);
-    ///            var ivrBot = new IvrBot(callingService);
-    ///
-    ///            container.RegisterType<ICallingBotService, CallingBotService>();
-    ///            container.RegisterInstance(callingService, new ContainerControlledLifetimeManager());
-    ///            container.RegisterInstance(ivrBot, new ContainerControlledLifetimeManager());
-    ///        }
-    ///    }
-    ///}
-    ///~~~
-    ///
     ///\subsection ivrfinishingup Finishing Up
     ///
     ///Compile the code, run it locally, and confirm no exceptions are being thrown.
     ///
-    ///Once you're sure the bot works locally, enable SSL by doing the next steps: 
-    ///
-    ///-   Select the IvrSampleQuickStart project in Solution Explorer 
-    ///
-    ///-   Click on Properties tab 
-    ///
-    ///-   Change the SSL Enabled setting to True
-    ///
-    ///Now you are ready to deploy to Azure using the same steps as in the tutorial [Publish to an Azure Web App using Visual Studio](http://docs.asp.net/en/latest/tutorials/publish-to-azure-webapp-using-vs.html). If you encounter the issues on service startup, setting the "Remove additional files at destination" option in publishing settings may help.
+    ///Once you're sure the bot works locally, 
+    ///you are ready to deploy to Azure using the same steps as in the tutorial [Publish to an Azure Web App using Visual Studio](http://docs.asp.net/en/latest/tutorials/publish-to-azure-webapp-using-vs.html). If you encounter the issues on service startup, setting the "Remove additional files at destination" option in publishing settings may help.
     ///
     ///Add the bot to your contact list, and you're finished.
     ///
@@ -635,8 +521,6 @@
     ///There are tools that can create a public url to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
     ///
     ///We'll show how you can test your bot running locally over skype.
-    ///
-    ///Visual Studio needs to be run as administrator. The client certificate validation that was placed in CallingController class needs to be temporarily disabled.
     ///
     ///You'll need to download ngrok and modify your bot's registration.  
     ///First step is to start ngrok on your machine and map it to a local port (in our
@@ -705,7 +589,7 @@
     ///~~~
     ///HTTP Requests
     ///-------------
-    ///POST /v1/call                  200 OK
+    ///POST /api/calling/call                  200 OK
     ///~~~
     ///
     ///
