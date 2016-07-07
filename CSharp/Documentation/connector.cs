@@ -14,7 +14,8 @@ The following sections provide details of how the schema and APIs are used to bu
 - \subpage activities
 - \subpage attachments
 - \subpage channels
-- \subpage configure
+- \subpage connectormisc 
+- \subpage changes
   
     **/
 }

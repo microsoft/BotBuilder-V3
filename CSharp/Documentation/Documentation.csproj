@@ -80,6 +80,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Changes.cs" />
     <Compile Include="StateAPI.cs" />
     <Compile Include="Channels.cs" />
     <Compile Include="Attachments.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="dialogs.cs" />
     <Compile Include="forms.cs" />
     <Compile Include="GettingStarted.cs" />
-    <Compile Include="Configure.cs" />
+    <Compile Include="Conventions.cs" />
     <Compile Include="Activities.cs" />
     <Compile Include="Routing.cs" />
   </ItemGroup>
