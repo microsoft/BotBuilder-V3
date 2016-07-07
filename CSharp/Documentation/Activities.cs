@@ -146,6 +146,55 @@ The tags that are supported are:
 | **link**           | &lt;a href="http:bing.com"&gt;bing&lt;/a&gt;                           | create a hyperlink with title           | [bing](http://bing.com)                                             
 
 
+\subsection Entities
+The Entities property is an array of open ended schema.org objects which allows the exchange of common contextual metadata between the channel and bot. 
+For example, if a channel supports location information it could pass along that information as a schema.org location object.
+
+\subsubsection mentions Mention Entities
+Many communication clients have mechanisms to "mention" someone. Knowing that someone is 
+mentioned can be an important piece of information for a %bot that the channel knows and needs to be able 
+to pass to you.
+
+Frequently a %bot needs to know that __they__ were mentioned, but with some channels
+they don't always know what their name is on that channel. (again see Slack and Group me where names
+are assigned per conversation)
+
+To accomodate these needs the Entities property includes Mention objects, accessible through the GetMentions() method.
+A Mention object is made up of:
+| __Property__ | __Description__                     |                   
+|--------------|-------------------------------------|
+| __type__     | type of the entity ("mention") |
+| __mentioned__| ChannelAccount of the person or user who was mentiond |
+| __text__     | the text in the Activity.Text property which represents the mention. (this can be empty or null) |
+
+Example:
+The user on slack says:
+
+> \@ColorBot pick me a new color
+
+~~~
+{   
+    ...
+    "entities": [{ 
+        "type":"mention",
+        "mentioned": { 
+            "id": "UV341235", "name":"Color Bot" 
+        },
+        "text": "@ColorBot" 
+    }]
+    ...
+}
+~~~
+
+This allows the %bot to know that they were mentioned and to ignore the @ColorBot part of the input when
+trying to determine the user intent.
+
+> NOTE: Mentions go both ways.  A %bot may want to mention a user in a reply to a conversation.If they fill out 
+> the Mentions object with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
+
+\subsubsection locations Location Entities
+[MISSING]
+
 \subsection channeldataproperty ChannelData Property
 With the combination of the Attachments section below the common message schema gives you a rich pallete to describe your response in way 
 that allows your message to "just work" across a variety of channels. 
@@ -156,7 +205,11 @@ extra properties via the *ChannelData* property.
 
 Go to [ChannelData in Messages](/en-us/connector/custom-channeldata) for more detailed description of what each channel enables via the ChannelData Property.
 
-\subsection Attachments
+\section attachmentscardsactions Attachments, Cards and Actions
+Many messaging channels provide the ability to attach richer objects.In the %Bot %Connector we map
+our attachment data structure to media attachments and rich cards on each channel.
+
+\subsection attachments Attachments Property
 The Attachments property is an array of Attachment objects which allow you to send and receive images and other content, including rich cards.
 The primary fields for an Attachment object are:
 
@@ -165,60 +218,45 @@ The primary fields for an Attachment object are:
 | **ContentType** | The contentType of the ContentUrl property| image/png
 | **ContentUrl**  | A link to content of type ContentType     | http://somedomain.com/cat.jpg 
 | **Content**     | An embedded object of type contentType    | If contentType = "application/vnd.microsoft.hero" then Content would be a Json object for the HeroCard
-
-
-\subsection Attachments
-The Attachments property is an array of Attachment objects which allow you to send and receive images and other content, including rich cards.
-The primary fields for an Attachment object are:
-
-| Name        | Description                               | Example   
-| ------------|-------- ----------------------------------| ----------
-| **ContentType** | The contentType of the ContentUrl property| image/png
-| **ContentUrl**  | A link to content of type ContentType     | http://somedomain.com/cat.jpg 
-| **Content**     | An embedded object of type contentType    | If contentType = "application/vnd.microsoft.hero" then Content would be a Json object for the HeroCard
-
 
 
 Some channels allow you to represent a card responses made up of a title, link, description and images. There are multiple card formats, including HeroCard,
 ThumbnailCard, Receipt Card and Sign in.  Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
 property of the Acivity. See [Attachments](/en-us/connector/message-actions) for more info about Attachments.
 
+\subsection imagefileattachments Media Attachments
+To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the
+content, setting the contenttype, contentUrl and name properties.
 
-\section attachmentscardsactions Attachments, Cards and Actions
-Many messaging channels provide the ability to attach richer objects.In the %Bot %Connector we map
-our attachment data structure to media attachments and rich cards on each channel.
-
-\subsection imagefileattachments Image and File Attachments
-To pass a simple attachment to a piece of content you add a simple attachment data structure with a link to the
-content.
-
-| Property | Description |
-|-----|------|
-| ContentType | mimetype/contenttype of the url |
-| ContentUrl  | a link to the actual file |
-
+| Property | Description | Example |
+|-----|------| ---- |
+| ContentType | mimetype/contenttype of the url | image/jpg |
+| ContentUrl  | a link to the actual file | http://foo.com/1312312 |
+| Name | the name of the file | foo.jpg |
 
 If the content type is a image or media content type then it will be passed to the channel in a way that
-allows the image to be displayed.If it is a file then it will simply come through as a link.
+allows the image to be displayed. If it is a file then it will simply come through as a link.
 
 ~~~
 
 replyMessage.Attachments.Add(new Attachment()
 {
-           ContentUrl = "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
-           ContentType = "image/png"
+    ContentUrl = "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
+    ContentType = "image/png",
+    Name = "Bender_Rodriguez.png"      
 });
 ~~~
 
 ~~~{.json}
 
 {
-           "attachments": [
-               {
-                   "contentType": "image/png",
-                   "contentUrl": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png"
-               }
-           ]
+    "attachments": [
+        {
+            "contentType": "image/png",
+            "contentUrl": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png"
+            "name":"Bender_Rodriguez.png"
+        }
+    ]
 }
 
 ~~~
@@ -233,7 +271,7 @@ We also have the ability to render rich cards as attachments.There are several t
 | Receipt Card | A card that lets the user deliver an invoice or receipt | Single |
 | Sign-In Card | A card that lets the %bot initiatea sign-in procedure | Single |
 
-\subsection herocard Hero Card
+\subsubsection herocard Hero Card
 The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card.
 
 | Property | Description |
@@ -314,7 +352,7 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 ~~~
 
-\subsection thumbnailcard Thumbnail Card
+\subsubsection thumbnailcard Thumbnail Card
 The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
 | Property | Description |
@@ -391,7 +429,7 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 ~~~
 
-\subsection receiptcard Receipt Card
+\subsubsection receiptcard Receipt Card
 The receipt card allows the %Bot to present a receipt to the user.
 
 | Property | Description |
@@ -514,7 +552,7 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 ~~~
 
-\subsection signincard Sign-In Card
+\subsubsection signincard Sign-In Card
 
 The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
@@ -579,17 +617,23 @@ Generates JSON
 ~~~
 
 
-\subsection carousel Carousel of Cards
-You can send multiple rich card attachments in a single message.On most channels they will be sent
-as multiple rich cards, but some channels(like Skype and Facebook) can render them as a carousel of rich cards.
+\subsection attachmentlayout AttachmentLayout property
+You can send multiple rich card attachments in a single message. On most channels they will be sent
+as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards.
 
 As the developer you have the abiltity to control whether the list is rendered as a carousel or a vertical list using the **AttachmentLayout** property.
+| AttachmentLayout Value | Description                    |  Notes |
+| ------------ |------------------------------------------| --------|
+| **list**     | Multiple attachments should be shown as a list| *default* |
+| **carousel** | multiple attachments should be shown as a carousel if possible, else fallback to a list| |
+
 
 ~~~{.cs}
 
 Activity replyToConversation = message.CreateReply("Should go to conversation, with a carousel");
 replyToConversation.Recipient = message.From;
 replyToConversation.Type = "message";
+replyToConversation.AttachmentLayout = AttachmentLayouts.Carousel;
 replyToConversation.Attachments = new List<Attachment>();
 
 Dictionary<string, string> cardContentList = new Dictionary<string, string>();
@@ -599,29 +643,29 @@ cardContentList.Add("Bacon", "https://<ImageUrl3>");
 
 foreach(KeyValuePair<string, string> cardContent in cardContentList)
 {
-           List<CardImage> cardImages = new List<CardImage>();
-cardImages.Add(new CardImage(url:cardContent.Value ));
+    List<CardImage> cardImages = new List<CardImage>();
+    cardImages.Add(new CardImage(url:cardContent.Value ));
 
-           List<CardAction> cardButtons = new List<CardAction>();
+    List<CardAction> cardButtons = new List<CardAction>();
 
-CardAction plButton = new CardAction()
-{
-Value = $"https://en.wikipedia.org/wiki/{cardContent.Key}",
-Type = "openUrl",
-Title = "WikiPedia Page"
-};
-cardButtons.Add(plButton);
+    CardAction plButton = new CardAction()
+    {
+        Value = $"https://en.wikipedia.org/wiki/{cardContent.Key}",
+        Type = "openUrl",
+        Title = "WikiPedia Page"
+    };
+    cardButtons.Add(plButton);
 
-           HeroCard plCard = new HeroCard()
-           {
-               Title = $"I'm a hero card about {cardContent.Key}",
-               Subtitle = $"{cardContent.Key} Wikipedia Page",
-               Images = cardImages,
-               Buttons = cardButtons
-           };
+    HeroCard plCard = new HeroCard()
+    {
+        Title = $"I'm a hero card about {cardContent.Key}",
+        Subtitle = $"{cardContent.Key} Wikipedia Page",
+        Images = cardImages,
+        Buttons = cardButtons
+    };
 
-Attachment plAttachment = plCard.ToAttachment();
-replyToConversation.Attachments.Add(plAttachment);
+    Attachment plAttachment = plCard.ToAttachment();
+    replyToConversation.Attachments.Add(plAttachment);
 }
 
 replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
@@ -631,66 +675,68 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 ~~~
 
 ~~~{.json}
-
+    ...
+"attachmentLayout":"carousel",
 "attachments": [
-           {
-           "contentType": "application/vnd.microsoft.card.hero",
-           "content": {
-               "title": "I'm a hero card about Pig Latin",
-               "subtitle": "PigLatin Wikipedia Page",
-               "images": [
-               {
-                   "url": "https://<ImageUrl1>"
-               }
-               ],
-               "buttons": [
-               {
-                   "type": "openUrl",
-                   "title": "WikiPedia Page",
-                   "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
-               }
-               ]
-           }
-           },
-           {
-           "contentType": "application/vnd.microsoft.card.hero",
-           "content": {
-               "title": "I'm a hero card about pork shoulder",
-               "subtitle": "Pork Shoulder Wikipedia Page",
-               "images": [
-               {
-                   "url": "https://<ImageUrl2>"
-               }
-               ],
-               "buttons": [
-               {
-                   "type": "openUrl",
-                   "title": "WikiPedia Page",
-                   "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
-               }
-               ]
-           }
-           },
-           {
-           "contentType": "application/vnd.microsoft.card.hero",
-           "content": {
-               "title": "I'm a hero card about Bacon",
-               "subtitle": "Bacon Wikipedia Page",
-               "images": [
-               {
-                   "url": "https://<ImageUrl3>"
-               }
-               ],
-               "buttons": [
-               {
-                   "type": "openUrl",
-                   "title": "WikiPedia Page",
-                   "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
-               }
-               ]
-           }
-           }
+    {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+            "title": "I'm a hero card about Pig Latin",
+            "subtitle": "PigLatin Wikipedia Page",
+            "images": [
+            {
+                "url": "https://<ImageUrl1>"
+            }
+            ],
+            "buttons": [
+            {
+                "type": "openUrl",
+                "title": "WikiPedia Page",
+                "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
+            }
+            ]
+        }
+        },
+        {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+            "title": "I'm a hero card about pork shoulder",
+            "subtitle": "Pork Shoulder Wikipedia Page",
+            "images": [
+            {
+                "url": "https://<ImageUrl2>"
+            }
+            ],
+            "buttons": [
+            {
+                "type": "openUrl",
+                "title": "WikiPedia Page",
+                "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
+            }
+            ]
+        }
+        },
+        {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+            "title": "I'm a hero card about Bacon",
+            "subtitle": "Bacon Wikipedia Page",
+            "images": [
+            {
+                "url": "https://<ImageUrl3>"
+            }
+            ],
+            "buttons": [
+            {
+                "type": "openUrl",
+                "title": "WikiPedia Page",
+                "value": "https://en.wikipedia.org/wiki/{cardContent.Key}"
+            }
+            ]
+        }
+    }
 ],
+...
 }   
 
 ~~~
