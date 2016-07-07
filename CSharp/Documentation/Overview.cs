@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// \section install Install
     /// 
     /// In order to use the %Microsoft %Bot %Builder you should first follow the install steps in the 
-    /// [Getting Started with Bot Connector] page to setup your bot.  
+    /// \ref gettingstarted page to setup your bot.  
     /// In order to use the framework you need to:
     /// 1. Right-click on your project and select "Manage NuGet Packages".  
     /// 2. In the "Browse" tab, type "Microsoft.Bot.Builder".  

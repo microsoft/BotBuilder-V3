@@ -14,29 +14,29 @@ To use the %Microsoft %Bot Framework %Connector, you must have:
 2. An Azure-accessible REST endpoint exposing a callback for the %Connector service.
 3. Developer accounts on one or more communication services(such as Skype) where your %Bot will communicate.
 
-In addition you may wish to have an Azure App Insights account so you can capture telemetry from your %Bot.There are different ways to go 
-about building a Bot; from scratch, coded directly to the %Bot Builder for REST, the %Bot Builder SDK's for Node.JS & .NET, and the 
+In addition you may wish to have an Azure App Insights account so you can capture telemetry from your %Bot. There are different ways to go 
+about building a %Bot; from scratch, coded directly to the %Bot %Connector API, the %Bot Builder SDK's for Node.JS & .NET, and the 
 %Bot %Connector .NET template which is what this QuickStart guide demonstrates.
 
 \section started Getting started in .NET    
 This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework %Connector SDK .NET template.
 1. Install prerequisite software
-        * Visual Studio 2015 (latest update) - you can download the community version here for free: [www.visualstudio.com](https://www.visualstudio.com/)
-        * Important: Please update all VS extensions to their latest versions Tools->Extensions and Updates->Updates
+        - Visual Studio 2015 (latest update) - you can download the community version here for free: [www.visualstudio.com](https://www.visualstudio.com/)
+        - Important: Please update all VS extensions to their latest versions Tools->Extensions and Updates->Updates
 2. Download and install the %Bot Application template
-        * Download the file from the direct download link**[here]](http://aka.ms/bf-bc-vstemplate)**:
-        * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
+        - Download the file from the direct download link **[here](http://aka.ms/bf-bc-vstemplate)**:
+        - Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
 5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
-        * The %bot has to be registered with %Bot Connector
-        * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
-        * The project needs to be published to the web
+        - The %bot has to be registered with %Bot Connector
+        - The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
+        - The project needs to be published to the web
 
 \section building Building your Bot
-The core functionality of the %Bot Template is all in the Post function within Controllers\MessagesController.cs.In this case the code 
-takes the message text for the user, then creates replyMessage using the CreateReplyMessage function.The BotAuthentication decoration 
+The core functionality of the %Bot Template is all in the Post function within Controllers\MessagesController.cs. In this case the code 
+takes the message text for the user, then creates a reply message using the CreateReplyMessage function. The BotAuthentication decoration 
 on the method is used to validate your %Bot %Connector credentials over HTTPS.
 
 \code{.cs}
@@ -73,8 +73,7 @@ public class MessagesController : ApiController
 Use the Bot Framework Emulator to test your Bot application
 
 The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called 
-by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from 
-    **[here](https://aka.ms/bf-bc-emulator)**.
+by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
 
 One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application
 host. The image below uses %Microsoft Edge.
@@ -96,10 +95,10 @@ Now open the %Bot Framework Emulator. There are a few items that you will need t
 you can interact with your %Bot Application.
 
 The three items you will need to enter are:
-    * The **Url** this should match the URL displayed in your web browser that is displaying the Default.htm file. 
+    - The **Url** this should match the URL displayed in your web browser that is displaying the Default.htm file. 
         > Note: will need to add the path "/api/messages" to your  URL when using the %Bot Application template.
-    * The **MicrosoftAppId** from your Web.Config file.
-    * The **MicrosoftAppPassword** from your Web.Config file.
+    - The **MicrosoftAppId** from your Web.Config file.
+    - The **MicrosoftAppPassword** from your Web.Config file.
 
 ![Configure the emulator with your locahost URL, AppId & AppPassword](/en-us/images/connector/connector-getstarted-configure-emulator.png)
 
