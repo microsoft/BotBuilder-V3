@@ -1120,34 +1120,43 @@ Here are the %Bot State Methods
 When your %bot sends a reply you  simply set your object in one of the BotData records properties and it will be persisted and
 played back to you on future messages when the context is the same. 
 
-Example of setting the data for the sender of an incoming message:
+> NOTE: If the record doesn't exist, it will return a new BotData() record with a null .Data field and an ETag = "*", so that is suitable for
+> changing and passing back to be saved
+
+\subsection getsetproperties Get/SetProperty Methods
+The C# library has helper methods called SetProperty() and GetProperty() which make it easy to get and set any type
+of data from a BotData record, including complex objects.
+
+Setting typed data
+~~~{.cs}
+BotData userData = await botState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
+userData.SetProperty<bool>("SentGreeting", true);
+await BotState.SetUserDataAsync(userData);
+~~~
+
+Getting typed data
+~~~{.cs}
+StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
+BotData userData = await sc.BotState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
+if (userData.GetProperty<bool>("SentGreeting))
+        ... do something ...;
+~~~
+
+Example of setting a complex type
 
 ~~~{.cs}
 StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
 BotState botState = new BotState(sc);
 botData = new BotData(eTag: "*");
-botData.SetProperty("UserData", myUserData);
-var response = await botState.SetUserDataAsync(incomingMessage.ChannelId, incomingMessage.From.Id, botData);
+botData.SetProperty<BotState>("UserData", myUserData);
+var response = await sc.BotState.SetUserDataAsync(incomingMessage.ChannelId, incomingMessage.From.Id, botData);
 ~~~
 
-When a new message comes in, you can retrieve data from GetPrivateConversationData() which will have your conversation state for the user.
-
+Getting a complex type
 ~~~{.cs}
 pigLatinBotUserData addedUserData = new pigLatinBotUserData();
-BotData botData = new BotData();
-try
-{
-    botData = (BotData)await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
-}
-catch (Exception e)
-{
-    if (e.Message == "Resource not found")
-    { // No data was stored for that user }
-    else
-        throw e;
-}
-myUserData = botData.GetProperty<myUserData>("UserData") ?? new myUserData();
-
+var botData =  await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
+myUserData = botData.GetProperty<BotState>("UserData");
 ~~~
 
 \subsection concurrency Concurrency
