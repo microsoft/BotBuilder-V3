@@ -20,7 +20,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the GeoCoordinates class.
         /// </summary>
-        public GeoCoordinates() { }
+        public GeoCoordinates() 
+        {
+            Type = "GeoCoordinates";
+        }
 
         /// <summary>
         /// Initializes a new instance of the GeoCoordinates class.
@@ -30,7 +33,7 @@ namespace Microsoft.Bot.Connector
             Elevation = elevation;
             Latitude = latitude;
             Longitude = longitude;
-            Type = type;
+            Type = "GeoCoordinates";
             Name = name;
         }
 

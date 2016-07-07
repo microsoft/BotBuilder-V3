@@ -20,7 +20,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Place class.
         /// </summary>
-        public Place() { }
+        public Place()
+        {
+            Type = "Place";
+        }
 
         /// <summary>
         /// Initializes a new instance of the Place class.
@@ -30,7 +33,7 @@ namespace Microsoft.Bot.Connector
             Address = address;
             Geo = geo;
             HasMap = hasMap;
-            Type = type;
+            Type = "Place";
             Name = name;
         }
 

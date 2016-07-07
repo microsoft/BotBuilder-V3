@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public T GetAs<T>()
         {
-            return Properties.ToObject<T>();
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(this));
         }
 
         /// <summary>
@@ -30,7 +30,9 @@ namespace Microsoft.Bot.Connector
         /// <param name="obj"></param>
         public void SetAs<T>(T obj)
         {
-            Properties = JObject.FromObject(obj);
+            var entity = JsonConvert.DeserializeObject<Entity>(JsonConvert.SerializeObject(obj));
+            this.Type = entity.Type;
+            this.Properties = entity.Properties;
         }
     }
 }
