@@ -11,6 +11,7 @@ For a complete walkthrough of creating this bot see the article below.
 
 var builder = require('../../core/');
 
+// Create bot and bind to console
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 
