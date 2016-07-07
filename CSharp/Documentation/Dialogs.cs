@@ -39,7 +39,7 @@
     /// Finally we need to wire the class into your Post method like this:
     /// \dontinclude SimpleEchoBot/Controllers/MessagesController.cs
     /// \skip Post(
-    /// \until HandleSystem
+    /// \until HandleSystemMessage
     /// \until }
     /// \until }
     /// 
@@ -155,10 +155,6 @@
     /// builder.RegisterModule(new DialogModule());
     /// builder.RegisterModule(new ReflectionSurrogateModule());
     /// ~~~
-    /// 
-    /// \dontinclude Microsoft.Bot.Builder.Tests\ChainTests.cs
-    /// \skip includeReflection
-    /// \until }
     /// 
     /// \section Fluent Dialog Chains
     /// 

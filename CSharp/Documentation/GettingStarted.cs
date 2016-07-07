@@ -3,7 +3,7 @@
     /**
 \page gettingstarted Getting started with the %Connector
 
-The %Microsoft %Bot %Builder for REST is a communication service that helps you connect your %Bot with many different 
+The %Microsoft %Bot %Connector is a communication service that helps you connect your %Bot with many different 
 communication channels(GroupMe, SMS, email, and others). If you write a conversational %Bot or agent and expose a 
 %Microsoft %Bot Framework-compatible API on the internet, the %Bot Framework %Connector service will forward messages 
 from your %Bot to a user, and will send user messages back to your %Bot.
