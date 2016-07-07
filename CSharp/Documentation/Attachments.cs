@@ -338,12 +338,12 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
-| Property | Description |
-|-----|------|
-| Title | Title of card|
-| Text | Text of the card |
-| Buttons[] | Hero cards support one or more buttons |
-| Tap | An action to take when tapping on the card |
+| Property  | Type      | Description 
+|-----------|---------- | ----- 
+| Title     | string    | Title of card
+| Text      | string    | Text of the card 
+| Buttons[] | Action[]  | Hero cards support one or more buttons 
+| Tap       | Action    | An action to take when tapping on the card 
 
 ~~~{.json}
 
@@ -356,9 +356,9 @@ List<CardAction> cardButtons = new List<CardAction>();
 
 CardAction plButton = new CardAction()
 {
-Value = "https://<OAuthSignInURL>",
-Type = "signin",
-Title = "Connect"
+    Value = "https://<OAuthSignInURL>",
+    Type = "signin",
+    Title = "Connect"
 };
 cardButtons.Add(plButton);
 
@@ -398,7 +398,47 @@ Generates JSON
 
 ~~~
 
+\section cardaction  Button and Card Actions 
 
+The CardAction type is used to represent the information needed to process a button or a tap on a section of a rich card.
+
+| Property  | Type      | Description 
+|-----------|---------- | ----- 
+| Type      | string    | action types as specified in table below
+| Title     | string    | Title for button
+| Image     | string    | Image Url for button
+| Value     | string    | value to perform action
+
+| Action types	| Content of value property
+|---------------|------------------------------
+| openUrl	    | URL to be opened in the built-in browser.
+| imBack	    | Text of message which client will sent back to bot as ordinary chat message. All other participants will see that was posted to the bot and who posted this.
+| postBack	    | Text of message which client will post to bot. Client applications will not display this message.
+| call	        | Destination for a call in following format: "tel:123123123123"
+| playAudio	    | playback audio container referenced by url
+| playVideo	    | playback video container referenced by url
+| showImage	    | show image referenced by url
+| downloadFile  | download file referenced by url
+| signin        | oauth flow url
+
+~~~{.json}
+CardAction button = new CardAction()
+{
+    Type = "imBack",
+    Title = "Hello"
+    Value = "I sez hello!"
+};
+~~~
+
+
+Generates JSON
+~~~{.json}
+{
+    "type": "imBack",
+    "title": "Hello",
+    "value": "I sez hello!"
+}
+~~~
 
     **/
 }
