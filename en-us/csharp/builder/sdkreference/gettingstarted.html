@@ -171,15 +171,16 @@ Emulator</h1>
 </div>
 <p>When using the emulator to test your Bot application, make note of the port that the application is running on, which in this example is port 3978. You will need this information to run the Bot Framework Emulator.</p>
 <p>Now open the Bot Framework Emulator. There are a few items that you will need to configure in the tool before you can interact with your Bot Application.</p>
-<p>The three items you will need to enter are:</p><ul>
-<li>The <b>Url</b> this should match the URL displayed in your web browser that is displaying the Default.htm file. &gt; Note: will need to add the path "/api/messages" to your URL when using the Bot Application template.</li>
-<li>The <b>MicrosoftAppId</b> from your Web.Config file.</li>
-<li>The <b>MicrosoftAppPassword</b> from your Web.Config file.</li>
+<p>When working with the emulator with a bot <b>running locally</b>, you need:</p><ul>
+<li>The <b>Url</b> for your bot set the localhost:&lt;port&gt; pulled from the last step. &gt; Note: will need to add the path "/api/messages" to your URL when using the Bot Application template.</li>
+<li>Empty out the <b>MicrosoftAppId</b> field</li>
+<li>Empty out the <b>MicrosoftAppPassword</b> field</li>
 </ul>
+<p>This will only work with the emulator running locally; in the cloud you would instead have to specify the appropriate URL and authentication values. For more about the emulator, read <a href="en-us/tools/bot-framework-emulator">here</a>.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-configure-emulator.png"  alt="Configure the emulator with your locahost URL, AppId &amp; AppPassword"/>
 </div>
-<p>Now that everything is configured you can interact with your service.The bottom of the Bot Framework Emulator application has a Text Box that you can use to enter a message, this message will be echoed back to you, like below.</p>
+<p>Now that everything is configured you can interact with your service. The bottom of the Bot Framework Emulator application has a Text Box that you can use to enter a message, this message will be echoed back to you, like below.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-test-conversation-emulator.png"  alt="Testing the interaction with the Bot via the emulator"/>
 </div>
