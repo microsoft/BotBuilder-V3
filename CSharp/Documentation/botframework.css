@@ -1582,3 +1582,14 @@ div#doc-content h1, h2, h3 {
     top: 0px;
     background: none;
 }
+
+    #doc-content {
+        height: auto !important;
+    }
+    #nav-tree {
+        height: auto !important;
+    }
+    
+#q {
+    padding: 3px 25px 3px 10px !important;
+}
