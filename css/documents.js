@@ -11,15 +11,21 @@ $( document ).ready(function() {
 	}
     // open left nav container if a page is currently selected
     var currentNav = $(".page-link.navselected").closest(".navContainer").parent();
-    if (currentNav.length == 0 && !isNodeRefDoc()) {
+    var isNodeRefDocVar = isNodeRefDoc();
+    if (currentNav.length == 0 && isNodeRefDocVar == "") {
         // show all nodes
         $( ".level1.parent" ).show();
     } else {
         // hide top level links, show back to top
         $(".level0").hide();
         $(".backToHome").show();
-        if (isNodeRefDoc()) {
-            var currentListHref = $('a[href*="/builder/node/sdkreference/"]').first();
+        if (isNodeRefDocVar == "chat") {
+            var currentListHref = $('a[href*="/node/builder/chat/"]').first();
+            currentListHref.addClass("navselected");
+            currentNav = currentListHref.closest(".navContainer").parent();
+        } 
+        if (isNodeRefDocVar == "calling") {
+            var currentListHref = $('a[href*="/node/builder/calling/"]').first();
             currentListHref.addClass("navselected");
             currentNav = currentListHref.closest(".navContainer").parent();
         } 
@@ -31,7 +37,26 @@ $( document ).ready(function() {
         toggleNav($(this), 400);
     });
 
+    var allTabsInPage = $('[id^="thetabs"]');
+    activateAllTabs(allTabsInPage);
+
+    $(".brand-primary").after('<div class="upgrade-message"><span>There\'s a new version of the Microsoft Bot Framework. Update your bot now to use cards, carousels and action buttons. </span><a href="https://aka.ms/bf-migrate"><span>Learn how</span></a></div>');
+    
 });
+
+
+
+function activateAllTabs(allTabsInPage) {
+    $.each(allTabsInPage, function(i, val){
+        $( "#"+ val.id ).tabs({
+            active: localStorage.botFrameworkDocsActiveTab ? localStorage.botFrameworkDocsActiveTab : 0,
+            activate: function(event, ui) {
+                localStorage.setItem("botFrameworkDocsActiveTab", ui.newTab.parent().children().index(ui.newTab));
+                activateAllTabs(allTabsInPage);
+            }
+        });
+    });
+}
 
 function toggleNav(parent, dur) {    
     $content = parent.children().first();
@@ -43,20 +68,118 @@ function toggleNav(parent, dur) {
 // 
 function isNodeRefDoc() {
     var currentUrl = window.location.href;
-    if (currentUrl.indexOf("/sdkreference/nodejs/") != -1) {
-        return true;
+    if (currentUrl.indexOf("/node/builder/chat-reference/") != -1) {
+        return "chat";
     } 
-    return false;
+    if (currentUrl.indexOf("/node/builder/calling-reference/") != -1) {
+        return "calling";
+    } 
+    return "";
 }
 
-function isGlobalMessageDismissed() {
-    if (localStorage.globalMessageDismissed) {
-        return true;
+/*! Bing Search Helper v1.0.0 - requires jQuery v1.7.2 */
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+$(function () {
+    $('#lang-select').remove();
+    $('#q').css('padding','3px 25px 3px 10px');
+    
+    var q = getParameterByName('q');
+    var mkt = getParameterByName('mkt');
+    var lang = getParameterByName('lang');
+    var v = getParameterByName('v');
+	var data = { q: q, mkt: mkt, v: v, lang: lang };
+
+    var storedLang = localStorage.botFrameworkDocsSearchLang ? localStorage.botFrameworkDocsSearchLang : '';
+    $('#lang-select option[value="'+ storedLang +'"]').prop('selected', true);
+    
+    if (q) {
+        $('#q').val(q);
+        search(data);
     }
-    return false;
-}
 
-function dismissGlobalMessage() {
-    $('#global-message').hide('slow');
-    localStorage.setItem("globalMessageDismissed",Date.now());
-}
+    // Attaches a click handler to the button.
+    $('#bt_search').click(function (e) {
+        q = $('#q').val();
+        if (q) {
+            lang = $('#lang-select').find('option:selected').val() ? $('#lang-select').find('option:selected').val() : '';
+            localStorage.setItem("botFrameworkDocsSearchLang", lang);
+            var formaction = $('#docs-search-form').attr('action');
+
+            if (!formaction) {
+                e.preventDefault();
+                // Clear the results div.
+                $('#search-results').empty();
+                mkt = $('#mkt').val() ? $('#mkt').val() : '';
+                v = $('#v').val() ? $('#v').val() : '';
+                data = { q: q, mkt: mkt, v: v, lang: lang };
+                updateAddressBar(data);
+                search(data);
+            } 
+        } else {
+            e.preventDefault();
+        }
+    });
+
+    // Performs the search.
+    function search(data) {
+        // Set the page title
+        $('.post-title').html('Search results for \'' + data["q"] + '\'');
+        $('#search-progress').addClass("loading");
+        // Establish the data to pass to the proxy.
+        // var host = 'http://ic-devportal-local.azurewebsites.net/api/docssearch';
+        // var host = 'https://ic-devportal-scratch.ic-ase-internal.p.azurewebsites.net/api/docssearch';
+        // var host = 'https://dev.botframework.com/api/docssearch';
+        var host = 'https://bingproxytestandreo.azurewebsites.net/api/search/';
+        // Calls the proxy, passing the query, service operation and market.
+        $.ajax({
+            url: host,
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function(obj) {
+                if (obj.webPages !== undefined) {
+                    var items = obj.webPages.value;
+                    if (items.length > 0) {
+                        for (var k = 0, len = items.length; k < len; k++) {
+                            var item = items[k];
+                            showWebResult(item);
+                        }
+                    } 
+                } else {
+                    $('#search-results').html('no results');
+                }
+            },
+            error: function() {
+               $('#search-results').html('no results');
+            },
+            complete: function() {
+                $('#search-progress').removeClass("loading");
+            }
+        });
+    }
+
+    // Shows one item of Web result.
+    function showWebResult(item) {
+        var container = document.createElement('div');
+        $(container).addClass('search-result-item');
+        var p = document.createElement('p');
+        var a = document.createElement('a');
+        a.href = item.url;
+        $(a).append(item.name);
+        $(p).append(item.snippet);
+        $(container).append(a, p);
+        $('#search-results').append(container);
+    }
+
+    function updateAddressBar(data) {
+        window.history.pushState("", "", "?q=" + data["q"] + "&mkt=" + data["mkt"] + "&v=" + data["v"] + "&lang=" + data["lang"]);
+    }
+});

@@ -15,7 +15,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 # twitter_username: jekyllrb
 # github_username:  jekyll
 include: [_*.html]
-exclude: [bot-connector-rest-api-reference.md,dev-portal-channel-configuration.md,build-docs.cmd,/sandbox/qnawizard-howto.md,/sandbox/qnawizard-overview.md,README.md,search_data.json]
+exclude: [bot-connector-rest-api-reference.md,dev-portal-channel-configuration.md,build-docs.cmd,README.md,/en-us/1000 Building a Bot/building a bot.md,/en-us/9000 Bot Framework Resources/bot-framework-support.md,markdown.samples.md,/en-us/restapi/node.md,/en-us/6000 Channels/overview.md]
 lsi: false
 
 # Build settings

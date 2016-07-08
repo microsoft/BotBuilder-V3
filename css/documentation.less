@@ -9,6 +9,7 @@
 @import "../Less/_dialog.less";
 @import "../Less/_error.less";
 @import "../Less/_loading.less";
+@import "../Less/_progress.less";
 @import "../Less/_page.less";
 
 
@@ -17,10 +18,10 @@ body, table, div, p, dl {
 }
 
 #side-nav {
-    width: 270px;
+    width: 320px !important;
     position: relative;
     float: left;
-    padding: 15px 20px;
+    padding: 24px;
     background-color: @C11;
     height: 100% !important;
 
@@ -112,7 +113,7 @@ body, table, div, p, dl {
 
 #doc-content {
     overflow: auto;
-    padding: 0 45px;
+    padding: 0 40px;
     margin-left: 0px !important;
 }
 
@@ -205,6 +206,7 @@ a {
 }
 
 .post-content {
+    padding-right: 20%;
     table {
         border-spacing: 0;
         border-collapse: collapse;
@@ -237,6 +239,7 @@ a {
 
     p {
         margin: 0 0 10px 0;
+        line-height: 25px;
     }
 
     .post-header {
@@ -278,7 +281,7 @@ a {
         min-width: 0;
     }
     #side-nav, #doc-content {
-        width: 100%;
+        width: 100% !important;
         float:none;
         margin-bottom: 30px;
     }
@@ -296,6 +299,7 @@ a {
     }
 
     .post-content {
+        padding: 0;
         .post-header {
             margin-bottom: 25px;
         }
@@ -329,4 +333,82 @@ a {
     position: relative;
     content: '\E10A';
     float:right;
+}
+
+.docs-text-note {
+    border: none;
+    padding: 20px;
+    margin: 20px auto;
+    background-color: #BCDDEA;
+    width: 90%;
+}
+
+.channels-table + table {
+    font-size: 0.9em;
+}
+
+.search-result-item {
+    margin: 15px 0;
+}
+
+#docs-search-form {
+  margin-bottom: 10px;
+
+  input {
+    padding: 3px 25px 3px 75px;
+    font-size: 15px;
+    height: 30px;
+    width: 100%;
+    border: 0 none transparent;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    border-radius: 0;
+
+    &::-ms-clear {
+        display:none;
+    }
+    }
+
+  .icon-search {
+    position: absolute;
+    width: 40px;
+    height: 28px;
+    min-width: 0;
+    color: transparent;
+    overflow: hidden;
+    right: 18px;
+    top: 26px;
+    background: transparent;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0;
+
+    &:after {
+    font-family: Glyphs;
+    position: absolute;
+    right: 12px;
+    top: 4px;
+    font-size: 18px;
+    }
+    }
+}
+
+#results-by-bing {
+  margin-top: 20px;
+  font-size: 0.8em;
+}
+
+select#lang-select {
+    position: absolute;
+    height: 30px;
+    border: none;
+    background-color: @C1;
+    color: white;
+
+    > option:checked {
+        background-color: #307AB3;
+    }
+    > option:hover {
+        background-color: #307AB3;
+    }
 }

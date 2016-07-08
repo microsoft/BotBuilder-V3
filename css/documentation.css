@@ -109,6 +109,21 @@
 .icon-down-arrow:after {
   content: '\E019';
 }
+.icon-help:after {
+  font-family: Glyphs;
+  position: static;
+  font-size: inherit;
+  top: initial;
+  left: initial;
+  vertical-align: -0.3ex;
+  margin-left: 1ex;
+}
+.icon-help:after {
+  margin-left: 1ex;
+}
+.icon-help:after {
+  content: '\E11B';
+}
 .svgicon {
   display: inline-block;
   width: 1em;
@@ -118,13 +133,13 @@
 .svgicon-microsoft-color-logo {
   width: 4.6474609375em;
 }
-.svgicon-skype {
-  width: 2.2119140625em;
-}
 .svgicon-cognitive-services-logo {
   width: 1.6884765625em;
 }
-.svgicon-bot-connector {
+.svgicon-skype {
+  width: 2.2119140625em;
+}
+.svgicon-bot-directory-v3 {
   width: 1.0048828125em;
 }
 .svgicon-bot-builder {
@@ -135,6 +150,27 @@
 }
 .svgicon-meet-the-bots {
   width: 4.8447265625em;
+}
+.svgicon-icon-build {
+  width: 1.013671875em;
+}
+.svgicon-cognitive-services-v3 {
+  width: 1.6767578125em;
+}
+.svgicon-email {
+  width: 1.75em;
+}
+.svgicon-groupme {
+  width: 0.86328125em;
+}
+.svgicon-kik {
+  width: 2em;
+}
+.svgicon-learn {
+  width: 0.875em;
+}
+.svgicon-telegram {
+  width: 1.2001953125em;
 }
 .danger-button {
   color: white;
@@ -168,6 +204,17 @@
   src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Semibold/latest.svg#web") format("svg");
   font-style: normal;
   font-weight: normal;
+}
+@font-face {
+  font-family: "Segoe UI Bold";
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Bold/latest.eot");
+  src: url("//bot-framework.azureedge.net/fonts/SegoeUI-Bold/latest.eot?") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Bold/latest.woff") format("woff"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Bold/latest.ttf") format("truetype"), url("//bot-framework.azureedge.net/fonts/SegoeUI-Bold/latest.svg#web") format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
+.really-bold-font {
+  font-family: "Segoe UI Bold", sans-serif;
+  letter-spacing: 0.7px;
 }
 h3 {
   font-size: 18px;
@@ -786,6 +833,87 @@ ul.header-nav li a:visisted {
   top: 0;
   right: 0;
 }
+.tool-tip {
+  position: absolute;
+  min-width: 270px;
+  border: 1px solid #999;
+  padding: 30px;
+  background-color: white;
+  width: 350px;
+  background-color: #B3DBF2;
+  z-index: 10;
+  border: 0px none transparent;
+}
+.tool-tip h2 + p {
+  margin-top: 1em;
+}
+.tool-tip .button-panel {
+  margin-top: 25px;
+  text-align: right;
+}
+.tool-tip .button-panel button {
+  margin-left: 20px;
+}
+.tool-tip .danger button.default-button {
+  background-color: #E81022;
+}
+.tool-tip .danger button.default-button:hover {
+  background-color: #d00e1f;
+}
+.tool-tip.modeless {
+  padding: 16px;
+  font-size: 13px;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 2px;
+  max-width: 350px;
+  width: auto;
+}
+.tool-tip:after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background-color: #B3DBF2;
+  margin-top: -8px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.tool-tip.anchorBottom:after {
+  top: 100%;
+  right: 40px;
+}
+.tool-tip.anchorTop:after {
+  top: 0;
+  left: 50%;
+  margin-left: -8px;
+}
+.tool-tip.anchorLeft:after {
+  left: 0;
+  top: 50%;
+  margin-left: -8px;
+}
+.tool-tip.anchorRight:after {
+  left: 100%;
+  top: 50%;
+  margin-left: -8px;
+}
+.tool-tip .dialog-close-button {
+  width: 40px;
+  height: 40px;
+}
+.tool-tip .dialog-close-button:after {
+  top: 10px;
+  right: 10px;
+}
+.tool-tip h3 {
+  font-size: 15px;
+  font-family: "Segoe UI Semibold", sans-serif;
+  line-height: 1.2;
+}
+.tool-tip p {
+  font-size: 13px;
+}
 .error-message-panel {
   background-color: #f2dede;
   color: #E81022;
@@ -827,8 +955,8 @@ ul.header-nav li a:visisted {
   margin-top: 4em;
 }
 .must-check:not(:checked) {
-  outline: 1px solid #E81022;
-  margin-left: 1px !important;
+  outline: 2px solid #E81022;
+  margin-left: 2px !important;
 }
 .loading-animation {
   margin: 0 auto;
@@ -837,6 +965,272 @@ ul.header-nav li a:visisted {
 .loading-animation.loading,
 .loading-animation.visible {
   visibility: visible;
+}
+.paging-progress {
+  text-align: center;
+}
+/* ported from winstrap https://github.com/winjs/winstrap/blob/master/src/scss/win/_progress-ring.scss*/
+.progress-ring {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+.progress-ring .progress-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  -webkit-transform: rotate(225deg);
+          transform: rotate(225deg);
+  -webkit-animation: progress-ring-animation 5s infinite;
+          animation: progress-ring-animation 5s infinite;
+}
+.progress-ring .progress-circle:after {
+  content: "\2022";
+  position: absolute;
+  font-size: 10px;
+  color: #3E92D2;
+}
+.progress-ring .progress-circle:nth-child(2) {
+  -webkit-animation-delay: 300ms;
+          animation-delay: 300ms;
+}
+.progress-ring .progress-circle:nth-child(3) {
+  -webkit-animation-delay: 600ms;
+          animation-delay: 600ms;
+}
+.progress-ring .progress-circle:nth-child(4) {
+  -webkit-animation-delay: 900ms;
+          animation-delay: 900ms;
+}
+.progress-ring .progress-circle:nth-child(5) {
+  -webkit-animation-delay: 1200ms;
+          animation-delay: 1200ms;
+}
+.progress-ring.progress-medium {
+  width: 40px;
+  height: 40px;
+}
+.progress-ring.progress-large {
+  width: 60px;
+  height: 60px;
+}
+.progress-ring.progress-medium .progress-circle {
+  width: 40px;
+  height: 40px;
+}
+.progress-ring.progress-medium .progress-circle:after {
+  font-size: 16px;
+}
+.progress-ring.progress-large .progress-circle {
+  width: 60px;
+  height: 60px;
+}
+.progress-ring.progress-large .progress-circle:after {
+  font-size: 20px;
+}
+@-webkit-keyframes progress-ring-animation {
+  0% {
+    -webkit-transform: rotate(225deg);
+            transform: rotate(225deg);
+    opacity: 1;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  7% {
+    -webkit-transform: rotate(345deg);
+            transform: rotate(345deg);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+  }
+  30% {
+    -webkit-transform: rotate(455deg);
+            transform: rotate(455deg);
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+  }
+  39% {
+    -webkit-transform: rotate(690deg);
+            transform: rotate(690deg);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+  }
+  70% {
+    -webkit-transform: rotate(815deg);
+            transform: rotate(815deg);
+    opacity: 1;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  75% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  76% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    opacity: 0;
+  }
+}
+@keyframes progress-ring-animation {
+  0% {
+    -webkit-transform: rotate(225deg);
+            transform: rotate(225deg);
+    opacity: 1;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  7% {
+    -webkit-transform: rotate(345deg);
+            transform: rotate(345deg);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+  }
+  30% {
+    -webkit-transform: rotate(455deg);
+            transform: rotate(455deg);
+    -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+  }
+  39% {
+    -webkit-transform: rotate(690deg);
+            transform: rotate(690deg);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+  }
+  70% {
+    -webkit-transform: rotate(815deg);
+            transform: rotate(815deg);
+    opacity: 1;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  75% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  76% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+    opacity: 0;
+  }
+}
+/* ported from winstrap https://github.com/winjs/winstrap/blob/master/src/scss/win/_progress-bar.scss */
+.progress-bar {
+  position: relative;
+  width: 180px;
+  height: 4px;
+}
+.progress-bar .progress-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  opacity: 0;
+  -webkit-animation: progress-bar-animation 3s infinite;
+          animation: progress-bar-animation 3s infinite;
+}
+.progress-bar .progress-circle:after {
+  content: "\2022";
+  position: absolute;
+  font-size: 10px;
+  color: #3E92D2;
+}
+.progress-bar .progress-circle:nth-child(2) {
+  -webkit-animation-delay: 200ms;
+          animation-delay: 200ms;
+}
+.progress-bar .progress-circle:nth-child(3) {
+  -webkit-animation-delay: 400ms;
+          animation-delay: 400ms;
+}
+.progress-bar .progress-circle:nth-child(4) {
+  -webkit-animation-delay: 600ms;
+          animation-delay: 600ms;
+}
+.progress-bar .progress-circle:nth-child(5) {
+  -webkit-animation-delay: 800ms;
+          animation-delay: 800ms;
+}
+.progress-bar.progress-medium {
+  width: 296px;
+}
+.progress-bar.progress-large {
+  width: 100%;
+}
+@-webkit-keyframes progress-bar-animation {
+  0% {
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translate(60px, 0px);
+            transform: translate(60px, 0px);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+    opacity: 1;
+  }
+  70% {
+    -webkit-transform: translate(120px, 0px);
+            transform: translate(120px, 0px);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(180px, 0px);
+            transform: translate(180px, 0px);
+    opacity: 0;
+  }
+}
+@keyframes progress-bar-animation {
+  0% {
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  30% {
+    -webkit-transform: translate(60px, 0px);
+            transform: translate(60px, 0px);
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+    opacity: 1;
+  }
+  70% {
+    -webkit-transform: translate(120px, 0px);
+            transform: translate(120px, 0px);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translate(180px, 0px);
+            transform: translate(180px, 0px);
+    opacity: 0;
+  }
 }
 body {
   background: #F6F7F8;
@@ -860,6 +1254,27 @@ body {
 }
 .page-content {
   min-height: 175px;
+}
+.upgrade-message {
+  background-color: #1E425C;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+.upgrade-message a {
+  font-family: "Segoe UI Bold";
+  color: white;
+}
+.upgrade-message a:hover {
+  text-decoration: underline;
+}
+.upgrade-message a span:after {
+  content: '\E0E3';
+  font-family: 'Glyphs';
+  margin-left: 8px;
+  vertical-align: -0.3ex;
+  display: inline-block;
+  text-decoration: none;
 }
 label {
   color: #999999;
@@ -895,10 +1310,10 @@ dl {
   font: 15px "Segoe UI", sans-serif;
 }
 #side-nav {
-  width: 270px;
+  width: 320px !important;
   position: relative;
   float: left;
-  padding: 15px 20px;
+  padding: 24px;
   background-color: #B3DBF2;
   height: 100% !important;
 }
@@ -976,7 +1391,7 @@ dl {
 }
 #doc-content {
   overflow: auto;
-  padding: 0 45px;
+  padding: 0 40px;
   margin-left: 0px !important;
 }
 #blog-content {
@@ -1047,6 +1462,9 @@ a {
   margin-bottom: 25px;
   background-color: transparent;
 }
+.post-content {
+  padding-right: 20%;
+}
 .post-content table {
   border-spacing: 0;
   border-collapse: collapse;
@@ -1077,6 +1495,7 @@ a {
 }
 .post-content p {
   margin: 0 0 10px 0;
+  line-height: 25px;
 }
 .post-content .post-header {
   margin-bottom: 0;
@@ -1543,7 +1962,7 @@ a {
   }
   #side-nav,
   #doc-content {
-    width: 100%;
+    width: 100% !important;
     float: none;
     margin-bottom: 30px;
   }
@@ -1558,6 +1977,9 @@ a {
   #side-nav-right {
     width: 100% !important;
     margin: 0;
+  }
+  .post-content {
+    padding: 0;
   }
   .post-content .post-header {
     margin-bottom: 25px;
@@ -1585,4 +2007,71 @@ a {
   position: relative;
   content: '\E10A';
   float: right;
+}
+.docs-text-note {
+  border: none;
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #BCDDEA;
+  width: 90%;
+}
+.channels-table + table {
+  font-size: 0.9em;
+}
+.search-result-item {
+  margin: 15px 0;
+}
+#docs-search-form {
+  margin-bottom: 10px;
+}
+#docs-search-form input {
+  padding: 3px 25px 3px 75px;
+  font-size: 15px;
+  height: 30px;
+  width: 100%;
+  border: 0 none transparent;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#docs-search-form input::-ms-clear {
+  display: none;
+}
+#docs-search-form .icon-search {
+  position: absolute;
+  width: 40px;
+  height: 28px;
+  min-width: 0;
+  color: transparent;
+  overflow: hidden;
+  right: 18px;
+  top: 26px;
+  background: transparent;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0;
+}
+#docs-search-form .icon-search:after {
+  font-family: Glyphs;
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  font-size: 18px;
+}
+#results-by-bing {
+  margin-top: 20px;
+  font-size: 0.8em;
+}
+select#lang-select {
+  position: absolute;
+  height: 30px;
+  border: none;
+  background-color: #3E92D2;
+  color: white;
+}
+select#lang-select > option:checked {
+  background-color: #307AB3;
+}
+select#lang-select > option:hover {
+  background-color: #307AB3;
 }

@@ -2,9 +2,35 @@
 		current implementation supports only 2 levels in the TOC, adding a new level requires
 		code changes and css changes.
 	{% endcomment %}
+
+{% assign spl = page.permalink | split: '/' %}
+{% if page.permalink contains "/search/" %}
+    {% assign action = "" %}
+{% else %}    
+	{% capture action %}/{{spl[1]}}/search/{% endcapture %}
+{% endif %}
+
+{% assign lang = "" %}
+{% if spl[2] == "node" or spl[2] == "csharp" %}
+	{% assign lang = spl[2] %}
+{% endif %}
 	<div class="trigger">
+		<div id="wrapper">
+    <form id="docs-search-form" action="{{ action }}">
+					<select id="lang-select" name="lang" >
+						<option value="">All</option>
+						<option value="node">Node.js</option>
+						<option value="csharp">.NET</option>
+					</select>
+        <input id="q" name="q" type="text" placeholder="" />
+				<input type="hidden" id="v" name="v" value="v1"/>
+				<input type="hidden" id="mkt" name="mkt" value="{{spl[1]}}"/>
+        <button id="bt_search" name="bt_search" class="icon-search" type="submit"  />
+    </form>
+	</div>
+
 		<ul class="level0 backToHome" style="display:none;">
-			<li><a class="page-link" href="/">&lt; Documentation Home</a></li>
+			<li><a class="page-link" href="/en-us/">&lt; Documentation Home</a></li>
 		</ul>
 	{% assign sorted_pages = (site.pages | sort: 'weight') %}
 	{% assign grouped_pages1 = (sorted_pages | group_by: 'parent1') %}
@@ -32,4 +58,7 @@
 	  {% endif %}	
 	{% endfor %}
 
+		<ul class="level0">
+			<li class=""><a class="page-link" href="http://docs-v1.botframework.com/">V1 documentation</a></li>
+		</ul> 
 	</div>
