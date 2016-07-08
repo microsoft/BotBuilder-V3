@@ -1262,7 +1262,7 @@ body {
   padding: 15px;
 }
 .upgrade-message a {
-  font-family: "Segoe UI Bold";
+  font-family: "Segoe UI Bold", sans-serif;
   color: white;
 }
 .upgrade-message a:hover {
@@ -1393,6 +1393,12 @@ dl {
   overflow: auto;
   padding: 0 40px;
   margin-left: 0px !important;
+}
+#doc-content figure {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
 }
 #blog-content {
   overflow: auto;
