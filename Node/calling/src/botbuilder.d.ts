@@ -1493,3 +1493,154 @@ export class CallConnector implements ICallConnector, IBotStorage {
     /** Writes out data to the Bot Frameworks state service. */
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
 }
+
+/** Action builder class designed to simplify building [answer actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iansweraction). */
+export class AnswerAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+    
+    /** The modality types the application will accept. If none are specified it assumes audio only. */
+    acceptModalityTypes(types: string[]): AnswerAction;
+
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+}
+
+/** Action builder class designed to simplify building [hangup actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.ihangupaction). */
+export class HangupAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+}
+
+/** Action builder class designed to simplify building [playPrompt actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iplaypromptaction). */
+export class PlayPromptAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+    
+    /** List of prompts to play out with each single prompt object. */
+    prompts(list: IPrompt[]|IIsPrompt[]): PlayPromptAction;
+
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+
+    /** Creates a text prompt that will be spoken to the user using TTS. */
+    static text(session: CallSession, text: string|string[], ...args: any[]): PlayPromptAction;
+
+    /** Creates a file prompt that will be played to the user. */
+    static file(session: CallSession, uri: string): PlayPromptAction;
+    
+    /** Creates a prompt that plays silence to the user. */
+    static silence(session: CallSession, time: number): PlayPromptAction;
+}
+
+/** Prompt builder class that simplifies building prompts for playPrompt action.  */
+export class Prompt implements IIsPrompt {
+    /** Creates a new instance of the prompt builder. */
+    constructor(session?: CallSession);
+    
+    /** Text-To-Speech text to be played to Skype user. Either [value](#value) or [fileUri](#fileuri) must be specified. */
+    value(text: string|string[], ...args: any[]): Prompt;
+
+    /** HTTP of played media file. Supported formats are WMA or WAV. The file is limited to 512kb in size and cached by Skype Bot Platform for Calling. Either [value](#value) or [fileUri](#fileuri) must be specified. */
+    fileUri(uri: string): Prompt;
+
+    /** VoiceGender enum value. The default value is “female”. */
+    voice(gender: string): Prompt;
+
+    /** The Language enum value to use for Text-To-Speech. Only applicable if [value](#value) is text. The default value is “en-US”. Note, currently en-US is the only supported language. */
+    culture(locale: string): Prompt;
+
+    /** Any silence played out before [value](#value) is played. If [value](#value) is null, this field must be a valid > 0 value. */
+    silenceLengthInMilliseconds(time: number): Prompt;
+
+    /** Indicates whether to emphasize when tts'ing out. It's applicable only if [value](#value) is text. The default value is false. */
+    emphasize(flag: boolean): Prompt;
+
+    /** The SayAs enum value indicates whether to customize pronunciation during tts. It's applicable only if [value](#value) is text. */
+    sayAs(type: string): Prompt;
+
+    /** Returns the JSON object for the prompt. */
+    toPrompt(): IPrompt;
+
+    /** Creates a text prompt that will be spoken to the user using TTS. */
+    static text(session: CallSession, text: string|string[], ...args: any[]): Prompt;
+
+    /** Creates a file prompt that will be played to the user. */
+    static file(session: CallSession, uri: string): Prompt;
+
+    /** Creates a prompt that plays silence to the user. */
+    static silence(session: CallSession, time: number): Prompt;
+}
+
+/** Action builder class designed to simplify building [recognize actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.irecognizeaction). */
+export class RecognizeAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+
+    /** A prompt to be played before the recognition starts. */
+    playPrompt(action: IAction|IIsAction): RecognizeAction;
+
+    /** Indicates if Skype user is allowed to enter choice before the prompt finishes. The default value is true. */
+    bargeInAllowed(flag: boolean): RecognizeAction;
+
+    /** Culture is an enum indicating what culture the speech recognizer should use. The default value is “en-US”. Currently the only culture supported is en-US. */
+    culture(locale: string): RecognizeAction;
+    
+    /** Maximum initial silence allowed before failing the operation from the time we start the recording. The default value is 5 seconds. */ 
+    initialSilenceTimeoutInSeconds(time: number): RecognizeAction;
+    
+    /** Maximum allowed time between dial pad digits. The default value is 1 second. */
+    interdigitTimeoutInSeconds(time: number): RecognizeAction;
+    
+    /** List of RecognitionOption objects dictating the recognizable choices. Choices can be speech or dial pad digit based. Either [collectDigits](#collectDigits) or [choices](#choices) must be specified, but not both. */
+    choices(list: IRecognitionChoice[]): RecognizeAction;
+    
+    /** CollectDigits will result in collecting digits from Skype user dial pad as part of recognize. Either [collectDigits](#collectDigits) or [choices](#choices) must be specified, but not both. */
+    collectDigits(options: ICollectDigits): RecognizeAction;
+    
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+}
+
+/** Action builder class designed to simplify building [record actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.irecordaction). */
+export class RecordAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+
+    /** A prompt to be played before the recording. */
+    playPrompt(action: IAction|IIsAction): RecordAction;
+
+    /** Maximum duration of recording. The default value is 180 seconds. */
+    maxDurationInSeconds(time: number): RecordAction;
+
+    /** Maximum initial silence allowed before the recording is stopped. The default value is 5 seconds. */
+    initialSilenceTimeoutInSeconds(time: number): RecordAction;
+
+    /** Maximum silence allowed after the speech is detected. The default value is 5 seconds. */
+    maxSilenceTimeoutInSeconds(time: number): RecordAction;
+
+    /** The format expected for the recording. The RecordingFormat enum describes the supported values. The default value is “wma”. */
+    recordingFormat(fmt: string): RecordAction;
+
+    /** Indicates whether to play beep sound before starting a recording action. */
+    playBeep(flag: boolean): RecordAction;
+
+    /** Stop digits that user can press on dial pad to stop the recording. */
+    stopTones(dtmf: string[]): RecordAction;
+    
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+}
+
+/** Action builder class designed to simplify building [reject actions](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.irejectaction). */
+export class RejectAction implements IIsAction {
+    /** Creates a new instance of the action builder. */
+    constructor(session?: CallSession);
+
+    /** Returns the JSON object for the action. */
+    toAction(): IAction;
+}
+
