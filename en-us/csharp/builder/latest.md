@@ -25,9 +25,28 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v3.0.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.0.0)
+
+You can read more about v3 API and what have changed in more depth [here](http://docs.botframework.com/en-us/support/upgrade-code-to-v3/#navtitle). Here is a high-level list of changes in this release: 
+#### Breaking Changes
+
+- v3 schema: Message is now [Activity](http://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html) and there is a [new addressing scheme](http://docs.botframework.com/en-us/support/upgrade-code-to-v3/#addressing)
+- [Change in reply model](http://docs.botframework.com/en-us/support/upgrade-code-to-v3/#sending-replies): replies to the user will be sent asynchronously over a separately initiated HTTP request rather than inline with the HTTP POST for the incoming message to bot
+- [Authentication model](http://docs.botframework.com/en-us/restapi/authentication/#navtitle)
+- Decoupled bot data storage ([Bot State](http://docs.botframework.com/en-us/csharp/builder/sdkreference/stateapi.html)) from messaging API
+- [New card](http://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html) format for attachments
+
+#### Changes
+
+- Bot Builder and Connector are now one [nuget](https://www.nuget.org/packages/Microsoft.Bot.Builder/)
+- Bot Connector is now open source
+- [Bot.Builder.Calling](https://www.nuget.org/packages/Microsoft.Bot.Builder.calling) nuget package to build [Skype Calling bots](http://docs.botframework.com/en-us/skype/calling/#navtitle)
+
+***
+
 ### [v1.2.5](https://www.nuget.org/packages/Microsoft.Bot.Builder/1.2.5)
 
-### Changes
+#### Changes
 * Moving Microsoft.Bot.Builder.FormFlow.Json into a separate nuget package
 * Add PromptDialog Attachment
 * General bug fixes

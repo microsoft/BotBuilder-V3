@@ -108,7 +108,7 @@ Example response:
 
 ### (Connector -> Bot) Step 2: Download the list of valid signing keys
 
-Issue an HTTPS GET to this document to retrieve a list of valid signing keys. The document is in the JWK format (see [references](references) for more details). The list of keys is relatively stable and may be cached for long periods of time (by default, 5 days within the Bot Builder SDK).
+Issue an HTTPS GET to this document to retrieve a list of valid signing keys. The document is in the JWK format (see [references](#references) for more details). The list of keys is relatively stable and may be cached for long periods of time (by default, 5 days within the Bot Builder SDK).
 
     -- connect to apis.aps.skype.com --
     GET /v1/keys HTTP/1.1
@@ -168,6 +168,7 @@ Extract the token as you would a JWT token sent by the Bot Connector. However, u
 The same precautions must be taken in parsing this token as when parsing a token from the Bot Connector service. Failure to implement all validation requirements will leave the bot vulnerable to attack.
 
 <a name="references"/>
+
 ## References
 
 1. [JSON Web Token (JWT) draft-jones-json-web-token-07](http://openid.net/specs/draft-jones-json-web-token-07.html)
