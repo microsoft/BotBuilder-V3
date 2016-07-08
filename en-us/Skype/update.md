@@ -107,7 +107,7 @@ To do this send an email to bothelp@microsoft.com with:
 
 * Your new Microsoft Bot Framework App ID (from the Microsoft Bot Framework Portal)
 
-![Microsoft Bot Framework App ID](/en-us/images/skype/bot-app-id.png)
+![Microsoft Bot Framework App ID](/en-us/images/skype/bot-framework-app-id.png)
 
 We'll update the App ID in your new bot the Microsoft Bot Framework after which your users will start using the new bot.
 
