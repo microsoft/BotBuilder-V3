@@ -95,15 +95,18 @@ which in this example is port 3978. You will need this information to run the %B
 Now open the %Bot Framework Emulator. There are a few items that you will need to configure in the tool before 
 you can interact with your %Bot Application.
 
-The three items you will need to enter are:
-    - The **Url** this should match the URL displayed in your web browser that is displaying the Default.htm file. 
+When working with the emulator with a bot **running locally**, you need:
+    - The **Url** for your bot set the localhost:<port> pulled from the last step. 
         > Note: will need to add the path "/api/messages" to your  URL when using the %Bot Application template.
-    - The **MicrosoftAppId** from your Web.Config file.
-    - The **MicrosoftAppPassword** from your Web.Config file.
+    - Empty out the **MicrosoftAppId** field
+    - Empty out the **MicrosoftAppPassword** field
+
+This will only work with the emulator running locally; in the cloud you would instead have to specify the appropriate URL and authentication values.
+For more about the emulator, read [here](en-us/tools/bot-framework-emulator).
 
 ![Configure the emulator with your locahost URL, AppId & AppPassword](/en-us/images/connector/connector-getstarted-configure-emulator.png)
 
-Now that everything is configured you can interact with your service.The bottom of the %Bot Framework Emulator application has a 
+Now that everything is configured you can interact with your service. The bottom of the %Bot Framework Emulator application has a 
 Text Box that you can use to enter a message, this message will be echoed back to you, like below.
 
 ![Testing the interaction with the Bot via the emulator](/en-us/images/connector/connector-getstarted-test-conversation-emulator.png)
