@@ -30,19 +30,21 @@
     ///     Tools->Extensions and Updates->Updates
     ///2. Download and install the %Calling %Bot Application template
     /// * Download the file from the direct download link **[here](https://aka.ms/bf-builder-calling)**:
-    /// * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C\#\"
+    /// * Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
     ///3. Open Visual Studio
     ///4. Create a new C\# project using the new %Calling %Bot Application template.
     ///   ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/calling-getstarted-create-project.png)
     ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice.  In order to run however, 
-    /// * The %bot has to be registered with [%Bot Framework developer portal](https://dev.botframework.com). After registration is complete you should go to Skype channel configuration page and enable calling for you bot.
+    /// * The %Bot has to be registered with [%Bot Framework developer portal](https://dev.botframework.com). After registration is complete you should go to Skype channel configuration page and enable calling for your %Bot and register your calling endpoint with Skype.
+    /// ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/skypeconfig.png)
     /// * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
     /// * The `Microsoft.Bot.Builder.Calling.CallbackUrl` should match the route set for CallingEvent in the template. Template will setup the callback route to `https://<your domain>/api/calling/callback`.
-    ///         Example: if your service is deployed to ivrtest.azurewebsites.net, then the URL will be *https://ivrtest.azurewebsites.net/api/calling/callback*
+    ///         - Example: if your service is deployed to ivrtest.azurewebsites.net, then the URL will be *https://ivrtest.azurewebsites.net/api/calling/callback*
     /// * Modify the Routes for both methods in Controllers\CallingController.cs
-    ///    -   **ProcessIncomingCallAsync** - Route depends on the calling URL that was used during registration. For example if [https://ivrtest.azurewebsites.net/api/calling/call](https://ivrtest.azurewebsites.net/api/calling/call) was configured the route should be **"v1/calling"**
+    ///    -   **ProcessIncomingCallAsync**: Route depends on the calling URL that was used during registration. 
+    ///    For example if [https://ivrtest.azurewebsites.net/api/calling/call](https://ivrtest.azurewebsites.net/api/calling/call) was registered wit the %Bot Framework developer portal, route should be **api/calling/call**
     ///
-    ///    -   **ProcessCallingEventAsync** - Route needs to match the URL specified in Service configuration. It will be **"api/calling/callback"** in our template
+    ///    -   **ProcessCallingEventAsync**: Route needs to match the URL specified in service configuration, i.e. web.config. It will be **api/calling/callback** in our template.
     /// * The project needs to be published to the web
     /// 
     ///\section ivrstepbystep Step-by-step tutorial
@@ -67,9 +69,9 @@
     ///~~~
     ///
     ///
-    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling
+    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling nuget
     ///
-    ///The %Bot builder calling SDK is provided as a Nuget package. You can install the nuget package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
+    ///The %Bot builder calling SDK is provided as a nuget package. You can install the nuget package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
     ///
     ///\subsection ivrimplementation Implementation
     ///
@@ -79,13 +81,13 @@
     ///In the constructor of the controller you should register the factory method that creates your bot with the CallingConversation module.
     ///
     ///Let's assume that during registration the bot's URL for calling was set to [https://ivrtest.azurewebsites.net/api/calling/call](https://ivrtest.cloudapp.net/api/calling/call) and
-    ///**Microsoft.Bot.Builder.Calling.CallbackUrl**  option was set to [https://ivrtest.azurewebsites.net/api/calling/callback](https://ivrtest.cloudapp.net/api/calling/callback).  
+    /// **Microsoft.Bot.Builder.Calling.CallbackUrl**  option was set to [https://ivrtest.azurewebsites.net/api/calling/callback](https://ivrtest.cloudapp.net/api/calling/callback).  
     ///
     ///Route attributes for methods:
     ///
-    ///-   **ProcessIncomingCallAsync** - Route depends on the calling URL that was used during registration, it's *"api/calling/call"* in our example
+    ///-   **ProcessIncomingCallAsync** - Route depends on the calling URL that was used during registration, it's _api/calling/call_ in our example
     ///
-    ///-   **ProcessCallingEventAsync** - Route needs to match the URL specified in Service configuration. It needs to be **"api/calling/callback"** in our example
+    ///-   **ProcessCallingEventAsync** - Route needs to match the URL specified in Service configuration. It needs to be _api/calling/callback_ in our example
     ///
     ///The code of controller should look like:
     ///
@@ -147,7 +149,7 @@
     ///
     ///\subsubsection ivrimplementationmainbotclass Implementation of main Bot class
     ///
-    ///The main %Bot class needs to accept IBotService as one of the arguments of its constructor and implement ICallingBot. In our example we also wire the events there.
+    ///The main %Bot class needs to accept IBotService as one of the arguments of its constructor and implement \ref ICallingBot interface. In our example we also wire the events there.
     ///
     ///~~~{.cs}
     ///public ICallingBotService CallingBotService { get; private set; }
