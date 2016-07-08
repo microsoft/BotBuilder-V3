@@ -23,14 +23,14 @@ There are 5 language APIs available in Cognitive Services to understand and proc
 
 
 ## Example: Weather Bot
-For our first example, we will build a weather bot that is able to understand and respond to various hypothetical commands, such as What's the weather like in Paris, What's the temperature next week in seattle...etc. The bot is using LUIS to identify the intent of the user, and reply with the appropriate prompt. 
+For our first example, we will build a weather bot that is able to understand and respond to various hypothetical commands, such as "What's the weather like in Paris", "What's the temperature next week in Seattle" and so on. The bot is using LUIS to identify the intent of the user, and reply with the appropriate prompt. 
 
-To get started with LUIS, go to [LUIS.ai](http://www.luis.ai){:target="_blank"} and build your own custom language model. Our [Getting Started](https://www.microsoft.com/cognitive-services/en-us/luis-api/documentation/getstartedwithluis-basics){:target="_blank"} guide describes in details how to build your first model through the LUIS user interface, or programatically via the LUIS APIs. 
-We encoourgae you to watch our [basic](https://www.youtube.com/watch?v=jWeLajon9M8&index=4&list=PLD7HFcN7LXRdHkFBFu4stPPeWJcQ0VFLx){:target="_blank"} video tutorial. 
+To get started with LUIS, go to [LUIS.ai](http://www.luis.ai){:target="_blank"} and build your own custom language model. Our [Getting Started](https://www.microsoft.com/cognitive-services/en-us/luis-api/documentation/getstartedwithluis-basics){:target="_blank"} guide describes in details how to build your first model through the LUIS user interface, or programatically via the LUIS APIs. We encourage you to watch our [basic](https://www.youtube.com/watch?v=jWeLajon9M8&index=4&list=PLD7HFcN7LXRdHkFBFu4stPPeWJcQ0VFLx){:target="_blank"} video tutorial. 
 
-To create the bot, we will use the [Bot Application .NET template](http://docs.botframework.com/connector/getstarted/#getting-started-in-net){:target="_blank"} as our starting point. After you create your project with the Bot Application template, add a class to handle the integration with your LUIS language model. 
+To create the bot, we will use the [Bot Application .NET template](http://docs.botframework.com/connector/getstarted/#getting-started-in-net){:target="_blank"} as our starting point. Note that you need to build the language model for the weather bot in LUIS first. To accomplish this, follow the steps in this [video](https://www.youtube.com/watch?v=39L0Gv2EcSk&index=5&list=PLD7HFcN7LXRdHkFBFu4stPPeWJcQ0VFLx){:target="_blank"}.
 
-To build LU model for our weather bot follow this [video](https://www.youtube.com/watch?v=39L0Gv2EcSk&index=5&list=PLD7HFcN7LXRdHkFBFu4stPPeWJcQ0VFLx).
+After you set up your language model, create your project with the Bot Application template, and add the following class to handle the integration with your LUIS language model. 
+
 
 {% highlight c# %}
 

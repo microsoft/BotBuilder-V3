@@ -10,9 +10,9 @@ parent1: Bot Intelligence
 * TOC
 {:toc}
 
-## Add Intelligence to your Bots with Microsoft Cognitive Services
+## Add Smarts to your Bots with Microsoft Cognitive Services
 
-Now that you built your bot, it's time to add smarts to it and make it more useful and engaging for your users. An intelligent bot expresses human-like senses and skills. It is able to understand what we are saying or writing in natural language and respond back, see our world as we see it, discover information and extract knowledge from different sources to provide useful answers, and more importantly learn as it acquires more experience to continuously improve its capabilities. Sounds daunting, but we are here to help you add some of these cognitive skills to your bot. 
+Now that you built your bot, it's time to add smarts to it and make it more useful and engaging for your users. An intelligent bot has human-like senses and skills. It is able to understand what we are saying or writing in natural language and respond back, see our world as we see it, discover information and extract knowledge from different sources to provide useful answers, and more importantly learn as it acquires more experience to continuously improve its capabilities. Sounds daunting, but we are here to help you add some of these cognitive skills to your bot. 
 
 Microsoft Cognitive Services lets you tap into an ever-growing collection of powerful AI algorithms developed by experts in the fields of computer vision, speech, natural language processing, knowledge extraction and web search. They simplify a variety of AI-based tasks, giving you a quick way to add state-of-the-art intelligence technologies to your apps with just a few lines of code. The APIs integrate into whatever language you prefer, on your platform of choice. The APIs are also constantly improving, learning, and getting smarter, so experiences are always up to date. Simply drop the API call into your bot’s code and you are set.
 
