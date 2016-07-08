@@ -18,30 +18,30 @@ To update to the new environment you need to register a new bot with the Microso
 * TOC
 {:toc}
 
-# What's new
+## What's new
 
-## Cards
+### Cards
 {:.no_toc}
 
 Create [visual cards](/en-us/skype/getting-started/#navtitle) for compelling user to bot interactions with images, carousels, receipts and action buttons.
 
 ![Carousel card](/en-us/images/skype/skype-bot-carousel-card.png)
 
-## Sign in
+### Sign in
 {:.no_toc}
 
 Create a [sign in card](/en-us/skype/getting-started/#navtitle) for authenticating a user with your service via OAuth or other login methods
 
 ![Sign in card](/en-us/images/skype/skype-bot-signin-card.png)
 
-## Groups
+### Groups
 {:.no_toc}
 
 Make Skype Bots that are more productive - or just entertaining - for [groups](/en-us/skype/getting-started/#groups) of users.  Bots can now be a part of and respond to group conversations.
 
 ![Groups](/en-us/images/skype/skype-bot-at-mention.png)
 
-## Plus
+### Plus
 {:.no_toc}
 
 * Publish your bot in Skype directly from the Microsoft Bot Framework - to remove bot user limits, and request promotion in the Skype and Microsoft bot directories
@@ -49,7 +49,7 @@ Make Skype Bots that are more productive - or just entertaining - for [groups](/
 * Try out a preview of built-in [Bing Entity and Intent Detection](/en-us/skype/getting-started/#bing-entity-and-intent-detection-preview), which adds natural language understanding to messages sent from Skype to your bot
 * Review the updated and combined [Terms of Use](https://aka.ms/bf-terms) and [Developer Code of Conduct](https://aka.ms/bf-conduct)
 
-# How to update an existing bot
+## How to update an existing bot
 
 **If your bot was already registered in the Microsoft Bot Framework and developed using the Microsoft Bot Framework SDK ("V1")** you can follow [this guide](https://aka.ms/bf-migrate) on how to upgrade it to use the latest SDK ("V3").
 
@@ -59,7 +59,7 @@ Make Skype Bots that are more productive - or just entertaining - for [groups](/
 3.	(For published bots only) Migrate your existing bot and users
 
 
-## 1. Register a new bot in Microsoft Bot Framework
+### 1. Register a new bot in Microsoft Bot Framework
 {:.no_toc}
 
 1.	Go to the Microsoft Bot Framework and tap “Register a bot”
@@ -74,7 +74,7 @@ You can continue to use the same bot webhook but the bot at that endpoint will n
 
 If your existing bot is already published see below for how to migrate existing users.
 
-## 2. Update your bot to use the new V3 API
+### 2. Update your bot to use the new V3 API
 {:.no_toc}
 
 Update your bot code to use the Microsoft Bot Framework V3 API. 
@@ -87,7 +87,7 @@ You can test using the Microsoft Bot Framework Emulator, and in Skype using the 
 * Sign in using your Skype credentials
 * Copy and paste the following URL into the address bar of the browser https://web.skype.com/en/?ecsoverride=developer
 
-## 3. (For published bots only) Migrate your existing bot and users
+### 3. (For published bots only) Migrate your existing bot and users
 {:.no_toc}
 
 If you have an approved published bot you may want to keep it running while you update to the new API, and then point the existing bot identity to the new bot.
@@ -107,7 +107,7 @@ To do this send an email to bothelp@microsoft.com with:
 
 * Your new Microsoft Bot Framework App ID (from the Microsoft Bot Framework Portal)
 
-![Microsoft Bot Framework Dashboard](/en-us/images/skype/bot-framework-dashboard.png)
+![Microsoft Bot Framework App ID](/en-us/images/skype/bot-app-id.PNG)
 
 We'll update the App ID in your new bot the Microsoft Bot Framework after which your users will start using the new bot.
 

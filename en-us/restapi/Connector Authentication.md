@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Authentication
-permalink: /en-us/restapi/bots/authentication/
+permalink: /en-us/restapi/authentication/
 weight: 4230
 parent1: REST API
 parent2: Bots

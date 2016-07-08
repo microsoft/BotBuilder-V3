@@ -3,7 +3,7 @@ layout: page
 title: Upgrade your bot registration to V3
 permalink: /en-us/support/upgrade-to-v3/
 weight: 9150
-parent1: Bot Framework Resources
+parent1: none
 ---
 
 
