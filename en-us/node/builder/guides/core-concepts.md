@@ -152,7 +152,7 @@ var bot = new builder.UniversalBot(connector);
 var intents = new builder.IntentDialog();
 bot.dialog('/', intents);
 
-intents.matches('^change name', [
+intents.matches(/^change name/i, [
     function (session) {
         session.beginDialog('/profile');
     },
@@ -231,7 +231,7 @@ server.post('/api/messages', connector.listen());
 var intents = new builder.IntentDialog();
 bot.dialog('/', intents);
 
-intents.matches('^change name', [
+intents.matches(/^change name/i, [
     function (session) {
         session.beginDialog('/profile');
     },
