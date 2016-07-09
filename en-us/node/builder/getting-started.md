@@ -28,7 +28,6 @@ Get the Bot Builder and Restify modules using npm.
     npm install --save botbuilder
     npm install --save restify
 
-       
 Make a file named app.js and say hello in a few lines of code.
  
 {% highlight JavaScript %}
