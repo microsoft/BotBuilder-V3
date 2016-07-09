@@ -175,12 +175,12 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
             <summary>
-             Bot added removed to contact list
+             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.ContactRelationUpdate">
             <summary>
-             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
+             Bot added or removed to contact list. See <see cref="T:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes"/> for possible values.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Typing">
