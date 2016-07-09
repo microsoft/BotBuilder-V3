@@ -57,7 +57,7 @@ The changes below will require at least some code change to your bot.  In order 
 2. Update to the new SDK for your bot's language
 3. Make appropriate syntax changes
 4. Test with the Bot Framework Channel Emulator on your desktop and then in the cloud
-5. [Upgrade your bot registration in the Bot Framework Developer Portal](/en-us/support/upgrade-to-v3/)
+5. [Upgrade your bot registration in the Bot Framework Developer Portal](#step-3-update-your-bot-registration-in-the-bot-framework-developer-portal)
 
 The goal of these steps are to ensure continued support for your current users.  If that's not an issue, you can just update your current deployment in place.
 
