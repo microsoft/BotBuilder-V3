@@ -172,9 +172,11 @@ $(function () {
         $(container).addClass('search-result-item');
         var p = document.createElement('p');
         var a = document.createElement('a');
+        var pp = document.createElement('p');
         a.href = item.url;
         $(a).append(item.name);
         $(p).append(item.snippet);
+        $(pp).append(item.displayUrl);
         $(container).append(a, p);
         $('#search-results').append(container);
     }
