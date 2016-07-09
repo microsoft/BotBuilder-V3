@@ -28,8 +28,7 @@ Get the Bot Builder and Restify modules using npm.
     npm install --save botbuilder
     npm install --save restify
 
-> __ATTENTION:__ Please see the [release notes](/en-us/node/builder/libraries/latest/#known-issues) for important information about known issues and workarounds using the v3.0.0 release.
-        
+       
 Make a file named app.js and say hello in a few lines of code.
  
 {% highlight JavaScript %}
