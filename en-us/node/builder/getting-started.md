@@ -6,6 +6,8 @@ weight: 2600
 parent1: Bot Builder for Node.js
 ---
 
+> __ATTENTION:__ Please see the [release notes](/en-us/node/builder/libraries/latest/#known-issues) for important information about known issues and workarounds using the v3.0.0 release.
+
 ## What is Bot Builder for Node.js and why should I use it?
 Bot Builder for Node.js is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and models frameworks like Express & Restify to provide developers with a familiar way to write Bots.
 
