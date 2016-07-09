@@ -2081,3 +2081,11 @@ select#lang-select > option:checked {
 select#lang-select > option:hover {
   background-color: #307AB3;
 }
+
+p.bingSearchUrl {
+    color: #006d21;
+    font-style: normal;
+    word-wrap: break-word;
+    font-size: .9em;
+    margin: 0;
+}

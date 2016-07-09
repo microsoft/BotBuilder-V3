@@ -177,7 +177,7 @@ $(function () {
         $(a).append(item.name);
         $(p).append(item.snippet);
         $(pp).append(item.displayUrl);
-        $(container).append(a, p);
+        $(container).append(a, pp, p);
         $('#search-results').append(container);
     }
 
