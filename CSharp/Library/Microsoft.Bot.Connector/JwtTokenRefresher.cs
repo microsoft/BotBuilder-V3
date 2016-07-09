@@ -23,22 +23,22 @@ namespace Microsoft.Bot.Connector
         {
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
-            if (this.Unathorized(response.StatusCode))
+            if (this.Unauthorized(response.StatusCode))
             {
                 var token = await credentials.GetTokenAsync(true).ConfigureAwait(false);
                 await credentials.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
                 response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
 
-            if (this.Unathorized(response.StatusCode))
+            if (this.Unauthorized(response.StatusCode))
             {
-                throw new UnauthorizedAccessException($"Security token for MicrosoftAppId: {credentials.MicrosoftAppId} is unauthorized to post to connector!");
+                throw new UnauthorizedAccessException($"Authorization for Microsoft App ID {credentials.MicrosoftAppId} failed with status code {response.StatusCode}");
             }
 
             return response;
         }
 
-        private bool Unathorized(System.Net.HttpStatusCode code)
+        private bool Unauthorized(System.Net.HttpStatusCode code)
         {
             return code == System.Net.HttpStatusCode.Forbidden || code == System.Net.HttpStatusCode.Unauthorized;
         }
