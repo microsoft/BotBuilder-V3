@@ -136,8 +136,8 @@ $(function () {
         // Establish the data to pass to the proxy.
         // var host = 'http://ic-devportal-local.azurewebsites.net/api/docssearch';
         // var host = 'https://ic-devportal-scratch.ic-ase-internal.p.azurewebsites.net/api/docssearch';
-        // var host = 'https://dev.botframework.com/api/docssearch';
-        var host = 'https://bingproxytestandreo.azurewebsites.net/api/search/';
+        var host = 'https://dev.botframework.com/api/docssearch';
+        // var host = 'https://bingproxytestandreo.azurewebsites.net/api/search/';
         // Calls the proxy, passing the query, service operation and market.
         $.ajax({
             url: host,
