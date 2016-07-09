@@ -177,6 +177,7 @@ $(function () {
         $(a).append(item.name);
         $(p).append(item.snippet);
         $(pp).append(item.displayUrl);
+        $(pp).addClass('bingSearchUrl');
         $(container).append(a, pp, p);
         $('#search-results').append(container);
     }
