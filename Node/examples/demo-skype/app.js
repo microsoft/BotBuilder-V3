@@ -416,7 +416,7 @@ bot.dialog('/signin', [
         var msg = new builder.Message(session) 
             .attachments([ 
                 new builder.SigninCard(session) 
-                    .title("You must first signin to your account.") 
+                    .text("You must first signin to your account.") 
                     .button("signin", "http://example.com/") 
             ]); 
         session.endDialog(msg); 
