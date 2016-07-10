@@ -102,7 +102,7 @@ When working with the emulator with a bot **running locally**, you need:
     - Empty out the **MicrosoftAppPassword** field
 
 This will only work with the emulator running locally; in the cloud you would instead have to specify the appropriate URL and authentication values.
-For more about the emulator, read [here](/en-us/tools/bot-framework-emulator).
+For more about the emulator, read [here](/en-us/tools/bot-framework-emulator/).
 
 ![Configure the emulator with your locahost URL, AppId & AppPassword](/en-us/images/connector/connector-getstarted-configure-emulator.png)
 
