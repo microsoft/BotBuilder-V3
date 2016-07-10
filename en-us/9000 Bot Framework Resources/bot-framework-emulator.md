@@ -19,7 +19,7 @@ Using the Emulator, you can:
 * Emulate a specific user and/or conversation
 
 ## Installation and configuration
-* [Install the Windows Emulator](https://aka.ms/hackathon-bot-framework-emulator)
+* [Install the Windows Emulator](https://aka.ms/bf-bc-emulator)
 * Launch the Emulator
 * Copy the MicrosoftAppId and MicrosoftAppSecret from the Web.config of your Bot app
 ![Configure the Bot Framework](/en-us/images/emulator/emulator-configure.png)
@@ -83,7 +83,7 @@ For folks who are developing on Mac and Linux we have created a console only ver
 
 To install
 
-1. Download [Console Emulator Zip](https://aka.ms/hackathon-emulator-console)
+1. Download [Console Emulator Zip](https://aka.ms/bfemulator)
 2. Unzip it
 3. Install [Mono](http://www.mono-project.com/download/#download-mac)
 4. mono BFEmulator.exe
