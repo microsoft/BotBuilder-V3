@@ -20,6 +20,8 @@ To update to the new environment you need to register a new bot with the Microso
 
 ## What's new
 
+<div class="docs-text-note"><b>Important:</b>To test new features you can use the <a href="/en-us/skype/getting-start/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
+
 ### Cards
 {:.no_toc}
 
@@ -83,7 +85,7 @@ See the [Skype Getting Started](/en-us/skype/getting-started) guide for details 
 
 You can test using the Microsoft Bot Framework Emulator, and in Skype using the **developer version** of the Skype Web App:
 
-* Go to <a href=https://web.skype.com>https://web.skype.com</a>
+* Go to <a href="https://web.skype.com">https://web.skype.com</a>
 * Sign in using your Skype credentials
 * Copy and paste the following URL into the address bar of the browser https://web.skype.com/en/?ecsoverride=developer
 
