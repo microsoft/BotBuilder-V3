@@ -20,7 +20,7 @@ To update to the new environment you need to register a new bot with the Microso
 
 ## What's new
 
-<div class="docs-text-note"><b>Important:</b>To test new features you can use the <a href="/en-us/skype/getting-start/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
+<div class="docs-text-note"><b>Important:</b>To test new features you can use the <a href="/en-us/skype/getting-started/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
 
 ### Cards
 {:.no_toc}

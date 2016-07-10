@@ -13,7 +13,7 @@ You've come to the right place to build and publish a Skype bot - with cards, gr
 
 ## Creating a Skype bot
 
-<div class="docs-text-note"><b>Important:</b>You should test Skype bots using the <a href="/en-us/skype/getting-start/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
+<div class="docs-text-note"><b>Important:</b>You should test Skype bots using the <a href="/en-us/skype/getting-started/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
 
 All bots created using the Microsoft Bot Framework are automatically configured and ready to work in Skype.
 
@@ -22,19 +22,17 @@ See the [Getting Started Guide](/en-us/) to learn how to:
 1. Build a bot using the [C# SDK](/en-us/csharp/builder/sdkreference/), [Node.js SDK](/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html) or [Skype REST API](/en-us/skype/chat)
 2. Test it using the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/)
 3. Deploy the bot to a cloud service, such as [Microsoft Azure](https://azure.microsoft.com/en-gb/)
-4. [Register](https://dev.botframework.com/#/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel
-
-When you first register a bot it will be in **Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
-
+4. [Register](https://dev.botframework.com/#/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
 5. [Add the bot](#adding-a-bot) to Skype and test
 
 ### Developer version of the Skype Web App
+{:.no_toc}
 
 You should test Skype bots using the **developer version of the Skype Web App** until updated Skype apps for desktop and mobile are available at the end of July.
 
 * Go to <a href="https://web.skype.com">https://web.skype.com</a>
 * Sign in using your Skype credentials
-* Copy and paste the following URL into the address bar of the browser https://web.skype.com/en/?ecsoverride=developer
+* Copy and paste the following URL into the address bar of the browser **https://web.skype.com/en/?ecsoverride=developer**
 
 ## Publishing
 
@@ -42,7 +40,7 @@ Publish your bot from the [Bot Dashboard](https://dev.botframework.com/bots) to 
 
 Please make sure to read the [Best Practices](http://docs.botframework.com/directory/best-practices/),  [Review Guidelines](http://docs.botframework.com/directory/review-guidelines/),  [Terms of use](https://aka.ms/bf-terms) and [Code of Conduct](http://aka.ms/bf-conduct) before publishing your bot.
 
-The [Terms of Use](https://aka.ms/bf-terms) also contains Sample Terms you can use to help create your own Terms of Service.
+The [Terms of Use](https://aka.ms/bf-terms) contains Sample Terms you can use to help create your own Terms of Service and the [Code of Conduct](http://aka.ms/bf-conduct) contains links to third party Privacy Statement templates.
 
 ## Finding and adding bots in Skype
 
