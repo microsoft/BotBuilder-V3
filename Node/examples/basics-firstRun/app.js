@@ -30,7 +30,7 @@ bot.dialog('/', function (session) {
 
 // Install First Run middleware and dialog
 bot.use({
-    dialog: function (session, next) {
+    botbuilder: function (session, next) {
         if (!session.userData.firstRun) {
             session.userData.firstRun = true;
             session.beginDialog('/firstRun');
