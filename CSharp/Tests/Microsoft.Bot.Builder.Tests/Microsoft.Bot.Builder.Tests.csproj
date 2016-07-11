@@ -94,6 +94,7 @@
     <Compile Include="ChainTests.cs" />
     <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
+    <Compile Include="ExceptionTests.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="FormTests.cs" />
     <Compile Include="LuisTests.cs" />

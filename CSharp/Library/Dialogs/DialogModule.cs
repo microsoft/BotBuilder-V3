@@ -159,6 +159,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         IDialogStack stack = task;
                         IPostToBot post = task;
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
+                        post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
                         post = new ScoringDialogTask<double>(post, stack, cc.Resolve<IComparer<double>>(), cc.Resolve<ITraits<double>>(), cc.Resolve<IScorable<double>[]>());
                         return post;

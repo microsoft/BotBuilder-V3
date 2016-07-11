@@ -297,6 +297,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class ExceptionTranslationDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+
+        public ExceptionTranslationDialogTask(IPostToBot inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                await this.inner.PostAsync(item, token);
+            }
+            catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.Done)
+            {
+                throw new NoResumeHandlerException(error);
+            }
+            catch (InvalidNeedException error) when (error.Need == Need.Call && error.Have == Need.Wait)
+            {
+                throw new MultipleResumeHandlerException(error);
+            }
+        }
+    }
 
     public struct LocalizedScope : IDisposable
     {
