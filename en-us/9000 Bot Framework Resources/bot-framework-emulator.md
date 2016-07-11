@@ -68,7 +68,6 @@ Now open up the Bot Framework Channel Emulator and fill in the fields at the top
 |-------|-------|
 | Local port | 9000, or whatever was specified in the ngrok command |
 | Emulator URL | the ngrok forwarding URL (with https) |
-| Bot ID | Your bot ID from the bot framework portal |
 | Microsoft App ID | Your Microsoft App ID, easiest to find in your Bot's web.config |
 | Microsoft App Password | Your Microsoft App Password, easiest to find in your Bot's web.config |
 
