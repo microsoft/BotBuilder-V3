@@ -80,10 +80,17 @@ namespace Microsoft.Bot.Connector
             else if (HttpContext.Current.User != null)
             {
                 ClaimsIdentity identity = (ClaimsIdentity)HttpContext.Current.User.Identity;
-                if (identity != null && identity.Claims.FirstOrDefault(c => c.Type == "appid" && JwtConfig.ToBotFromMSATokenValidationParameters.ValidIssuers.Contains(c.Issuer)) != null)
-                {
+
+                if (identity?.Claims.FirstOrDefault(c => c.Type == "appid" && JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId).ValidIssuers.Contains(c.Issuer)) != null)
                     return true;
-                }
+
+                // Fallback for BF-issued tokens
+                if (identity?.Claims.FirstOrDefault(c => c.Issuer == "https://api.botframework.com" && c.Type == "aud") != null)
+                    return true;
+                
+                // For emulator, we fallback to MSA as valid issuer
+                if (identity?.Claims.FirstOrDefault(c => c.Type == "appid" && JwtConfig.ToBotFromMSATokenValidationParameters.ValidIssuers.Contains(c.Issuer)) != null)
+                    return true;
             }
             return false;
         }
