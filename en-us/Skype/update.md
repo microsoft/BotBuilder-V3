@@ -66,11 +66,11 @@ Make Skype Bots that are more productive - or just entertaining - for [groups](/
 
 1.	Go to the Microsoft Bot Framework and tap “Register a bot”
 
-  ![Microsoft Bot Framework](/en-us/images/skype/bot-framework.png)
+![Microsoft Bot Framework](/en-us/images/skype/bot-framework.png)
 
 2.	Register your bot and get a new Microsoft App ID and Secret
 
-  ![Microsoft App ID](/en-us/images/skype/bot-framework-app-id.png)
+![Microsoft App ID](/en-us/images/skype/bot-framework-app-id.png)
 
 You can continue to use the same bot webhook but the bot at that endpoint will need to be updated to the latest V3 API.
 

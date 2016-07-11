@@ -40,7 +40,7 @@ Publish your bot from the [Bot Dashboard](https://dev.botframework.com/bots) to 
 
 Please make sure to read the [Best Practices](http://docs.botframework.com/directory/best-practices/),  [Review Guidelines](http://docs.botframework.com/directory/review-guidelines/),  [Terms of use](https://aka.ms/bf-terms) and [Code of Conduct](http://aka.ms/bf-conduct) before publishing your bot.
 
-The [Terms of Use](https://aka.ms/bf-terms) contains Sample Terms you can use to help create your own Terms of Service and the [Code of Conduct](http://aka.ms/bf-conduct) contains links to third party Privacy Statement templates.
+The [Terms of Use](https://aka.ms/bf-terms) contains Sample Terms you can use to help create your own Terms of Service and the [Code of Conduct](http://aka.ms/bf-conduct) contains links to third party Privacy Statement resources.
 
 ## Finding and adding bots in Skype
 
@@ -160,7 +160,7 @@ Videos can be MP4, AAC+h264 up to 15Mb (approx. 1 minute), plus JPEG thumbnail
 
 ## Cards and buttons
 
-Skype supports the following cards which may have several properties and attachments. You can find information on how to use this cards in the [.NET SDK](/en-us/csharp/builder/sdkreference/activities.html#richcards) and [Node.js SDK](#) docs. 
+Skype supports the following cards which may have several properties and attachments. You can find information on how to use cards in the [.NET SDK](/en-us/csharp/builder/sdkreference/activities.html#richcards) and [Node.js SDK](#) docs. 
 
 * Hero card
 * Thumbnail card
