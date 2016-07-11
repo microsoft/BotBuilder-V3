@@ -219,7 +219,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             foreach (var method in methods)
             {
                 var intents = method.GetCustomAttributes<LuisIntentAttribute>(inherit: true).ToArray();
-                var intentHandler = (IntentHandler)Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
+                Delegate created = null;
+                try
+                {
+                    created = Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
+                }
+                catch (ArgumentException)
+                {
+                    // "Cannot bind to the target method because its signature or security transparency is not compatible with that of the delegate type."
+                    // https://github.com/Microsoft/BotBuilder/issues/634
+                    // https://github.com/Microsoft/BotBuilder/issues/435
+                }
+
+                var intentHandler = (IntentHandler)created;
                 if (intentHandler != null)
                 {
                     var intentNames = intents.Select(i => i.IntentName).DefaultIfEmpty(method.Name);

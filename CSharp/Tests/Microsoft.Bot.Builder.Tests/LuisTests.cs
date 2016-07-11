@@ -134,6 +134,11 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 throw new NotImplementedException();
             }
+
+            private Task ThrowsEvenOnFalseThrowOnBindFailure<T>(T x) where T : IDialog
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestMethod]
