@@ -380,7 +380,13 @@ var UniversalBot = (function (_super) {
         };
     };
     UniversalBot.prototype.emitError = function (err) {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var e = err instanceof Error ? err : new Error(err.toString());
+        if (this.listenerCount('error') > 0) {
+            this.emit('error', e);
+        }
+        else {
+            console.log(e.stack);
+        }
     };
     return UniversalBot;
 })(events.EventEmitter);

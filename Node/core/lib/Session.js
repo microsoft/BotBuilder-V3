@@ -313,23 +313,18 @@ var Session = (function (_super) {
         }
     };
     Session.prototype.routeMessage = function () {
-        try {
-            var cur = this.curDialog();
-            if (!cur) {
-                this.beginDialog(this.options.dialogId, this.options.dialogArgs);
-            }
-            else if (this.validateCallstack()) {
-                var dialog = this.findDialog(cur.id);
-                this.dialogData = cur.state;
-                dialog.replyReceived(this);
-            }
-            else {
-                console.warn('Callstack is invalid, resetting session.');
-                this.reset(this.options.dialogId, this.options.dialogArgs);
-            }
+        var cur = this.curDialog();
+        if (!cur) {
+            this.beginDialog(this.options.dialogId, this.options.dialogArgs);
         }
-        catch (e) {
-            this.error(e);
+        else if (this.validateCallstack()) {
+            var dialog = this.findDialog(cur.id);
+            this.dialogData = cur.state;
+            dialog.replyReceived(this);
+        }
+        else {
+            console.warn('Callstack is invalid, resetting session.');
+            this.reset(this.options.dialogId, this.options.dialogArgs);
         }
     };
     Session.prototype.vgettext = function (messageid, args) {
