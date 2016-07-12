@@ -375,6 +375,61 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task SampleChain_Email()
+        {
+            Func<string, IDialog<string>> Ask = toUser =>
+                Chain.Return(toUser)
+                .PostToUser()
+                .WaitToBot()
+                .Select(m => m.Text);
+
+            IDialog<IReadOnlyList<string>> recipientsDialog =
+                Chain
+                .Return(Array.Empty<string>())
+                .While(items => Ask($"have {items.Length} recipients, want more?").Select(text => text == "yes"),
+                items => Ask("next recipient?").Select(item => items.Concat(new[] { item }).ToArray()));
+
+            var emailDialog = from hello in Chain.PostToChain().Select(m => m.Text + " back!").PostToUser()
+                              from subject in Ask("what is the subject?")
+                              from body in Ask("what is the body?")
+                              from recipients in recipientsDialog
+                              select new { subject, body, recipients };
+
+            var rootDialog = emailDialog
+                .Select(email => $"'{email.subject}': '{email.body}' to {email.recipients.Count} recipients")
+                .PostToUser();
+
+            using (var container = Build(Options.ResolveDialogFromContainer | Options.Reflection))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(rootDialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "hello back!",
+                    "what is the subject?",
+                    "subject X",
+                    "what is the body?",
+                    "body Y",
+                    "have 0 recipients, want more?",
+                    "yes",
+                    "next recipient?",
+                    "person A",
+                    "have 1 recipients, want more?",
+                    "yes",
+                    "next recipient?",
+                    "person B",
+                    "have 2 recipients, want more?",
+                    "no",
+                    "'subject X': 'body Y' to 2 recipients"
+                    );
+            }
+        }
+
+        [TestMethod]
         public async Task SampleChain_Joke()
         {
             var joke = Chain
