@@ -501,6 +501,11 @@ export class UniversalBot extends events.EventEmitter {
     }
      
     private emitError(err: Error): void {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var e = err instanceof Error ? err : new Error(err.toString());
+        if (this.listenerCount('error') > 0) {
+            this.emit('error', e);
+        } else {
+            console.log(e.stack);
+        }
     }
 }

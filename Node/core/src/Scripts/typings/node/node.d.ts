@@ -422,6 +422,7 @@ declare module "events" {
         removeAllListeners(event?: string): EventEmitter;
         setMaxListeners(n: number): void;
         listeners(event: string): Function[];
+        listenerCount(event: string): number;
         emit(event: string, ...args: any[]): boolean;
    }
 }

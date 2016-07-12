@@ -92,78 +92,74 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
 
     public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
         this.checkCanceled(args, () => {
-            try {
-                // Recognize value
-                var score = 0.0;
-                var response: any;
-                var text = args.utterance.trim();
-                switch (args.promptType) {
-                    default:
-                    case PromptType.text:
-                        // This is an open ended question so it's a little tricky to know what to pass as a confidence
-                        // score. Currently we're saying that we have 0.1 confidence that we understand the users intent
-                        // which will give all of the prompts parents a chance to capture the utterance. If no one 
-                        // captures the utterance we'll return the full text of the utterance as the result.
-                        score = 0.1;
-                        response = text;
-                        break;
-                    case PromptType.number:
+            // Recognize value
+            var score = 0.0;
+            var response: any;
+            var text = args.utterance.trim();
+            switch (args.promptType) {
+                default:
+                case PromptType.text:
+                    // This is an open ended question so it's a little tricky to know what to pass as a confidence
+                    // score. Currently we're saying that we have 0.1 confidence that we understand the users intent
+                    // which will give all of the prompts parents a chance to capture the utterance. If no one 
+                    // captures the utterance we'll return the full text of the utterance as the result.
+                    score = 0.1;
+                    response = text;
+                    break;
+                case PromptType.number:
+                    var n = entities.EntityRecognizer.parseNumber(text);
+                    if (!isNaN(n)) {
+                        var score = n.toString().length / text.length;
+                        response = n;
+                    }
+                    break;
+                case PromptType.confirm:
+                    var b = entities.EntityRecognizer.parseBoolean(text);
+                    if (typeof b !== 'boolean') {
                         var n = entities.EntityRecognizer.parseNumber(text);
-                        if (!isNaN(n)) {
-                            var score = n.toString().length / text.length;
-                            response = n;
+                        if (!isNaN(n) && n > 0 && n <= 2) {
+                            b = (n === 1);
                         }
-                        break;
-                    case PromptType.confirm:
-                        var b = entities.EntityRecognizer.parseBoolean(text);
-                        if (typeof b !== 'boolean') {
-                            var n = entities.EntityRecognizer.parseNumber(text);
-                            if (!isNaN(n) && n > 0 && n <= 2) {
-                                b = (n === 1);
-                            }
-                            
+                        
+                    }
+                    if (typeof b == 'boolean') {
+                        score = 1.0;
+                        response = b;
+                    }
+                    break;
+                case PromptType.time:
+                    var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
+                    if (entity) {
+                        score = entity.entity.length / text.length;
+                        response = entity;
+                    } 
+                    break;
+                case PromptType.choice:
+                    var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+                    if (!best) {
+                        var n = entities.EntityRecognizer.parseNumber(text);
+                        if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                            best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
                         }
-                        if (typeof b == 'boolean') {
-                            score = 1.0;
-                            response = b;
-                        }
-                        break;
-                    case PromptType.time:
-                        var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
-                        if (entity) {
-                            score = entity.entity.length / text.length;
-                            response = entity;
-                        } 
-                        break;
-                    case PromptType.choice:
-                        var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                        if (!best) {
-                            var n = entities.EntityRecognizer.parseNumber(text);
-                            if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                                best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                            }
-                        }
-                        if (best) {
-                            score = best.score;
-                            response = best;
-                        }
-                        break;
-                    case PromptType.attachment:
-                        if (args.attachments && args.attachments.length > 0) {
-                            score = 1.0;
-                            response = args.attachments;
-                        }
-                        break;
-                }
+                    }
+                    if (best) {
+                        score = best.score;
+                        response = best;
+                    }
+                    break;
+                case PromptType.attachment:
+                    if (args.attachments && args.attachments.length > 0) {
+                        score = 1.0;
+                        response = args.attachments;
+                    }
+                    break;
+            }
 
-                // Return results
-                if (score > 0) {
-                    callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
-                } else {
-                    callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType });
-                }
-            } catch (err) {
-                callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType, error: err instanceof Error ? err : new Error(err.toString()) });
+            // Return results
+            if (score > 0) {
+                callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
+            } else {
+                callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType });
             }
         }, callback);
     }
