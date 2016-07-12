@@ -19,15 +19,16 @@ Get the latest version of Bot Builder using npm.
     npm install --save botbuilder
     npm install --save botbuilder-calling
 
-## Known Issues
-Here's a list of the known issues and workarounds in the latest release.
-
-__Emulator doesn't work when configured with the bots appId & appPassword__
-There's an issue currently that's preventing the emulator from being able to talk to the bot when security is enabled. We'll have a patch for this soon but in the meantime you need to make sure that when you're using the emulator you don't set the App ID or App Password and on the bot side don't configure the `ChatConnector` with an appId or appPasword either. This will disable security on both sides and the emulator should work.  When you deploy your bot you'll need to put teh appId & appPassword back in otherwise the bot won't work deployed.  If you'd like to test your bots security locally you can use [ngrok](http://ngrok.com) to run your bot locally behind a proxy.
-
-
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
+
+### v3.0.1
+* Fixed an issue with channelData being sent for messages without channel data.
+* Fixed an issue where we weren't reporting a lot of errors. 
+* Added logic to properly verify the bots identity when called from the emulator.
+* Added console logging to report failures around security with recommendations.
+* Added a new tracing system that logs the bots session & dialog activity to the console for the emulator.  
+* Updated LKG build and package.json version.
 
 ### v3.0.0
 * See [What's New](/en-us/node/builder/whats-new/) for a relatively complete list of changes. 

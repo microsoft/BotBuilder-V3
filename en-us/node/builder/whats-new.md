@@ -6,8 +6,6 @@ weight: 2601
 parent1: Bot Builder for Node.js
 ---
 
-> __ATTENTION:__ Please see the [release notes](/en-us/node/builder/libraries/latest/#known-issues) for important information about known issues and workarounds using the v3.0.0 release.
-
 * TOC
 {:toc}
 
