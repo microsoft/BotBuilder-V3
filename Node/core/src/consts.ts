@@ -34,6 +34,7 @@
 export var agent = 'botbuilder';
 export var messageType = 'message';
 export var defaultConnector = '*';
+export var emulatorChannel = 'emulator';
 
 export var Library =  {
     system: 'BotBuilder',
