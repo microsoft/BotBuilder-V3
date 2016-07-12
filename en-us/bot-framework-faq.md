@@ -136,7 +136,7 @@ No, publishing your bot is an optional process. Certain channels do limit the nu
 
 Developers can elect to make their bots public and submit them for review from the bot's dashboard. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
 
-## What channels does the Bot Franework currently support?
+## What channels does the Bot Framework currently support?
 
 Supported channels as of July, 2016 are:
 
