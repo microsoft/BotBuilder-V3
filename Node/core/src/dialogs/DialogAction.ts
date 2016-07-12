@@ -165,6 +165,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             if (step >= 0 && step < steps.length) {
                 // Execute next step of the waterfall
                 try {
+                    logger.info(s, 'waterfall() step %d of %d', step, steps.length);
                     s.dialogData[consts.Data.WaterfallStep] = step;
                     steps[step](s, r, skip);
                 } catch (e) {
@@ -177,6 +178,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
         } else if (steps && steps.length > 0) {
             // Start waterfall
             try {
+                logger.info(s, 'waterfall() step %d of %d', 0, steps.length);
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             } catch (e) {
@@ -184,7 +186,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             }
         } else {
             // Empty waterfall so end dialog with not completed
-            logger.warn(s, '')
+            logger.warn(s, 'waterfall() empty waterfall detected');
             s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
         }
     }; 

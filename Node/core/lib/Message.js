@@ -19,7 +19,6 @@ var Message = (function () {
         this.data = {};
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
-        this.data.sourceEvent = {};
         if (this.session) {
             var m = this.session.message;
             if (m.source) {

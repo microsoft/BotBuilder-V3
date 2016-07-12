@@ -35,6 +35,7 @@ import ses = require('../Session');
 import dlg = require('./Dialog');
 import actions = require('./DialogAction');
 import consts = require('../consts');
+import logger = require('../logger');
 import async = require('async');
 
 export enum RecognizeOrder { parallel, series }
@@ -82,6 +83,7 @@ export class IntentDialog extends dlg.Dialog {
     public begin<T>(session: ses.Session, args: any): void {
         if (this.beginDialog) {
             try {
+                logger.info(session, 'IntentDialog.begin()');
                 this.beginDialog(session, args, () => {
                     super.begin(session, args);
                 });
@@ -269,8 +271,10 @@ export class IntentDialog extends dlg.Dialog {
     private invokeIntent(session: ses.Session, recognizeResult: IIntentRecognizerResult): void {
         var activeIntent: string;
         if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+            logger.info(session, 'IntentDialog.matches(%s)', recognizeResult.intent);
             activeIntent = recognizeResult.intent;                
         } else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
+            logger.info(session, 'IntentDialog.onDefault()');
             activeIntent = consts.Intents.Default;
         }
         if (activeIntent) {
@@ -280,6 +284,8 @@ export class IntentDialog extends dlg.Dialog {
             } catch (e) {
                 this.emitError(session, e);
             }
+        } else {
+            logger.warn(session, 'IntentDialog - no intent handler found for %s', recognizeResult.intent);
         }
     }
 

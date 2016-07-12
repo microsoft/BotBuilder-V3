@@ -75,7 +75,11 @@ function getPrefix(addressable: ses.Session): string {
                         prefix += 'Middleware.firstRun - '; 
                         break;
                     default:
-                        prefix += cur.id + ' - ';
+                        if (cur.id.indexOf('*:') == 0) {
+                            prefix += cur.id.substr(2) + ' - ';
+                        } else {
+                            prefix += cur.id + ' - ';
+                        }
                         break;
                 }
             } else {

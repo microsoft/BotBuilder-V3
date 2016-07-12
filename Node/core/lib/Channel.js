@@ -1,18 +1,41 @@
+exports.channels = {
+    facebook: 'facebook',
+    skype: 'skype',
+    telegram: 'telegram',
+    kik: 'kik',
+    email: 'email',
+    slack: 'slack',
+    groupme: 'groupme',
+    sms: 'sms',
+    emulator: 'emulator'
+};
 function preferButtons(session, choiceCnt, rePrompt) {
     switch (getChannelId(session)) {
-        case 'facebook':
-        case 'skype':
+        case exports.channels.facebook:
+        case exports.channels.skype:
             return (choiceCnt <= 3);
-        case 'telegram':
-        case 'kik':
-        case 'emulator':
+        case exports.channels.telegram:
+        case exports.channels.kik:
+        case exports.channels.emulator:
             return true;
         default:
             return false;
     }
 }
 exports.preferButtons = preferButtons;
-function getChannelId(session) {
-    return session.message.address.channelId.toLowerCase();
+function getChannelId(addressable) {
+    var channelId;
+    if (addressable) {
+        if (addressable.hasOwnProperty('message')) {
+            channelId = addressable.message.address.channelId;
+        }
+        else if (addressable.hasOwnProperty('address')) {
+            channelId = addressable.address.channelId;
+        }
+        else if (addressable.hasOwnProperty('channelId')) {
+            channelId = addressable.channelId;
+        }
+    }
+    return channelId ? channelId.toLowerCase() : '';
 }
 exports.getChannelId = getChannelId;

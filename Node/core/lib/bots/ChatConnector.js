@@ -2,6 +2,7 @@ var request = require('request');
 var async = require('async');
 var url = require('url');
 var utils = require('../utils');
+var logger = require('../logger');
 var jwt = require('jsonwebtoken');
 var getPem = require('rsa-pem-from-mod-exp');
 var base64url = require('base64url');
@@ -91,6 +92,12 @@ var ChatConnector = (function () {
         }
         return null;
     };
+    ChatConnector.prototype.verifyEmulatorToken = function (decodedPayload) {
+        var now = new Date().getTime() / 1000;
+        return decodedPayload.appid == this.settings.appId &&
+            decodedPayload.iss == "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/" &&
+            now < decodedPayload.exp && now > decodedPayload.nbf;
+    };
     ChatConnector.prototype.verifyBotFramework = function (req, res) {
         var _this = this;
         var token;
@@ -110,8 +117,14 @@ var ChatConnector = (function () {
                     var now = new Date().getTime() / 1000;
                     if (decoded.payload.aud != _this.settings.appId || decoded.payload.iss != issuer ||
                         now > decoded.payload.exp || now < decoded.payload.nbf) {
-                        res.status(403);
-                        res.end();
+                        if (_this.verifyEmulatorToken(decoded.payload)) {
+                            _this.dispatch(req.body, res);
+                        }
+                        else {
+                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.');
+                            res.status(403);
+                            res.end();
+                        }
                     }
                     else {
                         var keyId = decoded.header.kid;
@@ -121,22 +134,26 @@ var ChatConnector = (function () {
                             _this.dispatch(req.body, res);
                         }
                         catch (err) {
+                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.');
                             res.status(403);
                             res.end();
                         }
                     }
                 }
                 else {
+                    logger.error('ChatConnector: receive - error loading openId config: %s', err.toString());
                     res.status(500);
                     res.end();
                 }
             });
         }
         else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
+            logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
             req.body['useAuth'] = false;
             this.dispatch(req.body, res);
         }
         else {
+            logger.error('ChatConnector: receive - no security token sent. Ensure emulator configured with bots app ID & Password.');
             res.status(401);
             res.end();
         }
@@ -152,6 +169,7 @@ var ChatConnector = (function () {
                     _this.postMessage(msg, cb);
                 }
                 else {
+                    logger.error('ChatConnector: send - message is missing address or serviceUrl.');
                     cb(new Error('Message missing address or serviceUrl.'));
                 }
             }
@@ -191,8 +209,15 @@ var ChatConnector = (function () {
                         err = e instanceof Error ? e : new Error(e.toString());
                     }
                 }
+                if (err) {
+                    logger.error('ChatConnector: startConversation - error starting conversation.');
+                }
                 done(err, adr);
             });
+        }
+        else {
+            logger.error('ChatConnector: startConversation - address is invalid.');
+            done(new Error('Invalid address.'));
         }
     };
     ChatConnector.prototype.getData = function (context, callback) {
@@ -316,6 +341,7 @@ var ChatConnector = (function () {
                 utils.moveFieldsTo(msg, address, toAddress);
                 msg.address = address;
                 msg.source = address.channelId;
+                logger.info(address, 'ChatConnector: message received.');
                 if (address.serviceUrl) {
                     try {
                         var u = url.parse(address.serviceUrl);
@@ -350,10 +376,13 @@ var ChatConnector = (function () {
             'textLocale': 'locale',
             'sourceEvent': 'channelData'
         });
+        delete msg.agent;
+        delete msg.source;
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
+        logger.info(address, 'ChatConnector: sending message.');
         var options = {
             method: 'POST',
             url: url.resolve(address.serviceUrl, path),

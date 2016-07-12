@@ -3,6 +3,7 @@ var consts = require('../consts');
 var utils = require('../utils');
 var dialog = require('./Dialog');
 var simple = require('./SimpleDialog');
+var logger = require('../logger');
 var DialogAction = (function () {
     function DialogAction() {
     }
@@ -110,6 +111,7 @@ function waterfall(steps) {
             }
             if (step >= 0 && step < steps.length) {
                 try {
+                    logger.info(s, 'waterfall() step %d of %d', step, steps.length);
                     s.dialogData[consts.Data.WaterfallStep] = step;
                     steps[step](s, r, skip);
                 }
@@ -123,6 +125,7 @@ function waterfall(steps) {
         }
         else if (steps && steps.length > 0) {
             try {
+                logger.info(s, 'waterfall() step %d of %d', 0, steps.length);
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             }
@@ -131,6 +134,7 @@ function waterfall(steps) {
             }
         }
         else {
+            logger.warn(s, 'waterfall() empty waterfall detected');
             s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
         }
     };

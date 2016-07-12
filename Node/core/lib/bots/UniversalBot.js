@@ -371,7 +371,7 @@ var UniversalBot = (function (_super) {
         var _this = this;
         return function (err) {
             if (err) {
-                _this.emitError;
+                _this.emitError(err);
             }
             if (done) {
                 done(err);

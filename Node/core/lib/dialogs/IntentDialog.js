@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 var dlg = require('./Dialog');
 var actions = require('./DialogAction');
 var consts = require('../consts');
+var logger = require('../logger');
 var async = require('async');
 (function (RecognizeOrder) {
     RecognizeOrder[RecognizeOrder["parallel"] = 0] = "parallel";
@@ -37,6 +38,7 @@ var IntentDialog = (function (_super) {
         var _this = this;
         if (this.beginDialog) {
             try {
+                logger.info(session, 'IntentDialog.begin()');
                 this.beginDialog(session, args, function () {
                     _super.prototype.begin.call(_this, session, args);
                 });
@@ -229,9 +231,11 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.invokeIntent = function (session, recognizeResult) {
         var activeIntent;
         if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
+            logger.info(session, 'IntentDialog.matches(%s)', recognizeResult.intent);
             activeIntent = recognizeResult.intent;
         }
         else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
+            logger.info(session, 'IntentDialog.onDefault()');
             activeIntent = consts.Intents.Default;
         }
         if (activeIntent) {
@@ -242,6 +246,9 @@ var IntentDialog = (function (_super) {
             catch (e) {
                 this.emitError(session, e);
             }
+        }
+        else {
+            logger.warn(session, 'IntentDialog - no intent handler found for %s', recognizeResult.intent);
         }
     };
     IntentDialog.prototype.emitError = function (session, err) {

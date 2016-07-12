@@ -39,6 +39,7 @@ import ses = require('../Session');
 import bs = require('../storage/BotStorage');
 import consts = require('../consts');
 import utils = require('../utils');
+import logger = require('../logger');
 import events = require('events');
 import async = require('async');
 
@@ -490,7 +491,7 @@ export class UniversalBot extends events.EventEmitter {
     private errorLogger(done?: (err: Error) => void): (err: Error) => void {
         return (err: Error) => {
             if (err) {
-                this.emitError;
+                this.emitError(err);
             }
             if (done) {
                 done(err);
