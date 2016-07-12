@@ -165,6 +165,13 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         return null;
     }
 
+    private verifyEmulatorToken(decodedPayload : any) : boolean {
+        var now = new Date().getTime() / 1000;
+        return decodedPayload.appid == this.settings.appId &&
+               decodedPayload.iss == "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/" &&
+                            now < decodedPayload.exp && now > decodedPayload.nbf;
+    }
+
     private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
         var token: string;
         var isEmulator = req.body['channelId'] === 'emulator';
@@ -187,8 +194,16 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                     // verify appId, issuer, token expirs and token notBefore
                     if (decoded.payload.aud != this.settings.appId || decoded.payload.iss != issuer || 
                         now > decoded.payload.exp || now < decoded.payload.nbf) {
-                        res.status(403);
-                        res.end();   
+                        // check if the token is from emulator
+                        if (this.verifyEmulatorToken(decoded.payload))
+                        {
+                            this.dispatch(req.body, res);
+                        }
+                        else 
+                        {
+                            res.status(403);
+                            res.end();
+                        }   
                     } else {
                         var keyId = decoded.header.kid;
                         var secret = this.getSecretForKey(keyId);
