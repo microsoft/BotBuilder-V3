@@ -33,20 +33,42 @@
 
 import ses = require('./Session');
 
+export var channels = {
+    facebook: 'facebook',
+    skype: 'skype',
+    telegram: 'telegram',
+    kik: 'kik',
+    email: 'email',
+    slack: 'slack',
+    groupme: 'groupme',
+    sms: 'sms',
+    emulator: 'emulator'
+};
+
 export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt: boolean): boolean {
     switch (getChannelId(session)) {
-        case 'facebook':
-        case 'skype':
+        case channels.facebook:
+        case channels.skype:
             return (choiceCnt <= 3);
-        case 'telegram':
-        case 'kik':
-        case 'emulator':
+        case channels.telegram:
+        case channels.kik:
+        case channels.emulator:
             return true;
         default:
             return false;
     }
 }
 
-export function getChannelId(session: ses.Session): string {
-    return session.message.address.channelId.toLowerCase();    
+export function getChannelId(addressable: ses.Session|IMessage|IAddress): string {
+    var channelId: string;
+    if (addressable) {
+        if (addressable.hasOwnProperty('message')) {
+            channelId = (<ses.Session>addressable).message.address.channelId;
+        } else if (addressable.hasOwnProperty('address')) {
+            channelId = (<IMessage>addressable).address.channelId;
+        } else if (addressable.hasOwnProperty('channelId')) {
+            channelId = (<IAddress>addressable).channelId;
+        }
+    }
+    return channelId ? channelId.toLowerCase() : '';    
 }

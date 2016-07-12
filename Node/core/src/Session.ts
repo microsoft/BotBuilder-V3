@@ -38,6 +38,7 @@ import sprintf = require('sprintf-js');
 import events = require('events');
 import utils = require('./utils');
 import msg = require('./Message');
+import logger = require('./logger');
 
 export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
@@ -113,6 +114,7 @@ export class Session extends events.EventEmitter implements ISession {
 
     public error(err: Error): ISession {
         err = err instanceof Error ? err : new Error(err.toString());
+        logger.info(this, 'session.error()');
         this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;
@@ -135,6 +137,7 @@ export class Session extends events.EventEmitter implements ISession {
     }
     
     public save(): this {
+        logger.info(this, 'session.save()');            
         this.startBatch();
         return this;
     }
@@ -152,6 +155,7 @@ export class Session extends events.EventEmitter implements ISession {
             }
             this.prepareMessage(m);
             this.batch.push(m);
+            logger.info(this, 'session.send()');            
         }
         this.startBatch();
         return this;
@@ -168,6 +172,7 @@ export class Session extends events.EventEmitter implements ISession {
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
+        logger.info(this, 'session.beginDialog(%s)', id);            
         
         // Push dialog onto stack and start it
         // - Removed the call to save() here as an optimization. In the case of prompts
@@ -189,6 +194,7 @@ export class Session extends events.EventEmitter implements ISession {
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
+        logger.info(this, 'session.replaceDialog(%s)', id);            
         
         // Update the stack and start dialog
         this.popDialog();
@@ -218,6 +224,7 @@ export class Session extends events.EventEmitter implements ISession {
         this.privateConversationData = {};
                 
         // Clear stack and save.
+        logger.info(this, 'session.endConversation()');            
         var ss = this.sessionState;
         ss.callstack = [];
         this.sendBatch();
@@ -255,6 +262,7 @@ export class Session extends events.EventEmitter implements ISession {
         }
                 
         // Pop dialog off the stack and then resume parent.
+        logger.info(this, 'session.endDialog()');            
         var childId = cur.id;
         cur = this.popDialog();
         this.startBatch();
@@ -288,6 +296,7 @@ export class Session extends events.EventEmitter implements ISession {
         result.childId = cur.id;
                 
         // Pop dialog off the stack and resume parent dlg.
+        logger.info(this, 'session.endDialogWithResult()');            
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
@@ -304,6 +313,7 @@ export class Session extends events.EventEmitter implements ISession {
     }
 
     public reset(dialogId?: string, dialogArgs?: any): ISession {
+        logger.info(this, 'session.reset()');            
         this._isReset = true;
         this.sessionState.callstack = [];
         if (!dialogId) {
@@ -319,6 +329,7 @@ export class Session extends events.EventEmitter implements ISession {
     }
 
     public sendBatch(): void {
+        logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);            
         if (this.sendingBatch) {
             return;
         }

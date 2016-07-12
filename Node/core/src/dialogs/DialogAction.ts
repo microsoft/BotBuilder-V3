@@ -37,6 +37,7 @@ import utils = require('../utils');
 import dialog = require('./Dialog');
 import prompts = require('./Prompts');
 import simple = require('./SimpleDialog');
+import logger = require('../logger');
 
 export interface IDialogWaterfallStep {
     (session: ses.Session, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
@@ -183,6 +184,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             }
         } else {
             // Empty waterfall so end dialog with not completed
+            logger.warn(s, '')
             s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
         }
     }; 
