@@ -1,6 +1,7 @@
 exports.agent = 'botbuilder';
 exports.messageType = 'message';
 exports.defaultConnector = '*';
+exports.emulatorChannel = 'emulator';
 exports.Library = {
     system: 'BotBuilder',
     default: '*'

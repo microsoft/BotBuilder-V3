@@ -167,12 +167,12 @@ export class Session extends events.EventEmitter implements ISession {
 
     public beginDialog<T>(id: string, args?: T): ISession {
         // Find dialog
+        logger.info(this, 'session.beginDialog(%s)', id);            
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
-        logger.info(this, 'session.beginDialog(%s)', id);            
         
         // Push dialog onto stack and start it
         // - Removed the call to save() here as an optimization. In the case of prompts
@@ -189,12 +189,12 @@ export class Session extends events.EventEmitter implements ISession {
 
     public replaceDialog<T>(id: string, args?: T): ISession {
         // Find dialog
+        logger.info(this, 'session.replaceDialog(%s)', id);            
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
             throw new Error('Dialog[' + id + '] not found.');
         }
-        logger.info(this, 'session.replaceDialog(%s)', id);            
         
         // Update the stack and start dialog
         this.popDialog();

@@ -8,6 +8,7 @@ var consts = require('./consts');
 var sprintf = require('sprintf-js');
 var events = require('events');
 var msg = require('./Message');
+var logger = require('./logger');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -54,6 +55,7 @@ var Session = (function (_super) {
     };
     Session.prototype.error = function (err) {
         err = err instanceof Error ? err : new Error(err.toString());
+        logger.info(this, 'session.error()');
         this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;
@@ -79,6 +81,7 @@ var Session = (function (_super) {
         return sprintf.sprintf(tmpl, count);
     };
     Session.prototype.save = function () {
+        logger.info(this, 'session.save()');
         this.startBatch();
         return this;
     };
@@ -101,6 +104,7 @@ var Session = (function (_super) {
             }
             this.prepareMessage(m);
             this.batch.push(m);
+            logger.info(this, 'session.send()');
         }
         this.startBatch();
         return this;
@@ -109,6 +113,7 @@ var Session = (function (_super) {
         return this.msgSent;
     };
     Session.prototype.beginDialog = function (id, args) {
+        logger.info(this, 'session.beginDialog(%s)', id);
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -120,6 +125,7 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
+        logger.info(this, 'session.replaceDialog(%s)', id);
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -152,6 +158,7 @@ var Session = (function (_super) {
             this.batch.push(m);
         }
         this.privateConversationData = {};
+        logger.info(this, 'session.endConversation()');
         var ss = this.sessionState;
         ss.callstack = [];
         this.sendBatch();
@@ -186,6 +193,7 @@ var Session = (function (_super) {
             this.prepareMessage(m);
             this.batch.push(m);
         }
+        logger.info(this, 'session.endDialog()');
         var childId = cur.id;
         cur = this.popDialog();
         this.startBatch();
@@ -211,6 +219,7 @@ var Session = (function (_super) {
             result.resumed = dlg.ResumeReason.completed;
         }
         result.childId = cur.id;
+        logger.info(this, 'session.endDialogWithResult()');
         cur = this.popDialog();
         this.startBatch();
         if (cur) {
@@ -225,6 +234,7 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.reset = function (dialogId, dialogArgs) {
+        logger.info(this, 'session.reset()');
         this._isReset = true;
         this.sessionState.callstack = [];
         if (!dialogId) {
@@ -239,6 +249,7 @@ var Session = (function (_super) {
     };
     Session.prototype.sendBatch = function () {
         var _this = this;
+        logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);
         if (this.sendingBatch) {
             return;
         }

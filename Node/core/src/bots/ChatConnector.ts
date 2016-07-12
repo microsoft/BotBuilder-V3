@@ -39,9 +39,11 @@ import async = require('async');
 import url = require('url');
 import http = require('http');
 import utils = require('../utils');
+import logger = require('../logger');
 import jwt = require('jsonwebtoken');
 var getPem = require('rsa-pem-from-mod-exp');
 var base64url = require('base64url');
+
 
 // Fetch token once per day
 var keysLastFetched = 0;
@@ -201,6 +203,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                         }
                         else 
                         {
+                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.')
                             res.status(403);
                             res.end();
                         }   
@@ -212,21 +215,25 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                             decoded = jwt.verify(token, secret);
                             this.dispatch(req.body, res);
                         } catch(err) {
+                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.')
                             res.status(403);
                             res.end();     
                         }
                     }
                 } else {
+                    logger.error('ChatConnector: receive - error loading openId config: %s', err.toString());
                     res.status(500);
                     res.end();
                 }
             });
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             // Emulator running without auth enabled
+            logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
             req.body['useAuth'] = false;
             this.dispatch(req.body, res);
         } else {
-            // Token not provided so 
+            // Token not provided so
+            logger.error('ChatConnector: receive - no security token sent. Ensure emulator configured with bots app ID & Password.');
             res.status(401);
             res.end();
         }
@@ -242,6 +249,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
                     this.postMessage(msg, cb);
                 } else {
+                    logger.error('ChatConnector: send - message is missing address or serviceUrl.')
                     cb(new Error('Message missing address or serviceUrl.'));
                 }
             } catch (e) {
@@ -279,9 +287,15 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                     } catch (e) {
                         err = e instanceof Error ? e : new Error(e.toString());
                     }
+                } 
+                if (err) {
+                    logger.error('ChatConnector: startConversation - error starting conversation.')
                 }
                 done(err, adr);
             });
+        } else {
+            logger.error('ChatConnector: startConversation - address is invalid.')
+            done(new Error('Invalid address.'))
         }
     }
 
@@ -418,6 +432,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 msg.source = address.channelId;
 
                 // Patch serviceUrl
+                logger.info(address, 'ChatConnector: message received.');
                 if (address.serviceUrl) {
                     try {
                         var u = url.parse(address.serviceUrl);
@@ -462,6 +477,8 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             'textLocale': 'locale',
             'sourceEvent': 'channelData'
         });
+        delete msg.agent;
+        delete msg.source;
 
         // Calculate path
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
@@ -470,6 +487,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
         
         // Issue request
+        logger.info(address, 'ChatConnector: sending message.')
         var options: request.Options = {
             method: 'POST',
             url: url.resolve(address.serviceUrl, path),
