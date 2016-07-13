@@ -152,7 +152,7 @@ Once you have deployed your new V3 bot, you're ready to test.
 3. Click the Version 3.0 endpoint radio button, and save your changes.
     ![](/en-us/images/migration/switch-to-v3-endpoint.png)
     <div class="docs-text-note"><strong>Note:</strong> When you do this, your bot will switch to the new endpoint. If anything goes wrong, you can revert it back to Version 1.0, and iterate until Version 3.0 works properly.</div>
-    <div class="docs-text-note"><strong>Note:</strong>  if you downgrade to Version 1.0, and have an active Skype bot, <a href="mailto:botframework@microsoft.com?subject=Version 1.0 downgrade with an active Skype bot">contact us</a> to have your Skype bot reset.</div>
+    <div class="docs-text-note"><strong>Important!</strong>  if you revert back to Version 1.0, and have an active Skype bot, <a href="mailto:botframework@microsoft.com?subject=Version 1.0 downgrade with an active Skype bot">contact us</a> to have your Skype bot reset.</div>
 4. Once Version 3.0 works as expected, you're done.
 
 
