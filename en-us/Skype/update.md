@@ -8,7 +8,7 @@ parent1: Skype bots
 
 Microsoft has brought together the Skype Bot developer tools and the Microsoft Bot Framework into one environment which we’re calling the Microsoft Bot Framework “V3”. You can now develop bots which use new Skype platform features – such as visual cards and group bots – and publish to multiple channels from one place.
 
-You can start developing using the new SDK today and test it using the emulator or the developer version of the Skype Web App. You will be able to publish bots built using the new API when Skype apps supporting the new features are released for desktop and mobile platforms in a few weeks.
+You can start developing using the new SDK today and test it using the emulator or the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'>developer version of the Skype Web App</a>. You will be able to publish bots built using the new API when Skype apps supporting the new features are released for desktop and mobile platforms in a few weeks.
 
 Existing bots registered in the Skype Bot Portal and developed using the Skype Bot SDK will continue to work but we recommend you move to the new environment as soon as possible to get access to the latest features and updates.
 
@@ -20,7 +20,7 @@ To update to the new environment you need to register a new bot with the Microso
 
 ## What's new
 
-<div class="docs-text-note"><b>Important:</b>To test new features you can use the <a href="/en-us/skype/getting-started/#developer-version-of-the-skype-web-app">developer version of the Skype Web App</a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
+<div class="docs-text-note">To test new features use the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
 
 ### Cards
 {:.no_toc}
@@ -83,11 +83,7 @@ Update your bot code to use the Microsoft Bot Framework V3 API.
 
 See the [Skype Getting Started](/en-us/skype/getting-started) guide for details on the latest Skype bot platform features, plus the [C# SDK](/en-us/csharp/builder/sdkreference/index.html), [Node SDK](/en-us/node/builder/overview/#navtitle) or [Skype REST API](#).
 
-You can test using the Microsoft Bot Framework Emulator, and in Skype using the **developer version** of the Skype Web App:
-
-* Go to <a href="https://web.skype.com">https://web.skype.com</a>
-* Sign in using your Skype credentials
-* Copy and paste the following URL into the address bar of the browser https://web.skype.com/en/?ecsoverride=developer
+You can test using the Microsoft Bot Framework Emulator or in Skype using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a>.
 
 ### 3. (For published bots only) Migrate your existing bot and users
 {:.no_toc}
