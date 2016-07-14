@@ -50,7 +50,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     ///          on <see cref="Field{T}"/> to change the characteristics of the field.</remarks>
     #endregion
     public delegate Task<bool> DefineAsyncDelegate<T>(T state, Field<T> field)
-    where T : class;
+        where T : class;
+
+    /// <summary>
+    /// A delegate for deciding on the next step in the form to execute.
+    /// </summary>
+    /// <typeparam name="T">Form state type.</typeparam>
+    /// <param name="value">Value just entered for field.</param>
+    /// <param name="state">Current state object.</param>
+    /// <returns></returns>
+    public delegate NextStep NextDelegate<T>(object value, T state)
+        where T : class;
 
     /// <summary>Base class with declarative implementation of IField. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
@@ -351,7 +361,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public virtual NextStep Next(object value, T state)
         {
-            return new NextStep();
+            return _next(value, state);
         }
 
         #endregion
@@ -569,6 +579,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _dependencies = dependencies;
             return this;
         }
+
+        /// <summary>
+        /// Delegate for deciding on the next form step to execute.
+        /// </summary>
+        /// <returns>A <see cref="Field{T}"/>.</returns>
+        public Field<T> SetNext(NextDelegate<T> next)
+        {
+            _next = next;
+            return this;
+        }
+
         #endregion
 
         #region Internals
@@ -675,6 +696,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected ActiveDelegate<T> _condition = new ActiveDelegate<T>((state) => true);
         protected DefineAsyncDelegate<T> _define = null;
         protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
+        protected NextDelegate<T> _next = new NextDelegate<T>((value, state) => new NextStep());
         protected double _min, _max;
         protected bool _limited;
         protected string _pattern;
