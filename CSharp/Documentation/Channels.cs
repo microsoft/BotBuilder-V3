@@ -28,87 +28,198 @@ Example Message:
 
 ~~~{.json}
 
-           {
-               "type": "message",
-               "locale": "en-Us",
-               "channelID":"email",
-               "from": { "id":"mybot@gmail.com", "name":"My bot"},
-               "recipient": { "id":"joe@gmail.com", "name":"Joe Doe"},
-               "conversation": { "id":"123123123123", "topic":"awesome chat" },
-               "channelData":
-               {
-                   "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
-                   "subject":"Super awesome mesage subject",
-                   "importance":"high"
-               }
-           }
+    {
+        "type": "message",
+        "locale": "en-Us",
+        "channelID":"email",
+        "from": { "id":"mybot@gmail.com", "name":"My bot"},
+        "recipient": { "id":"joe@gmail.com", "name":"Joe Doe"},
+        "conversation": { "id":"123123123123", "topic":"awesome chat" },
+        "channelData":
+        {
+            "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
+            "subject":"Super awesome mesage subject",
+            "importance":"high"
+        }
+    }
 
 ~~~
 
 
 \section customslackmessages Custom Slack Messages
-           Slack supports the ability to create full fidelity slack cards using their message attachments property.The slack
-channel gives access to this via the channelData field.
+           Slack supports the ability to create full fidelity slack messages. The slack
+channel allows bots to pass custom Slack messages via the ChannelData field.  Custom messages passed via ChannelData will
+be posted directly to Slack via their chat.postMessage api.
 
-> See[Slack Message Attachments](https://api.slack.com/docs/attachments) for a description of all of the properties
-that go into the attachments property
+> See [Slack Messages](https://api.slack.com/docs/messages) for a description of the Slack message format
+>
+> See [Slack Attachments](https://api.slack.com/docs/attachments) for a description of Slack attachments
 
-| **Property** | **Description**
-|---------|  -----
-| *attachments*  | An array of attachments *See[Slack Message Attachments](https://api.slack.com/docs/attachments)*
-| *unfurl_links*  | true or false *See[Slack unfurling](https://api.slack.com/docs/unfurling)*
-| *unfurl_media*  | true or false *See[Slack unfurling](https://api.slack.com/docs/unfurling)*
-
-When slack processes a %bot %Connector message it will use the normal message properties to create a slack message, and
-then it will merge in the values from the *channelData* property if they are provided by the sender.
-
-Example Message:
+Example outgoing message with custom Slack message in ChannelData:
 
 ~~~{.json}
-           {
-               "type": "message",
-               "locale": "en-Us",
-               "channelID":"slack",
-               "text": "This is a test",
-               "conversation": { "id":"123123123123", "topic":"awesome chat" },
-               "from": { "id":"12345", "name":"My Bot"},
-               "recipient": { "id":"67890", "name":"Joe Doe"},
-               "channelData":
-               {
-                   "attachments": [
-                       {
-                           "fallback": "Required plain-text summary of the attachment.",
+{
+    "type": "message",
+    "locale": "en-Us",
+    "channelId":"slack",
+    "conversation": { "id":"123123123123", "topic":"awesome chat" },
+    "from": { "id":"12345", "name":"My Bot"},
+    "recipient": { "id":"67890", "name":"Joe Doe"},
+    "channelData":
+    {
+        "text": "Now back in stock! :tada:",
+        "attachments": [
+            {
+                "title": "The Further Adventures of Slackbot",
+                "author_name": "Stanford S. Strickland",
+                "author_icon": "https://api.slack.com/img/api/homepage_custom_integrations-2x.png",
+                "image_url": "http://i.imgur.com/OJkaVOI.jpg?1"
+            },
+            {
+                "fields": [
+                    {
+                        "title": "Volume",
+                        "value": "1",
+                        "short": true
+                    },
+                    {
+                        "title": "Issue",
+                        "value": "3",
+                        "short": true
+                    }
+                ]
+            },
+            {
+                "title": "Sypnopsis",
+                "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy..."
+            },
+            {
+                "fallback": "Would you recommend it to customers?",
+                "title": "Would you recommend it to customers?",
+                "callback_id": "comic_1234_xyz",
+                "color": "#3AA3E3",
+                "attachment_type": "default",
+                "actions": [
+                    {
+                        "name": "recommend",
+                        "text": "Recommend",
+                        "type": "button",
+                        "value": "recommend"
+                    },
+                    {
+                        "name": "no",
+                        "text": "No",
+                        "type": "button",
+                        "value": "bad"
+                    }
+                ]
+            }
+        ]
+    },
+    ...
+}
+~~~
 
-                           "color": "#36a64f",
+When a user clicks a button in Slack, a message will be sent to your bot with _ChannelData_ containing a _Payload_ corresponding to the message action.
+The payload contains the original message as well as information about which button was clicked and who clicked it.  Your bot can then take whatever 
+action is neccessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
+that's included in the payload.
 
-                           "pretext": "Optional text that appears above the attachment block",
+> See [Slack Buttons](https://api.slack.com/docs/message-buttons) for a description of interactive Slack messages
+>
+> To support Slack buttons, you must follow the instructions to enable Interactive Messages when [configuring](https://dev.botframework.com/bots) your bot on the Slack channel.
 
-                           "author_name": "Bobby Tables",
-                           "author_link": "http://flickr.com/bobby/",
-                           "author_icon": "http://flickr.com/icons/bobby.jpg",
+Example incoming button click message:
 
-                           "title": "Slack API Documentation",
-                           "title_link": "https://api.slack.com/",
-
-                           "text": "Optional text that appears within the attachment",
-
-                           "fields": [
-                               {
-                                   "title": "Priority",
-                                   "value": "High",
-                                   "short": false
-                               }
-                           ],
-
-                           "image_url": "http://my-website.com/path/to/image.jpg",
-                           "thumb_url": "http://example.com/path/to/thumb.png"
-                       }
-                   ],
-                   "unfurl_links":false,
-                   "unfurl_media":false,
-               },
-               ...
-           }
+~~~{.json}
+{
+    "type": "message",
+    "serviceUrl": "https://slack.botframework.com",
+    "channelId": "slack",
+    "from": {...},
+    "conversation": {...},
+    "recipient": {...},
+    "text": "recommend",
+    "entities": [...],
+    "channelData": {
+        "Payload": {
+            "actions": [
+            {
+                "name": "recommend",
+                "value": "recommend"
+            }
+            ],
+            "callback_id": "comic_1234_xyz",
+            "team": {...},
+            "channel": {...},
+            "user": {...},
+            "attachment_id": "3",
+            "token": "...",
+            "original_message": {
+            "text": "New comic book alert!\n",
+            "username": "TestBot-V3 (Prod)",
+            "bot_id": "B1Q3CDE1M",
+            "attachments": [
+                {
+                "fallback": "332x508px image",
+                "image_url": "http://i.imgur.com/OJkaVOI.jpg?1",
+                "image_width": 332,
+                "image_height": 508,
+                "image_bytes": 60672,
+                "author_name": "Stanford S. Strickland",
+                "title": "The Further Adventures of Slackbot",
+                "id": 1,
+                "author_icon": "https://api.slack.com/img/api/homepage_custom_integrations-2x.png",
+                "fields": [
+                    {
+                    "title": "Volume",
+                    "value": "1",
+                    "short": true
+                    },
+                    {
+                    "title": "Issue",
+                    "value": "3",
+                    "short": true
+                    }
+                ]
+                },
+                {
+                "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy...",
+                "title": "Synopsis",
+                "id": 2,
+                "fallback": "NO FALLBACK DEFINED"
+                },
+                {
+                "callback_id": "comic_1234_xyz",
+                "fallback": "Would you recommend it to customers?",
+                "title": "Would you recommend it to customers?",
+                "id": 3,
+                "color": "3AA3E3",
+                "actions": [
+                    {
+                    "id": "1",
+                    "name": "recommend",
+                    "text": "Recommend",
+                    "type": "button",
+                    "value": "recommend"
+                    },
+                    {
+                    "id": "2",
+                    "name": "no",
+                    "text": "No",
+                    "type": "button",
+                    "value": "bad"
+                    }
+                ]
+                }
+            ],
+            "type": "message",
+            "subtype": "bot_message",
+            },
+            "response_url": "https://hooks.slack.com/actions/..."
+        }
+    }
+}
 ~~~
 
 
