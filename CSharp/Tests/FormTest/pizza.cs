@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     public enum CouponOptions { None, Large20Percent, Pepperoni20Percent };
 
     [Serializable]
-    class BYOPizza
+    public class BYOPizza
     {
         public CrustOptions Crust;
         public SauceOptions Sauce;
@@ -163,7 +163,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     };
 
     [Serializable]
-    class PizzaOrder
+    public class PizzaOrder
     {
         [Numeric(1, 10)]
         public int NumberOfPizzas = 1;

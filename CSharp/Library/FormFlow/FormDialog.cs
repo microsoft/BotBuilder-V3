@@ -160,7 +160,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             buildForm = buildForm ?? BuildDefaultForm;
             entities = entities ?? Enumerable.Empty<EntityRecommendation>();
-            cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
+            if (cultureInfo != null)
+            {
+                CultureInfo.CurrentUICulture = cultureInfo;
+                CultureInfo.CurrentCulture = cultureInfo;
+            }
 
             // constructor arguments
             SetField.NotNull(out this._state, nameof(state), state);

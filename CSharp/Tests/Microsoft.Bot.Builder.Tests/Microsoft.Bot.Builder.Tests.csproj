@@ -118,6 +118,10 @@
       <Project>{8674f271-4437-4178-b4e2-15f91b322e5d}</Project>
       <Name>Microsoft.Bot.Builder.FormFlow.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FormTest\FormTest.csproj">
+      <Project>{77bd8c61-fb06-4bf7-a346-d2c87284390a}</Project>
+      <Name>FormTest</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

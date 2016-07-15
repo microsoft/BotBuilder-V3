@@ -244,10 +244,10 @@
     <value>med ; moyen</value>
   </data>
   <data name="SizeOptions.Large;LIST" xml:space="preserve">
-    <value>larges?</value>
+    <value>grande</value>
   </data>
   <data name="SizeOptions.Family;LIST" xml:space="preserve">
-    <value>famille ; extra-large</value>
+    <value>famille ; plus grande</value>
   </data>
   <data name="Kind_terms;LIST" xml:space="preserve">
     <value>sortes?</value>
@@ -304,13 +304,13 @@
     <value>olives?; o ils?; o la vie? huiles?</value>
   </data>
   <data name="BYO.Toppings_terms;LIST" xml:space="preserve">
-    <value>garnitures?</value>
+    <value>nappages?</value>
   </data>
   <data name="ToppingOptions.All;LIST" xml:space="preserve">
     <value>sauf ; mais ; non ; non ; tous ; tout</value>
   </data>
   <data name="ToppingOptions.Beef;LIST" xml:space="preserve">
-    <value>Beefs?</value>
+    <value>Viande bovine; bovine</value>
   </data>
   <data name="ToppingOptions.BlackOlives;LIST" xml:space="preserve">
     <value>noirs?; o vit? ; noirs? olives?</value>
@@ -340,7 +340,7 @@
     <value>artichauts? ; cœurs? ; artichauts? coeurs?</value>
   </data>
   <data name="ToppingOptions.MixedOnions;LIST" xml:space="preserve">
-    <value>mixeds?; o nions? ; mixeds? oignons?</value>
+    <value>Oignons melanges; melanges; Oignons</value>
   </data>
   <data name="ToppingOptions.MozzarellaCheese;LIST" xml:space="preserve">
     <value>mozzarellas? ; fromages? ; mozzarellas? fromages?</value>
@@ -460,12 +460,15 @@
     <value>bouteilles?</value>
   </data>
   <data name="confirmation26_promptDefinition;LIST" xml:space="preserve">
-    <value>Vous souhaitez une {Size}, {&amp;Signature} envoyées de pizza {Signature} à {DeliveryAddress}?</value>
+    <value>Vous souhaitez une {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} à {DeliveryAddress}?</value>
   </data>
   <data name="confirmation27_promptDefinition;LIST" xml:space="preserve">
-    <value>Vous souhaitez une taille {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza livrée à {DeliveryAddress}?</value>
+    <value>Vous souhaitez une {Size}, {&amp;Signature} envoyées de pizza {Signature} à {DeliveryAddress}?</value>
   </data>
   <data name="confirmation28_promptDefinition;LIST" xml:space="preserve">
+    <value>Vous souhaitez une taille {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza livrée à {DeliveryAddress}?</value>
+  </data>
+  <data name="confirmation29_promptDefinition;LIST" xml:space="preserve">
     <value>Vous souhaitez une taille {Size}, {&amp;Stuffed} {Stuffed} pizza livrée à {DeliveryAddress}?</value>
   </data>
   <data name="NotUnderstood;Kind;TEMPLATE" xml:space="preserve">
@@ -479,8 +482,5 @@
   </data>
   <data name="message25;LIST" xml:space="preserve">
     <value>Note = {Rating:F1} et [{Rating:F2}]</value>
-  </data>
-  <data name="confirmation29_promptDefinition;LIST" xml:space="preserve">
-    <value>Vous souhaitez une {Size}, {&amp;Stuffed} {Stuffed} pizza livrée à {DeliveryAddress}?</value>
   </data>
 </root>

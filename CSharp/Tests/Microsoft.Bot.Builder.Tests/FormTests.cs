@@ -43,6 +43,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Json;
+using Microsoft.Bot.Builder.FormFlowTest;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
@@ -300,6 +301,75 @@ namespace Microsoft.Bot.Builder.Tests
                 "help",
                 "status",
                 "1/1/2016"
+                );
+        }
+
+        [TestMethod]
+        public async Task Pizza_Script()
+        {
+            await VerifyFormScript(@"..\..\PizzaForm.script",
+                "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "hi",
+                "2",
+                "med",
+                "4",
+                "help",
+                "drink bread",
+                "back",
+                "c",
+                "no",
+                "thin",
+                "1",
+                "?",
+                "beef, onion, ice cream",
+                "onions",
+                "status",
+                "abc",
+                "1 state street",
+                "y",
+                "1 2",
+                "none",
+                "2.5",
+                "2/25/1962 3pm",
+                "no"
+                ,"1234",
+                "123-4567",
+                "no",
+                "toppings",
+                "everything but spinach",
+                "y"
+                );
+            await VerifyFormScript(@"..\..\PizzaForm-fr.script",
+                "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "bonjour",
+                "2",
+                "moyen",
+                "4",
+                "?",
+                "1 2",
+                "retourner",
+                "c",
+                "non",
+                "fine",
+                "1",
+                "?",
+                "bovine, oignons, ice cream",
+                "oignons",
+                "statut",
+                "abc",
+                "1 state street",
+                "oui",
+                "1 2",
+                "non",
+                "2,5",
+                "25/2/1962 3pm",
+                "non",
+                "1234",
+                "123-4567",
+                "non",
+                "nappages",
+                "non epinards",
+                "oui"
                 );
         }
 
