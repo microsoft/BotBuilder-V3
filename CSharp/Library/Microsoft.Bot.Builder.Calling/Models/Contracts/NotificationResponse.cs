@@ -25,12 +25,6 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         [JsonProperty(Required = Required.Default)]
         public string AppState { get; set; }
 
-        /// <summary>
-        /// similar to WCF IExtensibleDataObject, any data not expected on the wire is deserialized into this collection.
-        /// </summary>
-        [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
-
         public virtual void Validate()
         {
             if (this.Links != null)
