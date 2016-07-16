@@ -55,7 +55,7 @@ We can now run our bot and interact with it from the command line. So run the bo
     Hello World
 
 ## Collecting Input
-It's likely that you're going to want your bot to be a little smarter than HelloBot currently is so let's give HelloBot the ability to ask the user their name and then provide them with a personalized greeting. To do that we’re going to introduce a new concept called a [waterfall](/en-us/node/builder/dialogs/overview/#waterfall) which will prompt the user for some information and then wait for their response:
+It's likely that you're going to want your bot to be a little smarter than HelloBot currently is so let's give HelloBot the ability to ask the user their name and then provide them with a personalized greeting. To do that we’re going to introduce a new concept called a [waterfall](/en-us/node/builder/chat/dialogs/#waterfall) which will prompt the user for some information and then wait for their response:
 
 {% highlight JavaScript %}
 var builder = require('botbuilder');
@@ -74,7 +74,7 @@ bot.dialog('/', [
 
 By passing an array of functions for our dialog handler a waterfall is setup where the results of the first function are passed to the input of the second function. We can chain together a series of these functions into steps that create waterfalls of any length.
 
-To actually wait for the users input we’re using one of the SDK’s built in [prompts](/en-us/node/builder/dialogs/Prompts/). We’re using a simple text prompt which will capture anything the user types but the SDK a wide range of built-in prompt types. If we run our updated HelloBot we know see that our bot asks us for our name and then gives us a personalized greeting.  
+To actually wait for the users input we’re using one of the SDK’s built in [prompts](/en-us/node/builder/chat/prompts/). We’re using a simple text prompt which will capture anything the user types but the SDK a wide range of built-in prompt types. If we run our updated HelloBot we know see that our bot asks us for our name and then gives us a personalized greeting.  
 
     node app.js
     hello
