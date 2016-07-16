@@ -1,7 +1,9 @@
+"use strict";
 var sprintf = require('sprintf-js');
 var Channel = require('./Channel');
 var consts = require('./consts');
 var prompts = require('./dialogs/Prompts');
+var debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
 function error(fmt) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
@@ -27,12 +29,10 @@ function info(addressable, fmt) {
         args[_i - 2] = arguments[_i];
     }
     var channelId = Channel.getChannelId(addressable);
-    switch (channelId) {
-        case Channel.channels.emulator:
-            var prefix = getPrefix(addressable);
-            var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
-            console.info(prefix + msg);
-            break;
+    if (channelId === Channel.channels.emulator || debugLoggingEnabled) {
+        var prefix = getPrefix(addressable);
+        var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
+        console.info(prefix + msg);
     }
 }
 exports.info = info;
