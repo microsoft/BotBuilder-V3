@@ -162,8 +162,11 @@ Extract the token as you would a JWT token sent by the Bot Connector. However, u
 2. The token is valid JSON that conforms to the JWT envelope standard (see [references](#references))
 3. The token contains an issuer claim with value of https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/
 4. The token contains an audience claim with value of https://graph.microsoft.com
-5. The token has not yet expired. Industry-standard clock-skew is 5 minutes.
-6. The token has a valid cryptographic signature with a key listed in the OpenId keys document retrieved in step 1, above.
+5. The token contains an a claim of type "appid" from the issuer above, with the value equal to the bot's Microsoft app ID.
+6. The token has not yet expired. Industry-standard clock-skew is 5 minutes.
+7. The token has a valid cryptographic signature with a key listed in the OpenId keys document retrieved in step 1, above.
+
+**NOTE**: Requirement 5 is a new requirement specific to the emulator verification path.
 
 The same precautions must be taken in parsing this token as when parsing a token from the Bot Connector service. Failure to implement all validation requirements will leave the bot vulnerable to attack.
 
