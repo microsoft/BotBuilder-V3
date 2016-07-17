@@ -11,13 +11,15 @@ parent2: Bots
 * TOC
 {:toc}
 
-## Overview
+## Introduction and overview
+
+This guide documents the security technologies and requirements for a bot to send and receive messages from the Bot Connector service. It is intended for developers writing their own authentication code.
+
+**NOTE**: If you are using the **Bot Builder SDK for C#** or the **Bot Builder SDK for Node.js**, all steps within this document are handled automatically by the SDK. All you have to do is configure it with your bot's ID and password.
 
 Your bot communicates to the Bot Connector service using HTTP over a secured channel (SSL/TLS). Within this channel, the bot and the Bot Connector service must prove to each other that they are the service they claim to be. Once the bot and the service are authenticated, they may exchange messages. This page describes authentication that takes place at the service level; it does not describe user-level authentication (such as a user logging in to your bot).
 
-If you are using the Bot Builder SDK, all steps within this document are handled automatically by the authentication functionality built in to the SDK. All you have to do is configure the SDK with your bot's ID and password.
-
-If you are not using the Bot Builder SDK, you must implement the security procedures within this document. Note that it is **VERY IMPORTANT that you implement all procedures correctly**. If you don't, it may be possible for an attacker to read messages sent to your bot, steal secret keys, and send messages impersonating your bot. Properly implementing all steps in this guide mitigates those risks.
+**NOTE**: If you are not using the Bot Builder SDK, you must implement the security procedures within this document. Note that it is **VERY IMPORTANT that you implement all procedures correctly**. If you don't, it may be possible for an attacker to read messages sent to your bot, steal secret keys, and send messages impersonating your bot. Properly implementing all steps in this guide mitigates those risks.
 
 
 ## Authentication technologies
