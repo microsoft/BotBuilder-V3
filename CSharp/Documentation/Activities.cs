@@ -121,7 +121,7 @@ The primary fields for an Attachment object are:
 
 Some channels allow you to represent a card responses made up of a title, link, description and images. There are multiple card formats, including HeroCard,
 ThumbnailCard, Receipt Card and Sign in.  Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
-property of the Acivity. See [Attachments, Cards and Actions](/en-us/connector/message-actions) for more info about Attachments.
+property of the Acivity. See [Attachments, Cards and Actions](/en-us/csharp/builder/sdkreference/attachments.html) for more info about Attachments.
 
 \subsection attachmentlayoutproperty AttachmentLayout property
 You can send multiple rich card attachments in a single message. On most channels they will be sent
@@ -374,7 +374,7 @@ If you want to be able to take advantage of special features or concepts for a c
 metadata to that channel giving you much deeper control over how your %bot interacts on a channel.  The way you do this is to pass
 extra properties via the *ChannelData* property. 
 
-Go to [ChannelData in Messages](/en-us/connector/custom-channeldata) for more detailed description of what each channel enables via the ChannelData Property.
+Go to [ChannelData in Messages](/en-us/csharp/builder/sdkreference/channels.html) for more detailed description of what each channel enables via the ChannelData Property.
 
 
 \section conversationUpdate Conversation Update 
