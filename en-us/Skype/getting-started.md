@@ -13,16 +13,16 @@ You've come to the right place to build and publish a Skype bot - with cards, gr
 
 ## Creating a Skype bot
 
-<div class="docs-text-note"><b>Important:</b>You should test Skype bots using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
+<div class="docs-text-note"><b>Important: </b>You should test Skype bots using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
 
 All bots created using the Microsoft Bot Framework are automatically configured and ready to work in Skype.
 
-See the [Getting Started Guide](/en-us/) to learn how to:
+See the [Microsoft Bot Framework Overview](/en-us/) to learn how to:
 
 1. Build a bot using the [C# SDK](/en-us/csharp/builder/sdkreference/), [Node.js SDK](/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html) or [Skype REST API](/en-us/skype/chat)
 2. Test it using the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/)
 3. Deploy the bot to a cloud service, such as [Microsoft Azure](https://azure.microsoft.com/en-gb/)
-4. [Register](https://dev.botframework.com/#/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
+4. [Register](https://dev.botframework.com/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
 5. [Add the bot](#adding-a-bot) to Skype and test
 
 You should test Skype bots using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.
@@ -138,9 +138,9 @@ Skype supports all the [text properties](#) supported by the Microsoft Bot Frame
 
 ![Heart emoticon ](/en-us/images/skype/skype-bot-heart.png)
 
-<div class="docs-text-note">If a user sends your bot an emoticon it may include <ss> tags around the emoticon, which can be ignored e.g. <ss type=\"skype\">(wave)</ss></div>
+<div class="docs-text-note"><b>Note </b>If a user sends your bot an emoticon it may include &lt;ss&gt; tags around the emoticon, which can be ignored e.g. &lt;ss type=\"skype\"&gt;(wave)&lt;/ss&gt;</div>
 
-<div class="docs-text-note">Sending <a href=https://support.skype.com/en/faq/FA34582/what-are-mojis>Skype emojis</a> (short, expressive video clips)is not currently supported.</div>
+<div class="docs-text-note"><b>Note </b>Sending <a href="https://support.skype.com/en/faq/FA34582/what-are-mojis" target="_blank">Skype Mojis</a> (short, expressive video clips) is not currently supported.</div>
 
 ### Pictures and videos
 {:.no_toc}
@@ -215,7 +215,7 @@ Properties are the same as for the hero or thumbnail card.
 
 ![Sign in card](/en-us/images/skype/skype-bot-signin-card.png)
 
-The [sign in card]() can be used to initiate an authentication flow with predefined images and  title.
+The [sign in card](/en-us/csharp/builder/sdkreference/attachments.html#signincard) can be used to initiate an authentication flow with predefined images and  title.
 
 Property|Type|Description
 text|Rich text|Text appears just below the subtitle. 2 lines maximum
@@ -224,7 +224,7 @@ buttons:[]|Array of action objects|Single button of type signin
 ### Receipt
 {:.no_toc}
 
-The [receipt card](/en-us/csharp/builder/sdkreference/activities.html#receiptcard) can be used to send a receipt.
+The [receipt card](/en-us/csharp/builder/sdkreference/attachments.html#receiptcard) can be used to send a receipt.
 
 ![Receipt card](/en-us/images/skype/skype-bot-receipt-card.png)
 
