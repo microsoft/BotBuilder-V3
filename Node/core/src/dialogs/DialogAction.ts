@@ -34,17 +34,17 @@
 import ses = require('../Session');
 import consts = require('../consts');
 import utils = require('../utils');
-import dialog = require('./Dialog');
+import dlg = require('./Dialog');
 import prompts = require('./Prompts');
 import simple = require('./SimpleDialog');
 import logger = require('../logger');
 
 export interface IDialogWaterfallStep {
-    (session: ses.Session, result?: any, skip?: (results?: dialog.IDialogResult<any>) => void): void;
+    (session: ses.Session, result?: any, skip?: (results?: dlg.IDialogResult<any>) => void): void;
 }
 
 export class DialogAction {
-    static send(msg: string|string[], ...args: any[]): IDialogHandler<any> {
+    static send(msg: string|string[]|IMessage|IIsMessage, ...args: any[]): IDialogHandler<any> {
         args.splice(0, 0, msg);
         return function sendAction(s: ses.Session) {
             // Send a message to the user.
@@ -56,7 +56,7 @@ export class DialogAction {
         return function beginDialogAction(s: ses.Session, a: any) {
             // Handle calls where we're being resumed.
             if (a && a.hasOwnProperty('resumed')) {
-                var r = <dialog.IDialogResult<any>>a;
+                var r = <dlg.IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
                 }
@@ -84,8 +84,8 @@ export class DialogAction {
         };
     }
     
-    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): dialog.Dialog {
-        return new simple.SimpleDialog((s: ses.Session, r: dialog.IDialogResult<any>) => {
+    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): dlg.Dialog {
+        return new simple.SimpleDialog((s: ses.Session, r: dlg.IDialogResult<any>) => {
             r = r || <any>{};
 
             // Validate response
@@ -101,9 +101,9 @@ export class DialogAction {
             // Check for the user canceling the prompt
             var canceled = false;
             switch (r.resumed) {
-                case dialog.ResumeReason.canceled:
-                case dialog.ResumeReason.forward:
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.canceled:
+                case dlg.ResumeReason.forward:
+                case dlg.ResumeReason.back:
                     canceled = true;
                     break;
             }
@@ -133,18 +133,18 @@ export class DialogAction {
                 s.beginDialog(consts.DialogId.Prompts, a);
             } else {
                 // User failed to enter a valid response
-                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+                s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
             }
         }); 
     }
 }
 
 export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
-    return function waterfallAction(s: ses.Session, r: dialog.IDialogResult<any>) {
-        var skip = (result?: dialog.IDialogResult<any>) => {
+    return function waterfallAction(s: ses.Session, r: dlg.IDialogResult<any>) {
+        var skip = (result?: dlg.IDialogResult<any>) => {
             result = result || <any>{};
             if (!result.resumed) {
-                result.resumed = dialog.ResumeReason.forward;
+                result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
         };
@@ -154,7 +154,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             // Adjust step based on users utterance
             var step = s.dialogData[consts.Data.WaterfallStep];
             switch (r.resumed) {
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.back:
                     step -= 1;
                     break;
                 default:
@@ -165,7 +165,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
             if (step >= 0 && step < steps.length) {
                 // Execute next step of the waterfall
                 try {
-                    logger.info(s, 'waterfall() step %d of %d', step, steps.length);
+                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
                     s.dialogData[consts.Data.WaterfallStep] = step;
                     steps[step](s, r, skip);
                 } catch (e) {
@@ -187,7 +187,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
         } else {
             // Empty waterfall so end dialog with not completed
             logger.warn(s, 'waterfall() empty waterfall detected');
-            s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
         }
     }; 
 }

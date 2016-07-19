@@ -31,12 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-export interface IDialog {
-    begin<T>(session: ISession, args?: T): void;
-    replyReceived(session: ISession, recognizeResult?: IRecognizeResult): void;
-    dialogResumed(session: ISession, result: any): void;
-    recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void
-}
+import actions = require('./ActionSet');
 
 export enum ResumeReason { completed, notCompleted, canceled, back, forward }
 
@@ -49,6 +44,7 @@ export interface IDialogResult<T> {
 
 export interface IRecognizeContext {
     message: IMessage;
+    dialogData: any;
     activeDialog: boolean;
 }
 
@@ -56,7 +52,7 @@ export interface IRecognizeResult {
     score: number;
 }
 
-export abstract class Dialog implements IDialog {
+export abstract class Dialog extends actions.ActionSet {
     public begin<T>(session: ISession, args?: T): void {
         this.replyReceived(session);
     }
@@ -70,6 +66,6 @@ export abstract class Dialog implements IDialog {
     }
 
     public recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void {
-        cb(null, { score: 0.0 });
+        cb(null, { score: 0.5 });
     }
 }
