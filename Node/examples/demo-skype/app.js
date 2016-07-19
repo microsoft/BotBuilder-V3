@@ -112,12 +112,19 @@ bot.on('deleteUserData', function (message) {
 bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
 
 //=========================================================
+// Bots Global Actions
+//=========================================================
+
+bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
+bot.beginDialogAction('help', '/help', { matches: /^help/i });
+
+//=========================================================
 // Bots Dialogs
 //=========================================================
 
 bot.dialog('/', [
     function (session) {
-        // Send a greeting and start the menu.
+        // Send a greeting and show help.
         var card = new builder.HeroCard(session)
             .title("Microsoft Bot Framework")
             .text("Your bots - wherever your users are talking.")
@@ -127,6 +134,10 @@ bot.dialog('/', [
         var msg = new builder.Message(session).attachments([card]);
         session.send(msg);
         session.send("Hi... I'm the Microsoft Bot Framework demo bot for Skype. I can show you everything you can use our Bot Builder SDK to do on Skype.");
+        session.beginDialog('/help');
+    },
+    function (session, results) {
+        // Display menu
         session.beginDialog('/menu');
     },
     function (session, results) {
@@ -137,7 +148,7 @@ bot.dialog('/', [
 
 bot.dialog('/menu', [
     function (session) {
-        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|(quit)");
+        builder.Prompts.choice(session, "What demo would you like to run?", "prompts|picture|cards|list|carousel|receipt|actions|(quit)");
     },
     function (session, results) {
         if (results.response && results.response.entity != '(quit)') {
@@ -152,6 +163,12 @@ bot.dialog('/menu', [
         // The menu runs a loop until the user chooses to (quit).
         session.replaceDialog('/menu');
     }
+]).reloadAction('reloadMenu', null, { matches: /^menu|show menu/i });
+
+bot.dialog('/help', [
+    function (session) {
+        session.endDialog("Global commands that are available anytime:\n\n* menu - Exits a demo and returns to the menu.\n* goodbye - End this conversation.\n* help - Displays these commands.");
+    }
 ]);
 
 bot.dialog('/prompts', [
@@ -160,65 +177,37 @@ bot.dialog('/prompts', [
         builder.Prompts.text(session, "Prompts.text()\n\nEnter some text and I'll say it back.");
     },
     function (session, results) {
-        if (results && results.response) {
-            session.send("You entered '%s'", results.response);
-            builder.Prompts.number(session, "Prompts.number()\n\nNow enter a number.");
-        } else {
-            session.endDialog("You canceled.");
-        }
+        session.send("You entered '%s'", results.response);
+        builder.Prompts.number(session, "Prompts.number()\n\nNow enter a number.");
     },
     function (session, results) {
-        if (results && results.response) {
-            session.send("You entered '%s'", results.response);
-            session.send("Bot Builder includes a rich choice() prompt that lets you offer a user a list choices to pick from. On Facebook these choices by default surface using buttons if there are 3 or less choices. If there are more than 3 choices a numbered list will be used but you can specify the exact type of list to show using the ListStyle property.");
-            builder.Prompts.choice(session, "Prompts.choice()\n\nChoose a list style (the default is auto.)", "auto|inline|list|button|none");
-        } else {
-            session.endDialog("You canceled.");
-        }
+        session.send("You entered '%s'", results.response);
+        session.send("Bot Builder includes a rich choice() prompt that lets you offer a user a list choices to pick from. On Facebook these choices by default surface using buttons if there are 3 or less choices. If there are more than 3 choices a numbered list will be used but you can specify the exact type of list to show using the ListStyle property.");
+        builder.Prompts.choice(session, "Prompts.choice()\n\nChoose a list style (the default is auto.)", "auto|inline|list|button|none");
     },
     function (session, results) {
-        if (results && results.response) {
-            var style = builder.ListStyle[results.response.entity];
-            builder.Prompts.choice(session, "Prompts.choice()\n\nNow pick an option.", "option A|option B|option C", { listStyle: style });
-        } else {
-            session.endDialog("You canceled.");
-        }
+        var style = builder.ListStyle[results.response.entity];
+        builder.Prompts.choice(session, "Prompts.choice()\n\nNow pick an option.", "option A|option B|option C", { listStyle: style });
     },
     function (session, results) {
-        if (results && results.response) {
-            session.send("You chose '%s'", results.response.entity);
-            builder.Prompts.confirm(session, "Prompts.confirm()\n\nSimple yes/no questions are possible. Answer yes or no now.");
-        } else {
-            session.endDialog("You canceled.");
-        }
+        session.send("You chose '%s'", results.response.entity);
+        builder.Prompts.confirm(session, "Prompts.confirm()\n\nSimple yes/no questions are possible. Answer yes or no now.");
     },
     function (session, results) {
-        if (results && results.resumed == builder.ResumeReason.completed) {
-            session.send("You chose '%s'", results.response ? 'yes' : 'no');
-            builder.Prompts.time(session, "Prompts.time()\n\nThe framework can recognize a range of times expressed as natural language. Enter a time like 'Monday at 7am' and I'll show you the JSON we return.");
-        } else {
-            session.endDialog("You canceled.");
-        }
+        session.send("You chose '%s'", results.response ? 'yes' : 'no');
+        builder.Prompts.time(session, "Prompts.time()\n\nThe framework can recognize a range of times expressed as natural language. Enter a time like 'Monday at 7am' and I'll show you the JSON we return.");
     },
     function (session, results) {
-        if (results && results.response) {
-            session.send("Recognized Entity: %s", JSON.stringify(results.response));
-            builder.Prompts.attachment(session, "Prompts.attachment()\n\nYour bot can wait on the user to upload an image or video. Send me an image and I'll send it back to you.");
-        } else {
-            session.endDialog("You canceled.");
-        }
+        session.send("Recognized Entity: %s", JSON.stringify(results.response));
+        builder.Prompts.attachment(session, "Prompts.attachment()\n\nYour bot can wait on the user to upload an image or video. Send me an image and I'll send it back to you.");
     },
     function (session, results) {
-        if (results && results.response) {
-            var msg = new builder.Message(session)
-                .ntext("I got %d attachment.", "I got %d attachments.", results.response.length);
-            results.response.forEach(function (attachment) {
-                msg.addAttachment(attachment);    
-            });
-            session.endDialog(msg);
-        } else {
-            session.endDialog("You canceled.");
-        }
+        var msg = new builder.Message(session)
+            .ntext("I got %d attachment.", "I got %d attachments.", results.response.length);
+        results.response.forEach(function (attachment) {
+            msg.addAttachment(attachment);    
+        });
+        session.endDialog(msg);
     }
 ]);
 
@@ -340,29 +329,25 @@ bot.dialog('/carousel', [
         builder.Prompts.choice(session, msg, "select:100|select:101|select:102");
     },
     function (session, results) {
-        if (results.response) {
-            var action, item;
-            var kvPair = results.response.entity.split(':');
-            switch (kvPair[0]) {
-                case 'select':
-                    action = 'selected';
-                    break;
-            }
-            switch (kvPair[1]) {
-                case '100':
-                    item = "the <b>Space Needle</b>";
-                    break;
-                case '101':
-                    item = "<b>Pikes Place Market</b>";
-                    break;
-                case '101':
-                    item = "the <b>EMP Museum</b>";
-                    break;
-            }
-            session.endDialog('You %s "%s"', action, item);
-        } else {
-            session.endDialog("You canceled.");
+        var action, item;
+        var kvPair = results.response.entity.split(':');
+        switch (kvPair[0]) {
+            case 'select':
+                action = 'selected';
+                break;
         }
+        switch (kvPair[1]) {
+            case '100':
+                item = "the <b>Space Needle</b>";
+                break;
+            case '101':
+                item = "<b>Pikes Place Market</b>";
+                break;
+            case '101':
+                item = "the <b>EMP Museum</b>";
+                break;
+        }
+        session.endDialog('You %s "%s"', action, item);
     }    
 ]);
 
@@ -422,3 +407,36 @@ bot.dialog('/signin', [
         session.endDialog(msg); 
     } 
 ]); 
+
+
+bot.dialog('/actions', [
+    function (session) { 
+        session.send("Bots can register global actions, like the 'help' & 'goodbye' actions, that can respond to user input at any time. You can even bind actions to buttons on a card.");
+
+        var msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachments([
+                new builder.HeroCard(session)
+                    .title("Hero Card")
+                    .subtitle("Space Needle")
+                    .text("The <b>Space Needle</b> is an observation tower in Seattle, Washington, a landmark of the Pacific Northwest, and an icon of Seattle.")
+                    .images([
+                        builder.CardImage.create(session, "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Seattlenighttimequeenanne.jpg/320px-Seattlenighttimequeenanne.jpg")
+                    ])
+                    .buttons([
+                        builder.CardAction.dialogAction(session, "weather", "Seattle, WA", "Current Weather")
+                    ])
+            ]);
+        session.send(msg);
+
+        session.endDialog("The 'Current Weather' button on the card above can be pressed at any time regardless of where the user is in the conversation with the bot. The bot can even show the weather after the conversation has ended.");
+    }
+]);
+
+// Create a dialog and bind it to a global action
+bot.dialog('/weather', [
+    function (session, args) {
+        session.endDialog("The weather in %s is 71 degrees and raining.", args.data);
+    }
+]);
+bot.beginDialogAction('weather', '/weather');   // <-- no 'matches' option means this can only be triggered by a button.
