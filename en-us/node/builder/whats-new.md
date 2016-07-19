@@ -1,6 +1,6 @@
 ---
 layout: page
-title: What's new or changed in v3.0
+title: What's new or changed in v3.1
 permalink: /en-us/node/builder/whats-new/
 weight: 2601
 parent1: Bot Builder for Node.js
