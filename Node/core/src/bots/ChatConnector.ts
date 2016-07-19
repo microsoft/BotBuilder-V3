@@ -553,7 +553,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             }
 
             // Check for facebook quick replies
-            if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message.quick_reply) {
+            if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
                 msg.text = msg.sourceEvent.message.quick_reply.payload;
             }
     }
