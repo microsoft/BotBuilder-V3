@@ -88,7 +88,7 @@ bot.dialog('/askName', [
         builder.Prompts.text(session, 'Hi! What is your name?');
     },
     function (session, results) {
-        session.endDialogWithResults(results);
+        session.endDialogWithResult(results);
     }
 ]);
 {% endhighlight %}
