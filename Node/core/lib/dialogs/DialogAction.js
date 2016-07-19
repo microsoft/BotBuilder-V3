@@ -1,7 +1,7 @@
 var ses = require('../Session');
 var consts = require('../consts');
 var utils = require('../utils');
-var dialog = require('./Dialog');
+var dlg = require('./Dialog');
 var simple = require('./SimpleDialog');
 var logger = require('../logger');
 var DialogAction = (function () {
@@ -57,9 +57,9 @@ var DialogAction = (function () {
             }
             var canceled = false;
             switch (r.resumed) {
-                case dialog.ResumeReason.canceled:
-                case dialog.ResumeReason.forward:
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.canceled:
+                case dlg.ResumeReason.forward:
+                case dlg.ResumeReason.back:
                     canceled = true;
                     break;
             }
@@ -84,7 +84,7 @@ var DialogAction = (function () {
                 s.beginDialog(consts.DialogId.Prompts, a);
             }
             else {
-                s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+                s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
             }
         });
     };
@@ -96,14 +96,14 @@ function waterfall(steps) {
         var skip = function (result) {
             result = result || {};
             if (!result.resumed) {
-                result.resumed = dialog.ResumeReason.forward;
+                result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
         };
         if (r && r.hasOwnProperty('resumed')) {
             var step = s.dialogData[consts.Data.WaterfallStep];
             switch (r.resumed) {
-                case dialog.ResumeReason.back:
+                case dlg.ResumeReason.back:
                     step -= 1;
                     break;
                 default:
@@ -111,7 +111,7 @@ function waterfall(steps) {
             }
             if (step >= 0 && step < steps.length) {
                 try {
-                    logger.info(s, 'waterfall() step %d of %d', step, steps.length);
+                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
                     s.dialogData[consts.Data.WaterfallStep] = step;
                     steps[step](s, r, skip);
                 }
@@ -135,7 +135,7 @@ function waterfall(steps) {
         }
         else {
             logger.warn(s, 'waterfall() empty waterfall detected');
-            s.endDialogWithResult({ resumed: dialog.ResumeReason.notCompleted });
+            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
         }
     };
 }

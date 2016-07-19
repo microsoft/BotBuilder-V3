@@ -54,7 +54,7 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.replyReceived = function (session, recognizeResult) {
         var _this = this;
         if (!recognizeResult) {
-            this.recognize({ message: session.message, activeDialog: true }, function (err, result) {
+            this.recognize({ message: session.message, dialogData: session.dialogData, activeDialog: true }, function (err, result) {
                 if (!err) {
                     _this.invokeIntent(session, result);
                 }

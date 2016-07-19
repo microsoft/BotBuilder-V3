@@ -4,11 +4,7 @@ var url = require('url');
 var utils = require('../utils');
 var logger = require('../logger');
 var jwt = require('jsonwebtoken');
-var getPem = require('rsa-pem-from-mod-exp');
-var base64url = require('base64url');
-var keysLastFetched = 0;
-var cachedKeys;
-var issuer;
+var oid = require('./OpenIdMetadata');
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
@@ -17,11 +13,17 @@ var ChatConnector = (function () {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
-                verifyIssuer: 'https://api.botframework.com',
+                botConnectorOpenIdMetadata: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
+                botConnectorIssuer: 'https://api.botframework.com',
+                botConnectorAudience: this.settings.appId,
+                msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
+                msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
+                msaAudience: 'https://graph.microsoft.com',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
+        this.botConnectorOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
+        this.msaOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -41,63 +43,6 @@ var ChatConnector = (function () {
             }
         };
     };
-    ChatConnector.prototype.ensureCachedKeys = function (cb) {
-        var now = new Date().getTime();
-        if (keysLastFetched < (now - 1000 * 60 * 60 * 24)) {
-            var options = {
-                method: 'GET',
-                url: this.settings.endpoint.verifyEndpoint,
-                json: true
-            };
-            request(options, function (err, response, body) {
-                if (!err && (response.statusCode >= 400 || !body)) {
-                    err = new Error("Failed to load openID config: " + response.statusCode);
-                }
-                if (err) {
-                    cb(err, null);
-                }
-                else {
-                    var openIdConfig = body;
-                    issuer = openIdConfig.issuer;
-                    var options = {
-                        method: 'GET',
-                        url: openIdConfig.jwks_uri,
-                        json: true
-                    };
-                    request(options, function (err, response, body) {
-                        if (!err && (response.statusCode >= 400 || !body)) {
-                            err = new Error("Failed to load Keys: " + response.statusCode);
-                        }
-                        if (!err) {
-                            keysLastFetched = now;
-                        }
-                        cachedKeys = body.keys;
-                        cb(err, cachedKeys);
-                    });
-                }
-            });
-        }
-        else {
-            cb(null, cachedKeys);
-        }
-    };
-    ChatConnector.prototype.getSecretForKey = function (keyId) {
-        for (var i = 0; i < cachedKeys.length; i++) {
-            if (cachedKeys[i].kid == keyId) {
-                var jwt = cachedKeys[i];
-                var modulus = base64url.toBase64(jwt.n);
-                var exponent = jwt.e;
-                return getPem(modulus, exponent);
-            }
-        }
-        return null;
-    };
-    ChatConnector.prototype.verifyEmulatorToken = function (decodedPayload) {
-        var now = new Date().getTime() / 1000;
-        return decodedPayload.appid == this.settings.appId &&
-            decodedPayload.iss == "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/" &&
-            now < decodedPayload.exp && now > decodedPayload.nbf;
-    };
     ChatConnector.prototype.verifyBotFramework = function (req, res) {
         var _this = this;
         var token;
@@ -111,39 +56,43 @@ var ChatConnector = (function () {
         }
         if (token) {
             req.body['useAuth'] = true;
-            this.ensureCachedKeys(function (err, keys) {
-                if (!err) {
-                    var decoded = jwt.decode(token, { complete: true });
-                    var now = new Date().getTime() / 1000;
-                    if (decoded.payload.aud != _this.settings.appId || decoded.payload.iss != issuer ||
-                        now > decoded.payload.exp || now < decoded.payload.nbf) {
-                        if (_this.verifyEmulatorToken(decoded.payload)) {
-                            _this.dispatch(req.body, res);
-                        }
-                        else {
-                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.');
-                            res.status(403);
-                            res.end();
-                        }
+            var decoded = jwt.decode(token, { complete: true });
+            var verifyOptions;
+            var openIdMetadata;
+            if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+                openIdMetadata = this.msaOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.msaIssuer,
+                    audience: this.settings.endpoint.msaAudience,
+                    clockTolerance: 300
+                };
+            }
+            else {
+                openIdMetadata = this.botConnectorOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.botConnectorIssuer,
+                    audience: this.settings.endpoint.botConnectorAudience,
+                    clockTolerance: 300
+                };
+            }
+            openIdMetadata.getKey(decoded.header.kid, function (key) {
+                if (key) {
+                    try {
+                        jwt.verify(token, key, verifyOptions);
                     }
-                    else {
-                        var keyId = decoded.header.kid;
-                        var secret = _this.getSecretForKey(keyId);
-                        try {
-                            decoded = jwt.verify(token, secret);
-                            _this.dispatch(req.body, res);
-                        }
-                        catch (err) {
-                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.');
-                            res.status(403);
-                            res.end();
-                        }
+                    catch (err) {
+                        logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
+                        res.status(403);
+                        res.end();
+                        return;
                     }
+                    _this.dispatch(req.body, res);
                 }
                 else {
-                    logger.error('ChatConnector: receive - error loading openId config: %s', err.toString());
+                    logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
                     res.status(500);
                     res.end();
+                    return;
                 }
             });
         }
@@ -153,7 +102,7 @@ var ChatConnector = (function () {
             this.dispatch(req.body, res);
         }
         else {
-            logger.error('ChatConnector: receive - no security token sent. Ensure emulator configured with bots app ID & Password.');
+            logger.error('ChatConnector: receive - no security token sent.');
             res.status(401);
             res.end();
         }
@@ -337,52 +286,28 @@ var ChatConnector = (function () {
         var list = Array.isArray(messages) ? messages : [messages];
         list.forEach(function (msg) {
             try {
-                var address = {};
-                utils.moveFieldsTo(msg, address, toAddress);
-                msg.address = address;
-                msg.source = address.channelId;
-                logger.info(address, 'ChatConnector: message received.');
-                if (address.serviceUrl) {
-                    try {
-                        var u = url.parse(address.serviceUrl);
-                        address.serviceUrl = u.protocol + '//' + u.host;
-                    }
-                    catch (e) {
-                        console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-                    }
-                }
-                utils.moveFieldsTo(msg, msg, {
-                    'locale': 'textLocale',
-                    'channelData': 'sourceEvent'
-                });
-                msg.text = msg.text || '';
-                msg.attachments = msg.attachments || [];
-                msg.entities = msg.entities || [];
+                _this.prepIncomingMessage(msg);
+                logger.info(msg, 'ChatConnector: message received.');
                 _this.handler([msg]);
             }
             catch (e) {
-                console.error(e.toString());
+                console.error(e instanceof Error ? e.stack : e.toString());
             }
         });
         res.status(202);
         res.end();
     };
     ChatConnector.prototype.postMessage = function (msg, cb) {
+        logger.info(address, 'ChatConnector: sending message.');
+        this.prepOutgoingMessage(msg);
         var address = msg.address;
         msg['from'] = address.bot;
         msg['recipient'] = address.user;
         delete msg.address;
-        utils.moveFieldsTo(msg, msg, {
-            'textLocale': 'locale',
-            'sourceEvent': 'channelData'
-        });
-        delete msg.agent;
-        delete msg.source;
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
         }
-        logger.info(address, 'ChatConnector: sending message.');
         var options = {
             method: 'POST',
             url: url.resolve(address.serviceUrl, path),
@@ -511,6 +436,75 @@ var ChatConnector = (function () {
                 break;
         }
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
+    };
+    ChatConnector.prototype.prepIncomingMessage = function (msg) {
+        utils.moveFieldsTo(msg, msg, {
+            'locale': 'textLocale',
+            'channelData': 'sourceEvent'
+        });
+        msg.text = msg.text || '';
+        msg.attachments = msg.attachments || [];
+        msg.entities = msg.entities || [];
+        var address = {};
+        utils.moveFieldsTo(msg, address, toAddress);
+        msg.address = address;
+        msg.source = address.channelId;
+        if (address.serviceUrl) {
+            try {
+                var u = url.parse(address.serviceUrl);
+                address.serviceUrl = u.protocol + '//' + u.host;
+            }
+            catch (e) {
+                console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
+            }
+        }
+        if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message.quick_reply) {
+            msg.text = msg.sourceEvent.message.quick_reply.payload;
+        }
+    };
+    ChatConnector.prototype.prepOutgoingMessage = function (msg) {
+        if (msg.attachments) {
+            var attachments = [];
+            for (var i = 0; i < msg.attachments.length; i++) {
+                var a = msg.attachments[i];
+                switch (a.contentType) {
+                    case 'application/vnd.microsoft.keyboard':
+                        if (msg.address.channelId == 'facebook') {
+                            msg.sourceEvent = { quick_replies: [] };
+                            a.content.buttons.forEach(function (action) {
+                                switch (action.type) {
+                                    case 'imBack':
+                                    case 'postBack':
+                                        msg.sourceEvent.quick_replies.push({
+                                            content_type: 'text',
+                                            title: action.title,
+                                            payload: action.value
+                                        });
+                                        break;
+                                    default:
+                                        logger.warn(msg, "Invalid keyboard '%s' button sent to facebook.", action.type);
+                                        break;
+                                }
+                            });
+                        }
+                        else {
+                            a.contentType = 'application/vnd.microsoft.card.hero';
+                            attachments.push(a);
+                        }
+                        break;
+                    default:
+                        attachments.push(a);
+                        break;
+                }
+            }
+            msg.attachments = attachments;
+        }
+        utils.moveFieldsTo(msg, msg, {
+            'textLocale': 'locale',
+            'sourceEvent': 'channelData'
+        });
+        delete msg.agent;
+        delete msg.source;
     };
     return ChatConnector;
 })();
