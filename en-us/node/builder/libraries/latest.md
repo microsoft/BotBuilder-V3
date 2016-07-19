@@ -22,6 +22,20 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.1.0
+* Removed try catches that were causing errors to be ate. Added logic to dump stack trace because node isn't always dumping on uncaught exceptions.
+* Added NODE_DEBUG logging switch to enable logging of channels other than the emulator.
+* Implemented actions.
+* Updated reference docs.
+* Added keyboard concept and updated Prompts.choice() to use keyboards.
+* Added basic support for Facebook quick_replies using keyboards.
+* Fixed auth issues around ChatConnector.
+* Added new CardAction.dialogAction() type.
+* Removed 'cancel' checks from Prompts.
+* Updated prompts to not by default exit out after too many retries.
+* Added Session.sendTyping() method.
+* Updated LKG build and package.json version.
+
 ### v3.0.1
 * Fixed an issue with channelData being sent for messages without channel data.
 * Fixed an issue where we weren't reporting a lot of errors. 
