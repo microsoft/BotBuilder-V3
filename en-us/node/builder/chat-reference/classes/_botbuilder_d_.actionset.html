@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IEntity | Bot Builder SDK Chat Reference Library | Bot Framework</title>
+	<title>ActionSet | Bot Builder SDK Chat Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
@@ -133,10 +133,10 @@
 										<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 									</li>
 									<li>
-										<a href="_botbuilder_d_.ientity.html">IEntity</a>
+										<a href="_botbuilder_d_.actionset.html">ActionSet</a>
 									</li>
 								</ul>
-								<h1>Interface IEntity</h1>
+								<h1>Class ActionSet</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -145,7 +145,10 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>A recognized entity.</p>
+											<p>Implement support for named actions which can be bound to a dialog to handle global utterances from the user like &quot;help&quot; or
+												&quot;cancel&quot;. Actions get pushed onto and off of the dialog stack as part of dialogs so these listeners can
+												come into and out of scope as the conversation progresses. You can also bind named to actions to buttons
+											which let your bot respond to button clicks on cards that have maybe scrolled off the screen.</p>
 										</div>
 									</div>
 								</section>
@@ -153,7 +156,12 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">IEntity</span>
+											<span class="target">ActionSet</span>
+											<ul class="tsd-hierarchy">
+												<li>
+													<a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</section>
@@ -161,95 +169,112 @@
 									<h2>Index</h2>
 									<section class="tsd-panel tsd-index-panel">
 										<div class="tsd-index-content">
-											<section class="tsd-index-section tsd-is-not-exported">
-												<h3>Properties</h3>
+											<section class="tsd-index-section ">
+												<h3>Methods</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ientity.html#endindex" class="tsd-kind-icon">end<wbr>Index</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ientity.html#entity" class="tsd-kind-icon">entity</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ientity.html#score" class="tsd-kind-icon">score</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ientity.html#startindex" class="tsd-kind-icon">start<wbr>Index</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ientity.html#type" class="tsd-kind-icon">type</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#invokeaction" class="tsd-kind-icon">invoke<wbr>Action</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#recognizeaction" class="tsd-kind-icon">recognize<wbr>Action</a></li>
 												</ul>
 											</section>
 										</div>
 									</section>
 								</section>
-								<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-									<h2>Properties</h2>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="endindex" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> end<wbr>Index</h3>
-										<div class="tsd-signature tsd-kind-icon">end<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L534">botbuilder.d.ts:534</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>End position of entity within text utterance.</p>
-											</div>
-										</div>
+								<section class="tsd-panel-group tsd-member-group ">
+									<h2>Methods</h2>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="invokeaction" class="tsd-anchor"></a>
+										<h3>invoke<wbr>Action</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">invoke<wbr>Action<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, recognizeResult<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1504">botbuilder.d.ts:1504</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Invokes an action that had the highest confidence score for the utterance.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>session: <a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Session object for the current conversation.</p>
+														</div>
+													</li>
+													<li>
+														<h5>recognizeResult: <a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Results returned from call to <a href="#recognizeaction">recognizeAction()</a>.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="entity" class="tsd-anchor"></a>
-										<h3>entity</h3>
-										<div class="tsd-signature tsd-kind-icon">entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L528">botbuilder.d.ts:528</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Value of the recognized entity.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="score" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> score</h3>
-										<div class="tsd-signature tsd-kind-icon">score<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L537">botbuilder.d.ts:537</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Confidence on a scale from 0.0 - 1.0 that the proper entity was recognized.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="startindex" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> start<wbr>Index</h3>
-										<div class="tsd-signature tsd-kind-icon">start<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L531">botbuilder.d.ts:531</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Start position of entity within text utterance.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="type" class="tsd-anchor"></a>
-										<h3>type</h3>
-										<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L525">botbuilder.d.ts:525</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Type of entity that was recognized.</p>
-											</div>
-										</div>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="recognizeaction" class="tsd-anchor"></a>
+										<h3>recognize<wbr>Action</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">recognize<wbr>Action<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1497">botbuilder.d.ts:1497</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Called to recognize any actions triggered by the users utterance.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>message: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The message recieved from the user.</p>
+														</div>
+													</li>
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke with the results of the recognition. The top scoring action, if any, will be returned.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																			</li>
+																			<li>
+																				<h5>result: <a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a></h5>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
 									</section>
 								</section>
 							</div>
@@ -268,23 +293,14 @@
 									<ul class="before-current">
 									</ul>
 									<ul class="current">
-										<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-											<a href="_botbuilder_d_.ientity.html" class="tsd-kind-icon">IEntity</a>
+										<li class="current tsd-kind-class tsd-parent-kind-external-module">
+											<a href="_botbuilder_d_.actionset.html" class="tsd-kind-icon">Action<wbr>Set</a>
 											<ul>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ientity.html#endindex" class="tsd-kind-icon">end<wbr>Index</a>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.actionset.html#invokeaction" class="tsd-kind-icon">invoke<wbr>Action</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ientity.html#entity" class="tsd-kind-icon">entity</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ientity.html#score" class="tsd-kind-icon">score</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ientity.html#startindex" class="tsd-kind-icon">start<wbr>Index</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ientity.html#type" class="tsd-kind-icon">type</a>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.actionset.html#recognizeaction" class="tsd-kind-icon">recognize<wbr>Action</a>
 												</li>
 											</ul>
 										</li>
