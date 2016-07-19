@@ -59,6 +59,13 @@ var CardAction = (function () {
     CardAction.downloadFile = function (session, url, title) {
         return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
     };
+    CardAction.dialogAction = function (session, action, data, title) {
+        var value = 'action?' + action;
+        if (data) {
+            value += '=' + data;
+        }
+        return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
+    };
     return CardAction;
 })();
 exports.CardAction = CardAction;

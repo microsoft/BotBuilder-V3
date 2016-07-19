@@ -1,4 +1,3 @@
-"use strict";
 var sprintf = require('sprintf-js');
 var Channel = require('./Channel');
 var consts = require('./consts');

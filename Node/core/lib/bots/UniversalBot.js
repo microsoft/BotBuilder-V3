@@ -4,12 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var dl = require('./Library');
+var actions = require('../dialogs/ActionSet');
 var ses = require('../Session');
 var bs = require('../storage/BotStorage');
 var consts = require('../consts');
 var utils = require('../utils');
-var events = require('events');
 var async = require('async');
+var events = require('events');
 var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
     function UniversalBot(connector, settings) {
@@ -21,6 +22,7 @@ var UniversalBot = (function (_super) {
         };
         this.connectors = {};
         this.lib = new dl.Library(consts.Library.default);
+        this.actions = new actions.ActionSet();
         this.mwReceive = [];
         this.mwSend = [];
         this.mwSession = [];
@@ -94,6 +96,14 @@ var UniversalBot = (function (_super) {
                 console.warn('UniversalBot.use: no compatible middleware hook found to install.');
             }
         });
+        return this;
+    };
+    UniversalBot.prototype.beginDialogAction = function (name, id, options) {
+        this.actions.beginDialogAction(name, id, options);
+        return this;
+    };
+    UniversalBot.prototype.endConversationAction = function (name, msg, options) {
+        this.actions.endConversationAction(name, msg, options);
         return this;
     };
     UniversalBot.prototype.receive = function (events, done) {
@@ -224,6 +234,7 @@ var UniversalBot = (function (_super) {
                 localizer: _this.settings.localizer,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this.lib,
+                actions: _this.actions,
                 middleware: _this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
@@ -385,7 +396,7 @@ var UniversalBot = (function (_super) {
             this.emit('error', e);
         }
         else {
-            console.log(e.stack);
+            console.error(e.stack);
         }
     };
     return UniversalBot;

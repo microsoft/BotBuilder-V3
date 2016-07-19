@@ -1,11 +1,15 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var msg = require('../Message');
-var ThumbnailCard = (function () {
+var kb = require('./Keyboard');
+var ThumbnailCard = (function (_super) {
+    __extends(ThumbnailCard, _super);
     function ThumbnailCard(session) {
-        this.session = session;
-        this.data = {
-            contentType: 'application/vnd.microsoft.card.thumbnail',
-            content: {}
-        };
+        _super.call(this, session);
+        this.data.contentType = 'application/vnd.microsoft.card.thumbnail';
     }
     ThumbnailCard.prototype.title = function (text) {
         var args = [];
@@ -47,25 +51,12 @@ var ThumbnailCard = (function () {
         }
         return this;
     };
-    ThumbnailCard.prototype.buttons = function (list) {
-        this.data.content.buttons = [];
-        if (list) {
-            for (var i = 0; i < list.length; i++) {
-                var action = list[i];
-                this.data.content.buttons.push(action.toAction ? action.toAction() : action);
-            }
-        }
-        return this;
-    };
     ThumbnailCard.prototype.tap = function (action) {
         if (action) {
             this.data.content.tap = action.toAction ? action.toAction() : action;
         }
         return this;
     };
-    ThumbnailCard.prototype.toAttachment = function () {
-        return this.data;
-    };
     return ThumbnailCard;
-})();
+})(kb.Keyboard);
 exports.ThumbnailCard = ThumbnailCard;
