@@ -106,7 +106,7 @@ export class TextBot  {
         return this;
     }
 
-    public add(id: string, dialog?: dlg.IDialog | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep): this {
+    public add(id: string, dialog?: dlg.Dialog | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep): this {
         this.bot.dialog(id, dialog); 
         return this;
     }

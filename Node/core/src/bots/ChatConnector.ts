@@ -41,14 +41,7 @@ import http = require('http');
 import utils = require('../utils');
 import logger = require('../logger');
 import jwt = require('jsonwebtoken');
-var getPem = require('rsa-pem-from-mod-exp');
-var base64url = require('base64url');
-
-
-// Fetch token once per day
-var keysLastFetched = 0;
-var cachedKeys: IKey[];
-var issuer: string;
+import oid = require('./OpenIdMetadata');
 
 export interface IChatConnectorSettings {
     appId?: string;
@@ -60,8 +53,12 @@ export interface IChatConnectorSettings {
 export interface IChatConnectorEndpoint {
     refreshEndpoint: string;
     refreshScope: string;
-    verifyEndpoint: string;
-    verifyIssuer: string;
+    botConnectorOpenIdMetadata: string;
+    botConnectorIssuer: string;
+    botConnectorAudience: string;
+    msaOpenIdMetadata: string;
+    msaIssuer: string;
+    msaAudience: string;
     stateEndpoint: string;
 }
 
@@ -75,17 +72,26 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
+    private botConnectorOpenIdMetadata: oid.OpenIdMetadata;
+    private msaOpenIdMetadata: oid.OpenIdMetadata;
 
     constructor(private settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                verifyEndpoint: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
-                verifyIssuer: 'https://api.botframework.com',
+                botConnectorOpenIdMetadata: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
+                botConnectorIssuer: 'https://api.botframework.com',
+                botConnectorAudience: this.settings.appId,
+                msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
+                msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
+                msaAudience: 'https://graph.microsoft.com',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             }
         }
+
+        this.botConnectorOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
+        this.msaOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
     }
 
     public listen(): IWebMiddleware {
@@ -105,75 +111,6 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         };
     }
 
-    private ensureCachedKeys(cb: (err: Error, keys: IKey[]) => void ): void {
-        var now = new Date().getTime();
-        // refetch keys every 24 hours
-        if (keysLastFetched < (now - 1000*60*60*24)) {
-            var options: request.Options = {
-                method: 'GET',
-                url: this.settings.endpoint.verifyEndpoint,
-                json: true
-            };
-            
-            request(options, (err, response, body) => {
-                if (!err && (response.statusCode >= 400 || !body)) {
-                    err = new Error("Failed to load openID config: " + response.statusCode);
-                }
-
-                if (err) {
-                    cb(err, null);
-                } else {
-                    var openIdConfig = <IOpenIdConfig> body;
-                    issuer = openIdConfig.issuer;
-
-                    var options: request.Options = {
-                        method: 'GET',
-                        url: openIdConfig.jwks_uri,
-                        json: true
-                    };
-                    
-                    request(options, (err, response, body) => {
-                        if (!err && (response.statusCode >= 400 || !body)) {
-                            err = new Error("Failed to load Keys: " + response.statusCode);
-                        }
-                        if (!err) {
-                            keysLastFetched = now;
-                        }
-                        cachedKeys = <IKey[]> body.keys;
-                        cb(err, cachedKeys);
-                    });
-                }
-            });
-        }
-        else {
-            cb(null, cachedKeys);
-        }
-    }
-
-    private getSecretForKey(keyId: string): string {
-        
-        for (var i = 0; i < cachedKeys.length; i++) {
-            if (cachedKeys[i].kid == keyId) {
-
-                var jwt = cachedKeys[i];
-                
-                var modulus = base64url.toBase64(jwt.n);
-
-                var exponent = jwt.e;
-
-                return getPem(modulus, exponent);
-            }
-        }
-        return null;
-    }
-
-    private verifyEmulatorToken(decodedPayload : any) : boolean {
-        var now = new Date().getTime() / 1000;
-        return decodedPayload.appid == this.settings.appId &&
-               decodedPayload.iss == "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/" &&
-                            now < decodedPayload.exp && now > decodedPayload.nbf;
-    }
-
     private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
         var token: string;
         var isEmulator = req.body['channelId'] === 'emulator';
@@ -188,42 +125,45 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         if (token) {
             req.body['useAuth'] = true;
 
-            this.ensureCachedKeys((err, keys) => {
-                if (!err) {
-                    var decoded = jwt.decode(token, { complete: true });
-                    var now = new Date().getTime() / 1000;
+            let decoded = jwt.decode(token, { complete: true });
+            var verifyOptions: jwt.VerifyOptions;
+            var openIdMetadata: oid.OpenIdMetadata;
 
-                    // verify appId, issuer, token expirs and token notBefore
-                    if (decoded.payload.aud != this.settings.appId || decoded.payload.iss != issuer || 
-                        now > decoded.payload.exp || now < decoded.payload.nbf) {
-                        // check if the token is from emulator
-                        if (this.verifyEmulatorToken(decoded.payload))
-                        {
-                            this.dispatch(req.body, res);
-                        }
-                        else 
-                        {
-                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.')
-                            res.status(403);
-                            res.end();
-                        }   
-                    } else {
-                        var keyId = decoded.header.kid;
-                        var secret = this.getSecretForKey(keyId);
+            if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+                // This token came from MSA, so check it via the emulator path
+                openIdMetadata = this.msaOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.msaIssuer,
+                    audience: this.settings.endpoint.msaAudience,
+                    clockTolerance: 300
+                };
+            } else {
+                // This is a normal token, so use our Bot Connector verification
+                openIdMetadata = this.botConnectorOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.botConnectorIssuer,
+                    audience: this.settings.endpoint.botConnectorAudience,
+                    clockTolerance: 300
+                };
+            }
 
-                        try {
-                            decoded = jwt.verify(token, secret);
-                            this.dispatch(req.body, res);
-                        } catch(err) {
-                            logger.error('ChatConnector: receive - invalid token. Check bots app ID & Password.')
-                            res.status(403);
-                            res.end();     
-                        }
+            openIdMetadata.getKey(decoded.header.kid, key => {
+                if (key) {
+                    try {
+                        jwt.verify(token, key, verifyOptions);
+                    } catch (err) {
+                        logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
+                        res.status(403);
+                        res.end();
+                        return;
                     }
+                    
+                    this.dispatch(req.body, res);
                 } else {
-                    logger.error('ChatConnector: receive - error loading openId config: %s', err.toString());
+                    logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
                     res.status(500);
                     res.end();
+                    return;
                 }
             });
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
@@ -233,7 +173,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             this.dispatch(req.body, res);
         } else {
             // Token not provided so
-            logger.error('ChatConnector: receive - no security token sent. Ensure emulator configured with bots app ID & Password.');
+            logger.error('ChatConnector: receive - no security token sent.');
             res.status(401);
             res.end();
         }
@@ -425,38 +365,13 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         var list: IMessage[] = Array.isArray(messages) ? messages : [messages];
         list.forEach((msg) => {
             try {
-                // Break out address fields
-                var address = <IChatConnectorAddress>{};
-                utils.moveFieldsTo(msg, address, <any>toAddress);
-                msg.address = address;
-                msg.source = address.channelId;
-
-                // Patch serviceUrl
-                logger.info(address, 'ChatConnector: message received.');
-                if (address.serviceUrl) {
-                    try {
-                        var u = url.parse(address.serviceUrl);
-                        address.serviceUrl = u.protocol + '//' + u.host;
-                    } catch (e) {
-                        console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-                    }
-                }
-
-                // Patch locale and channelData
-                utils.moveFieldsTo(msg, msg, { 
-                    'locale': 'textLocale',
-                    'channelData': 'sourceEvent'
-                });
-
-                // Ensure basic fields are there
-                msg.text = msg.text || '';
-                msg.attachments = msg.attachments || [];
-                msg.entities = msg.entities || [];
+                this.prepIncomingMessage(msg);
+                logger.info(msg, 'ChatConnector: message received.');
 
                 // Dispatch message
                 this.handler([msg]);
             } catch (e) {
-                console.error(e.toString());
+                console.error(e instanceof Error ? (<Error>e).stack : e.toString());
             }
         });
 
@@ -466,19 +381,14 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
     }
 
     private postMessage(msg: IMessage, cb: (err: Error) => void): void {
+        logger.info(address, 'ChatConnector: sending message.')
+        this.prepOutgoingMessage(msg);
+
         // Apply address fields
         var address = <IChatConnectorAddress>msg.address;
         (<any>msg)['from'] = address.bot;
         (<any>msg)['recipient'] = address.user; 
         delete msg.address;
-
-        // Patch message fields
-        utils.moveFieldsTo(msg, msg, {
-            'textLocale': 'locale',
-            'sourceEvent': 'channelData'
-        });
-        delete msg.agent;
-        delete msg.source;
 
         // Calculate path
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
@@ -487,7 +397,6 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
         
         // Issue request
-        logger.info(address, 'ChatConnector: sending message.')
         var options: request.Options = {
             method: 'POST',
             url: url.resolve(address.serviceUrl, path),
@@ -614,6 +523,88 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         // Append base path info.
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
     }
+
+    private prepIncomingMessage(msg: IMessage): void {
+            // Patch locale and channelData
+            utils.moveFieldsTo(msg, msg, { 
+                'locale': 'textLocale',
+                'channelData': 'sourceEvent'
+            });
+
+            // Ensure basic fields are there
+            msg.text = msg.text || '';
+            msg.attachments = msg.attachments || [];
+            msg.entities = msg.entities || [];
+
+            // Break out address fields
+            var address = <IChatConnectorAddress>{};
+            utils.moveFieldsTo(msg, address, <any>toAddress);
+            msg.address = address;
+            msg.source = address.channelId;
+
+            // Patch serviceUrl
+            if (address.serviceUrl) {
+                try {
+                    var u = url.parse(address.serviceUrl);
+                    address.serviceUrl = u.protocol + '//' + u.host;
+                } catch (e) {
+                    console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
+                }
+            }
+
+            // Check for facebook quick replies
+            if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message.quick_reply) {
+                msg.text = msg.sourceEvent.message.quick_reply.payload;
+            }
+    }
+
+    private prepOutgoingMessage(msg: IMessage): void {
+        // Convert attachments
+        if (msg.attachments) {
+            var attachments = <IAttachment[]>[];
+            for (var i = 0; i < msg.attachments.length; i++) {
+                var a = msg.attachments[i];
+                switch (a.contentType) {
+                    case 'application/vnd.microsoft.keyboard':
+                        if (msg.address.channelId == 'facebook') {
+                            // Convert buttons
+                            msg.sourceEvent = { quick_replies: [] };
+                            (<IKeyboard>a.content).buttons.forEach((action) => {
+                                switch (action.type) {
+                                    case 'imBack':
+                                    case 'postBack':
+                                        msg.sourceEvent.quick_replies.push({
+                                            content_type: 'text',
+                                            title: action.title,
+                                            payload: action.value
+                                        });
+                                        break;
+                                    default:
+                                        logger.warn(msg, "Invalid keyboard '%s' button sent to facebook.", action.type);
+                                        break;
+                                }
+                            });
+                        } else {
+                            a.contentType = 'application/vnd.microsoft.card.hero';
+                            attachments.push(a);
+                        }
+                        break;
+                    default:
+                        attachments.push(a);
+                        break;
+                }
+            }
+            msg.attachments = attachments;
+        }
+
+        // Patch message fields
+        utils.moveFieldsTo(msg, msg, {
+            'textLocale': 'locale',
+            'sourceEvent': 'channelData'
+        });
+        delete msg.agent;
+        delete msg.source;
+    }
 }
 
 var toAddress = {
@@ -657,22 +648,4 @@ interface IWebResponse {
 /** Express or Restify Middleware Function. */
 interface IWebMiddleware {
     (req: IWebRequest, res: IWebResponse, next?: Function): void;
-}
-
-interface IOpenIdConfig {
-  issuer: string;
-  authorization_endpoint: string;
-  jwks_uri: string;
-  id_token_signing_alg_values_supported: string[];
-  token_endpoint_auth_methods_supported: string[];
-}
-
-interface IKey {
-      kty: string;
-      use: string;
-      kid: string;
-      x5t: string;
-      n: string;
-      e: string;
-      x5c: string[];
 }

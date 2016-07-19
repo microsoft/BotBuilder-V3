@@ -37,7 +37,7 @@ import sd = require('../dialogs/SimpleDialog');
 import consts = require('../consts');
 
 export interface IDialogMap {
-    [id: string]: dlg.IDialog;
+    [id: string]: dlg.Dialog;
 }
 
 export interface ILibraryMap {
@@ -51,7 +51,7 @@ export class Library {
     constructor(public name: string) {
     }
 
-    public dialog(id: string, dialog?: dlg.IDialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
+    public dialog(id: string, dialog?: dlg.Dialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
         var d: dlg.Dialog;
         if (dialog) {
             // Fixup id

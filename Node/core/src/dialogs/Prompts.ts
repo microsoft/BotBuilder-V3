@@ -31,14 +31,14 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import dialog = require('./Dialog');
+import dlg = require('./Dialog');
 import ses = require('../Session');
 import consts = require('../consts');
 import entities = require('./EntityRecognizer');
 import mb = require('../Message');
 import Channel = require('../Channel');
 import dl = require('../bots/Library');
-import hero = require('../cards/HeroCard');
+import kb = require('../cards/Keyboard');
 import ca = require('../cards/CardAction');
 
 export enum PromptType { text, number, confirm, choice, time, attachment }
@@ -46,19 +46,22 @@ export enum PromptType { text, number, confirm, choice, time, attachment }
 export enum ListStyle { none, inline, list, button, auto }
 
 export interface IPromptOptions {
-    retryPrompt?: string | string[] | IMessage | IIsMessage;
+    retryPrompt?: string|string[]|IMessage|IIsMessage;
     maxRetries?: number;
     refDate?: number;
     listStyle?: ListStyle;
+    promptAfterAction?: boolean;
 }
 
 export interface IPromptArgs extends IPromptOptions {
     promptType: PromptType;
-    prompt: string | string[] | IMessage | IIsMessage;
+    prompt: string|string[]|IMessage|IIsMessage;
     enumValues?: string[];
+    retryCnt?: number;
 }
 
-export interface IPromptResult<T> extends dialog.IDialogResult<T> {
+export interface IPromptResult<T> extends dlg.IDialogResult<T> {
+    score: number;
     promptType?: PromptType;
 }
 
@@ -76,7 +79,8 @@ export interface IPromptRecognizerArgs {
 }
 
 export interface IPromptsOptions {
-    recognizer?: IPromptRecognizer
+    recognizer?: IPromptRecognizer;
+    promptAfterAction?: boolean;
 }
 
 export interface IChronoDuration extends IEntity {
@@ -88,94 +92,83 @@ export interface IChronoDuration extends IEntity {
 }
 
 export class SimplePromptRecognizer implements IPromptRecognizer {
-    private cancelExp = /^(cancel|nevermind|never mind|stop|forget it|quit)/i;
-
     public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
-        this.checkCanceled(args, () => {
-            // Recognize value
-            var score = 0.0;
-            var response: any;
-            var text = args.utterance.trim();
-            switch (args.promptType) {
-                default:
-                case PromptType.text:
-                    // This is an open ended question so it's a little tricky to know what to pass as a confidence
-                    // score. Currently we're saying that we have 0.1 confidence that we understand the users intent
-                    // which will give all of the prompts parents a chance to capture the utterance. If no one 
-                    // captures the utterance we'll return the full text of the utterance as the result.
-                    score = 0.1;
-                    response = text;
-                    break;
-                case PromptType.number:
+        // Recognize value
+        var score = 0.0;
+        var response: any;
+        var text = args.utterance.trim();
+        switch (args.promptType) {
+            default:
+            case PromptType.text:
+                // This is an open ended question so it's a little tricky to know what to pass as a confidence
+                // score. Currently we're saying that we have 0.1 confidence that we understand the users intent
+                // which will give all of the prompts parents a chance to capture the utterance. If no one 
+                // captures the utterance we'll return the full text of the utterance as the result.
+                score = 0.5;
+                response = text;
+                break;
+            case PromptType.number:
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n)) {
+                    var score = n.toString().length / text.length;
+                    response = n;
+                }
+                break;
+            case PromptType.confirm:
+                var b = entities.EntityRecognizer.parseBoolean(text);
+                if (typeof b !== 'boolean') {
                     var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n)) {
-                        var score = n.toString().length / text.length;
-                        response = n;
+                    if (!isNaN(n) && n > 0 && n <= 2) {
+                        b = (n === 1);
                     }
-                    break;
-                case PromptType.confirm:
-                    var b = entities.EntityRecognizer.parseBoolean(text);
-                    if (typeof b !== 'boolean') {
-                        var n = entities.EntityRecognizer.parseNumber(text);
-                        if (!isNaN(n) && n > 0 && n <= 2) {
-                            b = (n === 1);
-                        }
-                        
+                    
+                }
+                if (typeof b == 'boolean') {
+                    score = 1.0;
+                    response = b;
+                }
+                break;
+            case PromptType.time:
+                var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
+                if (entity) {
+                    score = entity.entity.length / text.length;
+                    response = entity;
+                } 
+                break;
+            case PromptType.choice:
+                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+                if (!best) {
+                    var n = entities.EntityRecognizer.parseNumber(text);
+                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
                     }
-                    if (typeof b == 'boolean') {
-                        score = 1.0;
-                        response = b;
-                    }
-                    break;
-                case PromptType.time:
-                    var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
-                    if (entity) {
-                        score = entity.entity.length / text.length;
-                        response = entity;
-                    } 
-                    break;
-                case PromptType.choice:
-                    var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                    if (!best) {
-                        var n = entities.EntityRecognizer.parseNumber(text);
-                        if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                            best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                        }
-                    }
-                    if (best) {
-                        score = best.score;
-                        response = best;
-                    }
-                    break;
-                case PromptType.attachment:
-                    if (args.attachments && args.attachments.length > 0) {
-                        score = 1.0;
-                        response = args.attachments;
-                    }
-                    break;
-            }
+                }
+                if (best) {
+                    score = best.score;
+                    response = best;
+                }
+                break;
+            case PromptType.attachment:
+                if (args.attachments && args.attachments.length > 0) {
+                    score = 1.0;
+                    response = args.attachments;
+                }
+                break;
+        }
 
-            // Return results
-            if (score > 0) {
-                callback({ resumed: dialog.ResumeReason.completed, promptType: args.promptType, response: response });
-            } else {
-                callback({ resumed: dialog.ResumeReason.notCompleted, promptType: args.promptType });
-            }
-        }, callback);
-    }
-
-    protected checkCanceled(args: IPromptRecognizerArgs, onContinue: Function, callback: (result: IPromptResult<IEntity>) => void) {
-        if (!this.cancelExp.test(args.utterance.trim())) {
-            onContinue();
+        // Return results
+        if (score > 0) {
+            callback({ score: score, resumed: dlg.ResumeReason.completed, promptType: args.promptType, response: response });
         } else {
-            callback({ resumed: dialog.ResumeReason.canceled, promptType: args.promptType });
+            callback({ score: score, resumed: dlg.ResumeReason.notCompleted, promptType: args.promptType });
         }
     }
 } 
 
-export class Prompts extends dialog.Dialog {
+export class Prompts extends dlg.Dialog {
     private static options: IPromptsOptions = {
-        recognizer: new SimplePromptRecognizer()
+        recognizer: new SimplePromptRecognizer(),
+        promptAfterAction: true
     };
     private static defaultRetryPrompt = {
         text: "I didn't understand. Please try again.",
@@ -188,7 +181,8 @@ export class Prompts extends dialog.Dialog {
 
     public begin(session: ses.Session, args: IPromptArgs): void {
         args = <any>args || {};
-        args.maxRetries = args.maxRetries || 1; 
+        args.promptAfterAction = args.hasOwnProperty('promptAfterAction') ? args.promptAfterAction : Prompts.options.promptAfterAction;
+        args.retryCnt = 0;
         for (var key in args) {
             if (args.hasOwnProperty(key)) {
                 session.dialogData[key] = (<any>args)[key];
@@ -197,27 +191,46 @@ export class Prompts extends dialog.Dialog {
         this.sendPrompt(session, args);
     }
 
-    public replyReceived(session: ses.Session): void {
+    public replyReceived(session: ses.Session, result?: IPromptResult<any>): void {
         var args: IPromptArgs = session.dialogData;
-        Prompts.options.recognizer.recognize(
-            {
-                promptType: args.promptType,
-                utterance: session.message.text,
-                locale: session.message.textLocale,
-                attachments: session.message.attachments,
-                enumValues: args.enumValues,
-                refDate: args.refDate
-            }, (result) => {
-                if (result.error || result.resumed == dialog.ResumeReason.completed ||
-                    result.resumed == dialog.ResumeReason.canceled || args.maxRetries == 0) {
-                    result.promptType = args.promptType;
-                    session.endDialogWithResult(result);
-                } else {
-                    args.maxRetries--;
-                    this.sendPrompt(session, args, true);
-                }
-            });
+        if (result.error || result.resumed == dlg.ResumeReason.completed) {
+            result.promptType = args.promptType;
+            session.endDialogWithResult(result);
+        } else if (typeof args.maxRetries === 'number' && args.retryCnt >= args.maxRetries) {
+            result.promptType = args.promptType;
+            result.resumed = dlg.ResumeReason.notCompleted;
+            session.endDialogWithResult(result);
+        } else {
+            args.retryCnt++;
+            this.sendPrompt(session, args, true);
+        }
     }
+    public dialogResumed<T>(session: ses.Session, result: dlg.IDialogResult<any>): void {
+        // Comming back from an action so re-prompt the user.
+        var args: IPromptArgs = session.dialogData;
+        if (args.promptAfterAction) {
+            this.sendPrompt(session, args);
+        }
+    }
+
+    public recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: dlg.IRecognizeResult) => void): void {
+        var args: IPromptArgs = context.dialogData;
+        Prompts.options.recognizer.recognize({
+            promptType: args.promptType,
+            utterance: context.message.text,
+            locale: context.message.textLocale,
+            attachments: context.message.attachments,
+            enumValues: args.enumValues,
+            refDate: args.refDate
+        }, (result) => {
+            if (result.error) {
+                cb(result.error, null);
+            } else {
+                cb(null, result);
+            }
+        });
+    }
+
     
     private sendPrompt(session: ses.Session, args: IPromptArgs, retry = false): void {
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
@@ -232,7 +245,7 @@ export class Prompts extends dialog.Dialog {
             if (args.promptType == PromptType.choice || args.promptType == PromptType.confirm) {
                 style = args.listStyle;
                 if (style == ListStyle.auto) {
-                    if (Channel.preferButtons(session, args.enumValues.length, retry)) {
+                    if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
                     } else if (!retry) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
@@ -267,7 +280,7 @@ export class Prompts extends dialog.Dialog {
                         buttons.push(ca.CardAction.imBack(session, option, option));
                     }
                     msg.text(prompt)
-                       .attachments([new hero.HeroCard(session).buttons(buttons)]);
+                       .attachments([new kb.Keyboard(session).buttons(buttons)]);
                     break;
                 case ListStyle.inline:
                     list = ' (';

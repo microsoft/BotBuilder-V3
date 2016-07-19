@@ -103,4 +103,12 @@ export class CardAction implements IIsCardAction {
     static downloadFile(session: ses.Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
     }
+
+    static dialogAction(session: ses.Session, action: string, data?: string, title?: string|string[]): CardAction {
+        var value = 'action?' + action;
+        if (data) {
+            value += '=' + data;
+        }
+        return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
+    }
 }

@@ -45,15 +45,28 @@ export var channels = {
     emulator: 'emulator'
 };
 
-export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt: boolean): boolean {
+export function supportsKeyboards(session: ses.Session, buttonCnt = 100) {
+    switch (getChannelId(session)) {
+        case channels.facebook:
+            return (buttonCnt <= 10);
+        case channels.kik:
+            return (buttonCnt <= 20);
+        case channels.slack:
+        case channels.telegram:
+        case channels.emulator:
+            return (buttonCnt <= 100);
+        default:
+            return false;
+    }
+}
+
+export function supportsCardActions(session: ses.Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case channels.facebook:
         case channels.skype:
-            return (choiceCnt <= 3);
-        case channels.telegram:
-        case channels.kik:
-        case channels.emulator:
-            return true;
+            return (buttonCnt <= 3);
+        case channels.slack:
+            return (buttonCnt <= 100);
         default:
             return false;
     }

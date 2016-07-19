@@ -34,14 +34,15 @@
 import dlg = require('../dialogs/Dialog');
 import dl = require('./Library');
 import da = require('../dialogs/DialogAction');
+import actions = require('../dialogs/ActionSet');
 import sd = require('../dialogs/SimpleDialog');
 import ses = require('../Session');
 import bs = require('../storage/BotStorage');
 import consts = require('../consts');
 import utils = require('../utils');
 import logger = require('../logger');
-import events = require('events');
 import async = require('async');
+import events = require('events');
 
 export interface IUniversalBotSettings {
     defaultDialogId?: string;
@@ -87,9 +88,11 @@ export class UniversalBot extends events.EventEmitter {
     };
     private connectors = <IConnectorMap>{}; 
     private lib = new dl.Library(consts.Library.default);
+    private actions = new actions.ActionSet();
     private mwReceive = <IEventMiddleware[]>[];
     private mwSend = <IEventMiddleware[]>[];
     private mwSession = <ses.ISessionMiddleware[]>[]; 
+    
     
     constructor(connector?: IConnector, settings?: IUniversalBotSettings) {
         super();
@@ -146,7 +149,7 @@ export class UniversalBot extends events.EventEmitter {
     // Library Management
     //-------------------------------------------------------------------------
 
-    public dialog(id: string, dialog?: dlg.IDialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
+    public dialog(id: string, dialog?: dlg.Dialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
         return this.lib.dialog(id, dialog);
     }
 
@@ -179,6 +182,21 @@ export class UniversalBot extends events.EventEmitter {
         });
         return this;    
     }
+
+    //-------------------------------------------------------------------------
+    // Actions
+    //-------------------------------------------------------------------------
+
+    public beginDialogAction(name: string, id: string, options?: actions.IDialogActionOptions): this {
+        this.actions.beginDialogAction(name, id, options);
+        return this;
+    }
+
+    public endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: actions.IDialogActionOptions): this {
+        this.actions.endConversationAction(name, msg, options);
+        return this;
+    }
+
     
     //-------------------------------------------------------------------------
     // Messaging
@@ -345,6 +363,7 @@ export class UniversalBot extends events.EventEmitter {
                 localizer: this.settings.localizer,
                 autoBatchDelay: this.settings.autoBatchDelay,
                 library: this.lib,
+                actions: this.actions,
                 middleware: this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
@@ -505,7 +524,7 @@ export class UniversalBot extends events.EventEmitter {
         if (this.listenerCount('error') > 0) {
             this.emit('error', e);
         } else {
-            console.log(e.stack);
+            console.error(e.stack);
         }
     }
 }
