@@ -2198,11 +2198,25 @@ export class ConsoleConnector implements IConnector {
 }
 
 export class Middleware {
-    /** Installs a piece of middleware that manages the versioning of a bots dialogs. */
+    /** 
+     * Installs a piece of middleware that manages the versioning of a bots dialogs.
+     * @param options Settings to configure the bahviour of the installed middleware. 
+     */
     static dialogVersion(options: IDialogVersionOptions): IMiddlewareMap;
 
-    /** Adds a first run experience to a bot. The middleware uses Session.userData to store the latest version of the first run dialog the user has been through. Incrementing the version number can force users to run back through either the full or a partial first run dialog. */
+    /** 
+     * Adds a first run experience to a bot. The middleware uses Session.userData to store the latest version of the first run dialog the user has been through. Incrementing the version number can force users to run back through either the full or a partial first run dialog. 
+     * @param options Settings to configure the bahviour of the installed middleware. 
+     */
     static firstRun(options: IFirstRunOptions): IMiddlewareMap;
+
+    /** 
+     * Installs a piece of middleware that will always send an initial typing indication to the user.
+     * This is useful because it lets you send the typing indication before any LUIS models are called.
+     * The typing indicator will only stay valid for a few seconds so if you're performing any long running
+     * operations you may want to send an additional typing indicator using [session.sendTyping](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#sendtyping).
+     */
+    static sendTyping(): IMiddlewareMap;
 }
 
 /** __DEPRECATED__ use an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog) with a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) instead. */

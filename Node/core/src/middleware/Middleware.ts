@@ -102,6 +102,15 @@ export class Middleware {
             }
         }
     }
+
+    static sendTyping(): ub.IMiddlewareMap {
+        return {
+            botbuilder: (session, next) => {
+                session.sendTyping();
+                next();
+            }
+        };
+    }
 }
 
 // FirstRun Helper
