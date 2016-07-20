@@ -19,27 +19,8 @@ Using the Emulator, you can:
 * Emulate a specific user and/or conversation
 
 ## Installation and configuration
-* [Install the Windows Emulator](https://aka.ms/bf-bc-emulator)
-* Launch the Emulator
-* Copy the MicrosoftAppId and MicrosoftAppSecret from the Web.config of your Bot app
-![Configure the Bot Framework](/en-us/images/emulator/emulator-configure.png)
-* Enter the localhost REST endpoint of your bot
-![Enter the localhost REST endpoint of your bot](/en-us/images/emulator/emulator-url.png)
 
-## Using the Emulator to test your bot
-Let's use the [Echobot Sample](http://github.com/Microsoft/BotBuilder) for this section. 
-
-* Run the Echobot sample in debug mode
-* Enter the localhost REST endpoint in the url field of the Bot framework Emulator
-* By default you will be in the Chat tab
-* Enter some text e.g. "Hello World!" and hit Send (or the Enter key)
-![Send message to bot](/en-us/images/emulator/emulator-helloworld.png)
-{% comment %} 
-* The Emulator will send the request to your bot, and will display the response below your initial message
-![Emulator response](/en-us/images/emulator/emulator-response.png)
-* Switch to the Debug tab and inspect the full Json response
-![Inspect the Json response](/en-us/images/emulator/emulator-json.png)
-{% endcomment %}
+[Install the Windows Emulator](https://aka.ms/bf-bc-emulator)
  
 See an example of use in the [Getting started page](/en-us/csharp/builder/sdkreference/gettingstarted.html).
 
