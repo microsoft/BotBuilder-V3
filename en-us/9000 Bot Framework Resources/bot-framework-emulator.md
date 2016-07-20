@@ -22,7 +22,7 @@ Using the Emulator, you can:
 
 [Install the Windows Emulator](https://aka.ms/bf-bc-emulator)
  
-See an example of use in the [Getting started page](/en-us/csharp/builder/sdkreference/gettingstarted.html).
+See an example of use in the [Getting started page](/en-us/csharp/builder/sdkreference/gettingstarted.html#emulator).
 
 ## Using the Emulator with Ngrok to interact with your bot in the cloud
 You can also use the emulator to talk with your bot deployed in the cloud.  Doing this allows you to see JSON back and forth, and also the RAW
