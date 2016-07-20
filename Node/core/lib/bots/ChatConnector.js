@@ -458,7 +458,7 @@ var ChatConnector = (function () {
                 console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
             }
         }
-        if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message.quick_reply) {
+        if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
             msg.text = msg.sourceEvent.message.quick_reply.payload;
         }
     };
