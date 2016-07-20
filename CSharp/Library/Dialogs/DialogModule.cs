@@ -110,19 +110,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
             
             builder.RegisterType<ConnectorStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
             // If bot wants to use InMemoryDataStore instead of 
-            // ConnectorStore, the below registration should be used
+            // ConnectorStore, the below registration should be used 
+            // as the inner IBotDataStore for CachingBotDataStore
             /*builder.RegisterType<InMemoryDataStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance(); */
 
-            builder.RegisterType<CachingBotDataStore_LastWriteWins>()
-                .As<IBotDataStore>()
+            builder.Register( c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), 
+                                                           CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 

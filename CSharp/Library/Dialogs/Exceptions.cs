@@ -41,7 +41,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
-    /// The root of the exception hierarchy related to <see cref="IDialogStack"/> .
+    /// The root of the exception hierarchy related to <see cref="Internals.IDialogStack"/> .
     /// </summary>
     [Serializable]
     public abstract class DialogStackException : Exception

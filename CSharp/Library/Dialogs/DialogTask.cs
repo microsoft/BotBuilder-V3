@@ -404,13 +404,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
             finally
             {
-                await PersistBotData(token: token);
+                await botData.FlushAsync(token);
             }
-        }
-
-        private async Task PersistBotData(bool ignoreETag = true, CancellationToken token = default(CancellationToken))
-        {
-            await botData.FlushAsync(token);
         }
     }
 }
