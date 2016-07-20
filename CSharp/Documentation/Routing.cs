@@ -141,7 +141,7 @@ message.Recipient = new ChannelAccount() { name: "Larry", "id":"@UV357341"};
 message.Conversation = new ConversationAccount(id: ConversationId.Id);
 message.Text = "Hello";
 message.Locale = "en-Us";
-var reply = await connector.Conversations.ReplyToActivityAsync(message);
+await connector.Conversations.SendToConversation((Activity)message); 
 ~~~
 
 
@@ -166,7 +166,7 @@ message.Conversation = ConversationId;
 message.ChannelId = "email";
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
-var reply = await connector.Conversations.ReplyToActivityAsync((Activity)message);
+await connector.Conversations.SendToConversation((Activity)message); 
 ~~~
 
     **/
