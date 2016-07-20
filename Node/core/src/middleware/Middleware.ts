@@ -131,7 +131,8 @@ dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog((session: ses.
         session.endDialogWithResult(result);
     } else {
         // Save version and launch dialog
+        var dialogId = args.dialogId.indexOf(':') >= 0 ? args.dialogId : consts.Library.default + ':' + args.dialogId;
         session.dialogData.version = args.version;
-        session.beginDialog(args.dialogId, args.dialogArgs);
+        session.beginDialog(dialogId, args.dialogArgs);
     }
 }));
