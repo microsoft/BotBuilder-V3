@@ -25,32 +25,20 @@ var builder = require('../../core/');
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 bot.dialog('/', function (session) {
-    session.send("Hi %s, what can I help you with?", session.userData.name);
+    session.send("%s, I heard: %s", session.userData.name, session.message.text);
+    session.send("Say something else...");
 });
 
 // Install First Run middleware and dialog
-bot.use({
-    botbuilder: function (session, next) {
-        if (!session.userData.firstRun) {
-            session.userData.firstRun = true;
-            session.beginDialog('/firstRun');
-        } else {
-            next();
-        }
-    }
-});
+bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
 bot.dialog('/firstRun', [
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
     },
     function (session, results) {
-        // We'll save the prompts result and return control to main through
-        // a call to replaceDialog(). We need to use replaceDialog() because
-        // we intercepted the original call to main and we want to remove the
-        // /firstRun dialog from the callstack. If we called endDialog() here
-        // the conversation would end since the /firstRun dialog is the only 
-        // dialog on the stack.
+        // We'll save the users name and send them an initial greeting. All 
+        // future messages from the user will be routed to the root dialog.
         session.userData.name = results.response;
-        session.replaceDialog('/'); 
+        session.endDialog("Hi %s, say something to me and I'll echo it back.", session.userData.name); 
     }
 ]);
