@@ -70,14 +70,21 @@ namespace Microsoft.Bot.Builder.FormFlow
         public string Image;
 
         /// <summary>
+        /// Message to return when a button is pressed.
+        /// </summary>
+        public string Message;
+
+        /// <summary>
         /// Description for field, property or enum value.
         /// </summary>
         /// <param name="description">Description of field, property or enum value.</param>
         /// <param name="image">URL of image to use when generating buttons.</param>
-        public DescribeAttribute(string description = null, string image = null)
+        /// <param name="message">Message to return from button.</param>
+        public DescribeAttribute(string description = null, string image = null, string message = null)
         {
             Description = description;
             Image = image;
+            Message = message;
         }
     }
 

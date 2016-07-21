@@ -388,16 +388,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         if (useButtons)
                         {
-                            int i = 1;
                             foreach(var value in values)
                             {
-                                var button = new FormButton() { Title = value.Description, Image = value.Image };
-                                if (_annotation.AllowNumbers)
-                                {
-                                    button.Message = i.ToString();
-                                }
+                                var button = new FormButton() { Title = value.Description, Image = value.Image, Message = value.Message };
                                 buttons.Add(button);
-                                ++i;
                             }
                         }
                         else

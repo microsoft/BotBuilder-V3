@@ -38,12 +38,12 @@ ToUserText:"Please enter a number for float "
 State:{"Text":"some text here","Integer":99,"Float":null,"Choices":0,"Date":"0001-01-01T00:00:00"}
 FromUser:"1.5"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Please select a choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"1"},{"type":"imBack","title":"Two","image":null,"value":"2"},{"type":"imBack","title":"Three","image":null,"value":"3"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Please select a choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"value":"Three"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Text":"some text here","Integer":99,"Float":1.5,"Choices":0,"Date":"0001-01-01T00:00:00"}
 FromUser:"?"
 2
 ToUserText:"* You are filling in the choices field. Possible responses:\r\n* You can enter a number 1-3 or words from the descriptions. (One, Two, or Three)\r\n* Back: Go back to the previous question.\r\n* Help: Show the kinds of responses you can enter.\r\n* Quit: Quit the form without completing it.\r\n* Reset: Start over filling in the form. (With defaults from your previous entries.)\r\n* Status: Show your progress in filling in the form so far.\r\n* You can switch to another field by entering its name. (Text, Integer, Float, Choices, or Date). "
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Please select a choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"1"},{"type":"imBack","title":"Two","image":null,"value":"2"},{"type":"imBack","title":"Three","image":null,"value":"3"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Please select a choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"value":"Three"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Text":"some text here","Integer":99,"Float":1.5,"Choices":0,"Date":"0001-01-01T00:00:00"}
 FromUser:"one"
 1

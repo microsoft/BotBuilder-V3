@@ -9,11 +9,11 @@ ToUserText:"Veuillez entrer un numéro entre 1 et 10 à nombre de pizzas (choix 
 State:{"NumberOfPizzas":1,"Size":null,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"2"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Veuillez choisir un taille ","images":null,"buttons":[{"type":"imBack","title":"Moyen","image":null,"value":"1"},{"type":"imBack","title":"Grande","image":null,"value":"2"},{"type":"imBack","title":"Famille","image":null,"value":"3"},{"type":"imBack","title":"Pas de préférence","image":null,"value":"4"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Veuillez choisir un taille (choix actuel: Pas de préférence) \n  1. Moyen\n  2. Grande\n  3. Famille\n  4. Pas de préférence"
 State:{"NumberOfPizzas":2,"Size":null,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"moyen"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Veuillez choisir un type de pizza ","images":null,"buttons":[{"type":"imBack","title":"Pizza de signature","image":null,"value":"1"},{"type":"imBack","title":"Gourmet Delite Pizza","image":null,"value":"2"},{"type":"imBack","title":"Pizza farcie","image":null,"value":"3"},{"type":"imBack","title":"Créer la vôtre","image":null,"value":"4"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Veuillez choisir un type de pizza \n  1. Pizza de signature\n  2. Gourmet Delite Pizza\n  3. Pizza farcie\n  4. Créer la vôtre"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"4"
 1
@@ -26,7 +26,7 @@ ToUserText:"Veuillez choisir un ou plusieurs sous-ensemble de caractères spéci
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"1 2"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Voudriez-vous un moitié-moitié? ","images":null,"buttons":[{"type":"imBack","title":"Oui","image":null,"value":"1"},{"type":"imBack","title":"non","image":null,"value":"2"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. non)"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"retourner"
 1
@@ -34,15 +34,15 @@ ToUserText:"Veuillez choisir un ou plusieurs sous-ensemble de caractères spéci
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"c"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Voudriez-vous un moitié-moitié? ","images":null,"buttons":[{"type":"imBack","title":"Oui","image":null,"value":"1"},{"type":"imBack","title":"non","image":null,"value":"2"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. non)"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"non"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Veuillez choisir un croûte ","images":null,"buttons":[{"type":"imBack","title":"Original","image":null,"value":"1"},{"type":"imBack","title":"fine","image":null,"value":"2"},{"type":"imBack","title":"En peluche","image":null,"value":"3"},{"type":"imBack","title":"Frais Pan","image":null,"value":"4"},{"type":"imBack","title":"Sans gluten","image":null,"value":"5"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Veuillez choisir un croûte \n  1. Original\n  2. fine\n  3. En peluche\n  4. Frais Pan\n  5. Sans gluten"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":0,"Sauce":0,"HalfAndHalf":false,"Toppings":null,"HalfToppings":null},"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"fine"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Veuillez choisir un sauce ","images":null,"buttons":[{"type":"imBack","title":"Traditionnel","image":null,"value":"1"},{"type":"imBack","title":"Crémeuse à l'ail","image":null,"value":"2"},{"type":"imBack","title":"Huile d'olive","image":null,"value":"3"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Veuillez choisir un sauce (1. Traditionnel, 2. Crémeuse à l'ail, ou 3. Huile d'olive)"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":0,"HalfAndHalf":false,"Toppings":null,"HalfToppings":null},"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"1"
 1
@@ -86,7 +86,7 @@ ToUserText:"Veuillez choisir un ou plusieurs coupons (1. Grande 20 pour cent, 2.
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":[2,15],"HalfToppings":null},"Coupons":null,"Coupon":0,"DeliveryAddress":"1 state street","Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"1 2"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Veuillez choisir un coupon ","images":null,"buttons":[{"type":"imBack","title":"Grande 20 pour cent","image":null,"value":"1"},{"type":"imBack","title":"Pepperoni 20 pour cent","image":null,"value":"2"},{"type":"imBack","title":"Pas de préférence","image":null,"value":"3"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Veuillez choisir un coupon (1. Grande 20 pour cent, 2. Pepperoni 20 pour cent, ou 3. Pas de préférence) (choix actuel: Pas de préférence)"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":[2,15],"HalfToppings":null},"Coupons":[1,2],"Coupon":0,"DeliveryAddress":"1 state street","Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"non"
 1
@@ -116,7 +116,7 @@ ToUserText:"Vous souhaitez une Moyen, Fine, Traditionnel, Viande Bovine, et Oign
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":[2,15],"HalfToppings":null},"Coupons":[1,2],"Coupon":0,"DeliveryAddress":"1 state street","Rating":2.5,"Available":"1962-02-25T15:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":"123-4567"}
 FromUser:"non"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Que voulez-vous changer? ","images":null,"buttons":[{"type":"imBack","title":"Nombre de Pizzas(2)","image":null,"value":"1"},{"type":"imBack","title":"Taille(Moyen)","image":null,"value":"2"},{"type":"imBack","title":"Type de pizza(Créer la vôtre)","image":null,"value":"3"},{"type":"imBack","title":"Sous-ensemble de caractères spéciaux(Boisson Gratuite, et Pain À L Ail Gratuit)","image":null,"value":"4"},{"type":"imBack","title":"Moitié-moitié(non)","image":null,"value":"5"},{"type":"imBack","title":"Croûte(fine)","image":null,"value":"6"},{"type":"imBack","title":"Sauce(Traditionnel)","image":null,"value":"7"},{"type":"imBack","title":"Nappages(Viande Bovine, et Oignons)","image":null,"value":"8"},{"type":"imBack","title":"Adresse de remise(1 state street)","image":null,"value":"9"},{"type":"imBack","title":"Coupons(Grande 20 Pour Cent, et Pepperoni 20 Pour Cent)","image":null,"value":"10"},{"type":"imBack","title":"Coupon(Pas de préférence)","image":null,"value":"11"},{"type":"imBack","title":"Notation(2,5)","image":null,"value":"12"},{"type":"imBack","title":"Disponibles(25/02/1962 15:00:00)","image":null,"value":"13"},{"type":"imBack","title":"Bouteilles(Pas de préférence)","image":null,"value":"14"},{"type":"imBack","title":"Téléphone(123-4567)","image":null,"value":"15"},{"type":"imBack","title":"Pas de préférence","image":null,"value":"16"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserText:"Que voulez-vous changer? (choix actuel: Pas de préférence) \n  1. Nombre de Pizzas(2)\n  2. Taille(Moyen)\n  3. Type de pizza(Créer la vôtre)\n  4. Sous-ensemble de caractères spéciaux(Boisson Gratuite, et Pain À L Ail Gratuit)\n  5. Moitié-moitié(non)\n  6. Croûte(fine)\n  7. Sauce(Traditionnel)\n  8. Nappages(Viande Bovine, et Oignons)\n  9. Adresse de remise(1 state street)\n  10. Coupons(Grande 20 Pour Cent, et Pepperoni 20 Pour Cent)\n  11. Coupon(Pas de préférence)\n  12. Notation(2,5)\n  13. Disponibles(25/02/1962 15:00:00)\n  14. Bouteilles(Pas de préférence)\n  15. Téléphone(123-4567)\n  16. Pas de préférence"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":[2,15],"HalfToppings":null},"Coupons":[1,2],"Coupon":0,"DeliveryAddress":"1 state street","Rating":2.5,"Available":"1962-02-25T15:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":"123-4567"}
 FromUser:"nappages"
 1

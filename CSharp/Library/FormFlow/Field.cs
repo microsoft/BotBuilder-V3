@@ -390,10 +390,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="value">        The value. </param>
         /// <param name="description">  Description of the value. </param>
         /// <param name="image">Image to use for value as button.</param>
+        /// <param name="message">Message to return when button is pressed.</param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
-        public Field<T> AddDescription(object value, string description, string image = null)
+        public Field<T> AddDescription(object value, string description, string image = null, string message = null)
         {
-            _valueDescriptions[value] = new DescribeAttribute(description, image);
+            _valueDescriptions[value] = new DescribeAttribute(description, image, message);
             return this;
         }
 

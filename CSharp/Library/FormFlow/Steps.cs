@@ -597,7 +597,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 var svalue = (string)value;
                 var prompter = new Prompter<T>(fieldPrompt, form, form.Fields.Field(svalue).Prompt.Recognizer);
-                AddDescription(value, prompter.Prompt(state, svalue).Prompt);
+                AddDescription(value, prompter.Prompt(state, svalue).Prompt, null, svalue);
                 AddTerms(value, form.Fields.Field(svalue).FieldTerms.ToArray());
             }
             var template = field.Template(TemplateUsage.Navigation);

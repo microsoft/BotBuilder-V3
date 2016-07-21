@@ -215,7 +215,7 @@ namespace Microsoft.Bot.Builder.Tests
                 // There was an error, so record new script and pass on error
                 var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
                 await RecordFormScript(newPath, locale, buildForm, options, initialState, entities, inputs);
-                throw e;
+                throw;
             }
         }
 
@@ -332,13 +332,55 @@ namespace Microsoft.Bot.Builder.Tests
                 "2.5",
                 "2/25/1962 3pm",
                 "no"
-                ,"1234",
+                , "1234",
                 "123-4567",
                 "no",
                 "toppings",
                 "everything but spinach",
                 "y"
                 );
+        }
+
+        [TestMethod]
+        public async Task Pizza_Button_Script()
+        {
+            await VerifyFormScript(@"..\..\PizzaFormButton.script",
+                "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "hi",
+                "2",
+                "med",
+                "4",
+                "help",
+                "drink bread",
+                "back",
+                "c",
+                "no",
+                "thin",
+                "1",
+                "?",
+                "beef, onion, ice cream",
+                "onions",
+                "status",
+                "abc",
+                "1 state street",
+                "y",
+                "1 2",
+                "none",
+                "2.5",
+                "2/25/1962 3pm",
+                "no"
+                , "1234",
+                "123-4567",
+                "no",
+                "toppings",
+                "everything but spinach",
+                "y"
+                );
+        }
+
+        [TestMethod]
+        public async Task Pizza_fr_Script()
+        { 
             await VerifyFormScript(@"..\..\PizzaForm-fr.script",
                 "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
                 "bonjour",

@@ -234,7 +234,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return builder.ToString();
         }
 
-        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.Auto)
+        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.AutoText)
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
