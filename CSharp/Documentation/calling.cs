@@ -520,7 +520,7 @@
     ///
     ///\subsection ivrtestingngrok Testing with ngrok
     ///
-    ///There are tools that can create a public url to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
+    ///There are tools that can create a public URL to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
     ///
     ///We'll show how you can test your bot running locally over skype.
     ///
@@ -532,7 +532,7 @@
     ///\> ngrok http 12345
     ///~~~
     ///
-    ///This will create a new tunnel from a public url to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:
+    ///This will create a new tunnel from a public URL to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:
     ///
     ///~~~
     ///ngrok by \@inconshreveable (Ctrl+C to quit)
@@ -580,7 +580,7 @@
     ///
     ///The next step is to configure your %Bot in the portal to use ngrok endpoints.
     ///
-    ///Don't forget to append your route when updating the messaging url, the new url should look like this: <https://78191649.ngrok.io/v1/call>.  
+    ///Don't forget to append your route when updating the messaging URL, the new URL should look like this: <https://78191649.ngrok.io/v1/call>.  
     ///
     ///Please also update the CallbackUrl setting in Web.config file (it should be <https://78191649.ngrok.io/v1/callback> in presented sample).
     ///
@@ -597,5 +597,5 @@
     ///
     ///If you are done with testing, you can stop ngrok (Ctrl+C), your agent will stop working as there is nothing to forward the requests to your local server.
     ///
-    ///Note: Free version of ngrok will create a new unique url for you everytime you start it. That means you always need to go back and update the messaging url for your bot.
+    ///Note: Free version of ngrok will create a new unique URL for you every time you start it. That means you always need to go back and update the messaging URL for your bot.
 }

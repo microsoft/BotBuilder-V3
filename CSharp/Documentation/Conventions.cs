@@ -7,7 +7,7 @@
 
 All of the objects described use lower-camel casing on the wire.  The C# nuget library uses
 strongly typed names that are pascal cased. Our documentation sometimes will use one or the
-other but they are interchangable.
+other but they are interchangeable.
 
 | **C# property** | wire serialization | javascript name |
 | ----------------| ------------------ | --------------- |

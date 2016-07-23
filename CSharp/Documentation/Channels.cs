@@ -38,7 +38,7 @@ Example Message:
         "channelData":
         {
             "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
-            "subject":"Super awesome mesage subject",
+            "subject":"Super awesome message subject",
             "importance":"high"
         }
     }
@@ -90,7 +90,7 @@ Example outgoing message with custom Slack message in ChannelData:
                 ]
             },
             {
-                "title": "Sypnopsis",
+                "title": "Synopsis",
                 "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy..."
             },
             {
@@ -122,7 +122,7 @@ Example outgoing message with custom Slack message in ChannelData:
 
 When a user clicks a button in Slack, a message will be sent to your bot with _ChannelData_ containing a _Payload_ corresponding to the message action.
 The payload contains the original message as well as information about which button was clicked and who clicked it.  Your bot can then take whatever 
-action is neccessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
+action is necessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
 that's included in the payload.
 
 > See [Slack Buttons](https://api.slack.com/docs/message-buttons) for a description of interactive Slack messages
@@ -225,7 +225,7 @@ Example incoming button click message:
 
 \section customfacebookmessages Custom Facebook Messages
 The Facebook adapter supports sending full attachments via the channelData field.This allows you to do anything
-natively that Facebook supports via the attachment schema, such as reciept.
+natively that Facebook supports via the attachment schema, such as receipt.
 
 | **Property** | **Description**
 |---------|  -----

@@ -40,7 +40,7 @@
     /// dialog building block known as %FormFlow.  %FormFlow sacrifices some of the flexibility provided by dialogs, 
     /// but in a way that requires much less effort.  Even better, you can combine %FormFlow generate dialogs and other kinds of dialogs
     /// like a [LuisDialog] to get the best of both worlds.  
-    /// A %FormFlow dialog guides the user through filling in the form while provding help and guidance along the way.
+    /// A %FormFlow dialog guides the user through filling in the form while providing help and guidance along the way.
     /// 
     /// The clearest way to understand this is to take a look at the \ref simpleSandwichBot sample. 
     /// In that sample you define the form you want using C# classes, fields and properties. 
@@ -220,7 +220,7 @@
     /// For cheese I understood American. "smoked" is not an option.
     /// ~~~
     /// 
-    /// Some fields like SandiwchOrder.Toppings allow multiple choices. Here we are entering multiple choices and showing 
+    /// Some fields like SandwichOrder.Toppings allow multiple choices. Here we are entering multiple choices and showing 
     /// another example of clarification.
     /// ~~~{.txt}
     /// Please select one or more toppings
@@ -234,7 +234,7 @@
     ///  8. Red Onion
     ///  9. Spinach
     ///  10. Tomatoes
-    /// > peppers, lettuce and tomatoe
+    /// > peppers, lettuce and tomato
     /// By "peppers" toppings did you mean(1. Green Bell Peppers, 2. Banana Peppers)
     /// > 1
     /// ~~~
@@ -274,7 +274,7 @@
     ///  8. Sweet Onion
     ///  9. Vinegar
     /// > 1
-    /// Is ths your selection?
+    /// Is this your selection?
     /// * Sandwich: Black Forest Ham
     /// * Length: Six Inch
     /// * Bread: Nine Grain Honey Oat
@@ -287,7 +287,7 @@
     /// If I say "no", then I get the option to change any part of the form.  In this case I change the length and then say "y"
     /// which then returns the completed form to the caller.
     /// ~~~{.txt}
-    /// Is ths your selection?
+    /// Is this your selection?
     /// * Sandwich: Black Forest Ham
     /// * Length: Six Inch
     /// * Bread: Nine Grain Honey Oat
@@ -305,7 +305,7 @@
     /// > 2
     /// Please select a length(current choice: Six Inch) (1. Six Inch, 2. Foot Long)
     /// > 2
-    /// Is ths your selection?
+    /// Is this your selection?
     /// * Sandwich: Black Forest Ham
     /// * Length: Foot Long
     /// * Bread: Nine Grain Honey Oat
@@ -393,7 +393,7 @@
     /// >
     /// ~~~
     /// 
-    /// There are lots of things you can control when specifiying a prompt.  For example with this prompt attribute:
+    /// There are lots of things you can control when specifying a prompt.  For example with this prompt attribute:
     /// ~~~
     /// [Prompt("What kind of {&} would you like? {||}", ChoiceFormat="{1}")]
     /// ~~~
@@ -437,7 +437,7 @@
     /// ~~~
     /// 
     /// It was great if you wanted to replace just one prompt, but you can also replace
-    /// the templates that are used for autommatically generating your prompts.  Here we have redefined
+    /// the templates that are used for automatically generating your prompts.  Here we have redefined
     /// the default template used when you want to select one result from a set of choices to a different string and asked choices to always
     /// be listed one per line.  
     /// ~~~
@@ -534,8 +534,8 @@
     ///  13. Tuna
     ///  14. Turkey Breast
     ///  15. Veggie
-    /// > rotissary chechen
-    /// For sandwich I understood Rotisserie Style Chicken. "chechen" is not an option.
+    /// > rotissary checkin
+    /// For sandwich I understood Rotisserie Style Chicken. "checkin" is not an option.
     /// ~~~
     /// Attributes can also be used to validate values.  For example [Numeric] can be used to restrict the range of 
     /// allowed numbers.  In the below Rating must be a number between 1 and 5.
@@ -681,7 +681,7 @@
     /// \until data
     /// 
     /// In order to make use of a generated resource file, add it to your project and then set the neutral language by:
-    /// 1. Right-click on your project and select the 'Appliction' tab.
+    /// 1. Right-click on your project and select the 'Application' tab.
     /// 2. Click on the 'Assembly Information' button.
     /// 3. Select the language you developed your bot in from the `Neutral Language` drop down.
     /// 
@@ -977,11 +977,11 @@
     /// Usage | Description
     /// ------|------------
     /// [AllowDefault] | When processing choices using {\|\|} controls whether the current value should be showed as a choice.
-    /// [ChoiceCase] | When prcoessing choices for {\|\|} controls case normalization for each choice.
+    /// [ChoiceCase] | When processing choices for {\|\|} controls case normalization for each choice.
     /// [ChoiceFormat] | When processing choices for {\|\|} controls how each choice is formatted. {0} is the choice number and {1} the choice description.
     /// [ChoiceLastSeparator] | When inline choice lists are constructed for {\|\|} provides the separator before the last choice.
     /// [ChoiceParens] | When inline choice lists are constructed for {\|\|} indicates whether or not they are in parentheses.
-    /// [ChoiceSeparator] | When inline choice lists are constructed for {\|\|} provides the separaotr before every choice except the last.
+    /// [ChoiceSeparator] | When inline choice lists are constructed for {\|\|} provides the separator before every choice except the last.
     /// [ChoiceStyle] | When processing choices using {\|\|} controls whether the choices are presented in line or per line.
     /// [Feedback] | For [Prompt] only controls feedback after user entry.
     /// [FieldCase] | Controls case normalization when displaying a field description.

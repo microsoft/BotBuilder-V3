@@ -47,7 +47,7 @@ Each message has an optional .TextFormat property which represents how to interp
 | ------------ |------------------------------------------| --------|
 | **plain**    | The text should be treated as raw text and no formatting applied at all |  |
 | **markdown** | The text should be treated as markdown formatting and rendered on the channel as appropriate | *default* |
-| **xml**      | The text is simple xml markup (subset of html) | *Skype Only* |
+| **xml**      | The text is simple XML markup (subset of HTML) | *Skype Only* |
 
 \subsubsection markdown Markdown 
 The default text format is markdown which allows a nice balance of the bot being able to express what they want 
@@ -91,12 +91,12 @@ Will be rendered as
 Not all channels can represent all markdown fields.  As appropriate channels will fallback to a reasonable approximation, for 
 example, bold will be represented in text messaging as \*bold\* 
 
-> Tables: If you are communicating with a channel which supports fixed width fonts or html you can use standard table
+> Tables: If you are communicating with a channel which supports fixed width fonts or HTML you can use standard table
 > markdown, but because many channels (such as SMS) do not have a known display width and/or have variable width fonts it 
 > is not possible to render a table properly on all channels.      
 
-\subsubsection xml Xml 
-Skype supports a subset of html tags it calls Xml Markup (sometimes referred to as XMM).
+\subsubsection xml XML 
+Skype supports a subset of HTML tags it calls XML Markup (sometimes referred to as XMM).
 
 The tags that are supported are:
 
@@ -116,22 +116,22 @@ The primary fields for an Attachment object are:
 | ------------|-------- ----------------------------------| ----------
 | **ContentType** | The contentType of the ContentUrl property| image/png
 | **ContentUrl**  | A link to content of type ContentType     | http://somedomain.com/cat.jpg 
-| **Content**     | An embedded object of type contentType    | If contentType = "application/vnd.microsoft.hero" then Content would be a Json object for the HeroCard
+| **Content**     | An embedded object of type contentType    | If contentType = "application/vnd.microsoft.hero" then Content would be a JSON object for the HeroCard
 
 
 Some channels allow you to represent a card responses made up of a title, link, description and images. There are multiple card formats, including HeroCard,
 ThumbnailCard, Receipt Card and Sign in.  Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
-property of the Acivity. See [Attachments, Cards and Actions](/en-us/csharp/builder/sdkreference/attachments.html) for more info about Attachments.
+property of the Activity. See [Attachments, Cards and Actions](/en-us/csharp/builder/sdkreference/attachments.html) for more info about Attachments.
 
 \subsection attachmentlayoutproperty AttachmentLayout property
 You can send multiple rich card attachments in a single message. On most channels they will be sent
 as a list of rich cards, but some channels (like Skype and Facebook) can render them as a carousel of rich cards.
 
-As the developer you have the abiltity to control whether the list is rendered as a carousel or a vertical list using the **AttachmentLayout** property.
+As the developer you have the ability to control whether the list is rendered as a carousel or a vertical list using the **AttachmentLayout** property.
 | AttachmentLayout Value | Description                    |  Notes |
 | ------------ |------------------------------------------| --------|
 | **list**     | Multiple attachments should be shown as a list| *default* |
-| **carousel** | multiple attachments should be shown as a carousel if possible, else fallback to a list| |
+| **carousel** | multiple attachments should be shown as a carousel if possible, else fall back to a list| |
 
 
 ~~~{.cs}
@@ -261,13 +261,13 @@ Frequently a %bot needs to know that __they__ were mentioned, but with some chan
 they don't always know what their name is on that channel. (again see Slack and Group me where names
 are assigned per conversation)
 
-To accomodate these needs the Entities property includes Mention objects, accessible through the GetMentions() method.
+To accommodate these needs the Entities property includes Mention objects, accessible through the GetMentions() method.
 
 > The Mention object 
 | **Property** | **Description**                     |                   
 |--------------|-------------------------------------|
 | **type**     | type of the entity ("mention") |
-| **mentioned**| ChannelAccount of the person or user who was mentiond |
+| **mentioned**| ChannelAccount of the person or user who was mentioned |
 | **text**     | the text in the Activity.Text property which represents the mention. (this can be empty or null) |
 
 Example:
@@ -296,7 +296,7 @@ trying to determine the user intent.
 > the Mentions object with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
 
 \subsubsection places Place Entities
-Place represents information from <https://schema.org/Place>.  We currently send address and geo information from the channels.
+Place represents information from <https://schema.org/Place>.  We currently send address and geographical information from the channels.
 
 The %Connector client library defines two typed classes to make it easier to work with:
 
@@ -306,7 +306,7 @@ The %Connector client library defines two typed classes to make it easier to wor
 | **Type**        | 'Place' |
 | **Address**     | string description or PostalAddress (future) |
 | **Geo**         | GeoCoordinates |
-| **HasMap**      | url to a map or complex "Map" object (future) |
+| **HasMap**      | URL to a map or complex "Map" object (future) |
 | **Name**        | Name of the place |
 
 > GeoCoordinates Object
@@ -367,7 +367,7 @@ Or you can use the strongly typed classes like this:
 ~~~
 
 \subsection channeldataproperty ChannelData Property
-With the combination of the Attachments section below the common message schema gives you a rich pallete to describe your response in way 
+With the combination of the Attachments section below the common message schema gives you a rich palette to describe your response in way 
 that allows your message to "just work" across a variety of channels. 
 
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
@@ -404,8 +404,8 @@ the **Action** property will indicate whether the operation was an **add** or a 
 
 | **Action values** | **Description**                    |  
 | ----------------- |------------------------------------------| 
-| **add**           | if the user in the From proprety added the bot to their contacts | 
-| **remove**        | if the user in the From proprety removed the bot from their contacts | 
+| **add**           | if the user in the From property added the bot to their contacts | 
+| **remove**        | if the user in the From property removed the bot from their contacts | 
 
 \section typing Typing 
 > A message that indicates that the user or %Bot is typing
@@ -423,7 +423,7 @@ The bot receiving this should not send any response except for the HttpStatusCod
 
 Bots have access to users conversation data.  Many countries have legal requirements that a user
 has the ability to request their data to be dropped.  If you receive a message of this type
-you should remove any personally identifyable information (PII) for the user.  
+you should remove any personally identifiable information (PII) for the user.  
 
 
     **/
