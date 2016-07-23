@@ -7,7 +7,7 @@ A key to good bot design is to
 - make the web service stateless so that it can be scaled
 - make it track context of a conversation.
 
-Since all bots have these requirements the %Bot Framework has a service for storing bot state.  This lets your bot track things 
+Since all bots have these requirements the %Bot Framework has a service for storing bot state. This lets your bot track things 
 like _what was the last question I asked them?_. 
 
 \section contextualproperties Useful properties for tracking state
@@ -41,7 +41,7 @@ played back to you on future messages when the context is the same.
 > changing and passing back to be saved
 
 \section stateclient Creating State Client
-The default state client is stored in central service.  For some channel ids you may want to use a state API hosted in the channel itself
+The default state client is stored in central service. For some channel ids you may want to use a state API hosted in the channel itself
 (for example with the "emulator" channel) so that state can be stored in a compliant store which the channel supplies.
 
 We have provided a helper method on the Activity object which makes it easy to get an appropriate StateClient for a given message.

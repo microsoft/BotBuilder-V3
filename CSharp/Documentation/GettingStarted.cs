@@ -5,12 +5,12 @@
 
 The %Microsoft %Bot %Connector is a communication service that helps you connect your %Bot with many different 
 communication channels (Skype, SMS, email, and others). If you write a conversational %Bot or agent and expose a 
-%Microsoft %Bot Framework-compatible API on the internet, the %Bot Framework %Connector service will forward messages 
+%Microsoft %Bot Framework-compatible API on the Internet, the %Bot Framework %Connector service will forward messages 
 from your %Bot to a user, and will send user messages back to your %Bot.
 
 To use the %Microsoft %Bot Framework %Connector, you must have:
 
-1. A %Microsoft Account (Hotmail, Live, Outlook.Com) to log into the %Bot Framework developer portal, which you will use to register your %Bot.
+1. A %Microsoft Account (Hotmail, Live, Outlook.com) to log into the %Bot Framework developer portal, which you will use to register your %Bot.
 2. An Azure-accessible REST endpoint exposing a callback for the %Connector service.
 3. Developer accounts on one or more communication services(such as Skype) where your %Bot will communicate.
 
@@ -29,7 +29,7 @@ This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework 
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
-5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
+5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output. In order to run however, 
         - The %bot has to be registered with %Bot %Connector
         - The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
         - The project needs to be published to the web
@@ -74,7 +74,7 @@ public class MessagesController : ApiController
 Use the %Bot Framework Emulator to test your %Bot application
 
 The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called 
-by the %Bot Framework cloud service.To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
+by the %Bot Framework cloud service. To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
 
 One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application
 host. The image below uses %Microsoft Edge.
@@ -132,7 +132,7 @@ selecting "Build | Publish" displays the following dialog:
 
 ![Right click on the project and choose __Publish__ to start the Azure publish wizard](/en-us/images/connector/connector-getstarted-publish-dialog.png)
 
-The Publish to Azure wizard will start.For this tutorial you will need to select "Microsoft Azure App Service" as 
+The Publish to Azure wizard will start. For this tutorial you will need to select "Microsoft Azure App Service" as 
 your project type.
 
 ![Select %Microsoft Azure App Service and click Next](/en-us/images/connector/connector-getstarted-publish.png)
@@ -147,8 +147,8 @@ from the Change Type drop down in the top right instead of "API App"(which is th
 
 ![Give your App Service a name, then click New App Service Plan to define one](/en-us/images/connector/connector-getstarted-publish-app-service-create.png)
 
-One final complexity on this dialog is the App Service Plan.This just lets you give a name to a combination of 
-location and system size so you can re - use it on future deployments.Just put in any name, then choose the 
+One final complexity on this dialog is the App Service Plan. This just lets you give a name to a combination of 
+location and system size so you can re - use it on future deployments. Just put in any name, then choose the 
 datacenter and size of deployment you want.
 
 ![Create your definition for an App Service Plan ](/en-us/images/connector/connector-getstarted-publish-app-service-create-spinner.png)
@@ -159,17 +159,17 @@ you'll be taken back to the Publish Web Wizard.
 ![Complete the Create App Service wizard by clicking Create](/en-us/images/connector/connector-getstarted-publish-destination.png)
 
 Now that you've returned to the Publish Web wizard copy the destination URL to the clipboard, you'll need it in a 
-few moments.Hit "Validate Connection" to ensure the configuration is good, and if all goes well, click "Next".
+few moments. Hit "Validate Connection" to ensure the configuration is good, and if all goes well, click "Next".
 
 ![Validate and click next to move on to the last step.](/en-us/images/connector/connector-getstarted-publish-configuration.png)
 
-By default your %Bot will be published in a Release configuration.If you want to debug your %Bot, change Configuration 
+By default your %Bot will be published in a Release configuration. If you want to debug your %Bot, change Configuration 
 to Debug. Regardless, from here you'll hit "Publish" and your %Bot will be published to Azure.
 
 ![Last step; click Publish to submit to Azure](/en-us/images/connector/connector-getstarted-publish-preview.png)
 
-You will see a number of messages displayed in the Visual Studio 2015 "Output" window.Once publishing is complete you 
-will also see the web page for your %Bot Application displayed in your browser(the browser will launch, and render 
+You will see a number of messages displayed in the Visual Studio 2015 "Output" window. Once publishing is complete you 
+will also see the web page for your %Bot Application displayed in your browser (the browser will launch, and render 
 your %Bot Application HTML page), see below.
 
 ![Voila, your Bot has been published and is running.](/en-us/images/connector/connector-getstarted-publish-output.png)
@@ -183,18 +183,18 @@ configure their %Bot with the Channels they'd like to be visible on. The BotId, 
 URL in the directory and developer portal.
 
 
-1.Go to the %Microsoft %Bot Framework portal at [https://dev.botframework.com](https://dev.botframework.com) and 
+1. Go to the %Microsoft %Bot Framework portal at [https://dev.botframework.com](https://dev.botframework.com) and 
 sign in with your %Microsoft Account.
 
-2.Click the "Register a Bot" button and fill out the form.Many of the fields on this form can be changed later. 
+2. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. 
 Use a the endpoint generated from your Azure deployment, and don't forget that when using the %Bot Application 
 tempalate you'll need to extend the URL you pasted in with the path to the endpoint at / API / Messages. You 
 should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your 
-bot.Save your changes by hitting "Create" at the bottom of the form.
+bot. Save your changes by hitting "Create" at the bottom of the form.
 
 ![Register a bot](/en-us/images/connector/connector-getstarted-register-agent.png)
 
-3.Once your registration is created, %Microsoft %Bot Framework will take you through generating your **MicrosoftAppId** and **MicrosoftAppPassword**. 
+3. Once your registration is created, %Microsoft %Bot Framework will take you through generating your **MicrosoftAppId** and **MicrosoftAppPassword**. 
 These are used to authenticate your %Bot with the %Microsoft %Bot Framework. __NOTE:__ When you generate your MicrosoftAppPassword, be sure to record 
 it somewhere as you won't be able to see it again.
 
@@ -228,7 +228,7 @@ your %Bot without further configuration, and verify that the %Bot Framework can 
 web service.
 
 Note that the first request after your %Bot starts up can take 10 - 15 s as Azure starts up the web service 
-for the first time.Subsequent requests will be quick.This simple viewer will let you see the JSON object 
+for the first time. Subsequent requests will be quick. This simple viewer will let you see the JSON object 
 returned by your %Bot.
 
 
@@ -240,20 +240,20 @@ Now that you have a %Bot up and running, you'll want to configure it for one or 
 using. Configuring channels is a combination of %Microsoft %Bot Framework workflow and conversation service 
 workflow, and is unique for each channel you wish to configure.  
 
-1.To configure a channel, go back to the %Bot Framework portal at https://www.botframework.com. Sign in, select your %Bot, and go to the channels panel.
+1. To configure a channel, go back to the %Bot Framework portal at https://www.botframework.com. Sign in, select your %Bot, and go to the channels panel.
       ![Sign in, select your %Bot, and go to the Channels panel.](/en-us/images/connector/connector-getstarted-configure-channels.png)
 
 
-2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a %Bot. 
+2. Pick the channel you wish to configure, and click add. You'll be taken to a page of instructions for registering a %Bot. 
 In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, 
 and getting a set of Oauth keys that %Microsoft %Bot Framework can use on your behalf.
       ![Configuring a channel, for example, Facebook Messenger.](/en-us/images/connector/connector_channel_config_facebook.png)
 
 
-3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel 
+3. Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel 
 you chose (if you haven't already), and hit "save changes".
 
-That's the end of configuration - your %Bot is ready for your users.  They will have their own steps to follow to give the 
+That's the end of configuration - your %Bot is ready for your users. They will have their own steps to follow to give the 
 %Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. 
 They can do this in the %Bot Directory page for your %Bot. The link to this is at the top of the %Bot Details page 
 in the dev portal. 

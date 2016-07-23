@@ -3,7 +3,7 @@
     /**
 \page channels Channels Custom Channel Capabilities
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
-metadata to that channel giving you much deeper control over how your %bot interacts on a channel.The way you do this is to pass
+metadata to that channel giving you much deeper control over how your %bot interacts on a channel. The way you do this is to pass
 extra properties via the *ChannelData* property.
 
 >NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal Activity.
@@ -38,7 +38,7 @@ Example Message:
         "channelData":
         {
             "htmlBody" : "<html><body style = \"font-family: Calibri; font-size: 11pt;\" >This is more than awesome</body></html>",
-            "subject":"Super awesome mesage subject",
+            "subject":"Super awesome message subject",
             "importance":"high"
         }
     }
@@ -48,7 +48,7 @@ Example Message:
 
 \section customslackmessages Custom Slack Messages
            Slack supports the ability to create full fidelity slack messages. The slack
-channel allows bots to pass custom Slack messages via the ChannelData field.  Custom messages passed via ChannelData will
+channel allows bots to pass custom Slack messages via the ChannelData field. Custom messages passed via ChannelData will
 be posted directly to Slack via their chat.postMessage api.
 
 > See [Slack Messages](https://api.slack.com/docs/messages) for a description of the Slack message format
@@ -90,7 +90,7 @@ Example outgoing message with custom Slack message in ChannelData:
                 ]
             },
             {
-                "title": "Sypnopsis",
+                "title": "Synopsis",
                 "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy..."
             },
             {
@@ -121,8 +121,8 @@ Example outgoing message with custom Slack message in ChannelData:
 ~~~
 
 When a user clicks a button in Slack, a message will be sent to your bot with _ChannelData_ containing a _Payload_ corresponding to the message action.
-The payload contains the original message as well as information about which button was clicked and who clicked it.  Your bot can then take whatever 
-action is neccessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
+The payload contains the original message as well as information about which button was clicked and who clicked it. Your bot can then take whatever 
+action is necessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
 that's included in the payload.
 
 > See [Slack Buttons](https://api.slack.com/docs/message-buttons) for a description of interactive Slack messages
@@ -224,8 +224,8 @@ Example incoming button click message:
 
 
 \section customfacebookmessages Custom Facebook Messages
-The Facebook adapter supports sending full attachments via the channelData field.This allows you to do anything
-natively that Facebook supports via the attachment schema, such as reciept.
+The Facebook adapter supports sending full attachments via the channelData field. This allows you to do anything
+natively that Facebook supports via the attachment schema, such as receipt.
 
 | **Property** | **Description**
 |---------|  -----
@@ -313,12 +313,12 @@ Example Message:
 
 \section customtelegrammessages Custom Telegram Messages
 
-The Telegram channel supports calling Telegram %Bot API methods via the channelData field.This allows your %bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
+The Telegram channel supports calling Telegram %Bot API methods via the channelData field. This allows your %bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
 
 | **Property** | **Description**
 |---------|  -----
-| *method* | The Telegram %Bot API method to call.See below for supported methods.
-| *parameters* | Associative array containing method parameters.Parameters are method-specific.
+| *method* | The Telegram %Bot API method to call. See below for supported methods.
+| *parameters* | Associative array containing method parameters. Parameters are method-specific.
 
 >See the [Telegram Bot API Documentation](https://core.telegram.org/bots/api) for a description of all available methods, parameters, and types.
 
@@ -403,7 +403,7 @@ Supported Methods:
 
 \section customkikmessages Custom Kik Messages
 
-The Kik adapter supports sending native Kik messages via the channelData field.This allows you to do anything
+The Kik adapter supports sending native Kik messages via the channelData field. This allows you to do anything
 natively that Kik supports.
 
 | **Property** | **Description**

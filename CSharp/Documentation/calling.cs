@@ -34,7 +34,7 @@
     ///3. Open Visual Studio
     ///4. Create a new C\# project using the new %Calling %Bot Application template.
     ///   ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/calling-getstarted-create-project.png)
-    ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice.  In order to run however, 
+    ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice. In order to run however, 
     /// * The %Bot has to be registered with [%Bot Framework developer portal](https://dev.botframework.com). After registration is complete you should go to Skype channel configuration page and enable calling for your %Bot and register your calling endpoint with Skype.
     /// ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/skypeconfig.png)
     /// * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
@@ -59,7 +59,7 @@
     ///
     ///\subsection ivrbotsettings Bot Settings
     ///
-    ///It's time to configure your bot.  The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.
+    ///It's time to configure your bot. The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.
     ///
     ///~~~
     ///<configuration>
@@ -69,9 +69,9 @@
     ///~~~
     ///
     ///
-    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling nuget
+    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling NuGet package
     ///
-    ///The %Bot builder calling SDK is provided as a nuget package. You can install the nuget package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
+    ///The %Bot builder calling SDK is provided as a NuGet package. You can install the NuGet package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
     ///
     ///\subsection ivrimplementation Implementation
     ///
@@ -520,9 +520,9 @@
     ///
     ///\subsection ivrtestingngrok Testing with ngrok
     ///
-    ///There are tools that can create a public url to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
+    ///There are tools that can create a public URL to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
     ///
-    ///We'll show how you can test your bot running locally over skype.
+    ///We'll show how you can test your bot running locally over Skype.
     ///
     ///You'll need to download ngrok and modify your bot's registration.  
     ///First step is to start ngrok on your machine and map it to a local port (in our
@@ -532,7 +532,7 @@
     ///\> ngrok http 12345
     ///~~~
     ///
-    ///This will create a new tunnel from a public url to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:
+    ///This will create a new tunnel from a public URL to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:
     ///
     ///~~~
     ///ngrok by \@inconshreveable (Ctrl+C to quit)
@@ -580,11 +580,11 @@
     ///
     ///The next step is to configure your %Bot in the portal to use ngrok endpoints.
     ///
-    ///Don't forget to append your route when updating the messaging url, the new url should look like this: <https://78191649.ngrok.io/v1/call>.  
+    ///Don't forget to append your route when updating the messaging URL, the new URL should look like this: <https://78191649.ngrok.io/v1/call>.  
     ///
     ///Please also update the CallbackUrl setting in Web.config file (it should be <https://78191649.ngrok.io/v1/callback> in presented sample).
     ///
-    ///Now you can start your server locally and send messages to your bot over skype, they will be sent by %Bot Platform to <https://78191649.ngrok.io/v1/>call and ngrok will forward them to your machine. You just need to keep ngrok running.
+    ///Now you can start your server locally and send messages to your bot over Skype, they will be sent by %Bot Platform to <https://78191649.ngrok.io/v1/>call and ngrok will forward them to your machine. You just need to keep ngrok running.
     ///
     ///You will see each request logged in the ngrok's tunnel status table:
     ///
@@ -597,5 +597,5 @@
     ///
     ///If you are done with testing, you can stop ngrok (Ctrl+C), your agent will stop working as there is nothing to forward the requests to your local server.
     ///
-    ///Note: Free version of ngrok will create a new unique url for you everytime you start it. That means you always need to go back and update the messaging url for your bot.
+    ///Note: Free version of ngrok will create a new unique URL for you every time you start it. That means you always need to go back and update the messaging URL for your bot.
 }
