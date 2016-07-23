@@ -5,7 +5,7 @@
 
 The %Microsoft %Bot %Connector is a communication service that helps you connect your %Bot with many different 
 communication channels (Skype, SMS, email, and others). If you write a conversational %Bot or agent and expose a 
-%Microsoft %Bot Framework-compatible API on the internet, the %Bot Framework %Connector service will forward messages 
+%Microsoft %Bot Framework-compatible API on the Internet, the %Bot Framework %Connector service will forward messages 
 from your %Bot to a user, and will send user messages back to your %Bot.
 
 To use the %Microsoft %Bot Framework %Connector, you must have:
@@ -29,7 +29,7 @@ This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework 
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
-5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output.  In order to run however, 
+5. The template is a fully functional Echo %Bot that takes the user's text utterance as input and returns it as output. In order to run however, 
         - The %bot has to be registered with %Bot %Connector
         - The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
         - The project needs to be published to the web
@@ -253,7 +253,7 @@ and getting a set of Oauth keys that %Microsoft %Bot Framework can use on your b
 3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel 
 you chose (if you haven't already), and hit "save changes".
 
-That's the end of configuration - your %Bot is ready for your users.  They will have their own steps to follow to give the 
+That's the end of configuration - your %Bot is ready for your users. They will have their own steps to follow to give the 
 %Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. 
 They can do this in the %Bot Directory page for your %Bot. The link to this is at the top of the %Bot Details page 
 in the dev portal. 

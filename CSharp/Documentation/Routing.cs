@@ -2,7 +2,7 @@
 {
     /** 
 \page routing Sending and Receiving Activities
-Every activity contains information used for routing the activity to the appropriate destination.  Bots 
+Every activity contains information used for routing the activity to the appropriate destination. Bots 
 receive activities from the user and send them back, just like people exchange messages.
 
 \section routingactivities Routing Activities
@@ -36,7 +36,7 @@ that should be used for API operations like sending a reply.
 |  __ServiceUrl__  | The url to use for sending activities back | http://skype.botframework.com |
 
 \section connectorclient Creating Connector Client
-The ServiceUrl provides the appropriate endpoint for API calls.  All you have to do is pass it into the 
+The ServiceUrl provides the appropriate endpoint for API calls. All you have to do is pass it into the 
 constructor of the ConnectorClient() class.
 
 ~~~{.cs}
@@ -97,7 +97,7 @@ await connector.Conversations.ReplyToActivityAsync(replyMessage);
 
 \subsection sendtoconversation SendToConversation()
 The **SendToConversation()** method is almost identical to ReplyToActivity() except that it doesn't maintain any sort of 
-threading.  It is used when don't have an activity to reply to.  If you do have an activity to reply to you should us the 
+threading. It is used when don't have an activity to reply to. If you do have an activity to reply to you should us the 
 ReplyToActivity() method.
 
 ~~~{.cs}
@@ -125,7 +125,7 @@ connector.Conversations.ReplyToActivity(incomingMessage.CreateReply("Yo, I heard
 \section conversation Starting Conversations
 
 To initiate a conversation you need to call the CreateConversation() or CreateDirectConversation() methods to get a 
-ConversationAccount record from the channel.  Once you have the ConversationAccount can use it in a message call 
+ConversationAccount record from the channel. Once you have the ConversationAccount can use it in a message call 
 to SendToConversation().
 
 \subsection conversationuser Create 1:1 Conversations

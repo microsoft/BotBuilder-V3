@@ -48,7 +48,7 @@ Example Message:
 
 \section customslackmessages Custom Slack Messages
            Slack supports the ability to create full fidelity slack messages. The slack
-channel allows bots to pass custom Slack messages via the ChannelData field.  Custom messages passed via ChannelData will
+channel allows bots to pass custom Slack messages via the ChannelData field. Custom messages passed via ChannelData will
 be posted directly to Slack via their chat.postMessage api.
 
 > See [Slack Messages](https://api.slack.com/docs/messages) for a description of the Slack message format
@@ -121,7 +121,7 @@ Example outgoing message with custom Slack message in ChannelData:
 ~~~
 
 When a user clicks a button in Slack, a message will be sent to your bot with _ChannelData_ containing a _Payload_ corresponding to the message action.
-The payload contains the original message as well as information about which button was clicked and who clicked it.  Your bot can then take whatever 
+The payload contains the original message as well as information about which button was clicked and who clicked it. Your bot can then take whatever 
 action is necessary in response to the button click, including modifying the original message and posting to directly back to Slack via the _response_url_
 that's included in the payload.
 

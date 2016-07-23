@@ -7,7 +7,7 @@ there are a number of properties that you can use to control your message and ho
 user when they receive it.
 
 There more than one type of Activity which are used to convey system operations or channel system operations
-to the bot.  They exist to give the %bot information about the state of the channel and the opportunity to respond
+to the bot. They exist to give the %bot information about the state of the channel and the opportunity to respond
 to them.
 
 Each Activity being routed through the %Connector has a Type field. Primarily, these will be of type message unless they are system
@@ -26,12 +26,12 @@ This table gives you basic overview of the Activity types:
 
 
 \section message Message
-The message activity is the core object exchanged between the user and the bot.  It can represent a wide range of values from simple text input 
+The message activity is the core object exchanged between the user and the bot. It can represent a wide range of values from simple text input 
 and response all the way to complex multiple card carousel with buttons and actions
 
 \subsection textproperties Text and Locale Properties
 For many developers the Text property is the only property you need to worry about. A person sent you some text, or 
-your %bot is sending some text back.  There are 2 core properties for this, the Text and Locale property.
+your %bot is sending some text back. There are 2 core properties for this, the Text and Locale property.
 
 | Property    | Description                               | Example
 | ------------|-------- ----------------------------------| ----------
@@ -88,7 +88,7 @@ Will be rendered as
 
 #### Markdown Fallback
 
-Not all channels can represent all markdown fields.  As appropriate channels will fallback to a reasonable approximation, for 
+Not all channels can represent all markdown fields. As appropriate channels will fallback to a reasonable approximation, for 
 example, bold will be represented in text messaging as \*bold\* 
 
 > Tables: If you are communicating with a channel which supports fixed width fonts or HTML you can use standard table
@@ -120,7 +120,7 @@ The primary fields for an Attachment object are:
 
 
 Some channels allow you to represent a card responses made up of a title, link, description and images. There are multiple card formats, including HeroCard,
-ThumbnailCard, Receipt Card and Sign in.  Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
+ThumbnailCard, Receipt Card and Sign in. Additionally your card can optionally be displayed as a list or a carousel using the **AttachmentLayout**
 property of the Activity. See [Attachments, Cards and Actions](/en-us/csharp/builder/sdkreference/attachments.html) for more info about Attachments.
 
 \subsection attachmentlayoutproperty AttachmentLayout property
@@ -292,11 +292,11 @@ The user on slack says:
 This allows the %bot to know that they were mentioned and to ignore the @ColorBot part of the input when
 trying to determine the user intent.
 
-> NOTE: Mentions go both ways.  A %bot may want to mention a user in a reply to a conversation.If they fill out 
+> NOTE: Mentions go both ways. A %bot may want to mention a user in a reply to a conversation.If they fill out 
 > the Mentions object with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
 
 \subsubsection places Place Entities
-Place represents information from <https://schema.org/Place>.  We currently send address and geographical information from the channels.
+Place represents information from <https://schema.org/Place>. We currently send address and geographical information from the channels.
 
 The %Connector client library defines two typed classes to make it easier to work with:
 
@@ -371,7 +371,7 @@ With the combination of the Attachments section below the common message schema 
 that allows your message to "just work" across a variety of channels. 
 
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
-metadata to that channel giving you much deeper control over how your %bot interacts on a channel.  The way you do this is to pass
+metadata to that channel giving you much deeper control over how your %bot interacts on a channel. The way you do this is to pass
 extra properties via the *ChannelData* property. 
 
 Go to [ChannelData in Messages](/en-us/csharp/builder/sdkreference/channels.html) for more detailed description of what each channel enables via the ChannelData Property.
@@ -380,8 +380,8 @@ Go to [ChannelData in Messages](/en-us/csharp/builder/sdkreference/channels.html
 \section conversationUpdate Conversation Update 
 > the membership or metadata of a conversation involving the %bot changed
 
-Your %bot often needs to know when the state of the conversation it's in has changed.  This may represent the %bot being added to 
-the conversation, or a person added or remove from the chat.  When these changes happen, your %bot will receive a conversationUpdate 
+Your %bot often needs to know when the state of the conversation it's in has changed. This may represent the %bot being added to 
+the conversation, or a person added or remove from the chat. When these changes happen, your %bot will receive a conversationUpdate 
 Activity.
 
 Conversation Update properties
@@ -410,8 +410,8 @@ the **Action** property will indicate whether the operation was an **add** or a 
 \section typing Typing 
 > A message that indicates that the user or %Bot is typing
 
-Typing is an indicator of activity on the other side of the conversation.  Generally it's used by Bots to 
-cover "dead air" while the %bot is fulfilling a request of some sort.  The %Bot may also receive Typing 
+Typing is an indicator of activity on the other side of the conversation. Generally it's used by Bots to 
+cover "dead air" while the %bot is fulfilling a request of some sort. The %Bot may also receive Typing 
 messages from the user, for whatever purposes it might find useful.
 
 \section ping Ping 
@@ -421,8 +421,8 @@ The bot receiving this should not send any response except for the HttpStatusCod
 \section deleteuserdata Delete User Data 
 > A compliance request from the the user to delete any profile / user data 
 
-Bots have access to users conversation data.  Many countries have legal requirements that a user
-has the ability to request their data to be dropped.  If you receive a message of this type
+Bots have access to users conversation data. Many countries have legal requirements that a user
+has the ability to request their data to be dropped. If you receive a message of this type
 you should remove any personally identifiable information (PII) for the user.  
 
 

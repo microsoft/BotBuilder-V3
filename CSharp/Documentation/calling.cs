@@ -34,7 +34,7 @@
     ///3. Open Visual Studio
     ///4. Create a new C\# project using the new %Calling %Bot Application template.
     ///   ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/calling-getstarted-create-project.png)
-    ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice.  In order to run however, 
+    ///5. The template is a fully functional %Calling %Bot that has a simple menu letting the user to record her/his voice. In order to run however, 
     /// * The %Bot has to be registered with [%Bot Framework developer portal](https://dev.botframework.com). After registration is complete you should go to Skype channel configuration page and enable calling for your %Bot and register your calling endpoint with Skype.
     /// ![Create a new C\# project using the new %Calling %Bot Application template.](/en-us/images/ivr/skypeconfig.png)
     /// * The AppId and AppPassword from the %Bot Framework registration page have to be recorded in the project's web.config
@@ -59,7 +59,7 @@
     ///
     ///\subsection ivrbotsettings Bot Settings
     ///
-    ///It's time to configure your bot.  The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.
+    ///It's time to configure your bot. The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.
     ///
     ///~~~
     ///<configuration>

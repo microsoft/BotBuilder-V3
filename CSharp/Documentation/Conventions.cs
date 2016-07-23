@@ -5,7 +5,7 @@
 
 \section serialization Class library vs. Serialization Conventions
 
-All of the objects described use lower-camel casing on the wire.  The C# nuget library uses
+All of the objects described use lower-camel casing on the wire. The C# nuget library uses
 strongly typed names that are pascal cased. Our documentation sometimes will use one or the
 other but they are interchangeable.
 
