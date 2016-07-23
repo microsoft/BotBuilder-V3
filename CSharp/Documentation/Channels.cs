@@ -3,7 +3,7 @@
     /**
 \page channels Channels Custom Channel Capabilities
 If you want to be able to take advantage of special features or concepts for a channel we provide a way for you to send native
-metadata to that channel giving you much deeper control over how your %bot interacts on a channel.The way you do this is to pass
+metadata to that channel giving you much deeper control over how your %bot interacts on a channel. The way you do this is to pass
 extra properties via the *ChannelData* property.
 
 >NOTE: You do not need to use this feature unless you feel the need to access functionality not provided by the normal Activity.
@@ -224,7 +224,7 @@ Example incoming button click message:
 
 
 \section customfacebookmessages Custom Facebook Messages
-The Facebook adapter supports sending full attachments via the channelData field.This allows you to do anything
+The Facebook adapter supports sending full attachments via the channelData field. This allows you to do anything
 natively that Facebook supports via the attachment schema, such as receipt.
 
 | **Property** | **Description**
@@ -313,12 +313,12 @@ Example Message:
 
 \section customtelegrammessages Custom Telegram Messages
 
-The Telegram channel supports calling Telegram %Bot API methods via the channelData field.This allows your %bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
+The Telegram channel supports calling Telegram %Bot API methods via the channelData field. This allows your %bot to perform Telegram-specific actions, such as sharing a voice memo, or a sticker.
 
 | **Property** | **Description**
 |---------|  -----
-| *method* | The Telegram %Bot API method to call.See below for supported methods.
-| *parameters* | Associative array containing method parameters.Parameters are method-specific.
+| *method* | The Telegram %Bot API method to call. See below for supported methods.
+| *parameters* | Associative array containing method parameters. Parameters are method-specific.
 
 >See the [Telegram Bot API Documentation](https://core.telegram.org/bots/api) for a description of all available methods, parameters, and types.
 
@@ -403,7 +403,7 @@ Supported Methods:
 
 \section customkikmessages Custom Kik Messages
 
-The Kik adapter supports sending native Kik messages via the channelData field.This allows you to do anything
+The Kik adapter supports sending native Kik messages via the channelData field. This allows you to do anything
 natively that Kik supports.
 
 | **Property** | **Description**

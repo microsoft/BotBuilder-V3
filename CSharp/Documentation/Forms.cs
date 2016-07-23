@@ -114,7 +114,7 @@
     /// Now what are the possible responses?  If you ask for "help" you can see this:
     /// ~~~{.txt}
     /// > help
-    /// * You are filling in the sandwich field.Possible responses:
+    /// * You are filling in the sandwich field. Possible responses:
     /// * You can enter a number 1-15 or words from the descriptions. (BLT, Black Forest Ham, Buffalo Chicken, Chicken And Bacon Ranch Melt, Cold Cut Combo, Meatball Marinara, Oven Roasted Chicken, Roast Beef, Rotisserie Style Chicken, Spicy Italian, Steak And Cheese, Sweet Onion Teriyaki, Tuna, Turkey Breast, and Veggie)
     /// * Back: Go back to the previous question.
     /// * Help: Show the kinds of responses you can enter.

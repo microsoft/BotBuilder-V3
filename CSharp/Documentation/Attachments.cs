@@ -3,7 +3,7 @@
     /**
 \page attachments Attachments, Cards and Actions
 
-Many messaging channels provide the ability to attach richer objects.In the %Bot %Connector we map
+Many messaging channels provide the ability to attach richer objects. In the %Bot %Connector we map
 our attachment data structure to media attachments and rich cards on each channel.
 
 \section imagefileattachments Media Attachments
@@ -44,7 +44,7 @@ replyMessage.Attachments.Add(new Attachment()
 ~~~
 
 \section richcards Rich card attachments
-We also have the ability to render rich cards as attachments.There are several types of cards supported:
+We also have the ability to render rich cards as attachments. There are several types of cards supported:
 
 | **Card Type** | **Description** | **Supported Modes** |
 |-----------|-------------|-----------------|

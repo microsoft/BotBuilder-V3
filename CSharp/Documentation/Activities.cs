@@ -41,7 +41,7 @@ your %bot is sending some text back. There are 2 core properties for this, the T
 If all you do is give exchange simple one-line text responses, you don't have to read any further.
 
 \subsection textformat TextFormat Property
-Each message has an optional .TextFormat property which represents how to interpret the Text property.  
+Each message has an optional TextFormat property which represents how to interpret the Text property.  
 
 | TextFormat Value | Description                               |  Notes |
 | ------------ |------------------------------------------| --------|
@@ -292,7 +292,7 @@ The user on slack says:
 This allows the %bot to know that they were mentioned and to ignore the @ColorBot part of the input when
 trying to determine the user intent.
 
-> NOTE: Mentions go both ways. A %bot may want to mention a user in a reply to a conversation.If they fill out 
+> NOTE: Mentions go both ways. A %bot may want to mention a user in a reply to a conversation. If they fill out 
 > the Mentions object with the mention information then it allows the Channel to map it to the mentioning semantics of the channel.
 
 \subsubsection places Place Entities
