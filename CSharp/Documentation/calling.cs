@@ -522,7 +522,7 @@
     ///
     ///There are tools that can create a public URL to your local webserver on your machine, e.g. [ngrok](https://ngrok.com/).  
     ///
-    ///We'll show how you can test your bot running locally over skype.
+    ///We'll show how you can test your bot running locally over Skype.
     ///
     ///You'll need to download ngrok and modify your bot's registration.  
     ///First step is to start ngrok on your machine and map it to a local port (in our
@@ -584,7 +584,7 @@
     ///
     ///Please also update the CallbackUrl setting in Web.config file (it should be <https://78191649.ngrok.io/v1/callback> in presented sample).
     ///
-    ///Now you can start your server locally and send messages to your bot over skype, they will be sent by %Bot Platform to <https://78191649.ngrok.io/v1/>call and ngrok will forward them to your machine. You just need to keep ngrok running.
+    ///Now you can start your server locally and send messages to your bot over Skype, they will be sent by %Bot Platform to <https://78191649.ngrok.io/v1/>call and ngrok will forward them to your machine. You just need to keep ngrok running.
     ///
     ///You will see each request logged in the ngrok's tunnel status table:
     ///
