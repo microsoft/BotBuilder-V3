@@ -800,6 +800,7 @@
     /// * `Active:script` -- C# script with arguments (JObject state)->bool to test to see if field/message/confirm is active.
     /// * `Validate:script` -- C# script with arguments (JObject state, object value)->ValidateResult for validating a field value.
     /// * `Define:script` -- C# script with arguments (JObject state, Field&lt;JObject&gt; field) for dynamically defining a field.  
+    /// * `Next:script` -- C# script with arguments (object value, JObject state) for determining the next step after filling in a field.
     /// * `Before:[confirm|message, ...]` -- Messages or confirmations before the containing field.
     /// * `After:[confirm|message, ...]` -- Messages or confirmations after the containing field.
     /// * `{Confirm:script|[string, ...], ...templateArgs}` -- With Before/After define a confirmation through either C# script with argument (JObject state) or through a set of patterns that will be randomly selected with optional template arguments.

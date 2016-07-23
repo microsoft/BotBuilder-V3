@@ -227,6 +227,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
             ProcessActive(fieldSchema);
             ProcessDefine(fieldSchema);
             ProcessValidation(fieldSchema);
+            ProcessNext(fieldSchema);
             After = ProcessMessages("After", fieldSchema);
         }
 
@@ -243,6 +244,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
             if (schema["Validate"] != null)
             {
                 SetValidate(_builder.ValidateScript(this, (string)schema["Validate"]));
+            }
+        }
+
+        protected void ProcessNext(JObject schema)
+        {
+            if (schema["Next"] != null)
+            {
+                SetNext(_builder.NextScript(this, (string)schema["Next"]));
             }
         }
 

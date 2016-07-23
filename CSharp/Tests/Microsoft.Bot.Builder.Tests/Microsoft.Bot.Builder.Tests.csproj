@@ -118,6 +118,10 @@
       <Project>{8674f271-4437-4178-b4e2-15f91b322e5d}</Project>
       <Name>Microsoft.Bot.Builder.FormFlow.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj">
+      <Project>{2e4d097f-8e3d-4223-9b39-1b29ea5e5e75}</Project>
+      <Name>Microsoft.Bot.Sample.AnnotatedSandwichBot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormTest\FormTest.csproj">
       <Project>{77bd8c61-fb06-4bf7-a346-d2c87284390a}</Project>
       <Name>FormTest</Name>

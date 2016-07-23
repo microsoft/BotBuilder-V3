@@ -42,11 +42,13 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.FormFlow.Json;
 using Microsoft.Bot.Builder.FormFlowTest;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Sample.AnnotatedSandwichBot;
 
 using Moq;
 using Autofac;
@@ -210,7 +212,7 @@ namespace Microsoft.Bot.Builder.Tests
                     await VerifyScript(container, stream, (state) => Assert.AreEqual(state, JsonConvert.SerializeObject(currentState)), inputs);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // There was an error, so record new script and pass on error
                 var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
@@ -301,6 +303,25 @@ namespace Microsoft.Bot.Builder.Tests
                 "help",
                 "status",
                 "1/1/2016"
+                );
+        }
+
+        [TestMethod]
+        public async Task Test_Next_Script()
+        {
+            await VerifyFormScript(@"..\..\SimpleForm-next.script",
+                "en-us", () => new FormBuilder<SimpleForm>()
+                    .Field(new FieldReflector<SimpleForm>("Text")
+                        .SetNext((value, state) => new NextStep(new string[] {"Float"})))
+                    .AddRemainingFields()
+                    .Build(), 
+                FormOptions.None, new SimpleForm(), new EntityRecommendation[0],
+                "Hi",
+                "some text here",
+                "1.5",
+                "one",
+                "1/1/2016",
+                "99"
                 );
         }
 
@@ -412,6 +433,32 @@ namespace Microsoft.Bot.Builder.Tests
                 "nappages",
                 "non epinards",
                 "oui"
+                );
+        }
+
+        [TestMethod]
+        public async Task JSON_Script()
+        {
+            await VerifyFormScript(@"..\..\JSON.script",
+                "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), new EntityRecommendation[0],
+                "hi",
+                "ham",
+                "six",
+                "nine grain",
+                "wheat",
+                "1",
+                "peppers",
+                "1",
+                "2",
+                "n",
+                "no",
+                "ok",
+                "abc",
+                "1 state st",
+                "",
+                "",
+                "y",
+                "2.5"
                 );
         }
 
