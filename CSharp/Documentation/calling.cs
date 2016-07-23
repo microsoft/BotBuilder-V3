@@ -69,9 +69,9 @@
     ///~~~
     ///
     ///
-    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling nuget
+    ///\subsection ivraddskypebotsreference Add the Microsoft.Bot.Builder.Calling NuGet package
     ///
-    ///The %Bot builder calling SDK is provided as a nuget package. You can install the nuget package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
+    ///The %Bot builder calling SDK is provided as a NuGet package. You can install the NuGet package from here: https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/
     ///
     ///\subsection ivrimplementation Implementation
     ///
