@@ -87,9 +87,12 @@ You will be asked to authorize Azure access to your GitHub repo, and then choose
 Verify the deployment has completed by visiting the web app. [http://echobotsample.azurewebsites.net/](https://echobotsample.azurewebsites.net/). It may take a minute of two for the initial fetch and build from your repo.
 ![](/en-us/images/builder/azure-browse.png?raw=true)
 
-### Step 4: Enter your temporary Bot Framework App ID and App Secret into Azure settings
+### Step 4: Enter your temporary Bot Framework App ID and App Secret into Application settings
 
 ![Enter your Bot Framework App ID and App Secret into Azure settings](/en-us/images/builder/azure-secrets.png?raw=true)
+
+* MICROSOFT_APP_ID
+* MICROSOFT_APP_PASSWORD
 
 *Note*: You'll change these values after you register your bot with the Bot Framework Developer Portal.
 
@@ -135,7 +138,7 @@ When finished, open the Web.config, and edit it as follows:
 ## Test your Azure bot with the Bot Framework Emulator
 
 If you have not done it already, install the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/).
-Start the Bot Framework Emulator, and paste the url of your newly deployed bot into the appropriate field. Make sure that:
+Start the Bot Framework Emulator, and paste the url of your newly deployed bot into the *Bot Url* field. Make sure that:
 
 * The protocol is https 
 * App Id and App Secret match the values you've set in code

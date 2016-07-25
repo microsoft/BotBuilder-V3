@@ -127,18 +127,18 @@ bot.dialog('/', [
 ]);
 bot.dialog('/ensureProfile', [
     function (session, args, next) {
-        session.dialogData = args;
-        if (!session.dialogData.name) {
+        session.dialogData.profile = args || {};
+        if (!session.dialogData.profile.name) {
             builder.Prompts.text(session, "What's your name?");
         } else {
             next();
         }
     },
     function (session, results, next) {
-        if (results.repsonse) {
-            session.dialogData.name = results.response;
+        if (results.response) {
+            session.dialogData.profile.name = results.response;
         }
-        if (!session.dialogData.company) {
+        if (!session.dialogData.profile.company) {
             builder.Prompts.text(session, "What company do you work for?");
         } else {
             next();
@@ -146,9 +146,9 @@ bot.dialog('/ensureProfile', [
     },
     function (session, results) {
         if (results.response) {
-            session.dialogData.company = results.response;
+            session.dialogData.profile.company = results.response;
         }
-        session.endDialogWithResults({ response: session.dialogData });
+        session.endDialogWithResult({ response: session.dialogData.profile });
     }
 ]);
 {% endhighlight %}

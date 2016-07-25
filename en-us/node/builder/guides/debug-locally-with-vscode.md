@@ -19,7 +19,7 @@ For purposes of this walkthrough we’ll use Bot Builders [TodoBot](https://gith
 ![Step 1: Launch VSCode](/en-us/images/builder/builder-debug-step1.png)
 
 ## Launch Bot
-The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug your bot locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot]() class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the –debug-brk flag which causes it to immediately break. So from a console window type “node –debug-brk textBot.js”.
+The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug your bot locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot]() class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the \-\-debug-brk flag which causes it to immediately break. So from a console window type “node \-\-debug-brk textBot.js”.
 
 ![Step 2: Launch Bot](/en-us/images/builder/builder-debug-step2.png)
 
