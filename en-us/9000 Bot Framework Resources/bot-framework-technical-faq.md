@@ -62,7 +62,7 @@ When the user sends a message over a channel, the Bot Framework web service will
 
 ## How can I guarantee message delivery order?
 
-In general, you cannot guarantee message delivery order, as delivery is done by the channel, and the channel may reorder messages.  For example, you have likely seen email and text messages being delivered out of order.  You might choose to put a time delay between your messages as a mitigation.
+The Bot Framework will preserve message ordering to the extent possible, such that if you wait for the completion of the http operation to send message A before initiating another http operation to send message B, we will respect the ordering that A comes before B .  In general, however, you cannot guarantee message delivery order, as delivery is done by the channel, and the channel may reorder messages.  For example, you have likely seen email and text messages being delivered out of order.  You might choose to put a time delay between your messages as a mitigation.
 
 ## What is the difference between the "Bot Url" and "Emulator Url" in the emulator?
 
