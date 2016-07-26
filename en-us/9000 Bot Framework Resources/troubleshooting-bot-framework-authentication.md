@@ -134,17 +134,50 @@ Common errors:
 
 If your message was successful, you have verified that your bot responds on localhost when security is enabled.
 
-## Step 3: Enable security and run in the cloud
-
-*Note: This step requires the [Bot Framework Channel Emulator](/en-us/tools/bot-framework-emulator/).*
-
-*Note: This step also requires a tool to allow your bot to send an HTTP request back to the Bot Framework Emulator, running on your development machine. [ngrok.io](https://ngrok.io) offers an easy-to-use tool for routing messages from your bot back to the Emulator so they can be displayed.*
+## Step 3: Connect to your bot using the Bot Framework Developer Portal
 
 Once you have established that your bot's endpoint can be reached (step 1) and your bot responds when security is enabled (step 2), you can deploy your bot to the cloud and try security there.
 
 Bot Framework requires that bots be accessible from the internet. If you already have a cloud hosting provider, you can deploy your bot there. If not, [Microsoft Azure offers a Free Trial](https://azure.microsoft.com/en-us/free/) that has everything you need to host your bot. Azure also offers free SSL/TLS hosting on Azure Websites, which is a requirement for Bot Framework bots.
 
 Once you have a hosting provider, deploy your bot with its security configuration enabled as described in step 2.
+
+The [Bot Framework Developer Portal](https://dev.botframework.com) contains a test panel where you can test the connection from the Bot Connector service to your bot. The security model used by the Bot Connector differs slightly from the security model used by the Emulator, and this is the most realistic step in testing your bot's authentication.
+
+Follow these steps to test your bot in the cloud with security enabled:
+
+1. Make sure your bot is deployed and running
+2. Log in to the [Bot Framework Developer Portal](https://dev.botframework.com), click on "My bots," and if necessary, select the bot you want to debug from the list.
+3. Locate the test panel in the bottom-left corner of the screen and click the blue "Test" button. The results of the test appear just below the button.
+
+![Bot Framework Developer Portal test panel](/en-us/images/troubleshooting/troubleshooting-bot-framework-authentication_3.png)
+
+Your request is successful if:
+
+1. The text reads "Accepted" or "Endpoint authorization succeeded."
+
+If an error occurred, it is displayed in the panel just below the blue Test button.
+
+Common errors:
+
+1. Your bot's cloud endpoint URL is not correct. Make sure you have included the path at the end of the URL (e.g. /api/messages).
+2. Your bot's endpoint is not HTTPS or is not trusted by the Bot Framework Channel Emulator. Your bot must have a valid, chain-trusted certificate.
+3. The bot is configured without a Microsoft App Id or a Microsoft App Password. (See Step 2 to troubleshoot this.)
+4. Your Microsoft App Id or Microsoft App Password are incorrect. (See Step 2 to troubleshoot this.)
+
+If your message was successful, you have verified that your bot responds while in the cloud and with security enabled.
+
+**At this point, your bot is ready to be used in a Bot Framework channel such as Skype, Facebook Messenger, Direct Line, and others.**
+
+## Step 4: (Optional) Test in the cloud with the Emulator
+
+*Note: This step is optional. It can provide additional debugging information not available in step 3.*
+
+*Note: This step requires the [Bot Framework Channel Emulator](/en-us/tools/bot-framework-emulator/).*
+
+*Note: This step also requires a tool to allow your bot to send an HTTP request back to the Bot Framework Emulator, running on your development machine. [ngrok.io](https://ngrok.io) offers an easy-to-use tool for routing messages from your bot back to the Emulator so they can be displayed.*
+
+Start by ensuring your bot is deployed according to the instructions in step 3, above.
 
 Next, start a tool to open an HTTP tunnel from your bot back to the Emulator. [ngrok.io](https://ngrok.io) is an easy-to-use tool that routes traffic to your machine for you.
 
@@ -183,35 +216,6 @@ Common errors:
 5. Your bot was unable to open an HTTP connection back to the Emulator to send a response. Make sure the "Emulator Url" field contains an internet-accessible URL that points back to the Emulator's port.
 
 If your message was successful, you have verified that your bot responds to the emulator while in the cloud and with security enabled. **Note**, however, that the emulator uses a special security model and a final test with the Bot Framework Developer Portal is necessary to establish that the bot is operating properly.
-
-## Step 4: Connect to your bot using the Bot Framework Developer Portal
-
-The [Bot Framework Developer Portal](https://dev.botframework.com) contains a test panel where you can test the connection from the Bot Connector service to your bot. The security model used by the Bot Connector differs slightly from the security model used by the Emulator, and this is the most realistic step in testing your bot's authentication.
-
-Follow these steps to test your bot in the cloud with security enabled:
-
-1. Make sure your bot is deployed and running
-2. Log in to the [Bot Framework Developer Portal](https://dev.botframework.com), click on "My bots," and if necessary, select the bot you want to debug from the list.
-3. Locate the test panel in the bottom-left corner of the screen and click the blue "Test" button. The results of the test appear just below the button.
-
-![Bot Framework Developer Portal test panel](/en-us/images/troubleshooting/troubleshooting-bot-framework-authentication_3.png)
-
-Your request is successful if:
-
-1. The text reads "Accepted" or "Endpoint authorization succeeded."
-
-If an error occurred, it is displayed in the panel just below the blue Test button.
-
-Common errors:
-
-1. Your bot's cloud endpoint URL is not correct. Make sure you have included the path at the end of the URL (e.g. /api/messages).
-2. Your bot's endpoint is not HTTPS or is not trusted by the Bot Framework Channel Emulator. Your bot must have a valid, chain-trusted certificate.
-3. The bot is configured without a Microsoft App Id or a Microsoft App Password. (See Step 2 to troubleshoot this.)
-4. Your Microsoft App Id or Microsoft App Password are incorrect. (See Step 2 to troubleshoot this.)
-
-If your message was successful, you have verified that your bot responds while in the cloud and with security enabled.
-
-**At this point, your bot is ready to be used in a Bot Framework channel such as Skype, Facebook Messenger, Direct Line, and others.**
 
 ## Step 5: Advanced troubleshooting
 
