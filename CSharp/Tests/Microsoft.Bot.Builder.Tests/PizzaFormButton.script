@@ -55,7 +55,7 @@ ToUserText:"Please select one or more toppings \n  1. All except\n  2. Beef\n  3
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":null,"HalfToppings":null},"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"beef, onion, ice cream"
 1
-ToUserText:"By \"onion\" toppings did you mean (1. Onions, or 2. Mixed Onions)"
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"By \"onion\" toppings did you mean ","images":null,"buttons":[{"type":"imBack","title":"Onions","image":null,"value":"Onions"},{"type":"imBack","title":"Mixed Onions","image":null,"value":"Mixed Onions"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"NumberOfPizzas":2,"Size":0,"Kind":4,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":{"Crust":2,"Sauce":1,"HalfAndHalf":false,"Toppings":null,"HalfToppings":null},"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":["special1","special2"],"Phone":null}
 FromUser:"onions"
 4

@@ -222,7 +222,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     var name = step.Type == StepType.Field ? step.Name : "";
                     foreach (var pattern in annotation.Patterns)
                     {
-                        ValidatePattern(pattern, name, 5);
+                        ValidatePattern(pattern, _form.Fields.Field(name), 5);
                     }
                     if (step.Type != StepType.Message)
                     {
@@ -232,19 +232,19 @@ namespace Microsoft.Bot.Builder.FormFlow
                             {
                                 foreach (var pattern in step.Field.Template(usage).Patterns)
                                 {
-                                    ValidatePattern(pattern, name, TemplateArgs(usage));
+                                    ValidatePattern(pattern, _form.Fields.Field(name), TemplateArgs(usage));
                                 }
                             }
                         }
                     }
                 }
             }
-            ValidatePattern(_form.Configuration.DefaultPrompt.ChoiceFormat, "", 2);
+            ValidatePattern(_form.Configuration.DefaultPrompt.ChoiceFormat, null, 2);
         }
 
-        private void ValidatePattern(string pattern, string pathName, int maxArgs)
+        private void ValidatePattern(string pattern, IField<T> field, int maxArgs)
         {
-            if (!Prompter<T>.ValidatePattern(_form, pattern, pathName, maxArgs))
+            if (!Prompter<T>.ValidatePattern(_form, pattern, field, maxArgs))
             {
                 throw new ArgumentException(string.Format("Illegal pattern: \"{0}\"", pattern));
             }

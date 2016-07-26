@@ -75,6 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">Form state.</typeparam>
     #endregion
     public interface IFormBuilder<T>
+        where T : class
     {
         /// <summary>
         /// Build the form based on the methods called on the builder.

@@ -43,6 +43,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">    Form state. </typeparam>
     #endregion
     public abstract class IForm<T>
+        where T : class
     {
         /// <summary>
         /// Fields that make up form.

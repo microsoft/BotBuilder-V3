@@ -93,6 +93,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </remarks>
     /// <exception cref="FormCanceledException{T}">Thrown when the user quits while filling in a form, or there is an underlying exception in the code.</exception>
     public interface IFormDialog<T> : IDialog<T>
+        where T : class
     {
         /// <summary>
         /// The form specification.

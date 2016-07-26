@@ -563,7 +563,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 if (!result.IsValid)
                 {
-                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, Name, value).Prompt;
+                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, this, value).Prompt;
                 }
                 return result;
             };
@@ -725,6 +725,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Fields<T> : IFields<T>
+        where T : class
     {
         public IField<T> Field(string name)
         {

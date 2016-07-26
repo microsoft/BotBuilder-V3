@@ -193,6 +193,8 @@ namespace Microsoft.Bot.Builder.Tests
             params string[] inputs)
             where T : class
         {
+            var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
+            File.Delete(newPath);
             var currentState = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(initialState));
             try
             {
@@ -215,7 +217,6 @@ namespace Microsoft.Bot.Builder.Tests
             catch (Exception)
             {
                 // There was an error, so record new script and pass on error
-                var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
                 await RecordFormScript(newPath, locale, buildForm, options, initialState, entities, inputs);
                 throw;
             }
@@ -312,9 +313,9 @@ namespace Microsoft.Bot.Builder.Tests
             await VerifyFormScript(@"..\..\SimpleForm-next.script",
                 "en-us", () => new FormBuilder<SimpleForm>()
                     .Field(new FieldReflector<SimpleForm>("Text")
-                        .SetNext((value, state) => new NextStep(new string[] {"Float"})))
+                        .SetNext((value, state) => new NextStep(new string[] { "Float" })))
                     .AddRemainingFields()
-                    .Build(), 
+                    .Build(),
                 FormOptions.None, new SimpleForm(), new EntityRecommendation[0],
                 "Hi",
                 "some text here",
@@ -401,7 +402,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         [TestMethod]
         public async Task Pizza_fr_Script()
-        { 
+        {
             await VerifyFormScript(@"..\..\PizzaForm-fr.script",
                 "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
                 "bonjour",

@@ -58,6 +58,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     }
 
     internal interface IStep<T>
+        where T : class
     {
         string Name { get; }
 

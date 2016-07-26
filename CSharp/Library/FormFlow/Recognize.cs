@@ -46,6 +46,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// Recognizer for enumerated values.
     /// </summary>
     public sealed class RecognizeEnumeration<T> : IRecognize<T>
+        where T : class
     {
         /// <summary>
         /// Delegate for mapping from a C# value to it's description.
@@ -136,7 +137,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(null);
             }
             args.Add(Language.BuildList(from val in values select Language.Normalize(val, _helpFormat.ChoiceCase), _helpFormat.ChoiceSeparator, _helpFormat.ChoiceLastSeparator));
-            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, "", args.ToArray()).Prompt;
+            return new Prompter<T>(_helpFormat, _form, this).Prompt(state, null, args.ToArray()).Prompt;
         }
 
         public IEnumerable<TermMatch> Matches(string input, object defaultValue)
@@ -518,7 +519,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.BoolHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
+            return prompt.Prompt(state, _field, args.ToArray()).Prompt;
         }
 
         public override IEnumerable<string> ValidInputs(object value)
@@ -585,7 +586,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.StringHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
+            return prompt.Prompt(state, _field, args.ToArray()).Prompt;
         }
     }
 
@@ -647,7 +648,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(_min);
                 args.Add(_max);
             }
-            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
+            return prompt.Prompt(state, _field, args.ToArray()).Prompt;
         }
 
         private long _min;
@@ -711,7 +712,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 args.Add(_min);
                 args.Add(_max);
             }
-            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
+            return prompt.Prompt(state, _field, args.ToArray()).Prompt;
         }
 
         private double _min;
@@ -744,7 +745,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.DateTimeHelp), _field.Form, null);
             var args = HelpArgs(state, defaultValue);
-            return prompt.Prompt(state, _field.Name, args.ToArray()).Prompt;
+            return prompt.Prompt(state, _field, args.ToArray()).Prompt;
         }
 
         public override TermMatch Parse(string input)

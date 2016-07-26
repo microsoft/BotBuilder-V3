@@ -114,7 +114,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <returns>An <see cref="IForm{T}"/>.</returns>
     /// <remarks>This is a delegate so that we can rebuild the form and don't have to serialize
     /// the form definition with every message.</remarks>
-    public delegate IForm<T> BuildFormDelegate<T>();
+    public delegate IForm<T> BuildFormDelegate<T>() where T : class;
 
     /// <summary>
     /// Form dialog to fill in your state.
@@ -774,7 +774,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             {
                                 var activeList = Language.BuildList(active, navigation.Annotation.ChoiceSeparator, navigation.Annotation.ChoiceLastSeparator);
                                 builder.Append("* ");
-                                builder.Append(navigation.Prompt(state, "", activeList));
+                                builder.Append(navigation.Prompt(state, null, activeList));
                             }
                             feedback = step.Help(state, form, builder.ToString());
                         }
@@ -784,7 +784,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     case FormCommand.Status:
                         {
                             var prompt = new PromptAttribute("{*}");
-                            feedback = new Prompter<T>(prompt, _form, null).Prompt(state, "");
+                            feedback = new Prompter<T>(prompt, _form, null).Prompt(state, null);
                         }
                         break;
                 }

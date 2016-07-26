@@ -327,6 +327,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state that is being completed.</typeparam>
     public interface IFieldPrompt<T>
+       where T : class
     {
         /// <summary>
         /// Test to see if field is currently active based on the current state.
@@ -401,6 +402,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
     public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>, IFieldResources
+        where T : class
     {
         /// <summary>
         /// Name of this field.
@@ -423,6 +425,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IFields<T> : IEnumerable<IField<T>>
+        where T : class
     {
         /// <summary>
         /// Return a specific field or null if not present.

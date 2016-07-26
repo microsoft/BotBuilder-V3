@@ -90,6 +90,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         internal static IEnumerable<string> Dependencies<T>(this IForm<T> form, int istep)
+            where T : class
         {
             for(var i = 0; i < istep; ++i)
             {

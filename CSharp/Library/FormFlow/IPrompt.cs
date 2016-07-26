@@ -53,6 +53,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// This interface allows taking a \ref patterns expression and making it into a string with the template parts filled in.
     /// </remarks>
     public interface IPrompt<T>
+        where T : class
     {
         /// <summary>
         /// Description of the prompt and how to generate it.
@@ -64,10 +65,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Return prompt to send to user.
         /// </summary>
         /// <param name="state">Current form state.</param>
-        /// <param name="path">Current field being processed.</param>
+        /// <param name="field">Current field being processed.</param>
         /// <param name="args">Optional arguments.</param>
         /// <returns>Message to user.</returns>
-        FormPrompt Prompt(T state, string path, params object[] args);
+        FormPrompt Prompt(T state, IField<T> field, params object[] args);
 
         /// <summary>
         /// Associated recognizer if any.
@@ -91,7 +92,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// The buttons that will be mapped to Message.Attachments.
         /// </summary>
         public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
-        
+
         public override string ToString()
         {
             return $"{Prompt} {Language.BuildList(Buttons.Select(button => button.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
@@ -157,7 +158,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns> Title of the button.</returns>
         public override string ToString()
         {
-            return Title; 
+            return Title;
         }
     }
 
@@ -174,15 +175,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     Message = option.ToString()
                 });
             }
-            return buttons; 
+            return buttons;
         }
 
         internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons, string text)
         {
-            var actions = new List<CardAction>(); 
-            foreach(var button in buttons)
+            var actions = new List<CardAction>();
+            foreach (var button in buttons)
             {
-                CardAction action; 
+                CardAction action;
                 if (button.Url != null)
                 {
                     action = new CardAction(ActionTypes.OpenUrl, button.Title, button.Image, button.Url);
@@ -222,6 +223,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <typeparam name="T">    UNderlying form type. </typeparam>
     #endregion
     public sealed class Prompter<T> : IPrompt<T>
+        where T : class
     {
         /// <summary>
         /// Construct a prompter.
@@ -247,13 +249,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public FormPrompt Prompt(T state, string pathName, params object[] args)
+        public FormPrompt Prompt(T state, IField<T> field, params object[] args)
         {
             string currentChoice = null;
             string noValue = null;
-            if (pathName != "")
+            if (field != null)
             {
-                var field = _fields.Field(pathName);
                 currentChoice = field.Template(TemplateUsage.CurrentChoice).Pattern();
                 if (field.Optional)
                 {
@@ -264,9 +265,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            IList<FormButton> buttons = new List<FormButton>(); 
-            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, pathName, args, ref buttons);
-            return new FormPrompt {
+            IList<FormButton> buttons = new List<FormButton>();
+            var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, field, args, ref buttons);
+            return new FormPrompt
+            {
                 Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
                 Buttons = buttons
             };
@@ -281,11 +283,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>   Validate pattern by ensuring they refer to real fields. </summary>
         /// <param name="form">     The form. </param>
         /// <param name="pattern">  Specifies the pattern. </param>
-        /// <param name="pathName"> Full pathname of the field. </param>
+        /// <param name="field"> Base field for pattern. </param>
         /// <param name="argLimit"> The number of arguments passed to the pattern. </param>
         /// <returns>   true if it succeeds, false if it fails. </returns>
         #endregion
-        public static bool ValidatePattern(IForm<T> form, string pattern, string pathName, int argLimit = 0)
+        public static bool ValidatePattern(IForm<T> form, string pattern, IField<T> field, int argLimit = 0)
         {
             bool ok = true;
             var fields = form.Fields;
@@ -300,18 +302,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 else if (expr.StartsWith("&"))
                 {
                     var name = expr.Substring(1);
-                    if (name == "") name = pathName;
+                    if (name == "" && field != null) name = field.Name;
                     ok = (name == "" || fields.Field(name) != null);
                 }
                 else if (expr.StartsWith("?"))
                 {
-                    ok = ValidatePattern(form, expr.Substring(1), pathName, argLimit);
+                    ok = ValidatePattern(form, expr.Substring(1), field, argLimit);
                 }
                 else if (expr.StartsWith("["))
                 {
                     if (expr.EndsWith("]"))
                     {
-                        ok = ValidatePattern(form, expr.Substring(1, expr.Length - 2), pathName, argLimit);
+                        ok = ValidatePattern(form, expr.Substring(1, expr.Length - 2), field, argLimit);
                     }
                     else
                     {
@@ -330,7 +332,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
-                    if (name == "") name = pathName;
+                    if (name == "" && field != null) name = field.Name;
                     ok = (name == "" || fields.Field(name) != null);
                 }
                 if (!ok)
@@ -341,13 +343,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return ok;
         }
 
-        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, string pathName, object[] args, ref IList<FormButton> buttons)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, IField<T> field, object[] args, ref IList<FormButton> buttons)
         {
             bool foundUnspecified = false;
             int last = 0;
             int numeric;
             var response = new StringBuilder();
-            var field = _fields.Field(pathName);
 
             foreach (Match match in _args.Matches(template))
             {
@@ -356,9 +357,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 if (expr.StartsWith("&"))
                 {
                     var name = expr.Substring(1);
-                    if (name == "") name = pathName;
+                    if (name == "" && field != null) name = field.Name;
                     var pathField = _fields.Field(name);
-                    substitute = Language.Normalize(pathField == null ? pathName : pathField.FieldDescription, _annotation.FieldCase);
+                    substitute = Language.Normalize(pathField == null ? field.Name : pathField.FieldDescription, _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {
@@ -376,19 +377,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         {
                             if (!field.IsUnknown(state))
                             {
-                                current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args, ref buttons);
+                                current = ExpandTemplate(currentChoice, null, noValue, state, field, args, ref buttons);
                             }
                         }
                         else
                         {
-                            current = ExpandTemplate(currentChoice, null, noValue, state, pathName, args, ref buttons);
+                            current = ExpandTemplate(currentChoice, null, noValue, state, field, args, ref buttons);
                         }
                     }
                     if (values.Any())
                     {
                         if (useButtons)
                         {
-                            foreach(var value in values)
+                            foreach (var value in values)
                             {
                                 var button = new FormButton() { Title = value.Description, Image = value.Image, Message = value.Message };
                                 buttons.Add(button);
@@ -459,7 +460,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {
-                        builder.Append("* ").AppendLine(format.Prompt(state, entry.Name).Prompt);
+                        builder.Append("* ").AppendLine(format.Prompt(state, entry).Prompt);
                     }
                     substitute = builder.ToString();
                 }
@@ -476,7 +477,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         }
                         var formatArgs = spec.Substring(1, spec.Length - 2).Trim().Split(':');
                         var name = formatArgs[0];
-                        if (name == "") name = pathName;
+                        if (name == "" && field != null) name = field.Name;
                         var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
                         var eltDesc = _fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
@@ -506,7 +507,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 else if (expr.StartsWith("?"))
                 {
                     // Conditional template
-                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, pathName, args, ref buttons);
+                    var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, field, args, ref buttons);
                     if (subValue == null)
                     {
                         substitute = "";
@@ -533,7 +534,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
-                    if (name == "") name = pathName;
+                    if (name == "" && field != null) name = field.Name;
                     var pathDesc = _fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {

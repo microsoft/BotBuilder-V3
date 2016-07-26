@@ -28,7 +28,7 @@ ToUserText:"Please select one or more toppings (current choice: No Preference) \
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American"}}
 FromUser:"peppers"
 1
-ToUserText:"By \"peppers\" toppings did you mean (1. Green Bell Peppers, 2. Banana Peppers, or 3. No Preference) (current choice: No Preference)"
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"By \"peppers\" toppings did you mean ","images":null,"buttons":[{"type":"imBack","title":"Green Bell Peppers","image":null,"value":"Green Bell Peppers"},{"type":"imBack","title":"Banana Peppers","image":null,"value":"Banana Peppers"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American"}}
 FromUser:"1"
 2
