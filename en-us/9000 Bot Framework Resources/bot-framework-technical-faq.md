@@ -2,7 +2,7 @@
 layout: page
 title: Bot Framework Technical FAQ
 permalink: /en-us/technical-faq/
-weight: 9300
+weight: 9350
 parent1: Bot Framework Resources
 ---
 
