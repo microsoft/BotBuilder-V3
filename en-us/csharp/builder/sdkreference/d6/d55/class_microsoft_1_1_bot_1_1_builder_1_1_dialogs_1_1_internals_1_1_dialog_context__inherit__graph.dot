@@ -1,0 +1,16 @@
+digraph "Microsoft.Bot.Builder.Dialogs.Internals.DialogContext"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogContext",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="IDialogContext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html",tooltip="The context for the execution of a dialog&#39;s conversational process. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="IDialogStack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html",tooltip="The stack of dialogs in the conversational process. "];
+  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="IBotContext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d29/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_context.html",tooltip="The context for the bot. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="IBotData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html",tooltip="Private bot data. "];
+  Node6 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="IBotToUser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html",tooltip="Methods to send a message from the bot to the user. "];
+}

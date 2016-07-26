@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Form\lFlow.Advanced.NextStep",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html",tooltip="Next step to take. "];
+}

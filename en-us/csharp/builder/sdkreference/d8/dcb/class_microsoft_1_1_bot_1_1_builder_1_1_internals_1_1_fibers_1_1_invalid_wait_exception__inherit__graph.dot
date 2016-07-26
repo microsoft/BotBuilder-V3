@@ -1,0 +1,15 @@
+digraph "Microsoft.Bot.Builder.Internals.Fibers.InvalidWaitException"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Internals.\lFibers.InvalidWaitException",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="InvalidOperationException",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Builder.Internals.\lFibers.InvalidNeedException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_need_exception.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Microsoft.Bot.Builder.Internals.\lFibers.InvalidNextException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/db6/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_next_exception.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Microsoft.Bot.Builder.Internals.\lFibers.InvalidTypeException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_invalid_type_exception.html"];
+}

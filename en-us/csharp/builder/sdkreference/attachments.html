@@ -120,15 +120,15 @@ $(document).ready(function(){initNavTree('attachments.html','');});
 <div class="title">Attachments, Cards and Actions </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Many messaging channels provide the ability to attach richer objects.In the Bot Connector we map our attachment data structure to media attachments and rich cards on each channel.</p>
+<div class="textblock"><p>Many messaging channels provide the ability to attach richer objects. In the Bot Connector we map our attachment data structure to media attachments and rich cards on each channel.</p>
 <h1><a class="anchor" id="imagefileattachments"></a>
 Media Attachments</h1>
-<p>To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the content, setting the contenttype, contentUrl and name properties.</p>
+<p>To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the content, setting the ContentType, ContentUrl and Name properties.</p>
 <table class="doxtable">
 <tr>
 <th><b>Property</b> </th><th><b>Description</b> </th><th><b>Example</b>  </th></tr>
 <tr>
-<td><b>ContentType</b> </td><td>mimetype/contenttype of the url </td><td>image/jpg </td></tr>
+<td><b>ContentType</b> </td><td>mimetype/contenttype of the URL </td><td>image/jpg </td></tr>
 <tr>
 <td><b>ContentUrl</b> </td><td>a link to the actual file </td><td><a href="http://foo.com/1312312">http://foo.com/1312312</a> </td></tr>
 <tr>
@@ -137,7 +137,7 @@ Media Attachments</h1>
 <p>If the content type is a image or media content type then it will be passed to the channel in a way that allows the image to be displayed. If it is a file then it will simply come through as a link.</p>
 <div class="fragment"><div class="line">replyMessage.Attachments.Add(<span class="keyword">new</span> Attachment()</div><div class="line">{</div><div class="line">    ContentUrl = <span class="stringliteral">&quot;https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png&quot;</span>,</div><div class="line">    ContentType = <span class="stringliteral">&quot;image/png&quot;</span>,</div><div class="line">    <a class="code" href="d9/dd2/namespace_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_misc.html#a2e174f6415d0ac8405d7036bb08d8aa8a49ee3087348e8d44e1feda1917443987">Name</a> = <span class="stringliteral">&quot;Bender_Rodriguez.png&quot;</span>      </div><div class="line">});</div></div><!-- fragment --><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    &quot;attachments&quot;: [</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;        {</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;            &quot;contentType&quot;: &quot;image/png&quot;,</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;            &quot;contentUrl&quot;: &quot;https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png&quot;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;            &quot;name&quot;:&quot;Bender_Rodriguez.png&quot;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        }</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    ]</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div></div><!-- fragment --><h1><a class="anchor" id="richcards"></a>
 Rich card attachments</h1>
-<p>We also have the ability to render rich cards as attachments.There are several types of cards supported:</p>
+<p>We also have the ability to render rich cards as attachments. There are several types of cards supported:</p>
 <table class="doxtable">
 <tr>
 <th><b>Card Type</b> </th><th><b>Description</b> </th><th><b>Supported Modes</b>  </th></tr>
@@ -148,7 +148,7 @@ Rich card attachments</h1>
 <tr>
 <td><b>Receipt Card</b> </td><td>A card that lets the user deliver an invoice or receipt </td><td>Single </td></tr>
 <tr>
-<td><b>Sign-In Card</b> </td><td>A card that lets the bot initiatea sign-in procedure </td><td>Single </td></tr>
+<td><b>Sign-In Card</b> </td><td>A card that lets the bot initiate a sign-in procedure </td><td>Single </td></tr>
 </table>
 <h2><a class="anchor" id="herocard"></a>
 Hero Card</h2>
@@ -241,7 +241,7 @@ Button and Card Actions</h1>
 <tr>
 <td><b>Title</b> </td><td>string </td><td>Title for button </td></tr>
 <tr>
-<td><b>Image</b> </td><td>string </td><td>Image Url for button </td></tr>
+<td><b>Image</b> </td><td>string </td><td>Image URL for button </td></tr>
 <tr>
 <td><b>Value</b> </td><td>string </td><td>value to perform action </td></tr>
 </table>
@@ -257,15 +257,15 @@ Button and Card Actions</h1>
 <tr>
 <td><b>call</b> </td><td>Destination for a call in following format: "tel:123123123123" </td></tr>
 <tr>
-<td><b>playAudio</b> </td><td>playback audio container referenced by url </td></tr>
+<td><b>playAudio</b> </td><td>playback audio container referenced by URL </td></tr>
 <tr>
-<td><b>playVideo</b> </td><td>playback video container referenced by url </td></tr>
+<td><b>playVideo</b> </td><td>playback video container referenced by URL </td></tr>
 <tr>
-<td><b>showImage</b> </td><td>show image referenced by url </td></tr>
+<td><b>showImage</b> </td><td>show image referenced by URL </td></tr>
 <tr>
-<td><b>downloadFile</b> </td><td>download file referenced by url </td></tr>
+<td><b>downloadFile</b> </td><td>download file referenced by URL </td></tr>
 <tr>
-<td><b>signin</b> </td><td>oauth flow url </td></tr>
+<td><b>signin</b> </td><td>OAuth flow URL </td></tr>
 </table>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;CardAction button = new CardAction()</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;{</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    Type = &quot;imBack&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    Title = &quot;Hello&quot;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    Value = &quot;I sez hello!&quot;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;};</div></div><!-- fragment --><p>Generates JSON </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    &quot;type&quot;: &quot;imBack&quot;,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    &quot;title&quot;: &quot;Hello&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    &quot;value&quot;: &quot;I sez hello!&quot;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div></div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->

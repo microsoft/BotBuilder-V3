@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Luis.\lExtensions",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html",tooltip="LUIS extension methods. "];
+}

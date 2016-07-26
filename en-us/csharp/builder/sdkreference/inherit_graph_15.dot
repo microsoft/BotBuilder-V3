@@ -1,0 +1,15 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.ConversationBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dff/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_conversation_base.html",tooltip="This base class defines a subset of properties which define a conversation. Conversation class derive..."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.Conversation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d32/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_conversation.html",tooltip="This defines the set of the properties that define a conversation. A conversation includes participan..."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.Conversation\lResult",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d12/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_conversation_result.html",tooltip="Once we have peformed the \"actions\" requested by the customer, we POST back to customer callback Url ..."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.NotificationBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dc0/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_notification_base.html",tooltip="This base class defines a subset of properties which define a notification. CallStateNotification and..."];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.CallStateChange\lNotification",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d59/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_call_state_change_notification.html",tooltip="This concrete class defines the call state change notification schema. "];
+}
