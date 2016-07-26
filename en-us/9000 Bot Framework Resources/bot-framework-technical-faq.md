@@ -9,8 +9,6 @@ parent1: Bot Framework Resources
 * TOC
 {:toc}
 
-# Troubleshooting
-
 ## My bot is stuck!  How can I reset the conversation?
 
 You can use the command "/deleteprofile" to delete the User/PrivateConversation bot data bag state and reset your bot.  Note, some channels interpret slash-commands natively, so it may be necessary to send the command with a space in front (" /deleteprofile")
@@ -44,7 +42,7 @@ Once channels like Skype work, you can try additional channels like DirectLine o
 
 ### Look for exceptions.
 
-In Visual Studio 2015, go to Debug|Windows|Exception Settings and select the "Break When Thrown" checkbox next to "Common Language Runtime Exceptions".  You may also see diagnostics output in your "Output Window" when there are thrown or unhandled exceptions.
+In Visual Studio 2015, go to <code>Debug|Windows|Exception Settings</code> and select the "Break When Thrown" checkbox next to "Common Language Runtime Exceptions".  You may also see diagnostics output in your "Output Window" when there are thrown or unhandled exceptions.
 
 ### Look at the call stack.
 
@@ -58,8 +56,6 @@ All IDialog methods should complete with IDialogStack.Call, IDialogStack.Wait, o
 
 This can be as simple as using the [Serializable] attribute on your IDialog implementations.  But beware that anonymous method closures are not serializable if they reference their outside environment to capture variables.
 
-# Message Flow
-
 ## What is the model for how user messages relate to HTTPS method calls?
 
 When the user sends a message over a channel, the Bot Framework web service will make an HTTPS post to your Bot's web service endpoint.  During this HTTPS method call, your Bot's code may send zero, one, or many messages back to the user on that channel.  Each one of these messages is a separate HTTPS post back to the Bot Framework.
@@ -67,8 +63,6 @@ When the user sends a message over a channel, the Bot Framework web service will
 ## How can I guarantee message delivery order?
 
 In general, you cannot guarantee message delivery order, as delivery is done by the channel, and the channel may reorder messages.  For example, you have likely seen email and text messages being delivered out of order.  You might choose to put a time delay between your messages as a mitigation.
-
-# Terminology
 
 ## What is the difference between the "Bot Url" and "Emulator Url" in the emulator?
 
@@ -78,8 +72,6 @@ The "Bot Url" is the web service url that executes your Bot's code.  The "Emulat
 ## What is the difference between the Connector and Builder library in the SDK?
 
 The Connector library is the exposition of the REST API.  The Builder library adds the conversational dialog programming model and other features (e.g. prompts, waterfalls, chains, guided form filling) and access to cognitive services (e.g. LUIS).
-
-# Channels
 
 ## Why are my Facebook user names not showing anymore?
 
@@ -92,8 +84,6 @@ Some channels don't support transient typing updates in their client.
 ## Why are parts of my message text being dropped?
 
 The Bot Framework and many Channels interpret text as Markdown.  Check to see if your text uses reserved Markdown characters.
-
-# External Services
 
 ## How can I use authenticated services from my Bot?
 
@@ -116,8 +106,6 @@ There is a list of examples available in the [Pre-built entities section](https:
 ## How can I use more than the maximum number of LUIS intents?
 
 You might consider splitting up your model and calling the LUIS service in series or parallel.
-
-# More Help
 
 ## Where can I get more help on LUIS?
 
