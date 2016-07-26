@@ -2,7 +2,7 @@
 layout: page
 title: Troubleshooting Bot Framework Authentication
 permalink: /en-us/support/troubleshooting-bot-framework-authentication/
-weight: 9280
+weight: 9380
 parent1: Bot Framework Resources
 ---
 
