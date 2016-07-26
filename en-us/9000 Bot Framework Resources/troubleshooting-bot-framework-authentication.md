@@ -175,7 +175,7 @@ If your message was successful, you have verified that your bot responds while i
 
 *Note: This step requires the [Bot Framework Channel Emulator](/en-us/tools/bot-framework-emulator/).*
 
-*Note: This step also requires a tool to allow your bot to send an HTTP request back to the Bot Framework Emulator, running on your development machine. [ngrok.io](https://ngrok.io) offers an easy-to-use tool for routing messages from your bot back to the Emulator so they can be displayed.*
+*Note: This step also requires a tool to allow your bot to send an HTTP request back to the Bot Framework Emulator, running on your development machine. [ngrok.io](https://ngrok.io)\* offers an easy-to-use tool for routing messages from your bot back to the Emulator so they can be displayed. \*ngrok is not a Microsoft product.*
 
 Start by ensuring your bot is deployed according to the instructions in step 3, above.
 
@@ -221,6 +221,7 @@ If your message was successful, you have verified that your bot responds to the 
 
 If you continue to encounter difficulties, here are some additional resources:
 
-* You can use a proxying tool like [Fiddler](https://www.telerik.com/fiddler) to inspect HTTP/S traffic to and from your bot.
+* You can use a proxying tool like [Fiddler](https://www.telerik.com/fiddler)\* to inspect HTTP/S traffic to and from your bot.
+*\*Fiddler is not a Microsoft product.*
 * You can read the [Bot Connector authentication guide](/en-us/restapi/authentication/) for more detail on the authentication technology used by the Bot Framework.
 * You can find additional guides and community support via the [Bot Framework Support](/en-us/support/) page.
