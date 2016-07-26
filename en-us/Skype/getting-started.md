@@ -245,7 +245,9 @@ tap|Action object|This action will be activated when the user taps on the card i
 
 ### Images
 {:.no_toc}
-Images are scaled up or down in size while maintaining the aspect ratio to cover the image area, and then cropped from center to achieve the image aspect ratio for the card. 
+Images are scaled up or down in size while maintaining the aspect ratio to cover the image area, and then cropped from center to achieve the image aspect ratio for the card.
+
+Images should be HTTPS, up to 1024x1024, up to 1MB in size, and PNG or JPEG.
 
 Property|Type|Description
 url|URL|URL to the image. **Must be HTTPS**
