@@ -54,7 +54,7 @@ All IDialog methods should complete with IDialogStack.Call, IDialogStack.Wait, o
 
 ### Ensure that all dialogs are serializable.
 
-This can be as simple as using the [Serializable] attribute on your IDialog implementations.  But beware that anonymous method closures are not serializable if they reference their outside environment to capture variables.
+This can be as simple as using the [Serializable] attribute on your IDialog implementations.  But beware that anonymous method closures are not serializable if they reference their outside environment to capture variables.  We also support a reflection-based serialization surrogate to help serialize types not marked as serializable.
 
 ## What is the model for how user messages relate to HTTPS method calls?
 
