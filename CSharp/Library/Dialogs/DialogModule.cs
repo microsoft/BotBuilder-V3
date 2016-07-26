@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Text;
@@ -41,7 +42,6 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 using Autofac;
-
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -165,7 +165,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         return post;
                     };
 
-                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<TraceListener>());
                     return outer;
                 })
                 .As<IPostToBot>()

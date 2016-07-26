@@ -34,6 +34,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -405,6 +406,48 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             finally
             {
                 await botData.FlushAsync(token);
+            }
+        }
+    }
+
+    public sealed class PostUnhandledExceptionToUserTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IBotToUser botToUser;
+        private readonly TraceListener trace;
+
+        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, TraceListener trace)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.trace, nameof(trace), trace);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                await this.inner.PostAsync<T>(item, token);
+            }
+            catch (Exception error)
+            {
+                try
+                {
+                    if (Debugger.IsAttached)
+                    {
+                        await this.botToUser.PostAsync($"Exception: {error}");
+                    }
+                    else
+                    {
+                        await this.botToUser.PostAsync($"An unhandled exception occurred - check your logs!");
+                    }
+                }
+                catch (Exception inner)
+                {
+                    this.trace.WriteLine(inner);
+                }
+
+                throw;
             }
         }
     }

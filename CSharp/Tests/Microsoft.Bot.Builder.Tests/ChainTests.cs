@@ -194,7 +194,8 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
-                Assert.AreEqual(0, texts.Length);
+                Assert.AreEqual(1, texts.Length);
+                Assert.IsTrue(0 <= texts[0].IndexOf("exception", StringComparison.OrdinalIgnoreCase));
             }
         }
 

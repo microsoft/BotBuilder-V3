@@ -38,6 +38,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -95,6 +96,42 @@ namespace Microsoft.Bot.Builder.Tests
                 builder.Update(container);
 
                 await AssertScriptAsync(container, "hello");
+            }
+        }
+
+        public sealed class NonSerializableDialog : IDialog<object>
+        {
+            async Task IDialog<object>.StartAsync(IDialogContext context)
+            {
+                context.Wait(MessageReceived);
+            }
+
+            async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> message)
+            {
+                await Task.Yield();
+            }
+        }
+
+        [TestMethod]
+        public async Task Exception_NonSerializableDialog()
+        {
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterType<NonSerializableDialog>().AsImplementedInterfaces();
+                builder.Update(container);
+
+                try
+                {
+                    await AssertScriptAsync(container, "hello");
+                    Assert.Fail();
+                }
+                catch(SerializationException)
+                {
+                }
+
+                var queue = container.Resolve<Queue<IMessageActivity>>();
+                Assert.AreEqual(1, queue.Count);
             }
         }
     }
