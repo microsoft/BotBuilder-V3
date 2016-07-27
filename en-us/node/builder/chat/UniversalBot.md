@@ -69,6 +69,6 @@ bot.dialog('/', function (session) {
 });
 {% endhighlight %}
 
-If you’re debugging your bot using VSCode you’ll want to start your bot using a command similar to `node –debug-brk app.js` and then you’ll want to start the debugger using [attach mode](https://code.visualstudio.com/docs/editor/debugging#_node-debugging).
+If you’re debugging your bot using VSCode you’ll want to start your bot using a command similar to node `--debug-brk app.js` and then you’ll want to start the debugger using [attach mode](https://code.visualstudio.com/docs/editor/debugging#_node-debugging).
 
 
