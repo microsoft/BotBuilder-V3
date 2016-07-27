@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public class LuisDialog<R> : IDialog<R>
     {
-        private readonly IReadOnlyList<ILuisService> services;
+        protected readonly IReadOnlyList<ILuisService> services;
 
         /// <summary>   Mapping from intent string to the appropriate handler. </summary>
         [NonSerialized]
