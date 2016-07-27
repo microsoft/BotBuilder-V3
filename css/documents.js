@@ -20,12 +20,12 @@ $( document ).ready(function() {
         $(".level0").hide();
         $(".backToHome").show();
         if (isNodeRefDocVar == "chat") {
-            var currentListHref = $('a[href*="/node/builder/chat/"]').first();
+            var currentListHref = $('a[href*="/node/builder/chat-ref/"]').first();
             currentListHref.addClass("navselected");
             currentNav = currentListHref.closest(".navContainer").parent();
         } 
         if (isNodeRefDocVar == "calling") {
-            var currentListHref = $('a[href*="/node/builder/calling/"]').first();
+            var currentListHref = $('a[href*="/node/builder/calling-ref/"]').first();
             currentListHref.addClass("navselected");
             currentNav = currentListHref.closest(".navContainer").parent();
         } 

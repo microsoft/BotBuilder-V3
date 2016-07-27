@@ -61,6 +61,8 @@
 						<a href="/">Documentation</a>
 						</li><li>
 						<a href="https://bots.botframework.com/">Bot Directory</a>
+						</li><li>
+						<a href="https://blog.botframework.com/">Blog</a>
 				</li></ul>
 				<!--
 		<div class="search-outter">
@@ -159,6 +161,7 @@
 												<ul class="tsd-index-list">
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.middleware.html#dialogversion" class="tsd-kind-icon">dialog<wbr>Version</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.middleware.html#firstrun" class="tsd-kind-icon">first<wbr>Run</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_botbuilder_d_.middleware.html#sendtyping" class="tsd-kind-icon">send<wbr>Typing</a></li>
 												</ul>
 											</section>
 										</div>
@@ -176,7 +179,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L2202">botbuilder.d.ts:2202</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/c533014/Node/core/src/botbuilder.d.ts#L2205">botbuilder.d.ts:2205</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -188,6 +191,9 @@
 												<ul class="tsd-parameters">
 													<li>
 														<h5>options: <a href="../interfaces/_botbuilder_d_.idialogversionoptions.html" class="tsd-signature-type">IDialogVersionOptions</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Settings to configure the bahviour of the installed middleware.</p>
+														</div>
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.imiddlewaremap.html" class="tsd-signature-type">IMiddlewareMap</a></h4>
@@ -204,7 +210,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L2205">botbuilder.d.ts:2205</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/c533014/Node/core/src/botbuilder.d.ts#L2211">botbuilder.d.ts:2211</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -216,8 +222,36 @@
 												<ul class="tsd-parameters">
 													<li>
 														<h5>options: <a href="../interfaces/_botbuilder_d_.ifirstrunoptions.html" class="tsd-signature-type">IFirstRunOptions</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Settings to configure the bahviour of the installed middleware.</p>
+														</div>
 													</li>
 												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.imiddlewaremap.html" class="tsd-signature-type">IMiddlewareMap</a></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+										<a name="sendtyping" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagStatic">Static</span> send<wbr>Typing</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+											<li class="tsd-signature tsd-kind-icon">send<wbr>Typing<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imiddlewaremap.html" class="tsd-signature-type">IMiddlewareMap</a></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/c533014/Node/core/src/botbuilder.d.ts#L2219">botbuilder.d.ts:2219</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Installs a piece of middleware that will always send an initial typing indication to the user.
+															This is useful because it lets you send the typing indication before any LUIS models are called.
+															The typing indicator will only stay valid for a few seconds so if you&#39;re performing any long running
+														operations you may want to send an additional typing indicator using <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#sendtyping">session.sendTyping</a>.</p>
+													</div>
+												</div>
 												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.imiddlewaremap.html" class="tsd-signature-type">IMiddlewareMap</a></h4>
 											</li>
 										</ul>
@@ -247,6 +281,9 @@
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 													<a href="_botbuilder_d_.middleware.html#firstrun" class="tsd-kind-icon">first<wbr>Run</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+													<a href="_botbuilder_d_.middleware.html#sendtyping" class="tsd-kind-icon">send<wbr>Typing</a>
 												</li>
 											</ul>
 										</li>
