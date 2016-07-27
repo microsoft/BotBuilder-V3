@@ -48,7 +48,7 @@ var NAVTREE =
       ] ],
       [ "Step-by-step tutorial", "calling.html#ivrstepbystep", [
         [ "Bot Settings", "calling.html#ivrbotsettings", null ],
-        [ "Add the Microsoft.Bot.Builder.Calling nuget", "calling.html#ivraddskypebotsreference", null ],
+        [ "Add the Microsoft.Bot.Builder.Calling NuGet package", "calling.html#ivraddskypebotsreference", null ],
         [ "Implementation", "calling.html#ivrimplementation", [
           [ "Create Controller class", "calling.html#ivrimplementationcreatecontrollerclass", null ],
           [ "Define text messages for menus", "calling.html#ivrimplementationdefinetextmessages", null ],

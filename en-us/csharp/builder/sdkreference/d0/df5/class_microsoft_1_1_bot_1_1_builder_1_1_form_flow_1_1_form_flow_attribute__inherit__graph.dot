@@ -1,0 +1,19 @@
+digraph "Microsoft.Bot.Builder.FormFlow.FormFlowAttribute"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Form\lFlow.FormFlowAttribute",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Attribute",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Builder.Form\lFlow.Advanced.TemplateBaseAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html",tooltip="Abstract base class used by all attributes that use Pattern Language. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Microsoft.Bot.Builder.Form\lFlow.PromptAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html",tooltip="Define the prompt template used when asking about a field. "];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Microsoft.Bot.Builder.Form\lFlow.TemplateAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html",tooltip="Define a template for generating strings. "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Microsoft.Bot.Builder.Form\lFlow.DescribeAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html",tooltip="Attribute to override the default description of a field, property or enum value. ..."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Microsoft.Bot.Builder.Form\lFlow.TermsAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html",tooltip="Attribute to override the default terms used to match a field, property or enum value to user input..."];
+}

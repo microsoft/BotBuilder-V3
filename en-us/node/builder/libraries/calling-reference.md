@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Calling Reference
-permalink: /en-us/node/builder/calling/
+permalink: /en-us/node/builder/calling-ref/
 weight: 2691
 parent1: Bot Builder for Node.js
 parent2: Libraries

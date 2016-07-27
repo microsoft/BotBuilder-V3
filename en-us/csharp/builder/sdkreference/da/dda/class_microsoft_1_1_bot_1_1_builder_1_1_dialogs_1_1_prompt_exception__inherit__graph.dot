@@ -1,0 +1,10 @@
+digraph "Microsoft.Bot.Builder.Dialogs.PromptException"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="Microsoft.Bot.Builder.Dialogs.\lPromptException",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Exception",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Builder.Dialogs.\lTooManyAttemptsException",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception.html",tooltip="The exception representing too many attempts by the user to answer the question asked by the prompt..."];
+}

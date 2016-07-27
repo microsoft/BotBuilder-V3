@@ -1,0 +1,29 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Attribute",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Microsoft.Bot.Builder.Dialogs.\lLuisIntentAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html",tooltip="Associate a LUIS intent with a dialog method. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Builder.Form\lFlow.FormFlowAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute.html",tooltip="Abstract base class for FormFlow attributes. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Microsoft.Bot.Builder.Form\lFlow.Advanced.TemplateBaseAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html",tooltip="Abstract base class used by all attributes that use Pattern Language. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Microsoft.Bot.Builder.Form\lFlow.PromptAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html",tooltip="Define the prompt template used when asking about a field. "];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Microsoft.Bot.Builder.Form\lFlow.TemplateAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html",tooltip="Define a template for generating strings. "];
+  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Microsoft.Bot.Builder.Form\lFlow.DescribeAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html",tooltip="Attribute to override the default description of a field, property or enum value. ..."];
+  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Microsoft.Bot.Builder.Form\lFlow.TermsAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d27/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_terms_attribute.html",tooltip="Attribute to override the default terms used to match a field, property or enum value to user input..."];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Microsoft.Bot.Builder.Form\lFlow.NumericAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d31/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_numeric_attribute.html",tooltip="Provide limits on the possible values in a numeric field or property. "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Microsoft.Bot.Builder.Form\lFlow.OptionalAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html",tooltip="Define a field or property as optional. "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Microsoft.Bot.Builder.Form\lFlow.PatternAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_pattern_attribute.html",tooltip="Provide a regular expression to validate a string field. "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Microsoft.Bot.Builder.Luis.\lLuisModelAttribute",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html",tooltip="The LUIS model information. "];
+}

@@ -33,7 +33,7 @@ var connector =
         [ "Text and Locale Properties", "activities.html#textproperties", null ],
         [ "TextFormat Property", "activities.html#textformat", [
           [ "Markdown", "activities.html#markdown", null ],
-          [ "Xml", "activities.html#xml", null ]
+          [ "XML", "activities.html#xml", null ]
         ] ],
         [ "Attachments Property", "activities.html#attachmentsproperty", null ],
         [ "AttachmentLayout property", "activities.html#attachmentlayoutproperty", null ],

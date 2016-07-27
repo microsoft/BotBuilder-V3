@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Microsoft.Bot.Builder.Dialogs.\lInternals.Prompt\< Int64,\l Int64 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d1c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_prompt.html"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Microsoft.Bot.Builder.Dialogs.\lPromptDialog.PromptInt64",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64.html",tooltip="Prompt for a confirmation. "];
+}

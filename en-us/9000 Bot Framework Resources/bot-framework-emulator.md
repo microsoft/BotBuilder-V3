@@ -30,7 +30,7 @@ error messages that are hidden from the end user in normal chat.
 
 In the V3 version of the Bot Framework API, the authentication model has changed from Basic Auth to Open Id with JWT tokens and Microsoft Account. 
 Doing auth in this way introduces the additional requirement of being able to get auth callbacks to the Emulator from the Internet.  Conveniently
-ngrok (https://ngrok.com/) provides an easy way to do this for debugging/diagnosis purposes.
+[ngrok](https://ngrok.com/)\* provides an easy way to do this for debugging/diagnosis purposes. *\*ngrok is not a Microsoft product.*
 
 Download ngrok from the site; and run it from a command prompt:
 

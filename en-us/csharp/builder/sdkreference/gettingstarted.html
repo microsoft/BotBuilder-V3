@@ -120,10 +120,10 @@ $(document).ready(function(){initNavTree('gettingstarted.html','');});
 <div class="title">Getting started with the Connector </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The Microsoft Bot Connector is a communication service that helps you connect your Bot with many different communication channels (Skype, SMS, email, and others). If you write a conversational Bot or agent and expose a Microsoft Bot Framework-compatible API on the internet, the Bot Framework Connector service will forward messages from your Bot to a user, and will send user messages back to your Bot.</p>
+<div class="textblock"><p>The Microsoft Bot Connector is a communication service that helps you connect your Bot with many different communication channels (Skype, SMS, email, and others). If you write a conversational Bot or agent and expose a Microsoft Bot Framework-compatible API on the Internet, the Bot Framework Connector service will forward messages from your Bot to a user, and will send user messages back to your Bot.</p>
 <p>To use the Microsoft Bot Framework Connector, you must have:</p>
 <ol type="1">
-<li>A Microsoft Account (Hotmail, Live, Outlook.Com) to log into the Bot Framework developer portal, which you will use to register your Bot.</li>
+<li>A Microsoft Account (Hotmail, Live, Outlook.com) to log into the Bot Framework developer portal, which you will use to register your Bot.</li>
 <li>An Azure-accessible REST endpoint exposing a callback for the Connector service.</li>
 <li>Developer accounts on one or more communication services(such as Skype) where your Bot will communicate.</li>
 </ol>
@@ -159,7 +159,7 @@ Building your Bot</h1>
 <div class="fragment"><div class="line">[BotAuthentication]</div><div class="line"><span class="keyword">public</span> <span class="keyword">class </span>MessagesController : ApiController</div><div class="line">{</div><div class="line">        &lt;summary&gt;</div><div class="line">        POST: api/Messages</div><div class="line">        Receive a message from a user and reply to it</div><div class="line">        &lt;/summary&gt;</div><div class="line">        <span class="keyword">public</span> async Task&lt;HttpResponseMessage&gt; Post([FromBody]Activity activity)</div><div class="line">        {</div><div class="line">            ConnectorClient connector = <span class="keyword">new</span> ConnectorClient(<span class="keyword">new</span> Uri(activity.ServiceUrl));</div><div class="line">            <span class="keywordflow">if</span> (activity.Type == ActivityTypes.Message)</div><div class="line">            {</div><div class="line">                <span class="comment">// calculate something for us to return</span></div><div class="line">                <span class="keywordtype">int</span> length = (activity.Text ?? <span class="keywordtype">string</span>.Empty).Length;</div><div class="line"></div><div class="line">                <span class="comment">// return our reply to the user</span></div><div class="line">                Activity reply = activity.CreateReply($<span class="stringliteral">&quot;You sent {activity.Text} which was {length} characters&quot;</span>);</div><div class="line">                await connector.Conversations.ReplyToActivityAsync(reply);</div><div class="line">            }</div><div class="line">            <span class="keywordflow">else</span></div><div class="line">            {</div><div class="line">                HandleSystemMessage(activity);</div><div class="line">            }</div><div class="line">            var response = Request.CreateResponse(HttpStatusCode.OK);</div><div class="line">            <span class="keywordflow">return</span> response;</div><div class="line">        }</div><div class="line">}</div></div><!-- fragment --><h1><a class="anchor" id="emulator"></a>
 Emulator</h1>
 <p>Use the Bot Framework Emulator to test your Bot application</p>
-<p>The Bot Framework provides a a channel emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service.To install the Bot Framework Emulator, download it from <b><a href="https://aka.ms/bf-bc-emulator">here</a></b>.</p>
+<p>The Bot Framework provides a a channel emulator that lets you test calls to your Bot as if it were being called by the Bot Framework cloud service. To install the Bot Framework Emulator, download it from <b><a href="https://aka.ms/bf-bc-emulator">here</a></b>.</p>
 <p>One installed, you're ready to test. First, start your Bot in Visual Studio using a browser as the application host. The image below uses Microsoft Edge.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-start-bot-locally.png"  alt="Start your Bot in VS2015 targeting the browser"/>
@@ -193,7 +193,7 @@ Publishing your Bot Application to Microsoft Azure</h1>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-dialog.png"  alt="Right click on the project and choose __Publish__ to start the Azure publish wizard"/>
 </div>
-<p>The Publish to Azure wizard will start.For this tutorial you will need to select "Microsoft Azure App Service" as your project type.</p>
+<p>The Publish to Azure wizard will start. For this tutorial you will need to select "Microsoft Azure App Service" as your project type.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish.png"  alt="Select %Microsoft Azure App Service and click Next"/>
 </div>
@@ -205,7 +205,7 @@ Publishing your Bot Application to Microsoft Azure</h1>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-app-service-create.png"  alt="Give your App Service a name, then click New App Service Plan to define one"/>
 </div>
-<p>One final complexity on this dialog is the App Service Plan.This just lets you give a name to a combination of location and system size so you can re - use it on future deployments.Just put in any name, then choose the datacenter and size of deployment you want.</p>
+<p>One final complexity on this dialog is the App Service Plan. This just lets you give a name to a combination of location and system size so you can re - use it on future deployments. Just put in any name, then choose the datacenter and size of deployment you want.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-app-service-create-spinner.png"  alt="Create your definition for an App Service Plan "/>
 </div>
@@ -213,27 +213,31 @@ Publishing your Bot Application to Microsoft Azure</h1>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-destination.png"  alt="Complete the Create App Service wizard by clicking Create"/>
 </div>
-<p>Now that you've returned to the Publish Web wizard copy the destination URL to the clipboard, you'll need it in a few moments.Hit "Validate Connection" to ensure the configuration is good, and if all goes well, click "Next".</p>
+<p>Now that you've returned to the Publish Web wizard copy the destination URL to the clipboard, you'll need it in a few moments. Hit "Validate Connection" to ensure the configuration is good, and if all goes well, click "Next".</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-configuration.png"  alt="Validate and click next to move on to the last step."/>
 </div>
-<p>By default your Bot will be published in a Release configuration.If you want to debug your Bot, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your Bot will be published to Azure.</p>
+<p>By default your Bot will be published in a Release configuration. If you want to debug your Bot, change Configuration to Debug. Regardless, from here you'll hit "Publish" and your Bot will be published to Azure.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-preview.png"  alt="Last step; click Publish to submit to Azure"/>
 </div>
-<p>You will see a number of messages displayed in the Visual Studio 2015 "Output" window.Once publishing is complete you will also see the web page for your Bot Application displayed in your browser(the browser will launch, and render your Bot Application HTML page), see below.</p>
+<p>You will see a number of messages displayed in the Visual Studio 2015 "Output" window. Once publishing is complete you will also see the web page for your Bot Application displayed in your browser (the browser will launch, and render your Bot Application HTML page), see below.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-publish-output.png"  alt="Voila, your Bot has been published and is running."/>
 </div>
 <h1><a class="anchor" id="registering"></a>
 Registering your Bot with the Microsoft Bot Framework</h1>
 <p>Registering your Bot tells the Connector how to call your Bot's web service. Note that the <b>MicrosoftAppId</b> and MicrosoftAppPassword** are generated when your Bot is registered with the Microsoft Bot Framework Connector, the MicrosoftAppId and MicrosoftAppPassword are used to authenticate the conversation, and allows the developer to configure their Bot with the Channels they'd like to be visible on. The BotId, which you specify, is used for the URL in the directory and developer portal.</p>
-<p>1.Go to the Microsoft Bot Framework portal at <a href="https://dev.botframework.com">https://dev.botframework.com</a> and sign in with your Microsoft Account.</p>
-<p>2.Click the "Register a Bot" button and fill out the form.Many of the fields on this form can be changed later. Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at / API / Messages. You should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your bot.Save your changes by hitting "Create" at the bottom of the form.</p>
+<ol type="1">
+<li>Go to the Microsoft Bot Framework portal at <a href="https://dev.botframework.com">https://dev.botframework.com</a> and sign in with your Microsoft Account.</li>
+<li>Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. Use a the endpoint generated from your Azure deployment, and don't forget that when using the Bot Application tempalate you'll need to extend the URL you pasted in with the path to the endpoint at / API / Messages. You should also prefix your URL with HTTPS instead of HTTP; Azure will take care of providing HTTPS support on your bot. Save your changes by hitting "Create" at the bottom of the form.</li>
+</ol>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-register-agent.png"  alt="Register a bot"/>
 </div>
-<p>3.Once your registration is created, Microsoft Bot Framework will take you through generating your <b>MicrosoftAppId</b> and <b>MicrosoftAppPassword</b>. These are used to authenticate your Bot with the Microsoft Bot Framework. <b>NOTE:</b> When you generate your MicrosoftAppPassword, be sure to record it somewhere as you won't be able to see it again.</p>
+<ol type="1">
+<li>Once your registration is created, Microsoft Bot Framework will take you through generating your <b>MicrosoftAppId</b> and <b>MicrosoftAppPassword</b>. These are used to authenticate your Bot with the Microsoft Bot Framework. <b>NOTE:</b> When you generate your MicrosoftAppPassword, be sure to record it somewhere as you won't be able to see it again.</li>
+</ol>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-subscription-keys.png"  alt="Microsoft Bot Framework will have generated your MicrosoftAppId and MicrosoftAppPassword"/>
 </div>
@@ -241,20 +245,24 @@ Registering your Bot with the Microsoft Bot Framework</h1>
 <div class="fragment"><div class="line">&lt;? xml version = <span class="stringliteral">&quot;1.0&quot;</span> encoding = <span class="stringliteral">&quot;utf-8&quot;</span> ?&gt;</div><div class="line">       &lt; !--</div><div class="line">       For more information on how to configure your ASP.NET application, please visit</div><div class="line">       http:<span class="comment">//go.microsoft.com/fwlink/?LinkId=301879</span></div><div class="line">--&gt;</div><div class="line">&lt; configuration &gt;</div><div class="line">&lt; appSettings &gt;</div><div class="line">        &lt; !--update these with your appid and one of your appsecret keys--&gt;</div><div class="line">        &lt; add key = <span class="stringliteral">&quot;MicrosoftAppId&quot;</span> value = <span class="stringliteral">&quot;[GUID]&quot;</span> /&gt;</div><div class="line">        &lt; add key = <span class="stringliteral">&quot;MicrosoftAppPassword&quot;</span> value = <span class="stringliteral">&quot;[PASSWORD]&quot;</span> /&gt;</div><div class="line">&lt;/ appSettings &gt;</div></div><!-- fragment --><h1><a class="anchor" id="testing"></a>
 Testing the connection to your bot</h1>
 <p>Back in the developer dashboard for your Bot there's a test chat window that you can use to interact with your Bot without further configuration, and verify that the Bot Framework can communicate with your Bot's web service.</p>
-<p>Note that the first request after your Bot starts up can take 10 - 15 s as Azure starts up the web service for the first time.Subsequent requests will be quick.This simple viewer will let you see the JSON object returned by your Bot.</p>
+<p>Note that the first request after your Bot starts up can take 10 - 15 s as Azure starts up the web service for the first time. Subsequent requests will be quick. This simple viewer will let you see the JSON object returned by your Bot.</p>
 <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-test-channel-verification.png"  alt="Test communication with your now deployed bot in the test channel."/>
 </div>
 <h1><a class="anchor" id="channels"></a>
 Configuring Channels</h1>
 <p>Now that you have a Bot up and running, you'll want to configure it for one or more channels your users are using. Configuring channels is a combination of Microsoft Bot Framework workflow and conversation service workflow, and is unique for each channel you wish to configure.</p>
-<p>1.To configure a channel, go back to the Bot Framework portal at <a href="https://www.botframework.com">https://www.botframework.com</a>. Sign in, select your Bot, and go to the channels panel. </p><div class="image">
+<ol type="1">
+<li>To configure a channel, go back to the Bot Framework portal at <a href="https://www.botframework.com">https://www.botframework.com</a>. Sign in, select your Bot, and go to the channels panel. <div class="image">
 <img src="/en-us/images/connector/connector-getstarted-configure-channels.png"  alt="Sign in, select your %Bot, and go to the Channels panel."/>
 </div>
-<p>2.Pick the channel you wish to configure, and click add.You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf. </p><div class="image">
+</li>
+<li>Pick the channel you wish to configure, and click add. You'll be taken to a page of instructions for registering a Bot. In the end in most cases you're configuring your credentials as a developer on the target service, registering your app, and getting a set of Oauth keys that Microsoft Bot Framework can use on your behalf. <div class="image">
 <img src="/en-us/images/connector/connector_channel_config_facebook.png"  alt="Configuring a channel, for example, Facebook Messenger."/>
 </div>
-<p>3.Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".</p>
+</li>
+<li>Once you've gone through the steps here, return to the channel page on the dev portal, click the checkbox for the channel you chose (if you haven't already), and hit "save changes".</li>
+</ol>
 <p>That's the end of configuration - your Bot is ready for your users. They will have their own steps to follow to give the Bot permission to participate in their group/channel or get connection details like the SMS phone number or e-mail. They can do this in the Bot Directory page for your Bot. The link to this is at the top of the Bot Details page in the dev portal. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

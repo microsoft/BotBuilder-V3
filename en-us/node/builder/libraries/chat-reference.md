@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Chat Reference
-permalink: /en-us/node/builder/chat/
+permalink: /en-us/node/builder/chat-ref/
 weight: 2690
 parent1: Bot Builder for Node.js
 parent2: Libraries

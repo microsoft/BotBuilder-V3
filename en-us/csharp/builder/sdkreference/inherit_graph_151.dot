@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ServiceClientCredentials",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Microsoft.Bot.Connector.\lBearerTokenCredentials",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials.html",tooltip="Use credentials from AppSetting \"AppId\" \"AppSecret\" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Microsoft.Bot.Connector.\lMicrosoftAppCredentials",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d61/class_microsoft_1_1_bot_1_1_connector_1_1_microsoft_app_credentials.html"];
+}

@@ -174,10 +174,10 @@ Step-by-step tutorial</h1>
 <p>Create an ASP.NET Web Application.  Don't know how?  Follow the steps in <a href="http://www.asp.net/visual-studio/overview/2015/creating-web-projects-in-visual-studio">Creating ASP.NET Web Projects in Visual Studio</a>. In "Select a template" window choose the "Empty" option. In the same window please choose "Web API" option from "Add folders and core references" menu.</p>
 <div class="docs-text-note"><b>Note:</b> The Library Package Manager has been renamed. As of Visual Studio 2015 (and updated versions of 2013) it's called the NuGet Package Manager</div><h2><a class="anchor" id="ivrbotsettings"></a>
 Bot Settings</h2>
-<p>It's time to configure your bot.  The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.</p>
+<p>It's time to configure your bot. The settings are in Web.config file in *appSettings* section. See Configuration Options (below) for descriptions of what each setting does.</p>
 <div class="fragment"><div class="line">configuration&gt;</div><div class="line"> &lt;appSettings&gt;</div><div class="line">   &lt;add key=<span class="stringliteral">&quot;Microsoft.Bot.Builder.Calling.CallbackUrl&quot;</span> value=<span class="stringliteral">&quot;https://put your service URL here/api/calling/callback&quot;</span> /&gt;</div><div class="line"> &lt;/appSettings&gt;</div></div><!-- fragment --><h2><a class="anchor" id="ivraddskypebotsreference"></a>
-Add the Microsoft.Bot.Builder.Calling nuget</h2>
-<p>The Bot builder calling SDK is provided as a nuget package. You can install the nuget package from here: <a href="https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/">https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/</a></p>
+Add the Microsoft.Bot.Builder.Calling NuGet package</h2>
+<p>The Bot builder calling SDK is provided as a NuGet package. You can install the NuGet package from here: <a href="https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/">https://www.nuget.org/packages/Microsoft.Bot.Builder.Calling/</a></p>
 <h2><a class="anchor" id="ivrimplementation"></a>
 Implementation</h2>
 <h3><a class="anchor" id="ivrimplementationcreatecontrollerclass"></a>
@@ -221,10 +221,10 @@ Finishing Up</h2>
 <p>Add the bot to your contact list, and you're finished.</p>
 <h2><a class="anchor" id="ivrtestingngrok"></a>
 Testing with ngrok</h2>
-<p>There are tools that can create a public url to your local webserver on your machine, e.g. <a href="https://ngrok.com/">ngrok</a>.</p>
-<p>We'll show how you can test your bot running locally over skype.</p>
+<p>There are tools that can create a public URL to your local webserver on your machine, e.g. <a href="https://ngrok.com/">ngrok</a>.</p>
+<p>We'll show how you can test your bot running locally over Skype.</p>
 <p>You'll need to download ngrok and modify your bot's registration. First step is to start ngrok on your machine and map it to a local port (in our example we'll use port 12345):</p>
-<div class="fragment"><div class="line">\&gt; ngrok http 12345</div></div><!-- fragment --><p>This will create a new tunnel from a public url to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:</p>
+<div class="fragment"><div class="line">\&gt; ngrok http 12345</div></div><!-- fragment --><p>This will create a new tunnel from a public URL to localhost:12345 on your machine. After you start the command, you can see the status of the tunnel:</p>
 <div class="fragment"><div class="line">ngrok by \@inconshreveable (Ctrl+C to quit)</div><div class="line"></div><div class="line">Tunnel <a class="code" href="dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354aec53a8c4f07baed5d8825072c89799be">Status</a> online  </div><div class="line">Update update available (version 2.0.24, Ctrl-U to update)  </div><div class="line">Version 2.0.19/2.0.25  </div><div class="line">Web Interface &lt;http:<span class="comment">//127.0.0.1:4040&gt;  </span></div><div class="line">Forwarding http:<span class="comment">//78191649.ngrok.io -&gt; localhost:12345  </span></div><div class="line">Forwarding https:<span class="comment">//78191649.ngrok.io -&gt; localhost:12345  </span></div><div class="line"></div><div class="line">Connections ttl opn rt1 rt5 p50 p90  </div><div class="line">            0 0 0.00 0.00 0.00 0.00</div></div><!-- fragment --><p>Notice the "Forwarding" lines, in this case you can see that ngrok created two endpoints for us <a href="http://78191649.ngrok.io">http://78191649.ngrok.io</a> and <a href="https://78191649.ngrok.io">https://78191649.ngrok.io</a> for http and https traffic.</p>
 <p>The next step is to configure IIS Express to run our service on the port we specified (12345).</p>
 <p>In Visual Studio please right click on the IvrSample project and choose Properties.</p>
@@ -236,12 +236,12 @@ Testing with ngrok</h2>
 <div class="fragment"><div class="line">bindings&gt;</div><div class="line">   &lt;binding protocol=<span class="stringliteral">&quot;http&quot;</span> bindingInformation=<span class="stringliteral">&quot;*:12345:localhost&quot;</span> /&gt;</div><div class="line">/bindings&gt;</div></div><!-- fragment --><p>Please add second binding entry so the section looks like:</p>
 <div class="fragment"><div class="line">bindings&gt;</div><div class="line">   &lt;binding protocol=<span class="stringliteral">&quot;http&quot;</span> bindingInformation=<span class="stringliteral">&quot;*:12345:localhost&quot;</span> /&gt;</div><div class="line">   &lt;binding protocol=<span class="stringliteral">&quot;http&quot;</span> bindingInformation=<span class="stringliteral">&quot;*:12345:*&quot;</span> /&gt;</div><div class="line">/bindings&gt;</div></div><!-- fragment --><p>Check if the IIS Express is running (if there is IIS Express icon in system tray). If yes, right click on the icon and choose Exit.</p>
 <p>The next step is to configure your Bot in the portal to use ngrok endpoints.</p>
-<p>Don't forget to append your route when updating the messaging url, the new url should look like this: <a href="https://78191649.ngrok.io/v1/call">https://78191649.ngrok.io/v1/call</a>.</p>
+<p>Don't forget to append your route when updating the messaging URL, the new URL should look like this: <a href="https://78191649.ngrok.io/v1/call">https://78191649.ngrok.io/v1/call</a>.</p>
 <p>Please also update the CallbackUrl setting in Web.config file (it should be <a href="https://78191649.ngrok.io/v1/callback">https://78191649.ngrok.io/v1/callback</a> in presented sample).</p>
-<p>Now you can start your server locally and send messages to your bot over skype, they will be sent by Bot Platform to <a href="https://78191649.ngrok.io/v1/">https://78191649.ngrok.io/v1/</a>call and ngrok will forward them to your machine. You just need to keep ngrok running.</p>
+<p>Now you can start your server locally and send messages to your bot over Skype, they will be sent by Bot Platform to <a href="https://78191649.ngrok.io/v1/">https://78191649.ngrok.io/v1/</a>call and ngrok will forward them to your machine. You just need to keep ngrok running.</p>
 <p>You will see each request logged in the ngrok's tunnel status table:</p>
 <div class="fragment"><div class="line">HTTP Requests</div><div class="line">-------------</div><div class="line">POST /api/calling/call                  200 OK</div></div><!-- fragment --><p>If you are done with testing, you can stop ngrok (Ctrl+C), your agent will stop working as there is nothing to forward the requests to your local server.</p>
-<p>Note: Free version of ngrok will create a new unique url for you everytime you start it. That means you always need to go back and update the messaging url for your bot. </p>
+<p>Note: Free version of ngrok will create a new unique URL for you every time you start it. That means you always need to go back and update the messaging URL for your bot. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.11-->
