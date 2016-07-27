@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Resources;
 using System.Text;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
@@ -65,6 +66,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             base.Load(builder);
 
             builder.RegisterModule(new FiberModule<DialogTask>());
+
+            // singleton components
+
+            builder
+                .Register(c => new ResourceManager("Microsoft.Bot.Builder.Resource.Resources", typeof(Resource.Resources).Assembly))
+                .As<ResourceManager>()
+                .SingleInstance();
 
             // every lifetime scope is driven by a message
 
@@ -166,7 +174,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     };
 
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
-                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<TraceListener>());
+                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })
                 .As<IPostToBot>()

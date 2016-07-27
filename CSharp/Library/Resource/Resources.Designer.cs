@@ -655,6 +655,15 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, my bot code is having an issue..
+        /// </summary>
+        internal static string UnhandledExceptionToUser {
+            get {
+                return ResourceManager.GetString("UnhandledExceptionToUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User profile deleted!.
         /// </summary>
         internal static string UserProfileDeleted {

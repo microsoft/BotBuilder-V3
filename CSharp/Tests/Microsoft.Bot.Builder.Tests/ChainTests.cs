@@ -195,7 +195,8 @@ namespace Microsoft.Bot.Builder.Tests
                 var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
                 Assert.AreEqual(1, texts.Length);
-                Assert.IsTrue(0 <= texts[0].IndexOf("exception", StringComparison.OrdinalIgnoreCase));
+                Func<string, string, bool> Contains = (text, q) => text.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
+                Assert.IsTrue(Contains(texts[0], "exception") || Contains(texts[0], "bot code is having an issue"));
             }
         }
 

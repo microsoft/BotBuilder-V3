@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -414,12 +415,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         private readonly IPostToBot inner;
         private readonly IBotToUser botToUser;
+        private readonly ResourceManager resources;
         private readonly TraceListener trace;
 
-        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, TraceListener trace)
+        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, ResourceManager resources, TraceListener trace)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.resources, nameof(resources), resources);
             SetField.NotNull(out this.trace, nameof(trace), trace);
         }
 
@@ -439,7 +442,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     }
                     else
                     {
-                        await this.botToUser.PostAsync($"An unhandled exception occurred - check your logs!");
+                        await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
                     }
                 }
                 catch (Exception inner)
