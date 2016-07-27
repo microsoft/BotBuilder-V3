@@ -153,7 +153,7 @@ Videos can be MP4, AAC+h264 up to 15Mb (approx. 1 minute), plus JPEG thumbnail
 
 ## Cards and buttons
 
-Skype supports the following cards which may have several properties and attachments. You can find information on how to use cards in the [.NET SDK](/en-us/csharp/builder/sdkreference/activities.html#richcards) and [Node.js SDK](#) docs. 
+Skype supports the following cards which may have several properties and attachments. You can find information on how to use cards in the [.NET SDK](/en-us/csharp/builder/sdkreference/activities.html#richcards) and [Node.js SDK](/en-us/node/builder/guides/examples/#demo-skype-calling) docs. 
 
 * Hero card
 * Thumbnail card
@@ -264,7 +264,7 @@ Buttons are shown at the bottom of the card - in a single row if they fit, or st
 Property|Type|Description
 type|string|Required field. One of openURL (opens the given URL), imBack (posts a message in the chat to the bot that sent the card), call (skype or phone number), showImage (for images only, displays the image), signin (sign in card only).
 title|String|Text description that appears on the button
-tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string (which may contain hidden metadata for the bot e.g. &lt;offerID="10"/&gt;, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
+tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string (which may contain hidden metadata for the bot e.g. &lt;meta roomid='10'/&gt;, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
 
 ## Groups 
 
