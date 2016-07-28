@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.Participant",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_participant.html",tooltip="This class describes a participant. This can be a participant in any modality in a 2 or multi-party c..."];
-}

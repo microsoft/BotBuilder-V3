@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="Microsoft.Bot.Builder.Internals.\lFibers.ITraits\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html"];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="Microsoft.Bot.Builder.Internals.\lFibers.NormalizedTraits",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits.html"];
-}

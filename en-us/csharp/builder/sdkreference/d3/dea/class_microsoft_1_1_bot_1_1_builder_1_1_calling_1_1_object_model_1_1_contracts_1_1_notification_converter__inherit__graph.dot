@@ -1,8 +1,0 @@
-digraph "Microsoft.Bot.Builder.Calling.ObjectModel.Contracts.NotificationConverter"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="Microsoft.Bot.Builder.Calling.\lObjectModel.Contracts.Notification\lConverter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="JsonCreationConverter\l\< NotificationBase \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d88/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_misc_1_1_json_creation_converter.html"];
-}
