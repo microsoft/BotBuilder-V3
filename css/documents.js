@@ -131,7 +131,7 @@ $(function () {
     // Performs the search.
     function search(data) {
         // Set the page title
-        $('.post-title').html('Search results for \'' + data["q"] + '\'');
+        $('.post-title').text('Search results for \'' + data["q"] + '\'');
         $('#search-progress').addClass("loading");
         // Establish the data to pass to the proxy.
         var host = 'https://dev.botframework.com/api/docssearch';
