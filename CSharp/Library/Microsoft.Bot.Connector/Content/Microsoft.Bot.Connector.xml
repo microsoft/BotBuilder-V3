@@ -1128,6 +1128,19 @@
             OpenIdConnect configuration manager for this instances
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String)">
+            <summary>
+            Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustedServiceUrl(System.String)">
+            <summary>
+            Checks if the service url is for a trusted host or not.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+            <returns>True if the host of the service url is trusted; False otherwise.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
             <summary>
             Apply the credentials to the HTTP request.

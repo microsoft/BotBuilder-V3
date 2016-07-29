@@ -36,6 +36,10 @@ namespace Microsoft.Bot.Connector
 
         protected readonly string TokenCacheKey;
 
+        /// <summary>
+        /// Adds the host of service url to <see cref="MicrosoftAppCredentials"/> trusted hosts.
+        /// </summary>
+        /// <param name="serviceUrl">The service url</param>
         public static void TrustServiceUrl(string serviceUrl)
         {
             try
@@ -46,6 +50,21 @@ namespace Microsoft.Bot.Connector
             {
                 Trace.TraceWarning($"Service url {serviceUrl} is not a well formed Uri!");
             }
+        }
+
+        /// <summary>
+        /// Checks if the service url is for a trusted host or not.
+        /// </summary>
+        /// <param name="serviceUrl">The service url</param>
+        /// <returns>True if the host of the service url is trusted; False otherwise.</returns>
+        public static bool TrustedServiceUrl(string serviceUrl)
+        {
+            Uri uri;
+            if (Uri.TryCreate(serviceUrl, UriKind.Absolute, out uri))
+            {
+                return TrustedUri(uri);
+            }
+            return false;
         }
 
         /// <summary>
