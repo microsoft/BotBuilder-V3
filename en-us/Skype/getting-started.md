@@ -142,6 +142,11 @@ Skype supports all the [text properties](#) supported by the Microsoft Bot Frame
 
 <div class="docs-text-note"><b>Note </b>Sending <a href="https://support.skype.com/en/faq/FA34582/what-are-mojis" target="_blank">Skype Mojis</a> (short, expressive video clips) is not currently supported.</div>
 
+### Welcome messages
+{:.no_toc}
+
+To send a welcome message to a user listen for the contactRelationUpdate [activity](en-us/csharp/builder/sdkreference/activities.html). To send a welcome message to a group list for the conversationUpdate [activity](en-us/csharp/builder/sdkreference/activities.html).
+
 ### Pictures and videos
 {:.no_toc}
 
@@ -163,6 +168,29 @@ Skype supports the following cards which may have several properties and attachm
 
 <div class="docs-text-note"><b>Note:</b> Images sent to Skype cards need to be stored on an HTTPS endpoint</div>
 <div class="docs-text-note"><b>Note:</b> Skype cards do not currently support postback actions</div>
+
+### Images
+{:.no_toc}
+Images are scaled up or down in size while maintaining the aspect ratio to cover the image area, and then cropped from center to achieve the image aspect ratio for the card.
+
+Images should be HTTPS, up to 1024x1024, up to 1MB in size, and PNG or JPEG.
+
+Property|Type|Description
+url|URL|URL to the image. **Must be HTTPS**
+alt|String|Accessible description of the image
+value|String|Action assigned to the image
+
+### Buttons
+{:.no_toc}
+Buttons are shown at the bottom of the card - in a single row if they fit, or stacked. Button text is always on a single line and will be trimmed if too long. If more buttons than can be supported by the card are included the will not be shown.
+
+### Actions
+{:.no_toc}
+
+Property|Type|Description
+type|string|Required field. One of openURL (opens the given URL), imBack (posts a message in the chat to the bot that sent the card), call (skype or phone number), showImage (for images only, displays the image), signin (sign in card only).
+title|String|Text description that appears on the button
+tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string (which may contain hidden metadata for the bot e.g. &lt;meta roomid='10'/&gt;, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
 
 ### Hero card
 {:.no_toc}
@@ -242,29 +270,6 @@ items:[]|Rich text|Title of the card. Maximum 2 lines
 images:[]|Array of images|Image displayed at top of card. Aspect ratio 16:9
 buttons:[]|Array of action objects|Set of actions applicable to the current card
 tap|Action object|This action will be activated when the user taps on the card itself
-
-### Images
-{:.no_toc}
-Images are scaled up or down in size while maintaining the aspect ratio to cover the image area, and then cropped from center to achieve the image aspect ratio for the card.
-
-Images should be HTTPS, up to 1024x1024, up to 1MB in size, and PNG or JPEG.
-
-Property|Type|Description
-url|URL|URL to the image. **Must be HTTPS**
-alt|String|Accessible description of the image
-value|String|Action assigned to the image
-
-### Buttons
-{:.no_toc}
-Buttons are shown at the bottom of the card - in a single row if they fit, or stacked. Button text is always on a single line and will be trimmed if too long. If more buttons than can be supported by the card are included the will not be shown.
-
-### Actions
-{:.no_toc}
-
-Property|Type|Description
-type|string|Required field. One of openURL (opens the given URL), imBack (posts a message in the chat to the bot that sent the card), call (skype or phone number), showImage (for images only, displays the image), signin (sign in card only).
-title|String|Text description that appears on the button
-tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string (which may contain hidden metadata for the bot e.g. &lt;meta roomid='10'/&gt;, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
 
 ## Groups 
 

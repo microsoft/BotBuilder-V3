@@ -449,7 +449,7 @@ This notification is delivered when the bot is added to or removed from the user
     }
 {% endhighlight %}
 
-#### Contact Relation Update
+#### Conversation Update
 
 This notification is delivered when conversation properties change:
 
