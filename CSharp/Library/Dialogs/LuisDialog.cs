@@ -123,15 +123,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
 
+        public ILuisService[] MakeServicesFromAttributes()
+        {
+            var type = this.GetType();
+            var luisModels = type.GetCustomAttributes<LuisModelAttribute>(inherit: true);
+            return luisModels.Select(m => new LuisService(m)).Cast<ILuisService>().ToArray();
+        }
+
         /// <summary>
         /// Construct the LUIS dialog.
         /// </summary>
         /// <param name="services">The LUIS service.</param>
         public LuisDialog(params ILuisService[] services)
         {
-            var type = this.GetType();
-            var luisModels = type.GetCustomAttributes<LuisModelAttribute>(inherit: true);
-            services = services.Concat(luisModels.Select(m => new LuisService(m))).ToArray();
+            if (services.Length == 0)
+            {
+                services = MakeServicesFromAttributes();
+            }
+
             SetField.NotNull(out this.services, nameof(services), services);
         }
 
