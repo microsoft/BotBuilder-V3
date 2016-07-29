@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
@@ -12,14 +13,14 @@ using System.Web.Http.Filters;
 namespace Microsoft.Bot.Connector
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class BotAuthentication : AuthorizationFilterAttribute
+    public class BotAuthentication : ActionFilterAttribute
     {
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppIdSettingName { get; set; }
         public bool DisableSelfIssuedTokens { get; set; }
         public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
-        public override async Task OnAuthorizationAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
 
@@ -53,13 +54,39 @@ namespace Microsoft.Bot.Connector
                 return;
             }
 
+            var activity = actionContext.ActionArguments.Select(t => t.Value).OfType<Activity>().FirstOrDefault();
+            if (activity != null)
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+            }
+            else
+            {
+                // No model binding to activity check if we can find JObject or JArray
+                var obj = actionContext.ActionArguments.Where(t => t.Value is JObject || t.Value is JArray).Select(t => t.Value).FirstOrDefault();
+                if (obj != null)
+                {
+                    Activity[] activities = (obj is JObject) ? new Activity[] { ((JObject)obj).ToObject<Activity>() } : ((JArray)obj).ToObject<Activity[]>();
+                    foreach (var jActivity in activities)
+                    {
+                        if (!string.IsNullOrEmpty(jActivity.ServiceUrl))
+                        {
+                            MicrosoftAppCredentials.TrustServiceUrl(jActivity.ServiceUrl);
+                        }
+                    }
+                }
+                else
+                {
+                    Trace.TraceWarning("No activity in the Bot Authentication Action Arguments");
+                }
+            }
+
             Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
 
             // Inside of ASP.NET this is required
             if (HttpContext.Current != null)
                 HttpContext.Current.User = Thread.CurrentPrincipal;
 
-            await base.OnAuthorizationAsync(actionContext, cancellationToken);
+            await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
     }
 }

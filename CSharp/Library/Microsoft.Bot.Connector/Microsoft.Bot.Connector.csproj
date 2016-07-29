@@ -112,7 +112,6 @@
     <Compile Include="StateAPI\IBotState.cs" />
     <Compile Include="StateAPI\IStateClient.cs" />
     <Compile Include="StateAPI\Models\BotData.cs" />
-    <Compile Include="BearerTokenCredentials.cs" />
     <Compile Include="ConnectorAPI\ConnectorClient.cs" />
     <Compile Include="ConnectorAPI\ConnectorClientExtensions.cs" />
     <Compile Include="ConnectorAPI\Conversations.cs" />

@@ -114,7 +114,7 @@
             <param name="viewId">default is "original"</param>
             <returns>uri</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreanAsync(System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreamAsync(System.String,System.String)">
             <summary>
             Get the given attachmentid view as a stream
             </summary>
@@ -1989,23 +1989,6 @@
             </summary>
             <param name="property">property name to change</param>
             <param name="data">new data</param>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.BearerTokenCredentials">
-            <summary>
-            Use credentials from AppSetting "AppId" "AppSecret"
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.#ctor(System.String)">
-            <summary>
-            Create a new instance of the BearerTokenCredentials class
-            </summary>
-            <param name="token">Bearer token</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
-            <summary>
-            Apply the credentials to the HTTP request.
-            </summary>
-            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConnectorClient">
             <summary>
