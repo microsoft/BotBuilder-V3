@@ -108,7 +108,13 @@ Example response:
 
 {% highlight json %}
 
-    {"issuer":"https://api.botframework.com","authorization_endpoint":"https://anonymous.invalid.com","jwks_uri":"https://api.aps.skype.com/v1/keys","id_token_signing_alg_values_supported":["RSA256"],"token_endpoint_auth_methods_supported":["private_key_jwt"]}
+{ 
+    "issuer":"https://api.botframework.com",
+    "authorization_endpoint":"https://anonymous.invalid.com",
+    "jwks_uri":"https://api.aps.skype.com/v1/keys",
+    "id_token_signing_alg_values_supported":["RSA256"],
+    "token_endpoint_auth_methods_supported":["private_key_jwt"]
+}
 
 {% endhighlight %}
 
