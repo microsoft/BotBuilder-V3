@@ -2,7 +2,7 @@
 layout: page
 title: Authentication
 permalink: /en-us/restapi/authentication/
-weight: 4230
+weight: 4229
 parent1: REST API
 parent2: Bots
 ---
