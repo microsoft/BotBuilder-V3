@@ -110,7 +110,7 @@ Example response:
 
 { 
     "issuer":"https://api.botframework.com",
-    "authorization_endpoint":"https://anonymous.invalid.com",
+    "authorization_endpoint":"https://invalid.botframework.com/",
     "jwks_uri":"https://api.aps.skype.com/v1/keys",
     "id_token_signing_alg_values_supported":["RSA256"],
     "token_endpoint_auth_methods_supported":["private_key_jwt"]
