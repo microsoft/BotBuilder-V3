@@ -233,6 +233,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IDialogStack.PollAsync(CancellationToken token)
         {
             await this.fiber.PollAsync(this);
+
+            // this line will throw an error if the code does not schedule the next callback
+            // to wait for the next message sent from the user to the bot.
+            this.fiber.Wait.ValidateNeed(Need.Wait);
         }
 
         void IDialogStack.Reset()

@@ -94,6 +94,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return fiber.Wait;
         }
 
+        public static void ValidateNeed(this IWait wait, Need need)
+        {
+            if (need != wait.Need)
+            {
+                throw new InvalidNeedException(wait, need);
+            }
+        }
+
         public static Task<T> ToTask<T>(this IAwaitable<T> item)
         {
             var source = new TaskCompletionSource<T>();
