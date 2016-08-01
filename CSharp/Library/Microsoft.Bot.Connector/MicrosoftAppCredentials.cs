@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="serviceUrl">The service url</param>
         /// <returns>True if the host of the service url is trusted; False otherwise.</returns>
-        public static bool TrustedServiceUrl(string serviceUrl)
+        public static bool IsTrustedServiceUrl(string serviceUrl)
         {
             Uri uri;
             if (Uri.TryCreate(serviceUrl, UriKind.Absolute, out uri))

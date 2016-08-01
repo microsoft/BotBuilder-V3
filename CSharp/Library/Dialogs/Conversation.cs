@@ -92,6 +92,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
         public static async Task ResumeAsync<T>(ResumptionCookie resumptionCookie, T toBot, CancellationToken token = default(CancellationToken))
         {
+            if (resumptionCookie.IsTrustedServiceUrl)
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.ServiceUrl);
+            }
+
             var continuationMessage = resumptionCookie.GetMessage(); 
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
