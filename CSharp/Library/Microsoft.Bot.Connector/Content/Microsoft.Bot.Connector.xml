@@ -1128,13 +1128,15 @@
             OpenIdConnect configuration manager for this instances
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String)">
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
             <summary>
             Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
             </summary>
             <param name="serviceUrl">The service url</param>
+            <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+            <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
         </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustedServiceUrl(System.String)">
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.IsTrustedServiceUrl(System.String)">
             <summary>
             Checks if the service url is for a trusted host or not.
             </summary>

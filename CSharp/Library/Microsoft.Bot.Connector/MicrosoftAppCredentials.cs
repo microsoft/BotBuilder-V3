@@ -17,7 +17,10 @@ namespace Microsoft.Bot.Connector
 {
     public class MicrosoftAppCredentials : ServiceClientCredentials
     {
-        protected static ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>();
+        protected static ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>(
+                                                                                        new Dictionary<string, DateTime>() {
+                                                                                            { "api.botframework.com", DateTime.MaxValue }
+                                                                                        });
 
         public MicrosoftAppCredentials(string appId = null, string password = null)
         {
@@ -40,11 +43,21 @@ namespace Microsoft.Bot.Connector
         /// Adds the host of service url to <see cref="MicrosoftAppCredentials"/> trusted hosts.
         /// </summary>
         /// <param name="serviceUrl">The service url</param>
-        public static void TrustServiceUrl(string serviceUrl)
+        /// <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+        /// <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
+        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime))
         {
             try
             {
-                TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, DateTime.UtcNow, (key, oldValue) => DateTime.UtcNow);
+                if (expirationTime == default(DateTime))
+                {
+                    // by default the service url is valid for one day
+                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, DateTime.UtcNow.AddDays(1), (key, oldValue) => DateTime.UtcNow.AddDays(1));
+                }
+                else
+                {
+                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, expirationTime, (key, oldValue) => expirationTime);
+                }
             }
             catch (UriFormatException)
             {
@@ -133,11 +146,11 @@ namespace Microsoft.Bot.Connector
 
         private static bool TrustedUri(Uri uri)
         {
-            DateTime trustedServiceUrlLastUpdate;
-            if (TrustedHostNames.TryGetValue(uri.Host, out trustedServiceUrlLastUpdate))
+            DateTime trustedServiceUrlExpiration;
+            if (TrustedHostNames.TryGetValue(uri.Host, out trustedServiceUrlExpiration))
             {
                 // check if the trusted service url is still valid
-                if (trustedServiceUrlLastUpdate.AddDays(1) > DateTime.UtcNow)
+                if (trustedServiceUrlExpiration > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
                 {
                     return true;
                 }
