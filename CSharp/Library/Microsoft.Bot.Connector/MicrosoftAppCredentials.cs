@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Connector
     {
         protected static ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>(
                                                                                         new Dictionary<string, DateTime>() {
-                                                                                            { "api.botframework.com", DateTime.MaxValue }
+                                                                                            { "state.botframework.com", DateTime.MaxValue }
                                                                                         });
 
         public MicrosoftAppCredentials(string appId = null, string password = null)
