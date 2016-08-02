@@ -102,9 +102,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             builder.RegisterModule(new DialogModule_MakeRoot());
 
             builder.RegisterType<InMemoryDataStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance();
+
+            builder.Register(c => new CachingBotDataStore(c.Resolve<InMemoryDataStore>(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+                .As<IBotDataStore<BotData>>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             builder
                 .Register(c => new BotIdResolver("testBot"))

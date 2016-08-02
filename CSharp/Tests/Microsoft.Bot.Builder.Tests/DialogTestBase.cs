@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot")); 
 
         [Flags]
-        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory, ResolveDialogFromContainer };
+        public enum Options { None = 0, Reflection = 1, ScopedQueue = 2, MockConnectorFactory = 4, ResolveDialogFromContainer = 8, LastWriteWinsCachingBotDataStore = 16 };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
@@ -101,6 +101,14 @@ namespace Microsoft.Bot.Builder.Tests
                 .AsSelf()
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
+
+            if (options.HasFlag(Options.LastWriteWinsCachingBotDataStore))
+            {
+                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                    .As<IBotDataStore<BotData>>()
+                    .AsSelf()
+                    .InstancePerLifetimeScope(); 
+            }
 
             foreach (var singleton in singletons)
             {

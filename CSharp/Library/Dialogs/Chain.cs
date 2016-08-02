@@ -31,7 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Generic;
@@ -251,6 +250,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<T> Return<T>(T item)
         {
             return new ReturnDialog<T>(item);
+        }
+
+        /// <summary>
+        /// Create a <see cref="IDialog{T}"/> that represents a while loop.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="initial">The value if <paramref name="test"/> is never true.</param>
+        /// <param name="test">The test to enter the while loop <paramref name="body"/>.</param>
+        /// <param name="body">The body of the while loop.</param>
+        /// <returns>Zero or the last value returned by the <paramref name="body"/> of the while loop.</returns>
+        public static IDialog<T> While<T>(this IDialog<T> initial, Func<T, IDialog<bool>> test, Func<T, IDialog<T>> body)
+        {
+            return new WhileDialog<T>(initial, test, body);
         }
 
         /// <summary>
@@ -664,6 +676,46 @@ namespace Microsoft.Bot.Builder.Dialogs
             public async Task StartAsync(IDialogContext context)
             {
                 context.Done(Value);
+            }
+        }
+
+        [Serializable]
+        private sealed class WhileDialog<T> : IDialog<T>
+        {
+            public readonly IDialog<T> Zero;
+            public readonly Func<T, IDialog<bool>> Test;
+            public readonly Func<T, IDialog<T>> Body;
+            public WhileDialog(IDialog<T> zero, Func<T, IDialog<bool>> test, Func<T, IDialog<T>> body)
+            {
+                SetField.NotNull(out this.Zero, nameof(Zero), zero);
+                SetField.NotNull(out this.Test, nameof(Test), test);
+                SetField.NotNull(out this.Body, nameof(Body), body);
+            }
+
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call(this.Zero, this.AfterZeroOrBody);
+            }
+
+            private T item = default(T);
+            private async Task AfterZeroOrBody(IDialogContext context, IAwaitable<T> result)
+            {
+                this.item = await result;
+                var test = this.Test(this.item);
+                context.Call(test, this.AfterTest);
+            }
+
+            private async Task AfterTest(IDialogContext context, IAwaitable<bool> result)
+            {
+                if (await result)
+                {
+                    var body = this.Body(this.item);
+                    context.Call(body, this.AfterZeroOrBody);
+                }
+                else
+                {
+                    context.Done(this.item);
+                }
             }
         }
 

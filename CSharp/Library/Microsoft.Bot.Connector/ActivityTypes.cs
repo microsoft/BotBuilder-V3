@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Connector
         ///  Bot added or removed to contact list. See <see cref="ContactRelationUpdateActionTypes"/> for possible values.
         /// </summary>
         public const string ContactRelationUpdate = "contactRelationUpdate";
-        
+
         /// <summary>
         /// A from is typing
         /// </summary>

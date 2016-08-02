@@ -45,10 +45,12 @@ namespace Microsoft.Bot.Connector
         /// <param name="attachmentId">attachmentid</param>
         /// <param name="viewId">view to get (default:original)</param>
         /// <returns>stream of attachment</returns>
-        public Task<Stream> GetAttachmentStreanAsync(string attachmentId, string viewId = "original")
+        public Task<Stream> GetAttachmentStreamAsync(string attachmentId, string viewId = "original")
         {
-            HttpClient client = new HttpClient();
-            return client.GetStreamAsync(GetAttachmentUri(attachmentId, viewId));
+            using (HttpClient client = new HttpClient())
+            {
+                return client.GetStreamAsync(GetAttachmentUri(attachmentId, viewId));
+            }
         }
     }
 }

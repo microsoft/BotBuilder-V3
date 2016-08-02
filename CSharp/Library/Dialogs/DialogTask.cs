@@ -34,8 +34,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -231,6 +233,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IDialogStack.PollAsync(CancellationToken token)
         {
             await this.fiber.PollAsync(this);
+
+            // this line will throw an error if the code does not schedule the next callback
+            // to wait for the next message sent from the user to the bot.
+            this.fiber.Wait.ValidateNeed(Need.Wait);
         }
 
         void IDialogStack.Reset()
@@ -297,6 +303,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class ExceptionTranslationDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+
+        public ExceptionTranslationDialogTask(IPostToBot inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                await this.inner.PostAsync(item, token);
+            }
+            catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.Done)
+            {
+                throw new NoResumeHandlerException(error);
+            }
+            catch (InvalidNeedException error) when (error.Need == Need.Call && error.Have == Need.Wait)
+            {
+                throw new MultipleResumeHandlerException(error);
+            }
+        }
+    }
 
     public struct LocalizedScope : IDisposable
     {
@@ -379,13 +410,52 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
             finally
             {
-                await PersistBotData(token: token);
+                await botData.FlushAsync(token);
             }
         }
+    }
 
-        private async Task PersistBotData(bool ignoreETag = true, CancellationToken token = default(CancellationToken))
+    public sealed class PostUnhandledExceptionToUserTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IBotToUser botToUser;
+        private readonly ResourceManager resources;
+        private readonly TraceListener trace;
+
+        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, ResourceManager resources, TraceListener trace)
         {
-            await botData.FlushAsync(token);
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.resources, nameof(resources), resources);
+            SetField.NotNull(out this.trace, nameof(trace), trace);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            try
+            {
+                await this.inner.PostAsync<T>(item, token);
+            }
+            catch (Exception error)
+            {
+                try
+                {
+                    if (Debugger.IsAttached)
+                    {
+                        await this.botToUser.PostAsync($"Exception: {error}");
+                    }
+                    else
+                    {
+                        await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
+                    }
+                }
+                catch (Exception inner)
+                {
+                    this.trace.WriteLine(inner);
+                }
+
+                throw;
+            }
         }
     }
 }

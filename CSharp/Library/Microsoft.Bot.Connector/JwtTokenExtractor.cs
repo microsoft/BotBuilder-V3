@@ -68,6 +68,10 @@ namespace Microsoft.Bot.Connector
             if (scheme != "Bearer")
                 return null;
 
+            // Issuer isn't allowed? No need to check signature
+            if (!HasAllowedIssuer(parameter))
+                return null;
+
             try
             {
                 ClaimsPrincipal claimsPrincipal = await ValidateTokenAsync(parameter).ConfigureAwait(false);
@@ -86,6 +90,18 @@ namespace Microsoft.Bot.Connector
             actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
             actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
             return;
+        }
+
+        private bool HasAllowedIssuer(string jwtToken)
+        {
+            JwtSecurityToken token = new JwtSecurityToken(jwtToken);
+            if (_tokenValidationParameters.ValidIssuer != null && _tokenValidationParameters.ValidIssuer == token.Issuer)
+                return true;
+
+            if ((_tokenValidationParameters.ValidIssuers ?? Enumerable.Empty<string>()).Contains(token.Issuer))
+                return true;
+
+            return false;
         }
 
         public string GetBotIdFromClaimsIdentity(ClaimsIdentity identity)
@@ -127,9 +143,18 @@ namespace Microsoft.Bot.Connector
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-            SecurityToken parsedToken;
-            ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, _tokenValidationParameters, out parsedToken);
-            return principal;
+            try
+            {
+                SecurityToken parsedToken;
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, _tokenValidationParameters, out parsedToken);
+                return principal;
+            }
+            catch (SecurityTokenSignatureKeyNotFoundException)
+            {
+                string keys = string.Join(", ", ((config?.SigningTokens) ?? Enumerable.Empty<SecurityToken>()).Select(t => t.Id));
+                Trace.TraceError("Error finding key for token. Available keys: " + keys);
+                throw;
+            }
         }
     }
 }

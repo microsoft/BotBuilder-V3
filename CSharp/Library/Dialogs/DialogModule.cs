@@ -33,15 +33,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Resources;
 using System.Text;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 using Autofac;
-
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -65,6 +66,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             base.Load(builder);
 
             builder.RegisterModule(new FiberModule<DialogTask>());
+
+            // singleton components
+
+            builder
+                .Register(c => new ResourceManager("Microsoft.Bot.Builder.Resource.Resources", typeof(Resource.Resources).Assembly))
+                .As<ResourceManager>()
+                .SingleInstance();
 
             // every lifetime scope is driven by a message
 
@@ -110,19 +118,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
             
             builder.RegisterType<ConnectorStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
             // If bot wants to use InMemoryDataStore instead of 
-            // ConnectorStore, the below registration should be used
+            // ConnectorStore, the below registration should be used 
+            // as the inner IBotDataStore for CachingBotDataStore
             /*builder.RegisterType<InMemoryDataStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance(); */
 
-            builder.RegisterType<CachingBotDataStore_LastWriteWins>()
-                .As<IBotDataStore>()
+            builder.Register( c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), 
+                                                           CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
@@ -159,12 +167,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         IDialogStack stack = task;
                         IPostToBot post = task;
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
+                        post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
                         post = new ScoringDialogTask<double>(post, stack, cc.Resolve<IComparer<double>>(), cc.Resolve<ITraits<double>>(), cc.Resolve<IScorable<double>[]>());
                         return post;
                     };
 
-                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })
                 .As<IPostToBot>()

@@ -114,7 +114,7 @@
             <param name="viewId">default is "original"</param>
             <returns>uri</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreanAsync(System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreamAsync(System.String,System.String)">
             <summary>
             Get the given attachmentid view as a stream
             </summary>
@@ -1128,6 +1128,21 @@
             OpenIdConnect configuration manager for this instances
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
+            <summary>
+            Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+            <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+            <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.IsTrustedServiceUrl(System.String)">
+            <summary>
+            Checks if the service url is for a trusted host or not.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+            <returns>True if the host of the service url is trusted; False otherwise.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
             <summary>
             Apply the credentials to the HTTP request.
@@ -1989,23 +2004,6 @@
             </summary>
             <param name="property">property name to change</param>
             <param name="data">new data</param>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.BearerTokenCredentials">
-            <summary>
-            Use credentials from AppSetting "AppId" "AppSecret"
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.#ctor(System.String)">
-            <summary>
-            Create a new instance of the BearerTokenCredentials class
-            </summary>
-            <param name="token">Bearer token</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
-            <summary>
-            Apply the credentials to the HTTP request.
-            </summary>
-            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConnectorClient">
             <summary>

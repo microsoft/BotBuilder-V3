@@ -117,11 +117,18 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public class LuisDialog<R> : IDialog<R>
     {
-        private readonly IReadOnlyList<ILuisService> services;
+        protected readonly IReadOnlyList<ILuisService> services;
 
         /// <summary>   Mapping from intent string to the appropriate handler. </summary>
         [NonSerialized]
         protected Dictionary<string, IntentHandler> handlerByIntent;
+
+        public ILuisService[] MakeServicesFromAttributes()
+        {
+            var type = this.GetType();
+            var luisModels = type.GetCustomAttributes<LuisModelAttribute>(inherit: true);
+            return luisModels.Select(m => new LuisService(m)).Cast<ILuisService>().ToArray();
+        }
 
         /// <summary>
         /// Construct the LUIS dialog.
@@ -129,9 +136,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="services">The LUIS service.</param>
         public LuisDialog(params ILuisService[] services)
         {
-            var type = this.GetType();
-            var luisModels = type.GetCustomAttributes<LuisModelAttribute>(inherit: true);
-            services = services.Concat(luisModels.Select(m => new LuisService(m))).ToArray();
+            if (services.Length == 0)
+            {
+                services = MakeServicesFromAttributes();
+            }
+
             SetField.NotNull(out this.services, nameof(services), services);
         }
 
@@ -219,7 +228,19 @@ namespace Microsoft.Bot.Builder.Dialogs
             foreach (var method in methods)
             {
                 var intents = method.GetCustomAttributes<LuisIntentAttribute>(inherit: true).ToArray();
-                var intentHandler = (IntentHandler)Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
+                Delegate created = null;
+                try
+                {
+                    created = Delegate.CreateDelegate(typeof(IntentHandler), dialog, method, throwOnBindFailure: false);
+                }
+                catch (ArgumentException)
+                {
+                    // "Cannot bind to the target method because its signature or security transparency is not compatible with that of the delegate type."
+                    // https://github.com/Microsoft/BotBuilder/issues/634
+                    // https://github.com/Microsoft/BotBuilder/issues/435
+                }
+
+                var intentHandler = (IntentHandler)created;
                 if (intentHandler != null)
                 {
                     var intentNames = intents.Select(i => i.IntentName).DefaultIfEmpty(method.Name);

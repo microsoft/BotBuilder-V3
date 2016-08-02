@@ -347,6 +347,9 @@
   <data name="TooManyAttempts" xml:space="preserve">
     <value>too many attempts</value>
   </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>Sorry, my bot code is having an issue.</value>
+  </data>
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>User profile deleted!</value>
   </data>

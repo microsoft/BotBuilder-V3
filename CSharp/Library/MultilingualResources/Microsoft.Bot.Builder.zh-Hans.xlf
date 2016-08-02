@@ -314,6 +314,10 @@
           <source>User profile deleted!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">用户配置文件删除 ！</target>
         </trans-unit>
+        <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
+          <source>Sorry, my bot code is having an issue.</source>
+          <target state="new">Sorry, my bot code is having an issue.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
