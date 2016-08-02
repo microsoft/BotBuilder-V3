@@ -5,7 +5,7 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.6",
       "compile": {
-        "bin/Debug/Microsoft.Bot.Builder.dll": {}
+        "bin/Release/Microsoft.Bot.Builder.dll": {}
       },
       "runtime": {
         "../packages/Autofac.3.5.2/lib/net40/Autofac.dll": {},
@@ -15,14 +15,21 @@
         "../packages/Microsoft.Rest.ClientRuntime.1.8.2/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
         "../packages/Microsoft.WindowsAzure.ConfigurationManager.3.2.1/lib/net40/Microsoft.WindowsAzure.Configuration.dll": {},
         "../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
-        "bin/Debug/Microsoft.Bot.Builder.dll": {}
+        "bin/Release/Microsoft.Bot.Builder.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/Microsoft.Bot.Builder.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
       }
     },
     "Microsoft.Bot.Connector/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.5",
       "compile": {
-        "bin/Debug/Microsoft.Bot.Connector.dll": {}
+        "bin/Release/Microsoft.Bot.Connector.dll": {}
       },
       "runtime": {
         "../../packages/Microsoft.AspNet.WebApi.Client.5.2.3/lib/net45/System.Net.Http.Formatting.dll": {},
@@ -31,7 +38,14 @@
         "../../packages/Microsoft.Rest.ClientRuntime.1.8.2/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
         "../../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
         "../../packages/System.IdentityModel.Tokens.Jwt.4.0.2.206221351/lib/net45/System.IdentityModel.Tokens.Jwt.dll": {},
-        "bin/Debug/Microsoft.Bot.Connector.dll": {}
+        "bin/Release/Microsoft.Bot.Connector.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/Microsoft.Bot.Connector.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
       }
     }
   }

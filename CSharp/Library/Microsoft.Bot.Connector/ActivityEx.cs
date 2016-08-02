@@ -35,13 +35,15 @@ namespace Microsoft.Bot.Connector
             reply.From = this.Recipient;
             reply.Recipient = this.From;
             reply.ReplyToId = this.Id;
+            reply.ServiceUrl = this.ServiceUrl;
+            reply.ChannelId = this.ChannelId;
             reply.Conversation = this.Conversation;
             reply.Conversation.IsGroup = null; // don't need to send in a reply
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? this.Locale;
             return reply;
         }
-                
+
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
         public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
