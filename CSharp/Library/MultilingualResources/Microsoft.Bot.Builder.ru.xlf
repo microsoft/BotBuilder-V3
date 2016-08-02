@@ -316,6 +316,10 @@
           <source>User profile deleted!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Профиль пользователя удален!</target>
         </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Подтверждение</target>
+        </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
           <target state="new">Sorry, my bot code is having an issue.</target>

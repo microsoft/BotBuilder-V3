@@ -377,6 +377,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return this;
         }
 
+        /// <summary>
+        /// Set the full field description.
+        /// </summary>
+        /// <param name="description">The field description.</param>
+        /// <returns>A <see cref="Field{T}"/>. </returns>
+        public Field<T> SetFieldDescription(DescribeAttribute description)
+        {
+            _description = description;
+            return this;
+        }
+
         /// <summary>   Set the terms associated with the field. </summary>
         /// <param name="terms">    The terms. </param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
@@ -398,6 +409,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return this;
         }
 
+        /// <summary>   Adds a full description for a value. </summary>
+        /// <param name="value">        The value. </param>
+        /// <param name="description">  Description of the value. </param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> AddDescription(object value, DescribeAttribute description)
+        {
+            _valueDescriptions[value] = description;
+            return this;
+        }
+
         /// <summary>   Adds terms for a value. </summary>
         /// <param name="value">    The value. </param>
         /// <param name="terms">    The terms. </param>
@@ -405,6 +426,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public Field<T> AddTerms(object value, params string[] terms)
         {
             _valueTerms[value] = new TermsAttribute(terms);
+            return this;
+        }
+
+        /// <summary>   Adds terms for a value. </summary>
+        /// <param name="value">    The value. </param>
+        /// <param name="terms">    The terms to add. </param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> AddTerms(object value, TermsAttribute terms)
+        {
+            _valueTerms[value] = terms;
             return this;
         }
 

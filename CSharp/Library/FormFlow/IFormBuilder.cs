@@ -303,6 +303,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         public string Navigation = Resources.Navigation;
 
         /// <summary>
+        /// String for naming "Confirmation" fields.
+        /// </summary>
+        public string Confirmation = Resources.Confirmation;
+
+        /// <summary>
         /// Default templates to use if not override on the class or field level.
         /// </summary>
         public List<TemplateAttribute> Templates = new List<TemplateAttribute>

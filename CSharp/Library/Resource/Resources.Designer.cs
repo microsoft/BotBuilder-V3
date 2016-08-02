@@ -196,6 +196,15 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmation.
+        /// </summary>
+        internal static string Confirmation {
+            get {
+                return ResourceManager.GetString("Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {1}.
         /// </summary>
         internal static string ConfirmChoiceFormat {

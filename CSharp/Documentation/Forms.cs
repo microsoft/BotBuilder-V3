@@ -550,9 +550,12 @@
     /// 
     /// \subsection logic Adding Business Logic
     /// Sometimes there are complex interdependencies between fields or you need to 
-    /// add logic to setting or getting a value. Here we want to add support
-    /// for including all toppings except some of them. To do this, we add a validation function which complements
-    /// the list if the Everything enum value is included:
+    /// add logic to setting or getting a value.  A validation function allows manipulating the state and also returns a ValidateResult which can:
+    /// * Return a feedback string describing why a value is not valid.
+    /// * Return a transformed value.
+    /// * Return a set of choices for clarifying a value.  
+    /// 
+    /// Here we want to add support for including all toppings except some of them.  To do this we complement the list if the Everything enum value is included:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip nameof(Toppings)
     /// \until Message

@@ -46,8 +46,35 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <returns>True if step is active given the current form state.</returns>
     public delegate bool ActiveDelegate<T>(T state);
 
+    /// <summary>
+    /// Choice for clarifying an amiguous value in <see cref="ValidateResult"/>.
+    /// </summary>
+    [Serializable]
+    public class Choice
+    {
+        /// <summary>
+        /// Value to return if choice is selected.
+        /// </summary>
+        public object Value;
+
+        /// <summary>
+        /// Description of value.
+        /// </summary>
+        public DescribeAttribute Description;
+
+        /// <summary>
+        /// Terms to match value.
+        /// </summary>
+        public TermsAttribute Terms;
+    }
+
     /// <summary>   Encapsulates the result of a <see cref="ValidateAsyncDelegate{T}"/> </summary>
-    public struct ValidateResult
+    /// <remarks>
+    ///          If <see cref="IsValid"/> is true, then the field will be set to <see cref="Value"/>.
+    ///          Otherwise if <see cref="Choices"/> is  non-null they will be used to select a clarifying value.
+    ///          Otherwise the <see cref="Feedback"/> string will be shown to indicate why the value is not valid.
+    ///          </remarks>
+    public class ValidateResult
     {
         /// <summary>   Feedback to provide back to the user on the input. </summary>
         public string Feedback;
@@ -60,6 +87,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <remarks>This provides an opportunity for validation to compute the final value.</remarks>
         public object Value;
+
+        /// <summary>
+        /// Choices for clarifying response.
+        /// </summary>
+        public IEnumerable<Choice> Choices;
     }
 
     /// <summary>

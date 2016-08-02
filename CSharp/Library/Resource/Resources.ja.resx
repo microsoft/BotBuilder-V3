@@ -246,4 +246,7 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>ユーザー プロファイル削除!</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>確認</value>
+  </data>
 </root>

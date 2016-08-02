@@ -140,9 +140,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            ValidateResult feedback;
+            ValidateResult feedback = new ValidateResult();
             feedback.IsValid = true;
             feedback.Feedback = null;
+            feedback.Choices = null;
             FormPrompt prompt = null;
             FormPrompt feedbackPrompt = null;
             var iprompt = _field.Prompt;
@@ -161,6 +162,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         response = new List<object>() { response };
                     }
                     feedback = await SetValueAsync(state, response, form);
+                    if (!feedback.IsValid && feedback.Choices != null)
+                    {
+                        var choices = new Ambiguous(input.Substring(firstMatch.Start, firstMatch.Length), feedback.Choices);
+                        fieldState.State = FieldStepStates.SentClarify;
+                        fieldState.Settled = new List<object>();
+                        fieldState.Clarifications = new List<Ambiguous>() { choices };
+                        response = SetValue(state, null);
+                        prompt = ClarifyPrompt((FieldStepState)form.StepState, iprompt.Recognizer, state);
+                    }
                 }
                 else if (matches.Count() > 1)
                 {
@@ -310,7 +320,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else if (fieldState.State == FieldStepStates.SentClarify)
             {
-                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, null, input);
+                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, _field, input);
             }
             return feedback;
         }
@@ -433,9 +443,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var field = new FieldClarify(_field);
             foreach (var value in clarify.Values)
             {
-                var desc = recognizer.ValueDescription(value);
-                field.AddDescription(value, desc.Description, desc.Image);
-                field.AddTerms(value, recognizer.ValidInputs(value).ToArray());
+                var choice = value as Choice;
+                if (choice != null)
+                {
+                    field.AddDescription(choice.Value,
+                        choice.Description.Description,
+                        choice.Description.Image,
+                        choice.Description.Message);
+                    field.AddTerms(choice.Value, choice.Terms.Alternatives);
+                }
+                else
+                {
+                    var desc = recognizer.ValueDescription(value);
+                    field.AddDescription(value, desc.Description, desc.Image);
+                    field.AddTerms(value, recognizer.ValidInputs(value).ToArray());
+                }
             }
             return field;
         }

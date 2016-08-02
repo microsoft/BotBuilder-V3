@@ -162,6 +162,9 @@
   <data name="CommandStatusTerms" xml:space="preserve">
     <value>status;progress;so far;results</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
   <data name="ConfirmChoiceFormat" xml:space="preserve">
     <value>{1}</value>
     <comment>0-number, 1-description</comment>

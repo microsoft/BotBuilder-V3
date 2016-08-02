@@ -245,4 +245,7 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>Profil de l’utilisateur supprimé !</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
 </root>

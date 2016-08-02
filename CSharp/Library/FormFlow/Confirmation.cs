@@ -59,6 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetActive(condition);
+            SetFieldDescription(new DescribeAttribute(form.Configuration.Confirmation) { IsLocalizable = false });
             var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
             _next = (value, state) => (bool) value ? new NextStep() : noStep;
         }
@@ -77,6 +78,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetActive(condition);
+            SetFieldDescription(new DescribeAttribute(form.Configuration.Confirmation) { IsLocalizable = false });
             var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
             SetNext((value, state) => (bool)value ? new NextStep() : noStep);
         }

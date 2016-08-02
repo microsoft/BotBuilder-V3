@@ -245,4 +245,7 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>مشخصات کاربر حذف شده!</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>تأیید</value>
+  </data>
 </root>

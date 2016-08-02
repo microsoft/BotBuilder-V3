@@ -332,6 +332,14 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 // Test to see if step is skipped
                                 state.Phone = "111-1111";
                             }
+                            else if (str == "2")
+                            {
+                                result.Choices = new List<Choice>{
+                                    new Choice { Description = new DescribeAttribute("2 Iowa St"), Terms = new TermsAttribute("iowa"), Value = "2 Iowa St"},
+                                    new Choice { Description = new DescribeAttribute("2 Kansas St"), Terms = new TermsAttribute("kansas"), Value = "2 Kansas St"}
+                                };
+                                result.IsValid = false;
+                            }
                         }
                         return result;
                     })
