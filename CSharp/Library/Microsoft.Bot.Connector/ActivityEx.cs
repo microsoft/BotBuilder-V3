@@ -42,6 +42,8 @@ namespace Microsoft.Bot.Connector
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? this.Locale;
             reply.ServiceUrl = this.ServiceUrl;
+            reply.Attachments = new List<Attachment>();
+            reply.Entities = new List<Entity>();
             return reply;
         }
 
