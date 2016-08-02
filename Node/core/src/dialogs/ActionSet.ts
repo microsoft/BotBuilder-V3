@@ -49,7 +49,7 @@ export interface IRecognizeActionResult {
     score: number;
     action?: string;
     expression?: RegExp;
-    matched?: string; 
+    matched?: string[]; 
     data?: string;
     dialogId?: string;
     dialogIndex?: number;
@@ -83,7 +83,7 @@ export class ActionSet {
                                 result.score = score;
                                 result.action = name;
                                 result.expression = exp;
-                                result.matched = matched;
+                                result.matched = matches;
                                 if (score == 1.0) {
                                     break;
                                 }

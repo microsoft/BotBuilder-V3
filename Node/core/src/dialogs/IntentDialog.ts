@@ -54,9 +54,9 @@ export interface IIntentRecognizer {
 export interface IIntentRecognizerResult extends dlg.IRecognizeResult {
     intent: string;
     expression?: RegExp;
-    matched?: string; 
+    matched?: string[]; 
     intents?: IIntent[];
-    entities?: IEntity[]; 
+    entities?: IEntity[];
 }
 
 export class IntentDialog extends dlg.Dialog {
@@ -149,7 +149,7 @@ export class IntentDialog extends dlg.Dialog {
                             result.score = score;
                             result.intent = exp.toString();
                             result.expression = exp;
-                            result.matched = matched;
+                            result.matched = matches;
                             if (score == 1.0) {
                                 break;
                             }

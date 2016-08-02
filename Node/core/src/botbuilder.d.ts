@@ -384,8 +384,8 @@ export interface IRecognizeActionResult extends IRecognizeResult {
     /** A regular expression that was matched. */
     expression?: RegExp;
 
-    /** The text that was matched by [expression](#expression). */
-    matched?: string;
+    /** The results of the [expression](#expression) that was matched. matched[0] will be the text that was matched and matched[1...n] is the result of capture groups.  */
+    matched?: string[];
 
     /** Optional data passed as part of the action binding. */    
     data?: string;
@@ -566,8 +566,8 @@ interface IIntentRecognizerResult extends IRecognizeResult {
     /** A regular expression that was matched. */
     expression?: RegExp;
 
-    /** The text that was matched by [expression](#expression). */
-    matched?: string;
+    /** The results of the [expression](#expression) that was matched. matched[0] will be the text that was matched and matched[1...n] is the result of capture groups.  */
+    matched?: string[];
 
     /** Full list of intents that were matched. */
     intents?: IIntent[];
