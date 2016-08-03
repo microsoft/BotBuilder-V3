@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -60,6 +63,37 @@ namespace Microsoft.Bot.Builder.FormFlow
             if (resourceName == null)
             {
                 resourceName = typeof(T).FullName;
+            }
+            if (this._form._prompter == null)
+            {
+                this._form._prompter = async (context, prompt) =>
+                {
+                    var msg = context.MakeMessage();
+                    if (prompt.Buttons?.Count > 0)
+                    {
+                        var style = prompt.Style;
+                        if (style == ChoiceStyleOptions.Auto)
+                        {
+                            foreach(var button in prompt.Buttons)
+                            {
+                                // Images require carousel
+                                if (button.Image != null)
+                                {
+                                    style = ChoiceStyleOptions.Carousel;
+                                    break;
+                                }
+                            }
+                        }
+                        msg.AttachmentLayout = (style == ChoiceStyleOptions.Carousel ? AttachmentLayoutTypes.Carousel : AttachmentLayoutTypes.List);
+                        msg.Attachments = prompt.Buttons.GenerateAttachments(prompt.Prompt);
+                    }
+                    else
+                    {
+                        msg.Text = prompt.Prompt;
+                    }
+                    await context.PostAsync(msg);
+                    return prompt;
+                };
             }
             var lang = resourceAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
             if (lang != null && !string.IsNullOrWhiteSpace(lang.CultureName))
@@ -157,6 +191,12 @@ namespace Microsoft.Bot.Builder.FormFlow
         public virtual IFormBuilder<T> OnCompletion(OnCompletionAsyncDelegate<T> callback)
         {
             _form._completion = callback;
+            return this;
+        }
+
+        public virtual IFormBuilder<T> Prompter(PromptAsyncDelegate prompter)
+        {
+            _form._prompter = prompter;
             return this;
         }
 
@@ -273,6 +313,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             internal readonly Fields<T> _fields = new Fields<T>();
             internal readonly List<IStep<T>> _steps = new List<IStep<T>>();
             internal OnCompletionAsyncDelegate<T> _completion = null;
+            internal PromptAsyncDelegate _prompter = null;
             internal ILocalizer _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
 
             public Form()
@@ -324,6 +365,11 @@ namespace Microsoft.Bot.Builder.FormFlow
                 {
                     return _steps;
                 }
+            }
+
+            internal override async Task<FormPrompt> Prompt(IDialogContext context, FormPrompt prompt)
+            {
+                return prompt == null ? prompt : await _prompter(context, prompt);
             }
 
             internal override OnCompletionAsyncDelegate<T> Completion

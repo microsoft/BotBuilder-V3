@@ -169,7 +169,17 @@ namespace Microsoft.Bot.Builder.FormFlow
         PerLine,
 
         /// <summary>   Show choices on the same line without surrounding parentheses. </summary>
-        InlineNoParen
+        InlineNoParen,
+
+        /// <summary>
+        /// Show choices as buttons if possible.
+        /// </summary>
+        Buttons,
+
+        /// <summary>
+        /// Show choices as a carousel if possibe.
+        /// </summary>
+        Carousel
     };
 
 

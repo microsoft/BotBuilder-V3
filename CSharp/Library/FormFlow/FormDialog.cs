@@ -293,22 +293,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 FormPrompt lastPrompt = _formState.LastPrompt;
                 Func<FormPrompt, Task<FormPrompt>> PostAsync = async (prompt) =>
                 {
-                    if (prompt != null)
-                    {
-                        var msg = context.MakeMessage();
-                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                        if (prompt.Buttons?.Count > 0)
-                        {
-                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                            msg.Attachments = prompt.Buttons.GenerateAttachments(prompt.Prompt);
-                        }
-                        else
-                        {
-                            msg.Text = prompt.Prompt;
-                        }
-                        await context.PostAsync(msg);
-                    }
-                    return prompt;
+                    return await _form.Prompt(context, prompt);
                 };
                 Func<IStep<T>, IEnumerable<TermMatch>, Task<bool>> DoStepAsync = async (step, matches) =>
                 {

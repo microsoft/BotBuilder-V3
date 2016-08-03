@@ -128,7 +128,6 @@
     <Compile Include="FormFlow\Field.cs" />
     <Compile Include="FormFlow\FormDialog.cs" />
     <Compile Include="FormFlow\FormBuilder.cs" />
-    <Compile Include="FormFlow\Form.cs" />
     <Compile Include="FormFlow\FormState.cs" />
     <Compile Include="FormFlow\IField.cs" />
     <Compile Include="FormFlow\ILocalizer.cs" />

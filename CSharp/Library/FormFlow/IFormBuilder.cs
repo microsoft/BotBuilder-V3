@@ -208,6 +208,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         #endregion
         IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
+
+        /// <summary>
+        /// Delegate to send prompt to user.
+        /// </summary>
+        /// <param name="prompter">Delegate.</param>
+        /// <returns>Modified IFormBuilder.</returns>
+        IFormBuilder<T> Prompter(PromptAsyncDelegate prompter);
+
         /// <summary>
         /// Delegate to call when form is completed.
         /// </summary>
@@ -376,7 +384,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
             new TemplateAttribute(TemplateUsage.String, Resources.TemplateString) { ChoiceFormat = Resources.TemplateStringChoiceFormat },
             // {0} is current choice, {1} is no preference
-			new TemplateAttribute(TemplateUsage.StringHelp, Resources.TemplateStringHelp),
+            new TemplateAttribute(TemplateUsage.StringHelp, Resources.TemplateStringHelp),
 
             new TemplateAttribute(TemplateUsage.Unspecified, Resources.TemplateUnspecified)
         };

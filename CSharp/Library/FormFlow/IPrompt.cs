@@ -41,6 +41,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -93,6 +94,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
 
+        /// <summary>
+        /// Desired prompt style.
+        /// </summary>
+        public ChoiceStyleOptions Style;
+
         public override string ToString()
         {
             return $"{Prompt} {Language.BuildList(Buttons.Select(button => button.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
@@ -107,6 +113,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var newPrompt = new FormPrompt();
             newPrompt.Prompt = this.Prompt;
             newPrompt.Buttons = this.Buttons.Clone();
+            newPrompt.Style = this.Style;
             return newPrompt;
         }
     }
@@ -161,6 +168,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return Title;
         }
     }
+
+    /// <summary>
+    /// A delegate for styling and posting a prompt.
+    /// </summary>
+    /// <param name="context">Message context.</param>
+    /// <param name="prompt">Prompt to be posted.</param>
+    /// <returns>Prompt that was posted.</returns>
+    public delegate Task<FormPrompt> PromptAsyncDelegate(IDialogContext context, FormPrompt prompt);
 
     public static partial class Extensions
     {
@@ -270,7 +285,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new FormPrompt
             {
                 Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
-                Buttons = buttons
+                Buttons = buttons,
+                Style = _annotation.ChoiceStyle
             };
         }
 
@@ -365,7 +381,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var builder = new StringBuilder();
                     var values = _recognizer.ValueDescriptions();
-                    var useButtons = !field.AllowsMultiple && _annotation.ChoiceStyle == ChoiceStyleOptions.Auto;
+                    var useButtons = !field.AllowsMultiple
+                        && (_annotation.ChoiceStyle == ChoiceStyleOptions.Auto
+                            || _annotation.ChoiceStyle == ChoiceStyleOptions.Buttons
+                            || _annotation.ChoiceStyle == ChoiceStyleOptions.Carousel);
                     if (values.Any() && _annotation.AllowDefault != BoolDefault.False && field.Optional)
                     {
                         values = values.Concat(new DescribeAttribute[] { new DescribeAttribute(Language.Normalize(noValue, _annotation.ChoiceCase)) });
