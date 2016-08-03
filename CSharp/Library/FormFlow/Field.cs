@@ -540,6 +540,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             _recognizer = recognizer;
+            _buildPrompts = true;
             return this;
         }
 
@@ -703,10 +704,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         _recognizer = new RecognizeEnumeration<T>(this);
                     }
                 }
+                _buildPrompts = true;
+            }
+            if (_buildPrompts)
+            { 
                 var template = Template(TemplateUsage.Help);
                 _help = new Prompter<T>(template, _form, _recognizer);
                 var prompt = _promptDefinition;
                 _prompt = new Prompter<T>(_promptDefinition, _form, _recognizer);
+                _buildPrompts = false;
             }
         }
 
@@ -745,6 +751,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
         protected bool _promptSet;
         protected PromptAttribute _promptDefinition;
+        protected bool _buildPrompts = true;
         protected IRecognize<T> _recognizer;
         protected IPrompt<T> _help;
         protected IPrompt<T> _prompt;
