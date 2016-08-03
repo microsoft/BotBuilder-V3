@@ -250,4 +250,7 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Подтверждение</value>
   </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>К сожалению, мой скрипт код имеет проблему.</value>
+  </data>
 </root>

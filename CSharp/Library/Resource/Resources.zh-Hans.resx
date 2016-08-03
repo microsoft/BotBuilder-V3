@@ -248,4 +248,7 @@
   <data name="Confirmation" xml:space="preserve">
     <value>确认</value>
   </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>对不起，我的 bot 代码时遇到问题。</value>
+  </data>
 </root>

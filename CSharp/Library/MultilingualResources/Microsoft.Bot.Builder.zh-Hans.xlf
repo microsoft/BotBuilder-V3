@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="new">Sorry, my bot code is having an issue.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">对不起，我的 bot 代码时遇到问题。</target>
         </trans-unit>
       </group>
     </body>

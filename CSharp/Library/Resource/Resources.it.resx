@@ -248,4 +248,7 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Conferma</value>
   </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>Ci dispiace, il mio codice di bot sta riscontrando un problema.</value>
+  </data>
 </root>

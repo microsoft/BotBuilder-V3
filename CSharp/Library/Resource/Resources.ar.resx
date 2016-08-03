@@ -248,4 +248,7 @@
   <data name="Confirmation" xml:space="preserve">
     <value>تأكيد</value>
   </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>عذراً، رمز بوت هو وجود مشكلة.</value>
+  </data>
 </root>
