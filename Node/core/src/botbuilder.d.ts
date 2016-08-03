@@ -1863,6 +1863,21 @@ export class IntentDialog extends Dialog {
     matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
+     * Invokes a handler when any of the given intents are detected in the users utterance.
+     *
+     * > __NOTE:__ The full details of the match, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param intent
+     * * __intent:__ _{RegExp[]}_ - Array of regular expressions that will be evaluated to detect the users intent.
+     * * __intent:__ _{string[]}_ - Array of named intents returned by an [IIntentRecognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer) plugin that will be used to match the users intent.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
+    matchesAny(intent: RegExp[]|string[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
      * The default handler to invoke when there are no handlers that match the users intent.
      * 
      * > __NOTE:__ The full details of the recognition attempt, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.

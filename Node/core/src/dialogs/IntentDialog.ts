@@ -208,6 +208,13 @@ export class IntentDialog extends dlg.Dialog {
         return this;
     }
 
+    public matchesAny(intents: string[]|RegExp[], dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+        for (var i = 0; i < intents.length; i++) {
+            this.matches(intents[i], dialogId, dialogArgs);
+        }
+        return this;
+    }
+
     public onDefault(dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
         // Register handler
         if (Array.isArray(dialogId)) {
