@@ -361,7 +361,7 @@ export class Session extends events.EventEmitter implements ISession {
         return this._isReset;
     }
 
-    public sendBatch(): void {
+    public sendBatch(callback?: (err: Error) => void): void {
         logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);            
         if (this.sendingBatch) {
             return;
@@ -386,11 +386,17 @@ export class Session extends events.EventEmitter implements ISession {
                     if (this.batchStarted) {
                         this.startBatch();
                     }
+                    if (callback) {
+                        callback(err);
+                    }
                 });
             } else {
                 this.sendingBatch = false;
                 if (this.batchStarted) {
                     this.startBatch();
+                }
+                if (callback) {
+                    callback(err);
                 }
             }
         });

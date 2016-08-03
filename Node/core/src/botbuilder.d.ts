@@ -1113,8 +1113,11 @@ export class Session {
     /** Returns true if the session has been reset. */
     isReset(): boolean;
 
-    /** Immediately ends the current batch and delivers any queued up messages. */
-    sendBatch(): void;
+    /** 
+     * Immediately ends the current batch and delivers any queued up messages.
+     * @param callback (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     */
+    sendBatch(callback?: (err: Error) => void): void;
 }
     
 /**
