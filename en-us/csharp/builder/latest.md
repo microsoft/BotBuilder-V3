@@ -47,6 +47,7 @@ The framework is still in preview mode so developers should expect breaking chan
 #### Changes
 
 - Fix issue with MicrosoftAppCredentials not setting AuthToken
+
 ***
 
 ### [v3.0.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.0.0)
