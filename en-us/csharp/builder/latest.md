@@ -25,6 +25,23 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+
+### [v3.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.1.0)
+
+#### Breaking Change 
+
+- BotAuthentication attribute is now inheriting from ActionFilterAttribute and not AuthorizationFilterAttribute
+
+#### Changes
+
+- Make [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) consistency policy the default data consistency policy for IBotDataStore
+- Add better exception translation/propagation to bot builder internals
+- Make Bot authentication more reliable
+- Add trusted service urls to [MicrosoftAppCredentials](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Microsoft.Bot.Connector/MicrosoftAppCredentials.cs#L20)
+- General bug fixes
+
+***
+
 ### [v3.0.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.0.0)
 
 You can read more about v3 API and what have changed in more depth [here](http://docs.botframework.com/en-us/support/upgrade-code-to-v3/#navtitle). Here is a high-level list of changes in this release: 
