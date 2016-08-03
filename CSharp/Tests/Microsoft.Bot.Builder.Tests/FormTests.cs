@@ -332,6 +332,7 @@ namespace Microsoft.Bot.Builder.Tests
             await VerifyFormScript(@"..\..\PizzaForm.script",
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
                 "hi",
+                "garbage",
                 "2",
                 "med",
                 "4",
@@ -339,22 +340,29 @@ namespace Microsoft.Bot.Builder.Tests
                 "drink bread",
                 "back",
                 "c",
+                "garbage",
                 "no",
                 "thin",
                 "1",
                 "?",
+                "garbage",
                 "beef, onion, ice cream",
+                "garbage",
                 "onions",
                 "status",
                 "abc",
-                "1 state street",
+                "2",
+                "garbage",
+                "iowa",
                 "y",
                 "1 2",
                 "none",
+                "garbage",
                 "2.5",
+                "garbage",
                 "2/25/1962 3pm",
-                "no"
-                , "1234",
+                "no",
+                "1234",
                 "123-4567",
                 "no",
                 "toppings",
@@ -369,6 +377,7 @@ namespace Microsoft.Bot.Builder.Tests
             await VerifyFormScript(@"..\..\PizzaFormButton.script",
                 "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
                 "hi",
+                "garbage",
                 "2",
                 "med",
                 "4",
@@ -376,22 +385,29 @@ namespace Microsoft.Bot.Builder.Tests
                 "drink bread",
                 "back",
                 "c",
+                "garbage",
                 "no",
                 "thin",
                 "1",
                 "?",
+                "garbage",
                 "beef, onion, ice cream",
+                "garbage",
                 "onions",
                 "status",
                 "abc",
-                "1 state street",
+                "2",
+                "garbage",
+                "iowa",
                 "y",
                 "1 2",
                 "none",
+                "garbage",
                 "2.5",
+                "garbage", 
                 "2/25/1962 3pm",
-                "no"
-                , "1234",
+                "no", 
+                "1234",
                 "123-4567",
                 "no",
                 "toppings",
@@ -461,6 +477,16 @@ namespace Microsoft.Bot.Builder.Tests
                 "y",
                 "2.5"
                 );
+        }
+
+        [TestMethod]
+        public async Task FormFlow_Localization()
+        {
+            foreach(var locale in new string[] { "ar", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans"})
+            {
+                var root = new FormDialog<PizzaOrder>(new PizzaOrder(), () => PizzaOrder.BuildForm(), cultureInfo: CultureInfo.GetCultureInfo(locale));
+                Assert.AreNotEqual(null, root);
+            }
         }
 
         [TestMethod]
