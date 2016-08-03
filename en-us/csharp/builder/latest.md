@@ -42,6 +42,13 @@ The framework is still in preview mode so developers should expect breaking chan
 
 ***
 
+### [v3.0.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.0.1)
+
+#### Changes
+
+- Fix issue with MicrosoftAppCredentials not setting AuthToken
+***
+
 ### [v3.0.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.0.0)
 
 You can read more about v3 API and what have changed in more depth [here](http://docs.botframework.com/en-us/support/upgrade-code-to-v3/#navtitle). Here is a high-level list of changes in this release: 
