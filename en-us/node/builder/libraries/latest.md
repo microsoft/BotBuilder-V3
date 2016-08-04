@@ -22,6 +22,27 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.2.1
+
+__Breaking Changes__
+
+These changes will impact a small number of bots.
+
+* Updated IRecognizerActionResult.matched and IIntentRecognizerResult.matched to return all the matched results as an array versus just the text that matched. These changes shouldn't effect many people as its likely you were already re-evaluating the matched expression if you needed the capture data.
+* Added a new RecognizeMode for IntentDialogs which solves in issue where launching an IntentDialog as a sub dialog would cause it to immediately process the last utterance. This should only be a breaking change if you are using multiple IntentDialogs to scope down from a general model to a more specialized model.  In that case you'll want to create your specialized IntentDialogs with a `recognizeMode: builder.RecognizeMode.onBegin`.
+
+__Other Changes__
+
+* Added support for ordinal words to EntityRecognizer.parseNumber().
+* Added support for Facebook Quick Replies.
+* Added new Middleware.sendTyping()  function.   
+* Added optional callback param to sendBatch().
+* Added IntentDialog.matchesAny() method that takes an array of intents to match.
+* Fixed an issue for middleware that was causing session.beginDialog() calls to always run in the current dialogs library content which was often a system prompt. Now middleware assumes the default library context. 
+* Added support for gzip your bot data.
+* Fixed an issue where storing too much bot data would get your bot into a stuck state.
+* Updated LKG build and package.json version.
+
 ### v3.1.0
 * Removed try catches that were causing errors to be ate. Added logic to dump stack trace because node isn't always dumping on uncaught exceptions.
 * Added NODE_DEBUG logging switch to enable logging of channels other than the emulator.
