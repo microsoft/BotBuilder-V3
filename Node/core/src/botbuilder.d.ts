@@ -542,6 +542,9 @@ interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
+    /** Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    recognizeMode?: RecognizeMode;
+
     /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
     recognizeOrder?: RecognizeOrder;
 
@@ -670,6 +673,9 @@ interface IChatConnectorSettings {
 
     /** The bots App Password assigned in the Bot Framework Portal. */
     appPassword?: string;
+
+    /** If true the bots userData, privateConversationData, and conversationData will be gzipped prior to writing to storage. */
+    gzipData?: boolean;    
 }
 
 /** Options used to initialize a UniversalBot instance. */
@@ -881,6 +887,18 @@ export enum RecognizeOrder {
 
     /** Recognizers will be evaluated in series. Any recognizer that returns a score of 1.0 will prevent the evaluation of the remaining recognizers. */
     series 
+}
+
+/** Controls an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) processing of the users text utterances. */
+export enum RecognizeMode { 
+    /** Process text utterances whenever the dialog is first loaded through a call to session.beginDialog() and anytime a reply from the user is received. This was the default behaviour prior to version 3.2. */
+    onBegin, 
+
+    /** Processes text utterances anytime a reply is recieved but only when the dialog is first loaded if it's the root dialog. This is the default behaviour as of 3.2. */
+    onBeginIfRoot, 
+
+    /** Only process text utterances when a reply is recieved. */
+    onReply 
 }
 
 /**

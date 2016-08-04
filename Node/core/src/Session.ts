@@ -67,6 +67,7 @@ export class Session extends events.EventEmitter implements ISession {
     private batchTimer: NodeJS.Timer;
     private batchStarted = false;
     private sendingBatch = false;
+    private inMiddleware = false;
 
     constructor(protected options: ISessionOptions) {
         super();
@@ -86,6 +87,7 @@ export class Session extends events.EventEmitter implements ISession {
                 index++;
                 handler(session, next);
             } else {
+                this.inMiddleware = false;
                 this.routeMessage();
             }
         };
@@ -99,6 +101,7 @@ export class Session extends events.EventEmitter implements ISession {
         }
 
         // Dispatch message
+        this.inMiddleware = true;
         this.message = <IMessage>(message || { text: '' });
         if (!this.message.type) {
             this.message.type = consts.messageType;
@@ -380,21 +383,34 @@ export class Session extends events.EventEmitter implements ISession {
             cur.state = this.dialogData;
         }
         this.options.onSave((err) => {
-            if (!err && batch.length) {
-                this.options.onSend(batch, (err) => {
+            if (!err) {
+                if (batch.length) {
+                    this.options.onSend(batch, (err) => {
+                        this.sendingBatch = false;
+                        if (this.batchStarted) {
+                            this.startBatch();
+                        }
+                        if (callback) {
+                            callback(err);
+                        }
+                    });
+                } else {
                     this.sendingBatch = false;
                     if (this.batchStarted) {
                         this.startBatch();
                     }
-                    if (callback) {
-                        callback(err);
-                    }
-                });
+                }
             } else {
                 this.sendingBatch = false;
-                if (this.batchStarted) {
-                    this.startBatch();
-                }
+                switch ((<any>err).code || '') {
+                    case consts.Errors.EBADMSG:
+                    case consts.Errors.EMSGSIZE:
+                        // Something wrong with state so reset everything 
+                        this.userData = {};
+                        this.batch = [];
+                        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+                        break;
+                } 
                 if (callback) {
                     callback(err);
                 }
@@ -562,7 +578,7 @@ export class Session extends events.EventEmitter implements ISession {
             return id;
         }
         var cur = this.curDialog();
-        var libName = cur ? cur.id.split(':')[0] : consts.Library.default;
+        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : consts.Library.default;
         return libName + ':' + id;
     }
 

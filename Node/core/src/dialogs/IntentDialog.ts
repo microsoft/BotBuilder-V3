@@ -40,8 +40,11 @@ import async = require('async');
 
 export enum RecognizeOrder { parallel, series }
 
+export enum RecognizeMode { onBegin, onBeginIfRoot, onReply }
+
 export interface IIntentDialogOptions {
     intentThreshold?: number;
+    recognizeMode?: RecognizeMode;
     recognizeOrder?: RecognizeOrder;
     recognizers?: IIntentRecognizer[];
     processLimit?: number;
@@ -69,6 +72,9 @@ export class IntentDialog extends dlg.Dialog {
         if (typeof this.options.intentThreshold !== 'number') {
             this.options.intentThreshold = 0.1;
         }
+        if (!this.options.hasOwnProperty('recognizeMode')) {
+            this.options.recognizeMode = RecognizeMode.onBeginIfRoot;
+        }
         if (!this.options.hasOwnProperty('recognizeOrder')) {
             this.options.recognizeOrder = RecognizeOrder.parallel;
         }
@@ -81,17 +87,22 @@ export class IntentDialog extends dlg.Dialog {
     }
 
     public begin<T>(session: ses.Session, args: any): void {
+        var mode = this.options.recognizeMode;
+        var isRoot = (session.sessionState.callstack.length == 1);
+        var recognize = (mode == RecognizeMode.onBegin || (isRoot && mode == RecognizeMode.onBeginIfRoot)); 
         if (this.beginDialog) {
             try {
                 logger.info(session, 'IntentDialog.begin()');
                 this.beginDialog(session, args, () => {
-                    super.begin(session, args);
+                    if (recognize) {
+                        this.replyReceived(session);
+                    }
                 });
             } catch (e) {
                 this.emitError(session, e);
             }
-        } else {
-            super.begin(session, args);
+        } else if (recognize) {
+            this.replyReceived(session);
         }
     }
 

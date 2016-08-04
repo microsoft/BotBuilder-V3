@@ -42,10 +42,15 @@ import utils = require('../utils');
 import logger = require('../logger');
 import jwt = require('jsonwebtoken');
 import oid = require('./OpenIdMetadata');
+import zlib = require('zlib');
+import consts = require('../consts');
+
+var MAX_DATA_LENGTH = 65000;
 
 export interface IChatConnectorSettings {
     appId?: string;
     appPassword?: string;
+    gzipData?: boolean;
     endpoint?: IChatConnectorEndpoint;
     stateEndpoint?: string;
 }
@@ -279,15 +284,33 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 };
                 this.authenticatedRequest(options, (err: Error, response: http.IncomingMessage, body: IChatConnectorState) => {
                     if (!err && body) {
-                        try {
-                            var botData = body.data ? body.data : {};
-                            (<any>data)[entry.field + 'Hash'] = JSON.stringify(botData);
-                            (<any>data)[entry.field] = botData;
-                        } catch (e) {
-                            err = e;
+                        var botData = body.data ? body.data : {};
+                        if (typeof botData === 'string') {
+                            // Decompress gzipped data
+                            zlib.gunzip(new Buffer(botData, 'base64'), (err, result) => {
+                                if (!err) {
+                                    try {
+                                        var txt = result.toString();
+                                        (<any>data)[entry.field + 'Hash'] = txt;
+                                        (<any>data)[entry.field] = JSON.parse(txt);
+                                    } catch (e) {
+                                        err = e;
+                                    }
+                                }
+                                cb(err);
+                            });
+                        } else {
+                            try {
+                                (<any>data)[entry.field + 'Hash'] = JSON.stringify(botData);
+                                (<any>data)[entry.field] = botData;
+                            } catch (e) {
+                                err = e;
+                            }
+                            cb(err);
                         }
+                    } else {
+                        cb(err);
                     }
-                    cb(err);
                 });
             }, (err) => {
                 if (!err) {
@@ -308,10 +331,10 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             var hash = JSON.stringify(botData);
             if (!(<any>data)[hashKey] || hash !== (<any>data)[hashKey]) {
                 (<any>data)[hashKey] = hash;
-                list.push({ botData: botData, url: url });
+                list.push({ botData: botData, url: url, hash: hash });
             }
         }
-        
+
         try {
             // Build list of write commands
             var root = this.getStoragePath(context.address);
@@ -335,15 +358,41 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
 
             // Execute writes in parallel
             async.each(list, (entry, cb) => {
-                var options: request.Options = {
-                    method: 'POST',
-                    url: entry.url,
-                    body: { eTag: '*', data: entry.botData },
-                    json: true
-                };
-                this.authenticatedRequest(options, (err, response, body) => {
+                if (this.settings.gzipData) {
+                    zlib.gzip(entry.hash, (err, result) => {
+                        if (!err && result.length > MAX_DATA_LENGTH) {
+                            err = new Error("Data of " + result.length + " bytes gzipped exceeds the " + MAX_DATA_LENGTH + " byte limit. Can't post to: " + entry.url);
+                            (<any>err).code = consts.Errors.EMSGSIZE;
+                        }
+                        if (!err) {
+                            var options: request.Options = {
+                                method: 'POST',
+                                url: entry.url,
+                                body: { eTag: '*', data: result.toString('base64') },
+                                json: true
+                            };
+                            this.authenticatedRequest(options, (err, response, body) => {
+                                cb(err);
+                            });
+                        } else {
+                            cb(err);
+                        }
+                    });
+                } else if (entry.hash.length < MAX_DATA_LENGTH) {
+                    var options: request.Options = {
+                        method: 'POST',
+                        url: entry.url,
+                        body: { eTag: '*', data: entry.botData },
+                        json: true
+                    };
+                    this.authenticatedRequest(options, (err, response, body) => {
+                        cb(err);
+                    });
+                } else {
+                    var err = new Error("Data of " + entry.hash.length + " bytes exceeds the " + MAX_DATA_LENGTH + " byte limit. Consider setting connectors gzipData option. Can't post to: " + entry.url);
+                    (<any>err).code = consts.Errors.EMSGSIZE;
                     cb(err);
-                });
+                }
             }, (err) => {
                 if (callback) {
                     if (!err) {
@@ -355,7 +404,9 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             });
         } catch (e) {
             if (callback) {
-                callback(e instanceof Error ? e : new Error(e.toString()));
+                var err = e instanceof Error ? e : new Error(e.toString());
+                err.code = consts.Errors.EBADMSG;
+                callback(err);
             }
         }
     }
