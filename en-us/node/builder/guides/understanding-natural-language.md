@@ -11,13 +11,13 @@ parent2: Guides
 {:toc}
 
 ## LUIS
-Microsofts [Language Understanding Intelligent Service (LUIS)](http://luis.ai) offers a fast and effective way of adding language understanding to applications. With LUIS, you can use pre-existing, world-class, pre-built models from Bing and Cortana whenever they suit your purposes -- and when you need specialized models, LUIS guides you through the process of quickly building them. 
+Microsofts [Language Understanding Intelligent Service (LUIS)](http://luis.ai){:target="_blank"} offers a fast and effective way of adding language understanding to applications. With LUIS, you can use pre-existing, world-class, pre-built models from Bing and Cortana whenever they suit your purposes -- and when you need specialized models, LUIS guides you through the process of quickly building them. 
 
-LUIS draws on technology for interactive machine learning and language understanding from [Microsoft Research](http://research.microsoft.com/en-us/) and Bing, including Microsoft Research's Platform for Interactive Concept Learning (PICL). LUIS is a part of project of Microsoft [Project Oxford](https://www.projectoxford.ai/). 
+LUIS draws on technology for interactive machine learning and language understanding from [Microsoft Research](http://research.microsoft.com/en-us/){:target="_blank"} and Bing, including Microsoft Research's Platform for Interactive Concept Learning (PICL). LUIS is a part of project of Microsoft [Project Oxford](https://www.projectoxford.ai/){:target="_blank"}. 
 
 Bot Builder lets you use LUIS to add natural language understanding to your bot via the [LuisDialog](/en-us/node/builder/chat/IntentDialog/) class. You can add an instance of a LuisDialog that references your published language model and then add intent handlers to take actions in response to users utterances.  To see LUIS in action watch the 10 minute tutorial below.
 
-* [Microsoft LUIS Tutorial](https://vimeo.com/145499419) (video)
+* [Microsoft LUIS Tutorial](https://vimeo.com/145499419){:target="_blank"} (video)
 
 ## Intents, Entities, and Model Training
 One of the key problems in human-computer interactions is the ability of the computer to understand what a person wants, and to find the pieces of information that are relevant to their intent. For example, in a news-browsing app, you might say "Get news about virtual reality companies," in which case there is the intention to FindNews, and "virtual reality companies" is the topic. LUIS is designed to enable you to very quickly deploy an http endpoint that will take the sentences you send it, and interpret them in terms of the intention they convey, and the key entities like "virtual reality companies" that are present. LUIS lets you custom design the set of intentions and entities that are relevant to the application, and then guides you through the process of building a language understanding system. 
@@ -25,7 +25,7 @@ One of the key problems in human-computer interactions is the ability of the com
 Once your application is deployed and traffic starts to flow into the system, LUIS uses active learning to improve itself. In the active learning process, LUIS identifies the interactions that it is relatively unsure of, and asks you to label them according to intent and entities. This has tremendous advantages: LUIS knows what it is unsure of, and asks you to help where you will provide the maximum improvement in system performance. Secondly, by focusing on the important cases, LUIS learns as quickly as possible, and takes the minimum amount of your time. 
 
 ## Create Your Model
-The first step of adding natural language support to your bot is to create your LUIS Model. You do this by logging into [LUIS](http://luis.ai) and creating a new LUIS Application for your bot. This application is what you’ll use to add the Intents & Entities that LUIS will use to train your bots Model.
+The first step of adding natural language support to your bot is to create your LUIS Model. You do this by logging into [LUIS](http://luis.ai){:target="_blank"} and creating a new LUIS Application for your bot. This application is what you’ll use to add the Intents & Entities that LUIS will use to train your bots Model.
 
 ![Create LUIS Application](/en-us/images/builder/builder-luis-create-app.png)
 

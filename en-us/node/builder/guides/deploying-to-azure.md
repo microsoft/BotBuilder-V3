@@ -15,12 +15,12 @@ There are many ways to deploy your bot to Azure, depending on your situation. We
 
 ## Prerequisites
 
-* In order to complete these steps, you need an [Azure Subscription](https://azure.microsoft.com/en-us/free/).
+* In order to complete these steps, you need an [Azure Subscription](https://azure.microsoft.com/en-us/free/){:target="_blank"}.
 
 
 ## I want to setup continuous integration from my local git
 
-This section assumes you have completed the [Core Concepts guide](/en-us/node/builder/guides/core-concepts/). 
+This section assumes you have completed the [Core Concepts guide](/en-us/node/builder/guides/core-concepts/){:target="_blank"}. 
 
 ### Step 1: Install the Azure CLI
 
@@ -48,7 +48,7 @@ where *\<appname\>* is the name of the site you want to create. This will result
 
 You will be prompted to enter your deployment credentials. If you don't have them, you can configure them on the Azure Portal by following these simple steps:
 
-1. Visit the [Azure Portal](http://portal.azure.com/)
+1. Visit the [Azure Portal](http://portal.azure.com/){:target="_blank"}
 2. Click on the site you've just created, and open the all settings blade
 3. In the Publishing section, click on Deployment credentials, enter a username and password, and save  
 ![Deployment credentials](/en-us/images/builder/publishing-your-bot-deployment-credentials.png)
@@ -61,7 +61,7 @@ You will be prompted to enter your deployment credentials. If you don't have the
 
 ## I want to setup continuous integration from github
 
-Let's use use the [sample bot](https://github.com/fuselabs/echobot) as a starter template for your own Node.js based bot.
+Let's use use the [sample bot](https://github.com/fuselabs/echobot){:target="_blank"} as a starter template for your own Node.js based bot.
 
 *note: in the examples below, replace "echobotsample" with your bot ID for any settings or URLs.*
 
@@ -72,7 +72,7 @@ Let's use use the [sample bot](https://github.com/fuselabs/echobot) as a starter
 ### Step 1: Get a github repo
 
 For this tutorial we'll use the sample echobot repo. 
-Fork the [echobot repo](https://github.com/fuselabs/echobot).
+Fork the [echobot repo](https://github.com/fuselabs/echobot){:target="_blank"}.
 
 ### Step 2: Create an Azure web app
 
@@ -84,7 +84,7 @@ You will be asked to authorize Azure access to your GitHub repo, and then choose
 
 ![Set up continuous deployment to Azure from your Github repo](/en-us/images/builder/azure-deployment.png?raw=true)
 
-Verify the deployment has completed by visiting the web app. [http://echobotsample.azurewebsites.net/](https://echobotsample.azurewebsites.net/). It may take a minute of two for the initial fetch and build from your repo.
+Verify the deployment has completed by visiting the web app. [http://echobotsample.azurewebsites.net/](https://echobotsample.azurewebsites.net/){:target="_blank"}. It may take a minute of two for the initial fetch and build from your repo.
 ![](/en-us/images/builder/azure-browse.png?raw=true)
 
 ### Step 4: Enter your temporary Bot Framework App ID and App Secret into Application settings

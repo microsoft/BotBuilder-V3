@@ -60,7 +60,7 @@ The emulator doesn’t currently support testing calling bots so you’ll need t
 Follow the instructions [here](/en-us/node/builder/guides/core-concepts/#debugging-locally-using-ngrok) to setup ngrok on your machine and prep your environment for debugging.
 
 ### register your bot
-Follow the instructions outlined [here](/en-us/directory/publishing/) to register your bot and enable the skype channel. You will need provide a messaging endpoint when you register your bot in the [developer portal](botframework.com) and we typically recommend that you pair your calling bot with a chat bot so the chat bot’s endpoint is what you would normally put in that field.  If you’re only registering a calling bot you can simply paste your calling endpoint into that field.  
+Follow the instructions outlined [here](/en-us/directory/publishing/) to register your bot and enable the skype channel. You will need provide a messaging endpoint when you register your bot in the [developer portal](http://www.botframework.com){:target="_blank"} and we typically recommend that you pair your calling bot with a chat bot so the chat bot’s endpoint is what you would normally put in that field.  If you’re only registering a calling bot you can simply paste your calling endpoint into that field.  
 
 To enable the actual calling feature you’ll need to go into the skype channel for your bot and turn on the calling feature. You’ll then be provided with a field to copy your calling endpoint into. Make sure you use the https ngrok link for the host portion of your calling endpoint.
 

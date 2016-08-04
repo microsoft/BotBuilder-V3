@@ -34,7 +34,7 @@ var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 {% endhighlight %}
 
-The UniversalBot class implements all of logic to manage the bots’ conversations with users. You can bind the UniversalBot to a variety of channels using connectors. For this guide we’ll just chat with the bot from a console window so we’ll use the ConsoleConnector class. In the future when you’re ready to deploy your bot to real channels you’ll want to swap out the ConsoleConnector for a ChatConnector configured with your bots App ID & Password  from the Bot Framework portal. 
+The UniversalBot class implements all of logic to manage the bots' conversations with users. You can bind the UniversalBot to a variety of channels using connectors. For this guide we'll just chat with the bot from a console window so we'll use the ConsoleConnector class. In the future when you're ready to deploy your bot to real channels you'll want to swap out the ConsoleConnector for a ChatConnector configured with your bots App ID & Password  from the Bot Framework portal. 
 
 Now that we have our bot & connector setup, we need to add a dialog to our newly created bot object. Bot Builder breaks conversational applications up into components called dialogs. If you think about building a conversational application in the way you'd think about building a web application, each dialog can be thought of as route within the conversational application. As users send messages to your bot the framework tracks which dialog is currently active and will automatically route the incoming message to the active dialog. For our HelloBot we'll just add single root '/' dialog that responds to any message with “Hello World”.
 
@@ -55,7 +55,7 @@ We can now run our bot and interact with it from the command line. So run the bo
     Hello World
 
 ## Collecting Input
-It's likely that you're going to want your bot to be a little smarter than HelloBot currently is so let's give HelloBot the ability to ask the user their name and then provide them with a personalized greeting. To do that we’re going to introduce a new concept called a [waterfall](/en-us/node/builder/chat/dialogs/#waterfall) which will prompt the user for some information and then wait for their response:
+It's likely that you're going to want your bot to be a little smarter than HelloBot currently is so let's give HelloBot the ability to ask the user their name and then provide them with a personalized greeting. To do that we're going to introduce a new concept called a [waterfall](/en-us/node/builder/chat/dialogs/#waterfall) which will prompt the user for some information and then wait for their response:
 
 {% highlight JavaScript %}
 var builder = require('botbuilder');
@@ -74,7 +74,7 @@ bot.dialog('/', [
 
 By passing an array of functions for our dialog handler a waterfall is setup where the results of the first function are passed to the input of the second function. We can chain together a series of these functions into steps that create waterfalls of any length.
 
-To actually wait for the users input we’re using one of the SDK’s built in [prompts](/en-us/node/builder/chat/prompts/). We’re using a simple text prompt which will capture anything the user types but the SDK a wide range of built-in prompt types. If we run our updated HelloBot we know see that our bot asks us for our name and then gives us a personalized greeting.  
+To actually wait for the users input we're using one of the SDK's built in [prompts](/en-us/node/builder/chat/prompts/). We're using a simple text prompt which will capture anything the user types but the SDK a wide range of built-in prompt types. If we run our updated HelloBot we know see that our bot asks us for our name and then gives us a personalized greeting.  
 
     node app.js
     hello
@@ -84,10 +84,10 @@ To actually wait for the users input we’re using one of the SDK’s built in [
     hi there
     Hi! What is your name?
 
-The problem now is that if you say hello multiple times the bot doesn’t remember our name. Let’s fix that.
+The problem now is that if you say hello multiple times the bot doesn't remember our name. Let's fix that.
 
 ## Adding Dialogs and Memory
-Bot Builder lets you break your bots’ conversation with a user into parts called dialogs. You can chain dialogs together to have sub-conversations with the user or to accomplish some micro task. For HelloBot we’re going to add a new `/profile` dialog that guides the user through filling out their profile information.  This information needs to be stored somewhere so we can either return it to the caller as the output from our dialog using `session.endDialog({ response: { name: ‘John’ } })` or we can store it globally using the SDK’s built-in storage system.  In our case we want to remember this information globally for a user so we’re going to store it off [session.userData](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#userdata). This also gives us a convenient way to trigger that we should ask the user to fill out their profile.
+Bot Builder lets you break your bots' conversation with a user into parts called dialogs. You can chain dialogs together to have sub-conversations with the user or to accomplish some micro task. For HelloBot we're going to add a new `/profile` dialog that guides the user through filling out their profile information.  This information needs to be stored somewhere so we can either return it to the caller as the output from our dialog using `session.endDialog({ response: { name: ‘John' } })` or we can store it globally using the SDK's built-in storage system.  In our case we want to remember this information globally for a user so we're going to store it off [session.userData](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#userdata). This also gives us a convenient way to trigger that we should ask the user to fill out their profile.
 
 {% highlight JavaScript %}
 var builder = require('botbuilder');
@@ -131,18 +131,18 @@ Now when we run HelloBot it will prompt us to enter our name once and it will th
 The SDK includes several ways of persisting data relative to a user or conversation:
 
 * __userData__ stores information globally for the user across all conversations.
-* __conversationData__ stores information globally for a single conversation. This data is visible to everyone within the conversation so care should be used to what’s stored there. It’s disabled by default and needs to be enabled using the bots [persistConversationData](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting.
-* __privateConversationData__ stores information globally for a single conversation but its private data for the current user. This data spans all dialogs so it’s useful for storing temporary state that you want cleaned up when the conversation ends.
+* __conversationData__ stores information globally for a single conversation. This data is visible to everyone within the conversation so care should be used to what's stored there. It's disabled by default and needs to be enabled using the bots [persistConversationData](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#persistconversationdata) setting.
+* __privateConversationData__ stores information globally for a single conversation but its private data for the current user. This data spans all dialogs so it's useful for storing temporary state that you want cleaned up when the conversation ends.
 * __dialogData__ persists information for a single dialog instance.  This is essential for storing temporary information in between the steps of a waterfall.
 
 Bots built using Bot Builder are designed to be stateless so that they can easily be scaled to run across multiple compute nodes. Because of that you should generally avoid the temptation to save state using a global variable or function closure. Doing so will create issues when you want to scale out your bot. Instead leverage the data bags above to persist temporary and permanent state. 
 
-Now that HelloBot can remember things let’s try to make it better understand the user.
+Now that HelloBot can remember things let's try to make it better understand the user.
 
 ## Determining Intent
 One of the keys to building a great bot is effectively determining the users intent when they ask your bot to do something.  Bot Builder includes a powerful [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) class designed to assist with that task. The IntentDialog class lets you determine the users intent using a combination of two techniques. You can pass a regular expression to [IntentDialog.matches()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#matches) the users message text will be compared against that RegEx.  If it matches then the handler associated with that expression will be triggered.
 
-Regular expressions are nice but for even more powerful intent recognition you can leverage machine learning via [LUIS](https://www.luis.ai/) by plugging a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html) into your IntentDialog (explore the examples to see this in action.) The IntentDialog also supports a combination of RegEx’s and recognizer plugins and will use scoring heuristics to identify the most likely handler to invoke. If no intents are predicted or the score is below a [threshold](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions.html#intentthreshold) the dialogs [onDefault()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#ondefault) handler will be invoked. 
+Regular expressions are nice but for even more powerful intent recognition you can leverage machine learning via [LUIS](https://www.luis.ai/){:target="_blank"} by plugging a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html) into your IntentDialog (explore the examples to see this in action.) The IntentDialog also supports a combination of RegEx's and recognizer plugins and will use scoring heuristics to identify the most likely handler to invoke. If no intents are predicted or the score is below a [threshold](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions.html#intentthreshold) the dialogs [onDefault()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html#ondefault) handler will be invoked. 
 
 {% highlight JavaScript %}
 var builder = require('botbuilder');
@@ -264,23 +264,23 @@ bot.dialog('/profile', [
 ]);
 {% endhighlight %}
 
-Our updated bot now requires the use of [Restify](http://restify.com/) so we’ll need to install that. From a console window in our bots directory type:
+Our updated bot now requires the use of [Restify](http://restify.com/){:target="_blank"} so we'll need to install that. From a console window in our bots directory type:
 
     npm install --save restify
 
-While our bot has a bit of new setup code, all of our bots dialogs stay the same.  To complete the conversion, you’ll need to register your bot with the developer portal for the Bot Framework and then configure the ChatConnector with your bots App ID & Password. You pass these to the bot via environment variables when running locally or via your hosting sites web config when deployed to the cloud.
+While our bot has a bit of new setup code, all of our bots dialogs stay the same.  To complete the conversion, you'll need to register your bot with the developer portal for the Bot Framework and then configure the ChatConnector with your bots App ID & Password. You pass these to the bot via environment variables when running locally or via your hosting sites web config when deployed to the cloud.
 
-If you’re running Windows you can use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/) to locally test your changes and verify you have everything properly configured prior to deploying your bot. Make sure you set the App ID & Password within the emulator to match your bots configured App ID & Password.
+If you're running Windows you can use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to locally test your changes and verify you have everything properly configured prior to deploying your bot. Make sure you set the App ID & Password within the emulator to match your bots configured App ID & Password.
 
 ## Debugging locally using ngrok
-If you’re running on a mac and can’t use the emulator, or you just want to debug an issue you’re seeing when deployed, you can easily configure your bot to run locally using [ngrok](https://ngrok.com/). First install ngrok and then from a console window type:
+If you're running on a mac and can't use the emulator, or you just want to debug an issue you're seeing when deployed, you can easily configure your bot to run locally using [ngrok](https://ngrok.com/){:target="_blank"}. First install ngrok and then from a console window type:
 
     ngrok http 3978
 
 This will configure an ngrok forwarding link that forwards requests to your bot running on port 3978. You'll then need to set the forwarding link to be the registered endpoint for your bot within the Bot Framework developer portal. The endpoint should look something 
 like `https://0d6c4024.ngrok.io/api/messages` once configured. Just don't forget to include the `/api/messages` at the end of the link.
 
-You're now ready to start your bot in debug mode. If you're using [VSCode](https://code.visualstudio.com) you'll need to configure your launch `env` with your bots App ID & Password: 
+You're now ready to start your bot in debug mode. If you're using [VSCode](https://code.visualstudio.com){:target="_blank"} you'll need to configure your launch `env` with your bots App ID & Password: 
 
 {% highlight JavaScript %}
 {

@@ -13,9 +13,9 @@ High Level Features:
 
 * Powerful dialog system with dialogs that are isolated and composable.
 * Built-in prompts for simple things like Yes/No, strings, numbers, enumerations.
-* Built-in dialogs that utilize powerful AI frameworks like [LUIS](http://luis.ai).
+* Built-in dialogs that utilize powerful AI frameworks like [LUIS](http://luis.ai){:target="_blank"}.
 * Bots are stateless which helps them scale.
-* Bots can run on almost any bot platform like the [Microsoft Bot Framework](http://botframework.com), [Skype](http://skype.com), and [Slack](http://slack.com).
+* Bots can run on almost any bot platform like the [Microsoft Bot Framework](http://botframework.com){:target="_blank"}, [Skype](http://skype.com){:target="_blank"}, and [Slack](http://slack.com){:target="_blank"}.
 
 ## Build a bot
 Create a folder for your bot, cd into it, and run npm init.
@@ -61,16 +61,16 @@ bot.dialog('/', function (session) {
 {% endhighlight %}
 
 ## Test your bot (Windows Only)
-Use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/) to test your bot on localhost. 
+Use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to test your bot on localhost. 
 
-Install the emulator from [here](https://aka.ms/bf-bc-emulator) and then start your bot in a console window.
+Install the emulator from [here](https://aka.ms/bf-bc-emulator){:target="_blank"} and then start your bot in a console window.
 
     node app.js
     
 Start the emulator and say "hello" to your bot.
 
 ## Publish your bot
-Deploy your bot to the cloud and then [register it](/en-us/csharp/builder/sdkreference/gettingstarted.html#registering) with the Microsoft Bot Framework. If you're deploying your bot to Microsoft Azure you can use this great guide for [Publishing a Node.js app to Azure using Continuous Integration](https://blogs.msdn.microsoft.com/sarahsays/2015/08/31/building-your-first-node-js-app-and-publishing-to-azure/).
+Deploy your bot to the cloud and then [register it](/en-us/csharp/builder/sdkreference/gettingstarted.html#registering){:target="_blank"} with the Microsoft Bot Framework. If you're deploying your bot to Microsoft Azure you can use this great guide for [Publishing a Node.js app to Azure using Continuous Integration](https://blogs.msdn.microsoft.com/sarahsays/2015/08/31/building-your-first-node-js-app-and-publishing-to-azure/){:target="_blank"}.
 
 NOTE: When you register your bot with the Bot Framework you'll want to update the appId & appSecret for both your bot and the emulator with the values assigned to you by the portal.
 
