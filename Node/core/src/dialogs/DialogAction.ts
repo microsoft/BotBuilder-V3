@@ -143,7 +143,7 @@ export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
     return function waterfallAction(s: ses.Session, r: dlg.IDialogResult<any>) {
         var skip = (result?: dlg.IDialogResult<any>) => {
             result = result || <any>{};
-            if (!result.resumed) {
+            if (result.resumed == null) {
                 result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
