@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IFact | Bot Builder SDK Chat Reference Library | Bot Framework</title>
+	<title>RecognizeMode | Bot Builder SDK Chat Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
@@ -135,10 +135,10 @@
 										<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 									</li>
 									<li>
-										<a href="_botbuilder_d_.ifact.html">IFact</a>
+										<a href="_botbuilder_d_.recognizemode.html">RecognizeMode</a>
 									</li>
 								</ul>
-								<h1>Interface IFact</h1>
+								<h1>Enumeration RecognizeMode</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -147,61 +147,69 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>A fact displayed on a card like a <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ireceiptcard.html">receipt</a>.</p>
+											<p>Controls an <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html">IntentDialogs</a> processing of the users text utterances.</p>
 										</div>
 									</div>
-								</section>
-								<section class="tsd-panel tsd-hierarchy">
-									<h3>Hierarchy</h3>
-									<ul class="tsd-hierarchy">
-										<li>
-											<span class="target">IFact</span>
-										</li>
-									</ul>
 								</section>
 								<section class="tsd-panel-group tsd-index-group">
 									<h2>Index</h2>
 									<section class="tsd-panel tsd-index-panel">
 										<div class="tsd-index-content">
-											<section class="tsd-index-section tsd-is-not-exported">
-												<h3>Properties</h3>
+											<section class="tsd-index-section ">
+												<h3>Enumeration members</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ifact.html#key" class="tsd-kind-icon">key</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ifact.html#value" class="tsd-kind-icon">value</a></li>
+													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.recognizemode.html#onbegin" class="tsd-kind-icon">on<wbr>Begin</a></li>
+													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.recognizemode.html#onbeginifroot" class="tsd-kind-icon">on<wbr>Begin<wbr>IfRoot</a></li>
+													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.recognizemode.html#onreply" class="tsd-kind-icon">on<wbr>Reply</a></li>
 												</ul>
 											</section>
 										</div>
 									</section>
 								</section>
-								<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-									<h2>Properties</h2>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="key" class="tsd-anchor"></a>
-										<h3>key</h3>
-										<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+								<section class="tsd-panel-group tsd-member-group ">
+									<h2>Enumeration members</h2>
+									<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+										<a name="onbegin" class="tsd-anchor"></a>
+										<h3>on<wbr>Begin</h3>
+										<div class="tsd-signature tsd-kind-icon">on<wbr>Begin<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L280">botbuilder.d.ts:280</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L895">botbuilder.d.ts:895</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Display name of the fact.</p>
+												<p>Process text utterances whenever the dialog is first loaded through a call to session.beginDialog() and anytime a reply from the user is received. This was the default behaviour prior to version 3.2.</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="value" class="tsd-anchor"></a>
-										<h3>value</h3>
-										<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+									<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+										<a name="onbeginifroot" class="tsd-anchor"></a>
+										<h3>on<wbr>Begin<wbr>IfRoot</h3>
+										<div class="tsd-signature tsd-kind-icon">on<wbr>Begin<wbr>IfRoot<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L283">botbuilder.d.ts:283</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L898">botbuilder.d.ts:898</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Display value of the fact.</p>
+												<p>Processes text utterances anytime a reply is recieved but only when the dialog is first loaded if it&#39;s the root dialog. This is the default behaviour as of 3.2.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+										<a name="onreply" class="tsd-anchor"></a>
+										<h3>on<wbr>Reply</h3>
+										<div class="tsd-signature tsd-kind-icon">on<wbr>Reply<span class="tsd-signature-symbol">:</span> </div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L901">botbuilder.d.ts:901</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Only process text utterances when a reply is recieved.</p>
 											</div>
 										</div>
 									</section>
@@ -222,14 +230,17 @@
 									<ul class="before-current">
 									</ul>
 									<ul class="current">
-										<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-											<a href="_botbuilder_d_.ifact.html" class="tsd-kind-icon">IFact</a>
+										<li class="current tsd-kind-enum tsd-parent-kind-external-module">
+											<a href="_botbuilder_d_.recognizemode.html" class="tsd-kind-icon">Recognize<wbr>Mode</a>
 											<ul>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ifact.html#key" class="tsd-kind-icon">key</a>
+												<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+													<a href="_botbuilder_d_.recognizemode.html#onbegin" class="tsd-kind-icon">on<wbr>Begin</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-													<a href="_botbuilder_d_.ifact.html#value" class="tsd-kind-icon">value</a>
+												<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+													<a href="_botbuilder_d_.recognizemode.html#onbeginifroot" class="tsd-kind-icon">on<wbr>Begin<wbr>IfRoot</a>
+												</li>
+												<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+													<a href="_botbuilder_d_.recognizemode.html#onreply" class="tsd-kind-icon">on<wbr>Reply</a>
 												</li>
 											</ul>
 										</li>
