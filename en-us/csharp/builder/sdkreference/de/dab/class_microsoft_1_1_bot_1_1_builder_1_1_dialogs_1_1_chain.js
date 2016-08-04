@@ -21,5 +21,6 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain =
     [ "Unwrap< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aaf8d9d3e7c407f91044625a3e4e6c9f5", null ],
     [ "Void< T, R >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aec5105f97b69f2f71923796781a58f4b", null ],
     [ "WaitToBot< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aaf6629303333a5395337c7571a65f590", null ],
-    [ "Where< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac5dde1f48f907314b6f346e8786aced6", null ]
+    [ "Where< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac5dde1f48f907314b6f346e8786aced6", null ],
+    [ "While< T >", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a3cdd6daa7ff6c381e6b4e9ce65d7d1d0", null ]
 ];

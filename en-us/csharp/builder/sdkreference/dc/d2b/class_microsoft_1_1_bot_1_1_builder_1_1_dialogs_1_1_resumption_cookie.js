@@ -9,6 +9,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie =
     [ "ChannelId", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#aa99c9d6477a73afb4b52ba2a240278f4", null ],
     [ "ConversationId", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a81c3077a50b36c9298429f0c739c05cc", null ],
     [ "IsGroup", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a2f11f629b08622552d95cf3978aae280", null ],
+    [ "IsTrustedServiceUrl", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#af6a1727c99c4063a4b8e7a70be5f5a15", null ],
     [ "Locale", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a48506b63af7d61ad5fa4c516ec76493f", null ],
     [ "ServiceUrl", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a7e1a44bd338121e787b0f9cedf5ba8dc", null ],
     [ "UserId", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a4e6d71300004d42873ca941a8ecd904a", null ],

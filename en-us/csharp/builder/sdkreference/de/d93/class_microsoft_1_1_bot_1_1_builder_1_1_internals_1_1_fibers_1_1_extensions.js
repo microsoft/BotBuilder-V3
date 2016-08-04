@@ -10,5 +10,6 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions 
     [ "Push< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a1ab2b95e8dc9d326e130c27b61ec91d9", null ],
     [ "Reset< C >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a83351182bbcefa001873f3b84d626220", null ],
     [ "ToTask< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a3992027f98711f3cd9f7cc11bdd28ecd", null ],
+    [ "ValidateNeed", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a1d8e40bd5955fc8e4348c2ef58fab314", null ],
     [ "Wait< C, T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a900fd2a793416f20260827380f4481a6", null ]
 ];

@@ -142,9 +142,11 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; R &gt;:</di
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae415e51897a5e059c31a58adf0bf3bcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ae415e51897a5e059c31a58adf0bf3bcf">LuisDialog</a> (params <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[] services)</td></tr>
+<tr class="memitem:ae415e51897a5e059c31a58adf0bf3bcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ae415e51897a5e059c31a58adf0bf3bcf">LuisDialog</a> (params <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ab206f1866cc18f6b5aeefa3042819481">services</a>)</td></tr>
 <tr class="memdesc:ae415e51897a5e059c31a58adf0bf3bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the LUIS dialog.  <a href="#ae415e51897a5e059c31a58adf0bf3bcf">More...</a><br /></td></tr>
 <tr class="separator:ae415e51897a5e059c31a58adf0bf3bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1147bdb85a43390ccff4f28099fd8424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a1147bdb85a43390ccff4f28099fd8424">MakeServicesFromAttributes</a> ()</td></tr>
+<tr class="separator:a1147bdb85a43390ccff4f28099fd8424"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a124c0feef93de82eeb0b609a844fce6c"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a124c0feef93de82eeb0b609a844fce6c">StartAsync</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context)</td></tr>
 <tr class="separator:a124c0feef93de82eeb0b609a844fce6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -174,6 +176,8 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a5347faff826b79773e4362d23a4802c1"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a48361c6a5ade0f096954c5b7fc89a474">IntentHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a5347faff826b79773e4362d23a4802c1">handlerByIntent</a></td></tr>
 <tr class="memdesc:a5347faff826b79773e4362d23a4802c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping from intent string to the appropriate handler.  <a href="#a5347faff826b79773e4362d23a4802c1">More...</a><br /></td></tr>
 <tr class="separator:a5347faff826b79773e4362d23a4802c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab206f1866cc18f6b5aeefa3042819481"><td class="memItemLeft" align="right" valign="top">readonly IReadOnlyList&lt; <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ab206f1866cc18f6b5aeefa3042819481">services</a></td></tr>
+<tr class="separator:ab206f1866cc18f6b5aeefa3042819481"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A dialog specialized to handle intents and entities from LUIS. </p>
@@ -210,7 +214,7 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00130">130</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00137">137</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -246,7 +250,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The best scored IntentRecommendation, or null if <em>result</em>  doesn't contain any intents.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00148">148</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00157">157</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -281,7 +285,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult. ">LuisServiceResult</a> with the best scored IntentRecommendation and related LuisResult, or null if no one of <em>results</em>  contains any intents.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00159">159</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00168">168</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -316,7 +320,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An enumeration of handlers.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00215">215</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00224">224</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -341,7 +345,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00202">202</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00211">211</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -377,7 +381,32 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00197">197</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00206">206</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1147bdb85a43390ccff4f28099fd8424"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> [] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.MakeServicesFromAttributes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00126">126</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -413,7 +442,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00168">168</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00177">177</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -439,7 +468,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00138">138</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00147">147</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -465,6 +494,28 @@ Protected Attributes</h2></td></tr>
 <p>Mapping from intent string to the appropriate handler. </p>
 
 <p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00124">124</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab206f1866cc18f6b5aeefa3042819481"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly IReadOnlyList&lt;<a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.services</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00120">120</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>

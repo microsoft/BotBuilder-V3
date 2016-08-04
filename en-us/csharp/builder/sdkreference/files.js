@@ -1,10 +1,7 @@
 var files =
 [
-    [ "Luis/Models/Action.cs", "d5/df6/_luis_2_models_2_action_8cs.html", [
+    [ "Action.cs", "d2/d0b/_action_8cs.html", [
       [ "Action", "dc/d34/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action.html", "dc/d34/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action" ]
-    ] ],
-    [ "Microsoft.Bot.Connector/ConnectorAPI/Models/Action.cs", "d0/dab/_microsoft_8_bot_8_connector_2_connector_a_p_i_2_models_2_action_8cs.html", [
-      [ "Action", "d4/d00/class_microsoft_1_1_bot_1_1_connector_1_1_action.html", "d4/d00/class_microsoft_1_1_bot_1_1_connector_1_1_action" ]
     ] ],
     [ "ActionBase.cs", "d2/d4e/_action_base_8cs.html", [
       [ "ActionBase", "d6/db1/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_action_base.html", "d6/db1/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_action_base" ]
@@ -100,9 +97,6 @@ var files =
     ] ],
     [ "BaseMessage.cs", "df/df2/_base_message_8cs.html", [
       [ "BaseMessage", "dd/d5f/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_base_message.html", "dd/d5f/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_base_message" ]
-    ] ],
-    [ "BearerTokenCredentials.cs", "d8/df0/_bearer_token_credentials_8cs.html", [
-      [ "BearerTokenCredentials", "dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials.html", "dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials" ]
     ] ],
     [ "BotAuthentication.cs", "d0/d3b/_bot_authentication_8cs.html", [
       [ "BotAuthentication", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication.html", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication" ]
@@ -243,9 +237,11 @@ var files =
     [ "DialogTask.cs", "d3/db4/_dialog_task_8cs.html", [
       [ "DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task" ],
       [ "IThunk", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_1_1_i_thunk.html", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_1_1_i_thunk" ],
+      [ "ExceptionTranslationDialogTask", "df/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_exception_translation_dialog_task.html", "df/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_exception_translation_dialog_task" ],
       [ "LocalizedDialogTask", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task" ],
       [ "LocalizedScope", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope.html", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope" ],
       [ "PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task" ],
+      [ "PostUnhandledExceptionToUserTask", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task.html", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task" ],
       [ "ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task" ]
     ] ],
     [ "DigitCollectionCompletionReason.cs", "d6/d82/_digit_collection_completion_reason_8cs.html", "d6/d82/_digit_collection_completion_reason_8cs" ],
@@ -262,6 +258,9 @@ var files =
       [ "ErrorHandling", "d8/d23/class_microsoft_1_1_bot_1_1_connector_1_1_error_handling.html", "d8/d23/class_microsoft_1_1_bot_1_1_connector_1_1_error_handling" ]
     ] ],
     [ "Dialogs/Exceptions.cs", "d3/dcd/_dialogs_2_exceptions_8cs.html", [
+      [ "DialogStackException", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception.html", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception" ],
+      [ "MultipleResumeHandlerException", "dd/df2/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_multiple_resume_handler_exception.html", "dd/df2/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_multiple_resume_handler_exception" ],
+      [ "NoResumeHandlerException", "d0/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_no_resume_handler_exception.html", "d0/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_no_resume_handler_exception" ],
       [ "PromptException", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception.html", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception" ],
       [ "TooManyAttemptsException", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception.html", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception" ]
     ] ],
@@ -406,9 +405,6 @@ var files =
     [ "IFormDialog.cs", "d0/df6/_i_form_dialog_8cs.html", "d0/df6/_i_form_dialog_8cs" ],
     [ "ILocalizer.cs", "db/da8/_i_localizer_8cs.html", [
       [ "ILocalizer", "d8/dd6/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_localizer.html", "d8/dd6/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_localizer" ]
-    ] ],
-    [ "Image.cs", "d7/db9/_image_8cs.html", [
-      [ "Image", "dd/d6c/class_microsoft_1_1_bot_1_1_connector_1_1_image.html", "dd/d6c/class_microsoft_1_1_bot_1_1_connector_1_1_image" ]
     ] ],
     [ "IMessageActivity.cs", "db/d11/_i_message_activity_8cs.html", [
       [ "IMessageActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity" ]

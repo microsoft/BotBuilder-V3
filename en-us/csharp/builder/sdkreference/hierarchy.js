@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "ActionFilterAttribute", null, [
+      [ "Microsoft.Bot.Connector.BotAuthentication", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication.html", null ]
+    ] ],
     [ "Attribute", null, [
       [ "Microsoft.Bot.Builder.Dialogs.LuisIntentAttribute", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.FormFlowAttribute", "d2/deb/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_flow_attribute.html", [
@@ -14,9 +17,6 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.FormFlow.OptionalAttribute", "d7/d6f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_optional_attribute.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.PatternAttribute", "da/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_pattern_attribute.html", null ],
       [ "Microsoft.Bot.Builder.Luis.LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", null ]
-    ] ],
-    [ "AuthorizationFilterAttribute", null, [
-      [ "Microsoft.Bot.Connector.BotAuthentication", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication.html", null ]
     ] ],
     [ "Module", null, [
       [ "Microsoft.Bot.Builder.Calling.CallingModule_MakeBot", "d6/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_module___make_bot.html", null ],
@@ -42,6 +42,10 @@ var hierarchy =
         [ "Microsoft.Bot.Builder.Calling.Exceptions.BotCallingServiceException", "db/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_exceptions_1_1_bot_calling_service_exception.html", null ],
         [ "Microsoft.Bot.Builder.Calling.Exceptions.BotConfigurationException", "d4/d75/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_exceptions_1_1_bot_configuration_exception.html", null ]
       ] ],
+      [ "Microsoft.Bot.Builder.Dialogs.DialogStackException", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception.html", [
+        [ "Microsoft.Bot.Builder.Dialogs.MultipleResumeHandlerException", "dd/df2/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_multiple_resume_handler_exception.html", null ],
+        [ "Microsoft.Bot.Builder.Dialogs.NoResumeHandlerException", "d0/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_no_resume_handler_exception.html", null ]
+      ] ],
       [ "Microsoft.Bot.Builder.Dialogs.PromptException", "df/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_exception.html", [
         [ "Microsoft.Bot.Builder.Dialogs.TooManyAttemptsException", "d7/df8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_too_many_attempts_exception.html", null ]
       ] ]
@@ -59,6 +63,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< C, T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore< BotData >", "dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.CachingBotDataStore", "d5/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_caching_bot_data_store.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ConnectorStore", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_connector_store.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.InMemoryDataStore", "df/d92/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_in_memory_data_store.html", null ]
     ] ],
@@ -266,9 +271,7 @@ var hierarchy =
       ] ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataBase< T >", "de/df5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_base.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore< T >", "dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html", [
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.CachingBotDataStore_LastWriteWins", "db/d00/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_caching_bot_data_store___last_write_wins.html", null ]
-    ] ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore< T >", "dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotIdResolver", "d8/d57/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_id_resolver.html", [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.BotIdResolver", "d1/d96/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_id_resolver.html", null ]
     ] ],
@@ -287,8 +290,10 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot", "d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html", [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogTask", "db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.ExceptionTranslationDialogTask", "df/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_exception_translation_dialog_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.LocalizedDialogTask", "d2/d80/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_dialog_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.PostUnhandledExceptionToUserTask", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ]
     ] ],
@@ -369,10 +374,10 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.FormatterStore< T >", "da/dd0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_formatter_store.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.ITraits< T >", "dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html", null ],
-    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C, out out T >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWaiter< C >", "d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IFiber< C >", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html", [
         [ "Microsoft.Bot.Builder.Internals.Fibers.Fiber< C >", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber.html", null ],
@@ -400,7 +405,6 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Luis.Models.IntentRecommendation", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html", null ],
     [ "Microsoft.Bot.Builder.Luis.Models.LuisResult", "dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html", null ],
     [ "Microsoft.Bot.Builder.Resource.Extensions", "d0/df5/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_extensions.html", null ],
-    [ "Microsoft.Bot.Connector.Action", "d4/d00/class_microsoft_1_1_bot_1_1_connector_1_1_action.html", null ],
     [ "Microsoft.Bot.Connector.ActionTypes", "d2/d0c/class_microsoft_1_1_bot_1_1_connector_1_1_action_types.html", null ],
     [ "Microsoft.Bot.Connector.ActivityTypes", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html", null ],
     [ "Microsoft.Bot.Connector.APIResponse", "d1/d40/class_microsoft_1_1_bot_1_1_connector_1_1_a_p_i_response.html", null ],
@@ -458,7 +462,6 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.IConversations", "de/d95/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversations.html", [
       [ "Microsoft.Bot.Connector.Conversations", "da/ddd/class_microsoft_1_1_bot_1_1_connector_1_1_conversations.html", null ]
     ] ],
-    [ "Microsoft.Bot.Connector.Image", "dd/d6c/class_microsoft_1_1_bot_1_1_connector_1_1_image.html", null ],
     [ "Microsoft.Bot.Connector.JwtConfig", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html", null ],
     [ "Microsoft.Bot.Connector.JwtTokenExtractor", "d3/dfc/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_token_extractor.html", null ],
     [ "Microsoft.Bot.Connector.Place", "de/d42/class_microsoft_1_1_bot_1_1_connector_1_1_place.html", null ],
@@ -503,9 +506,7 @@ var hierarchy =
       [ "Microsoft.Bot.Connector.StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html", null ]
     ] ],
     [ "ServiceClientCredentials", null, [
-      [ "Microsoft.Bot.Connector.BearerTokenCredentials", "dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials.html", [
-        [ "Microsoft.Bot.Connector.MicrosoftAppCredentials", "db/d61/class_microsoft_1_1_bot_1_1_connector_1_1_microsoft_app_credentials.html", null ]
-      ] ]
+      [ "Microsoft.Bot.Connector.MicrosoftAppCredentials", "db/d61/class_microsoft_1_1_bot_1_1_connector_1_1_microsoft_app_credentials.html", null ]
     ] ],
     [ "StringEnumConverter", null, [
       [ "Microsoft.Bot.Builder.Calling.ObjectModel.Misc.StringEnumConverterWithDefault< TEnum >", "d7/d72/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_misc_1_1_string_enum_converter_with_default.html", null ]

@@ -1,6 +1,5 @@
 var namespace_microsoft_1_1_bot_1_1_connector =
 [
-    [ "Action", "d4/d00/class_microsoft_1_1_bot_1_1_connector_1_1_action.html", "d4/d00/class_microsoft_1_1_bot_1_1_connector_1_1_action" ],
     [ "ActionTypes", "d2/d0c/class_microsoft_1_1_bot_1_1_connector_1_1_action_types.html", "d2/d0c/class_microsoft_1_1_bot_1_1_connector_1_1_action_types" ],
     [ "Activity", "dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html", "dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity" ],
     [ "ActivityTypes", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types" ],
@@ -15,7 +14,6 @@ var namespace_microsoft_1_1_bot_1_1_connector =
     [ "Attachments", "da/dc6/class_microsoft_1_1_bot_1_1_connector_1_1_attachments.html", "da/dc6/class_microsoft_1_1_bot_1_1_connector_1_1_attachments" ],
     [ "AttachmentsExtensions", "df/dfe/class_microsoft_1_1_bot_1_1_connector_1_1_attachments_extensions.html", "df/dfe/class_microsoft_1_1_bot_1_1_connector_1_1_attachments_extensions" ],
     [ "AttachmentView", "d0/d82/class_microsoft_1_1_bot_1_1_connector_1_1_attachment_view.html", "d0/d82/class_microsoft_1_1_bot_1_1_connector_1_1_attachment_view" ],
-    [ "BearerTokenCredentials", "dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials.html", "dd/dd6/class_microsoft_1_1_bot_1_1_connector_1_1_bearer_token_credentials" ],
     [ "BotAuthentication", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication.html", "de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication" ],
     [ "BotData", "d3/dfa/class_microsoft_1_1_bot_1_1_connector_1_1_bot_data.html", "d3/dfa/class_microsoft_1_1_bot_1_1_connector_1_1_bot_data" ],
     [ "BotState", "d1/dd8/class_microsoft_1_1_bot_1_1_connector_1_1_bot_state.html", "d1/dd8/class_microsoft_1_1_bot_1_1_connector_1_1_bot_state" ],
@@ -45,7 +43,6 @@ var namespace_microsoft_1_1_bot_1_1_connector =
     [ "IContactRelationUpdateActivity", "d7/d39/interface_microsoft_1_1_bot_1_1_connector_1_1_i_contact_relation_update_activity.html", "d7/d39/interface_microsoft_1_1_bot_1_1_connector_1_1_i_contact_relation_update_activity" ],
     [ "IConversations", "de/d95/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversations.html", "de/d95/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversations" ],
     [ "IConversationUpdateActivity", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity.html", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity" ],
-    [ "Image", "dd/d6c/class_microsoft_1_1_bot_1_1_connector_1_1_image.html", "dd/d6c/class_microsoft_1_1_bot_1_1_connector_1_1_image" ],
     [ "IMessageActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity" ],
     [ "IStateClient", "dc/d97/interface_microsoft_1_1_bot_1_1_connector_1_1_i_state_client.html", "dc/d97/interface_microsoft_1_1_bot_1_1_connector_1_1_i_state_client" ],
     [ "ITypingActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity" ],
