@@ -21,7 +21,7 @@ Bot Builder comes with a number of built-in prompts that can be used to collect 
 |[Prompts.record](#promptsrecord) | Asks the record a message.
 |[Prompts.action](#promptsaction) | Sends a raw [action](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.iaction) to the calling service and lets the bot manually process its outcome.
 
-These built-in prompts are implemented as a [Dialog](/en-us/node/builder/dialogs/overview/) so they’ll return the users response through a call to [session.endDialogWithresult()](/en-us/node/builder/calling-reference/classes/_botbuilder_d_.callsession#enddialogwithresult). Any [DialogHandler](/en-us/node/builder/chat/dialogs/#dialog-handlers) can receive the result of a dialog but [waterfalls](/en-us/node/builder/chat/dialogs/#waterfall) tend to be the simplest way to handle a prompt result.  
+These built-in prompts are implemented as a [Dialog](/en-us/node/builder/chat/dialogs/) so they’ll return the users response through a call to [session.endDialogWithresult()](/en-us/node/builder/calling-reference/classes/_botbuilder_d_.callsession#enddialogwithresult). Any [DialogHandler](/en-us/node/builder/chat/dialogs/#dialog-handlers) can receive the result of a dialog but [waterfalls](/en-us/node/builder/chat/dialogs/#waterfall) tend to be the simplest way to handle a prompt result.  
 
 Prompts return to the caller an [IPromptResult](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.ipromptresult.html). The users response will be contained in the [results.response](/en-us/node/builder/calling-reference/interfaces/_botbuilder_d_.ipromptresult.html#reponse) field and may be null should the user fail to input a proper response. 
 
