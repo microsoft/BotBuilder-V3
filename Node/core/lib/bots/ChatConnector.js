@@ -5,6 +5,9 @@ var utils = require('../utils');
 var logger = require('../logger');
 var jwt = require('jsonwebtoken');
 var oid = require('./OpenIdMetadata');
+var zlib = require('zlib');
+var consts = require('../consts');
+var MAX_DATA_LENGTH = 65000;
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
@@ -204,16 +207,36 @@ var ChatConnector = (function () {
                 };
                 _this.authenticatedRequest(options, function (err, response, body) {
                     if (!err && body) {
-                        try {
-                            var botData = body.data ? body.data : {};
-                            data[entry.field + 'Hash'] = JSON.stringify(botData);
-                            data[entry.field] = botData;
+                        var botData = body.data ? body.data : {};
+                        if (typeof botData === 'string') {
+                            zlib.gunzip(new Buffer(botData, 'base64'), function (err, result) {
+                                if (!err) {
+                                    try {
+                                        var txt = result.toString();
+                                        data[entry.field + 'Hash'] = txt;
+                                        data[entry.field] = JSON.parse(txt);
+                                    }
+                                    catch (e) {
+                                        err = e;
+                                    }
+                                }
+                                cb(err);
+                            });
                         }
-                        catch (e) {
-                            err = e;
+                        else {
+                            try {
+                                data[entry.field + 'Hash'] = JSON.stringify(botData);
+                                data[entry.field] = botData;
+                            }
+                            catch (e) {
+                                err = e;
+                            }
+                            cb(err);
                         }
                     }
-                    cb(err);
+                    else {
+                        cb(err);
+                    }
                 });
             }, function (err) {
                 if (!err) {
@@ -236,7 +259,7 @@ var ChatConnector = (function () {
             var hash = JSON.stringify(botData);
             if (!data[hashKey] || hash !== data[hashKey]) {
                 data[hashKey] = hash;
-                list.push({ botData: botData, url: url });
+                list.push({ botData: botData, url: url, hash: hash });
             }
         }
         try {
@@ -255,15 +278,44 @@ var ChatConnector = (function () {
                 addWrite('conversationData', data.conversationData || {}, root + '/conversations/' + encodeURIComponent(context.conversationId));
             }
             async.each(list, function (entry, cb) {
-                var options = {
-                    method: 'POST',
-                    url: entry.url,
-                    body: { eTag: '*', data: entry.botData },
-                    json: true
-                };
-                _this.authenticatedRequest(options, function (err, response, body) {
+                if (_this.settings.gzipData) {
+                    zlib.gzip(entry.hash, function (err, result) {
+                        if (!err && result.length > MAX_DATA_LENGTH) {
+                            err = new Error("Data of " + result.length + " bytes gzipped exceeds the " + MAX_DATA_LENGTH + " byte limit. Can't post to: " + entry.url);
+                            err.code = consts.Errors.EMSGSIZE;
+                        }
+                        if (!err) {
+                            var options = {
+                                method: 'POST',
+                                url: entry.url,
+                                body: { eTag: '*', data: result.toString('base64') },
+                                json: true
+                            };
+                            _this.authenticatedRequest(options, function (err, response, body) {
+                                cb(err);
+                            });
+                        }
+                        else {
+                            cb(err);
+                        }
+                    });
+                }
+                else if (entry.hash.length < MAX_DATA_LENGTH) {
+                    var options = {
+                        method: 'POST',
+                        url: entry.url,
+                        body: { eTag: '*', data: entry.botData },
+                        json: true
+                    };
+                    _this.authenticatedRequest(options, function (err, response, body) {
+                        cb(err);
+                    });
+                }
+                else {
+                    var err = new Error("Data of " + entry.hash.length + " bytes exceeds the " + MAX_DATA_LENGTH + " byte limit. Consider setting connectors gzipData option. Can't post to: " + entry.url);
+                    err.code = consts.Errors.EMSGSIZE;
                     cb(err);
-                });
+                }
             }, function (err) {
                 if (callback) {
                     if (!err) {
@@ -277,7 +329,9 @@ var ChatConnector = (function () {
         }
         catch (e) {
             if (callback) {
-                callback(e instanceof Error ? e : new Error(e.toString()));
+                var err = e instanceof Error ? e : new Error(e.toString());
+                err.code = consts.Errors.EBADMSG;
+                callback(err);
             }
         }
     };

@@ -2,6 +2,10 @@ exports.agent = 'botbuilder';
 exports.messageType = 'message';
 exports.defaultConnector = '*';
 exports.emulatorChannel = 'emulator';
+exports.Errors = {
+    EMSGSIZE: 'EMSGSIZE',
+    EBADMSG: 'EBADMSG'
+};
 exports.Library = {
     system: 'BotBuilder',
     default: '*'

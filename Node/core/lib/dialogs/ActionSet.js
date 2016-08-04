@@ -30,7 +30,7 @@ var ActionSet = (function () {
                                 result.score = score;
                                 result.action = name;
                                 result.expression = exp;
-                                result.matched = matched;
+                                result.matched = matches;
                                 if (score == 1.0) {
                                     break;
                                 }

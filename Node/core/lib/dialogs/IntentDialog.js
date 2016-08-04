@@ -13,6 +13,12 @@ var async = require('async');
     RecognizeOrder[RecognizeOrder["series"] = 1] = "series";
 })(exports.RecognizeOrder || (exports.RecognizeOrder = {}));
 var RecognizeOrder = exports.RecognizeOrder;
+(function (RecognizeMode) {
+    RecognizeMode[RecognizeMode["onBegin"] = 0] = "onBegin";
+    RecognizeMode[RecognizeMode["onBeginIfRoot"] = 1] = "onBeginIfRoot";
+    RecognizeMode[RecognizeMode["onReply"] = 2] = "onReply";
+})(exports.RecognizeMode || (exports.RecognizeMode = {}));
+var RecognizeMode = exports.RecognizeMode;
 var IntentDialog = (function (_super) {
     __extends(IntentDialog, _super);
     function IntentDialog(options) {
@@ -23,6 +29,9 @@ var IntentDialog = (function (_super) {
         this.expressions = [];
         if (typeof this.options.intentThreshold !== 'number') {
             this.options.intentThreshold = 0.1;
+        }
+        if (!this.options.hasOwnProperty('recognizeMode')) {
+            this.options.recognizeMode = RecognizeMode.onBeginIfRoot;
         }
         if (!this.options.hasOwnProperty('recognizeOrder')) {
             this.options.recognizeOrder = RecognizeOrder.parallel;
@@ -36,19 +45,24 @@ var IntentDialog = (function (_super) {
     }
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;
+        var mode = this.options.recognizeMode;
+        var isRoot = (session.sessionState.callstack.length == 1);
+        var recognize = (mode == RecognizeMode.onBegin || (isRoot && mode == RecognizeMode.onBeginIfRoot));
         if (this.beginDialog) {
             try {
                 logger.info(session, 'IntentDialog.begin()');
                 this.beginDialog(session, args, function () {
-                    _super.prototype.begin.call(_this, session, args);
+                    if (recognize) {
+                        _this.replyReceived(session);
+                    }
                 });
             }
             catch (e) {
                 this.emitError(session, e);
             }
         }
-        else {
-            _super.prototype.begin.call(this, session, args);
+        else if (recognize) {
+            this.replyReceived(session);
         }
     };
     IntentDialog.prototype.replyReceived = function (session, recognizeResult) {
@@ -108,7 +122,7 @@ var IntentDialog = (function (_super) {
                             result.score = score;
                             result.intent = exp.toString();
                             result.expression = exp;
-                            result.matched = matched;
+                            result.matched = matches;
                             if (score == 1.0) {
                                 break;
                             }
@@ -161,6 +175,12 @@ var IntentDialog = (function (_super) {
         }
         else {
             this.handlers[id] = actions.waterfall([dialogId]);
+        }
+        return this;
+    };
+    IntentDialog.prototype.matchesAny = function (intents, dialogId, dialogArgs) {
+        for (var i = 0; i < intents.length; i++) {
+            this.matches(intents[i], dialogId, dialogArgs);
         }
         return this;
     };

@@ -21,6 +21,7 @@ var Session = (function (_super) {
         this.batch = [];
         this.batchStarted = false;
         this.sendingBatch = false;
+        this.inMiddleware = false;
         this.library = options.library;
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
@@ -38,6 +39,7 @@ var Session = (function (_super) {
                 handler(session, next);
             }
             else {
+                _this.inMiddleware = false;
                 _this.routeMessage();
             }
         };
@@ -47,6 +49,7 @@ var Session = (function (_super) {
         if (cur) {
             this.dialogData = cur.state;
         }
+        this.inMiddleware = true;
         this.message = (message || { text: '' });
         if (!this.message.type) {
             this.message.type = consts.messageType;
@@ -279,7 +282,7 @@ var Session = (function (_super) {
     Session.prototype.isReset = function () {
         return this._isReset;
     };
-    Session.prototype.sendBatch = function () {
+    Session.prototype.sendBatch = function (callback) {
         var _this = this;
         logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);
         if (this.sendingBatch) {
@@ -299,18 +302,37 @@ var Session = (function (_super) {
             cur.state = this.dialogData;
         }
         this.options.onSave(function (err) {
-            if (!err && batch.length) {
-                _this.options.onSend(batch, function (err) {
+            if (!err) {
+                if (batch.length) {
+                    _this.options.onSend(batch, function (err) {
+                        _this.sendingBatch = false;
+                        if (_this.batchStarted) {
+                            _this.startBatch();
+                        }
+                        if (callback) {
+                            callback(err);
+                        }
+                    });
+                }
+                else {
                     _this.sendingBatch = false;
                     if (_this.batchStarted) {
                         _this.startBatch();
                     }
-                });
+                }
             }
             else {
                 _this.sendingBatch = false;
-                if (_this.batchStarted) {
-                    _this.startBatch();
+                switch (err.code || '') {
+                    case consts.Errors.EBADMSG:
+                    case consts.Errors.EMSGSIZE:
+                        _this.userData = {};
+                        _this.batch = [];
+                        _this.endConversation(_this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+                        break;
+                }
+                if (callback) {
+                    callback(err);
                 }
             }
         });
@@ -470,7 +492,7 @@ var Session = (function (_super) {
             return id;
         }
         var cur = this.curDialog();
-        var libName = cur ? cur.id.split(':')[0] : consts.Library.default;
+        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : consts.Library.default;
         return libName + ':' + id;
     };
     Session.prototype.findDialog = function (id) {

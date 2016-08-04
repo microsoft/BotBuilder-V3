@@ -119,6 +119,10 @@ var EntityRecognizer = (function () {
             if (match) {
                 return Number(match[0]);
             }
+            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 0);
+            if (oWordMatch) {
+                return oWordMatch.index + 1;
+            }
         }
         return Number.NaN;
     };
@@ -197,6 +201,7 @@ var EntityRecognizer = (function () {
     EntityRecognizer.yesExp = /^(1|y|yes|yep|sure|ok|true)/i;
     EntityRecognizer.noExp = /^(2|n|no|nope|not|false)/i;
     EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
+    EntityRecognizer.ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
     return EntityRecognizer;
 })();
 exports.EntityRecognizer = EntityRecognizer;
