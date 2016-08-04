@@ -21,10 +21,10 @@ about building a %Bot; from scratch, coded directly to the %Bot %Connector API, 
 \section started Getting started in .NET    
 This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework %Connector SDK .NET template.
 1. Install prerequisite software
-        - Visual Studio 2015 (latest update) - you can download the community version here for free: [www.visualstudio.com](https://www.visualstudio.com/)
+        - Visual Studio 2015 (latest update) - you can download the community version here for free: <a href="https://www.visualstudio.com/" target="_blank">www.visualstudio.com</a>
         - Important: Please update all VS extensions to their latest versions Tools->Extensions and Updates->Updates
 2. Download and install the %Bot Application template
-        - Download the file from the direct download link **[here](http://aka.ms/bf-bc-vstemplate)**:
+        - Download the file from the direct download link <a href="http://aka.ms/bf-bc-vstemplate" target="_blank">here</a>:
         - Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
@@ -74,7 +74,7 @@ public class MessagesController : ApiController
 Use the %Bot Framework Emulator to test your %Bot application
 
 The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called 
-by the %Bot Framework cloud service. To install the %Bot Framework Emulator, download it from **[here](https://aka.ms/bf-bc-emulator)**.
+by the %Bot Framework cloud service. To install the %Bot Framework Emulator, download it from <strong><a href="https://aka.ms/bf-bc-emulator" target="_blank">here</a></strong>.
 
 One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application
 host. The image below uses %Microsoft Edge.
@@ -102,7 +102,7 @@ When working with the emulator with a bot **running locally**, you need:
     - Empty out the **MicrosoftAppPassword** field
 
 This will only work with the emulator running locally; in the cloud you would instead have to specify the appropriate URL and authentication values.
-For more about the emulator, read [here](/en-us/tools/bot-framework-emulator/).
+For more about the emulator, read <a href="/en-us/tools/bot-framework-emulator/" target="_blank">here</a>.
 
 ![Configure the emulator with your locahost URL, AppId & AppPassword](/en-us/images/connector/connector-getstarted-configure-emulator.png)
 
@@ -118,7 +118,7 @@ Activity, sending "You sent {activity.Text} which was {length} characters" back 
 \section publishing Publishing your Bot Application to Microsoft Azure
 
 In this tutorial, we use %Microsoft Azure to host the %Bot application. To publish your %Bot Application you will need 
-a %Microsoft Azure subscription. You can get a free trial from here: https://azure.microsoft.com/en-us/ 
+a %Microsoft Azure subscription. You can get a free trial from here: <a href="https://azure.microsoft.com/en-us/" target="_blank">azure.microsoft.com/en-us/</a> 
 
 Make what changes you like to the project, and now you're ready to publish. Right click on the project and choose "Publish", 
 and then your appropriate Azure subscription information. By default, the %bot should be published as an 
@@ -183,7 +183,7 @@ configure their %Bot with the Channels they'd like to be visible on. The BotId, 
 URL in the directory and developer portal.
 
 
-1. Go to the %Microsoft %Bot Framework portal at [https://dev.botframework.com](https://dev.botframework.com) and 
+1. Go to the %Microsoft %Bot Framework portal at <a href="https://dev.botframework.com" target="_blank">https://dev.botframework.com</a> and 
 sign in with your %Microsoft Account.
 
 2. Click the "Register a Bot" button and fill out the form. Many of the fields on this form can be changed later. 
