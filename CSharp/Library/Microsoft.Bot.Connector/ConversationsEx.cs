@@ -122,6 +122,11 @@ namespace Microsoft.Bot.Connector
             if (activity.ReplyToId == "0")
                 return operations.SendToConversationAsync(activity);
 
+            if (activity.ReplyToId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "ReplyToId");
+            }
+
             return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity, cancellationToken);
         }
 
