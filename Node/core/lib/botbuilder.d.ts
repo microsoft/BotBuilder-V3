@@ -384,8 +384,8 @@ export interface IRecognizeActionResult extends IRecognizeResult {
     /** A regular expression that was matched. */
     expression?: RegExp;
 
-    /** The text that was matched by [expression](#expression). */
-    matched?: string;
+    /** The results of the [expression](#expression) that was matched. matched[0] will be the text that was matched and matched[1...n] is the result of capture groups.  */
+    matched?: string[];
 
     /** Optional data passed as part of the action binding. */    
     data?: string;
@@ -542,6 +542,9 @@ interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
+    /** Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    recognizeMode?: RecognizeMode;
+
     /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
     recognizeOrder?: RecognizeOrder;
 
@@ -566,8 +569,8 @@ interface IIntentRecognizerResult extends IRecognizeResult {
     /** A regular expression that was matched. */
     expression?: RegExp;
 
-    /** The text that was matched by [expression](#expression). */
-    matched?: string;
+    /** The results of the [expression](#expression) that was matched. matched[0] will be the text that was matched and matched[1...n] is the result of capture groups.  */
+    matched?: string[];
 
     /** Full list of intents that were matched. */
     intents?: IIntent[];
@@ -670,6 +673,9 @@ interface IChatConnectorSettings {
 
     /** The bots App Password assigned in the Bot Framework Portal. */
     appPassword?: string;
+
+    /** If true the bots userData, privateConversationData, and conversationData will be gzipped prior to writing to storage. */
+    gzipData?: boolean;    
 }
 
 /** Options used to initialize a UniversalBot instance. */
@@ -881,6 +887,18 @@ export enum RecognizeOrder {
 
     /** Recognizers will be evaluated in series. Any recognizer that returns a score of 1.0 will prevent the evaluation of the remaining recognizers. */
     series 
+}
+
+/** Controls an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) processing of the users text utterances. */
+export enum RecognizeMode { 
+    /** Process text utterances whenever the dialog is first loaded through a call to session.beginDialog() and anytime a reply from the user is received. This was the default behaviour prior to version 3.2. */
+    onBegin, 
+
+    /** Processes text utterances anytime a reply is recieved but only when the dialog is first loaded if it's the root dialog. This is the default behaviour as of 3.2. */
+    onBeginIfRoot, 
+
+    /** Only process text utterances when a reply is recieved. */
+    onReply 
 }
 
 /**
@@ -1113,8 +1131,11 @@ export class Session {
     /** Returns true if the session has been reset. */
     isReset(): boolean;
 
-    /** Immediately ends the current batch and delivers any queued up messages. */
-    sendBatch(): void;
+    /** 
+     * Immediately ends the current batch and delivers any queued up messages.
+     * @param callback (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     */
+    sendBatch(callback?: (err: Error) => void): void;
 }
     
 /**
@@ -1858,6 +1879,21 @@ export class IntentDialog extends Dialog {
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
     matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Invokes a handler when any of the given intents are detected in the users utterance.
+     *
+     * > __NOTE:__ The full details of the match, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param intent
+     * * __intent:__ _{RegExp[]}_ - Array of regular expressions that will be evaluated to detect the users intent.
+     * * __intent:__ _{string[]}_ - Array of named intents returned by an [IIntentRecognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer) plugin that will be used to match the users intent.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
+    matchesAny(intent: RegExp[]|string[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * The default handler to invoke when there are no handlers that match the users intent.
