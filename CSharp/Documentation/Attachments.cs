@@ -336,7 +336,7 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 \subsection signincard Sign-In Card
 
-The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
+The Sign-In card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
 
 | **Property**  | **Type**      | **Description**
 |-----------|---------- | ----- 
@@ -345,7 +345,7 @@ The Thumbnail card is a multipurpose card; it primarily hosts a single small ima
 | **Buttons[]** | Action[]  | Hero cards support one or more buttons 
 | **Tap**       | Action    | An action to take when tapping on the card 
 
-~~~{.json}
+~~~{.cs}
 
 Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
 replyToConversation.Recipient = message.From;
@@ -421,7 +421,7 @@ The CardAction type is used to represent the information needed to process a but
 | **downloadFile**  | download file referenced by URL
 | **signin**        | OAuth flow URL
 
-~~~{.json}
+~~~{.cs}
 CardAction button = new CardAction()
 {
     Type = "imBack",

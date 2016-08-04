@@ -86,7 +86,7 @@ var replyMessage = incomingMessage.CreateReply("Yo, what's up?");
 ~~~
 
 \subsection replytoactivity ReplyToActivity()
-To reply simply create a reply message and call the **ReplyToActiivty()** method. The %Connector service will take care of the details
+To reply simply create a reply message and call the **ReplyToActivity()** method. The %Connector service will take care of the details
 of delivering your message using the appropriate channel semantics.  
 
 ~~~{.cs}
