@@ -131,16 +131,21 @@ to SendToConversation().
 \subsection conversationuser Create 1:1 Conversations
 The **CreateDirectConversation()** method is used to create a private 1:1 conversation between the bot and the user.
 
+To initialize a **ConnectorClient** you use ServiceUrl persisted from previous messages.
+
 Example:
 ~~~{.cs}
+var userAccount = new ChannelAccount(name: "Larry", id: "@UV357341");
 var connector = new ConnectorClient(incomingMessage.ServiceUrl);
-var ConversationId = await connector.Conversations.CreateDirectConversationAsync(incomingMessage.Recipient, incomingMessage.From);
+var conversationId = await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount);
+
 IMessageActivity message =  Activity.CreateMessageActivity();
-message.From = botChannelAccount;
-message.Recipient = new ChannelAccount() { name: "Larry", "id":"@UV357341"};
-message.Conversation = new ConversationAccount(id: ConversationId.Id);
+message.From = botAccount;
+message.Recipient = userAccount;
+message.Conversation = new ConversationAccount(id: conversationId.Id);
 message.Text = "Hello";
 message.Locale = "en-Us";
+
 await connector.Conversations.SendToConversation((Activity)message); 
 ~~~
 
@@ -151,18 +156,18 @@ The **CreateConversation()** method is used to create a new group conversation.
 
 Example: 
 ~~~{.cs}
-var connector = new ConnectorClient();
+var connector = new ConnectorClient(incomingMessage.ServiceUrl);
 List<ChannelAccount> participants = new List<ChannelAccount>();
 participants.Add(new ChannelAccount("joe@contoso.com", "Joe the Engineer"));
 participants.Add(new ChannelAccount("sara@contso.com", "Sara in Finance"));
 
 ConversationParameters cpMessage = new ConversationParameters(message.Recipient, participants, "Quarter End Discussion");
-var ConversationId = connector.Conversations.CreateConversationAsync(cpMessage);
+var conversationId = connector.Conversations.CreateConversationAsync(cpMessage);
 
 IMessageActivity message =  Activity.CreateMessageActivity();
-message.From = botChannelAccount;
+message.From = botAccount;
 message.Recipient = new ChannelAccount("lydia@contoso.com", "Lydia the CFO"));
-message.Conversation = ConversationId;
+message.Conversation = conversationId;
 message.ChannelId = "email";
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
