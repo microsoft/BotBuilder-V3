@@ -114,6 +114,7 @@
     <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\LuisModel.cs" />
+    <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />

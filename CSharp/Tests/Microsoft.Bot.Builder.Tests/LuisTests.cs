@@ -240,5 +240,41 @@ namespace Microsoft.Bot.Builder.Tests
             Assert.AreNotEqual("https://api.projectoxford.ai/luis/v1/application?id=modelID&subscription-key=subscriptionID&q=Fran%25u00e7ais", uri.AbsoluteUri);
             Assert.AreEqual("https://api.projectoxford.ai/luis/v1/application?id=modelID&subscription-key=subscriptionID&q=Fran%C3%A7ais", uri.AbsoluteUri);
         }
+
+        [TestMethod]
+        public void Luis_Resolution_DateTime()
+        {
+            Action<string, BuiltIn.DateTime.DateTimeResolution> AssertEquals = (text, expected) =>
+            {
+                BuiltIn.DateTime.DateTimeResolution actual;
+                Assert.IsTrue(BuiltIn.DateTime.DateTimeResolution.TryParse(text, out actual));
+                Assert.AreEqual(expected, actual);
+            };
+
+            // examples from https://www.luis.ai/Help/#PreBuiltEntities
+            AssertEquals("2015-08-15", new BuiltIn.DateTime.DateTimeResolution() { Year = 2015, Month = 8, Day = 15 });
+            AssertEquals("XXXX-WXX-1", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Week = -1, DayOfWeek = DayOfWeek.Monday });
+            AssertEquals("2015-W34", new BuiltIn.DateTime.DateTimeResolution() { Year = 2015, Week = 34 });
+            // TODO: need to look at comment = "weekof"
+            AssertEquals("XXXX-09-30", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Month = 9, Day = 30 });
+
+            // TODO: need to look at comment = "ampm"
+            AssertEquals("T03:00", new BuiltIn.DateTime.DateTimeResolution() { Hour = 3, Minute = 0 });
+            AssertEquals("T16", new BuiltIn.DateTime.DateTimeResolution() { Hour = 16 });
+            AssertEquals("2015-08-15TMO", new BuiltIn.DateTime.DateTimeResolution() { Year = 2015, Month = 8, Day = 15, DayPart = BuiltIn.DateTime.DayPart.MO });
+            AssertEquals("2015-08-14TNI", new BuiltIn.DateTime.DateTimeResolution() { Year = 2015, Month = 8, Day = 14, DayPart = BuiltIn.DateTime.DayPart.NI });
+
+            // other examples based on poking the service
+            // https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=752a2d86f21e47879c8e3ae88ca4c009&q=set%20an%20alarm%20for%20every%20monday%20at%209%20am
+            AssertEquals("TMO", new BuiltIn.DateTime.DateTimeResolution() { DayPart = BuiltIn.DateTime.DayPart.MO });
+            AssertEquals("XXXX-09-W02", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Month = 9, DayOfWeek = DayOfWeek.Tuesday });
+            AssertEquals("2018", new BuiltIn.DateTime.DateTimeResolution() { Year = 2018 });
+            AssertEquals("XXXX-01", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Month = 1 });
+            AssertEquals("XXXX-XX-01", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Month = -1, Day = 1 });
+            // https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=752a2d86f21e47879c8e3ae88ca4c009&q=set%20an%20alarm%20for%20every%20monday%20at%209%20am
+            AssertEquals("XXXX-WXX-1T09", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Week = -1, DayOfWeek = DayOfWeek.Monday, Hour = 9 });
+            // https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=752a2d86f21e47879c8e3ae88ca4c009&q=set%20an%20alarm%20for%20every%20day
+            AssertEquals("XXXX-XX-XX", new BuiltIn.DateTime.DateTimeResolution() { Year = -1, Month = -1, Day = -1 });
+        }
     }
 }
