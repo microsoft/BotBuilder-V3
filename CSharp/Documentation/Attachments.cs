@@ -418,6 +418,7 @@ The CardAction type is used to represent the information needed to process a but
 | **showImage**	    | show image referenced by URL
 | **downloadFile**  | download file referenced by URL
 | **signin**        | OAuth flow URL
+__Note__: Only the following action types are supported by Skype: `openUrl`, `imBack`, `call`, `showImage`, `signin` 
 
 ~~~{.cs}
 CardAction button = new CardAction()
