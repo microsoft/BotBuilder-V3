@@ -182,7 +182,7 @@ bot.dialog('/prompts', [
     },
     function (session, results) {
         session.send("You entered '%s'", results.response);
-        session.send("Bot Builder includes a rich choice() prompt that lets you offer a user a list choices to pick from. On Facebook these choices by default surface using buttons if there are 3 or less choices. If there are more than 3 choices a numbered list will be used but you can specify the exact type of list to show using the ListStyle property.");
+        session.send("Bot Builder includes a rich choice() prompt that lets you offer a user a list choices to pick from. On Skype these choices by default surface using buttons if there are 3 or less choices. If there are more than 3 choices a numbered list will be used but you can specify the exact type of list to show using the ListStyle property.");
         builder.Prompts.choice(session, "Prompts.choice()\n\nChoose a list style (the default is auto.)", "auto|inline|list|button|none");
     },
     function (session, results) {
@@ -225,7 +225,7 @@ bot.dialog('/picture', [
 
 bot.dialog('/cards', [
     function (session) {
-        session.send("You can use Hero & Thumbnail cards to send the user a visually rich information...");
+        session.send("You can use Hero & Thumbnail cards to send the user visually rich information...");
 
         var msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
@@ -259,7 +259,7 @@ bot.dialog('/cards', [
 
 bot.dialog('/list', [
     function (session) {
-        session.send("You can send the user a list of cards...");
+        session.send("You can send the user a list of cards as multiple attachments in a single message...");
 
         var msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
@@ -343,7 +343,7 @@ bot.dialog('/carousel', [
             case '101':
                 item = "<b>Pikes Place Market</b>";
                 break;
-            case '101':
+            case '102':
                 item = "the <b>EMP Museum</b>";
                 break;
         }
