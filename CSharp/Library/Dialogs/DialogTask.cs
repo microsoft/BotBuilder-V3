@@ -212,7 +212,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             IDialogStack stack = this;
             stack.Call(child, resume);
             await stack.PollAsync(token);
-            await (this as IPostToBot).PostAsync(item, token);
+            IPostToBot postToBot = this;
+            await postToBot.PostAsync(item, token);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -232,11 +233,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialogStack.PollAsync(CancellationToken token)
         {
-            await this.fiber.PollAsync(this);
+            try
+            {
+                await this.fiber.PollAsync(this);
 
-            // this line will throw an error if the code does not schedule the next callback
-            // to wait for the next message sent from the user to the bot.
-            this.fiber.Wait.ValidateNeed(Need.Wait);
+                // this line will throw an error if the code does not schedule the next callback
+                // to wait for the next message sent from the user to the bot.
+                this.fiber.Wait.ValidateNeed(Need.Wait);
+            }
+            catch
+            {
+                this.store.Reset();
+                throw;
+            }
+            finally
+            {
+                this.store.Save(this.fiber);
+                this.store.Flush();
+            }
         }
 
         void IDialogStack.Reset()
@@ -248,21 +262,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            try
-            {
-                this.fiber.Post(item);
-                await this.fiber.PollAsync(this);
-            }
-            catch
-            {
-                this.store.Reset();
-                throw;
-            }
-            finally
-            {
-                this.store.Save(this.fiber);
-                this.store.Flush(); 
-            }
+            this.fiber.Post(item);
+            IDialogStack stack = this;
+            await stack.PollAsync(token);
         }
     }
 
