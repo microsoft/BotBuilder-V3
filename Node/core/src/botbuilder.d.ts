@@ -40,6 +40,9 @@ interface IConversationUpdate extends IEvent {
 
     /** The conversations new topic name. */
     topicName?: string;
+
+    /** If true then history was disclosed. */
+    historyDisclosed?: boolean;
 }
 
 /** A user has updated their contact list. */
@@ -761,7 +764,7 @@ interface IMiddlewareMap {
     /** Called in series before an outgoing event is sent. */
     send?: IEventMiddleware|IEventMiddleware[];
 
-    /** Called in series once an incoming message has been bound to a session. Executed after [analyze](#analyze) middleware.  */
+    /** Called in series once an incoming message has been bound to a session. Executed after [receive](#receive) middleware.  */
     botbuilder?: ISessionMiddleware|ISessionMiddleware[];
 }
 
