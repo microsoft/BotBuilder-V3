@@ -98,6 +98,7 @@
     <Compile Include="ExceptionTests.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="FormTests.cs" />
+    <Compile Include="LuisResolutionTests.cs" />
     <Compile Include="LuisTests.cs" />
     <Compile Include="LocalizationTests.cs" />
     <Compile Include="PromptTests.cs" />

@@ -84,21 +84,50 @@ namespace Microsoft.Bot.Builder.Luis
                 [Description("night")]
                 NI
             }
+
+            [Serializable]
             public sealed class DateTimeResolution : Resolution, IEquatable<DateTimeResolution>
             {
-                public int? Year { get; set; }
-                public int? Month { get; set; }
-                public int? Day { get; set; }
+                public int? Year { get; }
+                public int? Month { get; }
+                public int? Day { get; }
 
-                public int? Week { get; set; }
-                public DayOfWeek? DayOfWeek { get; set; }
+                public int? Week { get; }
+                public DayOfWeek? DayOfWeek { get; }
 
-                public DayPart? DayPart { get; set; }
+                public DayPart? DayPart { get; }
 
-                public int? Hour { get; set; }
-                public int? Minute { get; set; }
-                public int? Second { get; set; }
+                public int? Hour { get; }
+                public int? Minute { get; }
+                public int? Second { get; }
 
+                public DateTimeResolution(
+                    int? year = null, int? month = null, int? day = null,
+                    int? week = null, DayOfWeek? dayOfWeek = null,
+                    DayPart? dayPart = null,
+                    int? hour = null, int? minute = null, int? second = null
+                    )
+                {
+                    this.Year = year;
+                    this.Month = month;
+                    this.Day = day;
+                    this.Week = week;
+                    this.DayOfWeek = dayOfWeek;
+                    this.DayPart = dayPart;
+                    this.Hour = hour;
+                    this.Minute = minute;
+                    this.Second = second;
+                }
+
+                public DateTimeResolution(System.DateTime dateTime)
+                {
+                    this.Year = dateTime.Year;
+                    this.Month = dateTime.Month;
+                    this.Day = dateTime.Day;
+                    this.Hour = dateTime.Hour;
+                    this.Minute = dateTime.Minute;
+                    this.Second = dateTime.Second;
+                }
                 public bool Equals(DateTimeResolution other)
                 {
                     return other != null
@@ -214,33 +243,23 @@ namespace Microsoft.Bot.Builder.Luis
                     var match = Regex.Match(text);
                     if (match.Success)
                     {
-                        resolution = new DateTimeResolution();
                         var groups = match.Groups;
-                        resolution.Year = ParseIntOrNull(groups["year"]);
                         bool weekM = groups["weekM"].Success;
-                        if (weekM)
-                        {
-                            resolution.Week = ParseIntOrNull(groups["month"]);
-                        }
-                        else
-                        {
-                            resolution.Month = ParseIntOrNull(groups["month"]);
-                        }
+                        bool weekD = weekM || groups["weekD"].Success;
 
-                        bool weekD = groups["weekD"].Success;
-                        if (weekM || weekD)
-                        {
-                            resolution.DayOfWeek = (DayOfWeek?)ParseIntOrNull(groups["day"]);
-                        }
-                        else
-                        {
-                            resolution.Day = ParseIntOrNull(groups["day"]);
-                        }
+                        resolution = new DateTimeResolution
+                            (
+                                year: ParseIntOrNull(groups["year"]),
+                                week: weekM ? ParseIntOrNull(groups["month"]) : null,
+                                month: !weekM ? ParseIntOrNull(groups["month"]) : null,
+                                dayOfWeek: weekD ? (DayOfWeek?)ParseIntOrNull(groups["day"]) : null,
+                                day: !weekD ? ParseIntOrNull(groups["day"]) : null,
+                                dayPart: ParseEnumOrNull<DayPart>(groups["part"]),
+                                hour: ParseIntOrNull(groups["hour"]),
+                                minute: ParseIntOrNull(groups["minute"]),
+                                second: ParseIntOrNull(groups["second"])
+                            );
 
-                        resolution.DayPart = ParseEnumOrNull<DayPart>(groups["part"]);
-                        resolution.Hour = ParseIntOrNull(groups["hour"]);
-                        resolution.Minute = ParseIntOrNull(groups["minute"]);
-                        resolution.Second = ParseIntOrNull(groups["second"]);
                         return true;
                     }
 
@@ -266,37 +285,40 @@ namespace Microsoft.Bot.Builder.Luis
         bool IResolutionParser.TryParse(IDictionary<string, string> properties, out Resolution resolution)
         {
             string resolution_type;
-            if (properties.TryGetValue("resolution_type", out resolution_type))
+            if (properties != null)
             {
-                switch (resolution_type)
+                if (properties.TryGetValue("resolution_type", out resolution_type))
                 {
-                    case "builtin.datetime.date":
-                        string date;
-                        if (properties.TryGetValue("date", out date))
-                        {
-                            BuiltIn.DateTime.DateTimeResolution dateTime;
-                            if (BuiltIn.DateTime.DateTimeResolution.TryParse(date, out dateTime))
+                    switch (resolution_type)
+                    {
+                        case "builtin.datetime.date":
+                            string date;
+                            if (properties.TryGetValue("date", out date))
                             {
-                                resolution = dateTime;
-                                return true;
+                                BuiltIn.DateTime.DateTimeResolution dateTime;
+                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(date, out dateTime))
+                                {
+                                    resolution = dateTime;
+                                    return true;
+                                }
                             }
-                        }
 
-                        break;
-                    case "builtin.datetime.time":
-                    case "builtin.datetime.set":
-                        string time;
-                        if (properties.TryGetValue("time", out time))
-                        {
-                            BuiltIn.DateTime.DateTimeResolution dateTime;
-                            if (BuiltIn.DateTime.DateTimeResolution.TryParse(time, out dateTime))
+                            break;
+                        case "builtin.datetime.time":
+                        case "builtin.datetime.set":
+                            string time;
+                            if (properties.TryGetValue("time", out time))
                             {
-                                resolution = dateTime;
-                                return true;
+                                BuiltIn.DateTime.DateTimeResolution dateTime;
+                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(time, out dateTime))
+                                {
+                                    resolution = dateTime;
+                                    return true;
+                                }
                             }
-                        }
 
-                        break;
+                            break;
+                    }
                 }
             }
 

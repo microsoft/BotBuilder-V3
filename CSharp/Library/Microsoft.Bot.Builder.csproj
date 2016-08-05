@@ -114,6 +114,7 @@
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
+    <Compile Include="Luis\Extensions.cs" />
     <Compile Include="Luis\LuisModel.cs" />
     <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="Luis\Models\ActionParameter.cs" />
     <Compile Include="Luis\Models\ActionParameterValue.cs" />
     <Compile Include="Luis\Models\EntityRecommendation.cs" />
-    <Compile Include="Luis\Models\Extensions.cs" />
     <Compile Include="Luis\Models\IntentRecommendation.cs" />
     <Compile Include="Luis\Models\LuisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
