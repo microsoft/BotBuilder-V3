@@ -336,14 +336,12 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 \subsection signincard Sign-In Card
 
-The Sign-In card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
+The Sign-In card is a card representing a request to sign in the user;
 
 | **Property**  | **Type**      | **Description**
 |-----------|---------- | ----- 
-| **Title**     | string    | Title of card
 | **Text**      | string    | Text of the card 
-| **Buttons[]** | Action[]  | Hero cards support one or more buttons 
-| **Tap**       | Action    | An action to take when tapping on the card 
+| **Buttons[]** | Action[]  | Action to use to perform for Sign-In
 
 ~~~{.cs}
 
