@@ -11,7 +11,7 @@
     /// its own state in a C# class that implements IDialog.  %Dialogs can be composed with other dialogs to maximize reuse,
     /// and a dialog context maintains a stack of dialogs active in the conversation. A conversation composed of dialogs is
     /// portable across machines to make it possible to scale a bot implementation. This conversation state (the stack of
-    /// active dialogs and each dialog's state) is stored in the messages exchanged with the %Bot Connector, making the bot
+    /// active dialogs and each dialog's state) is stored in the state service provided by the %Bot Connector service, making the bot
     /// implementation stateless between requests. (Much like a web application that does not store session state in the
     /// web server's memory.)
     /// 
@@ -44,17 +44,17 @@
     /// \until }
     /// 
     /// The method is marked async because the %Bot %Builder makes use of the C# facilities for handling asynchronous communication. 
-    /// It returns a Task<Message> which is the reply to the passed in Message.  
+    /// It returns a Task which is representing the task responsible for sending replies for the passed in Message.  
     /// If there is an exception, the Task will contain the exception information. Within the Post method we call
     /// Conversation.SendAsync which is the root method for the %Bot %Builder SDK. It follows the dependency
     /// inversion principle (https://en.wikipedia.org/wiki/Dependency_inversion_principle) and does the following steps:
     /// - Instantiate the required components.  
-    /// - Deserialize the dialog state (the dialog stack and each dialog's state) from the %Bot Connector message.
+    /// - Deserialize the dialog state (the dialog stack and each dialog's state) from IBotDataStore (the default implementation uses the %Bot Connector state API as backing IBotDataStore).
     /// - Resume the conversation processes where the %Bot decided to suspend and wait for a message.
-    /// - Queues messages to be sent to the user.
-    /// - Serializes the updated dialog state in messages sent back to the user.
+    /// - Send the replies.
+    /// - Serialize the updated dialog state and persist it back to IBotDataStore.
     /// 
-    /// When your conversation first starts, there is no dialog state in the message so the delegate passed to Conversation.SendAsync
+    /// When your conversation first starts, there is no dialog state in the IBotDataStore so the delegate passed to Conversation.SendAsync
     /// will be used to construct an EchoDialog and it's StartAsync method will be called. In this case, StartAsync  calls
     /// IDialogContext.Wait with the continuation delegate (our MessageReceivedAsync method) to call when there is a new message.  
     /// In the initial case there is an immediate message available (the one that launched the dialog) and it is immediately 
@@ -120,7 +120,7 @@
     /// needed to save state and communicate.  
     /// The interface is composed of three interfaces: Internals.IBotData, Internals.IDialogStack, and Internals.IBotToUser.
     ///
-    /// Internals.IBotData represents access to the per user, conversation, and user in conversation state maintained
+    /// Internals.IBotData represents access to the per user, conversation, and private conversation, aka user in conversation state, maintained
     /// by the %Bot Connector. The per user state is useful for storing things about the user that cross
     /// conversations--for example the last sandwich order so that you can use that as the default 
     /// when ordering a sandwich. It is also possible to store such state in your own store
