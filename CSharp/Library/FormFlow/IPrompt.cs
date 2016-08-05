@@ -179,21 +179,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     public static partial class Extensions
     {
-        internal static IList<FormButton> GenerateButtons<T>(this IEnumerable<T> options)
-        {
-            var buttons = new List<FormButton>();
-            foreach (var option in options)
-            {
-                buttons.Add(new FormButton
-                {
-                    Title = option.ToString(),
-                    Message = option.ToString()
-                });
-            }
-            return buttons;
-        }
-
-        internal static IList<Attachment> GenerateAttachments(this IList<FormButton> buttons, string text)
+        internal static IList<Attachment> GenerateHeroCard(this IList<FormButton> buttons, string text)
         {
             var actions = new List<CardAction>();
             foreach (var button in buttons)
@@ -215,6 +201,27 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (actions.Count > 0)
             {
                 attachments.Add(new HeroCard(text: text, buttons: actions).ToAttachment());
+            }
+            return attachments;
+        }
+
+        internal static IList<Attachment> GenerateHeroCards(this IList<FormButton> buttons, string text)
+        {
+            var attachments = new List<Attachment>();
+            foreach (var button in buttons)
+            {
+                var actions = new List<CardAction>();
+                CardAction action;
+                if (button.Url != null)
+                {
+                    action = new CardAction(ActionTypes.OpenUrl, button.Title, null, button.Url);
+                }
+                else
+                {
+                    action = new CardAction(ActionTypes.ImBack, button.Title, null, button.Message ?? button.Title);
+                }
+                attachments.Add(new HeroCard(text: text, images: new List<CardImage>() { new CardImage(button.Image) }, buttons: new List<CardAction>() { action }).ToAttachment());
+                actions.Add(action);
             }
             return attachments;
         }

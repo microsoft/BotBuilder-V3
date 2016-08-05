@@ -267,7 +267,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 };
                 // Form builder uses the thread culture to automatically switch framework strings
                 // and also your static strings as well.  Dynamically defined fields must do their own localization.
-                form = new FormBuilder<SandwichOrder>()
+                var builder = new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(Sandwich))
                         .Field(nameof(Length))
@@ -326,8 +326,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
                         .AddRemainingFields()
                         .Message("Thanks for ordering a sandwich!")
-                        .OnCompletion(processOrder)
-                        .Build();
+                        .OnCompletion(processOrder);
+                builder.Configuration.DefaultPrompt.ChoiceStyle = ChoiceStyleOptions.Auto;
+                form = builder.Build();
                 _forms[culture] = form;
             }
             return form;

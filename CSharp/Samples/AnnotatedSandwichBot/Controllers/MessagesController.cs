@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        await Conversation.SendAsync(activity, MakeJsonRootDialog);
+                        await Conversation.SendAsync(activity, MakeRootDialog);
                         break;
 
                     case ActivityTypes.ConversationUpdate:

@@ -284,7 +284,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Simple_Form_Script()
         {
             await VerifyFormScript(@"..\..\SimpleForm.script",
-                "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), new EntityRecommendation[0],
+                "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
 
                 "?",
@@ -316,7 +316,7 @@ namespace Microsoft.Bot.Builder.Tests
                         .SetNext((value, state) => new NextStep(new string[] { "Float" })))
                     .AddRemainingFields()
                     .Build(),
-                FormOptions.None, new SimpleForm(), new EntityRecommendation[0],
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
                 "some text here",
                 "1.5",
@@ -330,7 +330,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Pizza_Script()
         {
             await VerifyFormScript(@"..\..\PizzaForm.script",
-                "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
                 "2",
@@ -375,7 +375,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Pizza_Button_Script()
         {
             await VerifyFormScript(@"..\..\PizzaFormButton.script",
-                "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
                 "2",
@@ -420,7 +420,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Pizza_fr_Script()
         {
             await VerifyFormScript(@"..\..\PizzaForm-fr.script",
-                "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), new EntityRecommendation[0],
+                "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "bonjour",
                 "2",
                 "moyen",
@@ -457,7 +457,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task JSON_Script()
         {
             await VerifyFormScript(@"..\..\JSON.script",
-                "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), new EntityRecommendation[0],
+                "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "ham",
                 "six",

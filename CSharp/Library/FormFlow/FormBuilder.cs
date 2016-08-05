@@ -84,8 +84,16 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 }
                             }
                         }
-                        msg.AttachmentLayout = (style == ChoiceStyleOptions.Carousel ? AttachmentLayoutTypes.Carousel : AttachmentLayoutTypes.List);
-                        msg.Attachments = prompt.Buttons.GenerateAttachments(prompt.Prompt);
+                        if (style == ChoiceStyleOptions.Carousel)
+                        {
+                            msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                            msg.Attachments = prompt.Buttons.GenerateHeroCards(prompt.Prompt);
+                        }
+                        else
+                        {
+                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
+                            msg.Attachments = prompt.Buttons.GenerateHeroCard(prompt.Prompt);
+                        }
                     }
                     else
                     {

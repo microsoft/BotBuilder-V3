@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 : (field.AllowsMultiple ? TemplateUsage.EnumManyWordHelp : TemplateUsage.EnumOneWordHelp));
             _noPreference = field.Optional ? field.Form.Configuration.NoPreference : null;
             _currentChoice = field.Form.Configuration.CurrentChoice.FirstOrDefault();
-            BuildPerValueMatcher(from term in field.Form.Configuration.CurrentChoice select Regex.Escape(term.Trim().Replace(" ", @"\s+")));
+            BuildPerValueMatcher(from term in field.Form.Configuration.CurrentChoice select Regex.Escape(term.Trim()).Replace(" ", @"\s+"));
         }
 
         public object[] PromptArgs()
