@@ -103,6 +103,7 @@
     <Compile Include="PromptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConversationTest.cs" />
+    <Compile Include="RangeTests.cs" />
     <Compile Include="ScorablesTests.cs" />
   </ItemGroup>
   <ItemGroup>

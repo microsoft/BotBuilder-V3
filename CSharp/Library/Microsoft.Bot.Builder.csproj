@@ -104,6 +104,7 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Store.cs" />
     <Compile Include="Fibers\IStore.cs" />
     <Compile Include="Fibers\SetField.cs" />
