@@ -5,10 +5,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IErrorEvent | Bot Builder SDK Chat Reference Library | Bot Framework</title>
+	<title>IContactRelationUpdate | Bot Builder SDK Chat Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
@@ -135,10 +135,10 @@
 										<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 									</li>
 									<li>
-										<a href="_botbuilder_d_.ierrorevent.html">IErrorEvent</a>
+										<a href="_botbuilder_d_.icontactrelationupdate.html">IContactRelationUpdate</a>
 									</li>
 								</ul>
-								<h1>Interface IErrorEvent</h1>
+								<h1>Interface IContactRelationUpdate</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -147,7 +147,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Function signature for an error event handler.</p>
+											<p>A user has updated their contact list.</p>
 										</div>
 									</div>
 								</section>
@@ -155,36 +155,148 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">IErrorEvent</span>
+											<a href="_botbuilder_d_.ievent.html" class="tsd-signature-type">IEvent</a>
+											<ul class="tsd-hierarchy">
+												<li>
+													<span class="target">IContactRelationUpdate</span>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</section>
-								<section class="tsd-panel">
-									<h3 class="tsd-before-signature">Callable</h3>
-									<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<aside class="tsd-sources">
-												<ul>
-													<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/5a99e96/Node/core/src/botbuilder.d.ts#L855">botbuilder.d.ts:855</a></li>
+								<section class="tsd-panel-group tsd-index-group">
+									<h2>Index</h2>
+									<section class="tsd-panel tsd-index-panel">
+										<div class="tsd-index-content">
+											<section class="tsd-index-section tsd-is-not-exported">
+												<h3>Properties</h3>
+												<ul class="tsd-index-list">
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#action" class="tsd-kind-icon">action</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#address" class="tsd-kind-icon">address</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#agent" class="tsd-kind-icon">agent</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#source" class="tsd-kind-icon">source</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#sourceevent" class="tsd-kind-icon">source<wbr>Event</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#type" class="tsd-kind-icon">type</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported"><a href="_botbuilder_d_.icontactrelationupdate.html#user" class="tsd-kind-icon">user</a></li>
 												</ul>
-											</aside>
-											<div class="tsd-comment tsd-typography">
-												<div class="lead">
-													<p>Function signature for an error event handler.</p>
-												</div>
-											</div>
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>err: <span class="tsd-signature-type">Error</span></h5>
-												</li>
+											</section>
+										</div>
+									</section>
+								</section>
+								<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+									<h2>Properties</h2>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+										<a name="action" class="tsd-anchor"></a>
+										<h3>action</h3>
+										<div class="tsd-signature tsd-kind-icon">action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L51">botbuilder.d.ts:51</a></li>
 											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-										</li>
-									</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The action taken. Valid values are &quot;add&quot; or &quot;remove&quot;.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="address" class="tsd-anchor"></a>
+										<h3>address</h3>
+										<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#address">address</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L24">botbuilder.d.ts:24</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Address routing information for the event. Save this field to external storage somewhere to later compose a proactive message to the user.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="agent" class="tsd-anchor"></a>
+										<h3>agent</h3>
+										<div class="tsd-signature tsd-kind-icon">agent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#agent">agent</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L15">botbuilder.d.ts:15</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>SDK thats processing the event. Will always be &#39;botbuilder&#39;.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="source" class="tsd-anchor"></a>
+										<h3>source</h3>
+										<div class="tsd-signature tsd-kind-icon">source<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#source">source</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L18">botbuilder.d.ts:18</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The original source of the event (i.e. &#39;facebook&#39;, &#39;skype&#39;, &#39;slack&#39;, etc.)</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="sourceevent" class="tsd-anchor"></a>
+										<h3>source<wbr>Event</h3>
+										<div class="tsd-signature tsd-kind-icon">source<wbr>Event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#sourceevent">sourceEvent</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L21">botbuilder.d.ts:21</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The original event in the sources native schema. For outgoing messages can be used to pass source specific event data like custom attachments.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="type" class="tsd-anchor"></a>
+										<h3>type</h3>
+										<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#type">type</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L12">botbuilder.d.ts:12</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Defines type of event. Should be &#39;message&#39; for an IMessage.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+										<a name="user" class="tsd-anchor"></a>
+										<h3>user</h3>
+										<div class="tsd-signature tsd-kind-icon">user<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iidentity.html" class="tsd-signature-type">IIdentity</a></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#user">user</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L30">botbuilder.d.ts:30</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>For incoming messages this is the user that sent the message. By default this is a copy of <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#user">address.user</a> but you can configure your bot with a
+												<a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser">lookupUser</a> function that lets map the incoming user to an internal user id.</p>
+											</div>
+										</div>
+									</section>
 								</section>
 							</div>
 							<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -203,7 +315,30 @@
 									</ul>
 									<ul class="current">
 										<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-											<a href="_botbuilder_d_.ierrorevent.html" class="tsd-kind-icon">IError<wbr>Event</a>
+											<a href="_botbuilder_d_.icontactrelationupdate.html" class="tsd-kind-icon">IContact<wbr>Relation<wbr>Update</a>
+											<ul>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#action" class="tsd-kind-icon">action</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#address" class="tsd-kind-icon">address</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#agent" class="tsd-kind-icon">agent</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#source" class="tsd-kind-icon">source</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#sourceevent" class="tsd-kind-icon">source<wbr>Event</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#type" class="tsd-kind-icon">type</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-not-exported">
+													<a href="_botbuilder_d_.icontactrelationupdate.html#user" class="tsd-kind-icon">user</a>
+												</li>
+											</ul>
 										</li>
 									</ul>
 									<ul class="after-current">
@@ -288,9 +423,9 @@
 		<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 	</div>
 </div>
-<script src="//bot-framework.azureedge.net/libs/svgxuse.js"></script>
-<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script src="https://bot-framework.azureedge.net/libs/svgxuse.js"></script>
+<script src="https://static.getclicky.com/js" type="text/javascript"></script>
 <script type="text/javascript">try{ clicky.init(100954936); }catch(e){}</script>
-<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100954936ns.gif" /></p></noscript>
+<noscript><p><img alt="Clicky" width="1" height="1" src="https://in.getclicky.com/100954936ns.gif" /></p></noscript>
 </body>
 </html>
