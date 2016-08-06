@@ -22,6 +22,14 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.2.2
+* Fixed undesired forward resume status in waterfall step.
+* Updated unit tests. Removed old deprecated ones.
+* Added missing export for RecognizeMode and fixed a type-o with RecognizeOrder export.
+* Updated score returned from LuisRecognizer for 'none' intent. It's now a score of 0.1 so it will trigger but won't stomp on other models.
+* Updated botbuilder.d.ts file bundled with npm.
+* Updated LKG build and package.json version.
+
 ### v3.2.1
 
 __Breaking Changes__
