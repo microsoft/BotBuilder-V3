@@ -23,7 +23,7 @@ Get the latest version of Bot Builder using npm.
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
 ### v3.2.3
-* Moved setting of sessionState.lastAccess to happen after middleware runs. This lets you right middleware that expires old sessions.
+* Moved setting of sessionState.lastAccess to happen after middleware runs. This lets you write middleware that expires old sessions.
 * Fixed a couple of issues with proactive conversations not working. Also should fix issues with proactive conversations for groups not working. 
 * Updated LKG build and package.json version.
 
