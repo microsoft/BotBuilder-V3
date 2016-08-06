@@ -246,18 +246,17 @@ export class UniversalBot extends events.EventEmitter {
                 text: '',
                 user: user
             };
-            if (msg.address.conversation) {
-                delete msg.address.conversation;
-            }
             this.ensureConversation(msg.address, (adr) => {
                 msg.address = adr;
+                var conversationId = msg.address.conversation ? msg.address.conversation.id : null;
                 var storageCtx: bs.IBotStorageContext = { 
                     userId: msg.user.id, 
+                    conversationId: conversationId,
                     address: msg.address,
                     persistUserData: this.settings.persistUserData,
                     persistConversationData: this.settings.persistConversationData 
                 };
-                this.route(storageCtx, msg, dialogId, dialogArgs, this.errorLogger(done));
+                this.route(storageCtx, msg, dialogId, dialogArgs, this.errorLogger(done), true);
             }, this.errorLogger(done));
         }, this.errorLogger(done));
     }
@@ -324,7 +323,7 @@ export class UniversalBot extends events.EventEmitter {
     // Helpers
     //-------------------------------------------------------------------------
     
-    private route(storageCtx: bs.IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error) => void): void {
+    private route(storageCtx: bs.IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error) => void, newStack = false): void {
         // --------------------------------------------------------------------
         // Theory of Operation
         // --------------------------------------------------------------------
@@ -388,7 +387,7 @@ export class UniversalBot extends events.EventEmitter {
             session.conversationData = data.conversationData || {};
             session.privateConversationData = data.privateConversationData || {};
             if (session.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
-                sessionState = session.privateConversationData[consts.Data.SessionState];
+                sessionState = newStack ? null : session.privateConversationData[consts.Data.SessionState];
                 delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;  // We'll clone it when saving data later
