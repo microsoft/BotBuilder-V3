@@ -5,7 +5,7 @@
 //=============================================================================
 
 /**
- * An event recieved from or being sent to a source.
+ * An event received from or being sent to a source.
  */
 interface IEvent {
     /** Defines type of event. Should be 'message' for an IMessage. */
@@ -28,6 +28,27 @@ interface IEvent {
      * [lookupUser](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
+}
+
+/** The Properties of a conversation have changed.  */
+interface IConversationUpdate extends IEvent {
+    /** Array of members added to the conversation. */
+    membersAdded?: IIdentity[];
+
+    /** Array of members removed from the conversation. */
+    membersRemoved?: IIdentity[];
+
+    /** The conversations new topic name. */
+    topicName?: string;
+
+    /** If true then history was disclosed. */
+    historyDisclosed?: boolean;
+}
+
+/** A user has updated their contact list. */
+interface IContactRelationUpdate extends IEvent {
+    /** The action taken. Valid values are "add" or "remove". */
+    action: string;
 }
 
 /** 
@@ -346,7 +367,7 @@ interface IDialogResult<T> {
     response?: T;
 }
 
-/** Context of the recieved message passed to the Dialog.recognize() method. */
+/** Context of the received message passed to the Dialog.recognize() method. */
 interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
@@ -475,7 +496,7 @@ interface IPromptTimeResult extends IPromptResult<IEntity> { }
 /** Strongly typed Attachment Prompt Result. */
 interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
 
-/** Plugin for recognizing prompt responses recieved by a user. */
+/** Plugin for recognizing prompt responses received by a user. */
 interface IPromptRecognizer {
     /**
       * Attempts to match a users reponse to a given prompt.
@@ -723,7 +744,7 @@ interface IConnector {
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;
 }
 
-/** Function signature for a piece of middleware that hooks the 'recieve' or 'send' events. */
+/** Function signature for a piece of middleware that hooks the 'receive' or 'send' events. */
 interface IEventMiddleware {
     (event: IEvent, next: Function): void;
 }
@@ -743,7 +764,7 @@ interface IMiddlewareMap {
     /** Called in series before an outgoing event is sent. */
     send?: IEventMiddleware|IEventMiddleware[];
 
-    /** Called in series once an incoming message has been bound to a session. Executed after [analyze](#analyze) middleware.  */
+    /** Called in series once an incoming message has been bound to a session. Executed after [receive](#receive) middleware.  */
     botbuilder?: ISessionMiddleware|ISessionMiddleware[];
 }
 
@@ -851,11 +872,6 @@ interface IFirstRunOptions {
     upgradeDialogArgs?: string;
 }
 
-/** Function signature for an error event handler. */
-interface IErrorEvent {
-    (err: Error): void;
-}
-
 //=============================================================================
 //
 // ENUMS
@@ -894,10 +910,10 @@ export enum RecognizeMode {
     /** Process text utterances whenever the dialog is first loaded through a call to session.beginDialog() and anytime a reply from the user is received. This was the default behaviour prior to version 3.2. */
     onBegin, 
 
-    /** Processes text utterances anytime a reply is recieved but only when the dialog is first loaded if it's the root dialog. This is the default behaviour as of 3.2. */
+    /** Processes text utterances anytime a reply is received but only when the dialog is first loaded if it's the root dialog. This is the default behaviour as of 3.2. */
     onBeginIfRoot, 
 
-    /** Only process text utterances when a reply is recieved. */
+    /** Only process text utterances when a reply is received. */
     onReply 
 }
 
@@ -977,10 +993,11 @@ export class Session {
     /**
      * Registers an event listener.
      * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ierrorevent.html)
+     * - __error:__ An error occured. Passes a JavaScript `Error` object.
      * @param listener Function to invoke.
+     * @param listener.data The data for the event. Consult the list above for specific types of data you can expect to receive.
      */
-    on(event: string, listener: Function): void;
+    on(event: string, listener: (data: any) => void): void;
 
     /**
      * Creates an instance of the session.
@@ -1002,7 +1019,7 @@ export class Session {
     /** Sessions current state information. */
     sessionState: ISessionState;
 
-    /** The message recieved from the user. For bot originated messages this may only contain the "to" & "from" fields. */
+    /** The message received from the user. For bot originated messages this may only contain the "to" & "from" fields. */
     message: IMessage;
 
     /** Data for the user that's persisted across all conversations with the bot. */
@@ -1512,7 +1529,7 @@ export class Fact implements IIsFact {
 export class ActionSet {
     /**
      * Called to recognize any actions triggered by the users utterance.
-     * @param message The message recieved from the user.
+     * @param message The message received from the user.
      * @param callback Function to invoke with the results of the recognition. The top scoring action, if any, will be returned.
      */
     recognizeAction(message: IMessage, callback: (err: Error, result: IRecognizeActionResult) => void): void;
@@ -1539,9 +1556,9 @@ export abstract class Dialog extends ActionSet {
     begin<T>(session: Session, args?: T): void;
 
     /**
-     * Called when a new reply message has been recieved from a user.
+     * Called when a new reply message has been received from a user.
      *
-     * Derived classes should implement this to process the message recieved from the user.
+     * Derived classes should implement this to process the message received from the user.
      * @param session Session object for the current conversation.
      * @param recognizeResult Results returned from a prior call to the dialogs [recognize()](#recognize) method.
      */
@@ -2079,12 +2096,51 @@ export class UniversalBot  {
     constructor(connector?: IConnector, settings?: IUniversalBotSettings);
 
     /**
-     * Registers an event listener.
-     * @param event Name of the event. Event types:
-     * - __error:__ An error occured. [IErrorEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ierrorevent.html)
+     * Registers an event listener. The bot will emit its own events as it process incoming and outgoing messages. It will also forward activity related events emitted from the connector, giving you one place to listen for all activity from your bot. The flow of events from the bot is as follows:
+     * 
+     * #### Message Received
+     * When the bot receives a new message it will emit the following events in order: 
+     * 
+     * > lookupUser -> receive -> incoming -> getStorageData -> routing
+     * 
+     * Any [receive middleware](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imiddlewaremap#receive) that's been installed will be executed between the 'receive' and 'incoming' events. After the 'routing' event is emmited any 
+     * [botbuilder middleware](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imiddlewaremap#botbuilder) will be executed prior to dispatching the message to the bots active dialog.  
+     * 
+     * #### Connector Activity Received
+     * Connectors can emit activity events to signal things like a user is typing or that they friended a bot. These activities get routed through middleware like messages but they are not routed through the bots dialog system.  They are only ever emitted as events.
+     * 
+     * The flow of connector events is: 
+     * 
+     * > lookupUser -> receive -> (activity)
+     * 
+     * #### Message sent
+     * Bots can send multiple messages so the session will batch up all outgoing message and then save the bots current state before delivering the sent messages.  You'll see a single 'saveStorageData' event emitted and then for every outgoing message in the batch you'll see the following
+     * sequence of events: 
+     * 
+     * > send -> outgoing
+     * 
+     * Any [send middleware](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imiddlewaremap#send) that's been installed will be executed between the 'send' and 'outgoing' events. 
+     *  
+     * @param event Name of the event. Bot and connector specific event types:
+     * #### Bot Events
+     * - __error:__ An error occured. Passed a JavaScript `Error` object.
+     * - __lookupUser:__ The user is for an address is about to be looked up. Passed an [IAddress](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html) object.
+     * - __receive:__ An incoming message has been received. Passed an [IEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html) object.
+     * - __incoming:__ An incoming message has been received and processed by middleware. Passed an [IMessage](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html) object.
+     * - __routing:__ An incoming message has been bound to a session and is about to be routed through any session middleware and then dispatched to the active dialog for processing. Passed a [Session](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html) object.
+     * - __send:__ An outgoing message is about to be sent to middleware for processing. Passed an [IMessage](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html) object.
+     * - __getStorageData:__ The sessions persisted state data is being loaded from storage. Passed an [IBotStorageContext](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibotstoragecontext.html) object.
+     * - __saveStorageData:__ The sessions persisted state data is being written to storage. Passed an [IBotStorageContext](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibotstoragecontext.html) object.
+     * 
+     * #### ChatConnector Events
+     * - __conversationUpdate:__ Your bot was added to a conversation or other conversation metadata changed. Passed an [IConversationUpdate](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconversationupdate.html) object.
+     * - __contactRelationUpdate:__ The bot was added to or removed from a user's contact list. Passed an [IContactRelationUpdate](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.icontactrelationupdate.html) object.
+     * - __typing:__ The user or bot on the other end of the conversation is typing. Passed an [IEvent](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html) object.
+     * 
      * @param listener Function to invoke.
+     * @param listener.data The data for the event. Consult the list above for specific types of data you can expect to receive.  
      */
-    on(event: string, listener: Function): void;
+    on(event: string, listener: (data: any) => void): void;
 
     /** 
      * Sets a setting on the bot. 
@@ -2131,8 +2187,8 @@ export class UniversalBot  {
     use(...args: IMiddlewareMap[]): UniversalBot;
     
     /** 
-     * Called when a new event is recieved. This can be called manually to mimic the bot receiving a message from the user.
-     * @param events Event or (array of events) recieved.
+     * Called when a new event is received. This can be called manually to mimic the bot receiving a message from the user.
+     * @param events Event or (array of events) received.
      * @param done (Optional) function to invoke once the operation is completed. 
      */
     receive(events: IEvent|IEvent[], done?: (err: Error) => void): void;

@@ -95,7 +95,7 @@ function waterfall(steps) {
     return function waterfallAction(s, r) {
         var skip = function (result) {
             result = result || {};
-            if (!result.resumed) {
+            if (result.resumed == null) {
                 result.resumed = dlg.ResumeReason.forward;
             }
             waterfallAction(s, result);
