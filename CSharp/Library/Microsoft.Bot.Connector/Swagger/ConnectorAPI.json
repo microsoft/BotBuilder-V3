@@ -3,7 +3,7 @@
   "info": {
     "version": "v3",
     "title": "Microsoft Bot Connector API - v3.0",
-    "description": "The Bot Connector REST API allows your bot to send and receive messages to channels configured in the [Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST and JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n\r\n© 2016 Microsoft",
+    "description": "﻿The Bot Connector REST API allows your bot to send and receive messages to channels configured in the\r\n[Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST\r\nand JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [Connector API Swagger file](ConnectorAPI.json)\r\n\r\n© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -24,7 +24,7 @@
         "summary": "GetAttachmentInfo",
         "description": "Get AttachmentInfo structure describing the attachment views",
         "operationId": "Attachments_GetAttachmentInfo",
-        "consumes": [],
+        "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -37,31 +37,31 @@
         ],
         "responses": {
           "200": {
-            "description": "﻿An attachmentInfo object is returned which describes the\r\n* type of the attachment\r\n* Name of the attachment\r\n\r\n\r\nand an array of  views \r\n* Size - size of the object\r\n* ViewId - View Id which can be used to fetch a variation on the content (ex: original or thumbnail)",
+            "description": "﻿An attachmentInfo object is returned which describes the:\r\n* type of the attachment\r\n* name of the attachment\r\n\r\n\r\nand an array of views:\r\n* Size - size of the object\r\n* ViewId - View Id which can be used to fetch a variation on the content (ex: original or thumbnail)",
             "schema": { "$ref": "#/definitions/AttachmentInfo" }
           },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -74,7 +74,7 @@
         "summary": "GetAttachment",
         "description": "Get the named view as binary content",
         "operationId": "Attachments_GetAttachment",
-        "consumes": [],
+        "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -103,27 +103,85 @@
           "301": { "description": "﻿The Location header describes where the content is now." },
           "302": { "description": "﻿The Location header describes where the content is now." },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v3/conversations/{conversationId}/activities/{activityId}": {
+      "post": {
+        "tags": [ "Conversations" ],
+        "operationId": "Conversations_ReplyToActivity",
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Activity" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "﻿The operation succeeded." },
+          "201": { "description": "" },
+          "202": { "description": "" },
+          "400": {
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "403": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "404": {
+            "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -134,7 +192,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "CreateConversation",
-        "description": "Create a new Conversation.  \r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array contining the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
+        "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array contining the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
         "operationId": "Conversations_CreateConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -149,39 +207,39 @@
         ],
         "responses": {
           "200": {
-            "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿A ResourceResponse object will be returned containing the id for the resource\r\n",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
-            "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -192,7 +250,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "SendToConversation",
-        "description": "This method allows you to send an activity to a conversation regardless of previous posts to a conversation.\r\n\r\nThis is slightly different then ReplyToConversation().  \r\n* SendToConverstion(conversationId) - will simply append a message to the end of the conversation according to the timestamp or semantics of the channel\r\n* ReplyToConversation(conversationId,ActivityId) - models the semantics of threaded conversations, meaning it has the information necessary for the\r\nchannel to reply to the actual message being responded to. \r\n\r\nSendToConversation is appropriate for the first message which initiates a conversation, or if you don't have a particular activity you are responding to.\r\n\r\nReplyToConversation is preferable to SendToConversation() because it maintains threaded conversations.",
+        "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
         "operationId": "Conversations_SendToConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -217,90 +275,27 @@
           "201": { "description": "" },
           "202": { "description": "" },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/v3/conversations/{conversationId}/activities/{activityId}": {
-      "post": {
-        "tags": [ "Conversations" ],
-        "summary": "ReplyToActivity",
-        "description": "This method allows you to reply to an activity.\r\n\r\nThis is slightly different then SendToConversation().  \r\n* SendToConverstion(conversationId) - will simply append a message to the end of the conversation according to the timestamp or semantics of the channel\r\n* ReplyToConversation(conversationId,ActivityId) - models the semantics of threaded conversations, meaning it has the information necessary for the\r\nchannel to reply to the actual message being responded to. \r\n\r\nReplyToConversation is almost always preferable to SendToConversation() because it maintains threaded conversations.\r\n\r\nSendToConversation is appropriate for the first message which initiates a conversation, or if you don't have a particular activity you are responding to.",
-        "operationId": "Conversations_ReplyToActivity",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
-        "parameters": [
-          {
-            "name": "conversationId",
-            "in": "path",
-            "description": "Conversation ID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "activityId",
-            "in": "path",
-            "description": "activityId the reply is to (OPTIONAL)",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "activity",
-            "in": "body",
-            "description": "Activity to send",
-            "required": true,
-            "schema": { "$ref": "#/definitions/Activity" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "﻿The operation succeeded." },
-          "201": { "description": "" },
-          "202": { "description": "" },
-          "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "404": {
-            "description": "﻿The resource was not found.\r\n",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -313,7 +308,7 @@
         "summary": "GetConversationMembers",
         "description": "Call this method to enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount[] objects \r\nwhich are the members of the conversation.",
         "operationId": "Conversations_GetConversationMembers",
-        "consumes": [],
+        "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -333,27 +328,27 @@
             }
           },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -366,7 +361,7 @@
         "summary": "GetActivityMembers",
         "description": "Call this method to enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount[] objects \r\nwhich are the members of the particular activity in the conversation.",
         "operationId": "Conversations_GetActivityMembers",
-        "consumes": [],
+        "consumes": [ ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -393,27 +388,27 @@
             }
           },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -446,11 +441,11 @@
         ],
         "responses": {
           "200": {
-            "description": "﻿A ResourceResponse object will be returned containing the id for the resource",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿A ResourceResponse object will be returned containing the id for the resource\r\n",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
@@ -458,27 +453,27 @@
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "400": {
-            "description": "This is usually because the web server could not found.\r\n\r\nInspect the message for a description.",
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "401": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "403": {
-            "description": "﻿If you are getting this it is because your Microsoft App Id/Microsoft App Password are incorrect.\r\n",
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "404": {
-            "description": "﻿The resource was not found.\r\n",
+            "description": "﻿The resource was not found.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "500": {
-            "description": "﻿An internal server has happened.\r\n\r\nInspect the message for a description.\r\n",
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
           "503": {
-            "description": "﻿The service you are trying to communciate with was unavailable\r\n\r\n",
+            "description": "﻿The service you are trying to communciate with is unavailable.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           }
         },
@@ -524,55 +519,6 @@
     "APIResponse": {
       "type": "object",
       "properties": { "message": { "type": "string" } }
-    },
-    "ConversationParameters": {
-      "type": "object",
-      "properties": {
-        "isGroup": {
-          "description": "IsGroup",
-          "type": "boolean"
-        },
-        "bot": {
-          "$ref": "#/definitions/ChannelAccount",
-          "description": "The bot address for this conversation"
-        },
-        "members": {
-          "description": "Members to add to the conversation",
-          "type": "array",
-          "items": { "$ref": "#/definitions/ChannelAccount" }
-        },
-        "topicName": {
-          "description": "(Optional) Topic of the conversation (if supported by the channel)",
-          "type": "string"
-        }
-      }
-    },
-    "ChannelAccount": {
-      "description": "Channel account information needed to route a message",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
-          "type": "string"
-        },
-        "name": {
-          "description": "Display friendly name",
-          "type": "string"
-        }
-      }
-    },
-    "Object": {
-      "type": "object",
-      "properties": {}
-    },
-    "ResourceResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Id of the resource",
-          "type": "string"
-        }
-      }
     },
     "Activity": {
       "type": "object",
@@ -654,7 +600,7 @@
           "items": { "$ref": "#/definitions/Attachment" }
         },
         "entities": {
-          "description": "Entities \r\nCollection of Entity which contain metadata about this activity (each is typed)",
+          "description": "Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.",
           "type": "array",
           "items": { "$ref": "#/definitions/Entity" }
         },
@@ -668,6 +614,20 @@
         },
         "replyToId": {
           "description": "the original id this message is a response to",
+          "type": "string"
+        }
+      }
+    },
+    "ChannelAccount": {
+      "description": "Channel account information needed to route a message",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or 123456)",
+          "type": "string"
+        },
+        "name": {
+          "description": "Display friendly name",
           "type": "string"
         }
       }
@@ -721,6 +681,41 @@
       "properties": {
         "type": {
           "description": "Entity Type (typically from schema.org types)",
+          "type": "string"
+        }
+      }
+    },
+    "Object": {
+      "type": "object",
+      "properties": { }
+    },
+    "ConversationParameters": {
+      "type": "object",
+      "properties": {
+        "isGroup": {
+          "description": "IsGroup",
+          "type": "boolean"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "The bot address for this conversation"
+        },
+        "members": {
+          "description": "Members to add to the conversation",
+          "type": "array",
+          "items": { "$ref": "#/definitions/ChannelAccount" }
+        },
+        "topicName": {
+          "description": "(Optional) Topic of the conversation (if supported by the channel)",
+          "type": "string"
+        }
+      }
+    },
+    "ResourceResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Id of the resource",
           "type": "string"
         }
       }
@@ -809,7 +804,7 @@
           "type": "string"
         },
         "image": {
-          "description": "URL Picture which will appear on the button, next to text label. \r\nMedia hosted on 3rd party domains will be automatically hosted on \r\nauth protected CDN.Auth protection will be used to ensure that content \r\nuploaded to Skype CDN will only be accessible by Microsoft Clients\r\nPlease refer to Chapter 7 for description of media caching algorithm.",
+          "description": "URL Picture which will appear on the button, next to text label.",
           "type": "string"
         },
         "value": {
@@ -923,7 +918,7 @@
       }
     },
     "Fact": {
-      "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be \r\nrendered with default style information with some delimiter between them. So there is no need for developer to specify style information.",
+      "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be \r\n            rendered with default style information with some delimiter between them. So there is no need for developer to specify style information.",
       "type": "object",
       "properties": {
         "key": { "type": "string" },
@@ -946,7 +941,7 @@
       }
     },
     "GeoCoordinates": {
-      "description": "GeoCoordinates\r\nhttps://schema.org/GeoCoordinates",
+      "description": "GeoCoordinates (entity type: \"https://schema.org/GeoCoordinates\")",
       "type": "object",
       "properties": {
         "elevation": {
@@ -975,20 +970,20 @@
       }
     },
     "Place": {
-      "description": "Place\r\nhttps://schema.org/Place",
+      "description": "Place (entity type: \"https://schema.org/Place\")",
       "type": "object",
       "properties": {
         "address": {
           "$ref": "#/definitions/Object",
-          "description": "Address of the place\r\nCan be `string` or JToken of `PostalAddress` (future)"
+          "description": "Address of the place (may be `string` or complex object of type `PostalAddress`)"
         },
         "geo": {
           "$ref": "#/definitions/Object",
-          "description": "Geo coordinates of the place\r\nCan be JToken of `GeoCoordinates` or `GeoShape` (future)"
+          "description": "Geo coordinates of the place (may be complex object of type `GeoCoordinates` or `GeoShape`)"
         },
         "hasMap": {
           "$ref": "#/definitions/Object",
-          "description": "Map to the place\r\nCan be `string` (a URL) or JToken of `Map` (future)"
+          "description": "Map to the place (may be `string` (URL) or complex object of type `Map`)"
         },
         "type": {
           "description": "The type of the thing",
