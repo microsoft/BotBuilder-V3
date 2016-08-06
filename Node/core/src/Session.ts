@@ -80,6 +80,7 @@ export class Session extends events.EventEmitter implements ISession {
     public dispatch(sessionState: ISessionState, message: IMessage): ISession {
         var index = 0;
         var session = this;
+        var now = new Date().getTime();
         var middleware = this.options.middleware || [];
         var next = () => {
             var handler = index < middleware.length ? middleware[index] : null;
@@ -88,13 +89,13 @@ export class Session extends events.EventEmitter implements ISession {
                 handler(session, next);
             } else {
                 this.inMiddleware = false;
+                this.sessionState.lastAccess = now; // Set after middleware runs so you can expire old sessions.
                 this.routeMessage();
             }
         };
 
         // Make sure dialogData is properly initialized
-        this.sessionState = sessionState || { callstack: [], lastAccess: 0, version: 0.0 };
-        this.sessionState.lastAccess = new Date().getTime();
+        this.sessionState = sessionState || { callstack: [], lastAccess: now, version: 0.0 };
         var cur = this.curDialog();
         if (cur) {
             this.dialogData = cur.state;
