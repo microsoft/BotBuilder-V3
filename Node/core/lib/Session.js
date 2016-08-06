@@ -31,6 +31,7 @@ var Session = (function (_super) {
         var _this = this;
         var index = 0;
         var session = this;
+        var now = new Date().getTime();
         var middleware = this.options.middleware || [];
         var next = function () {
             var handler = index < middleware.length ? middleware[index] : null;
@@ -40,11 +41,11 @@ var Session = (function (_super) {
             }
             else {
                 _this.inMiddleware = false;
+                _this.sessionState.lastAccess = now;
                 _this.routeMessage();
             }
         };
-        this.sessionState = sessionState || { callstack: [], lastAccess: 0, version: 0.0 };
-        this.sessionState.lastAccess = new Date().getTime();
+        this.sessionState = sessionState || { callstack: [], lastAccess: now, version: 0.0 };
         var cur = this.curDialog();
         if (cur) {
             this.dialogData = cur.state;

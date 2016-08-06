@@ -151,18 +151,17 @@ var UniversalBot = (function (_super) {
                 text: '',
                 user: user
             };
-            if (msg.address.conversation) {
-                delete msg.address.conversation;
-            }
             _this.ensureConversation(msg.address, function (adr) {
                 msg.address = adr;
+                var conversationId = msg.address.conversation ? msg.address.conversation.id : null;
                 var storageCtx = {
                     userId: msg.user.id,
+                    conversationId: conversationId,
                     address: msg.address,
                     persistUserData: _this.settings.persistUserData,
                     persistConversationData: _this.settings.persistConversationData
                 };
-                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done));
+                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done), true);
             }, _this.errorLogger(done));
         }, this.errorLogger(done));
     };
@@ -226,8 +225,9 @@ var UniversalBot = (function (_super) {
             }, _this.errorLogger(cb));
         }, this.errorLogger(cb));
     };
-    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
+    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
         var _this = this;
+        if (newStack === void 0) { newStack = false; }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
@@ -257,7 +257,7 @@ var UniversalBot = (function (_super) {
             session.conversationData = data.conversationData || {};
             session.privateConversationData = data.privateConversationData || {};
             if (session.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
-                sessionState = session.privateConversationData[consts.Data.SessionState];
+                sessionState = newStack ? null : session.privateConversationData[consts.Data.SessionState];
                 delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;
