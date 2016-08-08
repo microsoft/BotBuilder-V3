@@ -111,6 +111,11 @@ You might consider splitting up your model and calling the LUIS service in serie
 
 You can access LUIS experts at the [Language Understanding Intelligent Service Forum](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=LUIS).
 
+## What are some community-authored dialogs?
+
+* [AuthBot](https://www.nuget.org/packages/AuthBot) - Azure Active Directory authentication
+* [BestMatchDialog](http://www.garypretty.co.uk/2016/08/01/bestmatchdialog-for-microsoft-bot-framework-now-available-via-nuget/) - regular expression-based dispatch of user text to dialog methods
+
 ## Where can I get more help?
 
 The [GitHub issues](https://github.com/Microsoft/BotBuilder/issues) has an active forum.  [Gitter](https://gitter.im/Microsoft/BotBuilder) has active discussions.  [Stack Overflow](http://stackoverflow.com/questions/tagged/botframework) has a list of tagged Bot Framework questions.
