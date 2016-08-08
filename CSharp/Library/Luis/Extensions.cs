@@ -80,6 +80,11 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
 
+        /// <summary>
+        /// Return a heuristic interpretation of the hour that corresponds to a <see cref="DayPart"/>. 
+        /// </summary>
+        /// <param name="part">The query <see cref="DayPart"/>.</param>
+        /// <returns>The hour.</returns>
         public static int HourFor(this DayPart part)
         {
             switch (part)
@@ -93,6 +98,11 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
 
+        /// <summary>
+        /// Return the next <see cref="DayPart"/>. 
+        /// </summary>
+        /// <param name="part">The <see cref="DayPart"/> query.</param>
+        /// <returns>The next <see cref="DayPart"/> after the query.</returns>
         public static DayPart Next(this DayPart part)
         {
             switch (part)
@@ -106,6 +116,16 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
 
+        /// <summary>
+        /// Interpret a parsed DateTimeResolution to provide a series of DateTime ranges
+        /// </summary>
+        /// <param name="resolution">The DateTimeResolution parsed from a LUIS response.</param>
+        /// <param name="now">The reference point of "now".</param>
+        /// <param name="calendar">The calendar to use for date math.</param>
+        /// <param name="rule">The calendar week rule to use for date math.</param>
+        /// <param name="firstDayOfWeek">The first day of the week to use for date math.</param>
+        /// <param name="HourFor">The hour that corresponds to the <see cref="DayPart"/> enumeration.</param>
+        /// <returns>A potentially infinite series of DateTime ranges.</returns>
         public static IEnumerable<Range<DateTime>> Interpret(this DateTimeResolution resolution, DateTime now, Calendar calendar, CalendarWeekRule rule, DayOfWeek firstDayOfWeek, Func<DayPart, int> HourFor)
         {
             // remove any millisecond components

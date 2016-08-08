@@ -80,6 +80,30 @@ namespace Microsoft.Bot.Builder.Tests
                     Entities = entities
                 });
         }
+
+        public static void SetupLuis<D>(
+            Mock<ILuisService> luis,
+            string utterance,
+            Expression<Func<D, Task>> expression,
+            double? score,
+            params EntityRecommendation[] entities
+            )
+        {
+            luis
+                .Setup(l => l.BuildUri(utterance))
+                .Returns(new UriBuilder() { Query = utterance }.Uri);
+
+            luis
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
+                .Returns<Uri>(async (uri) =>
+                {
+                    return new LuisResult()
+                    {
+                        Intents = IntentsFor(expression, score),
+                        Entities = entities
+                    };
+                });
+        }
     }
 
     [TestClass]

@@ -137,6 +137,15 @@ namespace Microsoft.Bot.Builder.Tests
             };
         }
 
+        public static async Task PostActivityAsync(ILifetimeScope container, IMessageActivity toBot, CancellationToken token)
+        {
+            using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+            {
+                var task = scope.Resolve<IPostToBot>();
+                await task.PostAsync(toBot, token);
+            }
+        }
+
         public static async Task AssertScriptAsync(ILifetimeScope container, params string[] pairs)
         {
             Assert.AreNotEqual(0, pairs.Length);
@@ -146,13 +155,9 @@ namespace Microsoft.Bot.Builder.Tests
             for (int index = 0; index < pairs.Length; ++index)
             {
                 var toBotText = pairs[index];
+                toBot.Text = toBotText;
 
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
-                {
-                    var task = scope.Resolve<IPostToBot>();
-                    toBot.Text = toBotText;
-                    await task.PostAsync(toBot, CancellationToken.None);
-                }
+                await PostActivityAsync(container, toBot, CancellationToken.None);
 
                 var queue = container.Resolve<Queue<IMessageActivity>>();
 

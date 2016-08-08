@@ -81,6 +81,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
+            // make the resumption cookie available for the lifetime scope
+
+            builder
+                .RegisterType<ResumptionCookie>()
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
+
             // components not marked as [Serializable]
             builder
                 .RegisterType<MicrosoftAppCredentials>()
