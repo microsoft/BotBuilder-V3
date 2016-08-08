@@ -73,6 +73,12 @@ The "Bot Url" is the web service url that executes your Bot's code.  The "Emulat
 
 The Connector library is the exposition of the REST API.  The Builder library adds the conversational dialog programming model and other features (e.g. prompts, waterfalls, chains, guided form filling) and access to cognitive services (e.g. LUIS).
 
+## How can I limit access to my bot to a pre-determined list of users?
+
+Some channels provide unscoped addresses. SMS and email are examples. The ID appears raw in the from.Id feld.
+
+Other channels give you either scoped or tenanted addresses (e.g. Skype, Facebook, Slack), and they typically do so in a way that prevents the bot from predicting the user’s ID ahead of time.  For these channels, you need to authenticate the user on your own (via a login link or shared secret) before you know whether or not they are authorized to use the bot.
+
 ## Why are my Facebook user names not showing anymore?
 
 Did you change your Facebook password?  This will invalidate the access token, and you will have to update the Facebook channel registration.
