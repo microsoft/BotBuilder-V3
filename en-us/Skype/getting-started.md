@@ -13,8 +13,6 @@ You've come to the right place to build and publish a Skype bot - with cards, gr
 
 ## Creating a Skype bot
 
-<div class="docs-text-note"><b>Important: </b>You should test Skype bots using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
-
 All bots created using the Microsoft Bot Framework are automatically configured and ready to work in Skype.
 
 See the [Microsoft Bot Framework Overview](/en-us/) to learn how to:
@@ -23,9 +21,7 @@ See the [Microsoft Bot Framework Overview](/en-us/) to learn how to:
 2. Test it using the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/)
 3. Deploy the bot to a cloud service, such as [Microsoft Azure](https://azure.microsoft.com/en-gb/)
 4. [Register](https://dev.botframework.com/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
-5. [Add the bot](#adding-a-bot) to Skype and test
-
-You should test Skype bots using the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.
+5. [Add the bot](#adding-a-bot) to the latest version of Skype for mobile or desktop platforms - and test
 
 ## Publishing
 
@@ -167,7 +163,7 @@ Skype supports the following cards which may have several properties and attachm
 * Receipt card
 
 <div class="docs-text-note"><b>Note:</b> Images sent to Skype cards need to be stored on an HTTPS endpoint</div>
-<div class="docs-text-note"><b>Note:</b> Skype cards do not currently support postback actions</div>
+<div class="docs-text-note"><b>Note:</b> Skype cards do not currently support postBack actions</div>
 
 ### Images
 {:.no_toc}
