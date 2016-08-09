@@ -124,7 +124,7 @@
     /// * You can switch to another field by entering its name. (Sandwich, Length, Bread, Cheese, Toppings, and Sauce).
     /// ~~~  
     /// 
-    /// As described in th help, you can respond to this prompt by responding with the number of the choice you want, or you can also use the words that
+    /// As described in the help, you can respond to this prompt by responding with the number of the choice you want, or you can also use the words that
     /// are found in the choice descriptions. There are also a number of commands that let you back up a step, get help, quit, start over 
     /// or get the progress so far. Let's enter "2" to select "Black Forest Ham".
     /// ~~~{.txt}
