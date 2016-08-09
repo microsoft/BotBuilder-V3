@@ -81,6 +81,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected async Task<HttpOperationResponse<object>> UpsertData(string botId, string channelId, string userId, string conversationId, BotStoreType storeType, BotData data)
         {
             var _result = new HttpOperationResponse<object>();
+            _result.Request = new HttpRequestMessage(); 
             try
             {
                 await memoryDataStore.SaveAsync(new BotDataKey { BotId = botId, UserId = userId, ConversationId = conversationId, ChannelId = channelId }, storeType, data, CancellationToken.None);
@@ -105,6 +106,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected async Task<HttpOperationResponse<object>> GetData(string botId, string channelId, string userId, string conversationId, BotStoreType storeType)
         {
             var _result = new HttpOperationResponse<object>();
+            _result.Request = new HttpRequestMessage();
             BotData data;
             data = await memoryDataStore.LoadAsync(new BotDataKey { BotId = botId, UserId = userId, ConversationId = conversationId, ChannelId = channelId }, storeType, CancellationToken.None);
             _result.Body = data;
