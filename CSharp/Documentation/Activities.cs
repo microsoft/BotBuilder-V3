@@ -6,7 +6,7 @@ An Activity is the object that is used to communicate between a user and a bot. 
 there are a number of properties that you can use to control your message and how it is presented to the
 user when they receive it.
 
-There more than one type of Activity which are used to convey system operations or channel system operations
+There are more than one type of Activity which are used to convey system operations or channel system operations
 to the bot. They exist to give the %bot information about the state of the channel and the opportunity to respond
 to them.
 
@@ -38,7 +38,7 @@ your %bot is sending some text back. There are 2 core properties for this, the T
 | **Text**    | A text payload in markdown syntax which will be rendered as appropriate on each channel| Hello, how are you?
 | **Locale**  | The locale of the sender (if known)       | en
 
-If all you do is give exchange simple one-line text responses, you don't have to read any further.
+If all you do is exchange simple one-line text responses, you don't have to read any further.
 
 \subsection textformat TextFormat Property
 Each message has an optional TextFormat property which represents how to interpret the Text property.  
