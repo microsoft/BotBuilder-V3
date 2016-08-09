@@ -53,6 +53,7 @@ export interface IChatConnectorSettings {
     gzipData?: boolean;
     endpoint?: IChatConnectorEndpoint;
     stateEndpoint?: string;
+    openIdMetadata? : string;
 }
 
 export interface IChatConnectorEndpoint {
@@ -85,7 +86,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 refreshScope: 'https://graph.microsoft.com/.default',
-                botConnectorOpenIdMetadata: 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
+                botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
                 msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
