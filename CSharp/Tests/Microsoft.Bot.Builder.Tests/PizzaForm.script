@@ -17,7 +17,7 @@ ToUserText:"Please select a size (current choice: No Preference) \n  1. Medium\n
 State:{"NumberOfPizzas":2,"Size":null,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"med"
 1
-ToUserText:"Please select a kind of pizza \n  1. Signature Pizza\n  2. Gourmet Delite Pizza\n  3. Stuffed Pizza\n  4. Build your own"
+ToUserText:"What kind of pizza do you want? \n  1. Signature Pizza\n  2. Gourmet Delite Pizza\n  3. Stuffed Pizza\n  4. Build your own"
 State:{"NumberOfPizzas":2,"Size":0,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"4"
 1

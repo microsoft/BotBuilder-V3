@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                         else
                         {
                             msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                            msg.Attachments = prompt.Buttons.GenerateHeroCard(prompt.Prompt);
+                            msg.Attachments = prompt.Buttons.GenerateHeroCard(prompt.Prompt, prompt.Image);
                         }
                     }
                     else

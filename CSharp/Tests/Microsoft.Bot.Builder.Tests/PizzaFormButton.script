@@ -17,7 +17,7 @@ ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl"
 State:{"NumberOfPizzas":2,"Size":null,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"med"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"Please select a kind of pizza ","images":null,"buttons":[{"type":"imBack","title":"Signature Pizza","image":null,"value":"Signature Pizza"},{"type":"imBack","title":"Gourmet Delite Pizza","image":null,"value":"Gourmet Delite Pizza"},{"type":"imBack","title":"Stuffed Pizza","image":null,"value":"Stuffed Pizza"},{"type":"imBack","title":"Build your own","image":null,"value":"Build your own"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What kind of pizza do you want? ","images":null,"buttons":[{"type":"imBack","title":"Signature Pizza","image":null,"value":"Signature Pizza"},{"type":"imBack","title":"Gourmet Delite Pizza","image":null,"value":"Gourmet Delite Pizza"},{"type":"imBack","title":"Stuffed Pizza","image":null,"value":"Stuffed Pizza"},{"type":"imBack","title":"Build your own","image":null,"value":"Build your own"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"NumberOfPizzas":2,"Size":0,"Kind":0,"Signature":0,"GourmetDelite":0,"Stuffed":0,"BYO":null,"Coupons":null,"Coupon":0,"DeliveryAddress":null,"Rating":null,"Available":"0001-01-01T00:00:00","Bottles":null,"Specials":null,"Phone":null}
 FromUser:"4"
 1

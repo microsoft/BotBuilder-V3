@@ -53,6 +53,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
+        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=100&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         // [Prompt("What kind of {&} would you like? {||}", ChoiceFormat ="{1}")]
         // [Prompt("What kind of {&} would you like?")]
         public SandwichOptions? Sandwich;

@@ -167,9 +167,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <returns>Field description.</returns>
         /// <remarks>
-        /// This is the value that will be generated in \ref patterns by {&amp;} or choices. {||}.
+        /// This is the value that will be used in \ref patterns by {&amp;}, choices with {||} or buttons.
         /// </remarks>
-        string FieldDescription { get; }
+        DescribeAttribute FieldDescription { get; }
 
         /// <summary>
         /// Terms for matching this field.
@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         IEnumerable<string> FieldTerms { get; }
 
         /// <summary>
-        /// Return the string describing a specific value.
+        /// Return the description of a specific value.
         /// </summary>
         /// <param name="value">Value being described.</param>
         /// <returns>Description of value.</returns>

@@ -90,6 +90,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public string Prompt { set; get; } = string.Empty;
 
         /// <summary>
+        /// Image to use for hero card.
+        /// </summary>
+        /// <remarks>You can set this via <see cref="DescribeAttribute"/>.</remarks>
+        public string Image { get; set; } = null;
+
+        /// <summary>
         /// The buttons that will be mapped to Message.Attachments.
         /// </summary>
         public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
@@ -112,6 +118,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var newPrompt = new FormPrompt();
             newPrompt.Prompt = this.Prompt;
+            newPrompt.Image = this.Image;
             newPrompt.Buttons = this.Buttons.Clone();
             newPrompt.Style = this.Style;
             return newPrompt;
@@ -179,7 +186,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     public static partial class Extensions
     {
-        internal static IList<Attachment> GenerateHeroCard(this IList<FormButton> buttons, string text)
+        internal static IList<Attachment> GenerateHeroCard(this IList<FormButton> buttons, string text, string image)
         {
             var actions = new List<CardAction>();
             foreach (var button in buttons)
@@ -200,7 +207,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var attachments = new List<Attachment>();
             if (actions.Count > 0)
             {
-                attachments.Add(new HeroCard(text: text, buttons: actions).ToAttachment());
+                attachments.Add(new HeroCard(text: text, buttons: actions, 
+                    images:image == null ? null : new List<CardImage>() { new CardImage() { Url = image } })
+                    .ToAttachment());
             }
             return attachments;
         }
@@ -292,6 +301,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new FormPrompt
             {
                 Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
+                Image = field?.FieldDescription?.Image,
                 Buttons = buttons,
                 Style = _annotation.ChoiceStyle
             };
@@ -382,7 +392,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var name = expr.Substring(1);
                     if (name == "" && field != null) name = field.Name;
                     var pathField = _fields.Field(name);
-                    substitute = Language.Normalize(pathField == null ? field.Name : pathField.FieldDescription, _annotation.FieldCase);
+                    substitute = Language.Normalize(pathField == null ? field.Name : pathField.FieldDescription.Description, _annotation.FieldCase);
                 }
                 else if (expr == "||")
                 {

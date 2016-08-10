@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             _form = field.Form;
             _allowNumbers = field.AllowNumbers;
-            _description = field.FieldDescription;
+            _description = field.FieldDescription.Description;
             _terms = field.FieldTerms.ToArray();
             _values = field.Values.ToArray();
             _valueDescriptions = field.ValueDescriptions.ToArray();

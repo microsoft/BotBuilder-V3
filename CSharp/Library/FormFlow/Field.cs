@@ -176,11 +176,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public virtual string FieldDescription
+        public virtual DescribeAttribute FieldDescription
         {
             get
             {
-                return _description.Description;
+                return _description;
             }
         }
 

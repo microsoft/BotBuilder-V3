@@ -754,7 +754,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var navigation = new Prompter<T>(field.Template(TemplateUsage.NavigationCommandHelp), _form, null);
                             var active = (from istep in _form.Steps
                                           where !form.ProcessInputs && istep.Type == StepType.Field && istep.Active(state)
-                                          select istep.Field.FieldDescription).ToArray();
+                                          select istep.Field.FieldDescription.Description).ToArray();
                             if (active.Length > 1)
                             {
                                 var activeList = Language.BuildList(active, navigation.Annotation.ChoiceSeparator, navigation.Annotation.ChoiceLastSeparator);
