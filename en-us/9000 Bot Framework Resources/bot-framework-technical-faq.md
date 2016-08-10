@@ -73,6 +73,10 @@ The "Bot Url" is the web service url that executes your Bot's code.  The "Emulat
 
 The Connector library is the exposition of the REST API.  The Builder library adds the conversational dialog programming model and other features (e.g. prompts, waterfalls, chains, guided form filling) and access to cognitive services (e.g. LUIS).
 
+## How can I get access to the user id?
+
+SMS and email will provide the user id raw in the from.Id field.  In Skype we give you a unique ID for the user which is different from the Skype ID. If you need to connect to an existing account you can use a sign in card and implement your own oauth flow to connect the user ID to your own service's user ID.
+
 ## How can I limit access to my bot to a pre-determined list of users?
 
 Some channels provide unscoped addresses. SMS and email are examples. The ID appears raw in the from.Id feld.
