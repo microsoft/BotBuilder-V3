@@ -117,6 +117,12 @@ There are a few options:
 
 The term "reactive" means the "normal" situation, where the user sends the first message in a conversation to the bot and the bot responds to that message (the conversation is created by the user's initial message).  The term "proactive" means there isn’t an initial message from the user to the bot, so the bot must create the conversation.
 
+## What is an ETag?  How does it relate to bot data bag storage?
+
+An [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) is a mechanism for [optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).  The bot data bag storage uses ETags to prevent conflicting updates to the data.  If you encounter an ETag "precondition failed" http error, it means that there were multiple "read-modify-write" sequences executing concurrently for that bot data bag.
+
+The dialog stack and state are stored in these bot data bags.  For example, you might see the ETag precondition failed error if your bot is still processing a previous message when it receives a new message for that conversation.
+
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
 There is a list of examples available in the [Pre-built entities section](https://www.luis.ai/Help/#PreBuiltEntities) of the LUIS documentation.
