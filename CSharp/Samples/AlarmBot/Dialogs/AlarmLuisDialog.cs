@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.set_alarm")]
-        public async Task SetAlarm(IDialogContext context, LuisResult result)
+        public async Task SetAlarm(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
         {
             string title;
             bool? state = null;

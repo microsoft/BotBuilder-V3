@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Sample.Tests
             var entityTime = EntityFor(AlarmBot.Dialogs.BuiltIn.Alarm.Start_Time, now.ToString("t", DateTimeFormatInfo.InvariantInfo));
             var entityState = EntityFor(AlarmBot.Dialogs.BuiltIn.Alarm.Alarm_State, "on");
 
-            SetupLuis<AlarmLuisDialog>(luis, "can you set an alarm for 4 PM", d => d.SetAlarm(null, null), 1.0, entityTitle, entityDate, entityTitle);
+            SetupLuis<AlarmLuisDialog>(luis, "can you set an alarm for 4 PM", d => d.SetAlarm(null, null, null), 1.0, entityTitle, entityDate, entityTitle);
             SetupLuis<AlarmLuisDialog>(luis, "can you turn off my alarm", d => d.TurnOffAlarm(null, null), 1.0, entityTitle);
             SetupLuis<AlarmLuisDialog>(luis, "can you snooze my alarm", d => d.AlarmSnooze(null, null), 1.0, entityTitle);
             SetupLuis<AlarmLuisDialog>(luis, "can you delete my alarm", d => d.DeleteAlarm(null, null), 1.0, entityTitle);
