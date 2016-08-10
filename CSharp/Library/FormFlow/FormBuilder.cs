@@ -95,6 +95,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                             msg.Attachments = prompt.Buttons.GenerateHeroCard(prompt.Prompt, prompt.Image);
                         }
                     }
+                    else if (prompt.Image != null)
+                    {
+                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
+                        var card = new HeroCard() { Title = prompt.Prompt, Images = new List<CardImage> { new CardImage(prompt.Image) } };
+                        msg.Attachments = new List<Attachment> { card.ToAttachment() };
+                    }
                     else
                     {
                         msg.Text = prompt.Prompt;

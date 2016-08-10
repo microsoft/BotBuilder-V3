@@ -120,13 +120,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     if (type == "hero" || type == "thumbnail")
                     {
                         var card = (HeroCard)attachment.Content;
+                        if (!string.IsNullOrEmpty(card.Title))
+                        {
+                            builder.AppendLine(card.Title);
+                        }
+                        if (!string.IsNullOrEmpty(card.Subtitle))
+                        {
+                            builder.AppendLine(card.Subtitle);
+                        }
                         if (!string.IsNullOrEmpty(card.Text))
                         {
                             builder.AppendLine(card.Text);
                         }
-                        foreach (var button in card.Buttons)
+                        if (card.Buttons != null)
                         {
-                            builder.AppendLine($"* {button.Title}");
+                            foreach (var button in card.Buttons)
+                            {
+                                builder.AppendLine($"* {button.Title}");
+                            }
                         }
                     }
                 }

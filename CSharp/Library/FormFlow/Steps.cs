@@ -143,6 +143,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             ValidateResult feedback = new ValidateResult();
             feedback.IsValid = true;
             feedback.Feedback = null;
+            feedback.FeedbackCard = null;
             feedback.Choices = null;
             FormPrompt prompt = null;
             FormPrompt feedbackPrompt = null;
@@ -288,7 +289,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 form.StepState = null;
                 if (fieldState.Unmatched != null)
                 {
-                    if (feedback.Feedback != null)
+                    if (feedback.FeedbackCard != null)
+                    {
+                        feedbackPrompt = feedback.FeedbackCard;
+                    }
+                    else if (feedback.Feedback != null)
                     {
                         feedbackPrompt = new FormPrompt { Prompt = feedback.Feedback };
                     }
@@ -306,7 +311,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
             }
             var next = _field.Next(response, state);
-            return new StepResult(feedback.IsValid, next, feedbackPrompt ?? new FormPrompt { Prompt = feedback.Feedback }, prompt);
+            return new StepResult(feedback.IsValid, next, feedbackPrompt ?? (feedback.FeedbackCard ?? new FormPrompt { Prompt = feedback.Feedback }), prompt);
         }
 
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)

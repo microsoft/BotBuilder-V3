@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -72,12 +73,18 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <remarks>
     ///          If <see cref="IsValid"/> is true, then the field will be set to <see cref="Value"/>.
     ///          Otherwise if <see cref="Choices"/> is  non-null they will be used to select a clarifying value.
-    ///          Otherwise the <see cref="Feedback"/> string will be shown to indicate why the value is not valid.
+    ///          if <see cref="FeedbackCard"/> is non-null the resulting card will be displayed.
+    ///          Otherwise the <see cref="Feedback"/> string will be shown to provide feedback on the value.
     ///          </remarks>
     public class ValidateResult
     {
         /// <summary>   Feedback to provide back to the user on the input. </summary>
         public string Feedback;
+
+        /// <summary>
+        /// Fully specified feedback card.
+        /// </summary>
+        public FormPrompt FeedbackCard;
 
         /// <summary>   True if value is a valid response. </summary>
         public bool IsValid;
