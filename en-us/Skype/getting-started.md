@@ -141,7 +141,7 @@ Skype supports all the [text properties](#) supported by the Microsoft Bot Frame
 ### Welcome messages
 {:.no_toc}
 
-To send a welcome message to a user listen for the contactRelationUpdate [activity](en-us/csharp/builder/sdkreference/activities.html). To send a welcome message to a group list for the conversationUpdate [activity](en-us/csharp/builder/sdkreference/activities.html).
+To send a welcome message to a user listen for the contactRelationUpdate [activity](/en-us/csharp/builder/sdkreference/activities.html). To send a welcome message to a group list for the conversationUpdate [activity](/en-us/csharp/builder/sdkreference/activities.html).
 
 ### Pictures and videos
 {:.no_toc}
