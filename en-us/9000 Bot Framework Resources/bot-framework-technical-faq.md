@@ -109,6 +109,10 @@ There are a few options:
 3. resolve the dependency through Autofac and [FiberModule.Key_DoNotSerialize](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Fibers/FiberModule.cs#L59) (cleanest solution)
 4. Use [NonSerialized](https://msdn.microsoft.com/en-us/library/system.nonserializedattribute(v=vs.110).aspx) and [OnDeserialized](https://msdn.microsoft.com/en-us/library/system.runtime.serialization.ondeserializedattribute(v=vs.110).aspx) attributes to restore the dependency on deserialization (simplest solution)
 
+## What is the difference between "proactive" and "reactive"?
+
+The term "reactive" means the "normal" situation, where the user sends the first message in a conversation to the bot and the bot responds to that message (the conversation is created by the user's initial message).  The term "proactive" means there isn’t an initial message from the user to the bot, so the bot must create the conversation.
+
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
 There is a list of examples available in the [Pre-built entities section](https://www.luis.ai/Help/#PreBuiltEntities) of the LUIS documentation.
