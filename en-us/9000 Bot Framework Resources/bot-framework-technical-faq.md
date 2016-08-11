@@ -151,6 +151,11 @@ There are few caveats to keep in mind:
 
 ## Where can I get more help on LUIS?
 
+Here are some videos about LUIS:
+
+* [Introduction to Language Understanding Intelligent Service (LUIS) - Microsoft Cognitive Services](https://www.youtube.com/watch?v=jWeLajon9M8) 
+* [Advanced Learning Session for Language Understanding Intelligent Service (LUIS) ](https://www.youtube.com/watch?v=39L0Gv2EcSk)
+
 You can access LUIS experts at the [Language Understanding Intelligent Service Forum](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=LUIS).
 
 ## What are some community-authored dialogs?
