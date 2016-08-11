@@ -38,6 +38,10 @@ This will help you validate the end-to-end user experience.
 
 Once channels like Skype work, you can try additional channels like DirectLine or Web chat.
 
+## How can I troubleshoot my Bot's authentication?
+
+Take a look at [Troubleshooting Bot Framework Authentication](/en-us/support/troubleshooting-bot-framework-authentication/).
+
 ## How can I troubleshoot my Bot using the C# Bot Builder SDK?
 
 ### Look for exceptions.
