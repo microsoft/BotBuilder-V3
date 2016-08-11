@@ -139,6 +139,16 @@ There is a list of examples available in the [Pre-built entities section](https:
 
 You might consider splitting up your model and calling the LUIS service in series or parallel.
 
+## How can I use more than one LUIS model?
+
+Both the Node and C# versions of the SDK support calling multiple LUIS models from a single LUIS intent dialog.
+
+There are few caveats to keep in mind:
+
+1. Using multiple LUIS models assumes the LUIS models have non-overlapping sets of intents.
+2. Using multiple LUIS models assumes the scores from different models are comparable, to select the “best matched intent” across multiple models.
+3. Using multiple LUIS models means that if an intent matches one model, it will also strongly match the "none" intent of the other models.  You can avoid selecting the "none" intent in this situation (the Node SDK will automatically scale down the score for "none" intents to avoid this issue).
+
 ## Where can I get more help on LUIS?
 
 You can access LUIS experts at the [Language Understanding Intelligent Service Forum](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=LUIS).
