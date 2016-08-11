@@ -372,6 +372,43 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task Pizza_Entities_Script()
+        {
+            await VerifyFormScript(@"..\..\PizzaForm-entities.script",
+                "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(),
+                new Luis.Models.EntityRecommendation[] {
+                                new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
+                                new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
+                                // This should be skipped because it is not active
+                                new Luis.Models.EntityRecommendation("Signature", "Hawaiian", "Signature"),
+                                new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
+                                new Luis.Models.EntityRecommendation("NotFound", "OK", "Notfound")
+                            },
+                "hi",
+                "1", // onions for topping clarification
+                "2", 
+                "med", 
+                // Kind "4",
+                "drink bread",
+                "thin",
+                "1",
+                "?",
+                // "beef, onion, ice cream",
+                "3",
+                "y",
+                "1 2",
+                "none",
+                "2.5",
+                "2/25/1962 3pm",
+                "no",
+                "123-4567",
+                "y"
+                );
+        }
+
+        [TestMethod]
         public async Task Pizza_Button_Script()
         {
             await VerifyFormScript(@"..\..\PizzaFormButton.script",
@@ -404,9 +441,9 @@ namespace Microsoft.Bot.Builder.Tests
                 "none",
                 "garbage",
                 "2.5",
-                "garbage", 
+                "garbage",
                 "2/25/1962 3pm",
-                "no", 
+                "no",
                 "1234",
                 "123-4567",
                 "no",
@@ -482,7 +519,8 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task FormFlow_Localization()
         {
-            foreach(var locale in new string[] { "ar", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans"})
+            // This ensures there are no bad templates in resources
+            foreach (var locale in new string[] { "ar", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans" })
             {
                 var root = new FormDialog<PizzaOrder>(new PizzaOrder(), () => PizzaOrder.BuildForm(), cultureInfo: CultureInfo.GetCultureInfo(locale));
                 Assert.AreNotEqual(null, root);

@@ -261,6 +261,8 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             options: FormOptions.PromptInStart,
                             entities: new Luis.Models.EntityRecommendation[] {
                                 new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
+                                new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
+                                new Luis.Models.EntityRecommendation("Signature", "Hawaiian", "Signature"),
                                 new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
                                 new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
                                 new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
