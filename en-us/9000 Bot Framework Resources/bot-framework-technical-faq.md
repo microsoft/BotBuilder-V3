@@ -123,6 +123,10 @@ An [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) is a mechanism for [optimisti
 
 The dialog stack and state are stored in these bot data bags.  For example, you might see the ETag precondition failed error if your bot is still processing a previous message when it receives a new message for that conversation.
 
+## Is there a limit on the amount of data I can store using the State API?
+
+Yes, each state store (e.g. User store, Conversation store, etc.) may be up to 32kb [see Bot State API](https://docs.botframework.com/en-us/restapi/state/).
+
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
 There is a list of examples available in the [Pre-built entities section](https://www.luis.ai/Help/#PreBuiltEntities) of the LUIS documentation.
