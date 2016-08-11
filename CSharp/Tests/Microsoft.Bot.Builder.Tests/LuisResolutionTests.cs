@@ -59,9 +59,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         public static readonly DateTime Now = new DateTime(2013, 08, 04);
-        public static readonly Calendar Calendar = CultureInfo.InvariantCulture.Calendar;
-        public static readonly CalendarWeekRule CalendarWeekRule = CalendarWeekRule.FirstDay;
-        public static readonly DayOfWeek FirstDayOfWeek = DayOfWeek.Sunday;
+        public static readonly ICalendarPlus Calendar = new WesternCalendarPlus();
 
         private static readonly IReadOnlyList<TestCase> TestCases = new[]
         {
@@ -265,7 +263,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             foreach (var test in TestCases)
             {
-                var interpretation = test.Resolution.Interpret(Now, Calendar, CalendarWeekRule, FirstDayOfWeek, Luis.Extensions.HourFor);
+                var interpretation = StrictEntityToType.Interpret(test.Resolution, Now, Calendar.Calendar, Calendar.WeekRule, Calendar.FirstDayOfWeek, Calendar.HourFor);
                 var head = interpretation.Take(5).ToArray();
                 CollectionAssert.AreEqual(head, test.Ranges, test.Text);
             };

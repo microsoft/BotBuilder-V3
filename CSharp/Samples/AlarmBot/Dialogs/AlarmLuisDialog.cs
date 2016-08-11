@@ -39,13 +39,13 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
     public sealed class AlarmLuisDialog : LuisDialog<object>
     {
         private readonly IAlarmService service;
-        private readonly IResolutionParser resolution;
+        private readonly IEntityToType entityToType;
         private readonly IClock clock;
-        public AlarmLuisDialog(IAlarmService service, IResolutionParser resolution, ILuisService luis, IClock clock)
+        public AlarmLuisDialog(IAlarmService service, IEntityToType entityToType, ILuisService luis, IClock clock)
             : base(luis)
         {
             SetField.NotNull(out this.service, nameof(service), service);
-            SetField.NotNull(out this.resolution, nameof(resolution), resolution);
+            SetField.NotNull(out this.entityToType, nameof(entityToType), entityToType);
             SetField.NotNull(out this.clock, nameof(clock), clock);
         }
 
@@ -121,14 +121,10 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 
             var now = this.clock.Now;
 
-            var dateTimes = this.resolution.ParseResolutions(result).OfType<DateTimeResolution>().ToArray();
-            if (dateTimes.Length > 0)
+            IEnumerable<Range<DateTime>> ranges;
+            if (entityToType.TryMapToDateRanges(now, result.Entities, out ranges))
             {
-                var merged = dateTimes
-                    .Select(r => r.Interpret(now, CultureInfo.InvariantCulture.Calendar, CalendarWeekRule.FirstDay, DayOfWeek.Sunday, Builder.Luis.Extensions.HourFor))
-                    .Aggregate((l, r) => l.SortedMerge(r));
-
-                using (var enumerator = merged.GetEnumerator())
+                using (var enumerator = ranges.GetEnumerator())
                 {
                     if (enumerator.MoveNext())
                     {
