@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Connector
                 using (var _result = await operations.GetActivityMembersWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return await _result.HandleErrorAsync<ChannelAccount[]>().ConfigureAwait(false);
-            }
+                }
             }
 
             /// <summary>
@@ -396,7 +396,7 @@ namespace Microsoft.Bot.Connector
                 using (var _result = await operations.UploadAttachmentWithHttpMessagesAsync(conversationId, attachmentUpload, null, cancellationToken).ConfigureAwait(false))
                 {
                     return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
-            }
+                }
             }
 
     }

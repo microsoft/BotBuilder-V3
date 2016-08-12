@@ -19,13 +19,28 @@ namespace Microsoft.Bot.Connector
                 string _requestContent = null;
                 if(result.Request != null && result.Request.Content != null)
                 {
-                    _requestContent = await result.Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        _requestContent = await result.Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        //result.Request.Content is disposed. 
+                        _requestContent = null;
+                    }
                 }
 
                 string _responseContent = null; 
                 if(result.Response != null && result.Response.Content !=null)
                 {
-                    _responseContent = await result.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        _responseContent = await result.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        _responseContent = null;
+                    }
                 }
 
                 throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Message) ? result.Response.ReasonPhrase : errorMessage.Message)
@@ -46,13 +61,28 @@ namespace Microsoft.Bot.Connector
                 string _requestContent = null;
                 if (result.Request != null && result.Request.Content != null)
                 {
-                    _requestContent = await result.Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        _requestContent = await result.Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    }
+                    catch(ObjectDisposedException)
+                    {
+                        //result.Request.Content is disposed. 
+                        _requestContent = null; 
+                    }
                 }
 
                 string _responseContent = null;
                 if (result.Response != null && result.Response.Content != null)
                 {
-                    _responseContent = await result.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    try
+                    {
+                        _responseContent = await result.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        _responseContent = null;
+                    }
                 }
 
                 throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Message) ? result.Response.ReasonPhrase : errorMessage.Message)

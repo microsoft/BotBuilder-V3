@@ -238,7 +238,7 @@ namespace Microsoft.Bot.Connector
                 using (var _result = await operations.SetConversationDataWithHttpMessagesAsync(channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false))
                 {
                     return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
-            }
+                }
             }
 
             /// <summary>
@@ -286,7 +286,7 @@ namespace Microsoft.Bot.Connector
                 using (var _result = await operations.GetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
-            }
+                }
             }
 
             /// <summary>
@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Connector
                 using (var _result = await operations.SetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false))
                 {
                     return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
-            }
+                }
             }
 
     }
