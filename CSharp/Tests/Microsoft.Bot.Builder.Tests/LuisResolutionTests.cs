@@ -245,6 +245,33 @@ namespace Microsoft.Bot.Builder.Tests
                     Range.From(new DateTime(2013, 08, 08), new DateTime(2013, 08, 09)),
                 }
             },
+            new TestCase()
+            {
+                Text = "PAST_REF",
+                Resolution = new DateTimeResolution(reference: Reference.PAST_REF),
+                Ranges = new []
+                {
+                    Range.From(DateTime.MinValue, Now),
+                }
+            },
+            new TestCase()
+            {
+                Text = "PRESENT_REF",
+                Resolution = new DateTimeResolution(reference: Reference.PRESENT_REF),
+                Ranges = new []
+                {
+                    Range.From(Now, Now),
+                }
+            },
+            new TestCase()
+            {
+                Text = "FUTURE_REF",
+                Resolution = new DateTimeResolution(reference: Reference.FUTURE_REF),
+                Ranges = new []
+                {
+                    Range.From(Now, DateTime.MaxValue),
+                }
+            },
         };
 
         [TestMethod]

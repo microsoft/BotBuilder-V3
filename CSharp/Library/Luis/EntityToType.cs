@@ -121,6 +121,23 @@ namespace Microsoft.Bot.Builder.Luis
             // remove any millisecond components
             now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Kind);
 
+            switch (resolution.Reference)
+            {
+                case Reference.PAST_REF:
+                    yield return Range.From(DateTime.MinValue, now);
+                    yield break;
+                case Reference.PRESENT_REF:
+                    yield return Range.From(now, now);
+                    yield break;
+                case Reference.FUTURE_REF:
+                    yield return Range.From(now, DateTime.MaxValue);
+                    yield break;
+                case null:
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
             var start = now;
 
             // TODO: maybe clamp to prevent divergence

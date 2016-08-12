@@ -85,9 +85,22 @@ namespace Microsoft.Bot.Builder.Luis
                 NI
             }
 
+            public enum Reference
+            {
+                [Description("past")]
+	            PAST_REF,
+                [Description("present")]
+	    		PRESENT_REF,
+                [Description("future")]
+    			FUTURE_REF
+            }
+
+
             [Serializable]
             public sealed class DateTimeResolution : Resolution, IEquatable<DateTimeResolution>
             {
+                public Reference? Reference { get; }
+
                 public int? Year { get; }
                 public int? Month { get; }
                 public int? Day { get; }
@@ -102,12 +115,14 @@ namespace Microsoft.Bot.Builder.Luis
                 public int? Second { get; }
 
                 public DateTimeResolution(
+                    Reference? reference = null,
                     int? year = null, int? month = null, int? day = null,
                     int? week = null, DayOfWeek? dayOfWeek = null,
                     DayPart? dayPart = null,
                     int? hour = null, int? minute = null, int? second = null
                     )
                 {
+                    this.Reference = reference;
                     this.Year = year;
                     this.Month = month;
                     this.Day = day;
@@ -131,6 +146,7 @@ namespace Microsoft.Bot.Builder.Luis
                 public bool Equals(DateTimeResolution other)
                 {
                     return other != null
+                        && this.Reference == other.Reference
                         && this.Year == other.Year
                         && this.Month == other.Month
                         && this.Day == other.Day
@@ -238,8 +254,23 @@ namespace Microsoft.Bot.Builder.Luis
                     return null;
                 }
 
+                private static readonly IReadOnlyDictionary<string, Reference> ReferenceByText
+                    = new Dictionary<string, Reference>(StringComparer.OrdinalIgnoreCase)
+                    {
+                        { "PAST_REF", DateTime.Reference.PAST_REF },
+                        { "PRESENT_REF", DateTime.Reference.PRESENT_REF },
+                        { "FUTURE_REF", DateTime.Reference.FUTURE_REF },
+                    };
+
                 public static bool TryParse(string text, out DateTimeResolution resolution)
                 {
+                    DateTime.Reference reference;
+                    if (ReferenceByText.TryGetValue(text, out reference))
+                    {
+                        resolution = new DateTimeResolution(reference);
+                        return true;
+                    }
+
                     var match = Regex.Match(text);
                     if (match.Success)
                     {
