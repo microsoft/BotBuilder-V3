@@ -95,6 +95,10 @@ In C#, you can provide implementations of the IPostToBot and IBotToUser interfac
 
 Did you change your Facebook password?  This will invalidate the access token, and you will have to update the Facebook channel registration.
 
+## Why is my Kik bot replying <code>I'm sorry, I can't talk right now.</code>?
+
+Be default bots in development on Kik are allowed 50 subscribers. After 50 unique users have chatted with your bot, any new user attempting to chat will get the <code>I'm sorry, I can't talk right now</code>. This is mentioned in Kik's [Getting Started](https://dev.kik.com/#/docs/getting-started).
+
 ## Why doesn't the Typing activity do anything?
 
 Some channels don't support transient typing updates in their client.
@@ -180,10 +184,6 @@ You can access LUIS experts at the [Language Understanding Intelligent Service F
 
 * [AuthBot](https://www.nuget.org/packages/AuthBot) - Azure Active Directory authentication
 * [BestMatchDialog](http://www.garypretty.co.uk/2016/08/01/bestmatchdialog-for-microsoft-bot-framework-now-available-via-nuget/) - regular expression-based dispatch of user text to dialog methods
-
-## Why is my Kik bot replying <code>I'm sorry, I can't talk right now.</code>?
-
-Be default bots in development on Kik are allowed 50 subscribers. After 50 unique users have chatted with your bot, any new user attempting to chat will get the <code>I'm sorry, I can't talk right now</code>. This is mentioned in Kik's [Getting Started](https://dev.kik.com/#/docs/getting-started).
 
 ## Where can I get more help?
 
