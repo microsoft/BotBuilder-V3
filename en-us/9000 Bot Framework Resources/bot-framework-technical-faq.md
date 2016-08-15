@@ -121,6 +121,24 @@ There are a few options:
 
 The term "reactive" means the "normal" situation, where the user sends the first message in a conversation to the bot and the bot responds to that message (the conversation is created by the user's initial message).  The term "proactive" means there isn’t an initial message from the user to the bot, so the bot must create the conversation.
 
+## Where is conversation state stored?
+
+Bot data (i.e. the user, conversation, and private conversation property bags) are stored using the Connector's IBotState interface.  All of these property bags are scoped by your Bot's id.  The user property bag is keyed by user id, the conversation property bag is keyed by conversation id, and the private conversation property bag is keyed by both user id and conversation id.  Given the same keys, you'll get the same property bags back.
+
+In the Node and C# builder SDKs, the dialog stack and dialog data are both stored as entries in the private conversation property bag.  The C# implementation uses binary serialization, and the Node implementation uses JSON serialization.
+
+This IBotState REST interface is implemented by two services.
+
+1. The Bot Framework Connector provides a cloud service that implements this interface and stores data in Azure.  This data is encrypted at rest and does not intentionally expire.
+
+2. The Bot Framework Emulator provides an in-memory implementation of this interface for debugging your bot.  This data expires when the emulator process exits.
+
+If you want to store this data within your data centers, you can provide a custom implementation of the state service.  This can be done at least two ways:
+
+1. the REST layer with a custom IBotState service, or
+2. the language (Node or C#) layer, with the builder interfaces
+
+
 ## What is an ETag?  How does it relate to bot data bag storage?
 
 An [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) is a mechanism for [optimistic concurrency control](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).  The bot data bag storage uses ETags to prevent conflicting updates to the data.  If you encounter an ETag "precondition failed" http error, it means that there were multiple "read-modify-write" sequences executing concurrently for that bot data bag.
