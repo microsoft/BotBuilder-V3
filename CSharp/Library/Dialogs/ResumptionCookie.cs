@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// The resumption cookie that can be used to resume a conversation with a user. 
     /// </summary>
     [Serializable]
-    public class ResumptionCookie
+    public class ResumptionCookie : IEquatable<ResumptionCookie>
     {
         /// <summary>
         /// The user Id.
@@ -153,6 +153,37 @@ namespace Microsoft.Bot.Builder.Dialogs
             var isGroup =  msg.Conversation?.IsGroup;
             IsGroup = isGroup.HasValue && isGroup.Value;
             Locale = msg.Locale;
+        }
+
+        public bool Equals(ResumptionCookie other)
+        {
+            return other != null
+                && object.Equals(this.UserId, other.UserId)
+                && object.Equals(this.UserName, other.UserName)
+                && object.Equals(this.ChannelId, other.ChannelId)
+                && object.Equals(this.BotId, other.BotId)
+                && object.Equals(this.ServiceUrl, other.ServiceUrl)
+                && this.IsTrustedServiceUrl == other.IsTrustedServiceUrl
+                && this.IsGroup == other.IsGroup
+                && object.Equals(this.ConversationId, other.ConversationId)
+                && object.Equals(this.Locale, other.Locale);
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as ResumptionCookie);
+        }
+
+        public override int GetHashCode()
+        {
+            var code
+                = this.UserId.GetHashCode()
+                ^ this.ChannelId.GetHashCode()
+                ^ this.BotId.GetHashCode()
+                ^ this.ConversationId.GetHashCode()
+                ^ this.ServiceUrl.GetHashCode();
+
+            return code;
         }
 
         /// <summary>
