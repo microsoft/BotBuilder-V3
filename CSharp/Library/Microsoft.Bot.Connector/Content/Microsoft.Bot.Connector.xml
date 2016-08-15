@@ -68,24 +68,6 @@
             User took action on a message (button click)
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.IActionActivity.ChannelData">
-            <summary>
-            Channel specific payload
-            </summary>
-            <remarks>
-            Some channels will provide channel specific data.
-            
-            For a message originating in the channel it might provide the original native schema object for the channel. 
-            
-            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
-            
-            Example:
-            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
-            on incoming message a Subject property, and a HtmlBody which can contain Html.  
-            
-            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
-            </remarks>
-        </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
             <summary>
             Default- interpret text fields as markdown
@@ -3236,6 +3218,24 @@
             Bot's address 
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.ChannelData">
+            <summary>
+            Channel specific payload
+            </summary>
+            <remarks>
+            Some channels will provide channel specific data.
+            
+            For a message originating in the channel it might provide the original native schema object for the channel. 
+            
+            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
+            
+            Example:
+            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
+            on incoming message a Subject property, and a HtmlBody which can contain Html.  
+            
+            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
+            </remarks>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
             <summary>
             The From address is typing
@@ -3314,24 +3314,6 @@
             Entities 
             Collection of objects which contain metadata about this activity
             </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ChannelData">
-            <summary>
-            Channel specific payload
-            </summary>
-            <remarks>
-            Some channels will provide channel specific data.
-            
-            For a message originating in the channel it might provide the original native schema object for the channel. 
-            
-            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
-            
-            Example:
-            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
-            on incoming message a Subject property, and a HtmlBody which can contain Html.  
-            
-            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
-            </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.ReplyToId">
             <summary>
