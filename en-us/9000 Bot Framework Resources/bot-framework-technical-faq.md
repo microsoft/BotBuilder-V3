@@ -153,6 +153,15 @@ The dialog stack and state are stored in these bot data bags.  For example, you 
 
 Yes, each state store (e.g. User store, Conversation store, etc.) may be up to 32kb [see Bot State API](https://docs.botframework.com/en-us/restapi/state/).
 
+## How do I version the bot data stored through the State API?
+
+The State Service allow you to persist progress through the dialogs in a conversation, so that a user can return to a conversation with a bot days later without losing their position.  But if you change your bot's code, the bot data property bags stored through the State API are not automatically cleared.  You will have to decide whether the bot data should be cleared based on whether your newer code is compatible with older versions of your data.  You can accomplish this in a few ways:
+
+1. During development of your bot, if you want to manually reset the conversation's dialog stack and state, you can use the " /deleteprofile" command (with the leading space so it's not interpreted by the channel) to clear out the state.
+2. During production usage of your bot, you can version your bot data so that if you bump the version, the associated data is cleared.  This can be accomplished with the exiting middleware in Node or an IPostToBot implementation in C#.
+
+If the dialog stack cannot be deserialized correctly (due to serialization format changes or because the code has changed too much), the conversation state will be reset.  
+
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
 There is a list of examples available in the [Pre-built entities section](https://www.luis.ai/Help/#PreBuiltEntities) of the LUIS documentation.
