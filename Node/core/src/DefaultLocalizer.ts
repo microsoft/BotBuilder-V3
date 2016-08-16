@@ -317,7 +317,16 @@ export class DefaultLocalizer implements ILocalizer {
         return t;
     } 
 
-    public ngettext(locale: string, msgid: string, msgid_plural: string, count: number): string {
-        return null;
+    public ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace: string): string {
+        logger.debug("localizer::ngettext locale:%s count: %d, msgid:%s msgid_plural:%s ns:%s", locale, count, msgid, msgid_plural, namespace);                                                                                       
+        
+        var t = "";
+        if (count == 1) {
+	        t = this.trygettext(locale, msgid, namespace) || msgid;
+        } else {
+            // 0 or more than 1
+	        t = this.trygettext(locale, msgid_plural, namespace) || msgid_plural;            
+        }
+        return t;
     }   
 }

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to localize prompts and override system prompts.
+This Bot demonstrates how the default localizer works.
 
 # RUN THE BOT:
 
@@ -25,7 +25,7 @@ bot.dialog('/', [function (session, args, next) {
 
     // key in en-us, should see en-us
     session.send("Hello World2");
-
+    
     // key in only en, should see en
     session.send("Hello World3");
 

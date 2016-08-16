@@ -254,7 +254,15 @@ var DefaultLocalizer = (function () {
         logger.debug("localizer::gettext returning: %s", t);
         return t;
     };
+    
     DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count) {
+        var t = "";
+        
+        if (count == 1) {
+	        t = this.trygettext(locale, msgid, namespace);
+        } else {
+            // 0 or more than 1
+        }
         return null;
     };
     DefaultLocalizer.localeRequests = {};

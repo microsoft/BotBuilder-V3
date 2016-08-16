@@ -316,8 +316,10 @@ interface ILocalizer {
      * Loads a localized string for the specified language.
      * @param language Desired language of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param namespace (Optional) Namespace of the msgid of the key in the localized string table.
      */
-    gettext(language: string, msgid: string): string;
+    gettext(language: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
@@ -325,8 +327,9 @@ interface ILocalizer {
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     * @param namespace (Optional) Namespace of the msgid or msgid_plural of the key in the localized string table.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
+    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
 }
 
 /** Settings for the ILocalizer to be initialized with. */
