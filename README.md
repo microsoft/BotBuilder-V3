@@ -12,4 +12,4 @@ Bots (or conversation agents) are rapidly becoming an integral part of one’s d
 
 Join the conversation on **[Gitter] (https://gitter.im/Microsoft/BotBuilder)**.
 
-See all the support options [here](https://docs.botframework.com/en-us/support/).
+See all the support options **[here](https://docs.botframework.com/en-us/support/)**.
