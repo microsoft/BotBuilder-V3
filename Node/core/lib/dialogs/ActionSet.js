@@ -1,3 +1,4 @@
+"use strict";
 var consts = require('../consts');
 var utils = require('../utils');
 var ActionSet = (function () {
@@ -91,5 +92,5 @@ var ActionSet = (function () {
         return this;
     };
     return ActionSet;
-})();
+}());
 exports.ActionSet = ActionSet;

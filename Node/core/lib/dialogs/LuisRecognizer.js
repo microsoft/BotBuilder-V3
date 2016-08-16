@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var LuisRecognizer = (function () {
     function LuisRecognizer(models) {
@@ -95,5 +96,5 @@ var LuisRecognizer = (function () {
         }
     };
     return LuisRecognizer;
-})();
+}());
 exports.LuisRecognizer = LuisRecognizer;

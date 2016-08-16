@@ -1,3 +1,4 @@
+"use strict";
 var msg = require('../Message');
 var CardAction = (function () {
     function CardAction(session) {
@@ -67,5 +68,5 @@ var CardAction = (function () {
         return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
     };
     return CardAction;
-})();
+}());
 exports.CardAction = CardAction;

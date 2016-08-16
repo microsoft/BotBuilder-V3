@@ -1,3 +1,4 @@
+"use strict";
 var utils = require('../utils');
 var chrono = require('chrono-node');
 var EntityRecognizer = (function () {
@@ -203,5 +204,5 @@ var EntityRecognizer = (function () {
     EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
     EntityRecognizer.ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
     return EntityRecognizer;
-})();
+}());
 exports.EntityRecognizer = EntityRecognizer;

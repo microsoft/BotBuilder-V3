@@ -1,3 +1,4 @@
+"use strict";
 var ses = require('./Session');
 var msg = require('./Message');
 var dialog = require('./dialogs/Dialog');

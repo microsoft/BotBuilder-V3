@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var async = require('async');
 var url = require('url');
@@ -561,7 +562,7 @@ var ChatConnector = (function () {
         delete msg.source;
     };
     return ChatConnector;
-})();
+}());
 exports.ChatConnector = ChatConnector;
 var toAddress = {
     'id': 'id',

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -232,6 +233,7 @@ var UniversalBot = (function (_super) {
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
                 localizer: _this.settings.localizer,
+                localizerSettings: _this.settings.localizerSettings,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this.lib,
                 actions: _this.actions,
@@ -400,5 +402,5 @@ var UniversalBot = (function (_super) {
         }
     };
     return UniversalBot;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.UniversalBot = UniversalBot;

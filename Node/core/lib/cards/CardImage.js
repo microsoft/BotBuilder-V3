@@ -1,3 +1,4 @@
+"use strict";
 var msg = require('../Message');
 var CardImage = (function () {
     function CardImage(session) {
@@ -33,5 +34,5 @@ var CardImage = (function () {
         return new CardImage(session).url(url);
     };
     return CardImage;
-})();
+}());
 exports.CardImage = CardImage;

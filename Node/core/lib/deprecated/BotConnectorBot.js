@@ -1,3 +1,4 @@
+"use strict";
 var ub = require('../bots/UniversalBot');
 var chat = require('../bots/ChatConnector');
 var BotConnectorBot = (function () {
@@ -72,5 +73,5 @@ var BotConnectorBot = (function () {
         throw new Error("BotConnectorBot.beginDialog() is no longer supported.");
     };
     return BotConnectorBot;
-})();
+}());
 exports.BotConnectorBot = BotConnectorBot;

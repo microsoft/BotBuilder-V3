@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var logger = require('../logger');
 var getPem = require('rsa-pem-from-mod-exp');
@@ -76,5 +77,5 @@ var OpenIdMetadata = (function () {
         return null;
     };
     return OpenIdMetadata;
-})();
+}());
 exports.OpenIdMetadata = OpenIdMetadata;

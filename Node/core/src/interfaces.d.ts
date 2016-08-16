@@ -163,8 +163,16 @@ interface ILocationV2 {
 }
 
 interface ILocalizer {
-    gettext(language: string, msgid: string): string;
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
+    initialize(localizerSettings?: ILocalizerSettings): void;
+    load(locale: string, callback: ErrorCallback): void;        
+    gettext(locale: string, msgid: string, namespace?: string): string;
+    trygettext(locale: string, msgid: string, namespace?: string): string;
+    ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
+}
+
+interface ILocalizerSettings {
+    botLocalePath?: string;
+    defaultLocale?: string;
 }
 
 interface ISession {

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -96,7 +97,7 @@ var SimplePromptRecognizer = (function () {
         }
     };
     return SimplePromptRecognizer;
-})();
+}());
 exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var Prompts = (function (_super) {
     __extends(Prompts, _super);
@@ -296,7 +297,7 @@ var Prompts = (function (_super) {
         attachment: "I didn't receive a file. Please try again."
     };
     return Prompts;
-})(dlg.Dialog);
+}(dlg.Dialog));
 exports.Prompts = Prompts;
 dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {

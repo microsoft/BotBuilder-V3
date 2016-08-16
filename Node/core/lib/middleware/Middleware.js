@@ -1,3 +1,4 @@
+"use strict";
 var dlg = require('../dialogs/Dialog');
 var dl = require('../bots/Library');
 var sd = require('../dialogs/SimpleDialog');
@@ -64,7 +65,7 @@ var Middleware = (function () {
         };
     };
     return Middleware;
-})();
+}());
 exports.Middleware = Middleware;
 dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog(function (session, args) {
     if (args && args.hasOwnProperty('resumed')) {

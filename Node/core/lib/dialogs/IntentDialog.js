@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -276,5 +277,5 @@ var IntentDialog = (function (_super) {
         session.error(err);
     };
     return IntentDialog;
-})(dlg.Dialog);
+}(dlg.Dialog));
 exports.IntentDialog = IntentDialog;

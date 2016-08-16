@@ -1,3 +1,4 @@
+"use strict";
 var Keyboard = (function () {
     function Keyboard(session) {
         this.session = session;
@@ -20,5 +21,5 @@ var Keyboard = (function () {
         return this.data;
     };
     return Keyboard;
-})();
+}());
 exports.Keyboard = Keyboard;

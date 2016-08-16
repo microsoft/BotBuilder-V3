@@ -1,3 +1,4 @@
+"use strict";
 var msg = require('../Message');
 var SigninCard = (function () {
     function SigninCard(session) {
@@ -31,5 +32,5 @@ var SigninCard = (function () {
         return this.data;
     };
     return SigninCard;
-})();
+}());
 exports.SigninCard = SigninCard;

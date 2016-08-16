@@ -1,3 +1,4 @@
+"use strict";
 exports.channels = {
     facebook: 'facebook',
     skype: 'skype',

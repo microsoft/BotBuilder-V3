@@ -329,6 +329,15 @@ interface ILocalizer {
     ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
 }
 
+/** Settings for the ILocalizer to be initialized with. */
+interface ILocalizerSettings {
+    /** The path to the directory containing the locale directory */
+    botLocalePath?: string;
+
+    /** The locale to default to when the requested locale or its fallbacks don't find a value */
+    defaultLocale?: string;
+}
+
 /** Persisted session state used to track a conversations dialog stack. */
 interface ISessionState {
     /** Dialog stack for the current session. */
@@ -707,8 +716,11 @@ interface IUniversalBotSettings {
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user. */
+    /** (Optional) localizer used to localize the bots responses to the user, uses the built in localizer if not supplied */
     localizer?: ILocalizer;
+
+    /** (Optional) settings used to initialize the localizer */
+    localizerSettings?: ILocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;

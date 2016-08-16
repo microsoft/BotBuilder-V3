@@ -1,3 +1,4 @@
+"use strict";
 var readline = require('readline');
 var mb = require('../Message');
 var utils = require('../utils');
@@ -64,7 +65,7 @@ var ConsoleConnector = (function () {
         cb(null, adr);
     };
     return ConsoleConnector;
-})();
+}());
 exports.ConsoleConnector = ConsoleConnector;
 function renderAttachment(a) {
     switch (a.contentType) {

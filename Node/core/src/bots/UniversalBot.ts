@@ -48,6 +48,7 @@ export interface IUniversalBotSettings {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     localizer?: ILocalizer;
+    localizerSettings?: ILocalizerSettings;    
     lookupUser?: ILookupUser;
     processLimit?: number;
     autoBatchDelay?: number;
@@ -104,6 +105,7 @@ export class UniversalBot extends events.EventEmitter {
                 }
             }
         }
+
         if (connector) {
             this.connector(consts.defaultConnector, connector);
             var asStorage: bs.IBotStorage = <any>connector;
@@ -360,6 +362,7 @@ export class UniversalBot extends events.EventEmitter {
             // Initialize session
             var session = new ses.Session({
                 localizer: this.settings.localizer,
+                localizerSettings: this.settings.localizerSettings,
                 autoBatchDelay: this.settings.autoBatchDelay,
                 library: this.lib,
                 actions: this.actions,

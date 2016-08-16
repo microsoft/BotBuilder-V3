@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -10,6 +11,7 @@ var events = require('events');
 var msg = require('./Message');
 var logger = require('./logger');
 var async = require('async');
+var dfLoc = require('./DefaultLocalizer');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -23,6 +25,10 @@ var Session = (function (_super) {
         this.sendingBatch = false;
         this.inMiddleware = false;
         this.library = options.library;
+        if (!options.localizer) {
+            this.options.localizer = new dfLoc.DefaultLocalizer();
+        }
+        this.options.localizer.initialize(options.localizerSettings);
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -55,7 +61,15 @@ var Session = (function (_super) {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        next();
+        logger.debug("loading localizer");
+        this.options.localizer.load("en-us", function (err) {
+            if (err) {
+                _this.error(err);
+            }
+            else {
+                next();
+            }
+        });
         return this;
     };
     Session.prototype.error = function (err) {
@@ -554,5 +568,5 @@ var Session = (function (_super) {
         return this.message.sourceEvent;
     };
     return Session;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.Session = Session;

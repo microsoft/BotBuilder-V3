@@ -1,3 +1,4 @@
+"use strict";
 var msg = require('../Message');
 var ReceiptCard = (function () {
     function ReceiptCard(session) {
@@ -69,7 +70,7 @@ var ReceiptCard = (function () {
         return this.data;
     };
     return ReceiptCard;
-})();
+}());
 exports.ReceiptCard = ReceiptCard;
 var ReceiptItem = (function () {
     function ReceiptItem(session) {
@@ -133,7 +134,7 @@ var ReceiptItem = (function () {
         return new ReceiptItem(session).price(price).title(title);
     };
     return ReceiptItem;
-})();
+}());
 exports.ReceiptItem = ReceiptItem;
 var Fact = (function () {
     function Fact(session) {
@@ -161,5 +162,5 @@ var Fact = (function () {
         return new Fact(session).value(value).key(key);
     };
     return Fact;
-})();
+}());
 exports.Fact = Fact;

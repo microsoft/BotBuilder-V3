@@ -41,6 +41,7 @@ import utils = require('./utils');
 import msg = require('./Message');
 import logger = require('./logger');
 import async = require('async');
+import dfLoc = require('./DefaultLocalizer');
 
 export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
@@ -50,6 +51,7 @@ export interface ISessionOptions {
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
+    localizerSettings?: ILocalizerSettings;
     autoBatchDelay?: number;
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
     actions?: actions.ActionSet;
@@ -72,6 +74,12 @@ export class Session extends events.EventEmitter implements ISession {
     constructor(protected options: ISessionOptions) {
         super();
         this.library = options.library;
+
+        if (!options.localizer) {
+            this.options.localizer = new dfLoc.DefaultLocalizer();           
+        }
+        this.options.localizer.initialize(options.localizerSettings);
+        
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay
         }
@@ -107,7 +115,15 @@ export class Session extends events.EventEmitter implements ISession {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        next();
+
+        // Localize message, then invoke middleware
+        logger.debug("loading localizer")
+        this.options.localizer.load(this.message.textLocale, (err:Error) => {
+            if (err) {
+                    this.error(err);
+            } else {
+                next();
+        }});
         return this;
     }
 
@@ -495,7 +511,7 @@ export class Session extends events.EventEmitter implements ISession {
                 } else {
                     routeToDialog(dialogResult);
                 }
-            });
+            });      
         } else {
             logger.warn(this, 'Callstack is invalid, resetting session.');
             this.reset(this.options.dialogId, this.options.dialogArgs);

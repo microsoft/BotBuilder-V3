@@ -1,3 +1,4 @@
+"use strict";
 var sprintf = require('sprintf-js');
 var Channel = require('./Channel');
 var consts = require('./consts');
@@ -35,6 +36,34 @@ function info(addressable, fmt) {
     }
 }
 exports.info = info;
+function debug(fmt) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    debugLog(false, fmt, args);
+}
+exports.debug = debug;
+function trace(fmt) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    debugLog(true, fmt, args);
+}
+exports.trace = trace;
+function debugLog(trace, fmt, args) {
+    if (!debugLoggingEnabled) {
+        return;
+    }
+    var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
+    if (trace) {
+        console.trace(msg);
+    }
+    else {
+        console.log(msg);
+    }
+}
 function getPrefix(addressable) {
     var prefix = '';
     if (addressable && addressable.sessionState && addressable.sessionState.callstack) {
