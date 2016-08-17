@@ -209,12 +209,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         internal static IList<Attachment> GenerateHeroCards(this FormPrompt prompt)
         {
             var attachments = new List<Attachment>();
+            var description = prompt.Description;
             foreach (var button in prompt.Buttons)
             {
-                string image = button.Image;
+                string image = button.Image??description.Image;
                 attachments.Add(new HeroCard(
-                    title: button.Title,
-                    subtitle: button.SubTitle,
+                    title: button.Title??description.Title,
+                    subtitle: button.SubTitle??description.SubTitle,
                     text: prompt.Prompt,
                     images: (image == null ? null : (new List<CardImage>() { new CardImage() { Url = image } })),
                     buttons: new List<CardAction>() { new CardAction(ActionTypes.ImBack, button.Description, null, button.Message ?? button.Description) })

@@ -76,6 +76,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         if (!_translations.ContainsKey(key))
                         {
                             Add(key, entry.Value.Description);
+                            Add(key, entry.Value.Image);
                             Add(key + nameof(entry.Value.Title), entry.Value.Title);
                             Add(key + nameof(entry.Value.SubTitle), entry.Value.SubTitle);
                             Add(key + nameof(entry.Value.Message), entry.Value.Message);
@@ -156,6 +157,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 if (_translations.TryGetValue(skey, out value))
                 {
                     desc.Description = value;
+                }
+                if (_translations.TryGetValue(skey + nameof(desc.Image), out value))
+                {
+                    desc.Image = value;
                 }
                 if (_translations.TryGetValue(skey + nameof(desc.Title), out value))
                 {

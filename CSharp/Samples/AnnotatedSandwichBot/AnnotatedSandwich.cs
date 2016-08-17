@@ -22,7 +22,6 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
     public enum SandwichOptions
     {
-        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=BLT&w=50&h=40&txttrack=0&txtclr=000&txtfont=bold", Title = "Sandwich Bot", SubTitle = "Kind")]
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
         OvenRoastedChicken, RoastBeef,
         [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
@@ -30,7 +29,15 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         TurkeyBreast, Veggie
     };
     public enum LengthOptions { SixInch, FootLong };
-    public enum BreadOptions { NineGrainWheat, NineGrainHoneyOat, Italian, ItalianHerbsAndCheese, Flatbread };
+    public enum BreadOptions {
+        // Use an image if generating cards
+        // [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=Special&w=100&h=40&txttrack=0&txtclr=000&txtfont=bold")]
+        NineGrainWheat,
+        NineGrainHoneyOat,
+        Italian,
+        ItalianHerbsAndCheese,
+        Flatbread
+    };
     public enum CheeseOptions { American, MontereyCheddar, Pepperjack };
     public enum ToppingOptions
     {
@@ -53,7 +60,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
-        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=100&h=40&txttrack=0&txtclr=000&txtfont=bold")]
+        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         // [Prompt("What kind of {&} would you like? {||}", ChoiceFormat ="{1}")]
         // [Prompt("What kind of {&} would you like?")]
         public SandwichOptions? Sandwich;
@@ -61,6 +68,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Prompt("What size of sandwich do you want? {||}")]
         public LengthOptions? Length;
 
+        // Specify Title and SubTitle if generating cards
+        [Describe(Title ="Sandwich Bot", SubTitle = "Bread Picker")]
         public BreadOptions? Bread;
 
         // An optional annotation means that it is possible to not make a choice in the field.

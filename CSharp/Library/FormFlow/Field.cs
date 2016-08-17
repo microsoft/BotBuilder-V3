@@ -251,6 +251,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (_description.IsLocalizable)
             {
                 localizer.Add(_name + nameof(_description), _description.Description);
+                localizer.Add(_name + nameof(_description.Image), _description.Image);
                 localizer.Add(_name + nameof(_description.Title), _description.Title);
                 localizer.Add(_name + nameof(_description.SubTitle), _description.SubTitle);
                 localizer.Add(_name + nameof(_description.Message), _description.Message);
@@ -276,6 +277,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (localizer.Lookup(_name + nameof(_description), out strValue))
             {
                 _description.Description = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Image), out strValue))
+            {
+                _description.Image = strValue;
             }
             if (localizer.Lookup(_name + nameof(_description.Title), out strValue))
             {
