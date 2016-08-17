@@ -342,7 +342,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             }
                             else if (str == "3")
                             {
-                                result.FeedbackCard = new FormPrompt() { Prompt = "Secret place", Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=secret&w=80&h=40&txttrack=0&txtclr=000&txtfont=bold" };
+                                result.FeedbackCard = new FormPrompt()
+                                {
+                                    Prompt = "Secret place",
+                                    Description = new DescribeAttribute(image:@"https://placeholdit.imgix.net/~text?txtsize=12&txt=secret&w=80&h=40&txttrack=0&txtclr=000&txtfont=bold")
+                                };
                             }
                         }
                         return result;

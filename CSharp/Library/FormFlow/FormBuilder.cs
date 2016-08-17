@@ -87,18 +87,18 @@ namespace Microsoft.Bot.Builder.FormFlow
                         if (style == ChoiceStyleOptions.Carousel)
                         {
                             msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                            msg.Attachments = prompt.Buttons.GenerateHeroCards(prompt.Prompt);
+                            msg.Attachments = prompt.GenerateHeroCards();
                         }
                         else
                         {
                             msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                            msg.Attachments = prompt.Buttons.GenerateHeroCard(prompt.Prompt, prompt.Image);
+                            msg.Attachments = prompt.GenerateHeroCard();
                         }
                     }
-                    else if (prompt.Image != null)
+                    else if (prompt.Description?.Image != null)
                     {
                         msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                        var card = new HeroCard() { Title = prompt.Prompt, Images = new List<CardImage> { new CardImage(prompt.Image) } };
+                        var card = new HeroCard() { Title = prompt.Prompt, Images = new List<CardImage> { new CardImage(prompt.Description.Image) } };
                         msg.Attachments = new List<Attachment> { card.ToAttachment() };
                     }
                     else

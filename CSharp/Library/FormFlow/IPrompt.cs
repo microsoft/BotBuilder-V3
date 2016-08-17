@@ -87,18 +87,18 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>
         /// The text prompt that corresponds to Message.Text.
         /// </summary>
+        /// <remarks>When generating cards this will be the card title.</remarks>
         public string Prompt { set; get; } = string.Empty;
 
         /// <summary>
-        /// Image to use for hero card.
+        /// Description information for generating cards.
         /// </summary>
-        /// <remarks>You can set this via <see cref="DescribeAttribute"/>.</remarks>
-        public string Image { get; set; } = null;
+        public DescribeAttribute Description { set; get; }
 
         /// <summary>
         /// The buttons that will be mapped to Message.Attachments.
         /// </summary>
-        public IList<FormButton> Buttons { set; get; } = new List<FormButton>();
+        public IList<DescribeAttribute> Buttons { set; get; } = new List<DescribeAttribute>();
 
         /// <summary>
         /// Desired prompt style.
@@ -118,8 +118,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var newPrompt = new FormPrompt();
             newPrompt.Prompt = this.Prompt;
-            newPrompt.Image = this.Image;
-            newPrompt.Buttons = this.Buttons.Clone();
+            newPrompt.Description = this.Description;
+            newPrompt.Buttons = new List<DescribeAttribute>(this.Buttons);
             newPrompt.Style = this.Style;
             return newPrompt;
         }
@@ -186,51 +186,39 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     public static partial class Extensions
     {
-        internal static IList<Attachment> GenerateHeroCard(this IList<FormButton> buttons, string text, string image)
+        internal static IList<Attachment> GenerateHeroCard(this FormPrompt prompt)
         {
             var actions = new List<CardAction>();
-            foreach (var button in buttons)
+            foreach (var button in prompt.Buttons)
             {
-                CardAction action;
-                if (button.Url != null)
-                {
-                    action = new CardAction(ActionTypes.OpenUrl, button.Title, button.Image, button.Url);
-                }
-                else
-                {
-                    action = new CardAction(ActionTypes.ImBack, button.Title, button.Image, button.Message ?? button.Title);
-                }
-
-                actions.Add(action);
+                actions.Add(new CardAction(ActionTypes.ImBack, button.Description, button.Image, button.Message ?? button.Description));
             }
 
             var attachments = new List<Attachment>();
             if (actions.Count > 0)
             {
-                attachments.Add(new HeroCard(text: text, buttons: actions, 
-                    images:image == null ? null : new List<CardImage>() { new CardImage() { Url = image } })
+                var description = prompt.Description;
+                attachments.Add(new HeroCard(text: prompt.Prompt, title: description.Title, subtitle: description.SubTitle,  
+                    buttons: actions,
+                    images: prompt.Description?.Image == null ? null : new List<CardImage>() { new CardImage() { Url = description.Image } })
                     .ToAttachment());
             }
             return attachments;
         }
 
-        internal static IList<Attachment> GenerateHeroCards(this IList<FormButton> buttons, string text)
+        internal static IList<Attachment> GenerateHeroCards(this FormPrompt prompt)
         {
             var attachments = new List<Attachment>();
-            foreach (var button in buttons)
+            foreach (var button in prompt.Buttons)
             {
-                var actions = new List<CardAction>();
-                CardAction action;
-                if (button.Url != null)
-                {
-                    action = new CardAction(ActionTypes.OpenUrl, button.Title, null, button.Url);
-                }
-                else
-                {
-                    action = new CardAction(ActionTypes.ImBack, button.Title, null, button.Message ?? button.Title);
-                }
-                attachments.Add(new HeroCard(text: text, images: new List<CardImage>() { new CardImage(button.Image) }, buttons: new List<CardAction>() { action }).ToAttachment());
-                actions.Add(action);
+                string image = button.Image;
+                attachments.Add(new HeroCard(
+                    title: button.Title,
+                    subtitle: button.SubTitle,
+                    text: prompt.Prompt,
+                    images: (image == null ? null : (new List<CardImage>() { new CardImage() { Url = image } })),
+                    buttons: new List<CardAction>() { new CardAction(ActionTypes.ImBack, button.Description, null, button.Message ?? button.Description) })
+                    .ToAttachment());
             }
             return attachments;
         }
@@ -296,12 +284,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     noValue = field.Template(TemplateUsage.Unspecified).Pattern();
                 }
             }
-            IList<FormButton> buttons = new List<FormButton>();
+            IList<DescribeAttribute> buttons = new List<DescribeAttribute>();
             var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, field, args, ref buttons);
             return new FormPrompt
             {
                 Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
-                Image = field?.FieldDescription?.Image,
+                Description = field?.FieldDescription,
                 Buttons = buttons,
                 Style = _annotation.ChoiceStyle
             };
@@ -376,7 +364,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return ok;
         }
 
-        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, IField<T> field, object[] args, ref IList<FormButton> buttons)
+        private string ExpandTemplate(string template, string currentChoice, string noValue, T state, IField<T> field, object[] args, ref IList<DescribeAttribute> buttons)
         {
             bool foundUnspecified = false;
             int last = 0;
@@ -427,8 +415,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         {
                             foreach (var value in values)
                             {
-                                var button = new FormButton() { Title = value.Description, Image = value.Image, Message = value.Message };
-                                buttons.Add(button);
+                                buttons.Add(value);
                             }
                         }
                         else

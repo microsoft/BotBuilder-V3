@@ -62,17 +62,27 @@ namespace Microsoft.Bot.Builder.FormFlow
     public class DescribeAttribute : FormFlowAttribute
     {
         /// <summary>
-        /// Description of the field, property or enum.
+        /// Description of the field, property or enum to use in templates and choices.
         /// </summary>
         public string Description;
 
         /// <summary>
-        /// URL of image to use when creating buttons.
+        /// Title when a card is generated from description.
+        /// </summary>
+        public string Title;
+
+        /// <summary>
+        /// SubTitle when a card is generated from description.
+        /// </summary>
+        public string SubTitle;
+
+        /// <summary>
+        /// URL of image to use when creating cards or buttons.
         /// </summary>
         public string Image;
 
         /// <summary>
-        /// Message to return when a button is pressed.
+        /// Message to return when a button is pressed in a card.
         /// </summary>
         public string Message;
 
@@ -82,9 +92,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <param name="description">Description of field, property or enum value.</param>
         /// <param name="image">URL of image to use when generating buttons.</param>
         /// <param name="message">Message to return from button.</param>
-        public DescribeAttribute(string description = null, string image = null, string message = null)
+        /// <param name="title">Text if generating card.</param>
+        /// <param name="subTitle">SubTitle if generating card.</param>
+        public DescribeAttribute(string description = null, string image = null, string message = null, string title = null, string subTitle = null)
         {
             Description = description;
+            Title = title;
+            SubTitle = subTitle;
             Image = image;
             Message = message;
         }

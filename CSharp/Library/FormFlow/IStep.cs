@@ -78,6 +78,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         FormPrompt Start(IDialogContext context, T state, FormState form);
 
+        bool InClarify(FormState form);
+
         IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input);
 
         Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches);

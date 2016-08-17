@@ -240,7 +240,7 @@
         </trans-unit>
         <trans-unit id="SandwichOptions.BLT;LIST" translate="yes" xml:space="preserve">
           <source>blts?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">faux?</target>
+          <target state="translated">blts?</target>
         </trans-unit>
         <trans-unit id="SandwichOptions.BlackForestHam;LIST" translate="yes" xml:space="preserve">
           <source>blacks?;forests?;hams?;blacks? forests?;forests? hams?;blacks? forests? hams?</source>
@@ -372,7 +372,7 @@
         </trans-unit>
         <trans-unit id="ToppingOptions.BananaPeppers;LIST" translate="yes" xml:space="preserve">
           <source>bananas?;peppers?;bananas? peppers?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">bananes? ; poivrons? ; bananes? poivrons?</target>
+          <target state="translated">bananes? ; piments? ; piments? bananes?</target>
         </trans-unit>
         <trans-unit id="ToppingOptions.Cucumbers;LIST" translate="yes" xml:space="preserve">
           <source>cucumbers?</source>
@@ -380,7 +380,7 @@
         </trans-unit>
         <trans-unit id="ToppingOptions.GreenBellPeppers;LIST" translate="yes" xml:space="preserve">
           <source>greens?;bells?;peppers?;greens? bells?;bells? peppers?;greens? bells? peppers?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">verts? ; cloches? ; poivrons? ; verts? cloches? ; cloches? poivrons? ; verts? cloches? poivrons?</target>
+          <target state="translated">verts? ; poivrons? ; poivrons? verts?; piments? ; verts? cloches? ; cloches? piments? ; verts? cloches? piments?</target>
         </trans-unit>
         <trans-unit id="ToppingOptions.Jalapenos;LIST" translate="yes" xml:space="preserve">
           <source>jalapenos?</source>
@@ -400,7 +400,7 @@
         </trans-unit>
         <trans-unit id="ToppingOptions.RedOnion;LIST" translate="yes" xml:space="preserve">
           <source>reds?;onions?;reds? onions?</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Reds?; o nions? ; Reds? oignons?</target>
+          <target state="translated">rouge?; oignons? ; oignon rouge</target>
         </trans-unit>
         <trans-unit id="ToppingOptions.Spinach;LIST" translate="yes" xml:space="preserve">
           <source>spinachs?</source>

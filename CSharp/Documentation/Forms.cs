@@ -350,7 +350,7 @@
     /// 
     /// Attribute | Purpose
     /// ----------| -------
-    /// [Describe] | Change how a field or a value is shown in text.
+    /// [Describe] | Change how a field or a value is shown in a template as a choice or in a card.
     /// [Numeric] | Provide limits on the values accepted in a numeric field.
     /// [Optional]| Mark a field as optional which means that one choice is not to supply a value.
     /// [Pattern] | Define a regular expression to validate a string field.

@@ -251,6 +251,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (_description.IsLocalizable)
             {
                 localizer.Add(_name + nameof(_description), _description.Description);
+                localizer.Add(_name + nameof(_description.Title), _description.Title);
+                localizer.Add(_name + nameof(_description.SubTitle), _description.SubTitle);
+                localizer.Add(_name + nameof(_description.Message), _description.Message);
             }
             if (_terms.IsLocalizable)
             {
@@ -268,11 +271,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void Localize()
         {
             var localizer = _form.Resources;
-            string description;
+            string strValue;
             string[] terms;
-            if (localizer.Lookup(_name + nameof(_description), out description))
+            if (localizer.Lookup(_name + nameof(_description), out strValue))
             {
-                _description = new DescribeAttribute(description, _description?.Image);
+                _description.Description = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Title), out strValue))
+            {
+                _description.Title = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.SubTitle), out strValue))
+            {
+                _description.SubTitle = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Message), out strValue))
+            {
+                _description.Message = strValue;
             }
             if (localizer.LookupValues(_name + nameof(_terms), out terms))
             {

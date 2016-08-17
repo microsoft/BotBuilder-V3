@@ -314,6 +314,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new StepResult(feedback.IsValid, next, feedbackPrompt ?? (feedback.FeedbackCard ?? new FormPrompt { Prompt = feedback.Feedback }), prompt);
         }
 
+        public bool InClarify(FormState form)
+        {
+            var state = (FieldStepState)form.StepState;
+            return state.State == FieldStepStates.SentClarify;
+        }
+
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             FormPrompt feedback = null;
@@ -609,6 +615,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
+        public bool InClarify(FormState form)
+        {
+            return false;
+        }
+
         public StepType Type
         {
             get
@@ -709,6 +720,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 return _field.Prompt.Annotation;
             }
+        }
+
+        public bool InClarify(FormState form)
+        {
+            return false;
         }
 
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
@@ -847,6 +863,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public TemplateBaseAttribute Annotation
         {
             get { return _promptDefinition; }
+        }
+
+        public bool InClarify(FormState form)
+        {
+            return false;
         }
 
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)

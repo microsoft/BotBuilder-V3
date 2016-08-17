@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
     public enum SandwichOptions
     {
-        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=BLT&w=50&h=40&txttrack=0&txtclr=000&txtfont=bold")]
+        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=BLT&w=50&h=40&txttrack=0&txtclr=000&txtfont=bold", Title = "Sandwich Bot", SubTitle = "Kind")]
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
         OvenRoastedChicken, RoastBeef,
         [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
@@ -309,7 +309,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                     case LengthOptions.SixInch: cost = 5.0; break;
                                     case LengthOptions.FootLong: cost = 6.50; break;
                                 }
-                                return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost));
+                                return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost) + "{||}");
                             })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>

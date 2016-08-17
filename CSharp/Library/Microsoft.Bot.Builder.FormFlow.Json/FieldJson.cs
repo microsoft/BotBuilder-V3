@@ -71,6 +71,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                 SetType(eltSchema["enum"] != null && eltSchema["enum"].Any() ? null : ToType(eltSchema));
             }
             SetAllowsMultiple(IsType(fieldSchema, "array"));
+            int todo; // extend to new attributes
             SetFieldDescription(AString(fieldSchema, "Describe") ?? Language.CamelCase(fieldName));
             var terms = Strings(fieldSchema, "Terms");
             JToken maxPhrase;
@@ -398,6 +399,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                         JToken description;
                         if (desc.TryGetValue("Describe", out description))
                         {
+                            int todo; // extend to attributes
                             toDescription.Add(key, (string)description);
                         }
                         JToken terms;
