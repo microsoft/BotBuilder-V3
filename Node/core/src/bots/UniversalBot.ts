@@ -293,7 +293,7 @@ export class UniversalBot extends events.EventEmitter {
                     connector.send(list, this.errorLogger(done));
                 }, this.errorLogger(done));
             } else if (done) {
-                done;
+                done(null);
             }
         }));
     }
