@@ -15,8 +15,6 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
 {
     public class OAuthCallbackController : ApiController
     {
-        private static Lazy<string> botId = new Lazy<string>(() => ConfigurationManager.AppSettings["MicrosoftAppId"]);
-
         /// <summary>
         /// OAuth call back that is called by Facebook. Read https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow for more details.
         /// </summary>
@@ -27,10 +25,10 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/OAuthCallback")]
-        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state, CancellationToken token)
+        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string botId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state, CancellationToken token)
         {
             // Get the resumption cookie
-            var resumptionCookie = new ResumptionCookie(userId, botId.Value, conversationId, channelId, HttpUtility.UrlDecode(serviceUrl), locale);
+            var resumptionCookie = new ResumptionCookie(FacebookHelpers.TokenDecoder(userId), FacebookHelpers.TokenDecoder(botId), FacebookHelpers.TokenDecoder(conversationId), channelId, FacebookHelpers.TokenDecoder(serviceUrl), locale);
 
             // Exchange the Facebook Auth code with Access token
             var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(resumptionCookie, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
