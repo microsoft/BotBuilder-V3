@@ -4,7 +4,7 @@ en-us
 FromUser:"hi"
 2
 ToUserText:"Welcome to the sandwich order bot!"
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What kind of sandwich would you like? ","images":null,"buttons":[{"type":"imBack","title":"BLT","image":null,"value":"BLT"},{"type":"imBack","title":"Black Forest Ham","image":null,"value":"Black Forest Ham"},{"type":"imBack","title":"Buffalo Chicken","image":null,"value":"Buffalo Chicken"},{"type":"imBack","title":"Chicken And Bacon Ranch Melt","image":null,"value":"Chicken And Bacon Ranch Melt"},{"type":"imBack","title":"Cold Cut Combo","image":null,"value":"Cold Cut Combo"},{"type":"imBack","title":"Meatball Marinara","image":null,"value":"Meatball Marinara"},{"type":"imBack","title":"Oven Roasted Chicken","image":null,"value":"Oven Roasted Chicken"},{"type":"imBack","title":"Roast Beef","image":null,"value":"Roast Beef"},{"type":"imBack","title":"Rotisserie Style Chicken","image":null,"value":"Rotisserie Style Chicken"},{"type":"imBack","title":"Spicy Italian","image":null,"value":"Spicy Italian"},{"type":"imBack","title":"Steak And Cheese","image":null,"value":"Steak And Cheese"},{"type":"imBack","title":"Sweet Onion Teriyaki","image":null,"value":"Sweet Onion Teriyaki"},{"type":"imBack","title":"Tuna","image":null,"value":"Tuna"},{"type":"imBack","title":"Turkey Breast","image":null,"value":"Turkey Breast"},{"type":"imBack","title":"Veggie","image":null,"value":"Veggie"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What kind of sandwich would you like? ","images":[{"url":"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold","alt":null,"tap":null}],"buttons":[{"type":"imBack","title":"BLT","image":null,"value":"BLT"},{"type":"imBack","title":"Black Forest Ham","image":null,"value":"Black Forest Ham"},{"type":"imBack","title":"Buffalo Chicken","image":null,"value":"Buffalo Chicken"},{"type":"imBack","title":"Chicken And Bacon Ranch Melt","image":null,"value":"Chicken And Bacon Ranch Melt"},{"type":"imBack","title":"Cold Cut Combo","image":null,"value":"Cold Cut Combo"},{"type":"imBack","title":"Meatball Marinara","image":null,"value":"Meatball Marinara"},{"type":"imBack","title":"Oven Roasted Chicken","image":null,"value":"Oven Roasted Chicken"},{"type":"imBack","title":"Roast Beef","image":null,"value":"Roast Beef"},{"type":"imBack","title":"Rotisserie Style Chicken","image":null,"value":"Rotisserie Style Chicken"},{"type":"imBack","title":"Spicy Italian","image":null,"value":"Spicy Italian"},{"type":"imBack","title":"Steak And Cheese","image":null,"value":"Steak And Cheese"},{"type":"imBack","title":"Sweet Onion Teriyaki","image":null,"value":"Sweet Onion Teriyaki"},{"type":"imBack","title":"Tuna","image":null,"value":"Tuna"},{"type":"imBack","title":"Turkey Breast","image":null,"value":"Turkey Breast"},{"type":"imBack","title":"Veggie","image":null,"value":"Veggie"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{}
 FromUser:"ham"
 1
@@ -12,7 +12,7 @@ ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl"
 State:{"Sandwich":"BlackForestHam"}
 FromUser:"six"
 1
-ToUserText:"What kind of bread would you like on your sandwich? \n  1. Nine Grain Wheat\n  2. Nine Grain Honey Oat\n  3. Italian\n  4. Italian Herbs And Cheese\n  5. Flatbread"
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":"Sandwich Bot","subtitle":"Bread Picker","text":"What kind of bread would you like on your sandwich? ","images":null,"buttons":[{"type":"imBack","title":"Nine Grain Wheat","image":null,"value":"Nine Grain Wheat"},{"type":"imBack","title":"Nine Grain Honey Oat","image":null,"value":"Nine Grain Honey Oat"},{"type":"imBack","title":"Italian","image":null,"value":"Italian"},{"type":"imBack","title":"Italian Herbs And Cheese","image":null,"value":"Italian Herbs And Cheese"},{"type":"imBack","title":"Flatbread","image":null,"value":"Flatbread"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Sandwich":"BlackForestHam","Length":"SixInch"}
 FromUser:"nine grain"
 1
@@ -20,7 +20,7 @@ ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch"}
 FromUser:"wheat"
 1
-ToUserText:"What kind of cheese would you like on your sandwich? (current choice: No Preference) \n  1. American\n  2. Monterey Cheddar\n  3. Pepperjack\n  4. No Preference"
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What kind of cheese would you like on your sandwich? ","images":null,"buttons":[{"type":"imBack","title":"American","image":null,"value":"American"},{"type":"imBack","title":"Monterey Cheddar","image":null,"value":"Monterey Cheddar"},{"type":"imBack","title":"Pepperjack","image":null,"value":"Pepperjack"},{"type":"imBack","title":"No Preference","image":null,"value":"No Preference"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat"}}
 FromUser:"1"
 1

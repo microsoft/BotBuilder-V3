@@ -71,8 +71,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                 SetType(eltSchema["enum"] != null && eltSchema["enum"].Any() ? null : ToType(eltSchema));
             }
             SetAllowsMultiple(IsType(fieldSchema, "array"));
-            int todo; // extend to new attributes
-            SetFieldDescription(AString(fieldSchema, "Describe") ?? Language.CamelCase(fieldName));
+            SetFieldDescription(ProcessDescription(fieldSchema, Language.CamelCase(fieldName)));
             var terms = Strings(fieldSchema, "Terms");
             JToken maxPhrase;
             if (terms != null && fieldSchema.TryGetValue("MaxPhrase", out maxPhrase))
@@ -382,7 +381,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
             if (schema["enum"] != null)
             {
                 var enums = (from val in (JArray)schema["enum"] select (string)val);
-                var toDescription = new Dictionary<string, string>();
+                var toDescription = new Dictionary<string, DescribeAttribute>();
                 var toTerms = new Dictionary<string, string[]>();
                 var toMaxPhrase = new Dictionary<string, int>();
                 JToken values;
@@ -399,8 +398,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                         JToken description;
                         if (desc.TryGetValue("Describe", out description))
                         {
-                            int todo; // extend to attributes
-                            toDescription.Add(key, (string)description);
+                            toDescription.Add(key, ProcessDescription(desc, Language.CamelCase(key)));
                         }
                         JToken terms;
                         if (desc.TryGetValue("Terms", out terms))
@@ -416,10 +414,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                 }
                 foreach (var key in enums)
                 {
-                    string description;
+                    DescribeAttribute description;
                     if (!toDescription.TryGetValue(key, out description))
                     {
-                        description = Language.CamelCase(key);
+                        description = new DescribeAttribute(Language.CamelCase(key));
                     }
                     AddDescription(key, description);
 
@@ -427,7 +425,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                     int maxPhrase;
                     if (!toTerms.TryGetValue(key, out terms))
                     {
-                        terms = Language.GenerateTerms(description, 3);
+                        terms = Language.GenerateTerms(description.Description, 3);
                     }
                     else if (toMaxPhrase.TryGetValue(key, out maxPhrase))
                     {
@@ -459,6 +457,56 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
             attribute.Separator = (string)template["Separator"];
             attribute.ValueCase = ProcessEnum<CaseNormalization>(template, "ValueCase");
             return attribute;
+        }
+
+        protected DescribeAttribute ProcessDescription(JObject schema, string defaultDesc)
+        {
+            // Simple string or object
+            // {Description=, Image=, Title=, SubTitle=}
+            var desc = new DescribeAttribute();
+            JToken jdesc;
+            if (schema.TryGetValue("Describe", out jdesc))
+            {
+                if (jdesc.Type == JTokenType.String)
+                {
+                    desc.Description = jdesc.Value<string>();
+                }
+                else
+                {
+                    var jdescription = jdesc["Description"];
+                    if (jdescription != null)
+                    {
+                        desc.Description = jdescription.Value<string>();
+                    }
+                    else
+                    {
+                        desc.Description = defaultDesc;
+                    }
+
+                    var jimage = jdesc["Image"];
+                    if (jimage != null)
+                    {
+                        desc.Image = jimage.Value<string>();
+                    }
+
+                    var jtitle = jdesc["Title"];
+                    if (jtitle != null)
+                    {
+                        desc.Title = jtitle.Value<string>();
+                    }
+
+                    var jsubTitle = jdesc["SubTitle"];
+                    if (jsubTitle != null)
+                    {
+                        desc.SubTitle = jsubTitle.Value<string>();
+                    }
+                }
+            }
+            else
+            {
+                desc.Description = defaultDesc;
+            }
+            return desc;
         }
 
         protected T ProcessEnum<T>(JToken template, string name)

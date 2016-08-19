@@ -796,10 +796,10 @@
     /// 
     /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
     /// * `DateTime:bool` -- Marks a field as being a DateTime field.
-    /// * `Describe:string` -- Description of a field as described in <see cref="DescribeAttribute"/>.
+    /// * `Describe:string|object` -- Description of a field as described in <see cref="DescribeAttribute"/>.
     /// * `Terms:[string,...]` -- Regular expressions for matching a field value as described in <see cref="TermsAttribute"/>.
     /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
-    /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms. If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
+    /// * `Values:{ string: {Describe:string|object, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms. If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
     /// * `Active:script` -- C# script with arguments (JObject state)->bool to test to see if field/message/confirm is active.
     /// * `Validate:script` -- C# script with arguments (JObject state, object value)->ValidateResult for validating a field value.
     /// * `Define:script` -- C# script with arguments (JObject state, Field&lt;JObject&gt; field) for dynamically defining a field.  

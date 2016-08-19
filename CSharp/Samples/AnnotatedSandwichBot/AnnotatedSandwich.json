@@ -14,13 +14,14 @@
     },
     "EnumSelectOne": {
       "Patterns": [ "What kind of {&} would you like on your sandwich? {||}" ],
-      "ChoiceStyle": "PerLine"
+      "ChoiceStyle": "Auto"
     }
   },
   "properties": {
     "Sandwich": {
       "Prompt": { "Patterns": [ "What kind of {&} would you like? {||}" ] },
       "Before": [ { "Message": [ "Welcome to the sandwich order bot!" ] } ],
+      "Describe" : {"Image":"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold"},
       "type": [
         "string",
         "null"
@@ -71,6 +72,10 @@
             "string",
             "null"
           ],
+          "Describe": {
+            "Title":"Sandwich Bot",
+            "SubTitle":"Bread Picker"
+          },
           "enum": [
             "NineGrainWheat",
             "NineGrainHoneyOat",
