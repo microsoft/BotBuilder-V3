@@ -85,11 +85,6 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 
         private static string GetOAuthCallBack(ResumptionCookie resumptionCookie, string facebookOauthCallback)
         {
-            // because of a limitation on the characters in Facebook redirect_uri, we don't use the serialization of the cookie.
-            // http://stackoverflow.com/questions/4386691/facebook-error-error-validating-verification-code
-            
-            
-
             var uri = GetUri(facebookOauthCallback,
                 Tuple.Create("userId", TokenEncoder(resumptionCookie.UserId)),
                 Tuple.Create("botId", TokenEncoder(resumptionCookie.BotId)),
@@ -101,6 +96,8 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             return uri.ToString();
         }
 
+        // because of a limitation on the characters in Facebook redirect_uri, we don't use the serialization of the cookie.
+        // http://stackoverflow.com/questions/4386691/facebook-error-error-validating-verification-code
         public static string TokenEncoder(string token)
         {
             return HttpServerUtility.UrlTokenEncode(Encoding.UTF8.GetBytes(token));
