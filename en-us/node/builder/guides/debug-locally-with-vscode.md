@@ -11,7 +11,7 @@ parent2: Guides
 {:toc}
 
 ## Overview
-If you’re building a bot for the Bot Connector Service on a Windows machine you can use the awesome [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to debug your bot. Unfortunately, the emulator is currently Windows only so for Mac and Linux users you’ll need to explore other options. One option is to install [VSCode](https://code.visualstudio.com/) and use Bot Builders [TextBot](/en-us/node/builder/bots/TextBot/) class to debug your bot running in a console window. This guide will walk you through doing just that.
+If you’re building a bot for the Bot Connector Service on a Windows machine you can use the awesome [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to debug your bot. Unfortunately, the emulator is currently Windows only so for Mac and Linux users you’ll need to explore other options. One option is to install [VSCode](https://code.visualstudio.com/) and use Bot Builders [TextBot](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.textbot.html){:target="_blank"} class to debug your bot running in a console window. This guide will walk you through doing just that.
 
 ## Launch VSCode
 For purposes of this walkthrough we’ll use Bot Builders [TodoBot](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/todoBot) example. After you install VSCode on your machine you should open your bots project using “open folder”.
@@ -19,7 +19,7 @@ For purposes of this walkthrough we’ll use Bot Builders [TodoBot](https://gith
 ![Step 1: Launch VSCode](/en-us/images/builder/builder-debug-step1.png)
 
 ## Launch Bot
-The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug your bot locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot]() class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the \-\-debug-brk flag which causes it to immediately break. So from a console window type “node \-\-debug-brk textBot.js”.
+The TodoBot illustrates running a bot on multiple platforms which is the key to being able to debug your bot locally. To debug locally you need a version of your bot that can run from a console window using the [TextBot](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.textbot.html){:target="_blank"} class. For the TodoBot we can run it locally by launching the textBot.js class. To properly debug this class using VScode we’ll want to launch node with the \-\-debug-brk flag which causes it to immediately break. So from a console window type “node \-\-debug-brk textBot.js”.
 
 ![Step 2: Launch Bot](/en-us/images/builder/builder-debug-step2.png)
 
