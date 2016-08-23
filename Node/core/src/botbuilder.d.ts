@@ -623,7 +623,7 @@ interface ISessionOptions {
     /** (Optional) localizer to use when localizing the bots responses. */
     localizer?: ILocalizer;
     
-    /** (Optional) time to allow between each message sent as a batch. The default value is 150ms.  */
+    /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;
 
     /** Default error message to send users when a dialog error occurs. */
