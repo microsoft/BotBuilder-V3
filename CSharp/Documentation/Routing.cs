@@ -136,7 +136,7 @@ To initialize a **ConnectorClient** you use ServiceUrl persisted from previous m
 Example:
 ~~~{.cs}
 var userAccount = new ChannelAccount(name: "Larry", id: "@UV357341");
-var connector = new ConnectorClient(incomingMessage.ServiceUrl);
+var connector = new ConnectorClient(new Uri(incomingMessage.ServiceUrl));
 var conversationId = await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount);
 
 IMessageActivity message =  Activity.CreateMessageActivity();
@@ -156,19 +156,19 @@ The **CreateConversation()** method is used to create a new group conversation.
 
 Example: 
 ~~~{.cs}
-var connector = new ConnectorClient(incomingMessage.ServiceUrl);
+var connector = new ConnectorClient(new Uri(incomingMessage.ServiceUrl));
 List<ChannelAccount> participants = new List<ChannelAccount>();
 participants.Add(new ChannelAccount("joe@contoso.com", "Joe the Engineer"));
 participants.Add(new ChannelAccount("sara@contso.com", "Sara in Finance"));
 
-ConversationParameters cpMessage = new ConversationParameters(message.Recipient, participants, "Quarter End Discussion");
-var conversationId = connector.Conversations.CreateConversationAsync(cpMessage);
+ConversationParameters cpMessage = new ConversationParameters(message.Recipient, true, participants, "Quarter End Discussion");
+var conversationId = await connector.Conversations.CreateConversationAsync(cpMessage);
 
-IMessageActivity message =  Activity.CreateMessageActivity();
+IMessageActivity message = Activity.CreateMessageActivity();
 message.From = botAccount;
 message.Recipient = new ChannelAccount("lydia@contoso.com", "Lydia the CFO"));
-message.Conversation = conversationId;
-message.ChannelId = "email";
+message.Conversation = new ConversationAccount(id: conversationId.Id);
+message.ChannelId = incomingMessage.ChannelId;
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
 await connector.Conversations.SendToConversation((Activity)message); 
