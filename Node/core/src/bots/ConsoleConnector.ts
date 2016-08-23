@@ -77,7 +77,7 @@ export class ConsoleConnector implements ub.IConnector {
         this.handler = handler;
     }
     
-    public send(messages: IMessage[], cb: (err: Error, conversationId?: string) => void): void {
+    public send(messages: IMessage[], done: (err: Error) => void): void {
         for (var i = 0; i < messages.length; i++ ){
             if (this.replyCnt++ > 0) {
                 console.log();
@@ -95,6 +95,8 @@ export class ConsoleConnector implements ub.IConnector {
                 }
             }
         }        
+
+        done(null);
     }
 
     public startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void {
