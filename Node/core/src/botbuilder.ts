@@ -53,6 +53,7 @@ import img = require('./cards/CardImage');
 import rc = require('./cards/ReceiptCard');
 import signin = require('./cards/SigninCard');
 import thumb = require('./cards/ThumbnailCard');
+import kb = require('./cards/Keyboard');
 import middleware = require('./middleware/Middleware');
 
 declare var exports: any;
@@ -69,6 +70,7 @@ exports.ReceiptItem = rc.ReceiptItem;
 exports.Fact = rc.Fact;
 exports.SigninCard = signin.SigninCard;
 exports.ThumbnailCard = thumb.ThumbnailCard;
+exports.Keyboard = kb.Keyboard;
 exports.Dialog = dialog.Dialog;
 exports.ResumeReason = dialog.ResumeReason;
 exports.DialogAction = actions.DialogAction;
