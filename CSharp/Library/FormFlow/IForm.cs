@@ -31,10 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -43,6 +45,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">    Form state. </typeparam>
     #endregion
     public abstract class IForm<T>
+        where T : class
     {
         /// <summary>
         /// Fields that make up form.
@@ -71,5 +74,6 @@ namespace Microsoft.Bot.Builder.FormFlow
         internal abstract FormConfiguration Configuration { get; }
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
         internal abstract OnCompletionAsyncDelegate<T> Completion { get; }
+        internal abstract Task<FormPrompt> Prompt(IDialogContext context, FormPrompt prompt);
     }   
 }

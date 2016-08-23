@@ -58,6 +58,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     }
 
     internal interface IStep<T>
+        where T : class
     {
         string Name { get; }
 
@@ -76,6 +77,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         Task<bool> DefineAsync(T state);
 
         FormPrompt Start(IDialogContext context, T state, FormState form);
+
+        bool InClarify(FormState form);
 
         IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input);
 

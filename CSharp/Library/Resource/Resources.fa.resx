@@ -245,4 +245,10 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>مشخصات کاربر حذف شده!</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>تأیید</value>
+  </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>با عرض پوزش، من کد ربات است که با داشتن یک مسئله.</value>
+  </data>
 </root>

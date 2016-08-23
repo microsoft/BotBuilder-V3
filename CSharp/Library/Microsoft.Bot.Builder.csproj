@@ -50,8 +50,8 @@
       <HintPath>..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Rest.ClientRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.1.8.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -104,6 +104,8 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Range.cs" />
+    <Compile Include="Fibers\Scope.cs" />
     <Compile Include="Fibers\Store.cs" />
     <Compile Include="Fibers\IStore.cs" />
     <Compile Include="Fibers\SetField.cs" />
@@ -113,7 +115,11 @@
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
+    <Compile Include="Luis\CalendarPlus.cs" />
+    <Compile Include="Luis\EntityToType.cs" />
+    <Compile Include="Luis\Extensions.cs" />
     <Compile Include="Luis\LuisModel.cs" />
+    <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
     <Compile Include="Dialogs\Extensions.cs" />
@@ -128,7 +134,6 @@
     <Compile Include="FormFlow\Field.cs" />
     <Compile Include="FormFlow\FormDialog.cs" />
     <Compile Include="FormFlow\FormBuilder.cs" />
-    <Compile Include="FormFlow\Form.cs" />
     <Compile Include="FormFlow\FormState.cs" />
     <Compile Include="FormFlow\IField.cs" />
     <Compile Include="FormFlow\ILocalizer.cs" />
@@ -148,7 +153,6 @@
     <Compile Include="Luis\Models\ActionParameter.cs" />
     <Compile Include="Luis\Models\ActionParameterValue.cs" />
     <Compile Include="Luis\Models\EntityRecommendation.cs" />
-    <Compile Include="Luis\Models\Extensions.cs" />
     <Compile Include="Luis\Models\IntentRecommendation.cs" />
     <Compile Include="Luis\Models\LuisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,7 +172,9 @@
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="pushpackages.cmd" />
   </ItemGroup>
   <ItemGroup>

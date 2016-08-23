@@ -108,7 +108,7 @@ newMessage.From = botAccount;
 newMessage.Conversation = conversation;
 newMessage.Recipient = userAccount;
 newMessage.Text = "Yo yo yo!";
-await connector.Conversations.SendToConversation((Activity)newMessage); 
+await connector.Conversations.SendToConversationAsync((Activity)newMessage); 
 ~~~
 
 \subsection multiplereplies Multiple replies
@@ -145,8 +145,7 @@ message.Recipient = userAccount;
 message.Conversation = new ConversationAccount(id: conversationId.Id);
 message.Text = "Hello";
 message.Locale = "en-Us";
-
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
 
@@ -171,7 +170,7 @@ message.Conversation = new ConversationAccount(id: conversationId.Id);
 message.ChannelId = incomingMessage.ChannelId;
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
     **/

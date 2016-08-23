@@ -183,16 +183,78 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                    var task = scope.Resolve<IPostToBot>();
-                    await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+
                     var stack = scope.Resolve<IDialogStack>();
                     Assert.AreEqual(0, stack.Frames.Count);
 
+                    var task = scope.Resolve<IPostToBot>();
                     await task.PostAsync(toBot, CancellationToken.None);
 
                     Assert.AreEqual(3, stack.Frames.Count);
                     Assert.IsInstanceOfType(stack.Frames[0].Target, typeof(PromptDialog.PromptString));
                     Assert.IsInstanceOfType(stack.Frames[1].Target, dialog.Object.GetType());
+
+                    await botData.FlushAsync(default(CancellationToken));
+                }
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+
+                    // validate that the fiber state was persisted in IPostToBot.PostAsnc
+                    var stack = scope.Resolve<IDialogStack>();
+                    Assert.AreEqual(3, stack.Frames.Count);
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task DialogTask_Frames_After_Poll_No_Post()
+        {
+            var dialog = new Mock<IDialogFrames<object>>(MockBehavior.Loose);
+
+            dialog
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async context => { PromptDialog.Text(context, dialog.Object.ItemReceived, "blah"); });
+
+            var toBot = MakeTestMessage();
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
+            using (var container = Build(Options.None, dialog.Object))
+            {
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+
+                    var stack = scope.Resolve<IDialogStack>();
+                    Assert.AreEqual(0, stack.Frames.Count);
+
+                    // this is modeling a proactive scenario, where we may want to modify the
+                    // dialog stack and run some code, but there is no corresponding message
+                    // to post to the bot
+                    stack.Call(dialog.Object, null);
+                    await stack.PollAsync(CancellationToken.None);
+
+                    Assert.AreEqual(2, stack.Frames.Count);
+                    Assert.IsInstanceOfType(stack.Frames[0].Target, typeof(PromptDialog.PromptString));
+                    Assert.IsInstanceOfType(stack.Frames[1].Target, dialog.Object.GetType());
+
+                    await botData.FlushAsync(default(CancellationToken));
+                }
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+
+                    // and now we need to validate that the fiber state was persisted even though
+                    // we only called IDialogStack.PollAsync and not IPostToBot.PostAsnc
+                    var stack = scope.Resolve<IDialogStack>();
+                    Assert.AreEqual(2, stack.Frames.Count);
                 }
             }
         }

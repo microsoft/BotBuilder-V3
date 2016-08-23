@@ -167,9 +167,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <returns>Field description.</returns>
         /// <remarks>
-        /// This is the value that will be generated in \ref patterns by {&amp;} or choices. {||}.
+        /// This is the value that will be used in \ref patterns by {&amp;}, choices with {||} or buttons.
         /// </remarks>
-        string FieldDescription { get; }
+        DescribeAttribute FieldDescription { get; }
 
         /// <summary>
         /// Terms for matching this field.
@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         IEnumerable<string> FieldTerms { get; }
 
         /// <summary>
-        /// Return the string describing a specific value.
+        /// Return the description of a specific value.
         /// </summary>
         /// <param name="value">Value being described.</param>
         /// <returns>Description of value.</returns>
@@ -327,6 +327,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state that is being completed.</typeparam>
     public interface IFieldPrompt<T>
+       where T : class
     {
         /// <summary>
         /// Test to see if field is currently active based on the current state.
@@ -401,6 +402,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Form state interface applies to.</typeparam>
     public interface IField<T> : IFieldState<T>, IFieldDescription, IFieldPrompt<T>, IFieldResources
+        where T : class
     {
         /// <summary>
         /// Name of this field.
@@ -423,6 +425,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IFields<T> : IEnumerable<IField<T>>
+        where T : class
     {
         /// <summary>
         /// Return a specific field or null if not present.

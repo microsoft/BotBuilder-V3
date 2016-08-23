@@ -39,7 +39,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <summary>
     /// Enumeration of special kinds of matches.
     /// </summary>
-    public enum SpecialValues {
+    public enum SpecialValues
+    {
         /// <summary>
         /// Match corresponds to a field, not a specific value in the field.
         /// </summary>
@@ -204,4 +205,4 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <returns>Match records.</returns>
         IEnumerable<TermMatch> Matches(string input, object defaultValue = null);
     }
- }
+}

@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -46,11 +47,44 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <returns>True if step is active given the current form state.</returns>
     public delegate bool ActiveDelegate<T>(T state);
 
+    /// <summary>
+    /// Choice for clarifying an amiguous value in <see cref="ValidateResult"/>.
+    /// </summary>
+    [Serializable]
+    public class Choice
+    {
+        /// <summary>
+        /// Value to return if choice is selected.
+        /// </summary>
+        public object Value;
+
+        /// <summary>
+        /// Description of value.
+        /// </summary>
+        public DescribeAttribute Description;
+
+        /// <summary>
+        /// Terms to match value.
+        /// </summary>
+        public TermsAttribute Terms;
+    }
+
     /// <summary>   Encapsulates the result of a <see cref="ValidateAsyncDelegate{T}"/> </summary>
-    public struct ValidateResult
+    /// <remarks>
+    ///          If <see cref="IsValid"/> is true, then the field will be set to <see cref="Value"/>.
+    ///          Otherwise if <see cref="Choices"/> is  non-null they will be used to select a clarifying value.
+    ///          if <see cref="FeedbackCard"/> is non-null the resulting card will be displayed.
+    ///          Otherwise the <see cref="Feedback"/> string will be shown to provide feedback on the value.
+    ///          </remarks>
+    public class ValidateResult
     {
         /// <summary>   Feedback to provide back to the user on the input. </summary>
         public string Feedback;
+
+        /// <summary>
+        /// Fully specified feedback card.
+        /// </summary>
+        public FormPrompt FeedbackCard;
 
         /// <summary>   True if value is a valid response. </summary>
         public bool IsValid;
@@ -60,6 +94,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <remarks>This provides an opportunity for validation to compute the final value.</remarks>
         public object Value;
+
+        /// <summary>
+        /// Choices for clarifying response.
+        /// </summary>
+        public IEnumerable<Choice> Choices;
     }
 
     /// <summary>
@@ -93,6 +132,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// </remarks>
     /// <exception cref="FormCanceledException{T}">Thrown when the user quits while filling in a form, or there is an underlying exception in the code.</exception>
     public interface IFormDialog<T> : IDialog<T>
+        where T : class
     {
         /// <summary>
         /// The form specification.

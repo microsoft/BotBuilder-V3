@@ -314,9 +314,13 @@
           <source>User profile deleted!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">مشخصات کاربر حذف شده!</target>
         </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">تأیید</target>
+        </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="new">Sorry, my bot code is having an issue.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">با عرض پوزش، من کد ربات است که با داشتن یک مسئله.</target>
         </trans-unit>
       </group>
     </body>

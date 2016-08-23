@@ -47,7 +47,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Builder.FormFlow.Json
 {
     // No need to document overrides of interface methods
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
 
     #region Documentation
     /// <summary>Build a form by specifying messages, fields and confirmations through JSON Schema or programatically.</summary>
@@ -226,6 +226,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
         internal ValidateAsyncDelegate<JObject> ValidateScript(IField<JObject> field, string script)
         {
             return script != null ? new ValidateAsyncDelegate<JObject>(AddScript(field, script).ValidateScriptAsync) : null;
+        }
+
+        internal NextDelegate<JObject> NextScript(IField<JObject> field, string script)
+        {
+            return script != null ? new NextDelegate<JObject>(AddScript(field, script).NextScript) : null;
         }
 
         internal OnCompletionAsyncDelegate<JObject> OnCompletionScript(string script)
@@ -473,6 +478,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
             public async Task<bool> DefineScriptAsync(JObject state, Field<JObject> field)
             {
                 return (bool)await Script(new ScriptGlobals { choice = Choice, state = state, field = field, ifield = Field });
+            }
+
+            public NextStep NextScript(object value, JObject state)
+            {
+                return (NextStep)Script(new ScriptGlobals { choice = Choice, value = value, state = state, ifield = Field }).Result;
             }
 
             public async Task OnCompletionAsync(IDialogContext context, JObject state)

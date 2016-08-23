@@ -75,7 +75,11 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext>(async c => { c.Wait(dialog.Object.FirstMessage); });
             dialog
                 .Setup(d => d.FirstMessage(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<IMessageActivity>>()))
-                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (c, m) => actual = CurrentCulture);
+                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (c, m) =>
+                {
+                    actual = CurrentCulture;
+                    c.Wait(dialog.Object.FirstMessage);
+                });
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
 

@@ -31,27 +31,68 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Luis.Models;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Microsoft.Bot.Builder.Luis.BuiltIn.DateTime;
 
 namespace Microsoft.Bot.Builder.Luis
 {
     /// <summary>
-    /// LUIS extension methods.
+    /// Policy for interpreting LUIS resolutions.
     /// </summary>
-    public static partial class Extensions
+    public interface ICalendarPlus
     {
-        /// <summary>
-        /// Try to find an entity within the result.
-        /// </summary>
-        /// <param name="result">The LUIS result.</param>
-        /// <param name="type">The entity type.</param>
-        /// <param name="entity">The found entity.</param>
-        /// <returns>True if the entity was found, false otherwise.</returns>
-        public static bool TryFindEntity(this LuisResult result, string type, out EntityRecommendation entity)
+        Calendar Calendar { get; }
+        CalendarWeekRule WeekRule { get; }
+        DayOfWeek FirstDayOfWeek { get; }
+        int HourFor(DayPart dayPart);
+    }
+
+    /// <summary>
+    /// https://en.wikipedia.org/wiki/Gregorian_calendar
+    /// </summary>
+    public sealed class WesternCalendarPlus : ICalendarPlus
+    {
+        Calendar ICalendarPlus.Calendar
         {
-            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
-            return entity != null;
+            get
+            {
+                return CultureInfo.InvariantCulture.Calendar;
+            }
+        }
+
+        DayOfWeek ICalendarPlus.FirstDayOfWeek
+        {
+            get
+            {
+                return DayOfWeek.Sunday;
+            }
+        }
+
+        CalendarWeekRule ICalendarPlus.WeekRule
+        {
+            get
+            {
+                return CalendarWeekRule.FirstDay;
+            }
+        }
+
+        int ICalendarPlus.HourFor(DayPart dayPart)
+        {
+            switch (dayPart)
+            {
+                case DayPart.MO: return 9;
+                case DayPart.MI: return 12;
+                case DayPart.AF: return 15;
+                case DayPart.EV: return 18;
+                case DayPart.NI: return 21;
+                default: throw new NotImplementedException();
+            }
         }
     }
+
 }

@@ -47,8 +47,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Rest.ClientRuntime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.1.8.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.2.3.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -92,6 +92,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlarmBotTests.cs" />
+    <Compile Include="SimpleAlarmBotTests.cs" />
     <Compile Include="EchoBotTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,6 +104,10 @@
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Samples\AlarmBot\Microsoft.Bot.Sample.AlarmBot.csproj">
+      <Project>{d414f82f-c102-45b1-979c-d905d278c34e}</Project>
+      <Name>Microsoft.Bot.Sample.AlarmBot</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Samples\EchoBot\Microsoft.Bot.Sample.EchoBot.csproj">
       <Project>{D2253234-1279-486E-8A63-D8C3424E0525}</Project>

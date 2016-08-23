@@ -350,7 +350,7 @@
     /// 
     /// Attribute | Purpose
     /// ----------| -------
-    /// [Describe] | Change how a field or a value is shown in text.
+    /// [Describe] | Change how a field or a value is shown in a template as a choice or in a card.
     /// [Numeric] | Provide limits on the values accepted in a numeric field.
     /// [Optional]| Mark a field as optional which means that one choice is not to supply a value.
     /// [Pattern] | Define a regular expression to validate a string field.
@@ -550,9 +550,12 @@
     /// 
     /// \subsection logic Adding Business Logic
     /// Sometimes there are complex interdependencies between fields or you need to 
-    /// add logic to setting or getting a value. Here we want to add support
-    /// for including all toppings except some of them. To do this, we add a validation function which complements
-    /// the list if the Everything enum value is included:
+    /// add logic to setting or getting a value.  A validation function allows manipulating the state and also returns a ValidateResult which can:
+    /// * Return a feedback string describing why a value is not valid.
+    /// * Return a transformed value.
+    /// * Return a set of choices for clarifying a value.  
+    /// 
+    /// Here we want to add support for including all toppings except some of them.  To do this we complement the list if the Everything enum value is included:
     /// \dontinclude AnnotatedSandwichBot/AnnotatedSandwich.cs
     /// \skip nameof(Toppings)
     /// \until Message
@@ -793,13 +796,14 @@
     /// 
     /// %Extensions that are found in a property description as peers to the "type" property of a JSON Schema.
     /// * `DateTime:bool` -- Marks a field as being a DateTime field.
-    /// * `Describe:string` -- Description of a field as described in <see cref="DescribeAttribute"/>.
+    /// * `Describe:string|object` -- Description of a field as described in <see cref="DescribeAttribute"/>.
     /// * `Terms:[string,...]` -- Regular expressions for matching a field value as described in <see cref="TermsAttribute"/>.
     /// * `MaxPhrase:int` -- This will run your terms through <see cref="Language.GenerateTerms(string, int)"/> to expand them.
-    /// * `Values:{ string: {Describe:string, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms. If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
+    /// * `Values:{ string: {Describe:string|object, Terms:[string, ...], MaxPhrase}, ...}` -- The string must be found in the types "enum" and this allows you to override the automatically generated descriptions and terms. If MaxPhrase is specified the terms are passed through <see cref="Language.GenerateTerms(string, int)"/>.
     /// * `Active:script` -- C# script with arguments (JObject state)->bool to test to see if field/message/confirm is active.
     /// * `Validate:script` -- C# script with arguments (JObject state, object value)->ValidateResult for validating a field value.
     /// * `Define:script` -- C# script with arguments (JObject state, Field&lt;JObject&gt; field) for dynamically defining a field.  
+    /// * `Next:script` -- C# script with arguments (object value, JObject state) for determining the next step after filling in a field.
     /// * `Before:[confirm|message, ...]` -- Messages or confirmations before the containing field.
     /// * `After:[confirm|message, ...]` -- Messages or confirmations after the containing field.
     /// * `{Confirm:script|[string, ...], ...templateArgs}` -- With Before/After define a confirmation through either C# script with argument (JObject state) or through a set of patterns that will be randomly selected with optional template arguments.

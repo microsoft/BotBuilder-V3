@@ -384,9 +384,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         public sealed class PromptConfirm : Prompt<bool, string>
         {
             /// <summary>
+            /// Index of yes descriptions.
+            /// </summary>
+            public const int Yes = 0;
+
+            /// <summary>
+            /// Index of no descriptions.
+            /// </summary>
+            public const int No = 1;
+
+            /// <summary>
             /// The yes, no options for confirmation prompt
             /// </summary>
             public static string[] Options { set; get; } = { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+
+            /// <summary>
+            /// The patterns for matching yes/no responses in the confirmation prompt.
+            /// </summary>
+            public static string[][] Patterns { get; set; } = { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
 
             /// <summary>   Constructor for a prompt confirmation dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
@@ -416,12 +431,12 @@ namespace Microsoft.Bot.Builder.Dialogs
                 if (message.Text != null)
                 {
                     var term = message.Text.Trim().ToLower();
-                    if ((from r in Resources.MatchYes.SplitList() select r.ToLower()).Contains(term))
+                    if ((from r in Patterns[Yes] select r.ToLower()).Contains(term))
                     {
                         result = true;
                         found = true;
                     }
-                    else if ((from r in Resources.MatchNo.SplitList() select r.ToLower()).Contains(term))
+                    else if ((from r in Patterns[No] select r.ToLower()).Contains(term))
                     {
                         result = false;
                         found = true;

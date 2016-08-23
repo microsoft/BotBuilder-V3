@@ -246,4 +246,10 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>ユーザー プロファイル削除!</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>申し訳ありませんが、私のボットのコードは、問題を抱えています。</value>
+  </data>
 </root>

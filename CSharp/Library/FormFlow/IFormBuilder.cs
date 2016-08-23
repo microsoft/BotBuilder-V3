@@ -75,6 +75,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">Form state.</typeparam>
     #endregion
     public interface IFormBuilder<T>
+        where T : class
     {
         /// <summary>
         /// Build the form based on the methods called on the builder.
@@ -207,6 +208,14 @@ namespace Microsoft.Bot.Builder.FormFlow
         #endregion
         IFormBuilder<T> Confirm(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition = null, IEnumerable<string> dependencies = null);
 
+
+        /// <summary>
+        /// Delegate to send prompt to user.
+        /// </summary>
+        /// <param name="prompter">Delegate.</param>
+        /// <returns>Modified IFormBuilder.</returns>
+        IFormBuilder<T> Prompter(PromptAsyncDelegate prompter);
+
         /// <summary>
         /// Delegate to call when form is completed.
         /// </summary>
@@ -302,6 +311,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         public string Navigation = Resources.Navigation;
 
         /// <summary>
+        /// String for naming "Confirmation" fields.
+        /// </summary>
+        public string Confirmation = Resources.Confirmation;
+
+        /// <summary>
         /// Default templates to use if not override on the class or field level.
         /// </summary>
         public List<TemplateAttribute> Templates = new List<TemplateAttribute>
@@ -370,7 +384,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
             new TemplateAttribute(TemplateUsage.String, Resources.TemplateString) { ChoiceFormat = Resources.TemplateStringChoiceFormat },
             // {0} is current choice, {1} is no preference
-			new TemplateAttribute(TemplateUsage.StringHelp, Resources.TemplateStringHelp),
+            new TemplateAttribute(TemplateUsage.StringHelp, Resources.TemplateStringHelp),
 
             new TemplateAttribute(TemplateUsage.Unspecified, Resources.TemplateUnspecified)
         };

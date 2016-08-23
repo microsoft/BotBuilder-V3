@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -60,6 +63,51 @@ namespace Microsoft.Bot.Builder.FormFlow
             if (resourceName == null)
             {
                 resourceName = typeof(T).FullName;
+            }
+            if (this._form._prompter == null)
+            {
+                this._form._prompter = async (context, prompt) =>
+                {
+                    var msg = context.MakeMessage();
+                    if (prompt.Buttons?.Count > 0)
+                    {
+                        var style = prompt.Style;
+                        if (style == ChoiceStyleOptions.Auto)
+                        {
+                            foreach(var button in prompt.Buttons)
+                            {
+                                // Images require carousel
+                                if (button.Image != null)
+                                {
+                                    style = ChoiceStyleOptions.Carousel;
+                                    break;
+                                }
+                            }
+                        }
+                        if (style == ChoiceStyleOptions.Carousel)
+                        {
+                            msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                            msg.Attachments = prompt.GenerateHeroCards();
+                        }
+                        else
+                        {
+                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
+                            msg.Attachments = prompt.GenerateHeroCard();
+                        }
+                    }
+                    else if (prompt.Description?.Image != null)
+                    {
+                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
+                        var card = new HeroCard() { Title = prompt.Prompt, Images = new List<CardImage> { new CardImage(prompt.Description.Image) } };
+                        msg.Attachments = new List<Attachment> { card.ToAttachment() };
+                    }
+                    else
+                    {
+                        msg.Text = prompt.Prompt;
+                    }
+                    await context.PostAsync(msg);
+                    return prompt;
+                };
             }
             var lang = resourceAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
             if (lang != null && !string.IsNullOrWhiteSpace(lang.CultureName))
@@ -160,6 +208,12 @@ namespace Microsoft.Bot.Builder.FormFlow
             return this;
         }
 
+        public virtual IFormBuilder<T> Prompter(PromptAsyncDelegate prompter)
+        {
+            _form._prompter = prompter;
+            return this;
+        }
+
         public abstract IFormBuilder<T> Field(string name, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
         public abstract IFormBuilder<T> Field(string name, string prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
         public abstract IFormBuilder<T> Field(string name, PromptAttribute prompt, ActiveDelegate<T> active = null, ValidateAsyncDelegate<T> validate = null);
@@ -222,7 +276,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     var name = step.Type == StepType.Field ? step.Name : "";
                     foreach (var pattern in annotation.Patterns)
                     {
-                        ValidatePattern(pattern, name, 5);
+                        ValidatePattern(pattern, _form.Fields.Field(name), 5);
                     }
                     if (step.Type != StepType.Message)
                     {
@@ -232,19 +286,19 @@ namespace Microsoft.Bot.Builder.FormFlow
                             {
                                 foreach (var pattern in step.Field.Template(usage).Patterns)
                                 {
-                                    ValidatePattern(pattern, name, TemplateArgs(usage));
+                                    ValidatePattern(pattern, _form.Fields.Field(name), TemplateArgs(usage));
                                 }
                             }
                         }
                     }
                 }
             }
-            ValidatePattern(_form.Configuration.DefaultPrompt.ChoiceFormat, "", 2);
+            ValidatePattern(_form.Configuration.DefaultPrompt.ChoiceFormat, null, 2);
         }
 
-        private void ValidatePattern(string pattern, string pathName, int maxArgs)
+        private void ValidatePattern(string pattern, IField<T> field, int maxArgs)
         {
-            if (!Prompter<T>.ValidatePattern(_form, pattern, pathName, maxArgs))
+            if (!Prompter<T>.ValidatePattern(_form, pattern, field, maxArgs))
             {
                 throw new ArgumentException(string.Format("Illegal pattern: \"{0}\"", pattern));
             }
@@ -273,6 +327,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             internal readonly Fields<T> _fields = new Fields<T>();
             internal readonly List<IStep<T>> _steps = new List<IStep<T>>();
             internal OnCompletionAsyncDelegate<T> _completion = null;
+            internal PromptAsyncDelegate _prompter = null;
             internal ILocalizer _resources = new Localizer() { Culture = CultureInfo.CurrentUICulture };
 
             public Form()
@@ -324,6 +379,11 @@ namespace Microsoft.Bot.Builder.FormFlow
                 {
                     return _steps;
                 }
+            }
+
+            internal override async Task<FormPrompt> Prompt(IDialogContext context, FormPrompt prompt)
+            {
+                return prompt == null ? prompt : await _prompter(context, prompt);
             }
 
             internal override OnCompletionAsyncDelegate<T> Completion

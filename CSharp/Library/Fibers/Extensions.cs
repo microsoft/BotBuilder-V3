@@ -139,5 +139,17 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             return stack[stack.Count - 1];
         }
+
+        public static V GetOrAdd<K, V>(this IDictionary<K, V> valueByKey, K key, Func<K, V> make)
+        {
+            V value;
+            if (! valueByKey.TryGetValue(key, out value))
+            {
+                value = make(key);
+                valueByKey.Add(key, value);
+            }
+
+            return value;
+        }
     }
 }

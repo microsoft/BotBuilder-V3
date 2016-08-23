@@ -114,7 +114,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <returns>An <see cref="IForm{T}"/>.</returns>
     /// <remarks>This is a delegate so that we can rebuild the form and don't have to serialize
     /// the form definition with every message.</remarks>
-    public delegate IForm<T> BuildFormDelegate<T>();
+    public delegate IForm<T> BuildFormDelegate<T>() where T : class;
 
     /// <summary>
     /// Form dialog to fill in your state.
@@ -160,7 +160,11 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             buildForm = buildForm ?? BuildDefaultForm;
             entities = entities ?? Enumerable.Empty<EntityRecommendation>();
-            cultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
+            if (cultureInfo != null)
+            {
+                CultureInfo.CurrentUICulture = cultureInfo;
+                CultureInfo.CurrentCulture = cultureInfo;
+            }
 
             // constructor arguments
             SetField.NotNull(out this._state, nameof(state), state);
@@ -245,6 +249,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 }
                 if (inputs.Any())
                 {
+                    // Descending because last entry is first processed
                     _formState.FieldInputs = (from input in inputs orderby input.Item1 descending select input).ToList();
                 }
             }
@@ -289,22 +294,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 FormPrompt lastPrompt = _formState.LastPrompt;
                 Func<FormPrompt, Task<FormPrompt>> PostAsync = async (prompt) =>
                 {
-                    if (prompt != null)
-                    {
-                        var msg = context.MakeMessage();
-                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                        if (prompt.Buttons?.Count > 0)
-                        {
-                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                            msg.Attachments = prompt.Buttons.GenerateAttachments(prompt.Prompt);
-                        }
-                        else
-                        {
-                            msg.Text = prompt.Prompt;
-                        }
-                        await context.PostAsync(msg);
-                    }
-                    return prompt;
+                    return await _form.Prompt(context, prompt);
                 };
                 Func<IStep<T>, IEnumerable<TermMatch>, Task<bool>> DoStepAsync = async (step, matches) =>
                 {
@@ -425,7 +415,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 if (matches.Count() == 0 && commands.Count() == 0)
                                 {
                                     await PostAsync(step.NotUnderstood(context, _state, _formState, stepInput));
-                                    if (_formState.ProcessInputs)
+                                    if (_formState.ProcessInputs && !step.InClarify(_formState))
                                     {
                                         _formState.SetPhase(StepPhase.Ready);
                                     }
@@ -665,34 +655,50 @@ namespace Microsoft.Bot.Builder.FormFlow
                         }
                         else
                         {
-                            var step = _form.Steps[_formState.Step];
+                            var normalStep = _formState.Step;
                             // Process initial messages first, then FieldInputs
-                            if ((_formState.ProcessInputs || step.Type != StepType.Message) && _formState.FieldInputs != null)
+                            if ((_formState.ProcessInputs || _form.Steps[normalStep].Type != StepType.Message) && _formState.FieldInputs != null)
                             {
-                                if (!_formState.ProcessInputs)
+                                // Override normal choice with FieldInputs
+                                Func<bool> NextFieldInput = () =>
                                 {
-                                    _formState.Step = _formState.FieldInputs.Last().Item1;
-                                    _formState.ProcessInputs = true;
-                                }
-                                else if (_formState.Phase(start) == StepPhase.Completed || _formState.Phase(start) == StepPhase.Ready)
-                                {
-                                    // Reset state
-                                    if (_options.HasFlag(FormOptions.PromptFieldsWithValues))
+                                    var foundInput = false;
+                                    while (_formState.FieldInputs.Any() && !foundInput)
                                     {
-                                        _formState.SetPhase(StepPhase.Ready);
+                                        var possible = _formState.FieldInputs.Last().Item1;
+                                        if (_form.Steps[possible].Active(_state))
+                                        {
+                                            _formState.Step = possible;
+                                            foundInput = true;
+                                        }
+                                        else
+                                        {
+                                            _formState.FieldInputs.Pop();
+                                        }
                                     }
-                                    // Move on to next field input if any
-                                    _formState.FieldInputs.Pop();
                                     if (!_formState.FieldInputs.Any())
                                     {
                                         _formState.ProcessInputs = false;
                                         _formState.FieldInputs = null;
                                         _formState.Step = 0;
                                     }
-                                    else
+                                    return foundInput;
+                                };
+                                if (!_formState.ProcessInputs)
+                                {
+                                    // Start of processing inputs
+                                    _formState.ProcessInputs = NextFieldInput();
+                                }
+                                else if (_formState.Phase(start) == StepPhase.Completed || _formState.Phase(start) == StepPhase.Ready)
+                                {
+                                    // Reset state of just completed step
+                                    if (_options.HasFlag(FormOptions.PromptFieldsWithValues))
                                     {
-                                        _formState.Step = _formState.FieldInputs.Last().Item1;
+                                        _formState.SetPhase(StepPhase.Ready);
                                     }
+                                    // Move on to next field input if any
+                                    _formState.FieldInputs.Pop();
+                                    NextFieldInput();
                                 }
                             }
                             else
@@ -765,12 +771,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var navigation = new Prompter<T>(field.Template(TemplateUsage.NavigationCommandHelp), _form, null);
                             var active = (from istep in _form.Steps
                                           where !form.ProcessInputs && istep.Type == StepType.Field && istep.Active(state)
-                                          select istep.Field.FieldDescription).ToArray();
+                                          select istep.Field.FieldDescription.Description).ToArray();
                             if (active.Length > 1)
                             {
                                 var activeList = Language.BuildList(active, navigation.Annotation.ChoiceSeparator, navigation.Annotation.ChoiceLastSeparator);
                                 builder.Append("* ");
-                                builder.Append(navigation.Prompt(state, "", activeList));
+                                builder.Append(navigation.Prompt(state, null, activeList));
                             }
                             feedback = step.Help(state, form, builder.ToString());
                         }
@@ -780,7 +786,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     case FormCommand.Status:
                         {
                             var prompt = new PromptAttribute("{*}");
-                            feedback = new Prompter<T>(prompt, _form, null).Prompt(state, "");
+                            feedback = new Prompter<T>(prompt, _form, null).Prompt(state, null);
                         }
                         break;
                 }
