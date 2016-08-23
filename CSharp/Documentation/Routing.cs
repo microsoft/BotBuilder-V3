@@ -86,7 +86,7 @@ var replyMessage = incomingMessage.CreateReply("Yo, what's up?");
 ~~~
 
 \subsection replytoactivity ReplyToActivity()
-To reply simply create a reply message and call the **ReplyToActiivty()** method. The %Connector service will take care of the details
+To reply simply create a reply message and call the **ReplyToActivity()** method. The %Connector service will take care of the details
 of delivering your message using the appropriate channel semantics.  
 
 ~~~{.cs}
@@ -108,7 +108,7 @@ newMessage.From = botAccount;
 newMessage.Conversation = conversation;
 newMessage.Recipient = userAccount;
 newMessage.Text = "Yo yo yo!";
-await connector.Conversations.SendToConversation((Activity)newMessage); 
+await connector.Conversations.SendToConversationAsync((Activity)newMessage); 
 ~~~
 
 \subsection multiplereplies Multiple replies
@@ -141,7 +141,7 @@ message.Recipient = new ChannelAccount() { name: "Larry", "id":"@UV357341"};
 message.Conversation = new ConversationAccount(id: ConversationId.Id);
 message.Text = "Hello";
 message.Locale = "en-Us";
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
 
@@ -166,7 +166,7 @@ message.Conversation = ConversationId;
 message.ChannelId = "email";
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
     **/
