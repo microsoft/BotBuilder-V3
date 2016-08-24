@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,7 +75,7 @@ namespace Microsoft.Bot.Builder.Tests
             )
         {
             luis
-                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult()
                 {
                     Intents = IntentsFor(expression, score),
@@ -95,7 +96,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(new UriBuilder() { Query = utterance }.Uri);
 
             luis
-                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>(), It.IsAny<CancellationToken>()))
                 .Returns<Uri>(async (uri) =>
                 {
                     return new LuisResult()

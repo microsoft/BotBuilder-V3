@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
@@ -192,7 +193,8 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var message = await item;
             var messageText = await GetLuisQueryTextAsync(context, message);
-            var tasks = this.services.Select(s => s.QueryAsync(messageText)).ToArray();
+            // TODO: obtain CancellationToken from IPostToBot.PostAsync
+            var tasks = this.services.Select(s => s.QueryAsync(messageText, CancellationToken.None)).ToArray();
             var winner = this.BestResultFrom(await Task.WhenAll(tasks));
 
             IntentActivityHandler handler = null;
