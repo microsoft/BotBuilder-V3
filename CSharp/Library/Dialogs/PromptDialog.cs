@@ -651,10 +651,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IDialog<T>.StartAsync(IDialogContext context)
         {
             await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options)); 
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceivedAsync);
         }
 
-        private async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> message)
+        protected virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> message)
         {
             T result;
             if (this.TryParse(await message, out result))
@@ -667,7 +667,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 if (promptOptions.Attempts > 0)
                 {
                     await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Options));
-                    context.Wait(MessageReceived);
+                    context.Wait(MessageReceivedAsync);
                 }
                 else
                 {
