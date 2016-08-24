@@ -25,6 +25,23 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v3.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.2.0)
+
+#### Breaking Change 
+
+- IField<T>.FieldDescription is now a DescribeAttribute.
+__Note:__ This is a breaking change if your bot is implementing its own Field<T> class.
+
+#### Changes
+
+- Improved card support in Form dialog
+- Making Incoming activity available in LuisDialog intent handlers
+- Add a mechanism to serialize incoming requests for a conversation 
+- Add Luis resolution parser
+- Update connector to depend on Microsoft.Rest.ClientRuntime 2.3.2
+- General bug fixes
+
+***
 
 ### [v3.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.1.0)
 
