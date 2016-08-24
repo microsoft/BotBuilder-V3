@@ -23,7 +23,7 @@ call notification.
 In the first action of the workflow the bot should decide if it’s interested in
 answering the call or rejecting the call. Should the bot decide to answer the
 call, the subsequent actions instruct the Skype Bot Platform for Calling to
-either play prompt, record audio, recognize spfeech, or collect digits from a
+either play prompt, record audio, recognize speech, or collect digits from a
 dial pad. The last action of the workflow could be a hang up the voice call.
 Skype Bot Platform for Calling then takes the workflow and attempts to execute
 actions in order given by bot.
