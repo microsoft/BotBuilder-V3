@@ -136,14 +136,12 @@ $(function () {
         // Establish the data to pass to the proxy.
         var host = 'https://dev.botframework.com/api/docssearch';
         // Calls the proxy, passing the query, service operation and market.
-        clicky.log('/search#click', 'clicked on search');
         $.ajax({
             url: host,
             type: 'GET',
             dataType: 'json',
             data: data,
             success: function(obj) {
-            clicky.log('/search#success', 'search success!');
                 if (obj.webPages !== undefined) {
                     var items = obj.webPages.value;
                     if (items.length > 0) {
@@ -157,11 +155,9 @@ $(function () {
                 }
             },
             error: function() {
-                clicky.log('/search#error', 'search error!');
                $('#search-results').html('no results');
             },
             complete: function() {
-                clicky.log('/search#complete', 'search complete!');
                 $('#search-progress').removeClass("loading");
             }
         });
