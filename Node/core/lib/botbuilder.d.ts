@@ -7,7 +7,7 @@
 /**
  * An event received from or being sent to a source.
  */
-interface IEvent {
+export interface IEvent {
     /** Defines type of event. Should be 'message' for an IMessage. */
     type: string;
 
@@ -31,7 +31,7 @@ interface IEvent {
 }
 
 /** The Properties of a conversation have changed.  */
-interface IConversationUpdate extends IEvent {
+export interface IConversationUpdate extends IEvent {
     /** Array of members added to the conversation. */
     membersAdded?: IIdentity[];
 
@@ -46,7 +46,7 @@ interface IConversationUpdate extends IEvent {
 }
 
 /** A user has updated their contact list. */
-interface IContactRelationUpdate extends IEvent {
+export interface IContactRelationUpdate extends IEvent {
     /** The action taken. Valid values are "add" or "remove". */
     action: string;
 }
@@ -65,7 +65,7 @@ interface IContactRelationUpdate extends IEvent {
  * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
  * the [conversation](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
  */
-interface IMessage extends IEvent {
+export interface IMessage extends IEvent {
     /** Timestamp of message given by chat service for incoming messages. */
     timestamp: string;
 
@@ -92,13 +92,13 @@ interface IMessage extends IEvent {
 }
 
 /** Implemented by classes that can be converted into a message. */
-interface IIsMessage {
+export interface IIsMessage {
     /** Returns the JSON object for the message. */
     toMessage(): IMessage;
 }
 
 /** Represents a user, bot, or conversation. */
-interface IIdentity {
+export interface IIdentity {
     /** Channel specific ID for this identity. */
     id: string;
 
@@ -114,7 +114,7 @@ interface IIdentity {
  * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
  * [connectors](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
  */
-interface IAddress {
+export interface IAddress {
     /** Unique identifier for channel. */
     channelId: string;
 
@@ -132,7 +132,7 @@ interface IAddress {
 }
 
 /** Chat connector specific address. */
-interface IChatConnectorAddress extends IAddress {
+export interface IChatConnectorAddress extends IAddress {
     /** Incoming Message ID. */
     id?: string;
 
@@ -149,7 +149,7 @@ interface IChatConnectorAddress extends IAddress {
  * * __Cards and Keyboards:__  A rich set of visual cards and custom keyboards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
  * [HeroCard](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
  */
-interface IAttachment {
+export interface IAttachment {
     /** MIME type string which describes type of attachment. */
     contentType: string;
 
@@ -161,13 +161,13 @@ interface IAttachment {
 }
 
 /** Implemented by classes that can be converted into an attachment. */
-interface IIsAttachment {
+export interface IIsAttachment {
     /** Returns the JSON object for the attachment. */
     toAttachment(): IAttachment;
 }
 
 /** Displays a signin card and button to the user. Some channels may choose to render this as a text prompt and link to click. */
-interface ISigninCard {
+export interface ISigninCard {
     /** Title of the Card. */
     title: string;
 
@@ -179,7 +179,7 @@ interface ISigninCard {
  * Displays a card to the user using either a smaller thumbnail layout or larger hero layout (the attachments [contentType](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html#contenttype) determines which). 
  * All of the cards fields are optional so this card can be used to specify things like a keyboard on certain channels. Some channels may choose to render a lower fidelity version of the card or use an alternate representation. 
  */
-interface IThumbnailCard {
+export interface IThumbnailCard {
     /** Title of the Card. */
     title?: string;
 
@@ -200,7 +200,7 @@ interface IThumbnailCard {
 }
 
 /** Displays a rich receipt to a user for something they've either bought or are planning to buy. */
-interface IReceiptCard {
+export interface IReceiptCard {
     /** Title of the Card. */
     title: string;
 
@@ -227,7 +227,7 @@ interface IReceiptCard {
 }
 
 /** An individual item within a [receipt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ireceiptcard.html). */
-interface IReceiptItem {
+export interface IReceiptItem {
     /** Title of the item. */
     title: string;
     
@@ -251,13 +251,13 @@ interface IReceiptItem {
 }
 
 /** Implemented by classes that can be converted into a receipt item. */
-interface IIsReceiptItem {
+export interface IIsReceiptItem {
     /** Returns the JSON object for the receipt item. */
     toItem(): IReceiptItem;
 }
 
 /** The action that should be performed when a card, button, or image is tapped.  */
-interface ICardAction {
+export interface ICardAction {
     /** Defines the type of action implemented by this button. Not all action types are supported by all channels. */
     type: string;
 
@@ -272,13 +272,13 @@ interface ICardAction {
 }
 
 /** Implemented by classes that can be converted into a card action. */
-interface IIsCardAction {
+export interface IIsCardAction {
     /** Returns the JSON object for the card attachment. */
     toAction(): ICardAction;
 }
 
 /** An image on a card. */
-interface ICardImage {
+export interface ICardImage {
     /** Thumbnail image for major content property. */
     url: string;
 
@@ -290,13 +290,13 @@ interface ICardImage {
 }
 
 /** Implemented by classes that can be converted into a card image. */
-interface IIsCardImage {
+export interface IIsCardImage {
     /** Returns the JSON object for the card image. */
     toImage(): ICardImage;
 }
 
 /** A fact displayed on a card like a [receipt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ireceiptcard.html). */
-interface IFact {
+export interface IFact {
     /** Display name of the fact. */
     key: string;
 
@@ -305,21 +305,19 @@ interface IFact {
 }
 
 /** Implemented by classes that can be converted into a fact. */
-interface IIsFact {
+export interface IIsFact {
     /** Returns the JSON object for the fact. */
     toFact(): IFact;
 }
 
 /** Plugin for localizing messages sent to the user by a bot. */
-interface ILocalizer {
+export interface ILocalizer {
     /**
      * Loads a localized string for the specified language.
      * @param language Desired language of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
-     * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
-     * @param namespace (Optional) Namespace of the msgid of the key in the localized string table.
      */
-    gettext(language: string, msgid: string, namespace?: string): string;
+    gettext(language: string, msgid: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
@@ -327,22 +325,12 @@ interface ILocalizer {
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
-     * @param namespace (Optional) Namespace of the msgid or msgid_plural of the key in the localized string table.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
-}
-
-/** Settings for the ILocalizer to be initialized with. */
-interface ILocalizerSettings {
-    /** The path to the directory containing the locale directory */
-    botLocalePath?: string;
-
-    /** The locale to default to when the requested locale or its fallbacks don't find a value */
-    defaultLocale?: string;
+    ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
-interface ISessionState {
+export interface ISessionState {
     /** Dialog stack for the current session. */
     callstack: IDialogState[];
 
@@ -354,7 +342,7 @@ interface ISessionState {
 }
 
 /** An entry on the sessions dialog stack. */
-interface IDialogState {
+export interface IDialogState {
     /** ID of the dialog. */
     id: string;
 
@@ -365,7 +353,7 @@ interface IDialogState {
 /** 
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
-interface IDialogResult<T> {
+export interface IDialogResult<T> {
     /** The reason why the current dialog is being resumed. */
     resumed: ResumeReason;
 
@@ -380,7 +368,7 @@ interface IDialogResult<T> {
 }
 
 /** Context of the received message passed to the Dialog.recognize() method. */
-interface IRecognizeContext {
+export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
 
@@ -392,7 +380,7 @@ interface IRecognizeContext {
 }
 
 /** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
-interface IRecognizeResult {
+export interface IRecognizeResult {
     /** Confidence that the users utterance was understood on a scale from 0.0 - 1.0.  */
     score: number;
 }
@@ -431,7 +419,7 @@ export interface IRecognizeActionResult extends IRecognizeResult {
 }
 
 /** Options passed to built-in prompts. */
-interface IPromptOptions {
+export interface IPromptOptions {
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
      * reprompt with the configured [defaultRetryPrompt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
@@ -461,7 +449,7 @@ interface IPromptOptions {
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
-interface IPromptArgs extends IPromptOptions {
+export interface IPromptArgs extends IPromptOptions {
     /** Type of prompt invoked. */
     promptType: PromptType;
 
@@ -479,37 +467,37 @@ interface IPromptArgs extends IPromptOptions {
 }
 
 /** Dialog result returned by a system prompt. */
-interface IPromptResult<T> extends IDialogResult<T> {
+export interface IPromptResult<T> extends IDialogResult<T> {
     /** Type of prompt completing. */
     promptType?: PromptType;
 }
 
 /** Result returned from an IPromptRecognizer. */
-interface IPromptRecognizerResult<T> extends IPromptResult<T> {
+export interface IPromptRecognizerResult<T> extends IPromptResult<T> {
     /** Returned from a prompt recognizer to indicate that a parent dialog handled (or captured) the utterance. */
     handled?: boolean;
 }
 
 /** Strongly typed Text Prompt Result. */
-interface IPromptTextResult extends IPromptResult<string> { }
+export interface IPromptTextResult extends IPromptResult<string> { }
 
 /** Strongly typed Number Prompt Result. */
-interface IPromptNumberResult extends IPromptResult<number> { }
+export interface IPromptNumberResult extends IPromptResult<number> { }
 
 /** Strongly typed Confirm Prompt Result. */
-interface IPromptConfirmResult extends IPromptResult<boolean> { } 
+export interface IPromptConfirmResult extends IPromptResult<boolean> { } 
 
 /** Strongly typed Choice Prompt Result. */
-interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
+export interface IPromptChoiceResult extends IPromptResult<IFindMatchResult> { }
 
 /** Strongly typed Time Prompt Result. */
-interface IPromptTimeResult extends IPromptResult<IEntity> { }
+export interface IPromptTimeResult extends IPromptResult<IEntity> { }
 
 /** Strongly typed Attachment Prompt Result. */
-interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
+export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
 
 /** Plugin for recognizing prompt responses received by a user. */
-interface IPromptRecognizer {
+export interface IPromptRecognizer {
     /**
       * Attempts to match a users reponse to a given prompt.
       * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
@@ -520,7 +508,7 @@ interface IPromptRecognizer {
 }
 
 /** Arguments passed to the IPromptRecognizer.recognize() method.*/
-interface IPromptRecognizerArgs {
+export interface IPromptRecognizerArgs {
     /** Type of prompt being responded to. */
     promptType: PromptType;
 
@@ -538,13 +526,13 @@ interface IPromptRecognizerArgs {
 }
 
 /** Global configuration options for the Prompts dialog. */
-interface IPromptsOptions {
+export interface IPromptsOptions {
     /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
     recognizer?: IPromptRecognizer
 }
 
 /** A recognized intent. */
-interface IIntent {
+export interface IIntent {
     /** Intent that was recognized. */
     intent: string;
 
@@ -553,7 +541,7 @@ interface IIntent {
 }
 
 /** A recognized entity. */
-interface IEntity {
+export interface IEntity {
     /** Type of entity that was recognized. */
     type: string;
 
@@ -571,7 +559,7 @@ interface IEntity {
 }
 
 /** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
-interface IIntentDialogOptions {
+export interface IIntentDialogOptions {
     /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
@@ -588,14 +576,14 @@ interface IIntentDialogOptions {
     processLimit?: number;
 } 
 
-/** Interface implemented by intent recognizers like the LuisRecognizer class. */
-interface IIntentRecognizer {
+/** export interface implemented by intent recognizers like the LuisRecognizer class. */
+export interface IIntentRecognizer {
     /** Attempts to match a users text utterance to an intent. */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /** Results returned by an intent recognizer. */
-interface IIntentRecognizerResult extends IRecognizeResult {
+export interface IIntentRecognizerResult extends IRecognizeResult {
     /** Top intent that was matched. */
     intent: string;
 
@@ -613,7 +601,7 @@ interface IIntentRecognizerResult extends IRecognizeResult {
 }
 
 /** Options passed to the constructor of a session. */
-interface ISessionOptions {
+export interface ISessionOptions {
     /** Function to invoke when the sessions state is saved. */
     onSave: (done: (err: Error) => void) => void;
 
@@ -635,7 +623,7 @@ interface ISessionOptions {
     /** (Optional) localizer to use when localizing the bots responses. */
     localizer?: ILocalizer;
     
-    /** (Optional) time to allow between each message sent as a batch. The default value is 150ms.  */
+    /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;
 
     /** Default error message to send users when a dialog error occurs. */
@@ -646,7 +634,7 @@ interface ISessionOptions {
 }
 
 /** result returnd from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
-interface IFindMatchResult {
+export interface IFindMatchResult {
     /** Index of the matched value. */
     index: number;
 
@@ -658,7 +646,7 @@ interface IFindMatchResult {
 }
 
 /** Context object passed to IBotStorage calls. */
-interface IBotStorageContext {
+export interface IBotStorageContext {
     /** (Optional) ID of the user being persisted. If missing __userData__ won't be persisted.  */
     userId?: string;
 
@@ -676,7 +664,7 @@ interface IBotStorageContext {
 }
 
 /** Data values persisted to IBotStorage. */
-interface IBotStorageData {
+export interface IBotStorageData {
     /** The bots data about a user. This data is global across all of the users conversations. */
     userData?: any;
 
@@ -691,7 +679,7 @@ interface IBotStorageData {
 }
 
 /** Replacable storage system used by UniversalBot. */
-interface IBotStorage {
+export interface IBotStorage {
     /** Reads in data from storage. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
     
@@ -700,7 +688,7 @@ interface IBotStorage {
 }
 
 /** Options used to initialize a ChatConnector instance. */
-interface IChatConnectorSettings {
+export interface IChatConnectorSettings {
     /** The bots App ID assigned in the Bot Framework portal. */
     appId?: string;
 
@@ -712,18 +700,15 @@ interface IChatConnectorSettings {
 }
 
 /** Options used to initialize a UniversalBot instance. */
-interface IUniversalBotSettings {
+export interface IUniversalBotSettings {
     /** (Optional) dialog to launch when a user initiates a new conversation with a bot. Default value is '/'. */
     defaultDialogId?: string;
     
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user, uses the built in localizer if not supplied */
+    /** (Optional) localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
-
-    /** (Optional) settings used to initialize the localizer */
-    localizerSettings?: ILocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;
@@ -748,7 +733,7 @@ interface IUniversalBotSettings {
 }
 
 /** Implemented by connector plugins for the UniversalBot. */
-interface IConnector {
+export interface IConnector {
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
 
@@ -760,19 +745,19 @@ interface IConnector {
 }
 
 /** Function signature for a piece of middleware that hooks the 'receive' or 'send' events. */
-interface IEventMiddleware {
+export interface IEventMiddleware {
     (event: IEvent, next: Function): void;
 }
 
 /** Function signature for a piece of middleware that hooks the 'botbuilder' event. */
-interface ISessionMiddleware {
+export interface ISessionMiddleware {
     (session: Session, next: Function): void;
 }
 
 /** 
  * Map of middleware hooks that can be registered in a call to __UniversalBot.use()__. 
  */
-interface IMiddlewareMap {
+export interface IMiddlewareMap {
     /** Called in series when an incoming event is received. */
     receive?: IEventMiddleware|IEventMiddleware[];
 
@@ -835,7 +820,7 @@ interface IMiddlewareMap {
  * ]);
  * </code></pre>
  */
-interface IDialogWaterfallStep {
+export interface IDialogWaterfallStep {
     /**
      * @param session Session object for the current conversation.
      * @param result 
@@ -848,17 +833,17 @@ interface IDialogWaterfallStep {
 }
 
 /** A per/local mapping of LUIS service url's to use for a LuisRecognizer.  */
-interface ILuisModelMap {
+export interface ILuisModelMap {
     [local: string]: string;
 }
 
 /** A per/source mapping of custom event data to send. */
-interface ISourceEventMap {
+export interface ISourceEventMap {
     [source: string]: any;
 }
 
 /** Options passed to Middleware.dialogVersion(). */
-interface IDialogVersionOptions {
+export interface IDialogVersionOptions {
     /** Current major.minor version for the bots dialogs. Major version increments result in existing conversations between the bot and user being restarted. */
     version: number;
 
@@ -870,7 +855,7 @@ interface IDialogVersionOptions {
 }
 
 /** Options passed to Middleware.firstRun(). */
-interface IFirstRunOptions {
+export interface IFirstRunOptions {
     /** Current major.minor version for the bots first run experience. Major version increments result in redirecting users to [dialogId](#dialogid) and minor increments redirect users to [upgradeDialogId](#upgradedialogid). */
     version: number;
 

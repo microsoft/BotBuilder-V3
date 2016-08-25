@@ -416,6 +416,9 @@ export class Session extends events.EventEmitter implements ISession {
                     if (this.batchStarted) {
                         this.startBatch();
                     }
+                    if (callback) {
+                        callback(err);
+                    }
                 }
             } else {
                 this.sendingBatch = false;
