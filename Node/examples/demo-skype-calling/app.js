@@ -13,7 +13,7 @@ and even send a caller a chat message.
       a Skype channel. Ensure that you enable calling support for your bots skype
       channel. 
     * For the calling endpoint you setup on dev.botframework.com, copy the https 
-      link ngrok setup and set "<ngrok link>/api/calling" as your bots calling 
+      link ngrok setup and set "<ngrok link>/api/calls" as your bots calling 
       endpoint.
     * Next you need to configure your bots CALLBACK_URL, MICROSOFT_APP_ID, and
       MICROSOFT_APP_PASSWORD environment variables. If you're running VSCode you 
