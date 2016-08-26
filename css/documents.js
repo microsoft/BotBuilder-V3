@@ -88,8 +88,8 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 $(function () {
-    $('#lang-select').remove();
-    $('#q').css('padding','3px 25px 3px 10px');
+    // $('#lang-select').remove();
+    // $('#q').css('padding','3px 25px 3px 10px');
     
     var q = getParameterByName('q');
     var mkt = getParameterByName('mkt');

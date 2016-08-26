@@ -1,5 +1,6 @@
 var interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity =
 [
+    [ "ChannelData", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity.html#a8862a86f5dfc7aed8f39f5056f690a71", null ],
     [ "ChannelId", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity.html#a9af1230f6b81d2101ec376a57c6bc3fa", null ],
     [ "Conversation", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity.html#a90efa1a37acf6be82d197e91c296f4a2", null ],
     [ "From", "dc/ddf/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversation_update_activity.html#aafd9141842e995364c0e73fe7aed8e95", null ],

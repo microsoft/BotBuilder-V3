@@ -61,8 +61,8 @@
 			appbody.append(fullwidth);
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
-			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            // 			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -144,6 +144,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a34103bbcef15eec633fb603aa38ae977"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; <a class="el" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>, <a class="el" href="../../d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html">CommandDescription</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a34103bbcef15eec633fb603aa38ae977">Commands</a></td></tr>
 <tr class="memdesc:a34103bbcef15eec633fb603aa38ae977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definitions of the built-in commands.  <a href="#a34103bbcef15eec633fb603aa38ae977">More...</a><br /></td></tr>
 <tr class="separator:a34103bbcef15eec633fb603aa38ae977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7212111731919b2375c0f53200181d11"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a7212111731919b2375c0f53200181d11">Confirmation</a> = Resources.Confirmation</td></tr>
+<tr class="memdesc:a7212111731919b2375c0f53200181d11"><td class="mdescLeft">&#160;</td><td class="mdescRight">String for naming "Confirmation" fields.  <a href="#a7212111731919b2375c0f53200181d11">More...</a><br /></td></tr>
+<tr class="separator:a7212111731919b2375c0f53200181d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a449eabd56af1350bd54f38539e0a483a"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a449eabd56af1350bd54f38539e0a483a">CurrentChoice</a> = Resources.MatchCurrentChoice.SplitList()</td></tr>
 <tr class="memdesc:a449eabd56af1350bd54f38539e0a483a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of strings for interpreting a user response as asking for the current value.  <a href="#a449eabd56af1350bd54f38539e0a483a">More...</a><br /></td></tr>
 <tr class="separator:a449eabd56af1350bd54f38539e0a483a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,7 +173,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Default values for the form. </p>
 <p>These defaults can all be overriden when you create a form and before you add steps. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00236">236</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00245">245</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a990d2517bca2a92695fc1f6008af75b1"></a>
 <div class="memitem">
@@ -195,7 +198,7 @@ Public Attributes</h2></td></tr>
 
 <p>Construct configuration. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00241">241</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00250">250</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -231,7 +234,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Matching template.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00410">410</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00424">424</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -248,7 +251,23 @@ Public Attributes</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;FormCommand, CommandDescription&gt;()</div><div class="line">        {</div><div class="line">            {<a class="code" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>.Backup, <span class="keyword">new</span> CommandDescription(</div><div class="line">                Resources.CommandBack,</div><div class="line">                Resources.CommandBackTerms.SplitList(),</div><div class="line">                Resources.CommandBackHelp) },</div><div class="line">            {<a class="code" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>.Help, <span class="keyword">new</span> CommandDescription(</div><div class="line">                Resources.CommandHelp,</div><div class="line">                Resources.CommandHelpTerms.SplitList(),</div><div class="line">                Resources.CommandHelpHelp) },</div><div class="line">            {<a class="code" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>.Quit, <span class="keyword">new</span> CommandDescription(</div><div class="line">                Resources.CommandQuit,</div><div class="line">                Resources.CommandQuitTerms.SplitList(),</div><div class="line">                Resources.CommandQuitHelp) },</div><div class="line">            {<a class="code" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>.Reset, <span class="keyword">new</span> CommandDescription(</div><div class="line">                Resources.CommandReset,</div><div class="line">                Resources.CommandResetTerms.SplitList(),</div><div class="line">                Resources.CommandResetHelp)},</div><div class="line">            {<a class="code" href="../../dd/df7/namespace_microsoft_1_1_bot_1_1_builder_1_1_form_flow.html#ab2b85bccad5c568fc9db82cac5ab6354">FormCommand</a>.Status, <span class="keyword">new</span> CommandDescription(</div><div class="line">                Resources.CommandStatus,</div><div class="line">                Resources.CommandStatusTerms.SplitList(),</div><div class="line">                Resources.CommandStatusHelp) }</div><div class="line">        }</div></div><!-- fragment -->
 <p>Definitions of the built-in commands. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00381">381</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00395">395</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7212111731919b2375c0f53200181d11"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.FormFlow.FormConfiguration.Confirmation = Resources.Confirmation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>String for naming "Confirmation" fields. </p>
+
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00316">316</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -265,7 +284,7 @@ Public Attributes</h2></td></tr>
 <p>Enumeration of strings for interpreting a user response as asking for the current value. </p>
 <p>The first value is also used to describe the option of keeping the current value. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00287">287</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00296">296</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -282,7 +301,7 @@ Public Attributes</h2></td></tr>
 <p>Default prompt and template format settings. </p>
 <p>When you specify a <a class="el" href="../../d0/d34/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_prompt_attribute.html" title="Define the prompt template used when asking about a field. ">PromptAttribute</a> or <a class="el" href="../../d7/d0a/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_template_attribute.html" title="Define a template for generating strings. ">TemplateAttribute</a>, any format value you do not specify will come from this default. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00257">257</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00266">266</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -298,7 +317,7 @@ Public Attributes</h2></td></tr>
 
 <p>String for naming the "navigation" field. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00302">302</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00311">311</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -314,7 +333,7 @@ Public Attributes</h2></td></tr>
 
 <p>Enumeration of values for a "no" response for boolean fields or confirmations. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00297">297</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00306">306</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -331,7 +350,7 @@ Public Attributes</h2></td></tr>
 <p>Enumeration of strings for interpreting a user response as setting an optional field to be unspecified. </p>
 <p>The first string is also used to describe not having a preference for an optional field. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00279">279</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00288">288</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -347,7 +366,7 @@ Public Attributes</h2></td></tr>
 
 <p>Default templates to use if not override on the class or field level. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00307">307</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00321">321</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>
@@ -363,7 +382,7 @@ Public Attributes</h2></td></tr>
 
 <p>Enumeration of values for a "yes" response for boolean fields or confirmations. </p>
 
-<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00292">292</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html#l00301">301</a> of file <a class="el" href="../../dc/dc2/_i_form_builder_8cs_source.html">IFormBuilder.cs</a>.</p>
 
 </div>
 </div>

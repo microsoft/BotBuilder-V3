@@ -61,8 +61,8 @@
 			appbody.append(fullwidth);
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
-			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            // 			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -147,7 +147,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3b906acb7dcdd0aa1b84efe988513a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a value return terms that can be used in a dialog to match the object.  <a href="#a3b906acb7dcdd0aa1b84efe988513a59">More...</a><br /></td></tr>
 <tr class="separator:a3b906acb7dcdd0aa1b84efe988513a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21a86733702c8898cd61d178d5284a7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html">DescribeAttribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#a21a86733702c8898cd61d178d5284a7e">ValueDescription</a> (object value)</td></tr>
-<tr class="memdesc:a21a86733702c8898cd61d178d5284a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the string describing a specific value.  <a href="#a21a86733702c8898cd61d178d5284a7e">More...</a><br /></td></tr>
+<tr class="memdesc:a21a86733702c8898cd61d178d5284a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of a specific value.  <a href="#a21a86733702c8898cd61d178d5284a7e">More...</a><br /></td></tr>
 <tr class="separator:a21a86733702c8898cd61d178d5284a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
@@ -161,9 +161,9 @@ Properties</h2></td></tr>
 <tr class="memitem:ab85ac9d97c3014c3db9188f73f048de9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#ab85ac9d97c3014c3db9188f73f048de9">AllowsMultiple</a><code> [get]</code></td></tr>
 <tr class="memdesc:ab85ac9d97c3014c3db9188f73f048de9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are multiple matches allowed.  <a href="#ab85ac9d97c3014c3db9188f73f048de9">More...</a><br /></td></tr>
 <tr class="separator:ab85ac9d97c3014c3db9188f73f048de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7673d358d1d7c1f14d7b7a2f9936a3cd"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#a7673d358d1d7c1f14d7b7a2f9936a3cd">FieldDescription</a><code> [get]</code></td></tr>
-<tr class="memdesc:a7673d358d1d7c1f14d7b7a2f9936a3cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decription of the field itself.  <a href="#a7673d358d1d7c1f14d7b7a2f9936a3cd">More...</a><br /></td></tr>
-<tr class="separator:a7673d358d1d7c1f14d7b7a2f9936a3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab12d7223e06673a0e01f43d39ea44465"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html">DescribeAttribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#ab12d7223e06673a0e01f43d39ea44465">FieldDescription</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab12d7223e06673a0e01f43d39ea44465"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decription of the field itself.  <a href="#ab12d7223e06673a0e01f43d39ea44465">More...</a><br /></td></tr>
+<tr class="separator:ab12d7223e06673a0e01f43d39ea44465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77df38c0fc08e8d86e221d33822bc54c"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html#a77df38c0fc08e8d86e221d33822bc54c">FieldTerms</a><code> [get]</code></td></tr>
 <tr class="memdesc:a77df38c0fc08e8d86e221d33822bc54c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terms for matching this field.  <a href="#a77df38c0fc08e8d86e221d33822bc54c">More...</a><br /></td></tr>
 <tr class="separator:a77df38c0fc08e8d86e221d33822bc54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,7 +224,7 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the string describing a specific value. </p>
+<p>Return the description of a specific value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>Value being described.</td></tr>
@@ -314,7 +314,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7673d358d1d7c1f14d7b7a2f9936a3cd"></a>
+<a class="anchor" id="ab12d7223e06673a0e01f43d39ea44465"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -322,7 +322,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription.FieldDescription</td>
+          <td class="memname"><a class="el" href="../../dd/d38/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_describe_attribute.html">DescribeAttribute</a> Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription.FieldDescription</td>
         </tr>
       </table>
   </td>
@@ -334,7 +334,7 @@ Properties</h2></td></tr>
 
 <p>Decription of the field itself. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d2/d1b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field.html" title="Base class with declarative implementation of IField. ">Field</a> description.</dd></dl>
-<p>This is the value that will be generated in <a class="el" href="../../forms.html#patterns">Pattern Language</a> by {&amp;} or choices. {||}. </p>
+<p>This is the value that will be used in <a class="el" href="../../forms.html#patterns">Pattern Language</a> by {&amp;}, choices with {||} or buttons. </p>
 
 <p>Definition at line <a class="el" href="../../de/d76/_i_field_8cs_source.html#l00172">172</a> of file <a class="el" href="../../de/d76/_i_field_8cs_source.html">IField.cs</a>.</p>
 

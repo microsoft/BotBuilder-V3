@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IWait\&lt; Microsoft.Bot.Builder.\lDialogs.Internals.DialogTask \&gt;" alt="" coords="5,5,235,61"/>
+<area shape="rect" id="node1" href="$de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IWait\&lt; C \&gt;" alt="" coords="5,63,205,104"/>
+<area shape="rect" id="node2" href="$de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.IWait" alt="" coords="253,29,453,71"/>
+<area shape="rect" id="node3" href="$df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html" title="Microsoft.Bot.Builder.Internals.\lFibers.NullWait\&lt; C \&gt;" alt="" coords="253,95,453,136"/>
 </map>

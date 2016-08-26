@@ -61,8 +61,8 @@
 			appbody.append(fullwidth);
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
-			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            // 			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
     </script>
@@ -144,15 +144,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a92a3a4c1155b0d1429b3d26cb257a3b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#a92a3a4c1155b0d1429b3d26cb257a3b3">Prompter</a> (<a class="el" href="../../d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html">TemplateBaseAttribute</a> annotation, <a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html">IForm</a>&lt; T &gt; form, <a class="el" href="../../d3/d6f/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_recognize.html">IRecognize</a>&lt; T &gt; recognizer, <a class="el" href="../../d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields.html">IFields</a>&lt; T &gt; fields=null)</td></tr>
 <tr class="memdesc:a92a3a4c1155b0d1429b3d26cb257a3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a prompter.  <a href="#a92a3a4c1155b0d1429b3d26cb257a3b3">More...</a><br /></td></tr>
 <tr class="separator:a92a3a4c1155b0d1429b3d26cb257a3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24924682c0fcbad4e8bd815ad6e2b0a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt.html">FormPrompt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#a24924682c0fcbad4e8bd815ad6e2b0a6">Prompt</a> (T state, string pathName, params object[] args)</td></tr>
-<tr class="memdesc:a24924682c0fcbad4e8bd815ad6e2b0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return prompt to send to user.  <a href="#a24924682c0fcbad4e8bd815ad6e2b0a6">More...</a><br /></td></tr>
-<tr class="separator:a24924682c0fcbad4e8bd815ad6e2b0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac72f46f73e4f4c92ed10c14d2ff0752c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt.html">FormPrompt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#ac72f46f73e4f4c92ed10c14d2ff0752c">Prompt</a> (T state, <a class="el" href="../../d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt; field, params object[] args)</td></tr>
+<tr class="memdesc:ac72f46f73e4f4c92ed10c14d2ff0752c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return prompt to send to user.  <a href="#ac72f46f73e4f4c92ed10c14d2ff0752c">More...</a><br /></td></tr>
+<tr class="separator:ac72f46f73e4f4c92ed10c14d2ff0752c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:add98c32d4c1222219f55837df81ee325"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#add98c32d4c1222219f55837df81ee325">ValidatePattern</a> (<a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html">IForm</a>&lt; T &gt; form, string pattern, string pathName, int argLimit=0)</td></tr>
-<tr class="memdesc:add98c32d4c1222219f55837df81ee325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate pattern by ensuring they refer to real fields.  <a href="#add98c32d4c1222219f55837df81ee325">More...</a><br /></td></tr>
-<tr class="separator:add98c32d4c1222219f55837df81ee325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3fd476a45b865bdfc05dd79b1510f8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#afb3fd476a45b865bdfc05dd79b1510f8">ValidatePattern</a> (<a class="el" href="../../d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form.html">IForm</a>&lt; T &gt; form, string pattern, <a class="el" href="../../d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt; field, int argLimit=0)</td></tr>
+<tr class="memdesc:afb3fd476a45b865bdfc05dd79b1510f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate pattern by ensuring they refer to real fields.  <a href="#afb3fd476a45b865bdfc05dd79b1510f8">More...</a><br /></td></tr>
+<tr class="separator:afb3fd476a45b865bdfc05dd79b1510f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -169,8 +169,16 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>class</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00224">224</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00245">245</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a92a3a4c1155b0d1429b3d26cb257a3b3"></a>
 <div class="memitem">
@@ -227,12 +235,12 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00233">233</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00255">255</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a24924682c0fcbad4e8bd815ad6e2b0a6"></a>
+<a class="anchor" id="ac72f46f73e4f4c92ed10c14d2ff0752c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -248,8 +256,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -274,20 +282,20 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>Current form state.</td></tr>
-    <tr><td class="paramname">path</td><td>Current field being processed.</td></tr>
+    <tr><td class="paramname">field</td><td>Current field being processed.</td></tr>
     <tr><td class="paramname">args</td><td>Optional arguments.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Message to user.</dd></dl>
 
-<p>Implements <a class="el" href="../../de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html#a1d62d7e828fe80655def2a1421bbb237">Microsoft.Bot.Builder.FormFlow.Advanced.IPrompt&lt; T &gt;</a>.</p>
+<p>Implements <a class="el" href="../../de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html#ac5cb134870eb60b9e7a32050bad57a5c">Microsoft.Bot.Builder.FormFlow.Advanced.IPrompt&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00250">250</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00272">272</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="add98c32d4c1222219f55837df81ee325"></a>
+<a class="anchor" id="afb3fd476a45b865bdfc05dd79b1510f8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -309,8 +317,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>pathName</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d5/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field.html">IField</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -336,14 +344,14 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">form</td><td>The form. </td></tr>
     <tr><td class="paramname">pattern</td><td>Specifies the pattern. </td></tr>
-    <tr><td class="paramname">pathName</td><td>Full pathname of the field. </td></tr>
+    <tr><td class="paramname">field</td><td>Base field for pattern. </td></tr>
     <tr><td class="paramname">argLimit</td><td>The number of arguments passed to the pattern. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if it succeeds, false if it fails. </dd></dl>
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00288">288</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00312">312</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 
 </div>
 </div>
@@ -366,7 +374,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00243">243</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00265">265</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 
 </div>
 </div>
@@ -388,7 +396,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00276">276</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html#l00300">300</a> of file <a class="el" href="../../d9/db9/_i_prompt_8cs_source.html">IPrompt.cs</a>.</p>
 
 </div>
 </div>

@@ -1,10 +1,11 @@
 var _i_form_dialog_8cs =
 [
+    [ "Choice", "d6/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_choice.html", "d6/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_choice" ],
     [ "CommandDescription", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description" ],
     [ "FormCanceledException", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception" ],
     [ "FormCanceledException", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", null ],
     [ "IFormDialog", "dc/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_dialog.html", "dc/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_dialog" ],
-    [ "ValidateResult", "d5/d28/struct_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result.html", "d5/d28/struct_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result" ],
+    [ "ValidateResult", "d4/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result.html", "d4/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result" ],
     [ "FormCommand", "d0/df6/_i_form_dialog_8cs.html#ab2b85bccad5c568fc9db82cac5ab6354", [
       [ "Backup", "d0/df6/_i_form_dialog_8cs.html#ab2b85bccad5c568fc9db82cac5ab6354a3500ba09d0538297440ca620c9dd46bf", null ],
       [ "Help", "d0/df6/_i_form_dialog_8cs.html#ab2b85bccad5c568fc9db82cac5ab6354a6a26f548831e6a8c26bfbbd9f6ec61e0", null ],

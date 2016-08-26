@@ -27,7 +27,9 @@ var _attributes_8cs =
       [ "AutoText", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9abd9d9e10eacd88dd09fcaad70374197d", null ],
       [ "Inline", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a0125cf5f3ca38b312ca5d3b511c45a13", null ],
       [ "PerLine", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a2f15de9c45e5a145af424ac64d617aa0", null ],
-      [ "InlineNoParen", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a8ad4c9438cf3f547d613a734885a0d76", null ]
+      [ "InlineNoParen", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a8ad4c9438cf3f547d613a734885a0d76", null ],
+      [ "Buttons", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a5b3ec15499a125805b5bbf8e4afcec8c", null ],
+      [ "Carousel", "dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a225bf3d9290b5f536b2e442259e78652", null ]
     ] ],
     [ "FeedbackOptions", "dc/dfd/_attributes_8cs.html#ac4ead01e3c8eeb1424f886479af0adf5", [
       [ "Default", "dc/dfd/_attributes_8cs.html#ac4ead01e3c8eeb1424f886479af0adf5a7a1920d61156abc05a60135aefe8bc67", null ],

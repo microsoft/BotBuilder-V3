@@ -75,7 +75,8 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ],
+        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Enumerations", "functions_enum.html", null ],
         [ "Properties", "functions_prop.html", "functions_prop" ],
         [ "Events", "functions_evnt.html", null ]
       ] ]
@@ -89,18 +90,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "activities.html",
-"d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#afff23bd8720a412556b8c5d986ff9b91",
-"d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#a597a36d4fa386a395eee948d6646fb06",
-"d2/dd6/_methods_8cs.html",
-"d4/d93/class_microsoft_1_1_bot_1_1_connector_1_1_bot_state_extensions.html#a0a708e9b5b2a1581b83121b431714cb8",
-"d5/dd5/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_answer_outcome.html#a663e31d840125081d9bb2984b1d458e1",
-"d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#a95f4933a159a30fd662b02df62ff3cf7",
-"d9/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_recognize.html#a3ff80bdf50f410cc250339db38e8ad03",
-"da/dc6/class_microsoft_1_1_bot_1_1_connector_1_1_attachments.html#ae45d02c96e15fb87cd618d907778e254",
-"dc/d27/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_operation_outcome_base.html#a8db611b4118f268da806a9daf86fb1ca",
-"dc/dfd/_attributes_8cs.html#ac6396117e96818e92b4892d316e326d9a0125cf5f3ca38b312ca5d3b511c45a13",
-"de/d42/class_microsoft_1_1_bot_1_1_connector_1_1_place.html",
-"df/d7d/_card_image_8cs_source.html"
+"d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html#af56f1b9c6cb5f14d9da55d8e83474fca",
+"d1/db2/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_json_1_1_field_json.html#af56f1b9c6cb5f14d9da55d8e83474fca",
+"d2/d91/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_events_1_1_answer_outcome_event.html#ac007a5bcb73ba15d1a405a421150bc60",
+"d4/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_enumeration.html#a0943428aaea517666e337cd15b5e0dd6",
+"d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html#ac3c28087eda76e64b8b87804a278f087",
+"d7/d48/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_template_base_attribute.html#a12c004b89c5c0aa315a7a2d1a39204d9",
+"d8/d82/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_connector_client_factory.html",
+"da/d10/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_bot_service.html#acde40c39a2002ef252222bf887edb8f4",
+"db/df4/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_confirmation.html#a1d8a0c228cffbcd0f790f6f18c282cbc",
+"dc/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_date_time.html#a162fa0c5bba9bc06d36cae3feb94bdc3",
+"dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#afede60ea53ec67872bd33cf22e9e313c",
+"de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#acdeef7903aa3b17f56ca8147e014cc46",
+"functions_func_q.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

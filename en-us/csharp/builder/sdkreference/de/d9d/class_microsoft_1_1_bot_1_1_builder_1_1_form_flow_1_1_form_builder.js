@@ -15,5 +15,6 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder =
     [ "Message", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a34f1835382fb0e70a111908a19883dfe", null ],
     [ "Message", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a5b129d3b01a1c54a8034ded0c1dd9f5d", null ],
     [ "OnCompletion", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#ad2535bad7180c7e92afe4b3c37529a4b", null ],
+    [ "Prompter", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a3a3dad9b5291305d486472ada23cd4d7", null ],
     [ "Configuration", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html#a815d6659468fea5be54829cda92d061b", null ]
 ];

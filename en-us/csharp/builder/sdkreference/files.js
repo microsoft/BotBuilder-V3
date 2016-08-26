@@ -128,6 +128,10 @@ var files =
       [ "BotToUserQueue", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue.html", "d1/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_queue" ],
       [ "BotToUserTextWriter", "d0/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_text_writer.html", "d0/d2f/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_to_user_text_writer" ]
     ] ],
+    [ "CalendarPlus.cs", "d2/d7d/_calendar_plus_8cs.html", [
+      [ "ICalendarPlus", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus.html", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus" ],
+      [ "WesternCalendarPlus", "dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_western_calendar_plus.html", "dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_western_calendar_plus" ]
+    ] ],
     [ "CallbackLink.cs", "d2/d9d/_callback_link_8cs.html", [
       [ "CallbackLink", "d6/d95/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_callback_link.html", "d6/d95/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_callback_link" ]
     ] ],
@@ -242,7 +246,8 @@ var files =
       [ "LocalizedScope", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope.html", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope" ],
       [ "PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task" ],
       [ "PostUnhandledExceptionToUserTask", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task.html", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task" ],
-      [ "ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task" ]
+      [ "ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task" ],
+      [ "SerializingDialogTask", "d2/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_serializing_dialog_task.html", "d2/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_serializing_dialog_task" ]
     ] ],
     [ "DigitCollectionCompletionReason.cs", "d6/d82/_digit_collection_completion_reason_8cs.html", "d6/d82/_digit_collection_completion_reason_8cs" ],
     [ "Entity.cs", "de/db3/_entity_8cs.html", [
@@ -253,6 +258,10 @@ var files =
     ] ],
     [ "EntityRecommendation.cs", "dc/d40/_entity_recommendation_8cs.html", [
       [ "EntityRecommendation", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation" ]
+    ] ],
+    [ "EntityToType.cs", "d8/d79/_entity_to_type_8cs.html", [
+      [ "IEntityToType", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type.html", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type" ],
+      [ "StrictEntityToType", "df/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_strict_entity_to_type.html", "df/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_strict_entity_to_type" ]
     ] ],
     [ "ErrorHandling.cs", "df/dd2/_error_handling_8cs.html", [
       [ "ErrorHandling", "d8/d23/class_microsoft_1_1_bot_1_1_connector_1_1_error_handling.html", "d8/d23/class_microsoft_1_1_bot_1_1_connector_1_1_error_handling" ]
@@ -280,7 +289,7 @@ var files =
     [ "FormFlow/Extensions.cs", "d5/d49/_form_flow_2_extensions_8cs.html", [
       [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions" ]
     ] ],
-    [ "Luis/Models/Extensions.cs", "d1/db6/_luis_2_models_2_extensions_8cs.html", [
+    [ "Luis/Extensions.cs", "d4/df1/_luis_2_extensions_8cs.html", [
       [ "Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions" ]
     ] ],
     [ "Resource/Extensions.cs", "db/d4f/_resource_2_extensions_8cs.html", [
@@ -312,7 +321,6 @@ var files =
     [ "FieldReflector.cs", "d9/d4b/_field_reflector_8cs.html", [
       [ "FieldReflector", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector.html", "d0/db3/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_field_reflector" ]
     ] ],
-    [ "Form.cs", "db/d24/_form_8cs.html", null ],
     [ "FormBuilder.cs", "d3/df3/_form_builder_8cs.html", [
       [ "FormBuilder", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder" ],
       [ "FormBuilderBase", "d3/dca/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder_base.html", "d3/dca/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder_base" ]
@@ -415,13 +423,7 @@ var files =
     [ "IntentRecommendation.cs", "dd/d99/_intent_recommendation_8cs.html", [
       [ "IntentRecommendation", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation" ]
     ] ],
-    [ "IPrompt.cs", "d9/db9/_i_prompt_8cs.html", [
-      [ "Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions" ],
-      [ "FormButton", "d3/dde/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_button.html", "d3/dde/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_button" ],
-      [ "FormPrompt", "d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt.html", "d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt" ],
-      [ "IPrompt", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt.html", "de/d91/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_prompt" ],
-      [ "Prompter", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter.html", "d5/d80/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_prompter" ]
-    ] ],
+    [ "IPrompt.cs", "d9/db9/_i_prompt_8cs.html", "d9/db9/_i_prompt_8cs" ],
     [ "IRecognize.cs", "da/d3e/_i_recognize_8cs.html", "da/d3e/_i_recognize_8cs" ],
     [ "IStateClient.cs", "d9/de8/_i_state_client_8cs.html", [
       [ "IStateClient", "dc/d97/interface_microsoft_1_1_bot_1_1_connector_1_1_i_state_client.html", "dc/d97/interface_microsoft_1_1_bot_1_1_connector_1_1_i_state_client" ]
@@ -523,6 +525,11 @@ var files =
       [ "Prompt", "d8/d59/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_prompt.html", "d8/d59/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_prompt" ]
     ] ],
     [ "PromptDialog.cs", "d2/d2b/_prompt_dialog_8cs.html", "d2/d2b/_prompt_dialog_8cs" ],
+    [ "Range.cs", "de/dcb/_range_8cs.html", [
+      [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ],
+      [ "Range", "de/d01/struct_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", "de/d01/struct_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range" ],
+      [ "Range", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", null ]
+    ] ],
     [ "ReceiptCard.cs", "d9/dd0/_receipt_card_8cs.html", [
       [ "ReceiptCard", "d0/df9/class_microsoft_1_1_bot_1_1_connector_1_1_receipt_card.html", "d0/df9/class_microsoft_1_1_bot_1_1_connector_1_1_receipt_card" ]
     ] ],
@@ -563,6 +570,17 @@ var files =
     [ "RejectOutcomeEvent.cs", "d1/d17/_reject_outcome_event_8cs.html", [
       [ "RejectOutcomeEvent", "d8/d60/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_events_1_1_reject_outcome_event.html", "d8/d60/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_events_1_1_reject_outcome_event" ]
     ] ],
+    [ "Resolution.cs", "d8/dc3/_resolution_8cs.html", [
+      [ "BuiltIn", "dd/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in.html", [
+        [ "DateTime", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time.html", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time" ]
+      ] ],
+      [ "DateTime", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time.html", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time" ],
+      [ "DateTimeResolution", "d7/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_date_time_resolution.html", "d7/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_date_time_resolution" ],
+      [ "DurationResolution", "d0/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_duration_resolution.html", null ],
+      [ "IResolutionParser", "d3/dba/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_resolution_parser.html", "d3/dba/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_resolution_parser" ],
+      [ "Resolution", "dc/d54/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_resolution.html", "dc/d54/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_resolution" ],
+      [ "ResolutionParser", "dc/d82/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_resolution_parser.html", null ]
+    ] ],
     [ "ResolutionFormat.cs", "de/dbd/_resolution_format_8cs.html", "de/dbd/_resolution_format_8cs" ],
     [ "ResourceResponse.cs", "de/d14/_resource_response_8cs.html", [
       [ "ResourceResponse", "de/df8/class_microsoft_1_1_bot_1_1_connector_1_1_resource_response.html", "de/df8/class_microsoft_1_1_bot_1_1_connector_1_1_resource_response" ]
@@ -574,6 +592,10 @@ var files =
     ] ],
     [ "routing.cs", "d6/d50/routing_8cs.html", null ],
     [ "SayAs.cs", "dc/d3d/_say_as_8cs.html", "dc/d3d/_say_as_8cs" ],
+    [ "Scope.cs", "d7/dd7/_scope_8cs.html", [
+      [ "IScope", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope.html", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope" ],
+      [ "LocalMutualExclusion", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion.html", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion" ]
+    ] ],
     [ "Scorable.cs", "d6/da3/_scorable_8cs.html", [
       [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ],
       [ "IScorable", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable" ],

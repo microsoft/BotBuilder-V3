@@ -3,6 +3,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration =
     [ "FormConfiguration", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a990d2517bca2a92695fc1f6008af75b1", null ],
     [ "Template", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a58df9d2929167684597eebfb02193c96", null ],
     [ "Commands", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a34103bbcef15eec633fb603aa38ae977", null ],
+    [ "Confirmation", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a7212111731919b2375c0f53200181d11", null ],
     [ "CurrentChoice", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a449eabd56af1350bd54f38539e0a483a", null ],
     [ "DefaultPrompt", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a303b48c11a2573353ac59c95455f0322", null ],
     [ "Navigation", "de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a509d5a3a84a7d292a32ec070b77f1db6", null ],

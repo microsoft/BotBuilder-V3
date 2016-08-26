@@ -5,7 +5,7 @@ var interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity =
     [ "GetMentions", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#affba5bf4980a99449e1830281e8d4d48", null ],
     [ "AttachmentLayout", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a7fc85266980cff80a5864e9a3d5d2c01", null ],
     [ "Attachments", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#ae640d6bfe2de5c2f8ec3a00202316e37", null ],
-    [ "ChannelData", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a4810568d67e2ef7018055518477263fb", null ],
+    [ "ChannelData", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a8862a86f5dfc7aed8f39f5056f690a71", null ],
     [ "ChannelId", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a9af1230f6b81d2101ec376a57c6bc3fa", null ],
     [ "Conversation", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a90efa1a37acf6be82d197e91c296f4a2", null ],
     [ "Entities", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#ad8172664c55c73dcca08bfba1e07312f", null ],

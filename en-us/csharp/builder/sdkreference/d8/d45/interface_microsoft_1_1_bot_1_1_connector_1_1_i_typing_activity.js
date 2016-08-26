@@ -1,5 +1,6 @@
 var interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity =
 [
+    [ "ChannelData", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a8862a86f5dfc7aed8f39f5056f690a71", null ],
     [ "ChannelId", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a9af1230f6b81d2101ec376a57c6bc3fa", null ],
     [ "Conversation", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a90efa1a37acf6be82d197e91c296f4a2", null ],
     [ "From", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#aafd9141842e995364c0e73fe7aed8e95", null ],

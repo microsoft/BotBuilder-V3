@@ -76,6 +76,9 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.FormButton", "d3/dde/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_button.html", null ],
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.FormPrompt", "d6/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_form_prompt.html", null ]
     ] ],
+    [ "IComparable< Range< T >>", null, [
+      [ "Microsoft.Bot.Builder.Internals.Fibers.Range< T >", "de/d01/struct_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< Connector.IMessageActivity >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< IEnumerable< Microsoft.Bot.Builder.Dialogs.IDialog< T > > >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< Microsoft.Bot.Builder.Dialogs.IDialog< T > >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
@@ -102,6 +105,13 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFields< T >", "d6/df2/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_fields.html", [
         [ "Microsoft.Bot.Builder.FormFlow.Advanced.Fields< T >", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", null ]
       ] ]
+    ] ],
+    [ "IEquatable", null, [
+      [ "Microsoft.Bot.Builder.Dialogs.ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", null ],
+      [ "Microsoft.Bot.Builder.Luis.BuiltIn.DateTime.DateTimeResolution", "d7/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_date_time_resolution.html", null ]
+    ] ],
+    [ "IEquatable< Range< T >>", null, [
+      [ "Microsoft.Bot.Builder.Internals.Fibers.Range< T >", "de/d01/struct_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", null ]
     ] ],
     [ "IEquatable< Wait< C, T >>", null, [
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< C, T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
@@ -130,6 +140,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.PostStruct< T >", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< C, T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IScope< Microsoft.Bot.Builder.Dialogs.ResumptionCookie >", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< double >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", [
       [ "Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html", null ]
     ] ],
@@ -295,14 +306,14 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask", "de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.PostUnhandledExceptionToUserTask", "df/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ReactiveDialogTask", "d4/d57/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_reactive_dialog_task.html", null ],
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ]
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.SerializingDialogTask", "d2/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_serializing_dialog_task.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< Score >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.LuisServiceResult", "d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptOptions< T >", "d0/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_options.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptStyler", "dd/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_styler.html", null ],
-    [ "Microsoft.Bot.Builder.Dialogs.ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.UrlToken", "d7/d6b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_url_token.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.Extensions", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.IFieldDescription", "d3/d64/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_i_field_description.html", [
@@ -342,6 +353,7 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.NextStep", "da/d84/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_next_step.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.ScriptGlobals", "d0/df5/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_script_globals.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.Advanced.TermMatch", "d3/df8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_term_match.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.Choice", "d6/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_choice.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.CommandDescription", "d6/db9/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_command_description.html", null ],
     [ "Microsoft.Bot.Builder.FormFlow.FormCanceledException", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", [
       [ "Microsoft.Bot.Builder.FormFlow.FormCanceledException< T >", "db/db6/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_canceled_exception.html", null ]
@@ -354,7 +366,7 @@ var hierarchy =
         [ "Microsoft.Bot.Builder.FormFlow.FormBuilder< T >", "de/d9d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_builder.html", null ]
       ] ]
     ] ],
-    [ "Microsoft.Bot.Builder.FormFlow.ValidateResult", "d5/d28/struct_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result.html", null ],
+    [ "Microsoft.Bot.Builder.FormFlow.ValidateResult", "d4/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_validate_result.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.FiberModule", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.FiberModule< C >", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", null ]
@@ -368,6 +380,9 @@ var hierarchy =
       ] ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IPost< in in T >", "dd/d5f/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_post.html", null ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IScope< T >", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope.html", [
+      [ "Microsoft.Bot.Builder.Internals.Fibers.LocalMutualExclusion< T >", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IStore< T >", "d2/d33/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_store.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.ErrorResilientStore< T >", "dd/d14/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_error_resilient_store.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.FactoryStore< T >", "de/dcd/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_factory_store.html", null ],
@@ -391,12 +406,25 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.WaitFactory< C >", "d6/dde/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait_factory.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.Methods", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html", null ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.Range", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization", "df/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.StoreInstanceByTypeSurrogate.IResolver", "dd/dbc/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_insd9fc854118476fa574aa944655732a5a.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.SetField", "d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.BuiltIn", "dd/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.BuiltIn.DateTime", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.BuiltIn.DateTime.DurationResolution", "d0/dfb/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_duration_resolution.html", null ],
     [ "Microsoft.Bot.Builder.Luis.Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.ICalendarPlus", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus.html", [
+      [ "Microsoft.Bot.Builder.Luis.WesternCalendarPlus", "dc/df9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_western_calendar_plus.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Luis.IEntityToType", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type.html", [
+      [ "Microsoft.Bot.Builder.Luis.StrictEntityToType", "df/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_strict_entity_to_type.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Luis.ILuisService", "d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html", [
       [ "Microsoft.Bot.Builder.Luis.LuisService", "d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Luis.IResolutionParser", "d3/dba/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_resolution_parser.html", [
+      [ "Microsoft.Bot.Builder.Luis.ResolutionParser", "dc/d82/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_resolution_parser.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Luis.Models.Action", "dc/d34/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action.html", null ],
     [ "Microsoft.Bot.Builder.Luis.Models.ActionParameter", "d1/dee/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_action_parameter.html", null ],
@@ -404,6 +432,9 @@ var hierarchy =
     [ "Microsoft.Bot.Builder.Luis.Models.EntityRecommendation", "d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html", null ],
     [ "Microsoft.Bot.Builder.Luis.Models.IntentRecommendation", "dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html", null ],
     [ "Microsoft.Bot.Builder.Luis.Models.LuisResult", "dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html", null ],
+    [ "Microsoft.Bot.Builder.Luis.Resolution", "dc/d54/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_resolution.html", [
+      [ "Microsoft.Bot.Builder.Luis.BuiltIn.DateTime.DateTimeResolution", "d7/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_date_time_resolution.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Resource.Extensions", "d0/df5/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Connector.ActionTypes", "d2/d0c/class_microsoft_1_1_bot_1_1_connector_1_1_action_types.html", null ],
     [ "Microsoft.Bot.Connector.ActivityTypes", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html", null ],
