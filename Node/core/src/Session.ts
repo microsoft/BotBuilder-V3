@@ -190,7 +190,7 @@ export class Session extends events.EventEmitter implements ISession {
         this.prepareMessage(m);
         this.batch.push(m);
         logger.info(this, 'session.sendTyping()');            
-        this.startBatch();
+        this.sendBatch();
         return this;        
     }
 
