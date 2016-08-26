@@ -52,8 +52,8 @@ $extrastylesheet
 			appbody.append(fullwidth);
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
-			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            // 			sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
 
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
