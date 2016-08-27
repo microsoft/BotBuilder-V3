@@ -53,7 +53,7 @@ bot.dialog('/', [
 
         // Supply the localized key to the prompt.
         // Note that our locale/en/botbuilder.json file overrides the system's default prompt when a number is not supplied
-        builder.Prompts.choice(session, "age", "y|n|idk")   
+        builder.Prompts.choice(session, "listr", "y|n|idk")   
     },
     function (session, results) {
         if (results.response) {
