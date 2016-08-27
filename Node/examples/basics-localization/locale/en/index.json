@@ -1,5 +1,9 @@
 {
-    "Hello World": "Shouldn't see this from en",
-    "Hello World2": "HI en",
-    "Hello World2_plural": "HI all en"
+    "Hello World": "Hello World en",
+    "Hello World2": "Hello World 2 en",
+    "listr": "Do you like node?",
+    "thanks": "Thanks",
+    "y": "oh yeah!",
+    "n": "no way!",
+    "idk": "i dunno"
 }

@@ -261,7 +261,7 @@ export class Message implements IIsMessage {
     //-------------------
     
     public setLanguage(local: string): this {
-        console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
+        console.warn("Message.setLanguage() is deprecated. Use Message.textLocal() instead.");
         return this.textLocale(local);
     }
     

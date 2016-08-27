@@ -24,11 +24,16 @@ var Session = (function (_super) {
         this.batchStarted = false;
         this.sendingBatch = false;
         this.inMiddleware = false;
+        this._locale = null;
+        this.localizer = null;
         this.library = options.library;
         if (!options.localizer) {
-            this.options.localizer = new dfLoc.DefaultLocalizer();
+            this.localizer = new dfLoc.DefaultLocalizer();
         }
-        this.options.localizer.initialize(options.localizerSettings);
+        else {
+            this.localizer = options.localizer;
+        }
+        this.localizer.initialize(options.localizerSettings);
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -61,8 +66,8 @@ var Session = (function (_super) {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        logger.debug("loading localizer");
-        this.options.localizer.load("en-us", function (err) {
+        logger.debug("loading localizer for: " + this.message.textLocale);
+        this.localizer.load(this.message.textLocale, function (err) {
             if (err) {
                 _this.error(err);
             }
@@ -79,6 +84,25 @@ var Session = (function (_super) {
         this.emit('error', err);
         return this;
     };
+    Session.prototype.preferredLocale = function (locale, callback) {
+        if (locale) {
+            this._locale = locale;
+            if (this.localizer) {
+                this.localizer.load(locale, callback);
+            }
+        }
+        else {
+            if (!this._locale) {
+                if (this.message && this.message.textLocale) {
+                    this._locale = this.message.textLocale;
+                }
+                else if (this.localizer) {
+                    this._locale = this.localizer.defaultLocale();
+                }
+            }
+            return this._locale;
+        }
+    };
     Session.prototype.gettext = function (messageid) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -88,8 +112,8 @@ var Session = (function (_super) {
     };
     Session.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
         }
         else if (count == 1) {
             tmpl = messageid;
@@ -484,8 +508,8 @@ var Session = (function (_super) {
     };
     Session.prototype.vgettext = function (messageid, args) {
         var tmpl;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.textLocale || '', messageid);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid);
         }
         else {
             tmpl = messageid;

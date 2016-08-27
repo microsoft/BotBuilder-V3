@@ -70,15 +70,19 @@ export class Session extends events.EventEmitter implements ISession {
     private batchStarted = false;
     private sendingBatch = false;
     private inMiddleware = false;
+    private _locale:string = null;
+    public localizer:ILocalizer = null;
 
     constructor(protected options: ISessionOptions) {
         super();
         this.library = options.library;
 
         if (!options.localizer) {
-            this.options.localizer = new dfLoc.DefaultLocalizer();           
+            this.localizer = new dfLoc.DefaultLocalizer();           
+        } else {
+            this.localizer = options.localizer;
         }
-        this.options.localizer.initialize(options.localizerSettings);
+        this.localizer.initialize(options.localizerSettings);
         
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay
@@ -117,8 +121,8 @@ export class Session extends events.EventEmitter implements ISession {
         }
 
         // Localize message, then invoke middleware
-        logger.debug("loading localizer")
-        this.options.localizer.load(this.message.textLocale, (err:Error) => {
+        logger.debug("loading localizer for: " + this.message.textLocale)
+        this.localizer.load(this.message.textLocale, (err:Error) => {
             if (err) {
                     this.error(err);
             } else {
@@ -143,14 +147,32 @@ export class Session extends events.EventEmitter implements ISession {
         return this;
     }
 
+    public preferredLocale(locale?: string, callback?: ErrorCallback): string {
+        if (locale) {
+            this._locale = locale;
+            if (this.localizer) {
+                this.localizer.load(locale, callback);
+            }
+        } else {
+            if (!this._locale) {
+                if (this.message && this.message.textLocale) {
+                    this._locale = this.message.textLocale;
+                } else if (this.localizer) {
+                    this._locale = this.localizer.defaultLocale();
+                }
+            }
+            return this._locale;
+        }        
+    }
+
     public gettext(messageid: string, ...args: any[]): string {
         return this.vgettext(messageid, args);
     }
 
     public ngettext(messageid: string, messageid_plural: string, count: number): string {
         var tmpl: string;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
         } else if (count == 1) {
             tmpl = messageid;
         } else {
@@ -573,8 +595,8 @@ export class Session extends events.EventEmitter implements ISession {
  
     private vgettext(messageid: string, args?: any[]): string {
         var tmpl: string;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.textLocale || '', messageid);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid);
         } else {
             tmpl = messageid;
         }

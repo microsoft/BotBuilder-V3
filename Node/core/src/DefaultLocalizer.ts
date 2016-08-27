@@ -37,7 +37,7 @@ import async = require('async');
 import logger = require('./logger');
 
 export class DefaultLocalizer implements ILocalizer {
-    private defaultLocale: string;
+    private _defaultLocale: string;
     private botLocalePath: string;
 
     private static localeRequests: any = {};
@@ -62,11 +62,20 @@ export class DefaultLocalizer implements ILocalizer {
         }
         
         if (settings.defaultLocale) {
-            this.defaultLocale = settings.defaultLocale.toLowerCase();
+            this.defaultLocale(settings.defaultLocale.toLowerCase());
         } else {
-            this.defaultLocale = "en";
+            this.defaultLocale("en");
         }
     }
+
+    public defaultLocale(locale?: string): string {
+        if (locale) {
+            this._defaultLocale = locale;
+        } else {
+            return this._defaultLocale;
+        }
+    }   
+    
 
     private getFallback(locale: string): string {
         if (locale) {
@@ -75,7 +84,7 @@ export class DefaultLocalizer implements ILocalizer {
                 return locale.substring(0, split);
             }
         }
-        return this.defaultLocale;
+        return this.defaultLocale();
     }
 
     private parseFile(localeDir: string, filename: string, locale:string, cb:AsyncResultCallback<number>) {
@@ -99,7 +108,7 @@ export class DefaultLocalizer implements ILocalizer {
                     return;
                 }
 
-                var ns = filename.substring(0, 5).toLowerCase();            
+                var ns = filename.substring(0, filename.length - 5).toLowerCase();            
                 var count = this.loadInMap(locale, ns == "index" ? null : ns, parsedEntries);
                 DefaultLocalizer.filesParsedMap[filePath] = count;
                 cb(null, count);                                
@@ -165,6 +174,8 @@ export class DefaultLocalizer implements ILocalizer {
                 cb(err, -1);
             } else {
                 fs.readdir(path, (err, files) => {
+                    logger.debug("localizer::in directory: %s", path);                                
+                
                     // directory exists, but could not enumerate it                        
                     if (err) { 
                         cb(err, 0);
@@ -173,6 +184,8 @@ export class DefaultLocalizer implements ILocalizer {
                     var entryCount = 0;
                     
                     async.each(files, (file, callback) => {
+                        logger.debug("localizer::in file: %s", file);                                
+                
                         if (file.substring(file.length - 5).toLowerCase() == ".json") {
                             this.parseFile(path, file, locale, (e:Error, c:number) => {
                                 entryCount += c;
@@ -210,14 +223,19 @@ export class DefaultLocalizer implements ILocalizer {
 
         var fb = this.getFallback(locale);
         async.series([
+            // load the en locale from the lib folder -- system default
+            (cb:AsyncResultCallback<number>) => { 
+                this.loadLocale(__dirname + "/locale/" , "en", cb); 
+            },
+            
             // load the default locale from the lib folder
             (cb:AsyncResultCallback<number>) => { 
-                this.loadLocale(__dirname + "/locale/" , this.defaultLocale, cb); 
+                this.loadLocale(__dirname + "/locale/" , this.defaultLocale(), cb); 
             },
 
             // load the fallback locale the lib folder, if different from default
             (cb:AsyncResultCallback<number>) => { 
-                if (this.defaultLocale != fb) {
+                if (this.defaultLocale() != fb) {
                     this.loadLocale(__dirname + "/locale/", fb, cb); 
                 } else {
                     cb(null, 0);
@@ -226,7 +244,7 @@ export class DefaultLocalizer implements ILocalizer {
             
             // load the requested locale from the lib folder
             (cb:AsyncResultCallback<number>) => {  
-                if (this.defaultLocale != locale && fb != locale) {
+                if (this.defaultLocale() != locale && fb != locale) {
                     this.loadLocale(__dirname + "/locale/", locale, cb); 
                 } else {                    
                     cb(null, 0);
@@ -236,7 +254,7 @@ export class DefaultLocalizer implements ILocalizer {
             // load the default locale from the botLocale folder if it exists 
             (cb:AsyncResultCallback<number>) => { 
                 if (this.botLocalePath) {
-                    this.loadLocale(this.botLocalePath, this.defaultLocale, cb); 
+                    this.loadLocale(this.botLocalePath, this.defaultLocale(), cb); 
                 } else {
                     cb(null, 0);
                 } 
@@ -244,7 +262,7 @@ export class DefaultLocalizer implements ILocalizer {
             
             // load the fallback locale the lib folder, if different from default
             (cb:AsyncResultCallback<number>) => { 
-                if (this.botLocalePath && this.defaultLocale != fb) {
+                if (this.botLocalePath && this.defaultLocale() != fb) {
                     this.loadLocale(this.botLocalePath, fb, cb); 
                 } else {                                
                     cb(null, 0);
@@ -253,7 +271,7 @@ export class DefaultLocalizer implements ILocalizer {
             
             // load the requested locale from the lib folder
             (cb:AsyncResultCallback<number>) => { 
-                if (this.botLocalePath && this.defaultLocale != locale && fb != locale) {
+                if (this.botLocalePath && this.defaultLocale() != locale && fb != locale) {
                     this.loadLocale(this.botLocalePath, locale, cb); 
                 }  else {
                     cb(null, 0);
@@ -266,7 +284,7 @@ export class DefaultLocalizer implements ILocalizer {
                 done(err);
             } else {
                 DefaultLocalizer.localeRequests[localeRequestKey] = true;
-                logger.debug("localizer::loaded requested locale: %s", localeRequestKey);                                                               
+                logger.debug("localizer::loaded requested locale: %s", localeRequestKey);                            
                 done();
             }
         });
@@ -294,8 +312,8 @@ export class DefaultLocalizer implements ILocalizer {
             text = DefaultLocalizer.map[locale][processedKey];
         } else if (DefaultLocalizer.map[fb] && DefaultLocalizer.map[fb][processedKey]) {
             text = DefaultLocalizer.map[fb][processedKey];
-        } else if (DefaultLocalizer.map[this.defaultLocale] && DefaultLocalizer.map[this.defaultLocale][processedKey]) {
-            text = DefaultLocalizer.map[this.defaultLocale][processedKey];
+        } else if (DefaultLocalizer.map[this.defaultLocale()] && DefaultLocalizer.map[this.defaultLocale()][processedKey]) {
+            text = DefaultLocalizer.map[this.defaultLocale()][processedKey];
         }
 
         if (text) {

@@ -1,5 +1,8 @@
 {
-    "Hello World": "nada es",
-    "Hello World2": "nada es",
-    "Hello World3": "HOLA es"
+    "Hello World": "hola mundo es",
+    "listr": "te gusta el node?",
+    "thanks": "gracias!",
+    "y": "claro!",
+    "n": "nunca",
+    "idk": "no se"
 }

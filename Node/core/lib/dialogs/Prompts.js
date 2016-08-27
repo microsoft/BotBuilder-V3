@@ -12,6 +12,7 @@ var Channel = require('../Channel');
 var dl = require('../bots/Library');
 var kb = require('../cards/Keyboard');
 var ca = require('../cards/CardAction');
+var logger = require('../logger');
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
     PromptType[PromptType["number"] = 1] = "number";
@@ -157,6 +158,7 @@ var Prompts = (function (_super) {
     };
     Prompts.prototype.sendPrompt = function (session, args, retry) {
         if (retry === void 0) { retry = false; }
+        logger.debug("prompts::sendPrompt called");
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
             session.send(args.retryPrompt);
         }
@@ -187,14 +189,24 @@ var Prompts = (function (_super) {
                 else {
                     var type = PromptType[args.promptType];
                     prompt = mb.Message.randomPrompt(Prompts.defaultRetryPrompt[type]);
+                    args.localizationNamespace = consts.Library.system;
+                    logger.debug("prompts::sendPrompt setting ns to %s", args.localizationNamespace);
                 }
             }
             else {
                 prompt = mb.Message.randomPrompt(args.prompt);
             }
+            var locale = session.preferredLocale();
+            logger.debug("prompts::preferred locale %s", locale);
+            if (!locale && session.localizer) {
+                locale = session.localizer.defaultLocale();
+                logger.debug("prompts::sendPrompt using default locale %s", locale);
+            }
+            prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
+            logger.debug("prompts::sendPrompt localized prompt %s", prompt);
             var connector = '';
             var list;
-            var msg = new mb.Message(session);
+            var msg = new mb.Message();
             switch (style) {
                 case ListStyle.button:
                     var buttons = [];
@@ -208,9 +220,9 @@ var Prompts = (function (_super) {
                 case ListStyle.inline:
                     list = ' (';
                     args.enumValues.forEach(function (value, index) {
-                        list += connector + (index + 1) + '. ' + value;
+                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                         if (index == args.enumValues.length - 2) {
-                            connector = index == 0 ? ' or ' : ', or ';
+                            connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
                         }
                         else {
                             connector = ', ';
@@ -222,7 +234,7 @@ var Prompts = (function (_super) {
                 case ListStyle.list:
                     list = '\n   ';
                     args.enumValues.forEach(function (value, index) {
-                        list += connector + (index + 1) + '. ' + value;
+                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                         connector = '\n   ';
                     });
                     msg.text(prompt + '%s', list);
@@ -260,7 +272,7 @@ var Prompts = (function (_super) {
         var args = options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['yes', 'no'];
+        args.enumValues = ['confirm_yes', 'confirm_no'];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     };
@@ -289,12 +301,12 @@ var Prompts = (function (_super) {
         promptAfterAction: true
     };
     Prompts.defaultRetryPrompt = {
-        text: "I didn't understand. Please try again.",
-        number: "I didn't recognize that as a number. Please enter a number.",
-        confirm: "I didn't understand. Please answer 'yes' or 'no'.",
-        choice: "I didn't understand. Please choose an option from the list.",
-        time: "I didn't recognize the time you entered. Please try again.",
-        attachment: "I didn't receive a file. Please try again."
+        text: "default_text",
+        number: "default_number",
+        confirm: "default_confirm",
+        choice: "default_choice",
+        time: "default_time",
+        attachment: "default_file"
     };
     return Prompts;
 }(dlg.Dialog));

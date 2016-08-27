@@ -212,7 +212,7 @@ var Message = (function () {
         return args && args.length > 0 ? sprintf.vsprintf(prompt, args) : prompt;
     };
     Message.prototype.setLanguage = function (local) {
-        console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
+        console.warn("Message.setLanguage() is deprecated. Use Message.textLocal() instead.");
         return this.textLocale(local);
     };
     Message.prototype.setText = function (session, prompts) {

@@ -310,14 +310,44 @@ export interface IIsFact {
     toFact(): IFact;
 }
 
+interface ILocalizerSettings {
+    /** The path to the parent of the bot's locale directory  */
+    botLocalePath?: string;
+
+    /** The default locale of the bot  */
+    defaultLocale?: string;
+}
+
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
+    /**
+     * Intitializes the localizer.
+     * @param localizerSettings (Optional) settings to supply to the localizer.
+     */
+    initialize(localizerSettings?: ILocalizerSettings): void;
+    
+    /**
+     * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
+     * @param locale The locale to load.
+     * @param callback callback that is called once the supplied locale has been loaded, or an error if the load fails.
+     */
+    load(locale: string, callback: (err: Error) => void): void;     
+    
     /**
      * Loads a localized string for the specified language.
      * @param language Desired language of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param namespace (Optional) namespace for the msgid keys.
      */
-    gettext(language: string, msgid: string): string;
+    trygettext(language: string, msgid: string, namespace?: string): string;
+    
+    /**
+     * Loads a localized string for the specified language.
+     * @param language Desired language of the string to return.
+     * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param namespace (Optional) namespace for the msgid keys.
+     */
+    gettext(language: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
@@ -325,8 +355,9 @@ export interface ILocalizer {
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     * @param namespace (Optional) namespace for the msgid and msgid_plural keys.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
+    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
@@ -1039,6 +1070,13 @@ export class Session {
      * @param err Error that occured.
      */
     error(err: Error): Session;
+
+    /** 
+     * Returns the preferred locale when no parameters are supplied, otherwise sets the preferred locale.
+     * @param locale (Optional) the locale to use for localizing messages. 
+     * @param callback (Optional) function called when the localization table has been loaded for the supplied locale. 
+     */
+    preferredLocale(locale?: string, callback?: (err: Error) => void): string;
 
     /**
      * Loads a localized string for the messages language. If arguments are passed the localized string

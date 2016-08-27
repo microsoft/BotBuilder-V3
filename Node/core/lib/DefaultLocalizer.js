@@ -19,10 +19,18 @@ var DefaultLocalizer = (function () {
             this.botLocalePath = "./";
         }
         if (settings.defaultLocale) {
-            this.defaultLocale = settings.defaultLocale.toLowerCase();
+            this.defaultLocale(settings.defaultLocale.toLowerCase());
         }
         else {
-            this.defaultLocale = "en";
+            this.defaultLocale("en");
+        }
+    };
+    DefaultLocalizer.prototype.defaultLocale = function (locale) {
+        if (locale) {
+            this._defaultLocale = locale;
+        }
+        else {
+            return this._defaultLocale;
         }
     };
     DefaultLocalizer.prototype.getFallback = function (locale) {
@@ -32,7 +40,7 @@ var DefaultLocalizer = (function () {
                 return locale.substring(0, split);
             }
         }
-        return this.defaultLocale;
+        return this.defaultLocale();
     };
     DefaultLocalizer.prototype.parseFile = function (localeDir, filename, locale, cb) {
         var _this = this;
@@ -56,7 +64,7 @@ var DefaultLocalizer = (function () {
                     cb(err, -1);
                     return;
                 }
-                var ns = filename.substring(0, 5).toLowerCase();
+                var ns = filename.substring(0, filename.length - 5).toLowerCase();
                 var count = _this.loadInMap(locale, ns == "index" ? null : ns, parsedEntries);
                 DefaultLocalizer.filesParsedMap[filePath] = count;
                 cb(null, count);
@@ -118,11 +126,13 @@ var DefaultLocalizer = (function () {
             }
             else {
                 fs.readdir(path, function (err, files) {
+                    logger.debug("localizer::in directory: %s", path);
                     if (err) {
                         cb(err, 0);
                     }
                     var entryCount = 0;
                     async.each(files, function (file, callback) {
+                        logger.debug("localizer::in file: %s", file);
                         if (file.substring(file.length - 5).toLowerCase() == ".json") {
                             _this.parseFile(path, file, locale, function (e, c) {
                                 entryCount += c;
@@ -160,10 +170,13 @@ var DefaultLocalizer = (function () {
         var fb = this.getFallback(locale);
         async.series([
             function (cb) {
-                _this.loadLocale(__dirname + "/locale/", _this.defaultLocale, cb);
+                _this.loadLocale(__dirname + "/locale/", "en", cb);
             },
             function (cb) {
-                if (_this.defaultLocale != fb) {
+                _this.loadLocale(__dirname + "/locale/", _this.defaultLocale(), cb);
+            },
+            function (cb) {
+                if (_this.defaultLocale() != fb) {
                     _this.loadLocale(__dirname + "/locale/", fb, cb);
                 }
                 else {
@@ -171,7 +184,7 @@ var DefaultLocalizer = (function () {
                 }
             },
             function (cb) {
-                if (_this.defaultLocale != locale && fb != locale) {
+                if (_this.defaultLocale() != locale && fb != locale) {
                     _this.loadLocale(__dirname + "/locale/", locale, cb);
                 }
                 else {
@@ -180,14 +193,14 @@ var DefaultLocalizer = (function () {
             },
             function (cb) {
                 if (_this.botLocalePath) {
-                    _this.loadLocale(_this.botLocalePath, _this.defaultLocale, cb);
+                    _this.loadLocale(_this.botLocalePath, _this.defaultLocale(), cb);
                 }
                 else {
                     cb(null, 0);
                 }
             },
             function (cb) {
-                if (_this.botLocalePath && _this.defaultLocale != fb) {
+                if (_this.botLocalePath && _this.defaultLocale() != fb) {
                     _this.loadLocale(_this.botLocalePath, fb, cb);
                 }
                 else {
@@ -195,7 +208,7 @@ var DefaultLocalizer = (function () {
                 }
             },
             function (cb) {
-                if (_this.botLocalePath && _this.defaultLocale != locale && fb != locale) {
+                if (_this.botLocalePath && _this.defaultLocale() != locale && fb != locale) {
                     _this.loadLocale(_this.botLocalePath, locale, cb);
                 }
                 else {
@@ -236,8 +249,8 @@ var DefaultLocalizer = (function () {
         else if (DefaultLocalizer.map[fb] && DefaultLocalizer.map[fb][processedKey]) {
             text = DefaultLocalizer.map[fb][processedKey];
         }
-        else if (DefaultLocalizer.map[this.defaultLocale] && DefaultLocalizer.map[this.defaultLocale][processedKey]) {
-            text = DefaultLocalizer.map[this.defaultLocale][processedKey];
+        else if (DefaultLocalizer.map[this.defaultLocale()] && DefaultLocalizer.map[this.defaultLocale()][processedKey]) {
+            text = DefaultLocalizer.map[this.defaultLocale()][processedKey];
         }
         if (text) {
             text = this.getValue(text);
@@ -254,16 +267,16 @@ var DefaultLocalizer = (function () {
         logger.debug("localizer::gettext returning: %s", t);
         return t;
     };
-    
-    DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count) {
+    DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count, namespace) {
+        logger.debug("localizer::ngettext locale:%s count: %d, msgid:%s msgid_plural:%s ns:%s", locale, count, msgid, msgid_plural, namespace);
         var t = "";
-        
         if (count == 1) {
-	        t = this.trygettext(locale, msgid, namespace);
-        } else {
-            // 0 or more than 1
+            t = this.trygettext(locale, msgid, namespace) || msgid;
         }
-        return null;
+        else {
+            t = this.trygettext(locale, msgid_plural, namespace) || msgid_plural;
+        }
+        return t;
     };
     DefaultLocalizer.localeRequests = {};
     DefaultLocalizer.filesParsedMap = {};
