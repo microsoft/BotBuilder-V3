@@ -488,7 +488,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, Comparer<double>.Default, new NormalizedTraits(), scorable.Object);
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable.Object));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());
@@ -523,7 +523,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, Comparer<double>.Default, new NormalizedTraits(), scorable.Object);
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable.Object));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());
@@ -563,7 +563,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, Comparer<double>.Default, new NormalizedTraits(), scorable1.Object, scorable2.Object);
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable1.Object, scorable2.Object));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());

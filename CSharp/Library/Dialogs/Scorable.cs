@@ -52,29 +52,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Task PostAsync<Item>(Item item, object state, CancellationToken token);
     }
 
-    public sealed class ScoringDialogTask<Score> : IPostToBot
+    public sealed class CompositeScorable<Score> : IScorable<Score>
     {
-        private readonly IPostToBot inner;
-        private readonly IDialogStack stack;
         private readonly IComparer<Score> comparer;
         private readonly ITraits<Score> traits;
-        private readonly IScorable<Score>[] scorables;
-        public ScoringDialogTask(IPostToBot inner, IDialogStack stack, IComparer<Score> comparer, ITraits<Score> traits, params IScorable<Score>[] scorables)
+        private readonly IEnumerable<IScorable<Score>> scorables;
+        public CompositeScorable(IComparer<Score> comparer, ITraits<Score> traits, params IScorable<Score>[] scorables)
+            : this(comparer, traits, (IEnumerable<IScorable<Score>>)scorables)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.stack, nameof(stack), stack);
+        }
+        public CompositeScorable(IComparer<Score> comparer, ITraits<Score> traits, IEnumerable<IScorable<Score>> scorables)
+        {
             SetField.NotNull(out this.comparer, nameof(comparer), comparer);
             SetField.NotNull(out this.traits, nameof(traits), traits);
             SetField.NotNull(out this.scorables, nameof(scorables), scorables);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        public sealed class CompositeState
         {
-            Score maximumScore = default(Score);
-            object maximumState = null;
-            IScorable<Score> maximumScorable = null;
+            public Score Score { get; set; }
+            public object State { get; set; }
+            public IScorable<Score> Scorable { get; set; }
+        }
 
-            Func<IScorable<Score>, Task<bool>> UpdateAsync = async scorable =>
+        async Task<object> IScorable<Score>.PrepareAsync<Item>(Item item, CancellationToken token)
+        {
+            CompositeState maximum = null;
+
+            foreach (var scorable in this.scorables)
             {
                 var state = await scorable.PrepareAsync(item, token);
                 Score score;
@@ -90,53 +95,61 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         throw new ArgumentOutOfRangeException(nameof(score));
                     }
 
-                    var compare = this.comparer.Compare(score, maximumScore);
-                    if (maximumScorable == null || compare > 0)
+                    if (maximum == null)
                     {
-                        maximumScore = score;
-                        maximumState = state;
-                        maximumScorable = scorable;
+                        maximum = new CompositeState();
+                    }
+
+                    var compare = this.comparer.Compare(score, maximum.Score);
+                    if (maximum.Scorable == null || compare > 0)
+                    {
+                        maximum.Score = score;
+                        maximum.State = state;
+                        maximum.Scorable = scorable;
 
                         if (this.comparer.Compare(score, this.traits.Maximum) == 0)
                         {
-                            return false;
+                            break;
                         }
                     }
                 }
-
-                return true;
-            };
-
-            bool more = true;
-
-            foreach (var frame in this.stack.Frames)
-            {
-                var scorable = frame.Target as IScorable<Score>;
-                if (scorable != null)
-                {
-                    more = await UpdateAsync(scorable);
-                    if (!more)
-                    {
-                        break;
-                    }
-                }
             }
 
-            if (more)
-            {
-                foreach (var scorable in this.scorables)
-                {
-                    more = await UpdateAsync(scorable);
-                    if (!more)
-                    {
-                        break;
-                    }
-                }
-            }
+            return maximum;
+        }
+        bool IScorable<Score>.TryScore(object state, out Score score)
+        {
+            var maximum = (CompositeState)state;
+            bool matches = maximum != null;
+            score = matches ? maximum.Score : default(Score);
+            return matches;
+        }
+        async Task IScorable<Score>.PostAsync<Item>(Item item, object state, CancellationToken token)
+        {
+            var maximum = (CompositeState)state;
+            await maximum.Scorable.PostAsync(item, maximum.State, token);
+        }
+    }
 
-            if (maximumScorable != null)
+    public sealed class ScoringDialogTask<Score> : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IDialogStack stack;
+        private readonly IScorable<Score> scorable;
+        public ScoringDialogTask(IPostToBot inner, IDialogStack stack, IScorable<Score> scorable)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.stack, nameof(stack), stack);
+            SetField.NotNull(out this.scorable, nameof(scorable), scorable);
+        }
+
+        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        {
+            var state = await this.scorable.PrepareAsync<T>(item, token);
+            Score score;
+            if (this.scorable.TryScore(state, out score))
             {
-                await maximumScorable.PostAsync<T>(item, maximumState, token);
+                await this.scorable.PostAsync<T>(item, state, token);
             }
             else
             {
