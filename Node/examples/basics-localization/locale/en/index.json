@@ -5,5 +5,7 @@
     "thanks": "Thanks",
     "y": "oh yeah!",
     "n": "no way!",
-    "idk": "i dunno"
+    "idk": "i dunno",
+    "greeting": ["hey", "hello", "hi"],
+    "nums": "one;two;three"
 }

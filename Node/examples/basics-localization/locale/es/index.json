@@ -4,5 +4,7 @@
     "thanks": "gracias!",
     "y": "claro!",
     "n": "nunca",
-    "idk": "no se"
+    "idk": "no se",
+    "greeting": ["hola", "buenos", "buen dia"],
+    "nums": "uno;dos;tres"
 }

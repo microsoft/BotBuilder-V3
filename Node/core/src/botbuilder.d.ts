@@ -1065,6 +1065,9 @@ export class Session {
     /** Data that's only visible to the current dialog. */
     dialogData: any;
 
+    /** The localizer (if available) to use. */
+    localizer:ILocalizer ;    
+    
     /**
      * Signals that an error occured. The bot will signal the error via an on('error', err) event.
      * @param err Error that occured.

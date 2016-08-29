@@ -51,6 +51,16 @@ bot.dialog('/', [
         // This key is not present in any of the locale/*/index.json files, so we will just end up showing 'Hello World3'
         session.send("Hello World3");
 
+        // This key has multiple values associated with it, delimited by a semi-colon
+        // To display a random value, get the entire localized string then split it on the semi-colon
+        // and select a random index from the array
+        var valuesStr = session.localizer.gettext(session.preferredLocale(), "nums");
+        var valuesArray = valuesStr.split(";");
+        session.send(valuesArray[Math.floor(Math.random() * valuesArray.length)]);
+
+        // This key has multiple values as well, but stored as an array, so a random element will be returned each time
+        session.send("greeting");
+
         // Supply the localized key to the prompt.
         // Note that our locale/en/botbuilder.json file overrides the system's default prompt when a number is not supplied
         builder.Prompts.choice(session, "listr", "y|n|idk")   

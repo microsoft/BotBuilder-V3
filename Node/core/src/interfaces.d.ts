@@ -181,6 +181,7 @@ interface ISession {
     message: IMessage;
     userData: any;
     dialogData: any;
+    localizer?: ILocalizer;
     error(err: Error): ISession;
     gettext(msgid: string, ...args: any[]): string;
     ngettext(msgid: string, msgid_plural: string, count: number): string;

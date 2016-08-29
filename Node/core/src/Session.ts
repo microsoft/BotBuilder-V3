@@ -71,7 +71,6 @@ export class Session extends events.EventEmitter implements ISession {
     private sendingBatch = false;
     private inMiddleware = false;
     private _locale:string = null;
-    public localizer:ILocalizer = null;
 
     constructor(protected options: ISessionOptions) {
         super();
@@ -138,6 +137,7 @@ export class Session extends events.EventEmitter implements ISession {
     public conversationData: any;
     public privateConversationData: any;
     public dialogData: any;
+    public localizer:ILocalizer = null;
 
     public error(err: Error): ISession {
         err = err instanceof Error ? err : new Error(err.toString());
