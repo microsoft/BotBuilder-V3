@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var utils = require('../utils');
 exports.RecordingFormat = {
@@ -65,5 +66,5 @@ var RecordAction = (function () {
         return this.data;
     };
     return RecordAction;
-})();
+}());
 exports.RecordAction = RecordAction;

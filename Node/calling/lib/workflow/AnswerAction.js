@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var AnswerAction = (function () {
     function AnswerAction(session) {
@@ -16,5 +17,5 @@ var AnswerAction = (function () {
         return this.data;
     };
     return AnswerAction;
-})();
+}());
 exports.AnswerAction = AnswerAction;

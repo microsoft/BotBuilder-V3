@@ -91,7 +91,10 @@ interface ICallConnectorAddress extends IAddress {
     correlationId?: string;
 
     /** Specifies the URL to post messages back. */ 
-    serviceUrl?: string; 
+    serviceUrl?: string;
+    
+    /** Specifies that auth is required when posting the message back . */ 
+    useAuth?: boolean;  
 }
 
 /** 

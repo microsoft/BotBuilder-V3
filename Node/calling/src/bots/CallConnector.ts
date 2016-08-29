@@ -388,6 +388,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
 
             // Populate address
             var address = event.address = <ICallConnectorAddress>{};
+            address.useAuth = true;
             address.channelId = event.source;
             address.correlationId = convo.correlationId;
             address.serviceUrl = this.settings.serviceUrl || 'https://skype.botframework.com';

@@ -1,3 +1,4 @@
+"use strict";
 var ses = require('./CallSession');
 var dialog = require('./dialogs/Dialog');
 var actions = require('./dialogs/DialogAction');

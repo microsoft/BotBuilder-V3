@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -12,7 +13,7 @@ var answer = require('./workflow/AnswerAction');
 var hangup = require('./workflow/HangupAction');
 var reject = require('./workflow/RejectAction');
 var playPrompt = require('./workflow/PlayPromptAction');
-var prompt = require('./workflow/prompt');
+var prompt = require('./workflow/Prompt');
 exports.CallState = {
     idle: 'idle',
     incoming: 'incoming',
@@ -458,5 +459,5 @@ var CallSession = (function (_super) {
         return cur;
     };
     return CallSession;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.CallSession = CallSession;

@@ -1,3 +1,4 @@
+"use strict";
 var ses = require('../CallSession');
 var consts = require('../consts');
 var dlg = require('./Dialog');
@@ -41,7 +42,7 @@ var DialogAction = (function () {
         };
     };
     return DialogAction;
-})();
+}());
 exports.DialogAction = DialogAction;
 function waterfall(steps) {
     return function waterfallAction(s, r) {

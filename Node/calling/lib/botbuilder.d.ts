@@ -92,6 +92,9 @@ interface ICallConnectorAddress extends IAddress {
 
     /** Specifies the URL to post messages back. */ 
     serviceUrl?: string; 
+
+    /** Specifies that auth is required when posting the message back . */ 
+    useAuth?: boolean; 
 }
 
 /** 
