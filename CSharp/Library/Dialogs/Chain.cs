@@ -81,6 +81,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Execute an action after the <see cref="IDialog{T}"/> completes. 
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <typeparam name="R">They type returned by action.</typeparam>
+        /// <param name="Antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <param name="Action">The action that will be called after the antecedent dialog completes.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<R> Do<T, R>(this IDialog<T> Antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+        {
+            return new DoDialog<T, R>(Antecedent, Action);
+        }
+
+        /// <summary>
         /// Post to the user the result of a <see cref="IDialog{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the dialog.</typeparam>
@@ -313,7 +326,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             return new DefaultCase<T, R>(selector);
         }
-
+        
         [Serializable]
         private sealed class FromDialog<T> : IDialog<T>
         {
@@ -351,6 +364,27 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 await this.Action(context, result);
                 context.Done<T>(await result);
+            }
+        }
+
+        [Serializable]
+        private sealed class DoDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<IBotContext, IAwaitable<T>, Task<R>> Action;
+            public DoDialog(IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Action, nameof(Action), Action);
+            }
+
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                context.Done<R>(await this.Action(context, result));
             }
         }
 
