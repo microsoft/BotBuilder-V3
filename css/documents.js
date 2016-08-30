@@ -87,6 +87,12 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+function setProgrammingLanguage() {
+    var storedLang = localStorage.botFrameworkDocsSearchLang ? localStorage.botFrameworkDocsSearchLang : '';
+    $('#lang-select option[value="'+ storedLang +'"]').prop('selected', true);
+}
+
 $(function () {
     // $('#lang-select').remove();
     // $('#q').css('padding','3px 25px 3px 10px');
@@ -97,8 +103,7 @@ $(function () {
     var v = getParameterByName('v');
 	var data = { q: q, mkt: mkt, v: v, lang: lang };
 
-    var storedLang = localStorage.botFrameworkDocsSearchLang ? localStorage.botFrameworkDocsSearchLang : '';
-    $('#lang-select option[value="'+ storedLang +'"]').prop('selected', true);
+    setProgrammingLanguage();
     
     if (q) {
         $('#q').val(q);
