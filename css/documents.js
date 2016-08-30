@@ -88,6 +88,7 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+// this function is used in the C# docs too
 function setProgrammingLanguage() {
     var storedLang = localStorage.botFrameworkDocsSearchLang ? localStorage.botFrameworkDocsSearchLang : '';
     $('#lang-select option[value="'+ storedLang +'"]').prop('selected', true);
