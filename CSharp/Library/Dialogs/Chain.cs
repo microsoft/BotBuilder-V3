@@ -88,9 +88,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="Antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <param name="Action">The action that will be called after the antecedent dialog completes.</param>
         /// <returns>The antecedent dialog.</returns>
-        public static IDialog<R> Do<T, R>(this IDialog<T> Antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+        public static IDialog<R> Then<T, R>(this IDialog<T> Antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
         {
-            return new DoDialog<T, R>(Antecedent, Action);
+            return new ThenDialog<T, R>(Antecedent, Action);
         }
 
         /// <summary>
@@ -368,11 +368,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class DoDialog<T, R> : IDialog<R>
+        private sealed class ThenDialog<T, R> : IDialog<R>
         {
             public readonly IDialog<T> Antecedent;
             public readonly Func<IBotContext, IAwaitable<T>, Task<R>> Action;
-            public DoDialog(IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+            public ThenDialog(IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Action, nameof(Action), Action);

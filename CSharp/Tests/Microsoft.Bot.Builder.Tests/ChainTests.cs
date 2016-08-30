@@ -495,7 +495,7 @@ namespace Microsoft.Bot.Builder.Tests
                     context.ConversationData.SetValue("selected", selection);
                     return (IDialog<bool>)new PromptDialog.PromptConfirm($"do you want {selection}?", string.Empty, 1, PromptStyle.None);
                 })
-                .Do(async (context, res) =>
+                .Then(async (context, res) =>
                 {
                 
                     var selection = context.ConversationData.Get<string>("selected");
