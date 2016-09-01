@@ -85,13 +85,13 @@ namespace Microsoft.Bot.Sample.SimpleAlarmBot
         public async Task SetAlarm(IDialogContext context, LuisResult result)
         {
             EntityRecommendation title;
-            if (! result.TryFindEntity(Entity_Alarm_Title, out title))
+            if (!result.TryFindEntity(Entity_Alarm_Title, out title))
             {
                 title = new EntityRecommendation(type: Entity_Alarm_Title) { Entity = DefaultAlarmWhat };
             }
 
             EntityRecommendation date;
-            if (! result.TryFindEntity(Entity_Alarm_Start_Date, out date))
+            if (!result.TryFindEntity(Entity_Alarm_Start_Date, out date))
             {
                 date = new EntityRecommendation(type: Entity_Alarm_Start_Date) { Entity = string.Empty };
             }

@@ -238,7 +238,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             void ISerializationSurrogate.GetObjectData(object obj, SerializationInfo info, StreamingContext context)
             {
-                var instance = (JObject) obj;
+                var instance = (JObject)obj;
                 info.AddValue(typeof(JObject).Name, instance.ToString(Newtonsoft.Json.Formatting.None));
             }
 

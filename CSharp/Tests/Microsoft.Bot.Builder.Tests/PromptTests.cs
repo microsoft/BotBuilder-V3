@@ -127,12 +127,12 @@ namespace Microsoft.Bot.Builder.Tests
                 jpgAttachment,
                 pdfAttachment
             };
-            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText), toBot, actual => new [] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
-            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment }.SequenceEqual(actual));
-            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "application/pdf" }), toBot, actual => new[] { pdfAttachment }.SequenceEqual(actual));
-            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg", "application/pdf" }), toBot, actual => new[] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText), toBot, actual => new[] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new[] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new[] { "application/pdf" }), toBot, actual => new[] { pdfAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new[] { "image/jpeg", "application/pdf" }), toBot, actual => new[] { jpgAttachment, pdfAttachment }.SequenceEqual(actual));
             toBot.Attachments.Add(bJpgAttachment);
-            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new [] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment, bJpgAttachment }.SequenceEqual(actual));
+            await PromptSuccessAsync<IEnumerable<Attachment>>((context, resume) => PromptDialog.Attachment(context, resume, PromptText, new[] { "image/jpeg" }), toBot, actual => new[] { jpgAttachment, bJpgAttachment }.SequenceEqual(actual));
         }
 
         [TestMethod]

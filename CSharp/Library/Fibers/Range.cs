@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         }
     }
 
-    public struct Range<T> : IEquatable<Range<T>>, IComparable<Range<T>> where T: IEquatable<T>, IComparable<T>
+    public struct Range<T> : IEquatable<Range<T>>, IComparable<Range<T>> where T : IEquatable<T>, IComparable<T>
     {
         public T Start { get; }
         public T After { get; }
@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         public override bool Equals(object other)
         {
-            return other is Range<T> && this.Equals((Range<T>) other);
+            return other is Range<T> && this.Equals((Range<T>)other);
         }
 
         public override int GetHashCode()

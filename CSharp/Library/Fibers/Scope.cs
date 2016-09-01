@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     }
 
     public sealed class LocalMutualExclusion<T> : IScope<T>
-        where T: class
+        where T : class
     {
         private sealed class KeyedGate
         {
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                     // if there are no other threads referencing this item's semaphore
                     if (gate.ReferenceCount == 0)
                     {
-                        if (! this.owner.gateByItem.Remove(this.item))
+                        if (!this.owner.gateByItem.Remove(this.item))
                         {
                             throw new InvalidOperationException();
                         }

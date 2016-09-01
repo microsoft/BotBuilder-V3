@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Misc
             if (!condition)
             {
                 var text = string.Format(CultureInfo.InvariantCulture, format, args);
-                
+
                 throw new ArgumentException(text);
             }
         }

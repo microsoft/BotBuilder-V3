@@ -157,7 +157,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 var frame = frames[index];
                 var wait = frame.Wait;
                 var rest = wait.Rest;
-                var thunk = (IThunk) rest.Target;
+                var thunk = (IThunk)rest.Target;
                 return thunk.Method;
             }
 

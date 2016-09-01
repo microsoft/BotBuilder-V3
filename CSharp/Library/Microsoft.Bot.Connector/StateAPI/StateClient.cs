@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
-    
+
 
     /// <summary>
     /// The Bot State REST API allows your bot to store and retrieve state
@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Gets or sets json deserialization settings.
         /// </summary>
-        public JsonSerializerSettings DeserializationSettings { get; private set; }        
+        public JsonSerializerSettings DeserializationSettings { get; private set; }
 
         /// <summary>
         /// Subscription credentials which uniquely identify client subscription.
@@ -290,6 +290,6 @@ namespace Microsoft.Bot.Connector
                     }
             };
             CustomInitialize();
-        }    
+        }
     }
 }

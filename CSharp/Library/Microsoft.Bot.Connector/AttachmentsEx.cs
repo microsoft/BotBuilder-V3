@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Connector
     using System.Configuration;
     using System.Threading.Tasks;
     using System.IO;
-    
+
     public partial class Attachments
     {
         /// <summary>

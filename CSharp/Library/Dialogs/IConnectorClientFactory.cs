@@ -57,15 +57,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Make the <see cref="IStateClient"/> implementation.
         /// </summary>
         /// <returns>The <see cref="IStateClient"/> implementation.</returns>
-        IStateClient MakeStateClient(); 
+        IStateClient MakeStateClient();
     }
 
     public sealed class ConnectorClientFactory : IConnectorClientFactory
     {
         private readonly Uri serviceUri;
-        private readonly IMessageActivity message; 
+        private readonly IMessageActivity message;
         private readonly MicrosoftAppCredentials credentials;
-        private readonly bool? isEmulator; 
+        private readonly bool? isEmulator;
         public ConnectorClientFactory(IMessageActivity message, MicrosoftAppCredentials credentials)
         {
             SetField.NotNull(out this.message, nameof(message), message);
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         IStateClient IConnectorClientFactory.MakeStateClient()
         {
-            if(isEmulator ?? false)
+            if (isEmulator ?? false)
             {
                 // for emulator we should use serviceUri of the emulator for storage
                 return new StateClient(this.serviceUri, this.credentials);

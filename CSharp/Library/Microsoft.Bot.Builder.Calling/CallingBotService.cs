@@ -158,7 +158,7 @@ namespace Microsoft.Bot.Builder.Calling
             }
             throw new BotCallingServiceException($"Unknown conversation result type {receivedConversationResult.OperationOutcome.Type}");
         }
-        
+
         private async Task<Workflow> HandleIncomingCall(Conversation conversation)
         {
             Trace.TraceInformation($"CallingBotService: Received incoming call, callId: {conversation.Id}");
@@ -234,7 +234,7 @@ namespace Microsoft.Bot.Builder.Calling
                 await action.Invoke(outcomeEventBase).ConfigureAwait(false);
                 return outcomeEventBase.ResultingWorkflow;
             }
-            throw new BotCallingServiceException($"No event handler set for {outcomeEventBase.ConversationResult.OperationOutcome.Type} outcome");            
+            throw new BotCallingServiceException($"No event handler set for {outcomeEventBase.ConversationResult.OperationOutcome.Type} outcome");
         }
 
         private Workflow CreateInitialWorkflow()

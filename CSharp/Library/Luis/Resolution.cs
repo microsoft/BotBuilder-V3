@@ -88,11 +88,11 @@ namespace Microsoft.Bot.Builder.Luis
             public enum Reference
             {
                 [Description("past")]
-	            PAST_REF,
+                PAST_REF,
                 [Description("present")]
-	    		PRESENT_REF,
+                PRESENT_REF,
                 [Description("future")]
-    			FUTURE_REF
+                FUTURE_REF
             }
 
 
@@ -239,7 +239,7 @@ namespace Microsoft.Bot.Builder.Luis
                     return null;
                 }
 
-                private static E? ParseEnumOrNull<E>(Group group) where E: struct
+                private static E? ParseEnumOrNull<E>(Group group) where E : struct
                 {
                     if (group.Success)
                     {
@@ -308,7 +308,7 @@ namespace Microsoft.Bot.Builder.Luis
 
     public interface IResolutionParser
     {
-        bool TryParse(IDictionary<string, string> properties, out Resolution resolution); 
+        bool TryParse(IDictionary<string, string> properties, out Resolution resolution);
     }
 
     public sealed class ResolutionParser : IResolutionParser

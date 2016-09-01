@@ -15,7 +15,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         public static readonly Dictionary<char, int> ValidDtmfSet = new Dictionary<char, int>()
         {
             {'0', 0},
-            {'1', 1}, 
+            {'1', 1},
             {'2', 2},
             {'3', 3},
             {'4', 4},

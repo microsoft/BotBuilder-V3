@@ -40,7 +40,7 @@ using System.Linq;
 namespace Microsoft.Bot.Builder.FormFlow.Json
 {
     // No need to document overrides of interface methods
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
 
     /// <summary>
     /// %Field defined through JSON Schema.

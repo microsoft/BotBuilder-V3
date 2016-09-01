@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
         async Task IAlarmService.UpsertAsync(string title, DateTime? when, bool? state)
         {
             Alarm alarm;
-            if (! this.scheduler.TryFindAlarm(title, out alarm))
+            if (!this.scheduler.TryFindAlarm(title, out alarm))
             {
                 alarm = new Alarm() { Title = title, State = true, Next = ExternalEvent.HandleAlarm, Cookie = this.cookie };
 

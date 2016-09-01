@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
                 .As<IStateClient>()
-                .InstancePerLifetimeScope(); 
+                .InstancePerLifetimeScope();
 
             builder
                .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c => c.Resolve<IDetectChannelCapability>().Detect())
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ConnectorStore>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
@@ -140,8 +140,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf()
                 .SingleInstance(); */
 
-            builder.Register( c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), 
-                                                           CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+            builder.Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(),
+                                                          CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
                 .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();

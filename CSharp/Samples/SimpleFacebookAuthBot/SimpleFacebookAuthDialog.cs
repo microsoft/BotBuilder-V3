@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         {
             ResumptionCookie = new ResumptionCookie(msg);
         }
-        
+
         /// <summary>
         /// The chain of dialogs that implements the login/logout process for the bot
         /// </summary>
@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 new DefaultCase<IMessageActivity, IDialog<string>>((ctx, msg) =>
                 {
                     string token;
-                    string name = string.Empty; 
+                    string name = string.Empty;
                     if (ctx.PrivateConversationData.TryGetValue(AuthTokenKey, out token) && ctx.UserData.TryGetValue("name", out name))
                     {
                         var validationTask = FacebookHelpers.ValidateAccessToken(token);

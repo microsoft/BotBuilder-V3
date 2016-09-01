@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             {
                 return new WorkflowValidationOutcome();
             }
-            
+
             throw new ArgumentException(String.Format("The given outcome type '{0}' is not supported!", type));
         }
     }

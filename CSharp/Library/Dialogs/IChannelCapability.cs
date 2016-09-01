@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// True if the channel support buttons, false otherwise.
         /// </summary>
-        bool SupportButtons { get; } 
+        bool SupportButtons { get; }
     }
 
     /// <summary>
@@ -36,8 +36,8 @@ namespace Microsoft.Bot.Builder.Dialogs
     public sealed class DetectChannelCapability : IDetectChannelCapability
     {
         private readonly string channelId;
-        private readonly string serviceUrl; 
-        
+        private readonly string serviceUrl;
+
 
         public DetectChannelCapability(IMessageActivity message)
         {
@@ -56,13 +56,13 @@ namespace Microsoft.Bot.Builder.Dialogs
 
     public sealed class ChannelCapability : IChannelCapability
     {
-        private readonly bool supportButtons; 
+        private readonly bool supportButtons;
 
         public ChannelCapability(bool supportButtons = true)
         {
-            this.supportButtons = supportButtons; 
+            this.supportButtons = supportButtons;
         }
-        
+
         public bool SupportButtons
         {
             get

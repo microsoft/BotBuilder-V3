@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Connector
                 APIResponse errorMessage = result.Body as APIResponse;
 
                 string _requestContent = null;
-                if(result.Request != null && result.Request.Content != null)
+                if (result.Request != null && result.Request.Content != null)
                 {
                     try
                     {
@@ -30,8 +30,8 @@ namespace Microsoft.Bot.Connector
                     }
                 }
 
-                string _responseContent = null; 
-                if(result.Response != null && result.Response.Content !=null)
+                string _responseContent = null;
+                if (result.Response != null && result.Response.Content != null)
                 {
                     try
                     {
@@ -65,10 +65,10 @@ namespace Microsoft.Bot.Connector
                     {
                         _requestContent = await result.Request.Content.ReadAsStringAsync().ConfigureAwait(false);
                     }
-                    catch(ObjectDisposedException)
+                    catch (ObjectDisposedException)
                     {
                         //result.Request.Content is disposed. 
-                        _requestContent = null; 
+                        _requestContent = null;
                     }
                 }
 
@@ -95,7 +95,7 @@ namespace Microsoft.Bot.Connector
             if (typeof(ObjectT).IsArray)
             {
                 IList list = (IList)result.Body;
-                if(list == null)
+                if (list == null)
                 {
                     return default(ObjectT);
                 }

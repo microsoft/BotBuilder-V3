@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = Phrase;
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, MakeSelectQuery);
@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = true.ToString();
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -176,7 +176,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = false.ToString();
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -497,7 +497,7 @@ namespace Microsoft.Bot.Builder.Tests
                 })
                 .Then(async (context, res) =>
                 {
-                
+
                     var selection = context.ConversationData.Get<string>("selected");
                     if (await res)
                     {

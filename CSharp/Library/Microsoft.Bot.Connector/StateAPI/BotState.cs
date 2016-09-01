@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
-    
+
 
     /// <summary>
     /// BotState operations.
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public BotState(StateClient client)
         {
-            if (client == null) 
+            if (client == null)
             {
                 throw new ArgumentNullException("client");
             }
@@ -98,7 +98,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -310,7 +310,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -322,7 +322,7 @@ namespace Microsoft.Bot.Connector
 
             // Serialize Request
             string _requestContent = null;
-            if(botData != null)
+            if (botData != null)
             {
                 _requestContent = SafeJsonConvert.SerializeObject(botData, this.Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
@@ -539,7 +539,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -761,7 +761,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -973,7 +973,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -985,7 +985,7 @@ namespace Microsoft.Bot.Connector
 
             // Serialize Request
             string _requestContent = null;
-            if(botData != null)
+            if (botData != null)
             {
                 _requestContent = SafeJsonConvert.SerializeObject(botData, this.Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);
@@ -1210,7 +1210,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -1431,7 +1431,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach(var _header in customHeaders)
+                foreach (var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -1443,7 +1443,7 @@ namespace Microsoft.Bot.Connector
 
             // Serialize Request
             string _requestContent = null;
-            if(botData != null)
+            if (botData != null)
             {
                 _requestContent = SafeJsonConvert.SerializeObject(botData, this.Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, Encoding.UTF8);

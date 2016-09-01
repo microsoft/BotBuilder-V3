@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Connector
             reply.ChannelId = this.ChannelId;
             reply.Conversation = this.Conversation;
             reply.Text = text ?? String.Empty;
-            reply.Locale = locale ?? this.Locale;            
+            reply.Locale = locale ?? this.Locale;
             reply.Attachments = new List<Attachment>();
             reply.Entities = new List<Entity>();
             return reply;

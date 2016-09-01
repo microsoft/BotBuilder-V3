@@ -177,7 +177,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         [TestMethod]
         public async Task EnforceETagConsistency()
-        {   
+        {
             Func<IDialog<object>> MakeRoot = () => chain;
 
             using (new FiberTestBase.ResolveMoqAssembly(chain))
@@ -193,13 +193,13 @@ namespace Microsoft.Bot.Builder.Tests
                         await Conversation.SendAsync(scope, msg);
                         Assert.Fail();
                     }
-                    catch(HttpOperationException e)
+                    catch (HttpOperationException e)
                     {
                         Assert.AreEqual(e.Response.StatusCode, HttpStatusCode.PreconditionFailed);
                         var data = await mockConnectorFactory.StateClient.BotState.GetPrivateConversationDataAsync(msg.ChannelId, msg.Conversation.Id, msg.From.Id);
                         Assert.AreEqual(10, data.GetProperty<int>("mycount"));
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         Assert.Fail();
                     }
@@ -224,7 +224,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("1:test", reply.Text);
                     var data = await mockConnectorFactory.StateClient.BotState.GetPrivateConversationDataAsync(msg.ChannelId, msg.Conversation.Id, msg.From.Id);
-                    Assert.AreEqual(1, data.GetProperty<int>("count")); 
+                    Assert.AreEqual(1, data.GetProperty<int>("count"));
                     Assert.AreEqual(0, data.GetProperty<int>("mycount")); // The overwritten data should be 0
                 }
             }

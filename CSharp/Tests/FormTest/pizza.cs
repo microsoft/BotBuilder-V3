@@ -345,7 +345,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 result.FeedbackCard = new FormPrompt()
                                 {
                                     Prompt = "Secret place",
-                                    Description = new DescribeAttribute(image:@"https://placeholdit.imgix.net/~text?txtsize=12&txt=secret&w=80&h=40&txttrack=0&txtclr=000&txtfont=bold")
+                                    Description = new DescribeAttribute(image: @"https://placeholdit.imgix.net/~text?txtsize=12&txt=secret&w=80&h=40&txttrack=0&txtclr=000&txtfont=bold")
                                 };
                             }
                         }

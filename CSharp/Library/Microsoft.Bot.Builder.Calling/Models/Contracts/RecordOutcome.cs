@@ -41,7 +41,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             }
             else
             {
-                Utils.AssertArgument(this.LengthOfRecordingInSecs <= 0, 
+                Utils.AssertArgument(this.LengthOfRecordingInSecs <= 0,
                     "Recording Length must not be specified for failed recording");
             }
         }

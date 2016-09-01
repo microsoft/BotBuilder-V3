@@ -727,7 +727,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 _buildPrompts = true;
             }
             if (_buildPrompts)
-            { 
+            {
                 var template = Template(TemplateUsage.Help);
                 _help = new Prompter<T>(template, _form, _recognizer);
                 var prompt = _promptDefinition;

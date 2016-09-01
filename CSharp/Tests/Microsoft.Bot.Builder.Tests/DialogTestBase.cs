@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
-        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot")); 
+        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot"));
 
         [Flags]
         public enum Options { None = 0, Reflection = 1, ScopedQueue = 2, MockConnectorFactory = 4, ResolveDialogFromContainer = 8, LastWriteWinsCachingBotDataStore = 16 };
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Register(c => new BotIdResolver("testBot"))
                 .As<IBotIdResolver>()
                 .SingleInstance();
-            
+
             builder
            .Register((c, p) => mockConnectorFactory)
                .As<IConnectorClientFactory>()
@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.Tests
                 builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
                     .As<IBotDataStore<BotData>>()
                     .AsSelf()
-                    .InstancePerLifetimeScope(); 
+                    .InstancePerLifetimeScope();
             }
 
             foreach (var singleton in singletons)
@@ -128,11 +128,12 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static IMessageActivity MakeTestMessage()
         {
-            return new Activity() {
+            return new Activity()
+            {
                 From = new ChannelAccount { Id = ChannelID.User },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = ChannelID.Bot },
-                ServiceUrl = "InvalidServiceUrl", 
+                ServiceUrl = "InvalidServiceUrl",
                 ChannelId = "Test"
             };
         }

@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetActive(condition);
             SetFieldDescription(new DescribeAttribute(form.Configuration.Confirmation) { IsLocalizable = false });
             var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
-            _next = (value, state) => (bool) value ? new NextStep() : noStep;
+            _next = (value, state) => (bool)value ? new NextStep() : noStep;
         }
 
         /// <summary>

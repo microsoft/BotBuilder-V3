@@ -326,7 +326,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             return new DefaultCase<T, R>(selector);
         }
-        
+
         [Serializable]
         private sealed class FromDialog<T> : IDialog<T>
         {
@@ -634,7 +634,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E: Exception
+        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E : Exception
         {
             public readonly IDialog<T> Antecedent;
             public DefaultIfExceptionDialog(IDialog<T> antecedent)

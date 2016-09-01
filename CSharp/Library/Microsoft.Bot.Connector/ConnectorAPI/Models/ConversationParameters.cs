@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         public ConversationParameters(ChannelAccount bot = default(ChannelAccount), bool? isGroup = default(bool?), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string))
         {
             Bot = bot;
-            IsGroup = isGroup;            
+            IsGroup = isGroup;
             Members = members;
             TopicName = topicName;
         }

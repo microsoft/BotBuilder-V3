@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("userId", TokenEncoder(resumptionCookie.UserId)),
                 Tuple.Create("botId", TokenEncoder(resumptionCookie.BotId)),
                 Tuple.Create("conversationId", TokenEncoder(resumptionCookie.ConversationId)),
-                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.ServiceUrl)), 
+                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.ServiceUrl)),
                 Tuple.Create("channelId", resumptionCookie.ChannelId),
                 Tuple.Create("locale", resumptionCookie.Locale ?? "en")
                 );
@@ -118,7 +118,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("scope", "public_profile,email"),
                 Tuple.Create("state", Convert.ToString(new Random().Next(9999)))
                 );
-            
+
             return uri.ToString();
         }
 
@@ -144,14 +144,14 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         private static Uri GetUri(string endPoint, params Tuple<string, string>[] queryParams)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-            foreach(var queryparam in queryParams)
+            foreach (var queryparam in queryParams)
             {
-                queryString[queryparam.Item1] = queryparam.Item2; 
+                queryString[queryparam.Item1] = queryparam.Item2;
             }
 
             var builder = new UriBuilder(endPoint);
             builder.Query = queryString.ToString();
-            return builder.Uri; 
+            return builder.Uri;
         }
     }
 

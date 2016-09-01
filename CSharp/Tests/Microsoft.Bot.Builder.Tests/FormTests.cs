@@ -388,8 +388,8 @@ namespace Microsoft.Bot.Builder.Tests
                             },
                 "hi",
                 "1", // onions for topping clarification
-                "2", 
-                "med", 
+                "2",
+                "med",
                 // Kind "4",
                 "drink bread",
                 "thin",

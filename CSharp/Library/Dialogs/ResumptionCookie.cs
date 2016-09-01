@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(msg.ServiceUrl);
             BotId = msg.Recipient?.Id;
             ConversationId = msg.Conversation?.Id;
-            var isGroup =  msg.Conversation?.IsGroup;
+            var isGroup = msg.Conversation?.IsGroup;
             IsGroup = isGroup.HasValue && isGroup.Value;
             Locale = msg.Locale;
         }
@@ -199,11 +199,11 @@ namespace Microsoft.Bot.Builder.Dialogs
                 {
                     Id = this.BotId
                 },
-                ChannelId = this.ChannelId, 
+                ChannelId = this.ChannelId,
                 ServiceUrl = this.ServiceUrl,
                 Conversation = new ConversationAccount
                 {
-                    Id = this.ConversationId, 
+                    Id = this.ConversationId,
                     IsGroup = this.IsGroup
                 },
                 From = new ChannelAccount

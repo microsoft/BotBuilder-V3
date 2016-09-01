@@ -129,7 +129,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             stack.RemoveAt(stack.Count - 1);
             return top;
         }
-  
+
         public static T Peek<T>(this IList<T> stack)
         {
             if (stack.Count == 0)
@@ -143,7 +143,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         public static V GetOrAdd<K, V>(this IDictionary<K, V> valueByKey, K key, Func<K, V> make)
         {
             V value;
-            if (! valueByKey.TryGetValue(key, out value))
+            if (!valueByKey.TryGetValue(key, out value))
             {
                 value = make(key);
                 valueByKey.Add(key, value);

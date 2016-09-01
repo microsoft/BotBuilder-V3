@@ -174,7 +174,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<IDialogContext>(async context => { PromptDialog.Text(context, dialog.Object.ItemReceived, "blah"); });
 
             Func<IDialog<object>> MakeRoot = () => dialog.Object;
-            var toBot = MakeTestMessage(); 
+            var toBot = MakeTestMessage();
 
             using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
             using (var container = Build(Options.None, dialog.Object))
@@ -322,7 +322,7 @@ namespace Microsoft.Bot.Builder.Tests
                 }
             }
         }
-        
+
         [TestMethod]
         public async Task DialogTask_Frame_Scoring()
         {

@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         void IStore<T>.Flush()
         {
-            this.store.Flush(); 
+            this.store.Flush();
         }
     }
 
@@ -156,7 +156,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             this.store.Save(item);
         }
-        
+
         void IStore<T>.Flush()
         {
             this.store.Flush();
