@@ -1436,6 +1436,15 @@
             Action to use to perform signin
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
+            </summary>
+            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
+            <param name="buttonLabel"> The signin button label.</param>
+            <param name="url"> The sigin url.</param>
+            <returns> The created sigin card.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.BotState">
             <summary>
             BotState operations.
