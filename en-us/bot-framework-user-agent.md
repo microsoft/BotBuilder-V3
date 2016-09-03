@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Bot Framework User-Agents
-permalink: /en-us/ua/
+title: Bot Framework User-Agent
+permalink: /en-us/bot-framework-user-agent/
 ---
 
 ## So you've received a request from a Bot Framework server
