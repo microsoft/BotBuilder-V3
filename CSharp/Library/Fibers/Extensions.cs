@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             if (stack.Count == 0)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Stack is empty");
             }
 
             return stack[stack.Count - 1];
