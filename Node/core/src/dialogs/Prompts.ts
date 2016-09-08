@@ -301,7 +301,8 @@ export class Prompts extends dlg.Dialog {
                     break;
                 case ListStyle.inline:
                     list = ' (';
-                    args.enumValues.forEach((value, index) => {
+                    args.enumValues.forEach((v, index) => {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                         if (index == args.enumValues.length - 2) {
                             connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
@@ -314,7 +315,8 @@ export class Prompts extends dlg.Dialog {
                     break;
                 case ListStyle.list:
                     list = '\n   ';
-                    args.enumValues.forEach((value, index) => {
+                    args.enumValues.forEach((v, index) => {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                         connector = '\n   ';
                     });
@@ -369,7 +371,12 @@ export class Prompts extends dlg.Dialog {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
+        var c = entities.EntityRecognizer.expandChoices(choices);
+        if (c.length == 0) {
+            console.error("0 length choice for prompt:", prompt);
+            throw "0 length choice list supplied";
+        }
+        args.enumValues = c;
         beginPrompt(session, args);
     }
 

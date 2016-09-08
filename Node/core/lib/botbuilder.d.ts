@@ -347,7 +347,7 @@ export interface ILocalizer {
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    gettext(language: string, msgid: string): string;
+    gettext(language: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
@@ -1065,6 +1065,9 @@ export class Session {
     /** Data that's only visible to the current dialog. */
     dialogData: any;
 
+    /** The localizer (if available) to use. */
+    localizer:ILocalizer ;    
+    
     /**
      * Signals that an error occured. The bot will signal the error via an on('error', err) event.
      * @param err Error that occured.
