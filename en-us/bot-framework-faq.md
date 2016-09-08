@@ -237,4 +237,23 @@ It is a comprehensive suite that brings together technologies founded upon years
 
 With Cortana Intelligence, we hope to help our enterprise customers unlock new opportunities, increase their speed of business and be leaders in their industries.
 
+## What is the Direct Line channel?
 
+Direct Line is a REST API that allows you to add your bot into your service, mobile app, or webpage.
+
+You can write a client for the Direct Line API in any language. Simply code to the [Direct Line protocol](/en-us/restapi/directline/), generate a secret in the Direct Line configuration page, and talk to your bot from wherever your code lives.
+
+Direct Line is suitable for:
+
+* Mobile apps on iOS, Android, and Windows Phone, and others
+* Desktop applications on Windows, OSX, and more
+* Webpages where you need more customization than the [embeddable Web Chat channel](/en-us/support/embed-chat-control2/) offers
+* Service-to-service applications
+
+## Why does my Direct Line conversation start over after every message?
+
+If your Direct Line conversation appears to start over after every message, you are likely omitting the "from" field on the messages you sent from your Direct Line client. Direct Line auto-allocates IDs when the "from" property is null, so every message sent from your client appears to your bot to be a new user.
+
+To fix this, set the "from" field to a stable value that represents the user.
+
+The value of the field is up to you. If you already have a signed-in user in your webpage or app, you can use the existing user ID. If not, you could generate a random user ID on page/app load, optionally store that ID in a cookie or device state, and use that ID.
