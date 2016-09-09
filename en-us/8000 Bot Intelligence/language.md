@@ -120,20 +120,20 @@ Next, go to *MessagesController.cs*, and add the following namespaces.
 Finally, on the same file, replace the code in the Post task with the one below.  
 
 {% highlight c# %}
-
+    
+    [ResponseType(typeof(void))]
     public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
     {
-        ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-    
-        if (activity == null || activity.GetActivityType() != ActivityTypes.Message)
+        if (activity.Type == ActivityTypes.Message)
+        {
+            await Conversation.SendAsync(activity, () => new TravelGuidDialog());
+        }
+        else
         {
             //add code to handle errors, or non-messaging activities
         }
-    
-        await connector.Conversations.SendAsync(activity, () => new TravelGuidDialog()); 
-        var response = Request.CreateResponse(HttpStatusCode.OK);
-        return response;
 
+        return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
     }
 
 {% endhighlight %}
@@ -185,60 +185,56 @@ using Newtonsoft.Json;
 Finally, replace the code in the Post task with the one in the code snippet below. The code receives the user message, calls the sentiment analysis endpoint and responds accordingly to the user. 
 
 {% highlight c# %}
-
 public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
 {
-    ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+	var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
-    if (activity == null || activity.GetActivityType() != ActivityTypes.Message)
-    {
-        //add code to handle errors, or non-messaging activities
-    }
-    
-    const string apiKey = "<YOUR API KEY FROM MICROSOFT.COM/COGNITIVE>"; 
-    string queryUri = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
+	if (activity.Type == ActivityTypes.Message)
+	{
+		const string apiKey = "<YOUR API KEY FROM MICROSOFT.COM/COGNITIVE>";
+		const string queryUri = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
 
-    HttpClient client = new HttpClient();
-    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey); 
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-    BatchInput sentimentInput = new BatchInput();
-
-    sentimentInput.documents = new List<DocumentInput>();
-    sentimentInput.documents.Add(new DocumentInput()
-    {
-        id = 1,
-        text = activity.Text
-    });
-
-    var sentimentJsonInput = JsonConvert.SerializeObject(sentimentInput);
-    byte[] byteData = Encoding.UTF8.GetBytes(sentimentJsonInput);
-    var content = new ByteArrayContent(byteData);
-    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-    var sentimentPost = await client.PostAsync(queryUri, content);
-    var sentimentRawResponse = await sentimentPost.Content.ReadAsStringAsync();
-    var sentimentJsonResponse = JsonConvert.DeserializeObject<BatchResult>(sentimentRawResponse);
-    double sentimentScore = sentimentJsonResponse.documents[0].score;
-
-    var replyMessage = activity.CreateReply();
-    replyMessage.Recipient = activity.From;
-    replyMessage.Type = ActivityTypes.Message;
-
-    if (sentimentScore > 0.7)
-    {
-        replyMessage.Text = $"That's great to hear!";
-    }
-    else if (sentimentScore < 0.3)
-    {
-        replyMessage.Text = $"I'm sorry to hear that...";
-    }
-    else
-    {
-        replyMessage.Text = $"I see...";
-    }
-
-    await connector.Conversations.ReplyToActivityAsync(replyMessage);
-    var response = Request.CreateResponse(HttpStatusCode.OK);
-    return response;
+		var client = new HttpClient {
+			DefaultRequestHeaders = {
+				{"Ocp-Apim-Subscription-Key", apiKey},
+				{"Accept", "application/json"}
+			}
+		};
+		var sentimentInput = new BatchInput {
+			Documents = new List<DocumentInput> {
+				new DocumentInput {
+					Id = 1,
+					Text = activity.Text,
+				}
+			}
+		};
+		var json = JsonConvert.SerializeObject(sentimentInput);
+		var sentimentPost = await client.PostAsync(queryUri, new StringContent(json, Encoding.UTF8, "application/json"));
+		var sentimentRawResponse = await sentimentPost.Content.ReadAsStringAsync();
+		var sentimentJsonResponse = JsonConvert.DeserializeObject<BatchResult>(sentimentRawResponse);
+		var sentimentScore = sentimentJsonResponse?.Documents?.FirstOrDefault()?.Score ?? 0;
+		
+		string message;
+		if (sentimentScore > 0.7)
+		{
+			message = $"That's great to hear!";
+		}
+		else if (sentimentScore < 0.3)
+		{
+			message = $"I'm sorry to hear that...";
+		}
+		else
+		{
+			message = $"I see...";
+		}
+		var reply = activity.CreateReply(message);
+		await connector.Conversations.ReplyToActivityAsync(reply);
+	}
+	else
+	{
+		//add code to handle errors, or non-messaging activities
+	}
+	var response = Request.CreateResponse(HttpStatusCode.OK);
+	return response;
 }
-
 {% endhighlight %}
