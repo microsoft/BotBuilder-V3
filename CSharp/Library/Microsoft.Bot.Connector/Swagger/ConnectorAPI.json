@@ -182,7 +182,7 @@
           "Conversations"
         ],
         "summary": "UpdateActivity",
-        "description": "System.IO.FileNotFoundException: Could not find file 'C:\\source\\Intercom\\Microsoft.Bot.ChannelConnector\\Content\\Methods\\UpdateActivity.md'.\r\nFile name: 'C:\\source\\Intercom\\Microsoft.Bot.ChannelConnector\\Content\\Methods\\UpdateActivity.md'\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
+        "description": "This method allows you to edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, if the bot asks who is coming to the picknic, each person who clicks on the \"Yes\" button could cause the activity\r\ncard to be updated with the current list of people attending.",
         "operationId": "Conversations_UpdateActivity",
         "consumes": [
           "application/json",
