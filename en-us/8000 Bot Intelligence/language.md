@@ -39,9 +39,9 @@ namespace Microsoft.Bot.Sample.WeatherBot
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Luis;
-    using Microsoft.Bot.Builder.Luis.Models;
+    using Builder.Dialogs;
+    using Builder.Luis;
+    using Builder.Luis.Models;
 
     [LuisModel("<YOUR_LUIS_APP_ID>", "<YOUR_LUIS_SUBSCRIPTION_KEY>")]
     [Serializable]
@@ -52,7 +52,8 @@ namespace Microsoft.Bot.Sample.WeatherBot
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {
-            string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));
+            string message = $"Sorry I did not understand: " 
+                + string.Join(", ", result.Intents.Select(i => i.Intent));
             await context.PostAsync(message);
             context.Wait(MessageReceived);
         }
@@ -67,7 +68,10 @@ namespace Microsoft.Bot.Sample.WeatherBot
 
             if (!result.TryFindEntity(Entity_location, out location))
             {
-                PromptDialog.Choice(context, SelectCity, cities, "In which city do you want to know the weather forecast?");
+                PromptDialog.Choice(context, 
+                                    SelectCity, 
+                                    cities, 
+                                    "In which city do you want to know the weather forecast?");
             }
             else
             {
