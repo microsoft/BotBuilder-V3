@@ -1,4 +1,4 @@
-﻿{
+{
   "swagger": "2.0",
   "info": {
     "version": "v3",
@@ -16,16 +16,25 @@
     }
   },
   "host": "api.botframework.com",
-  "schemes": [ "https" ],
+  "schemes": [
+    "https"
+  ],
   "paths": {
     "/v3/attachments/{attachmentId}": {
       "get": {
-        "tags": [ "Attachments" ],
+        "tags": [
+          "Attachments"
+        ],
         "summary": "GetAttachmentInfo",
         "description": "Get AttachmentInfo structure describing the attachment views",
         "operationId": "Attachments_GetAttachmentInfo",
         "consumes": [ ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "attachmentId",
@@ -38,31 +47,45 @@
         "responses": {
           "200": {
             "description": "﻿An attachmentInfo object is returned which describes the:\r\n* type of the attachment\r\n* name of the attachment\r\n\r\n\r\nand an array of views:\r\n* Size - size of the object\r\n* ViewId - View Id which can be used to fetch a variation on the content (ex: original or thumbnail)",
-            "schema": { "$ref": "#/definitions/AttachmentInfo" }
+            "schema": {
+              "$ref": "#/definitions/AttachmentInfo"
+            }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -70,12 +93,19 @@
     },
     "/v3/attachments/{attachmentId}/views/{viewId}": {
       "get": {
-        "tags": [ "Attachments" ],
+        "tags": [
+          "Attachments"
+        ],
         "summary": "GetAttachment",
         "description": "Get the named view as binary content",
         "operationId": "Attachments_GetAttachment",
         "consumes": [ ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "attachmentId",
@@ -100,42 +130,165 @@
               "type": "string"
             }
           },
-          "301": { "description": "﻿The Location header describes where the content is now." },
-          "302": { "description": "﻿The Location header describes where the content is now." },
+          "301": {
+            "description": "﻿The Location header describes where the content is now."
+          },
+          "302": {
+            "description": "﻿The Location header describes where the content is now."
+          },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
       }
     },
     "/v3/conversations/{conversationId}/activities/{activityId}": {
+      "put": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "UpdateActivity",
+        "description": "System.IO.FileNotFoundException: Could not find file 'C:\\source\\Intercom\\Microsoft.Bot.ChannelConnector\\Content\\Methods\\UpdateActivity.md'.\r\nFile name: 'C:\\source\\Intercom\\Microsoft.Bot.ChannelConnector\\Content\\Methods\\UpdateActivity.md'\r\n   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)\r\n   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)\r\n   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)\r\n   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)\r\n   at System.IO.File.ReadAllText(String path)\r\n   at MarkdownDocs.Program.Main(String[] args)",
+        "operationId": "Conversations_UpdateActivity",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "activityId to update (OPTIONAL)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activity",
+            "in": "body",
+            "description": "New Activity data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "﻿The operation succeeded."
+          },
+          "201": {
+            "description": "﻿An error has been generated."
+          },
+          "202": {
+            "description": "﻿The operation has been accepted and will be processed."
+          },
+          "400": {
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "401": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "403": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "404": {
+            "description": "﻿The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "500": {
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "503": {
+            "description": "﻿The service you are trying to communciate with is unavailable.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          }
+        },
+        "deprecated": false
+      },
       "post": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "operationId": "Conversations_ReplyToActivity",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "conversationId",
@@ -153,36 +306,56 @@
             "name": "activity",
             "in": "body",
             "required": true,
-            "schema": { "$ref": "#/definitions/Activity" }
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
           }
         ],
         "responses": {
-          "200": { "description": "﻿The operation succeeded." },
-          "201": { "description": "" },
-          "202": { "description": "" },
+          "200": {
+            "description": "﻿The operation succeeded."
+          },
+          "201": {
+            "description": "﻿An error has been generated."
+          },
+          "202": {
+            "description": "﻿The operation has been accepted and will be processed."
+          },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -190,57 +363,90 @@
     },
     "/v3/conversations": {
       "post": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "summary": "CreateConversation",
         "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array contining the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
         "operationId": "Conversations_CreateConversation",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "parameters",
             "in": "body",
             "description": "Parameters to create the conversation from",
             "required": true,
-            "schema": { "$ref": "#/definitions/ConversationParameters" }
+            "schema": {
+              "$ref": "#/definitions/ConversationParameters"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
           },
           "201": {
             "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
           },
           "202": {
             "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -248,19 +454,34 @@
     },
     "/v3/conversations/{conversationId}/activities": {
       "post": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "summary": "SendToConversation",
         "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
         "operationId": "Conversations_SendToConversation",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "activity",
             "in": "body",
             "description": "Activity to send",
             "required": true,
-            "schema": { "$ref": "#/definitions/Activity" }
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
           },
           {
             "name": "conversationId",
@@ -271,32 +492,50 @@
           }
         ],
         "responses": {
-          "200": { "description": "﻿The operation succeeded." },
-          "201": { "description": "" },
-          "202": { "description": "" },
+          "200": {
+            "description": "﻿The operation succeeded."
+          },
+          "201": {
+            "description": "﻿An error has been generated."
+          },
+          "202": {
+            "description": "﻿The operation has been accepted and will be processed."
+          },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -304,12 +543,19 @@
     },
     "/v3/conversations/{conversationId}/members": {
       "get": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "summary": "GetConversationMembers",
         "description": "Call this method to enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount[] objects \r\nwhich are the members of the conversation.",
         "operationId": "Conversations_GetConversationMembers",
         "consumes": [ ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "conversationId",
@@ -324,32 +570,46 @@
             "description": "﻿An array of ChannelAccount objects",
             "schema": {
               "type": "array",
-              "items": { "$ref": "#/definitions/ChannelAccount" }
+              "items": {
+                "$ref": "#/definitions/ChannelAccount"
+              }
             }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -357,12 +617,19 @@
     },
     "/v3/conversations/{conversationId}/activities/{activityId}/members": {
       "get": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "summary": "GetActivityMembers",
         "description": "Call this method to enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount[] objects \r\nwhich are the members of the particular activity in the conversation.",
         "operationId": "Conversations_GetActivityMembers",
         "consumes": [ ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
         "parameters": [
           {
             "name": "conversationId",
@@ -384,32 +651,46 @@
             "description": "﻿An array of ChannelAccount objects",
             "schema": {
               "type": "array",
-              "items": { "$ref": "#/definitions/ChannelAccount" }
+              "items": {
+                "$ref": "#/definitions/ChannelAccount"
+              }
             }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -417,12 +698,23 @@
     },
     "/v3/conversations/{conversationId}/attachments": {
       "post": {
-        "tags": [ "Conversations" ],
+        "tags": [
+          "Conversations"
+        ],
         "summary": "UploadAttachment",
         "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
         "operationId": "Conversations_UploadAttachment",
-        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json" ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "name": "conversationId",
@@ -436,45 +728,157 @@
             "in": "body",
             "description": "Attachment data",
             "required": true,
-            "schema": { "$ref": "#/definitions/AttachmentData" }
+            "schema": {
+              "$ref": "#/definitions/AttachmentData"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
           },
           "201": {
             "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "schema": {
+              "$ref": "#/definitions/ResourceResponse"
+            }
           },
           "202": {
             "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "401": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "403": {
             "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v3/conversations/{conversationId}/DeleteThis": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "Conversations_DeleteThis",
+        "consumes": [ ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "﻿The operation succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ThumbnailCard"
+            }
+          },
+          "202": {
+            "description": "﻿The operation has been accepted and will be processed.",
+            "schema": {
+              "$ref": "#/definitions/ReceiptCard"
+            }
+          },
+          "204": {
+            "description": "﻿The operation succeeded but no content was returned.",
+            "schema": {
+              "$ref": "#/definitions/SigninCard"
+            }
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AudioCard"
+            }
+          },
+          "401": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AnimationCard"
+            }
+          },
+          "403": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/VideoCard"
+            }
+          },
+          "404": {
+            "description": "﻿The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "409": {
+            "description": "﻿You are trying to create an object that already exists.",
+            "schema": {
+              "$ref": "#/definitions/GeoCoordinates"
+            }
+          },
+          "500": {
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
+          },
+          "502": {
+            "description": "﻿The server was acting as a gateway or proxy and received an invalid response from the upstream server.",
+            "schema": {
+              "$ref": "#/definitions/Place"
+            }
+          },
+          "503": {
+            "description": "﻿The service you are trying to communciate with is unavailable.",
+            "schema": {
+              "$ref": "#/definitions/APIResponse"
+            }
           }
         },
         "deprecated": false
@@ -497,7 +901,9 @@
         "views": {
           "description": "attachment views",
           "type": "array",
-          "items": { "$ref": "#/definitions/AttachmentView" }
+          "items": {
+            "$ref": "#/definitions/AttachmentView"
+          }
         }
       }
     },
@@ -517,10 +923,17 @@
       }
     },
     "APIResponse": {
+      "description": "An HTTP API response",
       "type": "object",
-      "properties": { "message": { "type": "string" } }
+      "properties": {
+        "message": {
+          "description": "Message to send in the HTTP response payload",
+          "type": "string"
+        }
+      }
     },
     "Activity": {
+      "description": "An Activity is the basic communication type for the Bot Framework 3.0 protocol",
       "type": "object",
       "properties": {
         "type": {
@@ -567,12 +980,16 @@
         "membersAdded": {
           "description": "Array of address added",
           "type": "array",
-          "items": { "$ref": "#/definitions/ChannelAccount" }
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
         },
         "membersRemoved": {
           "description": "Array of addresses removed",
           "type": "array",
-          "items": { "$ref": "#/definitions/ChannelAccount" }
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
         },
         "topicName": {
           "description": "Conversations new topic name",
@@ -597,12 +1014,16 @@
         "attachments": {
           "description": "Attachments",
           "type": "array",
-          "items": { "$ref": "#/definitions/Attachment" }
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          }
         },
         "entities": {
           "description": "Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.",
           "type": "array",
-          "items": { "$ref": "#/definitions/Entity" }
+          "items": {
+            "$ref": "#/definitions/Entity"
+          }
         },
         "channelData": {
           "$ref": "#/definitions/Object",
@@ -651,6 +1072,7 @@
       }
     },
     "Attachment": {
+      "description": "An attachment within an activity",
       "type": "object",
       "properties": {
         "contentType": {
@@ -690,6 +1112,7 @@
       "properties": { }
     },
     "ConversationParameters": {
+      "description": "Parameters for creating a new conversation",
       "type": "object",
       "properties": {
         "isGroup": {
@@ -703,7 +1126,9 @@
         "members": {
           "description": "Members to add to the conversation",
           "type": "array",
-          "items": { "$ref": "#/definitions/ChannelAccount" }
+          "items": {
+            "$ref": "#/definitions/ChannelAccount"
+          }
         },
         "topicName": {
           "description": "(Optional) Topic of the conversation (if supported by the channel)",
@@ -712,6 +1137,7 @@
       }
     },
     "ResourceResponse": {
+      "description": "A response containing a resource ID",
       "type": "object",
       "properties": {
         "id": {
@@ -745,6 +1171,7 @@
       }
     },
     "HeroCard": {
+      "description": "A Hero card (card with a single, large image)",
       "type": "object",
       "properties": {
         "title": {
@@ -760,14 +1187,18 @@
           "type": "string"
         },
         "images": {
-          "description": "Array of i",
+          "description": "Array of images for the card",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardImage" }
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
         },
         "buttons": {
           "description": "Set of actions applicable to the current card",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardAction" }
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
         },
         "tap": {
           "$ref": "#/definitions/CardAction",
@@ -776,6 +1207,7 @@
       }
     },
     "CardImage": {
+      "description": "An image on a card",
       "type": "object",
       "properties": {
         "url": {
@@ -793,6 +1225,7 @@
       }
     },
     "CardAction": {
+      "description": "An action on a card",
       "type": "object",
       "properties": {
         "type": {
@@ -814,6 +1247,7 @@
       }
     },
     "ThumbnailCard": {
+      "description": "A thumbnail card (card with a single, small thumbnail image)",
       "type": "object",
       "properties": {
         "title": {
@@ -829,14 +1263,18 @@
           "type": "string"
         },
         "images": {
-          "description": "Array of i",
+          "description": "Array of images for the card",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardImage" }
+          "items": {
+            "$ref": "#/definitions/CardImage"
+          }
         },
         "buttons": {
           "description": "Set of actions applicable to the current card",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardAction" }
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
         },
         "tap": {
           "$ref": "#/definitions/CardAction",
@@ -845,6 +1283,7 @@
       }
     },
     "ReceiptCard": {
+      "description": "A receipt card",
       "type": "object",
       "properties": {
         "title": {
@@ -854,12 +1293,16 @@
         "items": {
           "description": "Array of Receipt Items",
           "type": "array",
-          "items": { "$ref": "#/definitions/ReceiptItem" }
+          "items": {
+            "$ref": "#/definitions/ReceiptItem"
+          }
         },
         "facts": {
           "description": "Array of Fact Objects   Array of key-value pairs.",
           "type": "array",
-          "items": { "$ref": "#/definitions/Fact" }
+          "items": {
+            "$ref": "#/definitions/Fact"
+          }
         },
         "tap": {
           "$ref": "#/definitions/CardAction",
@@ -880,11 +1323,14 @@
         "buttons": {
           "description": "Set of actions applicable to the current card",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardAction" }
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
         }
       }
     },
     "ReceiptItem": {
+      "description": "An item on a receipt card",
       "type": "object",
       "properties": {
         "title": {
@@ -921,12 +1367,18 @@
       "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be \r\n            rendered with default style information with some delimiter between them. So there is no need for developer to specify style information.",
       "type": "object",
       "properties": {
-        "key": { "type": "string" },
-        "value": { "type": "string" }
+        "key": {
+          "description": "The key for this Fact",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value for this Fact",
+          "type": "string"
+        }
       }
     },
     "SigninCard": {
-      "description": "A card representing a request to signing",
+      "description": "A card representing a request to sign in",
       "type": "object",
       "properties": {
         "text": {
@@ -936,7 +1388,165 @@
         "buttons": {
           "description": "Action to use to perform signin",
           "type": "array",
-          "items": { "$ref": "#/definitions/CardAction" }
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "AudioCard": {
+      "description": "A audio card",
+      "type": "object",
+      "properties": {
+        "shareable": {
+          "description": "Is it OK for this content to be shareable with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of video in this card (default:true)",
+          "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder, allowed values are \"16x9\" and \"9x16\"",
+          "type": "string"
+        },
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Array of media Url objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "ThumbnailUrl": {
+      "description": "Object describing a media thumbnail",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "url pointing to an thumbnail to use for media content",
+          "type": "string"
+        },
+        "alt": {
+          "description": "Alt text to display for screen readers on the thumbnail image",
+          "type": "string"
+        }
+      }
+    },
+    "MediaUrl": {
+      "description": "MediaUrl data",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url for the media",
+          "type": "string"
+        },
+        "profile": {
+          "description": "Optional profile hint to the client to differentiate multiple MediaUrl objects from each other",
+          "type": "string"
+        }
+      }
+    },
+    "AnimationCard": {
+      "description": "An animation card (Ex: gif or short video clip)",
+      "type": "object",
+      "properties": {
+        "shareable": {
+          "description": "Is it OK for this content to be shareable with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop video playback at end of video (default:true)",
+          "type": "boolean"
+        },
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Array of media Url objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
+        }
+      }
+    },
+    "VideoCard": {
+      "description": "A video card",
+      "type": "object",
+      "properties": {
+        "shareable": {
+          "description": "Is it OK for this content to be shareable with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "title": {
+          "description": "Title of the card",
+          "type": "string"
+        },
+        "subtitle": {
+          "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "image": {
+          "$ref": "#/definitions/ThumbnailUrl",
+          "description": "Thumbnail placeholder"
+        },
+        "media": {
+          "description": "Array of media Url objects",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaUrl"
+          }
+        },
+        "buttons": {
+          "description": "Set of actions applicable to the current card",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardAction"
+          }
         }
       }
     },
