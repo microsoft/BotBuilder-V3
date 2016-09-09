@@ -649,11 +649,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var field = form.Fields.Field(startField);
             SetFieldDescription(_form.Configuration.Navigation);
             SetOptional();
-            var fieldPrompt = field.Template(TemplateUsage.NavigationFormat);
             foreach (var value in formState.Next.Names)
             {
                 var svalue = (string)value;
                 var sfield = form.Fields.Field(svalue);
+                var fieldPrompt = sfield.Template(TemplateUsage.NavigationFormat);
                 var prompter = new Prompter<T>(fieldPrompt, form, sfield.Prompt.Recognizer);
                 AddDescription(value, prompter.Prompt(state, sfield).Prompt, null, svalue);
                 AddTerms(value, form.Fields.Field(svalue).FieldTerms.ToArray());

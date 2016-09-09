@@ -285,10 +285,10 @@
   <data name="DeliveryTime_description;VALUE" xml:space="preserve">
     <value>Delivery Time</value>
   </data>
-	<data name="Rating_description;VALUE" xml:space="preserve">
+  <data name="Rating_description;VALUE" xml:space="preserve">
     <value>your experience today</value>
   </data>
-	<data name="message0;LIST" xml:space="preserve">
+  <data name="message0;LIST" xml:space="preserve">
     <value>Welcome to the sandwich order bot!</value>
   </data>
   <data name="Sandwich_terms;LIST" xml:space="preserve">
@@ -474,10 +474,10 @@
   <data name="confirmation12_promptDefinition;LIST" xml:space="preserve">
     <value>Do you want to order your {Length} {Sandwich} on {Ingredients.Bread} {&amp;Ingredients.Bread} with {[{Ingredients.Cheese} {Ingredients.Toppings} {Ingredients.Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?</value>
   </data>
-	<data name="Rating_terms;LIST" xml:space="preserve">
+  <data name="Rating_terms;LIST" xml:space="preserve">
     <value>ratings?</value>
   </data>
-	<data name="message14;LIST" xml:space="preserve">
+  <data name="message14;LIST" xml:space="preserve">
     <value>Thanks for ordering a sandwich!</value>
   </data>
   <data name="NotUnderstood;Sandwich;Length;Ingredients.Bread;Ingredients.Cheese;Ingredients.Toppings;Ingredients.Sauces;Specials;DeliveryAddress;DeliveryTime;Rating;TEMPLATE" xml:space="preserve">
@@ -488,5 +488,8 @@
   </data>
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">
     <value>None</value>
+  </data>
+  <data name="StatusFormat;DeliveryTime;TEMPLATE" xml:space="preserve">
+    <value>{&amp;}: {:t}</value>
   </data>
 </root>

@@ -167,6 +167,12 @@
       "pattern": "(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}"
     },
     "DeliveryTime": {
+      "Templates": {
+        "StatusFormat": {
+          "Patterns": [ "{&}: {:t}" ],
+          "FieldCase": "None"
+        }
+      },
       "DateTime": true,
       "type": [
         "string",

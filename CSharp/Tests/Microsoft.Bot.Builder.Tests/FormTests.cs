@@ -510,7 +510,8 @@ namespace Microsoft.Bot.Builder.Tests
                 "abc",
                 "1 state st",
                 "",
-                "",
+                "1pm",
+                "status",
                 "y",
                 "2.5"
                 );

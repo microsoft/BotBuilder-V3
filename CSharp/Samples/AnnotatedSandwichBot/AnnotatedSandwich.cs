@@ -93,6 +93,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         public string PhoneNumber;
 
         [Optional]
+        [Template(TemplateUsage.StatusFormat, "{&}: {:t}", FieldCase = CaseNormalization.None)]
         public DateTime? DeliveryTime;
 
         [Numeric(1, 5)]
