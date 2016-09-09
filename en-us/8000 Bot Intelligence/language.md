@@ -33,61 +33,70 @@ After you set up your language model, create your project with the Bot Applicati
 
 
 {% highlight c# %}
-
-[LuisModel("<YOUR_LUIS_APP_ID>", "<YOUR_LUIS_SUBSCRIPTION_KEY>")]
-[Serializable]
-public class TravelGuidDialog: LuisDialog<object>
+namespace Microsoft.Bot.Sample.WeatherBot
 {
-    public const string Entity_location = "Location";
-    
-    [LuisIntent("")]
-    public async Task None(IDialogContext context, LuisResult result)
-    {
-        string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));
-        await context.PostAsync(message);
-        context.Wait(MessageReceived);
-    }
-    
-    enum City { Paris, London, Seattle, Munich};
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Builder.Luis;
+    using Microsoft.Bot.Builder.Luis.Models;
 
-    [LuisIntent("GetWeather")]
-    public async Task GetWeather(IDialogContext context, LuisResult result)
+    [LuisModel("<YOUR_LUIS_APP_ID>", "<YOUR_LUIS_SUBSCRIPTION_KEY>")]
+    [Serializable]
+    public class TravelGuidDialog : LuisDialog<object>
     {
-        var obj = (IEnumerable<City>)Enum.GetValues(typeof(City));
-        EntityRecommendation location;
-        
-        if (!result.TryFindEntity(Entity_location, out location))
+        public const string Entity_location = "Location";
+
+        [LuisIntent("")]
+        public async Task None(IDialogContext context, LuisResult result)
         {
-            PromptDialog.Choice(context, SelectCity, City, "In which city do you want to know the weather forecast?");
+            string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));
+            await context.PostAsync(message);
+            context.Wait(MessageReceived);
         }
-        else
+
+        enum City { Paris, London, Seattle, Munich };
+
+        [LuisIntent("GetWeather")]
+        public async Task GetWeather(IDialogContext context, LuisResult result)
         {
-            //Add code to retrieve the weather
-            await context.PostAsync($"The weather in {location} is ");
+            var cities = (IEnumerable<City>)Enum.GetValues(typeof(City));
+            EntityRecommendation location;
+
+            if (!result.TryFindEntity(Entity_location, out location))
+            {
+                PromptDialog.Choice(context, SelectCity, cities, "In which city do you want to know the weather forecast?");
+            }
+            else
+            {
+                //Add code to retrieve the weather
+                await context.PostAsync($"The weather in {location} is ");
+                context.Wait(MessageReceived);
+            }
+        }
+
+        private async Task SelectCity(IDialogContext context, IAwaitable<City> city)
+        {
+            var message = string.Empty;
+            switch (await city)
+            {
+                case City.Paris:
+                case City.London:
+                case City.Seattle:
+                case City.Munich:
+                    message = $"The weather in {city} is ";
+                    break;
+                default:
+                    message = $"Sorry!! I don't have know the weather in {city}";
+                    break;
+            }
+            await context.PostAsync(message);
             context.Wait(MessageReceived);
         }
     }
-
-    private async Task SelectObject(SelectCity context, IAwaitable<City> city)
-    {
-        var message = string.Empty;
-        switch (await city)
-        {
-            case City.Paris:
-            case City.London:
-            case City.Seattle:
-            case City.Munich:
-                message = $"The weather in {city} is ";
-                break;
-            default:
-                message = $"Sorry!! I don't have know the weather in {city}";
-                break;
-        }
-        await context.PostAsync(message);
-        context.Wait(MessageReceived);
-    }
 }
-
 {% endhighlight %}
 
 Next, go to *MessagesController.cs*, and add the following namespaces. 
