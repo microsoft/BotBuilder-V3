@@ -1,3 +1,4 @@
+"use strict";
 var ses = require('./Session');
 var msg = require('./Message');
 var dialog = require('./dialogs/Dialog');
@@ -39,7 +40,8 @@ exports.ListStyle = prompts.ListStyle;
 exports.Prompts = prompts.Prompts;
 exports.SimplePromptRecognizer = prompts.SimplePromptRecognizer;
 exports.IntentDialog = intent.IntentDialog;
-exports.RecognizerOrder = intent.RecognizeOrder;
+exports.RecognizeOrder = intent.RecognizeOrder;
+exports.RecognizeMode = intent.RecognizeMode;
 exports.LuisRecognizer = luis.LuisRecognizer;
 exports.SimpleDialog = simple.SimpleDialog;
 exports.EntityRecognizer = entities.EntityRecognizer;

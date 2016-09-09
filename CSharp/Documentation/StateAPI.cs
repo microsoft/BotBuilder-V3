@@ -7,7 +7,7 @@ A key to good bot design is to
 - make the web service stateless so that it can be scaled
 - make it track context of a conversation.
 
-Since all bots have these requirements the %Bot Framework has a service for storing bot state.  This lets your bot track things 
+Since all bots have these requirements the %Bot Framework has a service for storing bot state. This lets your bot track things 
 like _what was the last question I asked them?_. 
 
 \section contextualproperties Useful properties for tracking state
@@ -41,12 +41,12 @@ played back to you on future messages when the context is the same.
 > changing and passing back to be saved
 
 \section stateclient Creating State Client
-The default state client is stored in central service.  For some channel ids you may want to use a state API hosted in the channel itself
+The default state client is stored in central service. For some channel ids you may want to use a state API hosted in the channel itself
 (for example with the "emulator" channel) so that state can be stored in a compliant store which the channel supplies.
 
-We have provided a helper method on the Activity object which makes it easy to get an appropriate StateClient for a given message
+We have provided a helper method on the Activity object which makes it easy to get an appropriate StateClient for a given message.
 ~~~{.cs}
-var stateClient = this.Activity.GetStateClient();
+StateClient stateClient = activity.GetStateClient();
 ~~~
 
 \section getsetproperties Get/SetProperty Methods
@@ -55,34 +55,32 @@ of data from a BotData record, including complex objects.
 
 Setting typed data
 ~~~{.cs}
-BotData userData = await botState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
+BotData userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
 userData.SetProperty<bool>("SentGreeting", true);
-await BotState.SetUserDataAsync(userData);
+await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
 ~~~
 
 Getting typed data
 ~~~{.cs}
-StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
-BotData userData = await sc.BotState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
-if (userData.GetProperty<bool>("SentGreeting))
+BotData userData = await stateClient.BotState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+if (userData.GetProperty<bool>("SentGreeting"))
         ... do something ...;
 ~~~
 
 Example of setting a complex type
 
 ~~~{.cs}
-StateClient sc = new StateClient(new Microsoft.Bot.Connector.MicrosoftAppCredentials());
-BotState botState = new BotState(sc);
-botData = new BotData(eTag: "*");
+BotState botState = new BotState(stateClient);
+BotData botData = new BotData(eTag: "*");
 botData.SetProperty<BotState>("UserData", myUserData);
-var response = await sc.BotState.SetUserDataAsync(incomingMessage.ChannelId, incomingMessage.From.Id, botData);
+BotData response = await stateClient.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, botData);
 ~~~
 
 Getting a complex type
 ~~~{.cs}
-pigLatinBotUserData addedUserData = new pigLatinBotUserData();
-var botData =  await botState.GetUserDataAsync(message.ChannelId, message.From.Id);
-myUserData = botData.GetProperty<BotState>("UserData");
+MyUserData addedUserData = new MyUserData();
+BotData botData = await botState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+myUserData = botData.GetProperty<MyUserData>("UserData");
 ~~~
 
 \section concurrency Concurrency
@@ -90,19 +88,18 @@ These botData objects will fail to be stored if another instance of your bot has
     
 Example of using the REST API client library:
 ~~~{.cs}
-var client = new ConnectorClient();
 try
 {
     // get the user data object
-    var userData = await botState.GetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id);
-         
+    BotData userData = await botState.GetUserDataAsync(activity.ChannelId, activity.From.Id);
+
     // modify it...
     userData.Data = ...modify...;
-           
+
     // save it
-    await botState.SetUserDataAsync(botId: message.Recipient.Id, userId: message.From.Id, userData);
+    await botState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
 }
-catch(HttpOperationException err)
+catch (HttpOperationException err)
 {
     // handle precondition failed error if someone else has modified your object
 }

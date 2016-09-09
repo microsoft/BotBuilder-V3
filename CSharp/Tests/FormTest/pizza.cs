@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     public enum CouponOptions { None, Large20Percent, Pepperoni20Percent };
 
     [Serializable]
-    class BYOPizza
+    public class BYOPizza
     {
         public CrustOptions Crust;
         public SauceOptions Sauce;
@@ -163,7 +163,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     };
 
     [Serializable]
-    class PizzaOrder
+    public class PizzaOrder
     {
         [Numeric(1, 10)]
         public int NumberOfPizzas = 1;
@@ -234,7 +234,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             return builder.ToString();
         }
 
-        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.Auto)
+        public static IForm<PizzaOrder> BuildForm(bool noNumbers = false, bool ignoreAnnotations = false, bool localize = false, ChoiceStyleOptions style = ChoiceStyleOptions.AutoText)
         {
             var builder = new FormBuilder<PizzaOrder>(ignoreAnnotations);
 
@@ -331,6 +331,22 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             {
                                 // Test to see if step is skipped
                                 state.Phone = "111-1111";
+                            }
+                            else if (str == "2")
+                            {
+                                result.Choices = new List<Choice>{
+                                    new Choice { Description = new DescribeAttribute("2 Iowa St"), Terms = new TermsAttribute("iowa"), Value = "2 Iowa St"},
+                                    new Choice { Description = new DescribeAttribute("2 Kansas St"), Terms = new TermsAttribute("kansas"), Value = "2 Kansas St"}
+                                };
+                                result.IsValid = false;
+                            }
+                            else if (str == "3")
+                            {
+                                result.FeedbackCard = new FormPrompt()
+                                {
+                                    Prompt = "Secret place",
+                                    Description = new DescribeAttribute(image: @"https://placeholdit.imgix.net/~text?txtsize=12&txt=secret&w=80&h=40&txttrack=0&txtclr=000&txtfont=bold")
+                                };
                             }
                         }
                         return result;

@@ -50,10 +50,10 @@ namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
-        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot")); 
+        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot"));
 
         [Flags]
-        public enum Options { None, Reflection, ScopedQueue, MockConnectorFactory, ResolveDialogFromContainer };
+        public enum Options { None = 0, Reflection = 1, ScopedQueue = 2, MockConnectorFactory = 4, ResolveDialogFromContainer = 8, LastWriteWinsCachingBotDataStore = 16 };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Tests
                 .Register(c => new BotIdResolver("testBot"))
                 .As<IBotIdResolver>()
                 .SingleInstance();
-            
+
             builder
            .Register((c, p) => mockConnectorFactory)
                .As<IConnectorClientFactory>()
@@ -102,6 +102,14 @@ namespace Microsoft.Bot.Builder.Tests
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
+            if (options.HasFlag(Options.LastWriteWinsCachingBotDataStore))
+            {
+                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                    .As<IBotDataStore<BotData>>()
+                    .AsSelf()
+                    .InstancePerLifetimeScope();
+            }
+
             foreach (var singleton in singletons)
             {
                 builder
@@ -120,13 +128,23 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static IMessageActivity MakeTestMessage()
         {
-            return new Activity() {
+            return new Activity()
+            {
                 From = new ChannelAccount { Id = ChannelID.User },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = ChannelID.Bot },
-                ServiceUrl = "InvalidServiceUrl", 
+                ServiceUrl = "InvalidServiceUrl",
                 ChannelId = "Test"
             };
+        }
+
+        public static async Task PostActivityAsync(ILifetimeScope container, IMessageActivity toBot, CancellationToken token)
+        {
+            using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+            {
+                var task = scope.Resolve<IPostToBot>();
+                await task.PostAsync(toBot, token);
+            }
         }
 
         public static async Task AssertScriptAsync(ILifetimeScope container, params string[] pairs)
@@ -138,13 +156,9 @@ namespace Microsoft.Bot.Builder.Tests
             for (int index = 0; index < pairs.Length; ++index)
             {
                 var toBotText = pairs[index];
+                toBot.Text = toBotText;
 
-                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
-                {
-                    var task = scope.Resolve<IPostToBot>();
-                    toBot.Text = toBotText;
-                    await task.PostAsync(toBot, CancellationToken.None);
-                }
+                await PostActivityAsync(container, toBot, CancellationToken.None);
 
                 var queue = container.Resolve<Queue<IMessageActivity>>();
 

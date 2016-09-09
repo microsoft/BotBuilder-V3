@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Sample.GraphBot
             IClientKeys keys = new ClientKeys(this.configuration);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
-            { 
+            {
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
 

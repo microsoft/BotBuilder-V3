@@ -1,3 +1,4 @@
+"use strict";
 var ub = require('../bots/UniversalBot');
 var cc = require('../bots/ConsoleConnector');
 var TextBot = (function () {
@@ -58,5 +59,5 @@ var TextBot = (function () {
         throw new Error("TextBot.processMessage() is no longer supported.");
     };
     return TextBot;
-})();
+}());
 exports.TextBot = TextBot;

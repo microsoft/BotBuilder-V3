@@ -1,18 +1,19 @@
-h1, .h1, h2, .h2, h3, .h3{
+h1, .h1, h2, .h2, h3, .h3 {
     font-weight: 200 !important;
 }
 
-#navrow1, #navrow2, #navrow3, #navrow4, #navrow5{
+#navrow1, #navrow2, #navrow3, #navrow4, #navrow5 {
     border-bottom: 1px solid #EEEEEE;
 }
 
 .adjust-right {
-margin-left: 30px !important;
-font-size: 1.15em !important;
+    margin-left: 30px !important;
+    font-size: 1.15em !important;
 }
-.navbar{
- border: 0px solid #222 !important;
- margin-bottom: 0px !important;
+
+.navbar {
+    border: 0px solid #222 !important;
+    margin-bottom: 0px !important;
 }
 
 
@@ -24,8 +25,8 @@ body {
     /* The html and body elements cannot have any padding or margin. */
 }
 
-body, table, div, p, dl, a, ul, span, li, ol{
-	font-family: lato !important;
+body, table, div, p, dl, a, ul, span, li, ol {
+    font-family: lato !important;
 }
 
 /* Wrapper for page content to push down footer */
@@ -39,7 +40,7 @@ body, table, div, p, dl, a, ul, span, li, ol{
 }
 
 #top {
-	margin-top: 25px;
+    margin-top: 25px;
 }
 
 /* Set the fixed height of the footer here */
@@ -63,9 +64,9 @@ body, table, div, p, dl, a, ul, span, li, ol{
     text-decoration: none !important;
 }
 
-.footer-follow-icon img {
-    width: 20px;
-}
+    .footer-follow-icon img {
+        width: 20px;
+    }
 
 .footer-link {
     padding-top: 5px;
@@ -79,15 +80,16 @@ body, table, div, p, dl, a, ul, span, li, ol{
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-  .adjust-right {
-    margin: 0px -5px;
-  }
+    .adjust-right {
+        margin: 0px -5px;
+    }
 }
+
 @media (min-width: 768px) {
-  .nav > li > a {
-    padding-left: 9px !important;
-    padding-right: 9px !important;
-  }
+    .nav > li > a {
+        padding-left: 9px !important;
+        padding-right: 9px !important;
+    }
 }
 
 @media (min-width: 992px) {
@@ -99,6 +101,7 @@ body, table, div, p, dl, a, ul, span, li, ol{
         text-align: right;
     }
 }
+
 @media (max-width: 991px) {
     .footer-row {
         text-align: center;
@@ -149,7 +152,7 @@ pre.fragment {
     margin: 4px 8px 4px 2px;
     overflow: auto;
     word-wrap: break-word;
-    font-size:  9pt;
+    font-size: 9pt;
     line-height: 125%;
     font-family: monospace, fixed;
     font-size: 105%;
@@ -168,10 +171,10 @@ div.line {
     line-height: 1.0;
     text-wrap: unrestricted;
     white-space: -moz-pre-wrap; /* Moz */
-    white-space: -pre-wrap;     /* Opera 4-6 */
-    white-space: -o-pre-wrap;   /* Opera 7 */
-    white-space: pre-wrap;      /* CSS3  */
-    word-wrap: break-word;      /* IE 5.5+ */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: pre-wrap; /* CSS3  */
+    word-wrap: break-word; /* IE 5.5+ */
     text-indent: -53px;
     padding-left: 53px;
     padding-bottom: 0px;
@@ -188,10 +191,10 @@ div.line {
     transition-duration: 0.5s;
 }
 
-div.line.glow {
-    background-color: cyan;
-    box-shadow: 0 0 10px cyan;
-}
+    div.line.glow {
+        background-color: cyan;
+        box-shadow: 0 0 10px cyan;
+    }
 
 
 span.lineno {
@@ -201,13 +204,14 @@ span.lineno {
     background-color: #E8E8E8;
     white-space: pre;
 }
-span.lineno a {
-    background-color: #D8D8D8;
-}
 
-span.lineno a:hover {
-    background-color: #C8C8C8;
-}
+    span.lineno a {
+        background-color: #D8D8D8;
+    }
+
+        span.lineno a:hover {
+            background-color: #C8C8C8;
+        }
 
 div.groupHeader {
     margin-left: 16px;
@@ -223,47 +227,47 @@ div.groupText {
 /* @group Code Colorization */
 
 span.keyword {
-    color: #008000
+    color: #008000;
 }
 
 span.keywordtype {
-    color: #604020
+    color: #604020;
 }
 
 span.keywordflow {
-    color: #e08000
+    color: #e08000;
 }
 
 span.comment {
-    color: #800000
+    color: #800000;
 }
 
 span.preprocessor {
-    color: #806020
+    color: #806020;
 }
 
 span.stringliteral {
-    color: #002080
+    color: #002080;
 }
 
 span.charliteral {
-    color: #008080
+    color: #008080;
 }
 
 span.vhdldigit {
-    color: #ff00ff
+    color: #ff00ff;
 }
 
 span.vhdlchar {
-    color: #000000
+    color: #000000;
 }
 
 span.vhdlkeyword {
-    color: #700070
+    color: #700070;
 }
 
 span.vhdllogic {
-    color: #ff0000
+    color: #ff0000;
 }
 
 blockquote {
@@ -279,42 +283,43 @@ input.gsc-input,
 .gsc-input-box-hover,
 .gsc-input-box-focus,
 .gsc-search-button {
-  box-sizing: content-box;
-  line-height: normal;
+    box-sizing: content-box;
+    line-height: normal;
 }
 
 .gsc-table-result,
 .gsc-thumbnail-inside,
 .gsc-url-top {
-  padding-left: 0px !important;
+    padding-left: 0px !important;
 }
 
 .gsc-selected-option-container {
-  width: inherit !important;
+    width: inherit !important;
 }
 
 .reset-box-sizing,
 .reset-box-sizing * {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 
 @media (min-width: 768px) {
-  .google-cse {
-    top: 50px;
-  }
+    .google-cse {
+        top: 50px;
+    }
 }
+
 @media (max-width: 767px) {
-  .google-cse {
-    top: 391px;
-  }
+    .google-cse {
+        top: 391px;
+    }
 }
 
 .google-cse {
-  width: 100%;
-  left: 0px;
-  z-index: 9999;
-  background-color: #222;
+    width: 100%;
+    left: 0px;
+    z-index: 9999;
+    background-color: #222;
 }
 /* Google Custom Search Engine Tweaks  END */

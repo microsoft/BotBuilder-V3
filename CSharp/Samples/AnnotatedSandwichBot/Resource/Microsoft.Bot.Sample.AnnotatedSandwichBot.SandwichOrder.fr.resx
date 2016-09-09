@@ -187,7 +187,7 @@
     <value>sandwichs?</value>
   </data>
   <data name="SandwichOptions.BLT;LIST" xml:space="preserve">
-    <value>faux?</value>
+    <value>blts?</value>
   </data>
   <data name="SandwichOptions.BlackForestHam;LIST" xml:space="preserve">
     <value>noirs? ; forêts? ; jambons? ; noirs? forêts? ; forêts? jambons? ; noirs? forêts? jambons?</value>
@@ -286,13 +286,13 @@
     <value>avocats?</value>
   </data>
   <data name="ToppingOptions.BananaPeppers;LIST" xml:space="preserve">
-    <value>bananes? ; poivrons? ; bananes? poivrons?</value>
+    <value>bananes? ; piments? ; piments? bananes?</value>
   </data>
   <data name="ToppingOptions.Cucumbers;LIST" xml:space="preserve">
     <value>concombres?</value>
   </data>
   <data name="ToppingOptions.GreenBellPeppers;LIST" xml:space="preserve">
-    <value>verts? ; cloches? ; poivrons? ; verts? cloches? ; cloches? poivrons? ; verts? cloches? poivrons?</value>
+    <value>verts? ; poivrons? ; poivrons? verts?; piments? ; verts? cloches? ; cloches? piments? ; verts? cloches? piments?</value>
   </data>
   <data name="ToppingOptions.Jalapenos;LIST" xml:space="preserve">
     <value>piments jalapenos?</value>
@@ -307,7 +307,7 @@
     <value>cornichons?</value>
   </data>
   <data name="ToppingOptions.RedOnion;LIST" xml:space="preserve">
-    <value>Reds?; o nions? ; Reds? oignons?</value>
+    <value>rouge?; oignons? ; oignon rouge</value>
   </data>
   <data name="ToppingOptions.Spinach;LIST" xml:space="preserve">
     <value>épinards?</value>
@@ -383,5 +383,11 @@
   </data>
   <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
     <value>Quel genre de {&amp;} vous souhaitez sur votre "sandwich" ? {||}</value>
+  </data>
+  <data name="BreadSubTitle;VALUE" xml:space="preserve">
+    <value>Sélecteur de pain</value>
+  </data>
+  <data name="BreadTitle;VALUE" xml:space="preserve">
+    <value>Bot "sandwich"</value>
   </data>
 </root>

@@ -68,24 +68,6 @@
             User took action on a message (button click)
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.IActionActivity.ChannelData">
-            <summary>
-            Channel specific payload
-            </summary>
-            <remarks>
-            Some channels will provide channel specific data.
-            
-            For a message originating in the channel it might provide the original native schema object for the channel. 
-            
-            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
-            
-            Example:
-            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
-            on incoming message a Subject property, and a HtmlBody which can contain Html.  
-            
-            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
-            </remarks>
-        </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
             <summary>
             Default- interpret text fields as markdown
@@ -114,7 +96,7 @@
             <param name="viewId">default is "original"</param>
             <returns>uri</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreanAsync(System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentStreamAsync(System.String,System.String)">
             <summary>
             Get the given attachmentid view as a stream
             </summary>
@@ -149,6 +131,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Attachments.GetAttachmentWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -167,6 +152,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Message">
             <summary>
@@ -175,12 +163,12 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
             <summary>
-             Bot added removed to contact list
+             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.ContactRelationUpdate">
             <summary>
-             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
+             Bot added or removed to contact list. See <see cref="T:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes"/> for possible values.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Typing">
@@ -196,6 +184,11 @@
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Ping">
             <summary>
             Ping message
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AttachmentsExtensions">
+            <summary>
+            Extension methods for Attachments.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentInfo(Microsoft.Bot.Connector.IAttachments,System.String)">
@@ -386,10 +379,6 @@
             Name of the attachment
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.CardAction">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.CardAction.#ctor">
             <summary>
             Initializes a new instance of the CardAction class.
@@ -405,6 +394,7 @@
             Defines the type of action implemented by this button. Possible
             values for this property include: 'openUrl', 'imBack',
             'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
+            <see cref="T:Microsoft.Bot.Connector.ActionTypes"/> for more information.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Title">
@@ -427,10 +417,6 @@
             <summary>
             Supplementary parameter for action. Content of this property
             depends on the ActionType
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.CardImage">
-            <summary>
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.CardImage.#ctor">
@@ -487,10 +473,6 @@
             <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.ReceiptCard"/>.</param>
             <returns> The generated attachment.</returns>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ConversationParameters">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor">
             <summary>
             Initializes a new instance of the ConversationParameters class.
@@ -501,14 +483,14 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.ConversationParameters.Bot">
-            <summary>
-            The bot address of the bot requesting a conversation
-            </summary>
-        </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.IsGroup">
             <summary>
             IsGroup
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationParameters.Bot">
+            <summary>
+            The bot address for this conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Members">
@@ -609,10 +591,6 @@
             The name of the thing
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ResourceResponse">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ResourceResponse.#ctor">
             <summary>
             Initializes a new instance of the ResourceResponse class.
@@ -626,10 +604,6 @@
         <member name="P:Microsoft.Bot.Connector.ResourceResponse.Id">
             <summary>
             Id of the resource
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.ThumbnailCard">
-            <summary>
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor">
@@ -670,6 +644,11 @@
         <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Tap">
             <summary>
             This action will be activated when user taps on the card itself
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationsExtensions">
+            <summary>
+            Extension methods for Conversations.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount)">
@@ -1056,6 +1035,7 @@
             Conversation ID
             </param>
             <param name='attachmentUpload'>
+            Attachment data
             </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UploadAttachmentAsync(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.AttachmentData,System.Threading.CancellationToken)">
@@ -1077,6 +1057,7 @@
             Conversation ID
             </param>
             <param name='attachmentUpload'>
+            Attachment data
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -1128,6 +1109,21 @@
             OpenIdConnect configuration manager for this instances
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
+            <summary>
+            Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+            <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+            <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.IsTrustedServiceUrl(System.String)">
+            <summary>
+            Checks if the service url is for a trusted host or not.
+            </summary>
+            <param name="serviceUrl">The service url</param>
+            <returns>True if the host of the service url is trusted; False otherwise.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
             <summary>
             Apply the credentials to the HTTP request.
@@ -1136,6 +1132,35 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.StateClient">
             <summary>
+            The Bot State REST API allows your bot to store and retrieve state
+            associated with conversations conducted through
+            the [Bot Connector REST API](/en-us/restapi/connector). The Bot State
+            REST API uses REST and HTTPS to send and receive
+            encoded content that your bot controls.
+            
+            Client libraries for this REST API are available. See below for a
+            list.
+            
+            Your bot may store data for a user, a conversation, or a single user
+            within a conversation (called "private" data).
+            Each payload may be up to 32 kilobytes in size. The data may be
+            removed by the bot or upon a user's request, e.g.
+            if the user requests the channel to inform the bot (and therefore, the
+            Bot Framework) to delete the user's data.
+            
+            The Bot State REST API is only useful in conjunction with the Bot
+            Connector REST API.
+            
+            Authentication for both the Bot State and Bot Connector REST APIs is
+            accomplished with JWT Bearer tokens, and is
+            described in detail in the [Connector
+            Authentication](/en-us/restapi/authentication) document.
+            
+            # Client Libraries for the Bot State REST API
+            
+            * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
+            * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            
             © 2016 Microsoft
             </summary>
         </member>
@@ -1143,7 +1168,7 @@
             <summary>
             Create a new instance of the StateClient class
             </summary>
-            <param name="baseUri">Base URI for the Connector service</param>
+            <param name="baseUri">Base URI for the State service</param>
             <param name="microsoftAppId">Optional. Your Microsoft app id. If null, this setting is read from settings["MicrosoftAppId"]</param>
             <param name="microsoftAppPassword">Optional. Your Microsoft app password. If null, this setting is read from settings["MicrosoftAppPassword"]</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
@@ -1152,7 +1177,7 @@
             <summary>
             Create a new instance of the StateClient class
             </summary>
-            <param name="baseUri">Base URI for the Connector service</param>
+            <param name="baseUri">Base URI for the State service</param>
             <param name="credentials">Credentials for the Connector service</param>
             <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
@@ -1161,7 +1186,7 @@
             <summary>
             Create a new instance of the StateClient class
             </summary>
-            <remarks> This constructor will use http://api.botframework.com as the baseUri</remarks>
+            <remarks> This constructor will use https://state.botframework.com as the baseUri</remarks>
             <param name="credentials">Credentials for the Connector service</param>
             <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
@@ -1184,6 +1209,11 @@
         <member name="P:Microsoft.Bot.Connector.StateClient.Credentials">
             <summary>
             Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.StateClient.BotState">
+            <summary>
+            Gets the IBotState.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Net.Http.DelegatingHandler[])">
@@ -1230,13 +1260,65 @@
             Optional. The delegating handlers to add to the http client pipeline.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.Initialize">
             <summary>
             Initializes client properties.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.HeroCard">
-            <summary>
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor">
@@ -1277,10 +1359,6 @@
         <member name="P:Microsoft.Bot.Connector.HeroCard.Tap">
             <summary>
             This action will be activated when user taps on the card itself
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.ReceiptCard">
-            <summary>
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor">
@@ -1358,6 +1436,15 @@
             Action to use to perform signin
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
+            </summary>
+            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
+            <param name="buttonLabel"> The signin button label.</param>
+            <param name="url"> The sigin url.</param>
+            <returns> The created sigin card.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.BotState">
             <summary>
             BotState operations.
@@ -1393,6 +1480,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1414,6 +1504,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1433,6 +1526,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1451,6 +1547,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1472,6 +1571,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1493,6 +1595,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -1517,6 +1622,14 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.BotStateExtensions">
+            <summary>
+            Extension methods for BotState.
+            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
@@ -1930,6 +2043,35 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.IStateClient">
             <summary>
+            The Bot State REST API allows your bot to store and retrieve state
+            associated with conversations conducted through
+            the [Bot Connector REST API](/en-us/restapi/connector). The Bot State
+            REST API uses REST and HTTPS to send and receive
+            encoded content that your bot controls.
+            
+            Client libraries for this REST API are available. See below for a
+            list.
+            
+            Your bot may store data for a user, a conversation, or a single user
+            within a conversation (called "private" data).
+            Each payload may be up to 32 kilobytes in size. The data may be
+            removed by the bot or upon a user's request, e.g.
+            if the user requests the channel to inform the bot (and therefore, the
+            Bot Framework) to delete the user's data.
+            
+            The Bot State REST API is only useful in conjunction with the Bot
+            Connector REST API.
+            
+            Authentication for both the Bot State and Bot Connector REST APIs is
+            accomplished with JWT Bearer tokens, and is
+            described in detail in the [Connector
+            Authentication](/en-us/restapi/authentication) document.
+            
+            # Client Libraries for the Bot State REST API
+            
+            * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
+            * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            
             © 2016 Microsoft
             </summary>
         </member>
@@ -1954,8 +2096,9 @@
             subscription.
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.BotData">
+        <member name="P:Microsoft.Bot.Connector.IStateClient.BotState">
             <summary>
+            Gets the IBotState.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotData.#ctor">
@@ -1990,25 +2133,31 @@
             <param name="property">property name to change</param>
             <param name="data">new data</param>
         </member>
-        <member name="T:Microsoft.Bot.Connector.BearerTokenCredentials">
-            <summary>
-            Use credentials from AppSetting "AppId" "AppSecret"
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.#ctor(System.String)">
-            <summary>
-            Create a new instance of the BearerTokenCredentials class
-            </summary>
-            <param name="token">Bearer token</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BearerTokenCredentials.ProcessHttpRequestAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
-            <summary>
-            Apply the credentials to the HTTP request.
-            </summary>
-            <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
-        </member>
         <member name="T:Microsoft.Bot.Connector.ConnectorClient">
             <summary>
+            The Bot Connector REST API allows your bot to send and receive
+            messages to channels configured in the [Bot Framework Developer
+            Portal](https://dev.botframework.com). The Connector service uses
+            industry-standard REST and JSON over HTTPS.
+            
+            Client libraries for this REST API are available. See below for a
+            list.
+            
+            Many bots will use both the Bot Connector REST API and the associated
+            [Bot State REST API](/en-us/restapi/state). The
+            Bot State REST API allows a bot to store and retrieve state associated
+            with users and conversations.
+            
+            Authentication for both the Bot Connector and Bot State REST APIs is
+            accomplished with JWT Bearer tokens, and is
+            described in detail in the [Connector
+            Authentication](/en-us/restapi/authentication) document.
+            
+            # Client Libraries for the Bot Connector REST API
+            
+            * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
+            * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            
             © 2016 Microsoft
             </summary>
         </member>
@@ -2030,6 +2179,16 @@
         <member name="P:Microsoft.Bot.Connector.ConnectorClient.Credentials">
             <summary>
             Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.Attachments">
+            <summary>
+            Gets the IAttachments.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConnectorClient.Conversations">
+            <summary>
+            Gets the IConversations.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.DelegatingHandler[])">
@@ -2068,6 +2227,62 @@
             </summary>
             <param name='baseUri'>
             Optional. The base URI of the service.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
             </param>
             <param name='rootHandler'>
             Optional. The http client handler used to handle http transport.
@@ -2153,6 +2368,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.SendToConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.Activity,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -2187,6 +2405,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -2223,6 +2444,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -2242,6 +2466,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -2264,6 +2491,9 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.UploadAttachmentWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.AttachmentData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
@@ -2281,6 +2511,7 @@
             Conversation ID
             </param>
             <param name='attachmentUpload'>
+            Attachment data
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -2288,9 +2519,35 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
         </member>
         <member name="T:Microsoft.Bot.Connector.IConnectorClient">
             <summary>
+            The Bot Connector REST API allows your bot to send and receive
+            messages to channels configured in the [Bot Framework Developer
+            Portal](https://dev.botframework.com). The Connector service uses
+            industry-standard REST and JSON over HTTPS.
+            
+            Client libraries for this REST API are available. See below for a
+            list.
+            
+            Many bots will use both the Bot Connector REST API and the associated
+            [Bot State REST API](/en-us/restapi/state). The
+            Bot State REST API allows a bot to store and retrieve state associated
+            with users and conversations.
+            
+            Authentication for both the Bot Connector and Bot State REST APIs is
+            accomplished with JWT Bearer tokens, and is
+            described in detail in the [Connector
+            Authentication](/en-us/restapi/authentication) document.
+            
+            # Client Libraries for the Bot Connector REST API
+            
+            * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
+            * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            
             © 2016 Microsoft
             </summary>
         </member>
@@ -2313,6 +2570,16 @@
             <summary>
             Subscription credentials which uniquely identify client
             subscription.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.Attachments">
+            <summary>
+            Gets the IAttachments.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConnectorClient.Conversations">
+            <summary>
+            Gets the IConversations.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IConversations">
@@ -2490,6 +2757,7 @@
             Conversation ID
             </param>
             <param name='attachmentUpload'>
+            Attachment data
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -2497,10 +2765,6 @@
             <param name='cancellationToken'>
             The cancellation token.
             </param>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.Activity">
-            <summary>
-            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateReply(System.String,System.String)">
             <summary>
@@ -2696,10 +2960,6 @@
             the original id this message is a response to
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.APIResponse">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor">
             <summary>
             Initializes a new instance of the APIResponse class.
@@ -2711,10 +2971,6 @@
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
-            <summary>
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.Attachment">
             <summary>
             </summary>
         </member>
@@ -2870,10 +3126,6 @@
             <summary>
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ReceiptItem">
-            <summary>
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor">
             <summary>
             Initializes a new instance of the ReceiptItem class.
@@ -2975,6 +3227,24 @@
             Bot's address 
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.ChannelData">
+            <summary>
+            Channel specific payload
+            </summary>
+            <remarks>
+            Some channels will provide channel specific data.
+            
+            For a message originating in the channel it might provide the original native schema object for the channel. 
+            
+            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
+            
+            Example:
+            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
+            on incoming message a Subject property, and a HtmlBody which can contain Html.  
+            
+            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
+            </remarks>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
             <summary>
             The From address is typing
@@ -3053,24 +3323,6 @@
             Entities 
             Collection of objects which contain metadata about this activity
             </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ChannelData">
-            <summary>
-            Channel specific payload
-            </summary>
-            <remarks>
-            Some channels will provide channel specific data.
-            
-            For a message originating in the channel it might provide the original native schema object for the channel. 
-            
-            For a message coming into the channel it might accept a payload allowing you to create a "native" response for the channel.
-            
-            Example:
-            * Email - The Email Channel will put the original Email metadata into the ChannelData object for outgoing messages, and will accep
-            on incoming message a Subject property, and a HtmlBody which can contain Html.  
-            
-            The channel data essentially allows a bot to have access to native functionality on a per channel basis.
-            </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.ReplyToId">
             <summary>

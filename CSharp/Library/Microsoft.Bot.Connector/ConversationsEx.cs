@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Connector
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, ChannelAccount bot, ChannelAccount user, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user), null, cancellationToken).ConfigureAwait(false);
-            return _result.HandleError<ResourceResponse>();
+            return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Microsoft.Bot.Connector
         public static async Task<ResourceResponse> CreateDirectConversationAsync(this IConversations operations, string botAddress, string userAddress, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress), null, cancellationToken).ConfigureAwait(false);
-            return _result.HandleError<ResourceResponse>();
+            return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -121,6 +121,11 @@ namespace Microsoft.Bot.Connector
             // TEMP TODO REMOVE THIS AFTER SKYPE DEPLOYS NEW SERVICE WHICH PROPERLY IMPLEMENTS THIS ENDPOINT
             if (activity.ReplyToId == "0")
                 return operations.SendToConversationAsync(activity);
+
+            if (activity.ReplyToId == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "ReplyToId");
+            }
 
             return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity, cancellationToken);
         }

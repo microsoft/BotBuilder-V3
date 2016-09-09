@@ -14,15 +14,15 @@ namespace Microsoft.Bot.Connector
         public const string Message = "message";
 
         /// <summary>
-        ///  Bot added removed to contact list
+        ///  This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
         /// </summary>
         public const string ConversationUpdate = "conversationUpdate";
 
         /// <summary>
-        ///  This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
+        ///  Bot added or removed to contact list. See <see cref="ContactRelationUpdateActionTypes"/> for possible values.
         /// </summary>
         public const string ContactRelationUpdate = "contactRelationUpdate";
-        
+
         /// <summary>
         /// A from is typing
         /// </summary>

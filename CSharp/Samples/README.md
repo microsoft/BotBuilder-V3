@@ -11,7 +11,7 @@ High Level Features:
 
 [Get started with the Bot Builder!](http://docs.botframework.com/sdkreference/csharp/)
 
-There are six samples in this directory.
+There are several samples in this directory.
 * [Microsoft.Bot.Sample.SimpleEchoBot](SimpleEchoBot/) -- Bot Connector example done with the Bot Builder framework.
 * [Microsoft.Bot.Sample.EchoBot](EchoBot/) -- Add state onto the previous example.
 * [Microsoft.Bot.Sample.SimpleSandwichBot](SimpleSandwichBot/) -- FormFlow example of how easy it is to create a rich dialog with guided conversation, help and clarification. 
@@ -19,3 +19,4 @@ There are six samples in this directory.
 * [Microsoft.Bot.Sample.SimpleAlarmBot](SimpleAlarmBot/) -- Integration of http://luis.ai with the dialog system to set alarms.
 * [Microsoft.Bot.Sample.PizzaBot](PizzaBot/) -- Integration of http://luis.ai with FormFlow.
 * [//Build/ 2016](Build-2016/) -- Sample application used in the //Build/ 2016 session [Building a Conversational Bot: From 0 to 60](https://channel9.msdn.com/Events/Build/2016/B821) 
+* [Stock_Bot](Stock_Bot/) -- Samples that show calling a web service, LUIS, and LUIS Dialog

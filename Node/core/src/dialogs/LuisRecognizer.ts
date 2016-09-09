@@ -75,15 +75,18 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
                             }
                         });
                         if (top) {
-                            // Ignore 'none' intent
+                            result.score = top.score;
+                            result.intent = top.intent;
+
+                            // Correct score for 'none' intent
+                            // - The 'none' intent often has a score of 1.0 which
+                            //   causes issues when trying to recognize over multiple
+                            //   model. Setting to 0.1 lets the intent still be 
+                            //   triggered but keeps it from trompling other models.
                             switch (top.intent.toLowerCase()) {
                                 case 'builtin.intent.none':
                                 case 'none':
-                                    // Ignore intent
-                                    break;
-                                default:
-                                    result.score = top.score;
-                                    result.intent = top.intent;
+                                    result.score = 0.1;
                                     break;
                             }
                         }

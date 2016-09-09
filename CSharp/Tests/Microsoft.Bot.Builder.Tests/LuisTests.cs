@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,6 +46,8 @@ using Moq;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -72,11 +75,35 @@ namespace Microsoft.Bot.Builder.Tests
             )
         {
             luis
-                .Setup(l => l.QueryAsync(It.IsAny<Uri>()))
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult()
                 {
                     Intents = IntentsFor(expression, score),
                     Entities = entities
+                });
+        }
+
+        public static void SetupLuis<D>(
+            Mock<ILuisService> luis,
+            string utterance,
+            Expression<Func<D, Task>> expression,
+            double? score,
+            params EntityRecommendation[] entities
+            )
+        {
+            luis
+                .Setup(l => l.BuildUri(utterance))
+                .Returns(new UriBuilder() { Query = utterance }.Uri);
+
+            luis
+                .Setup(l => l.QueryAsync(It.IsAny<Uri>(), It.IsAny<CancellationToken>()))
+                .Returns<Uri>(async (uri) =>
+                {
+                    return new LuisResult()
+                    {
+                        Intents = IntentsFor(expression, score),
+                        Entities = entities
+                    };
                 });
         }
     }
@@ -97,8 +124,20 @@ namespace Microsoft.Bot.Builder.Tests
                 throw new NotImplementedException();
             }
 
+            [LuisIntent("PublicHandlerWithAttribute")]
+            public Task PublicHandlerWithAttribute(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
             [LuisIntent("PrivateHandlerWithAttribute")]
             public Task PrivateHandlerWithAttribute(IDialogContext context, LuisResult luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
+            [LuisIntent("PrivateHandlerWithAttribute")]
+            public Task PrivateHandlerWithAttribute(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult luisResult)
             {
                 throw new NotImplementedException();
             }
@@ -110,7 +149,19 @@ namespace Microsoft.Bot.Builder.Tests
                 throw new NotImplementedException();
             }
 
+            [LuisIntent("PublicHandlerWithAttributeOne")]
+            [LuisIntent("PublicHandlerWithAttributeTwo")]
+            public Task PublicHandlerWithTwoAttributes(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
             private Task PublicHandlerWithNoAttribute(IDialogContext context, LuisResult luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
+            private Task PublicHandlerWithNoAttribute(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult luisResult)
             {
                 throw new NotImplementedException();
             }
@@ -120,7 +171,17 @@ namespace Microsoft.Bot.Builder.Tests
                 throw new NotImplementedException();
             }
 
+            private Task PrivateHandlerWithNoAttribute(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task PublicHandlerWithCovariance(IDialogContext context, object luisResult)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task PublicHandlerWithCovariance(IDialogContext context, IAwaitable<IMessageActivity> activity, object luisResult)
             {
                 throw new NotImplementedException();
             }
@@ -134,6 +195,11 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 throw new NotImplementedException();
             }
+
+            private Task ThrowsEvenOnFalseThrowOnBindFailure<T>(T x) where T : IDialog
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestMethod]
@@ -142,7 +208,7 @@ namespace Microsoft.Bot.Builder.Tests
             var service = new Mock<ILuisService>();
             var dialog = new DerivedLuisDialog(service.Object);
             var handlers = LuisDialog.EnumerateHandlers(dialog).ToArray();
-            Assert.AreEqual(7, handlers.Length);
+            Assert.AreEqual(14, handlers.Length);
         }
 
         [Serializable]

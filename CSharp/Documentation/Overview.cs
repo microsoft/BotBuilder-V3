@@ -9,7 +9,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 
     /// %Microsoft %Bot %Builder is a powerful framework for constructing bots that can handle
     /// both freeform interactions and more guided ones where the possibilities are explicitly 
-    /// shown to the user.  It is easy to use and leverages C# to provide a natural way to 
+    /// shown to the user. It is easy to use and leverages C# to provide a natural way to 
     /// write bots.
     /// 
     /// High Level Features:
@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// 2. In the "Browse" tab, type "Microsoft.Bot.Builder".  
     /// 3. Click the "Install" button and accept the changes.  
     /// 
-    /// At this point your project has the builder installed and is ready to use it.  If you want to understand how
+    /// At this point your project has the builder installed and is ready to use it. If you want to understand how
     /// to create and use dialogs, see \ref dialogs or if you would like to have a dialog automatically constructed see \ref forms.
     /// 
     /// \section debugging Debugging

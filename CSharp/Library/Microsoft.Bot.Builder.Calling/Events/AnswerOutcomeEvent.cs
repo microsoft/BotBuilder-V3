@@ -13,6 +13,6 @@ namespace Microsoft.Bot.Builder.Calling.Events
             AnswerOutcome = outcome;
         }
 
-        public AnswerOutcome AnswerOutcome { get; set; }      
+        public AnswerOutcome AnswerOutcome { get; set; }
     }
 }

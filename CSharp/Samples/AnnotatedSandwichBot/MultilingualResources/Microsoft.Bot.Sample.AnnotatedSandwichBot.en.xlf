@@ -502,6 +502,18 @@
           <source>What kind of {&amp;} would you like on your sandwich? {||}</source>
           <target state="new">What kind of {&amp;} would you like on your sandwich? {||}</target>
         </trans-unit>
+        <trans-unit id="SandwichImage;VALUE" translate="yes" xml:space="preserve">
+          <source>https://placeholdit.imgix.net/~text?txtsize=16&amp;txt=Sandwich&amp;w=125&amp;h=40&amp;txttrack=0&amp;txtclr=000&amp;txtfont=bold</source>
+          <target state="new">https://placeholdit.imgix.net/~text?txtsize=16&amp;txt=Sandwich&amp;w=125&amp;h=40&amp;txttrack=0&amp;txtclr=000&amp;txtfont=bold</target>
+        </trans-unit>
+        <trans-unit id="BreadSubTitle;VALUE" translate="yes" xml:space="preserve">
+          <source>Bread Picker</source>
+          <target state="new">Bread Picker</target>
+        </trans-unit>
+        <trans-unit id="BreadTitle;VALUE" translate="yes" xml:space="preserve">
+          <source>Sandwich Bot</source>
+          <target state="new">Sandwich Bot</target>
+        </trans-unit>
       </group>
     </body>
   </file>

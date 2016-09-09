@@ -246,4 +246,10 @@
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>Perfil de usuario eliminado!</value>
   </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmación</value>
+  </data>
+  <data name="UnhandledExceptionToUser" xml:space="preserve">
+    <value>Lo sentimos, que el código de mi bot está teniendo un problema.</value>
+  </data>
 </root>

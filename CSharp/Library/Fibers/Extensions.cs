@@ -94,6 +94,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return fiber.Wait;
         }
 
+        public static void ValidateNeed(this IWait wait, Need need)
+        {
+            if (need != wait.Need)
+            {
+                throw new InvalidNeedException(wait, need);
+            }
+        }
+
         public static Task<T> ToTask<T>(this IAwaitable<T> item)
         {
             var source = new TaskCompletionSource<T>();
@@ -121,7 +129,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             stack.RemoveAt(stack.Count - 1);
             return top;
         }
-  
+
         public static T Peek<T>(this IList<T> stack)
         {
             if (stack.Count == 0)
@@ -130,6 +138,18 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
 
             return stack[stack.Count - 1];
+        }
+
+        public static V GetOrAdd<K, V>(this IDictionary<K, V> valueByKey, K key, Func<K, V> make)
+        {
+            V value;
+            if (!valueByKey.TryGetValue(key, out value))
+            {
+                value = make(key);
+                valueByKey.Add(key, value);
+            }
+
+            return value;
         }
     }
 }

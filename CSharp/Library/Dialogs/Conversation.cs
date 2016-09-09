@@ -92,7 +92,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
         public static async Task ResumeAsync<T>(ResumptionCookie resumptionCookie, T toBot, CancellationToken token = default(CancellationToken))
         {
-            var continuationMessage = resumptionCookie.GetMessage(); 
+            if (resumptionCookie.IsTrustedServiceUrl)
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.ServiceUrl);
+            }
+
+            var continuationMessage = resumptionCookie.GetMessage();
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
@@ -115,7 +120,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var client = scope.Resolve<IConnectorClient>();
             var botData = scope.Resolve<IBotData>();
-            await botData.LoadAsync(token); 
+            await botData.LoadAsync(token);
 
             using (new LocalizedScope(continuationMessage.Locale))
             {

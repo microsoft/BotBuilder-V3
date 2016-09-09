@@ -64,22 +64,28 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     public sealed class InvalidNeedException : InvalidWaitException
     {
         private readonly Need need;
+        private readonly Need have;
         public Need Need { get { return this.need; } }
+        public Need Have { get { return this.have; } }
 
         public InvalidNeedException(IWait wait, Need need)
             : base($"invalid need: expected {need}, have {wait.Need}", wait)
         {
+            this.need = need;
+            this.have = wait.Need;
         }
         private InvalidNeedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.need = (Need) info.GetValue(nameof(this.need), typeof(Need));
+            this.need = (Need)info.GetValue(nameof(this.need), typeof(Need));
+            this.have = (Need)info.GetValue(nameof(this.have), typeof(Need));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue(nameof(this.need), need);
+            info.AddValue(nameof(this.need), this.need);
+            info.AddValue(nameof(this.have), this.have);
         }
     }
 

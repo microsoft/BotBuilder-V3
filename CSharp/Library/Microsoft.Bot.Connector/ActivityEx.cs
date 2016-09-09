@@ -2,6 +2,8 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
+using System.Text.RegularExpressions;
+
 namespace Microsoft.Bot.Connector
 {
     using System;
@@ -35,13 +37,16 @@ namespace Microsoft.Bot.Connector
             reply.From = this.Recipient;
             reply.Recipient = this.From;
             reply.ReplyToId = this.Id;
+            reply.ServiceUrl = this.ServiceUrl;
+            reply.ChannelId = this.ChannelId;
             reply.Conversation = this.Conversation;
-            reply.Conversation.IsGroup = null; // don't need to send in a reply
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? this.Locale;
+            reply.Attachments = new List<Attachment>();
+            reply.Entities = new List<Entity>();
             return reply;
         }
-                
+
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
         public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
@@ -135,12 +140,10 @@ namespace Microsoft.Bot.Connector
         /// <returns>new .Text property value</returns>
         public string RemoveMentionText(string id)
         {
-            StringBuilder sb = new StringBuilder(this.Text);
             foreach (var mention in this.GetMentions().Where(mention => mention.Mentioned.Id == id))
             {
-                sb.Replace(mention.Text, "");
+                Text = Regex.Replace(Text, mention.Text, "", RegexOptions.IgnoreCase);
             }
-            this.Text = sb.ToString();
             return this.Text;
         }
 

@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = Phrase;
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, MakeSelectQuery);
@@ -151,7 +151,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = true.ToString();
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -176,7 +176,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var toBot = MakeTestMessage();
                 toBot.Text = false.ToString();
-                
+
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
                     DialogModule_MakeRoot.Register(scope, () => query);
@@ -194,7 +194,9 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var queue = container.Resolve<Queue<IMessageActivity>>();
                 var texts = queue.Select(m => m.Text).ToArray();
-                Assert.AreEqual(0, texts.Length);
+                Assert.AreEqual(1, texts.Length);
+                Func<string, string, bool> Contains = (text, q) => text.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
+                Assert.IsTrue(Contains(texts[0], "exception") || Contains(texts[0], "bot code is having an issue"));
             }
         }
 
@@ -375,6 +377,61 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task SampleChain_Email()
+        {
+            Func<string, IDialog<string>> Ask = toUser =>
+                Chain.Return(toUser)
+                .PostToUser()
+                .WaitToBot()
+                .Select(m => m.Text);
+
+            IDialog<IReadOnlyList<string>> recipientsDialog =
+                Chain
+                .Return(Array.Empty<string>())
+                .While(items => Ask($"have {items.Length} recipients, want more?").Select(text => text == "yes"),
+                items => Ask("next recipient?").Select(item => items.Concat(new[] { item }).ToArray()));
+
+            var emailDialog = from hello in Chain.PostToChain().Select(m => m.Text + " back!").PostToUser()
+                              from subject in Ask("what is the subject?")
+                              from body in Ask("what is the body?")
+                              from recipients in recipientsDialog
+                              select new { subject, body, recipients };
+
+            var rootDialog = emailDialog
+                .Select(email => $"'{email.subject}': '{email.body}' to {email.recipients.Count} recipients")
+                .PostToUser();
+
+            using (var container = Build(Options.ResolveDialogFromContainer | Options.Reflection))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(rootDialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "hello back!",
+                    "what is the subject?",
+                    "subject X",
+                    "what is the body?",
+                    "body Y",
+                    "have 0 recipients, want more?",
+                    "yes",
+                    "next recipient?",
+                    "person A",
+                    "have 1 recipients, want more?",
+                    "yes",
+                    "next recipient?",
+                    "person B",
+                    "have 2 recipients, want more?",
+                    "no",
+                    "'subject X': 'body Y' to 2 recipients"
+                    );
+            }
+        }
+
+        [TestMethod]
         public async Task SampleChain_Joke()
         {
             var joke = Chain
@@ -417,6 +474,57 @@ namespace Microsoft.Bot.Builder.Tests
                     "to get to the other side",
                     "anything but chickens",
                     "why don't you like chicken jokes?"
+                    );
+            }
+        }
+
+        [TestMethod]
+        public async Task SampleChain_Waterfall()
+        {
+            var waterfall = Chain
+                .PostToChain()
+                .ContinueWith(async (context, res) =>
+                {
+                    var msg = await res;
+                    await context.PostAsync($"you said {msg.Text}");
+                    return Chain.From(() => new PromptDialog.PromptChoice<string>(new[] { "a", "b", "c" }, "Which one you want to select?", string.Empty, 1, PromptStyle.None));
+                })
+                .ContinueWith(async (context, res) =>
+                {
+                    var selection = await res;
+                    context.ConversationData.SetValue("selected", selection);
+                    return (IDialog<bool>)new PromptDialog.PromptConfirm($"do you want {selection}?", string.Empty, 1, PromptStyle.None);
+                })
+                .Then(async (context, res) =>
+                {
+
+                    var selection = context.ConversationData.Get<string>("selected");
+                    if (await res)
+                    {
+                        return $"{selection} is selected!";
+                    }
+                    else
+                    {
+                        return "selection canceled!";
+                    }
+                }).PostToUser();
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(waterfall)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "test",
+                    "you said test",
+                    "Which one you want to select?",
+                    "a",
+                    "do you want a?",
+                    "yes",
+                    "a is selected!"
                     );
             }
         }

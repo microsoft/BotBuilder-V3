@@ -339,14 +339,6 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             throw new NotImplementedException();
         }
-
-        private void ValidateNeed(Need need)
-        {
-            if (need != this.need)
-            {
-                throw new InvalidNeedException(this, need);
-            }
-        }
     }
 
     public interface IWaitFactory<C>

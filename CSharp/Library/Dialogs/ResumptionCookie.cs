@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// The resumption cookie that can be used to resume a conversation with a user. 
     /// </summary>
     [Serializable]
-    public class ResumptionCookie
+    public class ResumptionCookie : IEquatable<ResumptionCookie>
     {
         /// <summary>
         /// The user Id.
@@ -80,6 +80,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         [JsonProperty(PropertyName = "serviceUrl")]
         public string ServiceUrl { set; get; }
+
+        /// <summary>
+        /// True if the <see cref="ServiceUrl"/> is trusted; False otherwise.
+        /// </summary>
+        /// <remarks> <see cref="Conversation.ResumeAsync{T}(ResumptionCookie, T, System.Threading.CancellationToken)"/> adds 
+        /// the host of the <see cref="ServiceUrl"/> to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if this flag is True.
+        /// </remarks>
+        public bool IsTrustedServiceUrl { protected set; get; }
 
         /// <summary>
         /// The IsGroup flag for conversation.
@@ -125,6 +133,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             this.ConversationId = conversationId;
             this.ChannelId = channelId;
             this.ServiceUrl = serviceUrl;
+            this.IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(serviceUrl);
             this.Locale = locale;
         }
 
@@ -138,11 +147,43 @@ namespace Microsoft.Bot.Builder.Dialogs
             UserName = msg.From?.Name;
             ChannelId = msg.ChannelId;
             ServiceUrl = msg.ServiceUrl;
+            IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(msg.ServiceUrl);
             BotId = msg.Recipient?.Id;
             ConversationId = msg.Conversation?.Id;
-            var isGroup =  msg.Conversation?.IsGroup;
+            var isGroup = msg.Conversation?.IsGroup;
             IsGroup = isGroup.HasValue && isGroup.Value;
             Locale = msg.Locale;
+        }
+
+        public bool Equals(ResumptionCookie other)
+        {
+            return other != null
+                && object.Equals(this.UserId, other.UserId)
+                && object.Equals(this.UserName, other.UserName)
+                && object.Equals(this.ChannelId, other.ChannelId)
+                && object.Equals(this.BotId, other.BotId)
+                && object.Equals(this.ServiceUrl, other.ServiceUrl)
+                && this.IsTrustedServiceUrl == other.IsTrustedServiceUrl
+                && this.IsGroup == other.IsGroup
+                && object.Equals(this.ConversationId, other.ConversationId)
+                && object.Equals(this.Locale, other.Locale);
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as ResumptionCookie);
+        }
+
+        public override int GetHashCode()
+        {
+            var code
+                = this.UserId.GetHashCode()
+                ^ this.ChannelId.GetHashCode()
+                ^ this.BotId.GetHashCode()
+                ^ this.ConversationId.GetHashCode()
+                ^ this.ServiceUrl.GetHashCode();
+
+            return code;
         }
 
         /// <summary>
@@ -158,11 +199,11 @@ namespace Microsoft.Bot.Builder.Dialogs
                 {
                     Id = this.BotId
                 },
-                ChannelId = this.ChannelId, 
+                ChannelId = this.ChannelId,
                 ServiceUrl = this.ServiceUrl,
                 Conversation = new ConversationAccount
                 {
-                    Id = this.ConversationId, 
+                    Id = this.ConversationId,
                     IsGroup = this.IsGroup
                 },
                 From = new ChannelAccount

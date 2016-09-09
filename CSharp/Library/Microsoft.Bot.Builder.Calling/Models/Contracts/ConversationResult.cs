@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public CallState CallState { get; set; }
-    
+
         public override void Validate()
         {
             base.Validate();

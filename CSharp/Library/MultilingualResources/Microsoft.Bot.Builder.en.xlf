@@ -314,6 +314,14 @@
           <source>User profile deleted!</source>
           <target state="new">User profile deleted!</target>
         </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="new">Confirmation</target>
+        </trans-unit>
+        <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
+          <source>Sorry, my bot code is having an issue.</source>
+          <target state="new">Sorry, my bot code is having an issue.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

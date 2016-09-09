@@ -1,3 +1,4 @@
+"use strict";
 var sprintf = require('sprintf-js');
 var utils = require('./utils');
 var hc = require('./cards/HeroCard');
@@ -19,7 +20,6 @@ var Message = (function () {
         this.data = {};
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
-        this.data.sourceEvent = {};
         if (this.session) {
             var m = this.session.message;
             if (m.source) {
@@ -251,7 +251,7 @@ var Message = (function () {
         return this.sourceEvent({ '*': data });
     };
     return Message;
-})();
+}());
 exports.Message = Message;
 function fmtText(session, prompts, args) {
     var fmt = Message.randomPrompt(prompts);

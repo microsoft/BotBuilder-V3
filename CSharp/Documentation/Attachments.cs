@@ -3,16 +3,16 @@
     /**
 \page attachments Attachments, Cards and Actions
 
-Many messaging channels provide the ability to attach richer objects.In the %Bot %Connector we map
+Many messaging channels provide the ability to attach richer objects. In the %Bot %Connector we map
 our attachment data structure to media attachments and rich cards on each channel.
 
 \section imagefileattachments Media Attachments
 To pass a simple media attachment (image/audio/video/file) to an activity you add a simple attachment data structure with a link to the
-content, setting the contenttype, contentUrl and name properties.
+content, setting the ContentType, ContentUrl and Name properties.
 
 | **Property** | **Description** | **Example** |
 |-----|------| ---- |
-| **ContentType** | mimetype/contenttype of the url | image/jpg |
+| **ContentType** | mimetype/contenttype of the URL | image/jpg |
 | **ContentUrl**  | a link to the actual file | http://foo.com/1312312 |
 | **Name** | the name of the file | foo.jpg |
 
@@ -44,14 +44,14 @@ replyMessage.Attachments.Add(new Attachment()
 ~~~
 
 \section richcards Rich card attachments
-We also have the ability to render rich cards as attachments.There are several types of cards supported:
+We also have the ability to render rich cards as attachments. There are several types of cards supported:
 
 | **Card Type** | **Description** | **Supported Modes** |
 |-----------|-------------|-----------------|
 | **Hero Card** | A card with one big image | Single or Carousel |
 | **Thumbnail Card** | A card with a single small image | Single or Carousel |
 | **Receipt Card** | A card that lets the user deliver an invoice or receipt | Single |
-| **Sign-In Card** | A card that lets the %bot initiatea sign-in procedure | Single |
+| **Sign-In Card** | A card that lets the %bot initiate a sign-in procedure | Single |
 
 \subsection herocard Hero Card
 The Hero card is a multipurpose card; it primarily hosts a single large image, a button, and a "tap action", along with text content to display on the card.
@@ -336,16 +336,14 @@ var reply = await connector.Conversations.SendToConversationAsync(replyToConvers
 
 \subsection signincard Sign-In Card
 
-The Thumbnail card is a multipurpose card; it primarily hosts a single small image, a button, and a "tap action", along with text content to display on the card.
+The Sign-In card is a card representing a request to sign in the user;
 
 | **Property**  | **Type**      | **Description**
 |-----------|---------- | ----- 
-| **Title**     | string    | Title of card
 | **Text**      | string    | Text of the card 
-| **Buttons[]** | Action[]  | Hero cards support one or more buttons 
-| **Tap**       | Action    | An action to take when tapping on the card 
+| **Buttons[]** | Action[]  | Action to use to perform for Sign-In
 
-~~~{.json}
+~~~{.cs}
 
 Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
 replyToConversation.Recipient = message.From;
@@ -406,7 +404,7 @@ The CardAction type is used to represent the information needed to process a but
 |-----------|---------- | ----- 
 | **Type**      | string    | action types as specified in table below
 | **Title**     | string    | Title for button
-| **Image**     | string    | Image Url for button
+| **Image**     | string    | Image URL for button
 | **Value**     | string    | value to perform action
 
 | **Action types**	| **Content of value property**
@@ -415,13 +413,14 @@ The CardAction type is used to represent the information needed to process a but
 | **imBack**	    | Text of message which client will sent back to bot as ordinary chat message. All other participants will see that was posted to the bot and who posted this.
 | **postBack**	    | Text of message which client will post to bot. Client applications will not display this message.
 | **call**	        | Destination for a call in following format: "tel:123123123123"
-| **playAudio**	    | playback audio container referenced by url
-| **playVideo**	    | playback video container referenced by url
-| **showImage**	    | show image referenced by url
-| **downloadFile**  | download file referenced by url
-| **signin**        | oauth flow url
+| **playAudio**	    | playback audio container referenced by URL
+| **playVideo**	    | playback video container referenced by URL
+| **showImage**	    | show image referenced by URL
+| **downloadFile**  | download file referenced by URL
+| **signin**        | OAuth flow URL
+__Note__: Only the following action types are supported by Skype: `openUrl`, `imBack`, `call`, `showImage`, `signin` 
 
-~~~{.json}
+~~~{.cs}
 CardAction button = new CardAction()
 {
     Type = "imBack",

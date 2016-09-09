@@ -33,15 +33,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Resources;
 using System.Text;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 using Autofac;
-
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -66,10 +67,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder.RegisterModule(new FiberModule<DialogTask>());
 
+            // singleton components
+
+            builder
+                .Register(c => new ResourceManager("Microsoft.Bot.Builder.Resource.Resources", typeof(Resource.Resources).Assembly))
+                .As<ResourceManager>()
+                .SingleInstance();
+
             // every lifetime scope is driven by a message
 
             builder
                 .Register((c, p) => p.TypedAs<IMessageActivity>())
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
+
+            // make the resumption cookie available for the lifetime scope
+
+            builder
+                .RegisterType<ResumptionCookie>()
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
@@ -85,6 +100,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
+                .RegisterType<LocalMutualExclusion<ResumptionCookie>>()
+                .As<IScope<ResumptionCookie>>()
+                .SingleInstance();
+
+            builder
                 .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
@@ -97,7 +117,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
                 .As<IStateClient>()
-                .InstancePerLifetimeScope(); 
+                .InstancePerLifetimeScope();
 
             builder
                .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
@@ -108,21 +128,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c => c.Resolve<IDetectChannelCapability>().Detect())
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ConnectorStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
             // If bot wants to use InMemoryDataStore instead of 
-            // ConnectorStore, the below registration should be used
+            // ConnectorStore, the below registration should be used 
+            // as the inner IBotDataStore for CachingBotDataStore
             /*builder.RegisterType<InMemoryDataStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance(); */
 
-            builder.RegisterType<CachingBotDataStore_LastWriteWins>()
-                .As<IBotDataStore>()
+            builder.Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(),
+                                                          CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
@@ -151,6 +171,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c =>
                 {
+                    var stack = c.Resolve<IDialogStack>();
+                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<double>>();
+                    var fromGlobal = c.Resolve<IScorable<double>[]>();
+                    // since the stack of scorables changes over time, this should be lazy
+                    var lazyScorables = fromStack.Concat(fromGlobal);
+                    var scorable = new CompositeScorable<double>(c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), lazyScorables);
+                    return scorable;
+                })
+                .InstancePerLifetimeScope()
+                .AsSelf();
+
+            builder
+                .Register(c =>
+                {
                     var cc = c.Resolve<IComponentContext>();
 
                     Func<IPostToBot> makeInner = () =>
@@ -159,12 +193,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         IDialogStack stack = task;
                         IPostToBot post = task;
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
+                        post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
-                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<IComparer<double>>(), cc.Resolve<ITraits<double>>(), cc.Resolve<IScorable<double>[]>());
+                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<CompositeScorable<double>>());
                         return post;
                     };
 
-                    var outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    outer = new SerializingDialogTask(outer, cc.Resolve<ResumptionCookie>(), c.Resolve<IScope<ResumptionCookie>>());
+                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })
                 .As<IPostToBot>()

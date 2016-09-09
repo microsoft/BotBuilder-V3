@@ -34,6 +34,12 @@
 export var agent = 'botbuilder';
 export var messageType = 'message';
 export var defaultConnector = '*';
+export var emulatorChannel = 'emulator';
+
+export var Errors = {
+    EMSGSIZE: 'EMSGSIZE',
+    EBADMSG: 'EBADMSG'
+};
 
 export var Library =  {
     system: 'BotBuilder',

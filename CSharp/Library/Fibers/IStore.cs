@@ -45,6 +45,6 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         void Save(T item);
 
-        void Flush(); 
+        void Flush();
     }
 }

@@ -377,7 +377,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
                 if (prompt != null)
                 {
-                    _promptDefinition = prompt;
+                    SetPrompt(prompt);
                 }
 
                 if (numeric != null)

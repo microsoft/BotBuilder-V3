@@ -59,8 +59,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetActive(condition);
+            SetFieldDescription(new DescribeAttribute(form.Configuration.Confirmation) { IsLocalizable = false });
             var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
-            _next = (value, state) => value ? new NextStep() : noStep;
+            _next = (value, state) => (bool)value ? new NextStep() : noStep;
         }
 
         /// <summary>
@@ -77,8 +78,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             SetType(typeof(bool));
             SetDependencies(dependencies.ToArray());
             SetActive(condition);
+            SetFieldDescription(new DescribeAttribute(form.Configuration.Confirmation) { IsLocalizable = false });
             var noStep = (dependencies.Any() ? new NextStep(dependencies) : new NextStep());
-            _next = (value, state) => value ? new NextStep() : noStep;
+            SetNext((value, state) => (bool)value ? new NextStep() : noStep);
         }
 
         public override object GetValue(T state)
@@ -119,11 +121,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             throw new NotImplementedException();
         }
-        #endregion
-
-        #region Implementation
-        private delegate NextStep NextDelegate(bool response, T state);
-        private readonly NextDelegate _next;
         #endregion
     }
 }

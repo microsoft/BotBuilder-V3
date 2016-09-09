@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var LuisRecognizer = (function () {
     function LuisRecognizer(models) {
@@ -31,13 +32,12 @@ var LuisRecognizer = (function () {
                             }
                         });
                         if (top) {
+                            result.score = top.score;
+                            result.intent = top.intent;
                             switch (top.intent.toLowerCase()) {
                                 case 'builtin.intent.none':
                                 case 'none':
-                                    break;
-                                default:
-                                    result.score = top.score;
-                                    result.intent = top.intent;
+                                    result.score = 0.1;
                                     break;
                             }
                         }
@@ -96,5 +96,5 @@ var LuisRecognizer = (function () {
         }
     };
     return LuisRecognizer;
-})();
+}());
 exports.LuisRecognizer = LuisRecognizer;

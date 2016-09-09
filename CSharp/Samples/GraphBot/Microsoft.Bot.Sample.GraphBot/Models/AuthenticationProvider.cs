@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Models
                 && bag.TryGetValue(Keys.TokenCache, out tokenBlob);
 
             // if not found, then throw the exception that will restart the login flow
-            if (! found)
+            if (!found)
             {
                 throw new AdalSilentTokenAcquisitionException();
             }

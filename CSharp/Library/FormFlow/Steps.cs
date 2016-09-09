@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             form.SetPhase(StepPhase.Responding);
             form.StepState = new FieldStepState(FieldStepStates.SentPrompt);
-            return _field.Prompt.Prompt(state, _name, _field.Prompt.Recognizer.PromptArgs());
+            return _field.Prompt.Prompt(state, _field, _field.Prompt.Recognizer.PromptArgs());
         }
 
         public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input)
@@ -122,9 +122,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 var fieldState = (FieldStepState)form.StepState;
                 var iprompt = _field.Prompt;
-                Ambiguous clarify;
-                var iChoicePrompt = NextClarifyPrompt(state, fieldState, iprompt.Recognizer, out clarify);
-                matches = MatchAnalyzer.Coalesce(MatchAnalyzer.HighestConfidence(iChoicePrompt.Recognizer.Matches(input)), input).ToArray();
+                var choiceRecognizer = ClarifyRecognizer(fieldState, iprompt.Recognizer);
+                matches = MatchAnalyzer.Coalesce(MatchAnalyzer.HighestConfidence(choiceRecognizer.Matches(input)), input).ToArray();
                 if (matches.Count() > 1)
                 {
                     matches = new TermMatch[0];
@@ -141,11 +140,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
         {
-            ValidateResult feedback;
+            ValidateResult feedback = new ValidateResult();
             feedback.IsValid = true;
             feedback.Feedback = null;
+            feedback.FeedbackCard = null;
+            feedback.Choices = null;
             FormPrompt prompt = null;
-            FormPrompt feedbackPrompt = null; 
+            FormPrompt feedbackPrompt = null;
             var iprompt = _field.Prompt;
             var fieldState = (FieldStepState)form.StepState;
             object response = null;
@@ -162,6 +163,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         response = new List<object>() { response };
                     }
                     feedback = await SetValueAsync(state, response, form);
+                    if (!feedback.IsValid && feedback.Choices != null)
+                    {
+                        var choices = new Ambiguous(input.Substring(firstMatch.Start, firstMatch.Length), feedback.Choices);
+                        fieldState.State = FieldStepStates.SentClarify;
+                        fieldState.Settled = new List<object>();
+                        fieldState.Clarifications = new List<Ambiguous>() { choices };
+                        response = SetValue(state, null);
+                        prompt = ClarifyPrompt((FieldStepState)form.StepState, iprompt.Recognizer, state);
+                    }
                 }
                 else if (matches.Count() > 1)
                 {
@@ -212,13 +222,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     if (ambiguous.Count > 0)
                     {
                         // Need 1 or more clarifications
-                        Ambiguous clarify;
                         fieldState.State = FieldStepStates.SentClarify;
                         fieldState.Settled = settled;
                         fieldState.Clarifications = ambiguous;
                         response = SetValue(state, null);
-                        var iChoicePrompt = NextClarifyPrompt(state, (FieldStepState)form.StepState, iprompt.Recognizer, out clarify);
-                        prompt = iChoicePrompt.Prompt(state, _name, clarify.Response);
+                        prompt = ClarifyPrompt((FieldStepState)form.StepState, iprompt.Recognizer, state);
                     }
                     else
                     {
@@ -252,20 +260,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else if (fieldState.State == FieldStepStates.SentClarify)
             {
-                Ambiguous clarify;
-                var iChoicePrompt = NextClarifyPrompt(state, fieldState, iprompt.Recognizer, out clarify);
                 if (matches.Count() == 1)
                 {
                     // Clarified ambiguity
+                    var clarify = NeedsClarification(fieldState);
                     fieldState.Settled.Add(matches.First().Value);
                     fieldState.Clarifications.Remove(clarify);
-                    Ambiguous newClarify;
-                    var newiChoicePrompt = NextClarifyPrompt(state, fieldState, iprompt.Recognizer, out newClarify);
-                    if (newiChoicePrompt != null)
-                    {
-                        prompt = newiChoicePrompt.Prompt(state, _name, newClarify.Response);
-                    }
-                    else
+                    if (prompt == null)
                     {
                         // No clarification left, so set the field
                         if (_field.AllowsMultiple)
@@ -288,7 +289,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 form.StepState = null;
                 if (fieldState.Unmatched != null)
                 {
-                    if (feedback.Feedback != null)
+                    if (feedback.FeedbackCard != null)
+                    {
+                        feedbackPrompt = feedback.FeedbackCard;
+                    }
+                    else if (feedback.Feedback != null)
                     {
                         feedbackPrompt = new FormPrompt { Prompt = feedback.Feedback };
                     }
@@ -296,17 +301,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     {
                         if (fieldState.Unmatched != "")
                         {
-                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name, fieldState.Unmatched);
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _field, fieldState.Unmatched);
                         }
                         else
                         {
-                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _name);
+                            feedbackPrompt = new Prompter<T>(_field.Template(TemplateUsage.Feedback), _field.Form, null).Prompt(state, _field);
                         }
                     }
                 }
             }
             var next = _field.Next(response, state);
-            return new StepResult(feedback.IsValid, next, feedbackPrompt ?? new FormPrompt { Prompt = feedback.Feedback }, prompt);
+            return new StepResult(feedback.IsValid, next, feedbackPrompt ?? (feedback.FeedbackCard ?? new FormPrompt { Prompt = feedback.Feedback }), prompt);
+        }
+
+        public bool InClarify(FormState form)
+        {
+            var state = (FieldStepState)form.StepState;
+            return state.State == FieldStepStates.SentClarify;
         }
 
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
@@ -316,11 +327,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var fieldState = (FieldStepState)form.StepState;
             if (fieldState.State == FieldStepStates.SentPrompt)
             {
-                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, _name, input);
+                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, _field, input);
             }
             else if (fieldState.State == FieldStepStates.SentClarify)
             {
-                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, "", input);
+                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, _field, input);
             }
             return feedback;
         }
@@ -352,15 +363,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             IPrompt<T> template;
             if (fieldState.State == FieldStepStates.SentClarify)
             {
-                Ambiguous clarify;
-                var recognizer = NextClarifyPrompt(state, fieldState, _field.Prompt.Recognizer, out clarify).Recognizer;
-                template = Template(TemplateUsage.HelpClarify, recognizer);
+                template = Template(TemplateUsage.HelpClarify, ClarifyRecognizer(fieldState, _field.Prompt.Recognizer));
             }
             else
             {
                 template = Template(TemplateUsage.Help, _field.Prompt.Recognizer);
             }
-            var help = template.Prompt(state, _name, "* " + template.Recognizer.Help(state, _field.GetValue(state)), commandHelp);
+            var help = template.Prompt(state, _field, "* " + template.Recognizer.Help(state, _field.GetValue(state)), commandHelp);
             return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
@@ -408,10 +417,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return feedback;
         }
 
-        private IPrompt<T> NextClarifyPrompt(T state, FieldStepState stepState, IRecognize<T> recognizer, out Ambiguous clarify)
+        private Ambiguous NeedsClarification(FieldStepState stepState)
         {
-            IPrompt<T> prompter = null;
-            clarify = null;
+            Ambiguous clarify = null;
             foreach (var clarification in stepState.Clarifications)
             {
                 if (clarification.Values.Length > 1)
@@ -420,25 +428,68 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     break;
                 }
             }
-            if (clarify != null)
+            return clarify;
+        }
+
+        private class FieldClarify : Field<T>
+        {
+            public FieldClarify(IField<T> root)
+                : base(root.Name, FieldRole.Value)
             {
-                var field = new Field<T>("__clarify__", FieldRole.Value);
-                field.Form = _field.Form;
-                var template = _field.Template(TemplateUsage.Clarify);
-                var helpTemplate = _field.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp);
-                field.SetPrompt(new PromptAttribute(template));
-                field.ReplaceTemplate(_field.Template(TemplateUsage.Clarify));
-                field.ReplaceTemplate(helpTemplate);
-                foreach (var value in clarify.Values)
+                Form = root.Form;
+                var template = root.Template(TemplateUsage.Clarify);
+                SetPrompt(new PromptAttribute(template));
+                ReplaceTemplate(template);
+                ReplaceTemplate(root.Template(template.AllowNumbers ? TemplateUsage.EnumOneNumberHelp : TemplateUsage.EnumManyNumberHelp));
+            }
+
+            public override bool IsUnknown(T state)
+            {
+                return true;
+            }
+        }
+
+        private IField<T> ClarifyField(Ambiguous clarify, IRecognize<T> recognizer)
+        {
+            var field = new FieldClarify(_field);
+            foreach (var value in clarify.Values)
+            {
+                var choice = value as Choice;
+                if (choice != null)
+                {
+                    field.AddDescription(choice.Value,
+                        choice.Description.Description,
+                        choice.Description.Image,
+                        choice.Description.Message);
+                    field.AddTerms(choice.Value, choice.Terms.Alternatives);
+                }
+                else
                 {
                     var desc = recognizer.ValueDescription(value);
                     field.AddDescription(value, desc.Description, desc.Image);
                     field.AddTerms(value, recognizer.ValidInputs(value).ToArray());
                 }
-                var choiceRecognizer = new RecognizeEnumeration<T>(field);
-                prompter = new Prompter<T>(template, _field.Form, choiceRecognizer);
             }
-            return prompter;
+            return field;
+        }
+
+        private IRecognize<T> ClarifyRecognizer(FieldStepState stepState, IRecognize<T> recognizer)
+        {
+            var clarify = NeedsClarification(stepState);
+            return (clarify != null ? new RecognizeEnumeration<T>(ClarifyField(clarify, recognizer)) : null);
+        }
+
+        private FormPrompt ClarifyPrompt(FieldStepState stepState, IRecognize<T> recognizer, T state)
+        {
+            var clarify = NeedsClarification(stepState);
+            FormPrompt prompt = null;
+            if (clarify != null)
+            {
+                var field = ClarifyField(clarify, recognizer);
+                var prompter = new Prompter<T>(field.Template(TemplateUsage.Clarify), field.Form, new RecognizeEnumeration<T>(field));
+                prompt = prompter.Prompt(state, field, clarify.Response);
+            }
+            return prompt;
         }
 
         internal enum FieldStepStates { Unknown, SentPrompt, SentClarify };
@@ -473,6 +524,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     }
 
     internal class ConfirmStep<T> : IStep<T>
+        where T : class
     {
         public ConfirmStep(IField<T> field)
         {
@@ -532,7 +584,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
             var prompter = new Prompter<T>(template, _field.Form, null);
-            return prompter.Prompt(state, "", input);
+            return prompter.Prompt(state, _field, input);
         }
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
@@ -552,15 +604,20 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
             form.SetPhase(StepPhase.Responding);
-            return _field.Prompt.Prompt(state, _field.Name);
+            return _field.Prompt.Prompt(state, _field);
         }
 
         public FormPrompt Help(T state, FormState form, string commandHelp)
         {
             var template = _field.Template(TemplateUsage.HelpConfirm);
             var prompt = new Prompter<T>(template, _field.Form, _field.Prompt.Recognizer);
-            var help = prompt.Prompt(state, _field.Name, "* " + prompt.Recognizer.Help(state, null), commandHelp);
+            var help = prompt.Prompt(state, _field, "* " + prompt.Recognizer.Help(state, null), commandHelp);
             return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
+        }
+
+        public bool InClarify(FormState form)
+        {
+            return false;
         }
 
         public StepType Type
@@ -596,8 +653,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (var value in formState.Next.Names)
             {
                 var svalue = (string)value;
-                var prompter = new Prompter<T>(fieldPrompt, form, form.Fields.Field(svalue).Prompt.Recognizer);
-                AddDescription(value, prompter.Prompt(state, svalue).Prompt);
+                var sfield = form.Fields.Field(svalue);
+                var prompter = new Prompter<T>(fieldPrompt, form, sfield.Prompt.Recognizer);
+                AddDescription(value, prompter.Prompt(state, sfield).Prompt, null, svalue);
                 AddTerms(value, form.Fields.Field(svalue).FieldTerms.ToArray());
             }
             var template = field.Template(TemplateUsage.Navigation);
@@ -664,10 +722,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
+        public bool InClarify(FormState form)
+        {
+            return false;
+        }
+
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             var template = _field.Template(TemplateUsage.NotUnderstood);
-            return new Prompter<T>(template, _field.Form, _field.Prompt.Recognizer, _fields).Prompt(state, _name, input);
+            return new Prompter<T>(template, _field.Form, _field.Prompt.Recognizer, _fields).Prompt(state, _field, input);
         }
 
         public async Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches)
@@ -693,7 +756,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public FormPrompt Start(IDialogContext context, T state, FormState form)
         {
-            return _field.Prompt.Prompt(state, _name);
+            return _field.Prompt.Prompt(state, _field);
         }
 
         public StepType Type
@@ -708,7 +771,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var recognizer = _field.Prompt.Recognizer;
             var prompt = new Prompter<T>(_field.Template(TemplateUsage.HelpNavigation), _field.Form, recognizer, _fields);
-            var help = prompt.Prompt(state, _name, "* " + recognizer.Help(state, null), commandHelp);
+            var help = prompt.Prompt(state, _field, "* " + recognizer.Help(state, null), commandHelp);
             return new FormPrompt { Prompt = "* " + help.Prompt, Buttons = help.Buttons };
         }
 
@@ -733,6 +796,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     }
 
     internal class MessageStep<T> : IStep<T>
+        where T : class
     {
         public MessageStep(MessageDelegate<T> generateMessage, ActiveDelegate<T> condition, IEnumerable<string> dependencies, IForm<T> form)
         {
@@ -801,6 +865,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             get { return _promptDefinition; }
         }
 
+        public bool InClarify(FormState form)
+        {
+            return false;
+        }
+
         public FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input)
         {
             throw new NotImplementedException();
@@ -824,7 +893,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             form.SetPhase(StepPhase.Completed);
             var prompt = new Prompter<T>(_promptDefinition, _form, null);
-            return prompt.Prompt(state, "");
+            return prompt.Prompt(state, null);
         }
 
         public void SaveResources()

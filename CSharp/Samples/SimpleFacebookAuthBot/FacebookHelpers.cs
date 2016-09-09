@@ -85,16 +85,27 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 
         private static string GetOAuthCallBack(ResumptionCookie resumptionCookie, string facebookOauthCallback)
         {
-            // because of a limitation on the characters in Facebook redirect_uri, we don't use the serialization of the cookie.
-            // http://stackoverflow.com/questions/4386691/facebook-error-error-validating-verification-code
             var uri = GetUri(facebookOauthCallback,
-                Tuple.Create("userId", resumptionCookie.UserId),
-                Tuple.Create("conversationId", resumptionCookie.ConversationId),
-                Tuple.Create("serviceUrl", HttpUtility.UrlEncode(resumptionCookie.ServiceUrl)), 
+                Tuple.Create("userId", TokenEncoder(resumptionCookie.UserId)),
+                Tuple.Create("botId", TokenEncoder(resumptionCookie.BotId)),
+                Tuple.Create("conversationId", TokenEncoder(resumptionCookie.ConversationId)),
+                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.ServiceUrl)),
                 Tuple.Create("channelId", resumptionCookie.ChannelId),
                 Tuple.Create("locale", resumptionCookie.Locale ?? "en")
                 );
             return uri.ToString();
+        }
+
+        // because of a limitation on the characters in Facebook redirect_uri, we don't use the serialization of the cookie.
+        // http://stackoverflow.com/questions/4386691/facebook-error-error-validating-verification-code
+        public static string TokenEncoder(string token)
+        {
+            return HttpServerUtility.UrlTokenEncode(Encoding.UTF8.GetBytes(token));
+        }
+
+        public static string TokenDecoder(string token)
+        {
+            return Encoding.UTF8.GetString(HttpServerUtility.UrlTokenDecode(token));
         }
 
         public static string GetFacebookLoginURL(ResumptionCookie resumptionCookie, string facebookOauthCallback)
@@ -107,7 +118,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 Tuple.Create("scope", "public_profile,email"),
                 Tuple.Create("state", Convert.ToString(new Random().Next(9999)))
                 );
-            
+
             return uri.ToString();
         }
 
@@ -133,14 +144,14 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         private static Uri GetUri(string endPoint, params Tuple<string, string>[] queryParams)
         {
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-            foreach(var queryparam in queryParams)
+            foreach (var queryparam in queryParams)
             {
-                queryString[queryparam.Item1] = queryparam.Item2; 
+                queryString[queryparam.Item1] = queryparam.Item2;
             }
 
             var builder = new UriBuilder(endPoint);
             builder.Query = queryString.ToString();
-            return builder.Uri; 
+            return builder.Uri;
         }
     }
 

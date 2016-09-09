@@ -41,7 +41,7 @@ import answer = require('./workflow/AnswerAction');
 import hangup = require('./workflow/HangupAction');
 import reject = require('./workflow/RejectAction');
 import playPrompt = require('./workflow/PlayPromptAction');
-import prompt = require('./workflow/prompt');
+import prompt = require('./workflow/Prompt');
 
 export interface ICallSessionOptions {
     onSave: (done: (err: Error) => void) => void;

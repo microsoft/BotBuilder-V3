@@ -51,13 +51,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Subscriptions to rosterUpdate are only used for multiParty calls.
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public IEnumerable<NotificationType> NotificationSubscriptions { get; set; } 
-
-        /// <summary>
-        /// similar to WCF IExtensibleDataObject, any data not expected on the wire is deserialized into this collection.
-        /// </summary>
-        [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
+        public IEnumerable<NotificationType> NotificationSubscriptions { get; set; }
 
         public void Validate()
         {

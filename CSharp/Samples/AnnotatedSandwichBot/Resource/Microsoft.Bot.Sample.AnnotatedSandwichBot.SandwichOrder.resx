@@ -489,4 +489,13 @@
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="BreadSubTitle;VALUE" xml:space="preserve">
+    <value>Bread Picker</value>
+  </data>
+  <data name="BreadTitle;VALUE" xml:space="preserve">
+    <value>Sandwich Bot</value>
+  </data>
+  <data name="SandwichImage;VALUE" xml:space="preserve">
+    <value>https://placeholdit.imgix.net/~text?txtsize=16&amp;txt=Sandwich&amp;w=125&amp;h=40&amp;txttrack=0&amp;txtclr=000&amp;txtfont=bold</value>
+  </data>
 </root>

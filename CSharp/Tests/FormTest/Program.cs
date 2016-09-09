@@ -66,7 +66,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 {
     public enum DebugOptions
     {
-        None, AnnotationsAndNumbers, AnnotationsAndNoNumbers, AnnotationsAndText, NoAnnotations, NoFieldOrder,
+        None,
+        AnnotationsAndNumbers,
+        AnnotationsAndButtons,
+        AnnotationsAndNoNumbers,
+        NoAnnotations, NoFieldOrder,
         WithState,
         Localized,
         SimpleSandwichBot, AnnotatedSandwichBot, JSONSandwichBot
@@ -93,7 +97,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 From = new ChannelAccount { Id = "ConsoleUser" },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = "FormTest" },
-                ChannelId = "Console", 
+                ChannelId = "Console",
                 ServiceUrl = "http://localhost:9000/",
                 Text = ""
             };
@@ -102,9 +106,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
             builder.RegisterModule(new DialogModule_MakeRoot());
 
             builder.RegisterType<InMemoryDataStore>()
-                .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .SingleInstance();
+
+            builder.Register(c => new CachingBotDataStore(c.Resolve<InMemoryDataStore>(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+                .As<IBotDataStore<BotData>>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             builder
                 .Register(c => new BotIdResolver("testBot"))
@@ -123,7 +131,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
                 var task = scope.Resolve<IPostToBot>();
-                await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken)); 
+                await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
                 var stack = scope.Resolve<IDialogStack>();
 
                 stack.Call(MakeRoot(), null);
@@ -213,7 +221,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         Locale = await locale;
                         CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(Locale);
                         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture;
-                        return FormDialog.FromType<Choices>(FormOptions.PromptInStart);
+                        return new FormDialog<Choices>(new Choices(), () =>
+                        {
+                            var builder = new FormBuilder<Choices>();
+                            builder.Configuration.DefaultPrompt.ChoiceStyle = ChoiceStyleOptions.AutoText;
+                            return builder.AddRemainingFields().Build();
+                        }
+                        , FormOptions.PromptInStart);
                     })
                 .ContinueWith<Choices, object>(async (context, result) =>
                 {
@@ -231,11 +245,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                     switch (choices.Choice)
                     {
                         case DebugOptions.AnnotationsAndNumbers:
-                            return MakeForm(() => PizzaOrder.BuildForm(noNumbers: false));
+                            return MakeForm(() => PizzaOrder.BuildForm());
                         case DebugOptions.AnnotationsAndNoNumbers:
                             return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true));
-                        case DebugOptions.AnnotationsAndText:
-                            return MakeForm(() => PizzaOrder.BuildForm(style: ChoiceStyleOptions.AutoText));
+                        case DebugOptions.AnnotationsAndButtons:
+                            return MakeForm(() => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto));
                         case DebugOptions.NoAnnotations:
                             return MakeForm(() => PizzaOrder.BuildForm(noNumbers: true, ignoreAnnotations: true));
                         case DebugOptions.NoFieldOrder:
@@ -243,10 +257,12 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                         case DebugOptions.WithState:
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, Kind = PizzaOptions.BYOPizza },
-                            () => PizzaOrder.BuildForm(noNumbers: false),
+                            () => PizzaOrder.BuildForm(),
                             options: FormOptions.PromptInStart,
                             entities: new Luis.Models.EntityRecommendation[] {
                                 new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
+                                new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
+                                new Luis.Models.EntityRecommendation("Signature", "Hawaiian", "Signature"),
                                 new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
                                 new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
                                 new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
@@ -255,7 +271,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             );
                         case DebugOptions.Localized:
                             {
-                                var form = PizzaOrder.BuildForm(false, false);
+                                var form = PizzaOrder.BuildForm();
                                 using (var stream = new FileStream("pizza.resx", FileMode.Create))
                                 using (var writer = new ResXResourceWriter(stream))
                                 {

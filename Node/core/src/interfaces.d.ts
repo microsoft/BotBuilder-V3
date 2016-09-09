@@ -83,13 +83,16 @@ interface ISigninCard {
     buttons: ICardAction[];         // Sign in action 
 }
 
-interface IThumbnailCard {
+interface IKeyboard {
+    buttons: ICardAction[];         // Set of actions applicable to the current card. 
+}
+
+interface IThumbnailCard extends IKeyboard {
     title: string;                  // Title of the Card 
     subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
     text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
-    images: ICardImage[];               // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. 
-    tap: ICardAction;                   // This action will be activated when user taps on the section bubble. 
-    buttons: ICardAction[];             // Set of actions applicable to the current card. 
+    images: ICardImage[];           // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. 
+    tap: ICardAction;               // This action will be activated when user taps on the section bubble. 
 }
 
 interface IReceiptCard {
@@ -160,8 +163,16 @@ interface ILocationV2 {
 }
 
 interface ILocalizer {
-    gettext(language: string, msgid: string): string;
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number): string;
+    initialize(localizerSettings?: ILocalizerSettings): void;
+    load(locale: string, callback: ErrorCallback): void;        
+    gettext(locale: string, msgid: string, namespace?: string): string;
+    trygettext(locale: string, msgid: string, namespace?: string): string;
+    ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
+}
+
+interface ILocalizerSettings {
+    botLocalePath?: string;
+    defaultLocale?: string;
 }
 
 interface ISession {

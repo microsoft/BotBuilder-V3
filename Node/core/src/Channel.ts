@@ -33,20 +33,55 @@
 
 import ses = require('./Session');
 
-export function preferButtons(session: ses.Session, choiceCnt: number, rePrompt: boolean): boolean {
+export var channels = {
+    facebook: 'facebook',
+    skype: 'skype',
+    telegram: 'telegram',
+    kik: 'kik',
+    email: 'email',
+    slack: 'slack',
+    groupme: 'groupme',
+    sms: 'sms',
+    emulator: 'emulator'
+};
+
+export function supportsKeyboards(session: ses.Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
-        case 'facebook':
-        case 'skype':
-            return (choiceCnt <= 3);
-        case 'telegram':
-        case 'kik':
-        case 'emulator':
-            return true;
+        case channels.facebook:
+            return (buttonCnt <= 10);
+        case channels.kik:
+            return (buttonCnt <= 20);
+        case channels.slack:
+        case channels.telegram:
+        case channels.emulator:
+            return (buttonCnt <= 100);
         default:
             return false;
     }
 }
 
-export function getChannelId(session: ses.Session): string {
-    return session.message.address.channelId.toLowerCase();    
+export function supportsCardActions(session: ses.Session, buttonCnt = 100) {
+    switch (getChannelId(session)) {
+        case channels.facebook:
+        case channels.skype:
+            return (buttonCnt <= 3);
+        case channels.slack:
+            return (buttonCnt <= 100);
+        default:
+            return false;
+    }
+}
+
+export function getChannelId(addressable: ses.Session|IMessage|IAddress): string {
+    var channelId: string;
+    if (addressable) {
+        if (addressable.hasOwnProperty('message')) {
+            channelId = (<ses.Session>addressable).message.address.channelId;
+        } else if (addressable.hasOwnProperty('address')) {
+            channelId = (<IMessage>addressable).address.channelId;
+        } else if (addressable.hasOwnProperty('channelId')) {
+            channelId = (<IAddress>addressable).channelId;
+        }
+    }
+    return channelId ? channelId.toLowerCase() : '';    
 }

@@ -113,24 +113,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             var builder = new StringBuilder();
             if (cardAttachments != null && cardAttachments.Any())
             {
-                builder.AppendLine(); 
+                builder.AppendLine();
                 foreach (var attachment in cardAttachments)
                 {
                     string type = attachment.ContentType.Split('.').Last();
-                    if (type == "hero"  || type == "thumbnail")
+                    if (type == "hero" || type == "thumbnail")
                     {
                         var card = (HeroCard)attachment.Content;
+                        if (!string.IsNullOrEmpty(card.Title))
+                        {
+                            builder.AppendLine(card.Title);
+                        }
+                        if (!string.IsNullOrEmpty(card.Subtitle))
+                        {
+                            builder.AppendLine(card.Subtitle);
+                        }
                         if (!string.IsNullOrEmpty(card.Text))
                         {
                             builder.AppendLine(card.Text);
                         }
-                        foreach(var button in card.Buttons)
+                        if (card.Buttons != null)
                         {
-                            if (!string.IsNullOrEmpty(button.Value))
-                            {
-                                builder.AppendLine($"{ button.Value}. { button.Title}");
-                            }
-                            else
+                            foreach (var button in card.Buttons)
                             {
                                 builder.AppendLine($"* {button.Title}");
                             }

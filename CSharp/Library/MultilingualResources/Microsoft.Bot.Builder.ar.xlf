@@ -314,6 +314,14 @@
           <source>User profile deleted!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">حذف التشكيل الجانبي للمستخدم!</target>
         </trans-unit>
+        <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
+          <source>Confirmation</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">تأكيد</target>
+        </trans-unit>
+        <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
+          <source>Sorry, my bot code is having an issue.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">عذراً، رمز بوت هو وجود مشكلة.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

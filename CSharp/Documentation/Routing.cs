@@ -2,7 +2,7 @@
 {
     /** 
 \page routing Sending and Receiving Activities
-Every activity contains information used for routing the activity to the appropriate destination.  Bots 
+Every activity contains information used for routing the activity to the appropriate destination. Bots 
 receive activities from the user and send them back, just like people exchange messages.
 
 \section routingactivities Routing Activities
@@ -36,7 +36,7 @@ that should be used for API operations like sending a reply.
 |  __ServiceUrl__  | The url to use for sending activities back | http://skype.botframework.com |
 
 \section connectorclient Creating Connector Client
-The ServiceUrl provides the appropriate endpoint for API calls.  All you have to do is pass it into the 
+The ServiceUrl provides the appropriate endpoint for API calls. All you have to do is pass it into the 
 constructor of the ConnectorClient() class.
 
 ~~~{.cs}
@@ -86,7 +86,7 @@ var replyMessage = incomingMessage.CreateReply("Yo, what's up?");
 ~~~
 
 \subsection replytoactivity ReplyToActivity()
-To reply simply create a reply message and call the **ReplyToActiivty()** method. The %Connector service will take care of the details
+To reply simply create a reply message and call the **ReplyToActivity()** method. The %Connector service will take care of the details
 of delivering your message using the appropriate channel semantics.  
 
 ~~~{.cs}
@@ -97,7 +97,7 @@ await connector.Conversations.ReplyToActivityAsync(replyMessage);
 
 \subsection sendtoconversation SendToConversation()
 The **SendToConversation()** method is almost identical to ReplyToActivity() except that it doesn't maintain any sort of 
-threading.  It is used when don't have an activity to reply to.  If you do have an activity to reply to you should us the 
+threading. It is used when don't have an activity to reply to. If you do have an activity to reply to you should us the 
 ReplyToActivity() method.
 
 ~~~{.cs}
@@ -108,7 +108,7 @@ newMessage.From = botAccount;
 newMessage.Conversation = conversation;
 newMessage.Recipient = userAccount;
 newMessage.Text = "Yo yo yo!";
-await connector.Conversations.SendToConversation((Activity)newMessage); 
+await connector.Conversations.SendToConversationAsync((Activity)newMessage); 
 ~~~
 
 \subsection multiplereplies Multiple replies
@@ -125,23 +125,27 @@ connector.Conversations.ReplyToActivity(incomingMessage.CreateReply("Yo, I heard
 \section conversation Starting Conversations
 
 To initiate a conversation you need to call the CreateConversation() or CreateDirectConversation() methods to get a 
-ConversationAccount record from the channel.  Once you have the ConversationAccount can use it in a message call 
+ConversationAccount record from the channel. Once you have the ConversationAccount can use it in a message call 
 to SendToConversation().
 
 \subsection conversationuser Create 1:1 Conversations
 The **CreateDirectConversation()** method is used to create a private 1:1 conversation between the bot and the user.
 
+To initialize a **ConnectorClient** you use ServiceUrl persisted from previous messages.
+
 Example:
 ~~~{.cs}
-var connector = new ConnectorClient(incomingMessage.ServiceUrl);
-var ConversationId = await connector.Conversations.CreateDirectConversationAsync(incomingMessage.Recipient, incomingMessage.From);
+var userAccount = new ChannelAccount(name: "Larry", id: "@UV357341");
+var connector = new ConnectorClient(new Uri(incomingMessage.ServiceUrl));
+var conversationId = await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount);
+
 IMessageActivity message =  Activity.CreateMessageActivity();
-message.From = botChannelAccount;
-message.Recipient = new ChannelAccount() { name: "Larry", "id":"@UV357341"};
-message.Conversation = new ConversationAccount(id: ConversationId.Id);
+message.From = botAccount;
+message.Recipient = userAccount;
+message.Conversation = new ConversationAccount(id: conversationId.Id);
 message.Text = "Hello";
 message.Locale = "en-Us";
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
 
@@ -151,22 +155,22 @@ The **CreateConversation()** method is used to create a new group conversation.
 
 Example: 
 ~~~{.cs}
-var connector = new ConnectorClient();
+var connector = new ConnectorClient(new Uri(incomingMessage.ServiceUrl));
 List<ChannelAccount> participants = new List<ChannelAccount>();
 participants.Add(new ChannelAccount("joe@contoso.com", "Joe the Engineer"));
 participants.Add(new ChannelAccount("sara@contso.com", "Sara in Finance"));
 
-ConversationParameters cpMessage = new ConversationParameters(message.Recipient, participants, "Quarter End Discussion");
-var ConversationId = connector.Conversations.CreateConversationAsync(cpMessage);
+ConversationParameters cpMessage = new ConversationParameters(message.Recipient, true, participants, "Quarter End Discussion");
+var conversationId = await connector.Conversations.CreateConversationAsync(cpMessage);
 
-IMessageActivity message =  Activity.CreateMessageActivity();
-message.From = botChannelAccount;
+IMessageActivity message = Activity.CreateMessageActivity();
+message.From = botAccount;
 message.Recipient = new ChannelAccount("lydia@contoso.com", "Lydia the CFO"));
-message.Conversation = ConversationId;
-message.ChannelId = "email";
+message.Conversation = new ConversationAccount(id: conversationId.Id);
+message.ChannelId = incomingMessage.ChannelId;
 message.Text = "Hey, what's up everyone?";
 message.Locale = "en-Us";
-await connector.Conversations.SendToConversation((Activity)message); 
+await connector.Conversations.SendToConversationAsync((Activity)message); 
 ~~~
 
     **/

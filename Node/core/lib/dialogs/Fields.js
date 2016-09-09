@@ -1,3 +1,4 @@
+"use strict";
 var dialog = require('./Dialog');
 var consts = require('../consts');
 var prompts = require('./Prompts');
@@ -126,7 +127,7 @@ var Fields = (function () {
         };
     };
     return Fields;
-})();
+}());
 exports.Fields = Fields;
 dl.systemLib.dialog(consts.DialogId.Field, new sd.SimpleDialog(function (session, args) {
     var fieldArgs = session.dialogData;

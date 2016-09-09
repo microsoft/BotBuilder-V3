@@ -75,12 +75,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         var key = entry.Key.GetType().Name + "." + entry.Key;
                         if (!_translations.ContainsKey(key))
                         {
-                            _translations.Add(key, entry.Value.Description);
+                            Add(key, entry.Value.Description);
+                            Add(key, entry.Value.Image);
+                            Add(key + nameof(entry.Value.Title), entry.Value.Title);
+                            Add(key + nameof(entry.Value.SubTitle), entry.Value.SubTitle);
+                            Add(key + nameof(entry.Value.Message), entry.Value.Message);
                         }
                     }
                     else
                     {
-                        _translations.Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
+                        Add(prefix + SEPARATOR + entry.Key, entry.Value.Description);
                     }
                 }
             }
@@ -136,8 +140,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public void LookupDictionary(string prefix, IDictionary<object, DescribeAttribute> dictionary)
         {
-            foreach (var key in dictionary.Keys.ToArray())
+            foreach (var entry in dictionary)
             {
+                var key = entry.Key;
+                var desc = entry.Value;
                 string skey;
                 if (key.GetType().IsEnum)
                 {
@@ -150,13 +156,23 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 string value;
                 if (_translations.TryGetValue(skey, out value))
                 {
-                    DescribeAttribute old;
-                    DescribeAttribute newDesc = new DescribeAttribute(value);
-                    if (dictionary.TryGetValue(key, out old))
-                    {
-                        newDesc.Image = old.Image;
-                    }
-                    dictionary[key] = newDesc;
+                    desc.Description = value;
+                }
+                if (_translations.TryGetValue(skey + nameof(desc.Image), out value))
+                {
+                    desc.Image = value;
+                }
+                if (_translations.TryGetValue(skey + nameof(desc.Title), out value))
+                {
+                    desc.Title = value;
+                }
+                if (_translations.TryGetValue(skey + nameof(desc.SubTitle), out value))
+                {
+                    desc.SubTitle = value;
+                }
+                if (_translations.TryGetValue(skey + nameof(desc.Message), out value))
+                {
+                    desc.Message = value;
                 }
             }
         }
@@ -208,7 +224,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var newLocalizer = new Localizer();
             while (reader.MoveNext())
             {
-                var entry = (DictionaryEntry) reader.Current;
+                var entry = (DictionaryEntry)reader.Current;
                 var fullKey = (string)entry.Key;
                 var semi = fullKey.LastIndexOf(SEPARATOR[0]);
                 var key = fullKey.Substring(0, semi);

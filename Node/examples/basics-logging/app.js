@@ -20,7 +20,7 @@ bot.dialog('/', function (session) {
 
 // Install logging middleware
 bot.use({
-    dialog: function (session, next) {
+    botbuilder: function (session, next) {
         if (/^\/log on/i.test(session.message.text)) {
             session.userData.isLogging = true;
             session.send('Logging is now turned on');

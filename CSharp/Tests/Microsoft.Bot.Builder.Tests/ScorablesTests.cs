@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
+        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
-        async Task IScorable<double>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
+        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
         {
             this.stack.Fail(new OperationCanceledException());
             await this.stack.PollAsync(token);
@@ -236,7 +236,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
+        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -259,7 +259,7 @@ namespace Microsoft.Bot.Builder.Tests
             return matched;
         }
 
-        async Task IScorable<double>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
+        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
         {
             var dialog = new CalculatorDialog();
 

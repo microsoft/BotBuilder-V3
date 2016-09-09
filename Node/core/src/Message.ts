@@ -60,7 +60,6 @@ export class Message implements IIsMessage {
     constructor(private session?: ses.Session) {
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
-        this.data.sourceEvent = {};
         if (this.session) {
             var m = this.session.message;
             if (m.source) {

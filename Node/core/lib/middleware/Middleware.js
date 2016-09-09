@@ -1,3 +1,4 @@
+"use strict";
 var dlg = require('../dialogs/Dialog');
 var dl = require('../bots/Library');
 var sd = require('../dialogs/SimpleDialog');
@@ -55,8 +56,16 @@ var Middleware = (function () {
             }
         };
     };
+    Middleware.sendTyping = function () {
+        return {
+            botbuilder: function (session, next) {
+                session.sendTyping();
+                next();
+            }
+        };
+    };
     return Middleware;
-})();
+}());
 exports.Middleware = Middleware;
 dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog(function (session, args) {
     if (args && args.hasOwnProperty('resumed')) {
@@ -67,7 +76,8 @@ dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog(function (sess
         session.endDialogWithResult(result);
     }
     else {
+        var dialogId = args.dialogId.indexOf(':') >= 0 ? args.dialogId : consts.Library.default + ':' + args.dialogId;
         session.dialogData.version = args.version;
-        session.beginDialog(args.dialogId, args.dialogArgs);
+        session.beginDialog(dialogId, args.dialogArgs);
     }
 }));

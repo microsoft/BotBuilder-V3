@@ -3,9 +3,10 @@ var builder = require('../');
 
 describe('Dialogs', function() {
     this.timeout(5000);
-    it('should redirect to another dialog with arguments', function (done) {
-        var bot = new builder.TextBot({ minSendDelay: 0 }); 
-        bot.add('/', [
+    it('should redirect to another dialog with arguments', function (done) { 
+        var connector = new builder.ConsoleConnector();       
+        var bot = new builder.UniversalBot(connector); 
+        bot.dialog('/', [
             function (session) {
                 session.beginDialog('/child', { foo: 'bar' }) 
             },
@@ -14,21 +15,22 @@ describe('Dialogs', function() {
                 session.send('done');
             }
         ]);
-        bot.add('/child', function (session, args) {
+        bot.dialog('/child', function (session, args) {
             assert(args.foo === 'bar');
             session.endDialog({ response: { bar: 'foo' }});
         });
-        bot.on('reply', function (message) {
+        bot.on('send', function (message) {
             assert(message.text == 'done');
             done();
         });
-        bot.processMessage({ text: 'start' });
+        connector.processMessage('start');
     });
 
     it('should process a waterfall of all built-in prompt types', function (done) {
         var step = 0;
-        var bot = new builder.TextBot({ minSendDelay: 0 });
-        bot.add('/', [
+        var connector = new builder.ConsoleConnector();       
+        var bot = new builder.UniversalBot(connector); 
+        bot.dialog('/', [
             function (session) {
                 assert(session.message.text == 'start');
                 builder.Prompts.text(session, 'enter text');
@@ -56,23 +58,23 @@ describe('Dialogs', function() {
                 session.send('done');
             }
         ]);
-        bot.on('reply', function (message) {
+        bot.on('send', function (message) {
             switch (++step) {
                 case 1:
                     assert(message.text == 'enter text');
-                    bot.processMessage({ text: 'some text' });
+                    connector.processMessage('some text');
                     break;
                 case 2:
-                    bot.processMessage({ text: '42' });
+                    connector.processMessage('42');
                     break;
                 case 3:
-                    bot.processMessage({ text: 'green' });
+                    connector.processMessage('green');
                     break;
                 case 4:
-                    bot.processMessage({ text: 'yes' });
+                    connector.processMessage('yes');
                     break;
                 case 5:
-                    bot.processMessage({ text: 'in 5 minutes' });
+                    connector.processMessage('in 5 minutes');
                     break;
                 case 6:
                     assert(message.text == 'done');
@@ -80,6 +82,6 @@ describe('Dialogs', function() {
                     break;
             }
         });
-        bot.processMessage({ text: 'start' });
+        connector.processMessage('start');
     });
 });

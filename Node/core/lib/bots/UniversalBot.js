@@ -1,15 +1,17 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var dl = require('./Library');
+var actions = require('../dialogs/ActionSet');
 var ses = require('../Session');
 var bs = require('../storage/BotStorage');
 var consts = require('../consts');
 var utils = require('../utils');
-var events = require('events');
 var async = require('async');
+var events = require('events');
 var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
     function UniversalBot(connector, settings) {
@@ -21,6 +23,7 @@ var UniversalBot = (function (_super) {
         };
         this.connectors = {};
         this.lib = new dl.Library(consts.Library.default);
+        this.actions = new actions.ActionSet();
         this.mwReceive = [];
         this.mwSend = [];
         this.mwSession = [];
@@ -96,6 +99,14 @@ var UniversalBot = (function (_super) {
         });
         return this;
     };
+    UniversalBot.prototype.beginDialogAction = function (name, id, options) {
+        this.actions.beginDialogAction(name, id, options);
+        return this;
+    };
+    UniversalBot.prototype.endConversationAction = function (name, msg, options) {
+        this.actions.endConversationAction(name, msg, options);
+        return this;
+    };
     UniversalBot.prototype.receive = function (events, done) {
         var _this = this;
         var list = Array.isArray(events) ? events : [events];
@@ -141,18 +152,17 @@ var UniversalBot = (function (_super) {
                 text: '',
                 user: user
             };
-            if (msg.address.conversation) {
-                delete msg.address.conversation;
-            }
             _this.ensureConversation(msg.address, function (adr) {
                 msg.address = adr;
+                var conversationId = msg.address.conversation ? msg.address.conversation.id : null;
                 var storageCtx = {
                     userId: msg.user.id,
+                    conversationId: conversationId,
                     address: msg.address,
                     persistUserData: _this.settings.persistUserData,
                     persistConversationData: _this.settings.persistConversationData
                 };
-                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done));
+                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done), true);
             }, _this.errorLogger(done));
         }, this.errorLogger(done));
     };
@@ -216,14 +226,17 @@ var UniversalBot = (function (_super) {
             }, _this.errorLogger(cb));
         }, this.errorLogger(cb));
     };
-    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done) {
+    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
         var _this = this;
+        if (newStack === void 0) { newStack = false; }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
                 localizer: _this.settings.localizer,
+                localizerSettings: _this.settings.localizerSettings,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this.lib,
+                actions: _this.actions,
                 middleware: _this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
@@ -246,7 +259,7 @@ var UniversalBot = (function (_super) {
             session.conversationData = data.conversationData || {};
             session.privateConversationData = data.privateConversationData || {};
             if (session.privateConversationData.hasOwnProperty(consts.Data.SessionState)) {
-                sessionState = session.privateConversationData[consts.Data.SessionState];
+                sessionState = newStack ? null : session.privateConversationData[consts.Data.SessionState];
                 delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;
@@ -371,7 +384,7 @@ var UniversalBot = (function (_super) {
         var _this = this;
         return function (err) {
             if (err) {
-                _this.emitError;
+                _this.emitError(err);
             }
             if (done) {
                 done(err);
@@ -380,8 +393,14 @@ var UniversalBot = (function (_super) {
         };
     };
     UniversalBot.prototype.emitError = function (err) {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var e = err instanceof Error ? err : new Error(err.toString());
+        if (this.listenerCount('error') > 0) {
+            this.emit('error', e);
+        }
+        else {
+            console.error(e.stack);
+        }
     };
     return UniversalBot;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.UniversalBot = UniversalBot;

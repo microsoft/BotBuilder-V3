@@ -65,6 +65,7 @@ export class EntityRecognizer {
     static yesExp = /^(1|y|yes|yep|sure|ok|true)/i;
     static noExp = /^(2|n|no|nope|not|false)/i;
     static numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
+    static ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
 
     static findEntity(entities: IEntity[], type: string): IEntity {
         for (var i = 0; entities && i < entities.length; i++) {
@@ -185,6 +186,10 @@ export class EntityRecognizer {
             var match = this.numberExp.exec(entity.entity);
             if (match) {
                 return Number(match[0]);
+            }
+            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 0);
+            if (oWordMatch) {
+                return oWordMatch.index+1;
             }
         }
         return Number.NaN;

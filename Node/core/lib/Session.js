@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -8,6 +9,9 @@ var consts = require('./consts');
 var sprintf = require('sprintf-js');
 var events = require('events');
 var msg = require('./Message');
+var logger = require('./logger');
+var async = require('async');
+var dfLoc = require('./DefaultLocalizer');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -19,7 +23,12 @@ var Session = (function (_super) {
         this.batch = [];
         this.batchStarted = false;
         this.sendingBatch = false;
+        this.inMiddleware = false;
         this.library = options.library;
+        if (!options.localizer) {
+            this.options.localizer = new dfLoc.DefaultLocalizer();
+        }
+        this.options.localizer.initialize(options.localizerSettings);
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -28,6 +37,7 @@ var Session = (function (_super) {
         var _this = this;
         var index = 0;
         var session = this;
+        var now = new Date().getTime();
         var middleware = this.options.middleware || [];
         var next = function () {
             var handler = index < middleware.length ? middleware[index] : null;
@@ -36,24 +46,35 @@ var Session = (function (_super) {
                 handler(session, next);
             }
             else {
+                _this.inMiddleware = false;
+                _this.sessionState.lastAccess = now;
                 _this.routeMessage();
             }
         };
-        this.sessionState = sessionState || { callstack: [], lastAccess: 0, version: 0.0 };
-        this.sessionState.lastAccess = new Date().getTime();
+        this.sessionState = sessionState || { callstack: [], lastAccess: now, version: 0.0 };
         var cur = this.curDialog();
         if (cur) {
             this.dialogData = cur.state;
         }
+        this.inMiddleware = true;
         this.message = (message || { text: '' });
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        next();
+        logger.debug("loading localizer");
+        this.options.localizer.load("en-us", function (err) {
+            if (err) {
+                _this.error(err);
+            }
+            else {
+                next();
+            }
+        });
         return this;
     };
     Session.prototype.error = function (err) {
         err = err instanceof Error ? err : new Error(err.toString());
+        logger.info(this, 'session.error()');
         this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;
@@ -79,6 +100,7 @@ var Session = (function (_super) {
         return sprintf.sprintf(tmpl, count);
     };
     Session.prototype.save = function () {
+        logger.info(this, 'session.save()');
         this.startBatch();
         return this;
     };
@@ -101,7 +123,17 @@ var Session = (function (_super) {
             }
             this.prepareMessage(m);
             this.batch.push(m);
+            logger.info(this, 'session.send()');
         }
+        this.startBatch();
+        return this;
+    };
+    Session.prototype.sendTyping = function () {
+        this.msgSent = true;
+        var m = { type: 'typing' };
+        this.prepareMessage(m);
+        this.batch.push(m);
+        logger.info(this, 'session.sendTyping()');
         this.startBatch();
         return this;
     };
@@ -109,6 +141,7 @@ var Session = (function (_super) {
         return this.msgSent;
     };
     Session.prototype.beginDialog = function (id, args) {
+        logger.info(this, 'session.beginDialog(%s)', id);
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -120,6 +153,7 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.replaceDialog = function (id, args) {
+        logger.info(this, 'session.replaceDialog(%s)', id);
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -152,6 +186,7 @@ var Session = (function (_super) {
             this.batch.push(m);
         }
         this.privateConversationData = {};
+        logger.info(this, 'session.endConversation()');
         var ss = this.sessionState;
         ss.callstack = [];
         this.sendBatch();
@@ -167,64 +202,89 @@ var Session = (function (_super) {
             return this.endDialogWithResult(message);
         }
         var cur = this.curDialog();
-        if (!cur) {
-            console.error('ERROR: Too many calls to session.endDialog().');
-            return this;
-        }
-        var m;
-        if (message) {
-            if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(message, args);
-            }
-            else if (message.toMessage) {
-                m = message.toMessage();
-            }
-            else {
-                m = message;
-            }
-            this.msgSent = true;
-            this.prepareMessage(m);
-            this.batch.push(m);
-        }
-        var childId = cur.id;
-        cur = this.popDialog();
-        this.startBatch();
         if (cur) {
-            var dialog = this.findDialog(cur.id);
-            if (dialog) {
-                dialog.dialogResumed(this, { resumed: dlg.ResumeReason.completed, response: true, childId: childId });
+            var m;
+            if (message) {
+                if (typeof message == 'string' || Array.isArray(message)) {
+                    m = this.createMessage(message, args);
+                }
+                else if (message.toMessage) {
+                    m = message.toMessage();
+                }
+                else {
+                    m = message;
+                }
+                this.msgSent = true;
+                this.prepareMessage(m);
+                this.batch.push(m);
             }
-            else {
-                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
+            logger.info(this, 'session.endDialog()');
+            var childId = cur.id;
+            cur = this.popDialog();
+            this.startBatch();
+            if (cur) {
+                var dialog = this.findDialog(cur.id);
+                if (dialog) {
+                    dialog.dialogResumed(this, { resumed: dlg.ResumeReason.completed, response: true, childId: childId });
+                }
+                else {
+                    this.error(new Error("Can't resume missing parent dialog '" + cur.id + "'."));
+                }
             }
         }
         return this;
     };
     Session.prototype.endDialogWithResult = function (result) {
         var cur = this.curDialog();
-        if (!cur) {
-            console.error('ERROR: Too many calls to session.endDialog().');
-            return this;
-        }
-        result = result || {};
-        if (!result.hasOwnProperty('resumed')) {
-            result.resumed = dlg.ResumeReason.completed;
-        }
-        result.childId = cur.id;
-        cur = this.popDialog();
-        this.startBatch();
         if (cur) {
-            var dialog = this.findDialog(cur.id);
-            if (dialog) {
-                dialog.dialogResumed(this, result);
+            result = result || {};
+            if (!result.hasOwnProperty('resumed')) {
+                result.resumed = dlg.ResumeReason.completed;
             }
-            else {
-                this.error(new Error("ERROR: Can't resume missing parent dialog '" + cur.id + "'."));
+            result.childId = cur.id;
+            logger.info(this, 'session.endDialogWithResult()');
+            cur = this.popDialog();
+            this.startBatch();
+            if (cur) {
+                var dialog = this.findDialog(cur.id);
+                if (dialog) {
+                    dialog.dialogResumed(this, result);
+                }
+                else {
+                    this.error(new Error("Can't resume missing parent dialog '" + cur.id + "'."));
+                }
+            }
+        }
+        return this;
+    };
+    Session.prototype.cancelDialog = function (dialogId, replaceWithId, replaceWithArgs) {
+        var childId = typeof dialogId === 'number' ? this.sessionState.callstack[dialogId].id : dialogId;
+        var cur = this.deleteDialogs(dialogId);
+        if (replaceWithId) {
+            logger.info(this, 'session.cancelDialog(%s)', replaceWithId);
+            var id = this.resolveDialogId(replaceWithId);
+            var dialog = this.findDialog(id);
+            this.pushDialog({ id: id, state: {} });
+            this.startBatch();
+            dialog.begin(this, replaceWithArgs);
+        }
+        else {
+            logger.info(this, 'session.cancelDialog()');
+            this.startBatch();
+            if (cur) {
+                var dialog = this.findDialog(cur.id);
+                if (dialog) {
+                    dialog.dialogResumed(this, { resumed: dlg.ResumeReason.canceled, response: null, childId: childId });
+                }
+                else {
+                    this.error(new Error("Can't resume missing parent dialog '" + cur.id + "'."));
+                }
             }
         }
         return this;
     };
     Session.prototype.reset = function (dialogId, dialogArgs) {
+        logger.info(this, 'session.reset()');
         this._isReset = true;
         this.sessionState.callstack = [];
         if (!dialogId) {
@@ -237,8 +297,9 @@ var Session = (function (_super) {
     Session.prototype.isReset = function () {
         return this._isReset;
     };
-    Session.prototype.sendBatch = function () {
+    Session.prototype.sendBatch = function (callback) {
         var _this = this;
+        logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);
         if (this.sendingBatch) {
             return;
         }
@@ -256,18 +317,37 @@ var Session = (function (_super) {
             cur.state = this.dialogData;
         }
         this.options.onSave(function (err) {
-            if (!err && batch.length) {
-                _this.options.onSend(batch, function (err) {
+            if (!err) {
+                if (batch.length) {
+                    _this.options.onSend(batch, function (err) {
+                        _this.sendingBatch = false;
+                        if (_this.batchStarted) {
+                            _this.startBatch();
+                        }
+                        if (callback) {
+                            callback(err);
+                        }
+                    });
+                }
+                else {
                     _this.sendingBatch = false;
                     if (_this.batchStarted) {
                         _this.startBatch();
                     }
-                });
+                }
             }
             else {
                 _this.sendingBatch = false;
-                if (_this.batchStarted) {
-                    _this.startBatch();
+                switch (err.code || '') {
+                    case consts.Errors.EBADMSG:
+                    case consts.Errors.EMSGSIZE:
+                        _this.userData = {};
+                        _this.batch = [];
+                        _this.endConversation(_this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+                        break;
+                }
+                if (callback) {
+                    callback(err);
                 }
             }
         });
@@ -302,24 +382,105 @@ var Session = (function (_super) {
         }
     };
     Session.prototype.routeMessage = function () {
-        try {
-            var cur = this.curDialog();
+        var _this = this;
+        var _that = this;
+        function routeToDialog(recognizeResult) {
+            var cur = _that.curDialog();
             if (!cur) {
-                this.beginDialog(this.options.dialogId, this.options.dialogArgs);
-            }
-            else if (this.validateCallstack()) {
-                var dialog = this.findDialog(cur.id);
-                this.dialogData = cur.state;
-                dialog.replyReceived(this);
+                _that.beginDialog(_that.options.dialogId, _that.options.dialogArgs);
             }
             else {
-                console.warn('Callstack is invalid, resetting session.');
-                this.reset(this.options.dialogId, this.options.dialogArgs);
+                var dialog = _that.findDialog(cur.id);
+                _that.dialogData = cur.state;
+                dialog.replyReceived(_that, recognizeResult);
             }
         }
-        catch (e) {
-            this.error(e);
+        if (this.validateCallstack()) {
+            this.recognizeCurDialog(function (err, dialogResult) {
+                if (err) {
+                    _this.error(err);
+                }
+                else if (dialogResult.score < 1.0) {
+                    _this.recognizeCallstackActions(function (err, actionResult) {
+                        if (err) {
+                            _this.error(err);
+                        }
+                        else if (actionResult.score > dialogResult.score) {
+                            if (actionResult.dialogId) {
+                                var dialog = _this.findDialog(actionResult.dialogId);
+                                dialog.invokeAction(_this, actionResult);
+                            }
+                            else {
+                                _this.options.actions.invokeAction(_this, actionResult);
+                            }
+                        }
+                        else {
+                            routeToDialog(dialogResult);
+                        }
+                    });
+                }
+                else {
+                    routeToDialog(dialogResult);
+                }
+            });
         }
+        else {
+            logger.warn(this, 'Callstack is invalid, resetting session.');
+            this.reset(this.options.dialogId, this.options.dialogArgs);
+        }
+    };
+    Session.prototype.recognizeCurDialog = function (done) {
+        var cur = this.curDialog();
+        if (cur && this.message.text.indexOf('action?') !== 0) {
+            var dialog = this.findDialog(cur.id);
+            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+        }
+        else {
+            done(null, { score: 0.0 });
+        }
+    };
+    Session.prototype.recognizeCallstackActions = function (done) {
+        var _this = this;
+        var ss = this.sessionState;
+        var i = ss.callstack.length - 1;
+        var result = { score: 0.0 };
+        async.whilst(function () {
+            return (i >= 0 && result.score < 1.0);
+        }, function (cb) {
+            try {
+                var index = i--;
+                var cur = ss.callstack[index];
+                var dialog = _this.findDialog(cur.id);
+                dialog.recognizeAction(_this.message, function (err, r) {
+                    if (!err && r && r.score > result.score) {
+                        result = r;
+                        result.dialogId = cur.id;
+                        result.dialogIndex = index;
+                    }
+                    cb(err);
+                });
+            }
+            catch (e) {
+                cb(e);
+            }
+        }, function (err) {
+            if (!err) {
+                if (result.score < 1.0 && _this.options.actions) {
+                    _this.options.actions.recognizeAction(_this.message, function (err, r) {
+                        if (!err && r && r.score > result.score) {
+                            result = r;
+                        }
+                        done(err, result);
+                    });
+                }
+                else {
+                    done(null, result);
+                }
+            }
+            else {
+                done(err instanceof Error ? err : new Error(err.toString()), null);
+            }
+        });
     };
     Session.prototype.vgettext = function (messageid, args) {
         var tmpl;
@@ -346,7 +507,7 @@ var Session = (function (_super) {
             return id;
         }
         var cur = this.curDialog();
-        var libName = cur ? cur.id.split(':')[0] : consts.Library.default;
+        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : consts.Library.default;
         return libName + ':' + id;
     };
     Session.prototype.findDialog = function (id) {
@@ -372,6 +533,28 @@ var Session = (function (_super) {
         this.dialogData = cur ? cur.state : null;
         return cur;
     };
+    Session.prototype.deleteDialogs = function (dialogId) {
+        var ss = this.sessionState;
+        var index = -1;
+        if (typeof dialogId === 'string') {
+            for (var i = ss.callstack.length - 1; i >= 0; i--) {
+                if (ss.callstack[i].id == dialogId) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        else {
+            index = dialogId;
+        }
+        if (index < 0 && index < ss.callstack.length) {
+            throw new Error('Unable to cancel dialog. Dialog[' + dialogId + '] not found.');
+        }
+        ss.callstack.splice(index);
+        var cur = this.curDialog();
+        this.dialogData = cur ? cur.state : null;
+        return cur;
+    };
     Session.prototype.curDialog = function () {
         var cur;
         var ss = this.sessionState;
@@ -385,5 +568,5 @@ var Session = (function (_super) {
         return this.message.sourceEvent;
     };
     return Session;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.Session = Session;

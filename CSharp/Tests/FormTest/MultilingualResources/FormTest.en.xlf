@@ -652,14 +652,18 @@
           <target state="new">bottles?</target>
         </trans-unit>
         <trans-unit id="confirmation26_promptDefinition;LIST" translate="yes" xml:space="preserve">
+          <source>Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</source>
+          <target state="new">Would you like a {Size}, {[{BYO.Crust} {BYO.Sauce} {BYO.Toppings}]} pizza delivered to {DeliveryAddress}?</target>
+        </trans-unit>
+        <trans-unit id="confirmation27_promptDefinition;LIST" translate="yes" xml:space="preserve">
           <source>Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</source>
           <target state="new">Would you like a {Size}, {&amp;Signature} {Signature} pizza delivered to {DeliveryAddress}?</target>
         </trans-unit>
-        <trans-unit id="confirmation27_promptDefinition;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="confirmation28_promptDefinition;LIST" translate="yes" xml:space="preserve">
           <source>Would you like a {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?</source>
           <target state="new">Would you like a {Size}, {&amp;GourmetDelite} {GourmetDelite} pizza delivered to {DeliveryAddress}?</target>
         </trans-unit>
-        <trans-unit id="confirmation28_promptDefinition;LIST" translate="yes" xml:space="preserve">
+        <trans-unit id="confirmation29_promptDefinition;LIST" translate="yes" xml:space="preserve">
           <source>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</source>
           <target state="new">Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</target>
         </trans-unit>
@@ -678,10 +682,6 @@
         <trans-unit id="message25;LIST" translate="yes" xml:space="preserve">
           <source>Rating = {Rating:F1} and [{Rating:F2}]</source>
           <target state="new">Rating = {Rating:F1} and [{Rating:F2}]</target>
-        </trans-unit>
-        <trans-unit id="confirmation29_promptDefinition;LIST" translate="yes" xml:space="preserve">
-          <source>Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</source>
-          <target state="new">Would you like a {Size}, {&amp;Stuffed} {Stuffed} pizza delivered to {DeliveryAddress}?</target>
         </trans-unit>
       </group>
     </body>

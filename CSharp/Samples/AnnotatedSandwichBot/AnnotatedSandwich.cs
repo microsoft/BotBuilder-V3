@@ -22,7 +22,6 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 {
     public enum SandwichOptions
     {
-        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=BLT&w=50&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         BLT, BlackForestHam, BuffaloChicken, ChickenAndBaconRanchMelt, ColdCutCombo, MeatballMarinara,
         OvenRoastedChicken, RoastBeef,
         [Terms(@"rotis\w* style chicken", MaxPhrase = 3)]
@@ -30,7 +29,16 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         TurkeyBreast, Veggie
     };
     public enum LengthOptions { SixInch, FootLong };
-    public enum BreadOptions { NineGrainWheat, NineGrainHoneyOat, Italian, ItalianHerbsAndCheese, Flatbread };
+    public enum BreadOptions
+    {
+        // Use an image if generating cards
+        // [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=Special&w=100&h=40&txttrack=0&txtclr=000&txtfont=bold")]
+        NineGrainWheat,
+        NineGrainHoneyOat,
+        Italian,
+        ItalianHerbsAndCheese,
+        Flatbread
+    };
     public enum CheeseOptions { American, MontereyCheddar, Pepperjack };
     public enum ToppingOptions
     {
@@ -53,6 +61,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
     public class SandwichOrder
     {
         [Prompt("What kind of {&} would you like? {||}")]
+        [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         // [Prompt("What kind of {&} would you like? {||}", ChoiceFormat ="{1}")]
         // [Prompt("What kind of {&} would you like?")]
         public SandwichOptions? Sandwich;
@@ -60,6 +69,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         [Prompt("What size of sandwich do you want? {||}")]
         public LengthOptions? Length;
 
+        // Specify Title and SubTitle if generating cards
+        [Describe(Title = "Sandwich Bot", SubTitle = "Bread Picker")]
         public BreadOptions? Bread;
 
         // An optional annotation means that it is possible to not make a choice in the field.
@@ -78,7 +89,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public string DeliveryAddress;
 
-        [Pattern("(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}")]
+        [Pattern(@"(\(\d{3}\))?\s*\d{3}(-|\s*)\d{4}")]
         public string PhoneNumber;
 
         [Optional]
@@ -267,7 +278,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 };
                 // Form builder uses the thread culture to automatically switch framework strings
                 // and also your static strings as well.  Dynamically defined fields must do their own localization.
-                form = new FormBuilder<SandwichOrder>()
+                var builder = new FormBuilder<SandwichOrder>()
                         .Message("Welcome to the sandwich order bot!")
                         .Field(nameof(Sandwich))
                         .Field(nameof(Length))
@@ -308,7 +319,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                     case LengthOptions.SixInch: cost = 5.0; break;
                                     case LengthOptions.FootLong: cost = 6.50; break;
                                 }
-                                return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost));
+                                return new PromptAttribute(string.Format(DynamicSandwich.Cost, cost) + "{||}");
                             })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
@@ -326,8 +337,9 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                         .Confirm("Do you want to order your {Length} {Sandwich} on {Bread} {&Bread} with {[{Cheese} {Toppings} {Sauces}]} to be sent to {DeliveryAddress} {?at {DeliveryTime:t}}?")
                         .AddRemainingFields()
                         .Message("Thanks for ordering a sandwich!")
-                        .OnCompletion(processOrder)
-                        .Build();
+                        .OnCompletion(processOrder);
+                builder.Configuration.DefaultPrompt.ChoiceStyle = ChoiceStyleOptions.Auto;
+                form = builder.Build();
                 _forms[culture] = form;
             }
             return form;

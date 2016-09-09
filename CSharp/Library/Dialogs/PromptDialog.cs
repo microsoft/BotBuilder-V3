@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Generate buttons for choices and let connector generate the right style based on channel capabilities
         /// </summary>
         Auto,
-        
+
         /// <summary>
         /// Show choices as Text.
         /// </summary>
@@ -141,14 +141,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             this.Attempts = attempts;
             this.Options = options;
             this.DefaultRetry = prompt;
-            if(promptStyler == null)
+            if (promptStyler == null)
             {
                 promptStyler = new PromptStyler();
             }
-            this.PromptStyler = promptStyler; 
+            this.PromptStyler = promptStyler;
         }
     }
-   
+
     /// <summary>
     /// Styles a prompt
     /// </summary>
@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         public PromptStyler(PromptStyle promptStyle = PromptStyle.Auto)
         {
-            this.PromptStyle = promptStyle; 
+            this.PromptStyle = promptStyle;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         public virtual void Apply(ref IMessageActivity message, string prompt)
         {
             SetField.CheckNull(nameof(prompt), prompt);
-            message.Text = prompt; 
+            message.Text = prompt;
         }
 
         /// <summary>
@@ -384,9 +384,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         public sealed class PromptConfirm : Prompt<bool, string>
         {
             /// <summary>
+            /// Index of yes descriptions.
+            /// </summary>
+            public const int Yes = 0;
+
+            /// <summary>
+            /// Index of no descriptions.
+            /// </summary>
+            public const int No = 1;
+
+            /// <summary>
             /// The yes, no options for confirmation prompt
             /// </summary>
             public static string[] Options { set; get; } = { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+
+            /// <summary>
+            /// The patterns for matching yes/no responses in the confirmation prompt.
+            /// </summary>
+            public static string[][] Patterns { get; set; } = { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
 
             /// <summary>   Constructor for a prompt confirmation dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
@@ -416,12 +431,12 @@ namespace Microsoft.Bot.Builder.Dialogs
                 if (message.Text != null)
                 {
                     var term = message.Text.Trim().ToLower();
-                    if ((from r in Resources.MatchYes.SplitList() select r.ToLower()).Contains(term))
+                    if ((from r in Patterns[Yes] select r.ToLower()).Contains(term))
                     {
                         result = true;
                         found = true;
                     }
-                    else if ((from r in Resources.MatchNo.SplitList() select r.ToLower()).Contains(term))
+                    else if ((from r in Patterns[No] select r.ToLower()).Contains(term))
                     {
                         result = false;
                         found = true;
@@ -462,7 +477,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a double. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int)"/>.</remarks>
         [Serializable]
-        public sealed class PromptDouble: Prompt<double, double>
+        public sealed class PromptDouble : Prompt<double, double>
         {
             /// <summary>   Constructor for a prompt double dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
@@ -472,7 +487,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 : base(new PromptOptions<double>(prompt, retry, attempts: attempts))
             {
             }
-            
+
             protected override bool TryParse(IMessageActivity message, out double result)
             {
                 return double.TryParse(message.Text, out result);
@@ -492,7 +507,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
             public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
                 : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle)))
-            {   
+            {
             }
 
             /// <summary>
@@ -604,7 +619,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 actions.Add(new CardAction
                 {
                     Title = option.ToString(),
-                    Type = ActionTypes.ImBack, 
+                    Type = ActionTypes.ImBack,
                     Value = option.ToString()
                 });
             }
@@ -614,32 +629,32 @@ namespace Microsoft.Bot.Builder.Dialogs
                 new HeroCard(text: text, buttons: actions).ToAttachment()
             };
 
-            return attachments; 
+            return attachments;
         }
     }
 }
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    
+
     [Serializable]
     public abstract class Prompt<T, U> : IDialog<T>
     {
-        protected readonly PromptOptions<U> promptOptions; 
-        
+        protected readonly PromptOptions<U> promptOptions;
+
         public Prompt(PromptOptions<U> promptOptions)
         {
             SetField.NotNull(out this.promptOptions, nameof(promptOptions), promptOptions);
-            
-        }
-        
-        async Task IDialog<T>.StartAsync(IDialogContext context)
-        {
-            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options)); 
-            context.Wait(MessageReceived);
+
         }
 
-        private async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> message)
+        async Task IDialog<T>.StartAsync(IDialogContext context)
+        {
+            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options));
+            context.Wait(MessageReceivedAsync);
+        }
+
+        protected virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> message)
         {
             T result;
             if (this.TryParse(await message, out result))
@@ -652,7 +667,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 if (promptOptions.Attempts > 0)
                 {
                     await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Options));
-                    context.Wait(MessageReceived);
+                    context.Wait(MessageReceivedAsync);
                 }
                 else
                 {
@@ -676,7 +691,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 promptOptions.PromptStyler.Apply(ref msg, prompt);
             }
-            return msg; 
+            return msg;
         }
     }
 }

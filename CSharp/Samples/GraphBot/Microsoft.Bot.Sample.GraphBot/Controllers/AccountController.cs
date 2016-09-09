@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Controllers
                 {
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(token);
-                    var data = botData.UserData; 
+                    var data = botData.UserData;
 
                     var tenantID = this.User.FindFirst(Keys.TenantID);
                     var objectIdentifier = this.User.FindFirst(Keys.ObjectID);
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Sample.GraphBot.Controllers
                     data.SetValue(Keys.TenantID, tenantID.Value);
                     data.SetValue(Keys.TokenCache, tokenBlob);
 
-                    await botData.FlushAsync(token); 
+                    await botData.FlushAsync(token);
                 }
 
                 return "You're now logged-in - continue talking to the bot!";

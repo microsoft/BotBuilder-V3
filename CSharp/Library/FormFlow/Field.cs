@@ -50,7 +50,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     ///          on <see cref="Field{T}"/> to change the characteristics of the field.</remarks>
     #endregion
     public delegate Task<bool> DefineAsyncDelegate<T>(T state, Field<T> field)
-    where T : class;
+        where T : class;
+
+    /// <summary>
+    /// A delegate for deciding on the next step in the form to execute.
+    /// </summary>
+    /// <typeparam name="T">Form state type.</typeparam>
+    /// <param name="value">Value just entered for field.</param>
+    /// <param name="state">Current state object.</param>
+    /// <returns></returns>
+    public delegate NextStep NextDelegate<T>(object value, T state)
+        where T : class;
 
     /// <summary>Base class with declarative implementation of IField. </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
@@ -166,11 +176,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
         }
 
-        public virtual string FieldDescription
+        public virtual DescribeAttribute FieldDescription
         {
             get
             {
-                return _description.Description;
+                return _description;
             }
         }
 
@@ -241,6 +251,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (_description.IsLocalizable)
             {
                 localizer.Add(_name + nameof(_description), _description.Description);
+                localizer.Add(_name + nameof(_description.Image), _description.Image);
+                localizer.Add(_name + nameof(_description.Title), _description.Title);
+                localizer.Add(_name + nameof(_description.SubTitle), _description.SubTitle);
+                localizer.Add(_name + nameof(_description.Message), _description.Message);
             }
             if (_terms.IsLocalizable)
             {
@@ -258,11 +272,27 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public virtual void Localize()
         {
             var localizer = _form.Resources;
-            string description;
+            string strValue;
             string[] terms;
-            if (localizer.Lookup(_name + nameof(_description), out description))
+            if (localizer.Lookup(_name + nameof(_description), out strValue))
             {
-                _description = new DescribeAttribute(description, _description?.Image);
+                _description.Description = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Image), out strValue))
+            {
+                _description.Image = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Title), out strValue))
+            {
+                _description.Title = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.SubTitle), out strValue))
+            {
+                _description.SubTitle = strValue;
+            }
+            if (localizer.Lookup(_name + nameof(_description.Message), out strValue))
+            {
+                _description.Message = strValue;
             }
             if (localizer.LookupValues(_name + nameof(_terms), out terms))
             {
@@ -351,7 +381,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public virtual NextStep Next(object value, T state)
         {
-            return new NextStep();
+            return _next(value, state);
         }
 
         #endregion
@@ -364,6 +394,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public Field<T> SetFieldDescription(string description)
         {
             _description = new DescribeAttribute(description);
+            return this;
+        }
+
+        /// <summary>
+        /// Set the full field description.
+        /// </summary>
+        /// <param name="description">The field description.</param>
+        /// <returns>A <see cref="Field{T}"/>. </returns>
+        public Field<T> SetFieldDescription(DescribeAttribute description)
+        {
+            _description = description;
             return this;
         }
 
@@ -380,10 +421,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <param name="value">        The value. </param>
         /// <param name="description">  Description of the value. </param>
         /// <param name="image">Image to use for value as button.</param>
+        /// <param name="message">Message to return when button is pressed.</param>
         /// <returns>   A <see cref="Field{T}"/>. </returns>
-        public Field<T> AddDescription(object value, string description, string image = null)
+        public Field<T> AddDescription(object value, string description, string image = null, string message = null)
         {
-            _valueDescriptions[value] = new DescribeAttribute(description, image);
+            _valueDescriptions[value] = new DescribeAttribute(description, image, message);
+            return this;
+        }
+
+        /// <summary>   Adds a full description for a value. </summary>
+        /// <param name="value">        The value. </param>
+        /// <param name="description">  Description of the value. </param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> AddDescription(object value, DescribeAttribute description)
+        {
+            _valueDescriptions[value] = description;
             return this;
         }
 
@@ -394,6 +446,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public Field<T> AddTerms(object value, params string[] terms)
         {
             _valueTerms[value] = new TermsAttribute(terms);
+            return this;
+        }
+
+        /// <summary>   Adds terms for a value. </summary>
+        /// <param name="value">    The value. </param>
+        /// <param name="terms">    The terms to add. </param>
+        /// <returns>   A <see cref="Field{T}"/>. </returns>
+        public Field<T> AddTerms(object value, TermsAttribute terms)
+        {
+            _valueTerms[value] = terms;
             return this;
         }
 
@@ -498,6 +560,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public Field<T> SetRecognizer(IRecognize<T> recognizer)
         {
             _recognizer = recognizer;
+            _buildPrompts = true;
             return this;
         }
 
@@ -552,7 +615,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 if (!result.IsValid)
                 {
-                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, Name, value).Prompt;
+                    result.Feedback = new Prompter<T>(Template(TemplateUsage.NotUnderstood), _form, null).Prompt(state, this, value).Prompt;
                 }
                 return result;
             };
@@ -569,6 +632,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             _dependencies = dependencies;
             return this;
         }
+
+        /// <summary>
+        /// Delegate for deciding on the next form step to execute.
+        /// </summary>
+        /// <returns>A <see cref="Field{T}"/>.</returns>
+        public Field<T> SetNext(NextDelegate<T> next)
+        {
+            _next = next;
+            return this;
+        }
+
         #endregion
 
         #region Internals
@@ -650,10 +724,15 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         _recognizer = new RecognizeEnumeration<T>(this);
                     }
                 }
+                _buildPrompts = true;
+            }
+            if (_buildPrompts)
+            {
                 var template = Template(TemplateUsage.Help);
                 _help = new Prompter<T>(template, _form, _recognizer);
                 var prompt = _promptDefinition;
                 _prompt = new Prompter<T>(_promptDefinition, _form, _recognizer);
+                _buildPrompts = false;
             }
         }
 
@@ -675,6 +754,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected ActiveDelegate<T> _condition = new ActiveDelegate<T>((state) => true);
         protected DefineAsyncDelegate<T> _define = null;
         protected ValidateAsyncDelegate<T> _validate = new ValidateAsyncDelegate<T>(async (state, value) => new ValidateResult { IsValid = true, Value = value });
+        protected NextDelegate<T> _next = new NextDelegate<T>((value, state) => new NextStep());
         protected double _min, _max;
         protected bool _limited;
         protected string _pattern;
@@ -691,6 +771,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         protected Dictionary<TemplateUsage, TemplateAttribute> _templates = new Dictionary<TemplateUsage, TemplateAttribute>();
         protected bool _promptSet;
         protected PromptAttribute _promptDefinition;
+        protected bool _buildPrompts = true;
         protected IRecognize<T> _recognizer;
         protected IPrompt<T> _help;
         protected IPrompt<T> _prompt;
@@ -702,6 +783,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <typeparam name="T">Underlying form state.</typeparam>
     public class Fields<T> : IFields<T>
+        where T : class
     {
         public IField<T> Field(string name)
         {
