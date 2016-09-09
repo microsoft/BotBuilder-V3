@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context">The bot context.</param>
         /// <param name="item">The result of the previous <see cref="IDialog{T}"/>.</param>
         /// <returns>A task that represents the next <see cref="IDialog{R}"/>.</returns>
-        public delegate Task<IDialog<R>> Continutation<in T, R>(IBotContext context, IAwaitable<T> item);
+        public delegate Task<IDialog<R>> Continuation<in T, R>(IBotContext context, IAwaitable<T> item);
 
         /// <summary>
         /// Construct a <see cref="IDialog{T}"/> that will make a new copy of another <see cref="IDialog{T}"/> when started.
@@ -135,7 +135,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <param name="continuation">The continuation to produce the next <see cref="IDialog{R}"/>.</param>
         /// <returns>The next <see cref="IDialog{R}"/>.</returns>
-        public static IDialog<R> ContinueWith<T, R>(this IDialog<T> antecedent, Continutation<T, R> continuation)
+        public static IDialog<R> ContinueWith<T, R>(this IDialog<T> antecedent, Continuation<T, R> continuation)
         {
             return new ContinueWithDialog<T, R>(antecedent, continuation);
         }
@@ -435,9 +435,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         private sealed class ContinueWithDialog<T, R> : IDialog<R>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly Continutation<T, R> Continuation;
+            public readonly Continuation<T, R> Continuation;
 
-            public ContinueWithDialog(IDialog<T> antecedent, Continutation<T, R> continuation)
+            public ContinueWithDialog(IDialog<T> antecedent, Continuation<T, R> continuation)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Continuation, nameof(continuation), continuation);
