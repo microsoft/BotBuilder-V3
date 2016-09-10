@@ -510,10 +510,41 @@ namespace Microsoft.Bot.Builder.Tests
                 "abc",
                 "1 state st",
                 "",
-                "1pm",
+                "9/9/2016 1pm",
                 "status",
                 "y",
                 "2.5"
+                );
+        }
+
+        public class MyClass
+        {
+            [Prompt("I didn't get you")]
+            public string xxx { get; set; }
+
+            [Optional]
+            public string yyy { get; set; }
+
+            public static IForm<MyClass> Build()
+            {
+                return new FormBuilder<MyClass>()
+                    .Message("Welcome")
+                    .Field(nameof(xxx))
+                    .Field(nameof(yyy), validate: async (state, value) =>
+                        new ValidateResult() { IsValid = true} )
+                    .Build()
+                    ;
+            }
+        }
+
+        [TestMethod]
+        public async Task Optional()
+        {
+            await VerifyFormScript(@"..\..\Optional.script",
+                "en-us", () => MyClass.Build(), FormOptions.None, new MyClass(), Array.Empty<EntityRecommendation>(),
+                "ok",
+                "This is something",
+                ""
                 );
         }
 
