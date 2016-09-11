@@ -55,7 +55,8 @@ export var Data = {
     WaterfallStep: 'BotBuilder.Data.WaterfallStep',
     Form: 'BotBuilder.Data.Form',
     Field: 'BotBuilder.Data.Field',
-    FirstRunVersion: 'BotBuilder.Data.FirstRunVersion'
+    FirstRunVersion: 'BotBuilder.Data.FirstRunVersion',
+    PreferredLocale: 'BotBuilder.Data.PreferredLocale'
 };
 
 export var DialogId = {
