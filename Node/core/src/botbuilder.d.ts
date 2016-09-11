@@ -1964,6 +1964,12 @@ export class IntentDialog extends Dialog {
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
     onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Adds a new recognizer plugin to the intent dialog.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
 }
 
 /**

@@ -238,6 +238,12 @@ export class IntentDialog extends dlg.Dialog {
         return this;
     }
 
+    public recognizer(plugin: IIntentRecognizer): this {
+        // Append recognizer
+        this.options.recognizers.push(plugin);
+        return this;
+    }
+
     private recognizeInParallel(context: dlg.IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
         var result: IIntentRecognizerResult = { score: 0.0, intent: null };
         async.eachLimit(this.options.recognizers, this.options.processLimit, (recognizer, cb) => {
