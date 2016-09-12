@@ -96,7 +96,7 @@
     <Compile Include="Dialogs\Exceptions.cs" />
     <Compile Include="Dialogs\Address.cs" />
     <Compile Include="Dialogs\ResumptionCookie.cs" />
-    <Compile Include="Dialogs\Scorable.cs" />
+    <Compile Include="Dialogs\ScorableDialogs.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
     <Compile Include="Dialogs\IChannelCapability.cs" />
@@ -105,6 +105,7 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Pair.cs" />
     <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Scope.cs" />
     <Compile Include="Fibers\Store.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
+    <Compile Include="Fibers\Tasks.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
@@ -163,6 +165,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scorables\Binding.cs" />
+    <Compile Include="Scorables\ResolverScorable.cs" />
+    <Compile Include="Scorables\Scorable.cs" />
+    <Compile Include="Scorables\ScorableBase.cs" />
+    <Compile Include="Scorables\AttributeScorable.cs" />
+    <Compile Include="Scorables\LuisIntentScorable.cs" />
+    <Compile Include="Scorables\MethodScorable.cs" />
+    <Compile Include="Scorables\FoldScorable.cs" />
+    <Compile Include="Scorables\RegexMatchScorable.cs" />
+    <Compile Include="Scorables\Resolver.cs" />
+    <Compile Include="Scorables\Scorables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

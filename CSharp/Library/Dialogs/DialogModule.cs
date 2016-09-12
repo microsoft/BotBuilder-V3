@@ -37,9 +37,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Resources;
-using System.Text;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 
 using Autofac;
@@ -173,18 +173,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // Scorable implementing "/deleteprofile"
             builder
                 .RegisterType<DeleteProfileScorable>()
-                .As<IScorable<double>>()
+                .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
             builder
                 .Register(c =>
                 {
                     var stack = c.Resolve<IDialogStack>();
-                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<double>>();
-                    var fromGlobal = c.Resolve<IScorable<double>[]>();
+                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<IActivity, double>>();
+                    var fromGlobal = c.Resolve<IScorable<IActivity, double>[]>();
                     // since the stack of scorables changes over time, this should be lazy
                     var lazyScorables = fromStack.Concat(fromGlobal);
-                    var scorable = new CompositeScorable<double>(c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), lazyScorables);
+                    var scorable = new TraitsScorable<IActivity, double>(c.Resolve<ITraits<double>>(), c.Resolve<IComparer<double>>(), lazyScorables);
                     return scorable;
                 })
                 .InstancePerLifetimeScope()
@@ -203,7 +203,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
                         post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
-                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<CompositeScorable<double>>());
+                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<TraitsScorable<IActivity, double>>());
                         return post;
                     };
 

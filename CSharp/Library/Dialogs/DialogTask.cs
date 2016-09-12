@@ -388,7 +388,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class PersistentDialogTask : IPostToBot
     {
         private readonly Lazy<IPostToBot> inner;
-            private readonly IBotData botData;
+        private readonly IBotData botData;
 
         public PersistentDialogTask(Func<IPostToBot> makeInner, IBotData botData)
         {

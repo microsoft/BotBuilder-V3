@@ -42,6 +42,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 
@@ -51,7 +52,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// Associate a LUIS intent with a dialog method.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class LuisIntentAttribute : Attribute
+    public class LuisIntentAttribute : AttributeString
     {
         /// <summary>
         /// The LUIS intent name.
@@ -65,6 +66,14 @@ namespace Microsoft.Bot.Builder.Dialogs
         public LuisIntentAttribute(string intentName)
         {
             SetField.NotNull(out this.IntentName, nameof(intentName), intentName);
+        }
+
+        protected override string Text
+        {
+            get
+            {
+                return this.IntentName;
+            }
         }
     }
 
