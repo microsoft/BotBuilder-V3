@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// A card representing a request to signing
+    /// A card representing a request to sign in
     /// </summary>
     public partial class SigninCard
     {

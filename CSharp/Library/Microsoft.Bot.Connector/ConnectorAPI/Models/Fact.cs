@@ -14,8 +14,9 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// Set of key-value pairs. Advantage of this section is that key and
     /// value properties will be
-    /// rendered with default style information with some delimiter between
-    /// them. So there is no need for developer to specify style information.
+    /// rendered with default style information with some
+    /// delimiter between them. So there is no need for developer to specify
+    /// style information.
     /// </summary>
     public partial class Fact
     {
@@ -34,11 +35,13 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
+        /// The key for this Fact
         /// </summary>
         [JsonProperty(PropertyName = "key")]
         public string Key { get; set; }
 
         /// <summary>
+        /// The value for this Fact
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public string Value { get; set; }

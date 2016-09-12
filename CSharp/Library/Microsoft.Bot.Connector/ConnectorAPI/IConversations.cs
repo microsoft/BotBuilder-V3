@@ -10,13 +10,40 @@ namespace Microsoft.Bot.Connector
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
-
+    
 
     /// <summary>
     /// Conversations operations.
     /// </summary>
     public partial interface IConversations
     {
+        /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect
+        /// the new state of a bot conversation.
+        /// 
+        /// For example, if the bot asks who is coming to the picnic, each
+        /// person who clicks on the "Yes" button could cause the activity
+        /// card to be updated with the current list of people attending.
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// New Activity data
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<APIResponse>> UpdateActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// CreateConversation
         /// </summary>

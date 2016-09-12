@@ -78,6 +78,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionTypes.cs" />
+    <Compile Include="ConnectorAPI\Models\AnimationCard.cs" />
+    <Compile Include="ConnectorAPI\Models\AudioCard.cs" />
+    <Compile Include="ConnectorAPI\Models\MediaUrl.cs" />
+    <Compile Include="ConnectorAPI\Models\ThumbnailUrl.cs" />
+    <Compile Include="ConnectorAPI\Models\VideoCard.cs" />
     <Compile Include="ContactRelationUpdateActionTypes.cs" />
     <Compile Include="HttpClientEx.cs" />
     <Compile Include="IActionActivity.cs" />

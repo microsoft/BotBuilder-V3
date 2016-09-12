@@ -11,6 +11,10 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// An Activity is the basic communication type for the Bot Framework 3.0
+    /// protocol
+    /// </summary>
     public partial class Activity
     {
         /// <summary>
@@ -158,9 +162,8 @@ namespace Microsoft.Bot.Connector
         public IList<Attachment> Attachments { get; set; }
 
         /// <summary>
-        /// Entities
-        /// Collection of Entity which contain metadata about this activity
-        /// (each is typed)
+        /// Collection of Entity objects, each of which contains metadata
+        /// about this activity. Each Entity object is typed.
         /// </summary>
         [JsonProperty(PropertyName = "entities")]
         public IList<Entity> Entities { get; set; }

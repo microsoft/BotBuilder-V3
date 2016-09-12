@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// A receipt card
+    /// </summary>
     public partial class ReceiptCard
     {
         /// <summary>

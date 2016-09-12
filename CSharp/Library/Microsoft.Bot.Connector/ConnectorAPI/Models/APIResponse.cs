@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// An HTTP API response
+    /// </summary>
     public partial class APIResponse
     {
         /// <summary>
@@ -27,6 +30,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
+        /// Message to send in the HTTP response payload
         /// </summary>
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }

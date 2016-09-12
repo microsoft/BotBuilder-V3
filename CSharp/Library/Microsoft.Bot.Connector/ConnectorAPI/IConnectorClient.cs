@@ -14,10 +14,11 @@ namespace Microsoft.Bot.Connector
     
 
     /// <summary>
-    /// The Bot Connector REST API allows your bot to send and receive
-    /// messages to channels configured in the [Bot Framework Developer
-    /// Portal](https://dev.botframework.com). The Connector service uses
-    /// industry-standard REST and JSON over HTTPS.
+    /// ﻿The Bot Connector REST API allows your bot to send and receive
+    /// messages to channels configured in the
+    /// [Bot Framework Developer Portal](https://dev.botframework.com). The
+    /// Connector service uses industry-standard REST
+    /// and JSON over HTTPS.
     /// 
     /// Client libraries for this REST API are available. See below for a
     /// list.
@@ -36,6 +37,8 @@ namespace Microsoft.Bot.Connector
     /// 
     /// * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
     /// * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+    /// * Generate your own from the [Connector API Swagger
+    /// file](ConnectorAPI.json)
     /// 
     /// © 2016 Microsoft
     /// </summary>

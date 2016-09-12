@@ -18,6 +18,68 @@ namespace Microsoft.Bot.Connector
     public static partial class ConversationsExtensions
     {
         /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect the new
+        /// state of a bot conversation.
+        /// 
+        /// For example, if the bot asks who is coming to the picnic, each person who
+        /// clicks on the "Yes" button could cause the activity
+        /// card to be updated with the current list of people attending.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// New Activity data
+        /// </param>
+        public static APIResponse UpdateActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).UpdateActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect the new
+        /// state of a bot conversation.
+        /// 
+        /// For example, if the bot asks who is coming to the picnic, each person who
+        /// clicks on the "Yes" button could cause the activity
+        /// card to be updated with the current list of people attending.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// New Activity data
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<APIResponse> UpdateActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var _result = await operations.UpdateActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
+            {
+                return _result.Body;
+            }
+        }
+        
+        /// <summary>
         /// CreateConversation
         /// </summary>
         /// Create a new Conversation.

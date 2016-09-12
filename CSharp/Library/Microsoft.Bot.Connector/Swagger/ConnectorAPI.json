@@ -16,25 +16,16 @@
     }
   },
   "host": "api.botframework.com",
-  "schemes": [
-    "https"
-  ],
+  "schemes": [ "https" ],
   "paths": {
     "/v3/attachments/{attachmentId}": {
       "get": {
-        "tags": [
-          "Attachments"
-        ],
+        "tags": [ "Attachments" ],
         "summary": "GetAttachmentInfo",
         "description": "Get AttachmentInfo structure describing the attachment views",
         "operationId": "Attachments_GetAttachmentInfo",
         "consumes": [ ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "attachmentId",
@@ -93,19 +84,12 @@
     },
     "/v3/attachments/{attachmentId}/views/{viewId}": {
       "get": {
-        "tags": [
-          "Attachments"
-        ],
+        "tags": [ "Attachments" ],
         "summary": "GetAttachment",
         "description": "Get the named view as binary content",
         "operationId": "Attachments_GetAttachment",
         "consumes": [ ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "attachmentId",
@@ -178,25 +162,12 @@
     },
     "/v3/conversations/{conversationId}/activities/{activityId}": {
       "put": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "UpdateActivity",
-        "description": "This method allows you to edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, if the bot asks who is coming to the picknic, each person who clicks on the \"Yes\" button could cause the activity\r\ncard to be updated with the current list of people attending.",
+        "description": "This method allows you to edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, if the bot asks who is coming to the picnic, each person who clicks on the \"Yes\" button could cause the activity\r\ncard to be updated with the current list of people attending.",
         "operationId": "Conversations_UpdateActivity",
-        "consumes": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml",
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -272,23 +243,10 @@
         "deprecated": false
       },
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "operationId": "Conversations_ReplyToActivity",
-        "consumes": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml",
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -363,25 +321,12 @@
     },
     "/v3/conversations": {
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "CreateConversation",
         "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array contining the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
         "operationId": "Conversations_CreateConversation",
-        "consumes": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml",
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "parameters",
@@ -454,25 +399,12 @@
     },
     "/v3/conversations/{conversationId}/activities": {
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "SendToConversation",
-        "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
+        "description": "This method allows you to send a message to a conversation without refering to an activity. \r\nThis is useful to send an initial message to a conversation, or to add a message to the end of the conversation.",
         "operationId": "Conversations_SendToConversation",
-        "consumes": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml",
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "activity",
@@ -543,19 +475,12 @@
     },
     "/v3/conversations/{conversationId}/members": {
       "get": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "GetConversationMembers",
         "description": "Call this method to enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount[] objects \r\nwhich are the members of the conversation.",
         "operationId": "Conversations_GetConversationMembers",
         "consumes": [ ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -617,19 +542,12 @@
     },
     "/v3/conversations/{conversationId}/activities/{activityId}/members": {
       "get": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "GetActivityMembers",
         "description": "Call this method to enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount[] objects \r\nwhich are the members of the particular activity in the conversation.",
         "operationId": "Conversations_GetActivityMembers",
         "consumes": [ ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -698,23 +616,12 @@
     },
     "/v3/conversations/{conversationId}/attachments": {
       "post": {
-        "tags": [
-          "Conversations"
-        ],
+        "tags": [ "Conversations" ],
         "summary": "UploadAttachment",
         "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
         "operationId": "Conversations_UploadAttachment",
-        "consumes": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml",
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json",
-          "text/json"
-        ],
+        "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
+        "produces": [ "application/json", "text/json" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -780,98 +687,6 @@
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
             "schema": {
               "$ref": "#/definitions/APIResponse"
-            }
-          },
-          "503": {
-            "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": {
-              "$ref": "#/definitions/APIResponse"
-            }
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/v3/conversations/{conversationId}/DeleteThis": {
-      "get": {
-        "tags": [
-          "Conversations"
-        ],
-        "operationId": "Conversations_DeleteThis",
-        "consumes": [ ],
-        "produces": [
-          "application/json",
-          "text/json",
-          "application/xml",
-          "text/xml"
-        ],
-        "parameters": [
-          {
-            "name": "conversationId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "﻿The operation succeeded.",
-            "schema": {
-              "$ref": "#/definitions/ThumbnailCard"
-            }
-          },
-          "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": {
-              "$ref": "#/definitions/ReceiptCard"
-            }
-          },
-          "204": {
-            "description": "﻿The operation succeeded but no content was returned.",
-            "schema": {
-              "$ref": "#/definitions/SigninCard"
-            }
-          },
-          "400": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/AudioCard"
-            }
-          },
-          "401": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/AnimationCard"
-            }
-          },
-          "403": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/VideoCard"
-            }
-          },
-          "404": {
-            "description": "﻿The resource was not found.",
-            "schema": {
-              "$ref": "#/definitions/APIResponse"
-            }
-          },
-          "409": {
-            "description": "﻿You are trying to create an object that already exists.",
-            "schema": {
-              "$ref": "#/definitions/GeoCoordinates"
-            }
-          },
-          "500": {
-            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": {
-              "$ref": "#/definitions/APIResponse"
-            }
-          },
-          "502": {
-            "description": "﻿The server was acting as a gateway or proxy and received an invalid response from the upstream server.",
-            "schema": {
-              "$ref": "#/definitions/Place"
             }
           },
           "503": {

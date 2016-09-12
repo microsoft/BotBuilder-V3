@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// A response containing a resource ID
+    /// </summary>
     public partial class ResourceResponse
     {
         /// <summary>

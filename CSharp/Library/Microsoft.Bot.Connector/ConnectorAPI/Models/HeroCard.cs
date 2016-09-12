@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// A Hero card (card with a single, large image)
+    /// </summary>
     public partial class HeroCard
     {
         /// <summary>
@@ -50,7 +53,7 @@ namespace Microsoft.Bot.Connector
         public string Text { get; set; }
 
         /// <summary>
-        /// Array of i
+        /// Array of images for the card
         /// </summary>
         [JsonProperty(PropertyName = "images")]
         public IList<CardImage> Images { get; set; }

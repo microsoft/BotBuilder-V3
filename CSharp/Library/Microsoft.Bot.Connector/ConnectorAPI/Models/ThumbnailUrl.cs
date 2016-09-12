@@ -12,43 +12,35 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// An image on a card
+    /// Object describing a media thumbnail
     /// </summary>
-    public partial class CardImage
+    public partial class ThumbnailUrl
     {
         /// <summary>
-        /// Initializes a new instance of the CardImage class.
+        /// Initializes a new instance of the ThumbnailUrl class.
         /// </summary>
-        public CardImage() { }
+        public ThumbnailUrl() { }
 
         /// <summary>
-        /// Initializes a new instance of the CardImage class.
+        /// Initializes a new instance of the ThumbnailUrl class.
         /// </summary>
-        public CardImage(string url = default(string), string alt = default(string), CardAction tap = default(CardAction))
+        public ThumbnailUrl(string url = default(string), string alt = default(string))
         {
             Url = url;
             Alt = alt;
-            Tap = tap;
         }
 
         /// <summary>
-        /// URL Thumbnail image for major content property.
+        /// url pointing to an thumbnail to use for media content
         /// </summary>
         [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
 
         /// <summary>
-        /// Image description intended for screen readers
+        /// Alt text to display for screen readers on the thumbnail image
         /// </summary>
         [JsonProperty(PropertyName = "alt")]
         public string Alt { get; set; }
-
-        /// <summary>
-        /// Action assigned to specific Attachment.E.g.navigate to specific
-        /// URL or play/open media content
-        /// </summary>
-        [JsonProperty(PropertyName = "tap")]
-        public CardAction Tap { get; set; }
 
     }
 }
