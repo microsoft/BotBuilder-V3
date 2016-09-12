@@ -79,6 +79,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register((c, p) => p.TypedAs<IMessageActivity>())
                 .AsSelf()
+                .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             // make the resumption cookie available for the lifetime scope
