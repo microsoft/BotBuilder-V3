@@ -420,19 +420,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class SerializingDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
-        private readonly ResumptionCookie cookie;
-        private readonly IScope<ResumptionCookie> scopeForCookie;
+        private readonly Address address;
+        private readonly IScope<Address> scopeForCookie;
 
-        public SerializingDialogTask(IPostToBot inner, ResumptionCookie cookie, IScope<ResumptionCookie> scopeForCookie)
+        public SerializingDialogTask(IPostToBot inner, Address address, IScope<Address> scopeForCookie)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.cookie, nameof(cookie), cookie);
+            SetField.NotNull(out this.address, nameof(address), address);
             SetField.NotNull(out this.scopeForCookie, nameof(scopeForCookie), scopeForCookie);
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            using (await this.scopeForCookie.WithScopeAsync(this.cookie, token))
+            using (await this.scopeForCookie.WithScopeAsync(this.address, token))
             {
                 await this.inner.PostAsync(item, token);
             }

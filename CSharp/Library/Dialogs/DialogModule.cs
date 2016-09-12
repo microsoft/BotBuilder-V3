@@ -106,8 +106,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<LocalMutualExclusion<ResumptionCookie>>()
-                .As<IScope<ResumptionCookie>>()
+                .RegisterType<LocalMutualExclusion<Address>>()
+                .As<IScope<Address>>()
                 .SingleInstance();
 
             builder
@@ -206,7 +206,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     };
 
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, cc.Resolve<ResumptionCookie>(), c.Resolve<IScope<ResumptionCookie>>());
+                    outer = new SerializingDialogTask(outer, cc.Resolve<Address>(), c.Resolve<IScope<Address>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })
