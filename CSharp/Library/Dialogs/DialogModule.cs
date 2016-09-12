@@ -106,7 +106,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<LocalMutualExclusion<Address>>()
+                // not resolving IEqualityComparer<Address> from container because it's a very local policy
+                // and yet too broad of an interface.  could explore using tags for registration overrides.
+                .Register(c => new LocalMutualExclusion<Address>(new ConversationAddressComparer()))
                 .As<IScope<Address>>()
                 .SingleInstance();
 

@@ -34,6 +34,7 @@
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -99,6 +100,45 @@ namespace Microsoft.Bot.Builder.Dialogs
                 ^ this.UserId.GetHashCode()
                 ^ this.ConversationId.GetHashCode()
                 ^ this.ServiceUrl.GetHashCode()
+                ;
+
+            return code;
+        }
+    }
+
+    /// <summary>
+    /// Compare two Address instances for equality, excluding the user information.
+    /// </summary>
+    /// <remarks>
+    /// This equality comparer excludes the user from the Address identity
+    /// so that dialog execution can be serialized by conversation, thereby
+    /// making it less likely to encounter 412 "precondition failed" when
+    /// updating the bot state data bags with optimistic concurrency.  Updates
+    /// to the user's data bags may still conflict across multiple conversations.
+    /// </remarks>
+    public sealed class ConversationAddressComparer : IEqualityComparer<Address>
+    {
+        bool IEqualityComparer<Address>.Equals(Address one, Address two)
+        {
+            var equals =
+                object.ReferenceEquals(one, two)
+                || (
+                    object.Equals(one.BotId, two.BotId)
+                    && object.Equals(one.ChannelId, two.ChannelId)
+                    && object.Equals(one.ConversationId, two.ConversationId)
+                    && object.Equals(one.ServiceUrl, two.ServiceUrl)
+                    );
+
+            return equals;
+        }
+
+        int IEqualityComparer<Address>.GetHashCode(Address address)
+        {
+            var code
+                = address.BotId.GetHashCode()
+                ^ address.ChannelId.GetHashCode()
+                ^ address.ConversationId.GetHashCode()
+                ^ address.ServiceUrl.GetHashCode()
                 ;
 
             return code;
