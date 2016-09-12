@@ -58,12 +58,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string UserName { set; get; }
 
         /// <summary>
-        /// True if the <see cref="ServiceUrl"/> is trusted; False otherwise.
+        /// True if the <see cref="Address.ServiceUrl"/> is trusted; False otherwise.
         /// </summary>
         /// <remarks> <see cref="Conversation.ResumeAsync{T}(ResumptionCookie, T, System.Threading.CancellationToken)"/> adds 
-        /// the host of the <see cref="ServiceUrl"/> to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if this flag is True.
+        /// the host of the <see cref="Address.ServiceUrl"/> to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if this flag is True.
         /// </remarks>
-        public bool IsTrustedServiceUrl { protected set; get; }
+        public bool IsTrustedServiceUrl { private set; get; }
 
         /// <summary>
         /// The IsGroup flag for conversation.
