@@ -82,7 +82,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
-            // make the resumption cookie available for the lifetime scope
+            // make the address and cookie available for the lifetime scope
+
+            builder
+                .RegisterType<Address>()
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             builder
                 .RegisterType<ResumptionCookie>()
