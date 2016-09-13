@@ -2640,7 +2640,7 @@
             Some channels allow you to edit an existing activity to reflect the new
             state of a bot conversation.
             
-            For example, if the bot asks who is coming to the picknic, each person who
+            For example, if the bot asks who is coming to the picnic, each person who
             clicks on the "Yes" button could cause the activity
             card to be updated with the current list of people attending.
             <param name='conversationId'>
@@ -2894,7 +2894,7 @@
             Some channels allow you to edit an existing activity to reflect
             the new state of a bot conversation.
             
-            For example, if the bot asks who is coming to the picknic, each
+            For example, if the bot asks who is coming to the picnic, each
             person who clicks on the "Yes" button could cause the activity
             card to be updated with the current list of people attending.
             <param name='conversationId'>
