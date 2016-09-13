@@ -520,7 +520,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task FormFlow_Localization()
         {
             // This ensures there are no bad templates in resources
-            foreach (var locale in new string[] { "ar", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans" })
+            foreach (var locale in new string[] { "ar", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans", "cs", "de-DE" })
             {
                 var root = new FormDialog<PizzaOrder>(new PizzaOrder(), () => PizzaOrder.BuildForm(), cultureInfo: CultureInfo.GetCultureInfo(locale));
                 Assert.AreNotEqual(null, root);
