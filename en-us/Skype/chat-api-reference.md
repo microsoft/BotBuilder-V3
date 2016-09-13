@@ -64,7 +64,7 @@ Supported user properties:
 ### Sending messages
 {:.no_toc}
 
-All calls to the Skype REST API should supply a Microsoft Online OAuth2 token. This token can be obtained by issuing a POST call to login.microsoft.online.com with parameters passed in the request body (x-www-form-urencoded).
+All calls to the Skype REST API should supply a Microsoft Online OAuth2 token. This token can be obtained by issuing a POST call to login.microsoftonline.com with parameters passed in the request body (x-www-form-urencoded).
 
 * The Grant Type should be “client_credentials”
 * The **scope** should be https://graph.microsoft.com/.default

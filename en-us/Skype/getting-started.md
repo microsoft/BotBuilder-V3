@@ -186,7 +186,15 @@ Buttons are shown at the bottom of the card - in a single row if they fit, or st
 Property|Type|Description
 type|string|Required field. One of openURL (opens the given URL), imBack (posts a message in the chat to the bot that sent the card), call (skype or phone number), showImage (for images only, displays the image), signin (sign in card only).
 title|String|Text description that appears on the button
-tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string (which may contain hidden metadata for the bot e.g. &lt;meta roomid='10'/&gt;, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
+tap|Action object|Value depending on the type of action. For openURL is a URL, for signin is the URL to the authentication flow, for imBack is a user defined string, for call can be "skype:skypeid" or "tel:telephone", for showImage not required.
+
+### Sending context with actions
+{:.no_toc}
+
+It can be useful to send context back to your bot (e.g. a request ID) without showing this information to the user in a message. To do this you can append hidden XML to the visible string shown to the user, which is only seen by your bot.
+
+    Visible message &lt;context hiddenId='10'/&gt;
+
 
 ### Hero card
 {:.no_toc}
@@ -263,7 +271,7 @@ total|Rich text|Title of the card. Maximum 2 lines
 tax|Rich text|Title of the card. Maximum 2 lines
 vat|Rich text|Title of the card. Maximum 2 lines
 items:[]|Rich text|Title of the card. Maximum 2 lines
-images:[]|Array of images|Image displayed at top of card. Aspect ratio 16:9
+images:[]|Array of images|Image displayed with each item. Aspect ratio 16:9
 buttons:[]|Array of action objects|Set of actions applicable to the current card
 tap|Action object|This action will be activated when the user taps on the card itself
 
