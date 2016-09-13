@@ -250,7 +250,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "SendToConversation",
-        "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
+        "description": "This method allows you to send a message to a conversation without refering to an activity. \r\nThis is useful to send an initial message to a conversation, or to add a message to the end of the conversation.",
         "operationId": "Conversations_SendToConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
