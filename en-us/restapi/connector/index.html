@@ -38,7 +38,7 @@ parent2: Bots
 
   <script type="text/javascript">
     $(function () {
-      var url = "{{ "/en-us/restapi/connector/ConnectorAPI.json" | prepend: site.baseurl }}";
+      var url = "{{ "https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json" | prepend: site.baseurl }}";
 
       // Pre load translate...
       if(window.SwaggerTranslator) {
