@@ -181,6 +181,7 @@
     <EmbeddedResource Include="Resource\Resources.ar.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Resources.de-DE.resx" />
     <EmbeddedResource Include="Resource\Resources.en.resx" />
     <EmbeddedResource Include="Resource\Resources.es.resx" />
     <EmbeddedResource Include="Resource\Resources.fa.resx" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ar.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.de-DE.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.en.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.es.xlf">
       <SubType>Designer</SubType>
