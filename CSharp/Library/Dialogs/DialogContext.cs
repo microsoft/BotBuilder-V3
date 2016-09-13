@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
         {
-            await this.stack.Forward<R,T>(child, resume, item, token);
+            await this.stack.Forward<R, T>(child, resume, item, token);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -133,12 +133,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IBotData.LoadAsync(CancellationToken cancellationToken)
         {
-            await this.botData.LoadAsync(cancellationToken); 
+            await this.botData.LoadAsync(cancellationToken);
         }
 
         async Task IBotData.FlushAsync(CancellationToken cancellationToken)
         {
-            await this.botData.FlushAsync(cancellationToken); 
+            await this.botData.FlushAsync(cancellationToken);
         }
     }
 }

@@ -94,10 +94,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             if (resumptionCookie.IsTrustedServiceUrl)
             {
-                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.ServiceUrl);
+                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.Address.ServiceUrl);
             }
 
-            var continuationMessage = resumptionCookie.GetMessage(); 
+            var continuationMessage = resumptionCookie.GetMessage();
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
@@ -120,7 +120,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var client = scope.Resolve<IConnectorClient>();
             var botData = scope.Resolve<IBotData>();
-            await botData.LoadAsync(token); 
+            await botData.LoadAsync(token);
 
             using (new LocalizedScope(continuationMessage.Locale))
             {

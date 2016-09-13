@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             ActionBase[] actionsTobeValidated = actions.ToArray();
             Utils.AssertArgument(actionsTobeValidated.Length > 0, "Empty Actions List not allowed");
 
-            if(actionsTobeValidated.Length > 1 && actionsTobeValidated.Any((a) => { return a.IsStandaloneAction; }))
+            if (actionsTobeValidated.Length > 1 && actionsTobeValidated.Any((a) => { return a.IsStandaloneAction; }))
             {
                 Utils.AssertArgument(
                     false,
@@ -120,8 +120,8 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
                 actionBase.Validate();
                 condition = actionsList.TryGetValue(action, out currOrder);
                 Utils.AssertArgument(condition, "{0} is not a valid action", action);
-                Utils.AssertArgument((currOrder >= prevOrder) && (Math.Sign(currOrder) == Math.Sign(prevOrder)), 
-                    "Action : {0} violates action ordering requirement", 
+                Utils.AssertArgument((currOrder >= prevOrder) && (Math.Sign(currOrder) == Math.Sign(prevOrder)),
+                    "Action : {0} violates action ordering requirement",
                     action);
                 Utils.AssertArgument(!temp.Contains(action), "Action : {0} cannot be specified multiple times in the same response", action);
 

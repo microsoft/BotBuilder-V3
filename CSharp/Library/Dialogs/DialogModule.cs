@@ -79,9 +79,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register((c, p) => p.TypedAs<IMessageActivity>())
                 .AsSelf()
+                .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
-            // make the resumption cookie available for the lifetime scope
+            // make the address and cookie available for the lifetime scope
+
+            builder
+                .RegisterType<Address>()
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             builder
                 .RegisterType<ResumptionCookie>()
@@ -100,8 +106,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<LocalMutualExclusion<ResumptionCookie>>()
-                .As<IScope<ResumptionCookie>>()
+                // not resolving IEqualityComparer<Address> from container because it's a very local policy
+                // and yet too broad of an interface.  could explore using tags for registration overrides.
+                .Register(c => new LocalMutualExclusion<Address>(new ConversationAddressComparer()))
+                .As<IScope<Address>>()
                 .SingleInstance();
 
             builder
@@ -117,7 +125,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
                 .As<IStateClient>()
-                .InstancePerLifetimeScope(); 
+                .InstancePerLifetimeScope();
 
             builder
                .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
@@ -128,7 +136,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c => c.Resolve<IDetectChannelCapability>().Detect())
                 .As<IChannelCapability>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ConnectorStore>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
@@ -140,8 +148,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf()
                 .SingleInstance(); */
 
-            builder.Register( c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), 
-                                                           CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
+            builder.Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(),
+                                                          CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
                 .As<IBotDataStore<BotData>>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
@@ -171,6 +179,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c =>
                 {
+                    var stack = c.Resolve<IDialogStack>();
+                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<double>>();
+                    var fromGlobal = c.Resolve<IScorable<double>[]>();
+                    // since the stack of scorables changes over time, this should be lazy
+                    var lazyScorables = fromStack.Concat(fromGlobal);
+                    var scorable = new CompositeScorable<double>(c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), lazyScorables);
+                    return scorable;
+                })
+                .InstancePerLifetimeScope()
+                .AsSelf();
+
+            builder
+                .Register(c =>
+                {
                     var cc = c.Resolve<IComponentContext>();
 
                     Func<IPostToBot> makeInner = () =>
@@ -181,12 +203,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
                         post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
-                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<IComparer<double>>(), cc.Resolve<ITraits<double>>(), cc.Resolve<IScorable<double>[]>());
+                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<CompositeScorable<double>>());
                         return post;
                     };
 
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, cc.Resolve<ResumptionCookie>(), c.Resolve<IScope<ResumptionCookie>>());
+                    outer = new SerializingDialogTask(outer, cc.Resolve<Address>(), c.Resolve<IScope<Address>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })

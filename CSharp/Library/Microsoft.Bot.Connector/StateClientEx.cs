@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
         /// <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         public StateClient(Uri baseUri, MicrosoftAppCredentials credentials, bool addJwtTokenRefresher = true, params DelegatingHandler[] handlers)
-            : this(baseUri, addJwtTokenRefresher? AddJwtTokenRefresher(handlers, credentials) : handlers)
+            : this(baseUri, addJwtTokenRefresher ? AddJwtTokenRefresher(handlers, credentials) : handlers)
         {
             this.Credentials = credentials;
         }
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
         /// <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         public StateClient(MicrosoftAppCredentials credentials, bool addJwtTokenRefresher = true, params DelegatingHandler[] handlers)
-            :this(addJwtTokenRefresher ? AddJwtTokenRefresher(handlers, credentials) : handlers)
+            : this(addJwtTokenRefresher ? AddJwtTokenRefresher(handlers, credentials) : handlers)
         {
             this.Credentials = credentials;
         }

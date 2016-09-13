@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Sample.EchoBot
             }
             else
             {
-                await context.PostAsync(string.Format("{0}: You said {1}", this.count++, message.Text)); 
+                await context.PostAsync(string.Format("{0}: You said {1}", this.count++, message.Text));
                 context.Wait(MessageReceivedAsync);
             }
         }

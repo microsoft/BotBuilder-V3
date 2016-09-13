@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Builder.Calling
     /// </summary>
     public interface ICallingBot
     {
-        ICallingBotService  CallingBotService { get; }
+        ICallingBotService CallingBotService { get; }
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.Calling
                 else
                 {
                     try
-                    {   
+                    {
                         string res = string.Empty;
                         switch (callRequestType)
                         {
@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Builder.Calling
                 }
             }
 
-            
+
         }
     }
 }

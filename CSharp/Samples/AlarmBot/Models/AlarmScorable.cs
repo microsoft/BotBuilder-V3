@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
             }
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
+        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
             return matched;
         }
 
-        async Task IScorable<double>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
+        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
         {
             var verbTitle = (Tuple<string, string>)state;
             var verb = verbTitle.Item1;

@@ -66,6 +66,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Flushes the bot data to <see cref="IBotDataStore{T}"/>
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        Task FlushAsync(CancellationToken cancellationToken); 
+        Task FlushAsync(CancellationToken cancellationToken);
     }
 }

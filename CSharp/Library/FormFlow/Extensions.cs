@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         internal static IEnumerable<string> Dependencies<T>(this IForm<T> form, int istep)
             where T : class
         {
-            for(var i = 0; i < istep; ++i)
+            for (var i = 0; i < istep; ++i)
             {
                 if (form.Steps[i].Type == StepType.Field)
                 {

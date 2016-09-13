@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             SetField.NotNull(out this.makeroot, nameof(makeroot), makeroot);
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, Delegate method, CancellationToken token)
+        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             return matched;
         }
 
-        async Task IScorable<double>.PostAsync<Item>(IPostToBot inner, Item item, object state, CancellationToken token)
+        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
         {
             var message = (IMessageActivity)(object)item;
             this.stack.Reset();
@@ -61,6 +61,4 @@ namespace Microsoft.Bot.Builder.Dialogs
             await botToUser.PostAsync(Resources.UserProfileDeleted);
         }
     }
-
-
 }

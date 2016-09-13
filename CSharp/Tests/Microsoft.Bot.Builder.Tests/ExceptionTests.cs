@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Builder.Tests
                     await AssertScriptAsync(container, "hello");
                     Assert.Fail();
                 }
-                catch(SerializationException)
+                catch (SerializationException)
                 {
                 }
 

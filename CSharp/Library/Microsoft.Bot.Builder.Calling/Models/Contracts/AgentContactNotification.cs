@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
 
         [JsonProperty(PropertyName = "fromUserDisplayName", Required = Required.Always)]
         public string DisplayName { get; set; }
-        
+
         [JsonProperty(PropertyName = "fromUserLcid", Required = Required.Default)]
         public int Lcid { get; set; }
 

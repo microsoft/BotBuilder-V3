@@ -42,7 +42,7 @@ namespace Microsoft.Bot.Builder.Calling
                 .AsSelf()
                 .As<ICallingBotService>()
                 .SingleInstance();
-            
+
         }
     }
 
@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.Calling
                 .Register((c, p) => p.TypedAs<Func<ICallingBotService, ICallingBot>>())
                 .AsSelf()
                 .SingleInstance();
-                //.InstancePerMatchingLifetimeScope(CallingModule.LifetimeScopeTag);
+            //.InstancePerMatchingLifetimeScope(CallingModule.LifetimeScopeTag);
 
             builder
                 .Register(c =>
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Calling
                 )
                 .As<ICallingBot>()
                 .SingleInstance();
-                //.InstancePerMatchingLifetimeScope(CallingModule.LifetimeScopeTag);
+            //.InstancePerMatchingLifetimeScope(CallingModule.LifetimeScopeTag);
         }
 
         public static void Register(ILifetimeScope scope, Func<ICallingBotService, ICallingBot> MakeCallingBot)

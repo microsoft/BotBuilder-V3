@@ -1,14 +1,8 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Threading.Tasks;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Security.Authentication;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 {
@@ -48,7 +42,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         {
             ResumptionCookie = new ResumptionCookie(msg);
         }
-        
+
         /// <summary>
         /// The chain of dialogs that implements the login/logout process for the bot
         /// </summary>
@@ -87,7 +81,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 new DefaultCase<IMessageActivity, IDialog<string>>((ctx, msg) =>
                 {
                     string token;
-                    string name = string.Empty; 
+                    string name = string.Empty;
                     if (ctx.PrivateConversationData.TryGetValue(AuthTokenKey, out token) && ctx.UserData.TryGetValue("name", out name))
                     {
                         var validationTask = FacebookHelpers.ValidateAccessToken(token);
@@ -142,9 +136,16 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             if (!context.PrivateConversationData.TryGetValue(AuthTokenKey, out token))
             {
                 context.PrivateConversationData.SetValue("persistedCookie", ResumptionCookie);
-                var fbLogin = $"Go to: {FacebookHelpers.GetFacebookLoginURL(ResumptionCookie, FacebookOauthCallback.ToString())}";
 
-                await context.PostAsync(fbLogin);
+                // sending the sigin card with Facebook login url
+                var reply = context.MakeMessage();
+                var fbLoginUrl = FacebookHelpers.GetFacebookLoginURL(ResumptionCookie, FacebookOauthCallback.ToString());
+                reply.Text = "Please login in using this card";
+                reply.Attachments.Add(SigninCard.Create("You need to authorize me", 
+                                                        "Login to Facebook!",
+                                                        fbLoginUrl
+                                                        ).ToAttachment());
+                await context.PostAsync(reply);
                 context.Wait(MessageReceivedAsync);
             }
             else

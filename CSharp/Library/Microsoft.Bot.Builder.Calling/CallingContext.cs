@@ -27,7 +27,7 @@ namespace Microsoft.Bot.Builder.Calling
         /// The calling request content.
         /// </summary>
         public string Content { set; get; }
-        
+
         /// <summary>
         /// The additional data when calling request has multipart content. 
         /// </summary>
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Calling
         /// <returns> the parsed calling request.</returns>
         public virtual async Task<ParsedCallingRequest> ProcessRequest(CallRequestType callType)
         {
-            ParsedCallingRequest parsedRequest; 
+            ParsedCallingRequest parsedRequest;
             switch (callType)
             {
                 case CallRequestType.IncomingCall:
@@ -97,18 +97,18 @@ namespace Microsoft.Bot.Builder.Calling
                     break;
             }
             parsedRequest.SkypeChaindId = ExtractSkypeChainId();
-            return parsedRequest; 
+            return parsedRequest;
         }
 
         protected virtual string ExtractSkypeChainId()
         {
             string chaindId = null;
-            IEnumerable<string> headerValues; 
+            IEnumerable<string> headerValues;
             if (Request.Headers.TryGetValues("X-Microsoft-Skype-Chain-ID", out headerValues))
             {
-                chaindId = headerValues.FirstOrDefault(); 
+                chaindId = headerValues.FirstOrDefault();
             }
-            return chaindId; 
+            return chaindId;
         }
 
         protected virtual async Task<ParsedCallingRequest> ProcessIncomingCallAsync()
@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.Calling
                 }
 
                 var content = await Request.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return GenerateParsedResults(HttpStatusCode.OK, content);                
+                return GenerateParsedResults(HttpStatusCode.OK, content);
             }
             catch (Exception e)
             {
@@ -154,13 +154,13 @@ namespace Microsoft.Bot.Builder.Calling
                 return GenerateParsedResults(HttpStatusCode.InternalServerError);
             }
         }
-        
+
         private ParsedCallingRequest GenerateParsedResults(HttpStatusCode statusCode, string content = null, Task<Stream> additionalData = null)
         {
             return new ParsedCallingRequest
             {
                 Content = content,
-                ParseStatusCode = statusCode, 
+                ParseStatusCode = statusCode,
                 AdditionalData = additionalData
             };
         }

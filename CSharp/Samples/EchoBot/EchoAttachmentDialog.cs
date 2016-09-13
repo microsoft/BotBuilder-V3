@@ -27,11 +27,11 @@ namespace Microsoft.Bot.Sample.EchoBot
                     actions.Add(new CardAction
                     {
                         Title = $"Button:{i}",
-                        Value = $"Action:{i}", 
+                        Value = $"Action:{i}",
                         Type = ActionTypes.ImBack
                     });
                 }
-                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel; 
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                 for (int i = 0; i < 5; i++)
                 {
                     reply.Attachments.Add(

@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Connector
         {
             var handlers = new List<DelegatingHandler>(srcHandlers);
             handlers.Add(new JwtTokenRefresher(credentials));
-            return handlers.ToArray(); 
+            return handlers.ToArray();
         }
     }
 }

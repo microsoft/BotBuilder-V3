@@ -384,10 +384,16 @@
   <data name="EnumSelectOne;Sandwich;Length;Bread;Cheese;Toppings;Sauces;Specials;DeliveryAddress;DeliveryTime;PhoneNumber;Rating;TEMPLATE" xml:space="preserve">
     <value>Quel genre de {&amp;} vous souhaitez sur votre "sandwich" ? {||}</value>
   </data>
-  <data name="BreadSubTitle" xml:space="preserve">
+  <data name="SandwichImage;VALUE" xml:space="preserve">
+    <value>https://placeholdit.imgix.net/~text?txtsize=16&amp;txt=Sandwich&amp;w=125&amp;h=40&amp;txttrack=0&amp;txtclr=000&amp;txtfont=bold</value>
+  </data>
+  <data name="BreadSubTitle;VALUE" xml:space="preserve">
     <value>Sélecteur de pain</value>
   </data>
-  <data name="BreadTitle" xml:space="preserve">
+  <data name="BreadTitle;VALUE" xml:space="preserve">
     <value>Bot "sandwich"</value>
+  </data>
+  <data name="StatusFormat;DeliveryTime;TEMPLATE" xml:space="preserve">
+    <value>{&amp;}: {:t}</value>
   </data>
 </root>

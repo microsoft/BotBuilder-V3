@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                         var style = prompt.Style;
                         if (style == ChoiceStyleOptions.Auto)
                         {
-                            foreach(var button in prompt.Buttons)
+                            foreach (var button in prompt.Buttons)
                             {
                                 // Images require carousel
                                 if (button.Image != null)

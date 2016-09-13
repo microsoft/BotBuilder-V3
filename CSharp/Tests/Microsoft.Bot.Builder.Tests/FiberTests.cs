@@ -167,7 +167,7 @@ namespace Microsoft.Bot.Builder.Tests
             // arrange
             using (var container = Build())
             {
-                var fiber = (Fiber<C>) container.Resolve<IFiberLoop<C>>();
+                var fiber = (Fiber<C>)container.Resolve<IFiberLoop<C>>();
                 // assert
                 var previous = fiber;
                 AssertSerializable(container, ref fiber);

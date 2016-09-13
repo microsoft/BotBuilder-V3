@@ -21,7 +21,7 @@
     "Sandwich": {
       "Prompt": { "Patterns": [ "What kind of {&} would you like? {||}" ] },
       "Before": [ { "Message": [ "Welcome to the sandwich order bot!" ] } ],
-      "Describe" : {"Image":"https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold"},
+      "Describe": { "Image": "https://placeholdit.imgix.net/~text?txtsize=16&txt=Sandwich&w=125&h=40&txttrack=0&txtclr=000&txtfont=bold" },
       "type": [
         "string",
         "null"
@@ -73,8 +73,8 @@
             "null"
           ],
           "Describe": {
-            "Title":"Sandwich Bot",
-            "SubTitle":"Bread Picker"
+            "Title": "Sandwich Bot",
+            "SubTitle": "Bread Picker"
           },
           "enum": [
             "NineGrainWheat",
@@ -167,6 +167,12 @@
       "pattern": "(\\(\\d{3}\\))?\\s*\\d{3}(-|\\s*)\\d{4}"
     },
     "DeliveryTime": {
+      "Templates": {
+        "StatusFormat": {
+          "Patterns": [ "{&}: {:t}" ],
+          "FieldCase": "None"
+        }
+      },
       "DateTime": true,
       "type": [
         "string",

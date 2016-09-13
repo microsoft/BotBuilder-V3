@@ -42,8 +42,8 @@ namespace Microsoft.Bot.Builder.Calling
         /// </summary>
         public void Validate()
         {
-            Uri callBackUri; 
-            if(!Uri.TryCreate(this.CallbackUrl, UriKind.Absolute, out callBackUri))
+            Uri callBackUri;
+            if (!Uri.TryCreate(this.CallbackUrl, UriKind.Absolute, out callBackUri))
             {
                 throw new BotConfigurationException($"Bot calling configuration is invalid, callback url: {CallbackUrl} is not a valid url!");
             }

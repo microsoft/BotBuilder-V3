@@ -198,7 +198,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (actions.Count > 0)
             {
                 var description = prompt.Description;
-                attachments.Add(new HeroCard(text: prompt.Prompt, title: description.Title, subtitle: description.SubTitle,  
+                attachments.Add(new HeroCard(text: prompt.Prompt, title: description.Title, subtitle: description.SubTitle,
                     buttons: actions,
                     images: prompt.Description?.Image == null ? null : new List<CardImage>() { new CardImage() { Url = description.Image } })
                     .ToAttachment());
@@ -212,10 +212,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var description = prompt.Description;
             foreach (var button in prompt.Buttons)
             {
-                string image = button.Image??description.Image;
+                string image = button.Image ?? description.Image;
                 attachments.Add(new HeroCard(
-                    title: button.Title??description.Title,
-                    subtitle: button.SubTitle??description.SubTitle,
+                    title: button.Title ?? description.Title,
+                    subtitle: button.SubTitle ?? description.SubTitle,
                     text: prompt.Prompt,
                     images: (image == null ? null : (new List<CardImage>() { new CardImage() { Url = image } })),
                     buttons: new List<CardAction>() { new CardAction(ActionTypes.ImBack, button.Description, null, button.Message ?? button.Description) })
@@ -477,13 +477,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {
+                        var format = new Prompter<T>(Template(entry, TemplateUsage.StatusFormat), _form, null);
                         builder.Append("* ").AppendLine(format.Prompt(state, entry).Prompt);
                     }
                     substitute = builder.ToString();

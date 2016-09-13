@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public IEnumerable<Participant> Participants { get; set; }
-        
+
         /// <summary>
         /// Indicates whether a call is a group call
         /// </summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         public string Subject { get; set; }
 
         [JsonExtensionData]
-        private  IDictionary<string, JToken> _additionalData;
+        private IDictionary<string, JToken> _additionalData;
 
         [JsonIgnore]
         public IDictionary<string, JToken> AdditionalData

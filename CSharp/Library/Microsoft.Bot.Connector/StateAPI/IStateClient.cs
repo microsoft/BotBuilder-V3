@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Connector
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Microsoft.Rest;
-    
+
 
     /// <summary>
     /// The Bot State REST API allows your bot to store and retrieve state

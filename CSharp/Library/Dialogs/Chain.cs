@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context">The bot context.</param>
         /// <param name="item">The result of the previous <see cref="IDialog{T}"/>.</param>
         /// <returns>A task that represents the next <see cref="IDialog{R}"/>.</returns>
-        public delegate Task<IDialog<R>> Continutation<in T, R>(IBotContext context, IAwaitable<T> item);
+        public delegate Task<IDialog<R>> Continuation<in T, R>(IBotContext context, IAwaitable<T> item);
 
         /// <summary>
         /// Construct a <see cref="IDialog{T}"/> that will make a new copy of another <see cref="IDialog{T}"/> when started.
@@ -78,6 +78,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<T> Do<T>(this IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task> callback)
         {
             return new DoDialog<T>(antecedent, callback);
+        }
+
+        /// <summary>
+        /// Execute an action after the <see cref="IDialog{T}"/> completes. 
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <typeparam name="R">They type returned by action.</typeparam>
+        /// <param name="Antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <param name="Action">The action that will be called after the antecedent dialog completes.</param>
+        /// <returns>The antecedent dialog.</returns>
+        public static IDialog<R> Then<T, R>(this IDialog<T> Antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+        {
+            return new ThenDialog<T, R>(Antecedent, Action);
         }
 
         /// <summary>
@@ -122,7 +135,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <param name="continuation">The continuation to produce the next <see cref="IDialog{R}"/>.</param>
         /// <returns>The next <see cref="IDialog{R}"/>.</returns>
-        public static IDialog<R> ContinueWith<T, R>(this IDialog<T> antecedent, Continutation<T, R> continuation)
+        public static IDialog<R> ContinueWith<T, R>(this IDialog<T> antecedent, Continuation<T, R> continuation)
         {
             return new ContinueWithDialog<T, R>(antecedent, continuation);
         }
@@ -355,6 +368,27 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
+        private sealed class ThenDialog<T, R> : IDialog<R>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<IBotContext, IAwaitable<T>, Task<R>> Action;
+            public ThenDialog(IDialog<T> antecedent, Func<IBotContext, IAwaitable<T>, Task<R>> Action)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Action, nameof(Action), Action);
+            }
+
+            async Task IDialog<R>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                context.Done<R>(await this.Action(context, result));
+            }
+        }
+
+        [Serializable]
         private sealed class PostToUserDialog<T> : IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
@@ -401,9 +435,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         private sealed class ContinueWithDialog<T, R> : IDialog<R>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly Continutation<T, R> Continuation;
+            public readonly Continuation<T, R> Continuation;
 
-            public ContinueWithDialog(IDialog<T> antecedent, Continutation<T, R> continuation)
+            public ContinueWithDialog(IDialog<T> antecedent, Continuation<T, R> continuation)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
                 SetField.NotNull(out this.Continuation, nameof(continuation), continuation);
@@ -600,7 +634,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E: Exception
+        private sealed class DefaultIfExceptionDialog<T, E> : IDialog<T> where E : Exception
         {
             public readonly IDialog<T> Antecedent;
             public DefaultIfExceptionDialog(IDialog<T> antecedent)

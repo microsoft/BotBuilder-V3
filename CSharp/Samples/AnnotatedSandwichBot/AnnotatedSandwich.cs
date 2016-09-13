@@ -29,7 +29,8 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         TurkeyBreast, Veggie
     };
     public enum LengthOptions { SixInch, FootLong };
-    public enum BreadOptions {
+    public enum BreadOptions
+    {
         // Use an image if generating cards
         // [Describe(Image = @"https://placeholdit.imgix.net/~text?txtsize=12&txt=Special&w=100&h=40&txttrack=0&txtclr=000&txtfont=bold")]
         NineGrainWheat,
@@ -69,7 +70,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         public LengthOptions? Length;
 
         // Specify Title and SubTitle if generating cards
-        [Describe(Title ="Sandwich Bot", SubTitle = "Bread Picker")]
+        [Describe(Title = "Sandwich Bot", SubTitle = "Bread Picker")]
         public BreadOptions? Bread;
 
         // An optional annotation means that it is possible to not make a choice in the field.
@@ -92,6 +93,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
         public string PhoneNumber;
 
         [Optional]
+        [Template(TemplateUsage.StatusFormat, "{&}: {:t}", FieldCase = CaseNormalization.None)]
         public DateTime? DeliveryTime;
 
         [Numeric(1, 5)]

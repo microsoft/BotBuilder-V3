@@ -384,4 +384,7 @@
   <data name="NoPreference;Specials;TEMPLATE" xml:space="preserve">
     <value>Aucun</value>
   </data>
+  <data name="StatusFormat;DeliveryTime;TEMPLATE" xml:space="preserve">
+    <value>{&amp;}: {:t}</value>
+  </data>
 </root>

@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
             bool fileSpecified = (this.FileUri != null);
             bool textSpecified = !String.IsNullOrWhiteSpace(this.Value);
             Utils.AssertArgument(
-                fileSpecified ||  textSpecified || this.SilenceLengthInMilliseconds.GetValueOrDefault() > 0,
+                fileSpecified || textSpecified || this.SilenceLengthInMilliseconds.GetValueOrDefault() > 0,
                 "Either a prompt file/text has to be specified or a valid period of silence has to be specified or both can be specified");
             Utils.AssertArgument(!(fileSpecified && textSpecified), "Both a prompt file and a TTS text cannot be specified at the same time.");
 

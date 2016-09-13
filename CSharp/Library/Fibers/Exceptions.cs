@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         private readonly Need need;
         private readonly Need have;
         public Need Need { get { return this.need; } }
-        public Need Have { get { return this.have;  } }
+        public Need Have { get { return this.have; } }
 
         public InvalidNeedException(IWait wait, Need need)
             : base($"invalid need: expected {need}, have {wait.Need}", wait)

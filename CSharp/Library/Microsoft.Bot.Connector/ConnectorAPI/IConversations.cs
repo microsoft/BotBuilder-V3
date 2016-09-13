@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Connector
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
-    
+
 
     /// <summary>
     /// Conversations operations.

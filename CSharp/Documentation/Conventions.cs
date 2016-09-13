@@ -55,7 +55,7 @@ To make it easy for our C# developers we have created an attribute which does th
 To use with the AppId and AppSecret coming from the web.config
 
 ~~~{.cs}
-       [BotAuthentication()]
+       [BotAuthentication]
        public class MessagesController : ApiController
        {
        }
@@ -64,7 +64,7 @@ To use with the AppId and AppSecret coming from the web.config
 Or you can pass in the appId appSecret to the attribute directly:
 
 ~~~{.cs}
-       [BotAuthentication(MicrosoftAppId="_MicrosoftappId_", MicrosoftAppPassword="_MicrosoftappPassword_")]
+       [BotAuthentication(MicrosoftAppId = "_MicrosoftappId_")]
        public class MessagesController : ApiController
        {
        }

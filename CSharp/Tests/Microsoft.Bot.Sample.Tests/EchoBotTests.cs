@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Sample.Tests
         {
             // arrange
             var toBot = DialogTestBase.MakeTestMessage();
-            toBot.From.Id = Guid.NewGuid().ToString(); 
+            toBot.From.Id = Guid.NewGuid().ToString();
             toBot.Text = "Test";
 
             Func<IDialog<object>> MakeRoot = () => echoDialog;
@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Sample.Tests
             {
                 // act: sending the message
                 IMessageActivity toUser = await GetResponse(container, MakeRoot, toBot);
-                
+
                 // assert: check if the dialog returned the right response
                 Assert.IsTrue(toUser.Text.StartsWith("1"));
                 Assert.IsTrue(toUser.Text.Contains("Test"));
@@ -120,7 +120,7 @@ namespace Microsoft.Bot.Sample.Tests
                 toUser = await GetResponse(container, MakeRoot, toBot);
                 Assert.IsTrue(toUser.Text.StartsWith("1"));
 
-                toBot.Text = "/deleteprofile"; 
+                toBot.Text = "/deleteprofile";
                 toUser = await GetResponse(container, MakeRoot, toBot);
                 Assert.IsTrue(toUser.Text.ToLower().Contains("deleted"));
                 using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Sample.Tests
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(default(CancellationToken));
                     var stack = scope.Resolve<IDialogStack>();
-                    Assert.AreEqual(0, stack.Frames.Count); 
+                    Assert.AreEqual(0, stack.Frames.Count);
                 }
             }
         }

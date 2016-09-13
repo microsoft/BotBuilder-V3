@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task LocalMutualExclusion_Serializes()
         {
-            IScope<string> mutex = new LocalMutualExclusion<string>();
+            IScope<string> mutex = new LocalMutualExclusion<string>(EqualityComparer<string>.Default);
 
             var taskOne = mutex.WithScopeAsync(KeyOne, CancellationToken.None);
             var taskTwo = mutex.WithScopeAsync(KeyTwo, CancellationToken.None);
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task LocalMutualExclusion_NoDeadlock()
         {
-            IScope<string> mutex = new LocalMutualExclusion<string>();
+            IScope<string> mutex = new LocalMutualExclusion<string>(EqualityComparer<string>.Default);
 
             using (await mutex.WithScopeAsync(KeyOne, CancellationToken.None))
             using (await mutex.WithScopeAsync(KeyTwo, CancellationToken.None))
@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task LocalMutualExclusion_ReferenceCounts()
         {
-            var local = new LocalMutualExclusion<string>();
+            var local = new LocalMutualExclusion<string>(EqualityComparer<string>.Default);
             IScope<string> mutex = local;
 
             Action<string, int> AssertReferenceCount = (key, expected) =>

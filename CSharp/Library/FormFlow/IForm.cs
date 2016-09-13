@@ -52,13 +52,13 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         public abstract IFields<T> Fields { get; }
 
-#region Documentation
+        #region Documentation
         /// <summary>   Save all string resources to binary stream for future localization. </summary>
         /// <param name="writer">   Where to write resources. </param>
-#endregion
+        #endregion
         public abstract void SaveResources(IResourceWriter writer);
 
-#region Documentation
+        #region Documentation
         /// <summary>   Localize all string resources from binary stream. </summary>
         /// <param name="reader">   Where to read resources. </param>
         /// <param name="missing">  [out] Any values in the form, but missing from the stream. </param>
@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// <remarks>When you localize all form string resources will be overridden if present in the stream.
         ///          Otherwise the value will remain unchanged.
         /// </remarks>
-#endregion
+        #endregion
         public abstract void Localize(IDictionaryEnumerator reader, out IEnumerable<string> missing, out IEnumerable<string> extra);
 
         // Internals
@@ -75,5 +75,5 @@ namespace Microsoft.Bot.Builder.FormFlow
         internal abstract IReadOnlyList<IStep<T>> Steps { get; }
         internal abstract OnCompletionAsyncDelegate<T> Completion { get; }
         internal abstract Task<FormPrompt> Prompt(IDialogContext context, FormPrompt prompt);
-    }   
+    }
 }
