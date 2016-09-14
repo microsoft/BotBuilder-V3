@@ -25,6 +25,18 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+
+### [v3.2.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.2.1)
+
+#### Changes
+
+- General bug fixes
+- Factor out `Address` from `ResumptionCookie`
+- Serialize dialog execution pessimistically by conversation
+- Add `Then dialog` to enhance chaining of dialogs
+
+***
+
 ### [v3.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.2.0)
 
 #### Breaking Change 
