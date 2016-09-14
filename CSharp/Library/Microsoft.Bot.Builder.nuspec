@@ -49,7 +49,7 @@
     <file src="bin\release\ja\*.dll" target="lib\net46\ja"/>
     <file src="bin\release\ru\*.dll" target="lib\net46\ru"/>
     <file src="bin\release\zh-hans\*.dll" target="lib\net46\zh-hans"/>
-    <file src="bin\release\de-DE\*.dll" target="lib\net46\de-DE"/>
+    <file src="bin\release\de-dE\*.dll" target="lib\net46\de-dE"/>
     <file src="bin\release\cs\*.dll" target="lib\net46\cs"/>
   </files>
 </package>
