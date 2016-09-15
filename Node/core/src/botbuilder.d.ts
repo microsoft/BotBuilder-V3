@@ -1435,7 +1435,7 @@ export class ThumbnailCard implements IIsAttachment {
     toAttachment(): IAttachment;
 }
 
-/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards imagess. */
+/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards images. */
 export class HeroCard extends ThumbnailCard {
 
     /** 
