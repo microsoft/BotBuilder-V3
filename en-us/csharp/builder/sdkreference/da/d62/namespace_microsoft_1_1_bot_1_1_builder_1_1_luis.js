@@ -7,6 +7,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_luis =
     [ "Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions" ],
     [ "ICalendarPlus", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus.html", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus" ],
     [ "IEntityToType", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type.html", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type" ],
+    [ "ILuisModel", "de/d39/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_model.html", "de/d39/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_model" ],
     [ "ILuisService", "d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html", "d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service" ],
     [ "IResolutionParser", "d3/dba/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_resolution_parser.html", "d3/dba/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_resolution_parser" ],
     [ "LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute" ],

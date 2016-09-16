@@ -3,6 +3,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt
     [ "PromptConfirm", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#a4e76b1ee50e0ac7f9de75309de5f7eac", null ],
     [ "PromptConfirm", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#a09b02dfd90e8a33f8e5064b0642a00ac", null ],
     [ "MakePrompt", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#ab130ac2548d7aab6ce91b87c454fafb4", null ],
+    [ "MessageReceivedAsync", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#ab98f5309381cd094de35af94b37a8517", null ],
     [ "TryParse", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#afede60ea53ec67872bd33cf22e9e313c", null ],
     [ "TryParse", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#a9050cbe33ce13bddcf7fcac6b5970083", null ],
     [ "No", "dd/d7e/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_confirm.html#aa8d347dec34d8db183c8332936760875", null ],

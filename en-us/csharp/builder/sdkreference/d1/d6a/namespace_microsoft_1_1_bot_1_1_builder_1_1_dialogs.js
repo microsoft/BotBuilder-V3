@@ -1,11 +1,13 @@
 var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
 [
     [ "Internals", "d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html", "d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals" ],
+    [ "Address", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address.html", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address" ],
     [ "Case", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case" ],
     [ "Chain", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain" ],
     [ "ChannelCapability", "d0/d50/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_channel_capability.html", "d0/d50/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_channel_capability" ],
     [ "CommandDialog", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog.html", "dc/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_command_dialog" ],
     [ "Conversation", "d9/de8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation.html", "d9/de8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation" ],
+    [ "ConversationAddressComparer", "d0/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation_address_comparer.html", null ],
     [ "DefaultCase", "d3/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_default_case.html", "d3/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_default_case" ],
     [ "DeleteProfileScorable", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable" ],
     [ "DetectChannelCapability", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability.html", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability" ],

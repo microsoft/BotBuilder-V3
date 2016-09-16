@@ -34,6 +34,10 @@ var files =
       [ "SigninCard", "dc/d03/class_microsoft_1_1_bot_1_1_connector_1_1_signin_card.html", "dc/d03/class_microsoft_1_1_bot_1_1_connector_1_1_signin_card" ],
       [ "ThumbnailCard", "da/da6/class_microsoft_1_1_bot_1_1_connector_1_1_thumbnail_card.html", "da/da6/class_microsoft_1_1_bot_1_1_connector_1_1_thumbnail_card" ]
     ] ],
+    [ "Address.cs", "de/dea/_address_8cs.html", [
+      [ "Address", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address.html", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address" ],
+      [ "ConversationAddressComparer", "d0/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation_address_comparer.html", null ]
+    ] ],
     [ "AgentContactNotification.cs", "db/d3f/_agent_contact_notification_8cs.html", [
       [ "AgentContactNotification", "d0/de3/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_agent_contact_notification.html", "d0/de3/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_agent_contact_notification" ]
     ] ],
@@ -455,6 +459,7 @@ var files =
     ] ],
     [ "LuisDialog.cs", "dd/d15/_luis_dialog_8cs.html", "dd/d15/_luis_dialog_8cs" ],
     [ "LuisModel.cs", "df/df8/_luis_model_8cs.html", [
+      [ "ILuisModel", "de/d39/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_model.html", "de/d39/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_model" ],
       [ "LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute" ]
     ] ],
     [ "LuisResult.cs", "d9/dd6/_luis_result_8cs.html", [
@@ -597,6 +602,8 @@ var files =
       [ "LocalMutualExclusion", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion.html", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion" ]
     ] ],
     [ "Scorable.cs", "d6/da3/_scorable_8cs.html", [
+      [ "CompositeScorable", "d2/db3/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable.html", "d2/db3/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable" ],
+      [ "CompositeState", "d7/de4/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable_1_1_composite_state.html", "d7/de4/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable_1_1_composite_state" ],
       [ "Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions" ],
       [ "IScorable", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable" ],
       [ "ScoringDialogTask", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task" ]

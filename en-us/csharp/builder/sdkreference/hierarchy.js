@@ -106,7 +106,11 @@ var hierarchy =
         [ "Microsoft.Bot.Builder.FormFlow.Advanced.Fields< T >", "d9/d37/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_fields.html", null ]
       ] ]
     ] ],
+    [ "IEqualityComparer", null, [
+      [ "Microsoft.Bot.Builder.Dialogs.ConversationAddressComparer", "d0/dbd/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation_address_comparer.html", null ]
+    ] ],
     [ "IEquatable", null, [
+      [ "Microsoft.Bot.Builder.Dialogs.Address", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.ResumptionCookie", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html", null ],
       [ "Microsoft.Bot.Builder.Luis.BuiltIn.DateTime.DateTimeResolution", "d7/d4f/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time_1_1_date_time_resolution.html", null ]
     ] ],
@@ -140,7 +144,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.PostStruct< T >", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< C, T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Internals.Fibers.IScope< Microsoft.Bot.Builder.Dialogs.ResumptionCookie >", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope.html", null ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IScope< Microsoft.Bot.Builder.Dialogs.Address >", "da/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_scope.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< double >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", [
       [ "Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html", null ]
     ] ],
@@ -272,6 +276,7 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.IDialog< out out T >", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataKey", "d8/d62/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_key.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.CompositeScorable< Score >.CompositeState", "d7/de4/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable_1_1_composite_state.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogTask.IThunk", "df/dd0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_1_1_i_thunk.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.Extensions", "d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotData", "db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html", [
@@ -309,7 +314,9 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ScoringDialogTask< Score >", "d8/de1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_scoring_dialog_task.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.SerializingDialogTask", "d2/de0/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_serializing_dialog_task.html", null ]
     ] ],
-    [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< Score >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", null ],
+    [ "Microsoft.Bot.Builder.Dialogs.Internals.IScorable< Score >", "da/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_scorable.html", [
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.CompositeScorable< Score >", "d2/db3/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_composite_scorable.html", null ]
+    ] ],
     [ "Microsoft.Bot.Builder.Dialogs.LuisServiceResult", "d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptDialog", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html", null ],
     [ "Microsoft.Bot.Builder.Dialogs.PromptOptions< T >", "d0/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_options.html", null ],
@@ -419,6 +426,9 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Luis.IEntityToType", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type.html", [
       [ "Microsoft.Bot.Builder.Luis.StrictEntityToType", "df/d2e/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_strict_entity_to_type.html", null ]
+    ] ],
+    [ "Microsoft.Bot.Builder.Luis.ILuisModel", "de/d39/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_model.html", [
+      [ "Microsoft.Bot.Builder.Luis.LuisModelAttribute", "de/daf/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_model_attribute.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Luis.ILuisService", "d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html", [
       [ "Microsoft.Bot.Builder.Luis.LuisService", "d0/d36/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_luis_service.html", null ]
