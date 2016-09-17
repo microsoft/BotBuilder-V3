@@ -108,6 +108,7 @@
     <Compile Include="SearchHitStyler.cs" />
     <Compile Include="SearchQueryBuilder.cs" />
     <Compile Include="SearchRefineDialog.cs" />
+    <Compile Include="SearchSchema.cs" />
     <Compile Include="SearchSelectRefinerDialog.cs" />
   </ItemGroup>
   <ItemGroup>

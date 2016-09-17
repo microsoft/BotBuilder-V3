@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             {
                 throw new ArgumentNullException("refiner");
             }
-
+            
             this.refiner = refiner;
             this.queryBuilder = queryBuilder ?? new SearchQueryBuilder();
             this.promptStyler = promptStyler;
@@ -68,16 +68,27 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             parameters.Facets = new List<string> { this.refiner };
             DocumentSearchResult result = await SearchDialogIndexClient.Client.Documents.SearchAsync(this.queryBuilder.SearchText, parameters);
 
-            List<string> options = new List<string>() { "cancel" };
-            options.AddRange(result.Facets[this.refiner].Select(f => FormatRefinerOption((string)f.Value, f.Count.Value)));
+            List<string> options = new List<string>();
+            options.AddRange(from facet in result.Facets[this.refiner] orderby facet.Value ascending select FormatRefinerOption(refiner, facet.Value.ToString(), facet.Count.Value));
+            options.Add("cancel");
 
             PromptOptions<string> promptOptions = new PromptOptions<string>(this.prompt, options: options.ToList(), promptStyler: this.promptStyler);
             PromptDialog.Choice(context, ApplyRefiner, promptOptions);
         }
 
-        protected virtual string FormatRefinerOption(string value, long count)
+        protected virtual string FormatRefinerOption(string field, string value, long count)
         {
-            return $"{value} ({count})";
+            string result;
+            var type = SearchDialogIndexClient.Schema.Fields[field].Type;
+            if (type == typeof(string))
+            {
+                result = $"{value} ({count})";
+            }
+            else
+            {
+                result = $">= {value} ({count})";
+            }
+            return result;
         }
 
         protected virtual string ParseRefinerValue(string value)

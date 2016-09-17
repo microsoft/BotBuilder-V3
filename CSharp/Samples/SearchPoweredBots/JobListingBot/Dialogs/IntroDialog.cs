@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.Search.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.SearchDialogs;
@@ -15,6 +16,12 @@ namespace Microsoft.Bot.Sample.JobListingBot.Dialogs
 
         public Task StartAsync(IDialogContext context)
         {
+            SearchDialogIndexClient.Schema = new SearchSchema().AddFields(
+            new Field[] {
+                new Field() { Name = "business_title", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true },
+                new Field() { Name = "agency", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true },
+                new Field { Name = "work_location", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true }
+            });
             context.Wait(SelectTitle);
             return Task.CompletedTask;
         }

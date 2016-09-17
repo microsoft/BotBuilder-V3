@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Azure.Search.Models;
 
 namespace Microsoft.Bot.Sample.SearchDialogs
@@ -74,9 +75,24 @@ namespace Microsoft.Bot.Sample.SearchDialogs
                 {
                     foreach (string value in entry.Value)
                     {
-                        filter.Append(separator);
-                        filter.Append($"{entry.Key} eq '{EscapeFilterString(value)}'");
-                        separator = " and ";
+                        SearchField field;
+                        if (SearchDialogIndexClient.Schema.Fields.TryGetValue(entry.Key, out field))
+                        {
+                            filter.Append(separator);
+                            if (field.Type == typeof(string))
+                            {
+                                filter.Append($"{entry.Key} eq '{EscapeFilterString(value)}'");
+                            }
+                            else
+                            {
+                                filter.Append($"{entry.Key} ge {NumericFilterString(value)}");
+                            }
+                            separator = " and ";
+                        }
+                        else
+                        {
+                            throw new ArgumentException($"{entry.Key} is not in the schema");
+                        }
                     }
                 }
 
@@ -86,7 +102,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             return parameters;
         }
 
-        public virtual void Reset()
+         public virtual void Reset()
         {
             this.SearchText = null;
             this.PageNumber = 0;
@@ -96,6 +112,20 @@ namespace Microsoft.Bot.Sample.SearchDialogs
         private static string EscapeFilterString(string s)
         {
             return s.Replace("'", "''");
+        }
+
+        private static Regex extractValue = new Regex(@"[+-]?[0-9]+(.[0-9]+)?", RegexOptions.Compiled);
+
+        private static string NumericFilterString(string s)
+        {
+            // TODO: Really the button should not generate something which requires parsing.
+            // This should be fixed in PromptChoice
+            var match = extractValue.Match(s);
+            if (!match.Success)
+            {
+                throw new ArgumentException($"{s} does not contain a number.");
+            }
+            return match.Value;
         }
     }
 }

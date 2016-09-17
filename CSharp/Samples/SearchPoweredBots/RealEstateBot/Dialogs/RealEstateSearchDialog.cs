@@ -7,7 +7,7 @@ namespace Microsoft.Bot.Sample.RealEstateBot.Dialogs
     [Serializable]
     public class RealEstateSearchDialog : SearchDialog
     {
-        private static readonly string[] TopRefiners = { "region", "city", "type" };
+        private static readonly string[] TopRefiners = { "region", "city", "type", "beds", "baths", "price", "daysOnMarket", "sqft" };
 
         public RealEstateSearchDialog() : base(multipleSelection: true)
         {
