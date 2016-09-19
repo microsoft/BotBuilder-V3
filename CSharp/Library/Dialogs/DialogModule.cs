@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterType<Address>()
-                .AsSelf()
+                .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             builder
@@ -106,10 +106,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                // not resolving IEqualityComparer<Address> from container because it's a very local policy
+                // not resolving IEqualityComparer<IAddress> from container because it's a very local policy
                 // and yet too broad of an interface.  could explore using tags for registration overrides.
-                .Register(c => new LocalMutualExclusion<Address>(new ConversationAddressComparer()))
-                .As<IScope<Address>>()
+                .Register(c => new LocalMutualExclusion<IAddress>(new ConversationAddressComparer()))
+                .As<IScope<IAddress>>()
                 .SingleInstance();
 
             builder
@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     };
 
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, cc.Resolve<Address>(), c.Resolve<IScope<Address>>());
+                    outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
                 })

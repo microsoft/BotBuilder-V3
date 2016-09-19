@@ -41,8 +41,20 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// <summary>
     /// The key that minimally and completely identifies a bot's conversation with a user on a channel. 
     /// </summary>
+    public interface IAddress
+    {
+        string BotId { get; }
+        string ChannelId { get; }
+        string UserId { get; }
+        string ConversationId { get; }
+        string ServiceUrl { get; }
+    }
+
+    /// <summary>
+    /// The key that minimally and completely identifies a bot's conversation with a user on a channel. 
+    /// </summary>
     [Serializable]
-    public sealed class Address : IEquatable<Address>
+    public sealed class Address : IAddress, IEquatable<IAddress>
     {
         public Address(IActivity activity)
             : this(
@@ -76,7 +88,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string ConversationId { get; }
         public string ServiceUrl { get; }
 
-        public bool Equals(Address other)
+        public bool Equals(IAddress other)
         {
             return other != null
                 && object.Equals(this.BotId, other.BotId)
@@ -89,7 +101,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         public override bool Equals(object other)
         {
-            return this.Equals(other as Address);
+            return this.Equals(other as IAddress);
         }
 
         public override int GetHashCode()
@@ -116,9 +128,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// updating the bot state data bags with optimistic concurrency.  Updates
     /// to the user's data bags may still conflict across multiple conversations.
     /// </remarks>
-    public sealed class ConversationAddressComparer : IEqualityComparer<Address>
+    public sealed class ConversationAddressComparer : IEqualityComparer<IAddress>
     {
-        bool IEqualityComparer<Address>.Equals(Address one, Address two)
+        bool IEqualityComparer<IAddress>.Equals(IAddress one, IAddress two)
         {
             var equals =
                 object.ReferenceEquals(one, two)
@@ -132,7 +144,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             return equals;
         }
 
-        int IEqualityComparer<Address>.GetHashCode(Address address)
+        int IEqualityComparer<IAddress>.GetHashCode(IAddress address)
         {
             var code
                 = address.BotId.GetHashCode()

@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public sealed class ResumptionCookie : IEquatable<ResumptionCookie>
     {
-        public Address Address { get; set; }
+        public IAddress Address { get; set; }
 
         /// <summary>
         /// The user name.
@@ -58,10 +58,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string UserName { set; get; }
 
         /// <summary>
-        /// True if the <see cref="Address.ServiceUrl"/> is trusted; False otherwise.
+        /// True if the <see cref="IAddress.ServiceUrl"/> is trusted; False otherwise.
         /// </summary>
         /// <remarks> <see cref="Conversation.ResumeAsync{T}(ResumptionCookie, T, System.Threading.CancellationToken)"/> adds 
-        /// the host of the <see cref="Address.ServiceUrl"/> to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if this flag is True.
+        /// the host of the <see cref="IAddress.ServiceUrl"/> to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if this flag is True.
         /// </remarks>
         public bool IsTrustedServiceUrl { private set; get; }
 
