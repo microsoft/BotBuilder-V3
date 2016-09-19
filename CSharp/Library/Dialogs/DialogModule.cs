@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<MicrosoftAppCredentials>()))
+                .Register(c => new ConnectorClientFactory(c.Resolve<IAddress>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 
