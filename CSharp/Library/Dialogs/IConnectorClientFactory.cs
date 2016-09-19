@@ -65,14 +65,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly Uri serviceUri;
         private readonly IAddress address;
         private readonly MicrosoftAppCredentials credentials;
-        private readonly bool isEmulator;
         public ConnectorClientFactory(IAddress address, MicrosoftAppCredentials credentials)
         {
             SetField.NotNull(out this.address, nameof(address), address);
             SetField.NotNull(out this.credentials, nameof(credentials), credentials);
 
             this.serviceUri = new Uri(address.ServiceUrl);
-            this.isEmulator = address.ChannelId.Equals("emulator", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsEmulator(IAddress address)
+        {
+            return address.ChannelId.Equals("emulator", StringComparison.OrdinalIgnoreCase);
         }
 
         IConnectorClient IConnectorClientFactory.MakeConnectorClient()
@@ -82,7 +85,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         IStateClient IConnectorClientFactory.MakeStateClient()
         {
-            if (isEmulator)
+            if (IsEmulator(this.address))
             {
                 // for emulator we should use serviceUri of the emulator for storage
                 return new StateClient(this.serviceUri, this.credentials);

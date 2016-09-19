@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-               .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
+               .Register(c => new DetectChannelCapability(c.Resolve<IAddress>()))
                .As<IDetectChannelCapability>()
                .InstancePerLifetimeScope();
 

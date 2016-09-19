@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Internals.Fibers;
+﻿using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
@@ -35,21 +36,17 @@ namespace Microsoft.Bot.Builder.Dialogs
 
     public sealed class DetectChannelCapability : IDetectChannelCapability
     {
-        private readonly string channelId;
-        private readonly string serviceUrl;
+        private readonly IAddress address;
 
-
-        public DetectChannelCapability(IMessageActivity message)
+        public DetectChannelCapability(IAddress address)
         {
-            SetField.CheckNull(nameof(message), message);
-            SetField.NotNull(out channelId, nameof(channelId), message.ChannelId);
-            SetField.NotNull(out serviceUrl, nameof(serviceUrl), message.ServiceUrl);
+            SetField.NotNull(out this.address, nameof(address), address);
         }
 
         public IChannelCapability Detect()
         {
-            var isEmulator = channelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
-            var capability = new ChannelCapability(!(isEmulator.HasValue && isEmulator.Value));
+            var isEmulator = ConnectorClientFactory.IsEmulator(this.address);
+            var capability = new ChannelCapability(supportButtons: ! isEmulator);
             return capability;
         }
     }
