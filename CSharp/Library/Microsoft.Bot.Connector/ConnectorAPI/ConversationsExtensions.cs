@@ -18,68 +18,6 @@ namespace Microsoft.Bot.Connector
     public static partial class ConversationsExtensions
     {
         /// <summary>
-        /// UpdateActivity
-        /// </summary>
-        /// This method allows you to edit an existing activity.
-        /// 
-        /// Some channels allow you to edit an existing activity to reflect the new
-        /// state of a bot conversation.
-        /// 
-        /// For example, if the bot asks who is coming to the picnic, each person who
-        /// clicks on the "Yes" button could cause the activity
-        /// card to be updated with the current list of people attending.
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
-        /// </param>
-        /// <param name='activity'>
-        /// New Activity data
-        /// </param>
-        public static APIResponse UpdateActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
-        {
-            return Task.Factory.StartNew(s => ((IConversations)s).UpdateActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
-        }
-
-        /// <summary>
-        /// UpdateActivity
-        /// </summary>
-        /// This method allows you to edit an existing activity.
-        /// 
-        /// Some channels allow you to edit an existing activity to reflect the new
-        /// state of a bot conversation.
-        /// 
-        /// For example, if the bot asks who is coming to the picnic, each person who
-        /// clicks on the "Yes" button could cause the activity
-        /// card to be updated with the current list of people attending.
-        /// <param name='operations'>
-        /// The operations group for this extension method.
-        /// </param>
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
-        /// </param>
-        /// <param name='activity'>
-        /// New Activity data
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        public static async Task<APIResponse> UpdateActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            using (var _result = await operations.UpdateActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
-            {
-                return _result.Body;
-            }
-        }
-        
-        /// <summary>
         /// CreateConversation
         /// </summary>
         /// Create a new Conversation.
@@ -169,7 +107,7 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message to the
         /// end of the conversation according to the timestamp or semantics of the
         /// channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// * ReplyToActivity(conversationId,ActivityId) - models the semantics of
         /// threaded conversations, meaning it has the information necessary for the
         /// channel to reply to the actual message being responded to.
         /// 
@@ -177,8 +115,8 @@ namespace Microsoft.Bot.Connector
         /// conversation, or if you don't have a particular activity you are
         /// responding to.
         /// 
-        /// ReplyToConversation is preferable to SendToConversation() because it
-        /// maintains threaded conversations.
+        /// ReplyToActivity is preferable to SendToConversation() because it maintains
+        /// threaded conversations.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -188,7 +126,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        public static APIResponse SendToConversation(this IConversations operations, Activity activity, string conversationId)
+        public static ResourceResponse SendToConversation(this IConversations operations, Activity activity, string conversationId)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).SendToConversationAsync(activity, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -203,7 +141,7 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message to the
         /// end of the conversation according to the timestamp or semantics of the
         /// channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// * ReplyToActivity(conversationId,ActivityId) - models the semantics of
         /// threaded conversations, meaning it has the information necessary for the
         /// channel to reply to the actual message being responded to.
         /// 
@@ -211,8 +149,8 @@ namespace Microsoft.Bot.Connector
         /// conversation, or if you don't have a particular activity you are
         /// responding to.
         /// 
-        /// ReplyToConversation is preferable to SendToConversation() because it
-        /// maintains threaded conversations.
+        /// ReplyToActivity is preferable to SendToConversation() because it maintains
+        /// threaded conversations.
         /// <param name='operations'>
         /// The operations group for this extension method.
         /// </param>
@@ -225,9 +163,69 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ResourceResponse> SendToConversationAsync(this IConversations operations, Activity activity, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.SendToConversationWithHttpMessagesAsync(activity, conversationId, null, cancellationToken).ConfigureAwait(false))
+            {
+                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false); ;
+            }
+        }
+
+        /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect the new
+        /// state of a bot conversation.
+        /// 
+        /// For example, you can remove buttons after someone has clicked "Approve"
+        /// button.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// replacement Activity
+        /// </param>
+        public static APIResponse UpdateActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).UpdateActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect the new
+        /// state of a bot conversation.
+        /// 
+        /// For example, you can remove buttons after someone has clicked "Approve"
+        /// button.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// replacement Activity
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<APIResponse> UpdateActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var _result = await operations.UpdateActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }
@@ -242,11 +240,11 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message to the
         /// end of the conversation according to the timestamp or semantics of the
         /// channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// * ReplyToActivity(conversationId,ActivityId) - models the semantics of
         /// threaded conversations, meaning it has the information necessary for the
         /// channel to reply to the actual message being responded to.
         /// 
-        /// ReplyToConversation is almost always preferable to SendToConversation()
+        /// ReplyToActivity is almost always preferable to SendToConversation()
         /// because it maintains threaded conversations.
         /// 
         /// SendToConversation is appropriate for the first message which initiates a
@@ -264,7 +262,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='activity'>
         /// Activity to send
         /// </param>
-        public static APIResponse ReplyToActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
+        public static ResourceResponse ReplyToActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -278,11 +276,11 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message to the
         /// end of the conversation according to the timestamp or semantics of the
         /// channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+        /// * ReplyToActivity(conversationId,ActivityId) - models the semantics of
         /// threaded conversations, meaning it has the information necessary for the
         /// channel to reply to the actual message being responded to.
         /// 
-        /// ReplyToConversation is almost always preferable to SendToConversation()
+        /// ReplyToActivity is almost always preferable to SendToConversation()
         /// because it maintains threaded conversations.
         /// 
         /// SendToConversation is appropriate for the first message which initiates a
@@ -303,11 +301,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> ReplyToActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ResourceResponse> ReplyToActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.ReplyToActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
             {
-                return _result.Body;
+                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
             }
         }
 

@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
-
+    
 
     /// <summary>
     /// Attachments operations.
@@ -32,7 +32,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public Attachments(ConnectorClient client)
         {
-            if (client == null)
+            if (client == null) 
             {
                 throw new ArgumentNullException("client");
             }
@@ -89,7 +89,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach (var _header in customHeaders)
+                foreach(var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {
@@ -329,7 +329,7 @@ namespace Microsoft.Bot.Connector
             // Set Headers
             if (customHeaders != null)
             {
-                foreach (var _header in customHeaders)
+                foreach(var _header in customHeaders)
                 {
                     if (_httpRequest.Headers.Contains(_header.Key))
                     {

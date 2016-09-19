@@ -18,33 +18,6 @@ namespace Microsoft.Bot.Connector
     public partial interface IConversations
     {
         /// <summary>
-        /// UpdateActivity
-        /// </summary>
-        /// This method allows you to edit an existing activity.
-        /// 
-        /// Some channels allow you to edit an existing activity to reflect
-        /// the new state of a bot conversation.
-        /// 
-        /// For example, if the bot asks who is coming to the picnic, each
-        /// person who clicks on the "Yes" button could cause the activity
-        /// card to be updated with the current list of people attending.
-        /// <param name='conversationId'>
-        /// Conversation ID
-        /// </param>
-        /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
-        /// </param>
-        /// <param name='activity'>
-        /// New Activity data
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<APIResponse>> UpdateActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <summary>
         /// CreateConversation
         /// </summary>
         /// Create a new Conversation.
@@ -93,17 +66,18 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message
         /// to the end of the conversation according to the timestamp or
         /// semantics of the channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the
+        /// * ReplyToActivity(conversationId,ActivityId) - models the
         /// semantics of threaded conversations, meaning it has the
-        /// information necessary for the
-        /// channel to reply to the actual message being responded to.
+        /// information necessary for the channel to reply to the actual
+        /// message being responded to.
         /// 
         /// SendToConversation is appropriate for the first message which
         /// initiates a conversation, or if you don't have a particular
-        /// activity you are responding to.
+        /// activity you are
+        /// responding to.
         /// 
-        /// ReplyToConversation is preferable to SendToConversation() because
-        /// it maintains threaded conversations.
+        /// ReplyToActivity is preferable to SendToConversation() because it
+        /// maintains threaded conversations.
         /// <param name='activity'>
         /// Activity to send
         /// </param>
@@ -116,7 +90,33 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> SendToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> SendToConversationWithHttpMessagesAsync(Activity activity, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// UpdateActivity
+        /// </summary>
+        /// This method allows you to edit an existing activity.
+        /// 
+        /// Some channels allow you to edit an existing activity to reflect
+        /// the new state of a bot conversation.
+        /// 
+        /// For example, you can remove buttons after someone has clicked
+        /// "Approve" button.
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to update (OPTIONAL)
+        /// </param>
+        /// <param name='activity'>
+        /// replacement Activity
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<APIResponse>> UpdateActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// ReplyToActivity
         /// </summary>
@@ -126,12 +126,12 @@ namespace Microsoft.Bot.Connector
         /// * SendToConverstion(conversationId) - will simply append a message
         /// to the end of the conversation according to the timestamp or
         /// semantics of the channel
-        /// * ReplyToConversation(conversationId,ActivityId) - models the
+        /// * ReplyToActivity(conversationId,ActivityId) - models the
         /// semantics of threaded conversations, meaning it has the
         /// information necessary for the
         /// channel to reply to the actual message being responded to.
         /// 
-        /// ReplyToConversation is almost always preferable to
+        /// ReplyToActivity is almost always preferable to
         /// SendToConversation() because it maintains threaded conversations.
         /// 
         /// SendToConversation is appropriate for the first message which
@@ -152,7 +152,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<APIResponse>> ReplyToActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<object>> ReplyToActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// GetConversationMembers
         /// </summary>

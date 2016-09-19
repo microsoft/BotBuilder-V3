@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='activity'>
         /// Activity to send
         /// </param>
-        public static APIResponse SendToConversation(this IConversations operations, Activity activity)
+        public static ResourceResponse SendToConversation(this IConversations operations, Activity activity)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).SendToConversationAsync(activity, activity.Conversation.Id), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static Task<APIResponse> SendToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<ResourceResponse> SendToConversationAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
             return operations.SendToConversationAsync(activity, activity.Conversation.Id, cancellationToken);
         }
@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='activity'>
         /// Activity to send
         /// </param>
-        public static APIResponse ReplyToActivity(this IConversations operations, Activity activity)
+        public static ResourceResponse ReplyToActivity(this IConversations operations, Activity activity)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -116,7 +116,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static Task<APIResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static Task<ResourceResponse> ReplyToActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
             // TEMP TODO REMOVE THIS AFTER SKYPE DEPLOYS NEW SERVICE WHICH PROPERLY IMPLEMENTS THIS ENDPOINT
             if (activity.ReplyToId == "0")

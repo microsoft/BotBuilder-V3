@@ -966,59 +966,6 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
-            <summary>
-            UpdateActivity
-            </summary>
-            This method allows you to edit an existing activity.
-            
-            Some channels allow you to edit an existing activity to reflect the new
-            state of a bot conversation.
-            
-            For example, if the bot asks who is coming to the picnic, each person who
-            clicks on the "Yes" button could cause the activity
-            card to be updated with the current list of people attending.
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId to update (OPTIONAL)
-            </param>
-            <param name='activity'>
-            New Activity data
-            </param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
-            <summary>
-            UpdateActivity
-            </summary>
-            This method allows you to edit an existing activity.
-            
-            Some channels allow you to edit an existing activity to reflect the new
-            state of a bot conversation.
-            
-            For example, if the bot asks who is coming to the picnic, each person who
-            clicks on the "Yes" button could cause the activity
-            card to be updated with the current list of people attending.
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId to update (OPTIONAL)
-            </param>
-            <param name='activity'>
-            New Activity data
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters)">
             <summary>
             CreateConversation
@@ -1101,7 +1048,7 @@
             * SendToConverstion(conversationId) - will simply append a message to the
             end of the conversation according to the timestamp or semantics of the
             channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
             threaded conversations, meaning it has the information necessary for the
             channel to reply to the actual message being responded to.
             
@@ -1109,8 +1056,8 @@
             conversation, or if you don't have a particular activity you are
             responding to.
             
-            ReplyToConversation is preferable to SendToConversation() because it
-            maintains threaded conversations.
+            ReplyToActivity is preferable to SendToConversation() because it maintains
+            threaded conversations.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1132,7 +1079,7 @@
             * SendToConverstion(conversationId) - will simply append a message to the
             end of the conversation according to the timestamp or semantics of the
             channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
             threaded conversations, meaning it has the information necessary for the
             channel to reply to the actual message being responded to.
             
@@ -1140,8 +1087,8 @@
             conversation, or if you don't have a particular activity you are
             responding to.
             
-            ReplyToConversation is preferable to SendToConversation() because it
-            maintains threaded conversations.
+            ReplyToActivity is preferable to SendToConversation() because it maintains
+            threaded conversations.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1150,6 +1097,57 @@
             </param>
             <param name='conversationId'>
             Conversation ID
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            UpdateActivity
+            </summary>
+            This method allows you to edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update (OPTIONAL)
+            </param>
+            <param name='activity'>
+            replacement Activity
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            This method allows you to edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update (OPTIONAL)
+            </param>
+            <param name='activity'>
+            replacement Activity
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -1165,11 +1163,11 @@
             * SendToConverstion(conversationId) - will simply append a message to the
             end of the conversation according to the timestamp or semantics of the
             channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
             threaded conversations, meaning it has the information necessary for the
             channel to reply to the actual message being responded to.
             
-            ReplyToConversation is almost always preferable to SendToConversation()
+            ReplyToActivity is almost always preferable to SendToConversation()
             because it maintains threaded conversations.
             
             SendToConversation is appropriate for the first message which initiates a
@@ -1198,11 +1196,11 @@
             * SendToConverstion(conversationId) - will simply append a message to the
             end of the conversation according to the timestamp or semantics of the
             channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
             threaded conversations, meaning it has the information necessary for the
             channel to reply to the actual message being responded to.
             
-            ReplyToConversation is almost always preferable to SendToConversation()
+            ReplyToActivity is almost always preferable to SendToConversation()
             because it maintains threaded conversations.
             
             SendToConversation is appropriate for the first message which initiates a
@@ -2631,54 +2629,6 @@
             Gets a reference to the ConnectorClient
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
-            <summary>
-            UpdateActivity
-            </summary>
-            This method allows you to edit an existing activity.
-            
-            Some channels allow you to edit an existing activity to reflect the new
-            state of a bot conversation.
-            
-            For example, if the bot asks who is coming to the picnic, each person who
-            clicks on the "Yes" button could cause the activity
-            card to be updated with the current list of people attending.
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId to update (OPTIONAL)
-            </param>
-            <param name='activity'>
-            New Activity data
-            </param>
-            <param name='customHeaders'>
-            Headers that will be added to request.
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
-            <return>
-            A response object containing the response body and response headers.
-            </return>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
-            <param name='conversationId'>
-            </param>
-            <param name='activityId'>
-            </param>
-            <param name='activity'>
-            </param>
-            <param name='customHeaders'>
-            Headers that will be added to request.
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
-            <return>
-            A response object containing the response body and response headers.
-            </return>
-        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             CreateConversation
@@ -2723,15 +2673,97 @@
             <summary>
             SendToConversation
             </summary>
-            This method allows you to send a message to a conversation without
-            refering to an activity.
-            This is useful to send an initial message to a conversation, or to add a
-            message to the end of the conversation.
+            This method allows you to send an activity to a conversation regardless of
+            previous posts to a conversation.
+            
+            This is slightly different then ReplyToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
+            
+            ReplyToActivity is preferable to SendToConversation() because it maintains
+            threaded conversations.
             <param name='activity'>
             Activity to send
             </param>
             <param name='conversationId'>
             Conversation ID
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            This method allows you to edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update (OPTIONAL)
+            </param>
+            <param name='activity'>
+            replacement Activity
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.ReplyToActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            ReplyToActivity
+            </summary>
+            This method allows you to reply to an activity.
+            
+            This is slightly different then SendToConversation().
+            * SendToConverstion(conversationId) - will simply append a message to the
+            end of the conversation according to the timestamp or semantics of the
+            channel
+            * ReplyToActivity(conversationId,ActivityId) - models the semantics of
+            threaded conversations, meaning it has the information necessary for the
+            channel to reply to the actual message being responded to.
+            
+            ReplyToActivity is almost always preferable to SendToConversation()
+            because it maintains threaded conversations.
+            
+            SendToConversation is appropriate for the first message which initiates a
+            conversation, or if you don't have a particular activity you are
+            responding to.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId the reply is to (OPTIONAL)
+            </param>
+            <param name='activity'>
+            Activity to send
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -2885,34 +2917,6 @@
             Conversations operations.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IConversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
-            <summary>
-            UpdateActivity
-            </summary>
-            This method allows you to edit an existing activity.
-            
-            Some channels allow you to edit an existing activity to reflect
-            the new state of a bot conversation.
-            
-            For example, if the bot asks who is coming to the picnic, each
-            person who clicks on the "Yes" button could cause the activity
-            card to be updated with the current list of people attending.
-            <param name='conversationId'>
-            Conversation ID
-            </param>
-            <param name='activityId'>
-            activityId to update (OPTIONAL)
-            </param>
-            <param name='activity'>
-            New Activity data
-            </param>
-            <param name='customHeaders'>
-            The headers that will be added to request.
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
-        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             CreateConversation
@@ -2964,22 +2968,50 @@
             * SendToConverstion(conversationId) - will simply append a message
             to the end of the conversation according to the timestamp or
             semantics of the channel
-            * ReplyToConversation(conversationId,ActivityId) - models the
+            * ReplyToActivity(conversationId,ActivityId) - models the
             semantics of threaded conversations, meaning it has the
-            information necessary for the
-            channel to reply to the actual message being responded to.
+            information necessary for the channel to reply to the actual
+            message being responded to.
             
             SendToConversation is appropriate for the first message which
             initiates a conversation, or if you don't have a particular
-            activity you are responding to.
+            activity you are
+            responding to.
             
-            ReplyToConversation is preferable to SendToConversation() because
-            it maintains threaded conversations.
+            ReplyToActivity is preferable to SendToConversation() because it
+            maintains threaded conversations.
             <param name='activity'>
             Activity to send
             </param>
             <param name='conversationId'>
             Conversation ID
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            This method allows you to edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect
+            the new state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked
+            "Approve" button.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update (OPTIONAL)
+            </param>
+            <param name='activity'>
+            replacement Activity
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -2998,12 +3030,12 @@
             * SendToConverstion(conversationId) - will simply append a message
             to the end of the conversation according to the timestamp or
             semantics of the channel
-            * ReplyToConversation(conversationId,ActivityId) - models the
+            * ReplyToActivity(conversationId,ActivityId) - models the
             semantics of threaded conversations, meaning it has the
             information necessary for the
             channel to reply to the actual message being responded to.
             
-            ReplyToConversation is almost always preferable to
+            ReplyToActivity is almost always preferable to
             SendToConversation() because it maintains threaded conversations.
             
             SendToConversation is appropriate for the first message which
