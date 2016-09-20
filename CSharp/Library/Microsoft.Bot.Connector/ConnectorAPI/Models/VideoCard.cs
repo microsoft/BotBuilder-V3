@@ -24,29 +24,18 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the VideoCard class.
         /// </summary>
-        public VideoCard(bool? shareable = default(bool?), bool? autoloop = default(bool?), string title = default(string), string subtitle = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>))
+        public VideoCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
         {
-            Shareable = shareable;
-            Autoloop = autoloop;
             Title = title;
             Subtitle = subtitle;
+            Text = text;
             Image = image;
             Media = media;
             Buttons = buttons;
+            Shareable = shareable;
+            Autoloop = autoloop;
+            Autostart = autostart;
         }
-
-        /// <summary>
-        /// Is it OK for this content to be shareable with others
-        /// (default:true)
-        /// </summary>
-        [JsonProperty(PropertyName = "shareable")]
-        public bool? Shareable { get; set; }
-
-        /// <summary>
-        /// Should the client loop playback at end of content (default:true)
-        /// </summary>
-        [JsonProperty(PropertyName = "autoloop")]
-        public bool? Autoloop { get; set; }
 
         /// <summary>
         /// Title of the card
@@ -59,6 +48,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "subtitle")]
         public string Subtitle { get; set; }
+
+        /// <summary>
+        /// Text of the card
+        /// </summary>
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
 
         /// <summary>
         /// Thumbnail placeholder
@@ -77,6 +72,26 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
         public IList<CardAction> Buttons { get; set; }
+
+        /// <summary>
+        /// Is it OK for this content to be shareable with others
+        /// (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "shareable")]
+        public bool? Shareable { get; set; }
+
+        /// <summary>
+        /// Should the client loop playback at end of content (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "autoloop")]
+        public bool? Autoloop { get; set; }
+
+        /// <summary>
+        /// Should the client automatically start playback of video in this
+        /// card (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "autostart")]
+        public bool? Autostart { get; set; }
 
     }
 }

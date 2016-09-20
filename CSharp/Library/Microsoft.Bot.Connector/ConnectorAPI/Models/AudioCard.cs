@@ -24,38 +24,19 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the AudioCard class.
         /// </summary>
-        public AudioCard(bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string), string title = default(string), string subtitle = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>))
+        public AudioCard(string aspect = default(string), string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
         {
-            Shareable = shareable;
-            Autoloop = autoloop;
-            Autostart = autostart;
             Aspect = aspect;
             Title = title;
             Subtitle = subtitle;
+            Text = text;
             Image = image;
             Media = media;
             Buttons = buttons;
+            Shareable = shareable;
+            Autoloop = autoloop;
+            Autostart = autostart;
         }
-
-        /// <summary>
-        /// Is it OK for this content to be shareable with others
-        /// (default:true)
-        /// </summary>
-        [JsonProperty(PropertyName = "shareable")]
-        public bool? Shareable { get; set; }
-
-        /// <summary>
-        /// Should the client loop playback at end of content (default:true)
-        /// </summary>
-        [JsonProperty(PropertyName = "autoloop")]
-        public bool? Autoloop { get; set; }
-
-        /// <summary>
-        /// Should the client automatically start playback of video in this
-        /// card (default:true)
-        /// </summary>
-        [JsonProperty(PropertyName = "autostart")]
-        public bool? Autostart { get; set; }
 
         /// <summary>
         /// Aspect ratio of thumbnail/media placeholder, allowed values are
@@ -77,6 +58,12 @@ namespace Microsoft.Bot.Connector
         public string Subtitle { get; set; }
 
         /// <summary>
+        /// Text of the card
+        /// </summary>
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
+
+        /// <summary>
         /// Thumbnail placeholder
         /// </summary>
         [JsonProperty(PropertyName = "image")]
@@ -93,6 +80,26 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
         public IList<CardAction> Buttons { get; set; }
+
+        /// <summary>
+        /// Is it OK for this content to be shareable with others
+        /// (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "shareable")]
+        public bool? Shareable { get; set; }
+
+        /// <summary>
+        /// Should the client loop playback at end of content (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "autoloop")]
+        public bool? Autoloop { get; set; }
+
+        /// <summary>
+        /// Should the client automatically start playback of video in this
+        /// card (default:true)
+        /// </summary>
+        [JsonProperty(PropertyName = "autostart")]
+        public bool? Autostart { get; set; }
 
     }
 }

@@ -260,7 +260,7 @@
         "description": "This method allows you to edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, you can remove buttons after someone has clicked \"Approve\" button.",
         "operationId": "Conversations_UpdateActivity",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
-        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "produces": [ "application/json", "text/json" ],
         "parameters": [
           {
             "name": "conversationId",
@@ -285,9 +285,18 @@
           }
         ],
         "responses": {
-          "200": { "description": "﻿The operation succeeded." },
-          "201": { "description": "﻿An error has been generated." },
-          "202": { "description": "﻿The operation has been accepted and will be processed." },
+          "200": {
+            "description": "﻿An object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
+          },
+          "201": {
+            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
+          },
+          "202": {
+            "description": "﻿The operation has been accepted and will be processed.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -1050,18 +1059,6 @@
       "description": "A audio card",
       "type": "object",
       "properties": {
-        "shareable": {
-          "description": "Is it OK for this content to be shareable with others (default:true)",
-          "type": "boolean"
-        },
-        "autoloop": {
-          "description": "Should the client loop playback at end of content (default:true)",
-          "type": "boolean"
-        },
-        "autostart": {
-          "description": "Should the client automatically start playback of video in this card (default:true)",
-          "type": "boolean"
-        },
         "aspect": {
           "description": "Aspect ratio of thumbnail/media placeholder, allowed values are \"16x9\" and \"9x16\"",
           "type": "string"
@@ -1072,6 +1069,10 @@
         },
         "subtitle": {
           "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of the card",
           "type": "string"
         },
         "image": {
@@ -1087,6 +1088,18 @@
           "description": "Set of actions applicable to the current card",
           "type": "array",
           "items": { "$ref": "#/definitions/CardAction" }
+        },
+        "shareable": {
+          "description": "Is it OK for this content to be shareable with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of video in this card (default:true)",
+          "type": "boolean"
         }
       }
     },
@@ -1122,20 +1135,16 @@
       "description": "An animation card (Ex: gif or short video clip)",
       "type": "object",
       "properties": {
-        "shareable": {
-          "description": "Is it OK for this content to be shareable with others (default:true)",
-          "type": "boolean"
-        },
-        "autoloop": {
-          "description": "Should the client loop video playback at end of video (default:true)",
-          "type": "boolean"
-        },
         "title": {
           "description": "Title of the card",
           "type": "string"
         },
         "subtitle": {
           "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of the card",
           "type": "string"
         },
         "image": {
@@ -1151,13 +1160,7 @@
           "description": "Set of actions applicable to the current card",
           "type": "array",
           "items": { "$ref": "#/definitions/CardAction" }
-        }
-      }
-    },
-    "VideoCard": {
-      "description": "A video card",
-      "type": "object",
-      "properties": {
+        },
         "shareable": {
           "description": "Is it OK for this content to be shareable with others (default:true)",
           "type": "boolean"
@@ -1166,12 +1169,26 @@
           "description": "Should the client loop playback at end of content (default:true)",
           "type": "boolean"
         },
+        "autostart": {
+          "description": "Should the client automatically start playback of video in this card (default:true)",
+          "type": "boolean"
+        }
+      }
+    },
+    "VideoCard": {
+      "description": "A video card",
+      "type": "object",
+      "properties": {
         "title": {
           "description": "Title of the card",
           "type": "string"
         },
         "subtitle": {
           "description": "Subtitle of the card",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text of the card",
           "type": "string"
         },
         "image": {
@@ -1187,6 +1204,18 @@
           "description": "Set of actions applicable to the current card",
           "type": "array",
           "items": { "$ref": "#/definitions/CardAction" }
+        },
+        "shareable": {
+          "description": "Is it OK for this content to be shareable with others (default:true)",
+          "type": "boolean"
+        },
+        "autoloop": {
+          "description": "Should the client loop playback at end of content (default:true)",
+          "type": "boolean"
+        },
+        "autostart": {
+          "description": "Should the client automatically start playback of video in this card (default:true)",
+          "type": "boolean"
         }
       }
     },

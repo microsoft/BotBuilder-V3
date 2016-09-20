@@ -54,21 +54,9 @@
             Initializes a new instance of the AnimationCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the AnimationCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AnimationCard.Shareable">
-            <summary>
-            Is it OK for this content to be shareable with others
-            (default:true)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AnimationCard.Autoloop">
-            <summary>
-            Should the client loop video playback at end of video
-            (default:true)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Title">
@@ -79,6 +67,11 @@
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Subtitle">
             <summary>
             Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Text">
+            <summary>
+            Text of the card
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Image">
@@ -96,6 +89,23 @@
             Set of actions applicable to the current card
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.AudioCard">
             <summary>
             A audio card
@@ -106,26 +116,9 @@
             Initializes a new instance of the AudioCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the AudioCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Shareable">
-            <summary>
-            Is it OK for this content to be shareable with others
-            (default:true)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Autoloop">
-            <summary>
-            Should the client loop playback at end of content (default:true)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Autostart">
-            <summary>
-            Should the client automatically start playback of video in this
-            card (default:true)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
@@ -144,6 +137,11 @@
             Subtitle of the card
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Text">
+            <summary>
+            Text of the card
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Image">
             <summary>
             Thumbnail placeholder
@@ -157,6 +155,23 @@
         <member name="P:Microsoft.Bot.Connector.AudioCard.Buttons">
             <summary>
             Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.MediaUrl">
@@ -220,20 +235,9 @@
             Initializes a new instance of the VideoCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the VideoCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.VideoCard.Shareable">
-            <summary>
-            Is it OK for this content to be shareable with others
-            (default:true)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.VideoCard.Autoloop">
-            <summary>
-            Should the client loop playback at end of content (default:true)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Title">
@@ -244,6 +248,11 @@
         <member name="P:Microsoft.Bot.Connector.VideoCard.Subtitle">
             <summary>
             Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Text">
+            <summary>
+            Text of the card
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Image">
@@ -259,6 +268,23 @@
         <member name="P:Microsoft.Bot.Connector.VideoCard.Buttons">
             <summary>
             Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Add">
@@ -701,7 +727,7 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Nullable{System.Boolean},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Nullable{System.Boolean},Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>

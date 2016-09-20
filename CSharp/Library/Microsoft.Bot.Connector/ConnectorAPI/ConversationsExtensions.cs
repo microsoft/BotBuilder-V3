@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false); ;
+                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.SendToConversationWithHttpMessagesAsync(activity, conversationId, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false); ;
+                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='activity'>
         /// replacement Activity
         /// </param>
-        public static APIResponse UpdateActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
+        public static ResourceResponse UpdateActivity(this IConversations operations, string conversationId, string activityId, Activity activity)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).UpdateActivityAsync(conversationId, activityId, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -223,11 +223,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> UpdateActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ResourceResponse> UpdateActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.UpdateActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
             {
-                return _result.Body;
+                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
             }
         }
 

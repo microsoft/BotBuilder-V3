@@ -18,7 +18,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
-
+    
 
     /// <summary>
     /// ﻿The Bot Connector REST API allows your bot to send and receive
@@ -64,7 +64,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Gets or sets json deserialization settings.
         /// </summary>
-        public JsonSerializerSettings DeserializationSettings { get; private set; }
+        public JsonSerializerSettings DeserializationSettings { get; private set; }        
 
         /// <summary>
         /// Subscription credentials which uniquely identify client subscription.
@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected ConnectorClient(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
+        public ConnectorClient(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (credentials == null)
             {
@@ -293,6 +293,6 @@ namespace Microsoft.Bot.Connector
                     }
             };
             CustomInitialize();
-        }
+        }    
     }
 }
