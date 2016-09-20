@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,12 +86,30 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="serviceUrl"> The service url of the conversation.</param>
         /// <param name="locale"> The locale of the message.</param>
         public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string serviceUrl, string locale = "en")
+            : this(new Address(
+                                  // purposefully using named arguments because these all have the same type
+                                  botId: botId,
+                                  channelId: channelId,
+                                  userId: userId,
+                                  conversationId: conversationId,
+                                  serviceUrl: serviceUrl
+                               )
+                  )
         {
-            // purposefully using named arguments because these all have the same type
-            this.Address = new Address(botId: botId, channelId: channelId, userId: userId, conversationId: conversationId, serviceUrl: serviceUrl);
             SetField.CheckNull(nameof(locale), locale);
-            this.IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(serviceUrl);
             this.Locale = locale;
+        }
+
+        /// <summary>
+        /// Creates an instance of resumption cookie form a <see cref="Dialogs.Address"/> 
+        /// </summary>
+        /// <param name="address"> The address.</param>
+        /// <remarks>Allows <see cref="JsonSerializer"/> to deserialize an instance of resumption cookie.</remarks>
+        [JsonConstructor]
+        public ResumptionCookie(Address address)
+        {
+            this.Address = address;
+            IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(address.ServiceUrl);
         }
 
         /// <summary>
