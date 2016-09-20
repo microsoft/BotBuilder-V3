@@ -89,7 +89,7 @@ public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity
     }
 
     const string apiKey = "<'YOUR API KEY FROM MICROSOFT.COM/COGNITIVE'>";
-    string queryUri = "https://bingapis.azure-api.net/api/v5/images/search"
+    string queryUri = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
                       + "?q=" + activity.Text
                       + "&imageType=AnimatedGif"; //parameter to filter by GIF image type
     
@@ -184,7 +184,7 @@ if (activity == null || activity.GetActivityType() != ActivityTypes.Message)
 }
 
 const string apiKey = "<'YOUR API KEY FROM MICROSOFT.COM/COGNITIVE'>";
-string queryUri = "https://bingapis.azure-api.net/api/v5/news/search";
+string queryUri = "https://api.cognitive.microsoft.com/bing/v5.0/news/search";
 
 //Helper objects to call the News Search API and store the response
 HttpClient httpClient = new HttpClient();
@@ -337,7 +337,7 @@ string bingRawResponse; //raw response from REST endpoint
 BingImageInsights bingJsonResponse = null; //Deserialized response 
 
 //Uri to call the Image Search API
-string queryUri = "https://bingapis.azure-api.net/api/v5/images/search"
+string queryUri = "https://api.cognitive.microsoft.com/bing/v5.0/images/search"
                                  + "?q="
                                  + "&modulesRequested=All"
                                  + "&mkt=en-us";
