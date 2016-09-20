@@ -811,6 +811,9 @@ ul.header-nav li a:visisted {
 .dialog .danger button.default-button:hover {
   background-color: #d00e1f;
 }
+.dialog-panel {
+  position: relative;
+}
 .message-box {
   width: 350px;
 }
@@ -1279,6 +1282,20 @@ body {
 label {
   color: #999999;
 }
+a[disabled] {
+  color: #999999;
+  text-decoration: none;
+  cursor: default;
+}
+a[disabled]:hover,
+a[disabled]:visited {
+  color: #999999;
+}
+a[disabled]:hover,
+a[disabled]:visited,
+a[disabled]:active {
+  text-decoration: none;
+}
 .directory-hero {
   min-height: 250px;
   background-color: #307AB3;
@@ -1423,9 +1440,6 @@ article:after {
 }
 .ms-footer img {
   vertical-align: middle;
-}
-foobar {
-  border-color: #000;
 }
 .level0 {
   padding-left: 0;
@@ -2081,11 +2095,10 @@ select#lang-select > option:checked {
 select#lang-select > option:hover {
   background-color: #307AB3;
 }
-
 p.bingSearchUrl {
-    color: #006d21;
-    font-style: normal;
-    word-wrap: break-word;
-    font-size: .9em;
-    margin: 0;
+  color: #006d21;
+  font-style: normal;
+  word-wrap: break-word;
+  font-size: .9em;
+  margin: 0;
 }
