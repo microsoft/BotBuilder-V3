@@ -12,7 +12,7 @@ Microsoft Bot Framework is a comprehensive offering to build and deploy high qua
 
 ![Bot Framework Overview](/en-us/images/faq-overview/botframework_overview_july.png)
 
-The Bot Framework consists of a number of components including the Bot Builer SDK, Developer Portal and the Bot Directory.
+The Bot Framework consists of a number of components including the Bot Builder SDK, Developer Portal and the Bot Directory.
 
 ### Bot Builder SDK
 {:.no_toc}
