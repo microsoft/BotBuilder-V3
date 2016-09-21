@@ -36,3 +36,5 @@ These are bots designed to showcase what's possible on specific channels. They'r
 |[demo-skype](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/demo-skype) | A bot designed to showcase what's possible on skype.
 |[demo-skype-calling](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/demo-skype-calling) | A bot designed to show how to build a calling bot for skype.
 |[demo-facebook](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/demo-facebook) | A bot designed to showcase what's possible on Facebook.
+
+**You can find more samples in the [Bot Builder SDK Samples repo](https://github.com/Microsoft/BotBuilder-Samples/tree/master/Node)**
