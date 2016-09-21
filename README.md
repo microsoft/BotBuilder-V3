@@ -10,6 +10,11 @@ Bots (or conversation agents) are rapidly becoming an integral part of one’s d
 
 **[Review the documentation](http://docs.botframework.com)** to get started with the Bot Builder SDK!
 
+Get started quickly with our samples:
+
+* Samples within the SDK [C#]/Microsoft/BotBuilder/tree/master/CSharp/Samples), [Node.js](/Microsoft/BotBuilder/tree/master/Node/examples)
+* Task-focused samples [GitHub repo](/Microsoft/BotBuilder-Samples)
+
 Join the conversation on **[Gitter] (https://gitter.im/Microsoft/BotBuilder)**.
 
 See all the support options **[here](https://docs.botframework.com/en-us/support/)**.
