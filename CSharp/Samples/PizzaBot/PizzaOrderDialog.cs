@@ -93,7 +93,9 @@ namespace Microsoft.Bot.Sample.PizzaBot
         {
             var days = (IEnumerable<Days>)Enum.GetValues(typeof(Days));
 
-            PromptDialog.Choice(context, StoreHoursResult, days, "Which day of the week?");
+            PromptDialog.Choice(context, StoreHoursResult, days, "Which day of the week?",
+                descriptions: from day in days
+                              select (day == Days.Saturday || day == Days.Sunday) ? day.ToString() + "(no holidays)" : day.ToString());
         }
 
         private async Task StoreHoursResult(IDialogContext context, IAwaitable<Days> day)
