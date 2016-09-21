@@ -207,7 +207,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         return post;
                     };
 
-                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
                     outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     return outer;
