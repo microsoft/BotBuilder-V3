@@ -119,6 +119,12 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
+            // Trace activities
+            builder
+                .RegisterType<TraceActivityLogger>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
             using (var container = builder.Build())
             using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {

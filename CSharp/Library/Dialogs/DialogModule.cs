@@ -194,6 +194,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf();
 
             builder
+                .RegisterType<NullActivityLogger>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder
                 .Register(c =>
                 {
                     var cc = c.Resolve<IComponentContext>();
@@ -213,6 +218,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
                     outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
+                    outer = new LogToBot(cc.Resolve<IActivityLogger>(), outer);
                     return outer;
                 })
                 .As<IPostToBot>()
@@ -224,9 +230,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new MapToChannelData_BotToUser(
+                .Register(c => new LogToUser(new MapToChannelData_BotToUser(
                     c.Resolve<AlwaysSendDirect_BotToUser>(), 
-                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }))
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }), c.Resolve<IActivityLogger>())
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
