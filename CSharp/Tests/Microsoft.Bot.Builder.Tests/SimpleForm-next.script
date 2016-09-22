@@ -24,3 +24,4 @@ State:{"Text":"some text here","Integer":0,"Float":1.5,"Choices":1,"Date":"2016-
 FromUser:"99"
 0
 State:{"Text":"some text here","Integer":99,"Float":1.5,"Choices":1,"Date":"2016-01-01T00:00:00"}
+Result: {"Text":"some text here","Integer":99,"Float":1.5,"Choices":1,"Date":"2016-01-01T00:00:00"}

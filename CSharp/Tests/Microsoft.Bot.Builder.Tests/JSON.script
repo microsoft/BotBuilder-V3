@@ -82,3 +82,4 @@ FromUser:"2.5"
 ToUserText:"Thanks for ordering your sandwich!"
 ToUserText:"We are currently processing your sandwich. We will message you the status."
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00","Rating":2.5}
+Result: {"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00","Rating":2.5}

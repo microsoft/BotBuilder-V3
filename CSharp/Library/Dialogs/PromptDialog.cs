@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// The choices to be returned when selected.
         /// </summary>
-        public readonly IList<T> Options;
+        public readonly IReadOnlyList<T> Options;
 
         /// <summary>
         /// The description of each possible option.
@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// If this is null, then the descriptions will be the options converted to strings.
         /// Otherwise this should have the same number of values as Options and it contains the string to describe the value being selected.
         /// </remarks>
-        public readonly IList<string> Descriptions;
+        public readonly IReadOnlyList<string> Descriptions;
 
         /// <summary>
         /// What to display when user didn't say a valid response after <see cref="Attempts"/>.
@@ -143,7 +143,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="attempts"> Maximum number of attempts.</param>
         /// <param name="promptStyler"> The prompt styler.</param>
         /// <param name="descriptions">Descriptions for each prompt.</param>
-        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IList<string> descriptions = null)
+        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null)
         {
             SetField.NotNull(out this.Prompt, nameof(this.Prompt), prompt);
             this.Retry = retry;
@@ -185,7 +185,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="options"> The options.</param>
         /// <param name="promptStyle"> The prompt style.</param>
         /// <param name="descriptions">Descriptions for each option.</param>
-        public static void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options, PromptStyle promptStyle, IList<string> descriptions = null)
+        public static void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, PromptStyle promptStyle, IReadOnlyList<string> descriptions = null)
         {
             var styler = new PromptStyler(promptStyle);
             styler.Apply(ref message, prompt, options, descriptions);
@@ -213,7 +213,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <remarks>
         /// <typeparamref name="T"/> should implement <see cref="object.ToString"/> unless descriptions are supplied.
         /// </remarks>
-        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options, IList<string> descriptions = null)
+        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             SetField.CheckNull(nameof(options), options);
@@ -523,8 +523,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
-            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
-                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle)))
+            /// <param name="descriptions">Descriptions to show for each option.</param>
+            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null)
+                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()))
             {
             }
 
@@ -703,7 +704,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         protected abstract bool TryParse(IMessageActivity message, out T result);
 
-        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IList<U> options = null, IList<string> descriptions = null)
+        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<U> options = null, IReadOnlyList<string> descriptions = null)
         {
             var msg = context.MakeMessage();
             if (options != null && options.Count > 0)

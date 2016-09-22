@@ -107,6 +107,7 @@
     <Compile Include="RangeTests.cs" />
     <Compile Include="ScopeTests.cs" />
     <Compile Include="ScorablesTests.cs" />
+    <Compile Include="Script.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.csproj">

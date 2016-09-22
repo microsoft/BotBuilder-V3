@@ -13,3 +13,4 @@ State:{"xxx":"This is something","yyy":null}
 FromUser:""
 0
 State:{"xxx":"This is something","yyy":null}
+Result: {"xxx":"This is something","yyy":null}
