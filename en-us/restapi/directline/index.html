@@ -78,14 +78,16 @@ parent2: Clients
         apisSorter: "alpha",
         defaultModelRendering: 'schema',
         validatorUrl : null,
-		showRequestHeaders: false
+		    showRequestHeaders: false
       });
 
       function addApiKeyAuthorization(){
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+          var contentType = new SwaggerClient.ApiKeyAuthorization("Content-Type", "application/json; charset=utf-8", "header");
+          var authorization = new SwaggerClient.ApiKeyAuthorization("Authorization", "BotConnector " + key, "header");
+            window.swaggerUi.api.clientAuthorizations.add("Content-Type", contentType);
+            window.swaggerUi.api.clientAuthorizations.add("Authorization", authorization);
             log("added key " + key);
         }
       }
@@ -93,10 +95,8 @@ parent2: Clients
       $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
+        var apiKey = "xtFDtPemROU.cwA.Mcs.qiScdaSx87ffj2l7OjSITqJFoN-9Ado5AgwVeknac94";
         $('#input_apiKey').val(apiKey);
-      */
 
       window.swaggerUi.load();
 
