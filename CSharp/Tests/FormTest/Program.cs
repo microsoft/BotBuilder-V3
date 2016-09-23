@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
-            // Trace activities
+            // Trace activities to debug output
             builder
                 .RegisterType<TraceActivityLogger>()
                 .AsImplementedInterfaces()
@@ -140,6 +140,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
                 while (true)
                 {
+                    message.Timestamp = DateTime.UtcNow;
                     message.Text = await Console.In.ReadLineAsync();
                     message.Locale = Locale;
                     await task.PostAsync(message, CancellationToken.None);

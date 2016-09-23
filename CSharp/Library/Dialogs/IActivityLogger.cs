@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,11 +70,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns></returns>
         async Task IActivityLogger.LogAsync(IActivity activity)
         {
-            var message = activity as IMessageActivity;
-            if (message != null)
-            {
-                Trace.TraceInformation(message.Text);
-            }
+            Trace.TraceInformation(JsonConvert.SerializeObject(activity));
         }
     }
 
