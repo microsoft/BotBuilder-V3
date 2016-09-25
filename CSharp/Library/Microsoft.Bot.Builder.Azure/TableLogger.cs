@@ -44,7 +44,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Azure
 {
-    public class Logger : IActivityLogger
+    public class TableLogger : IActivityLogger, IActivitySource
     {
         private class ActivityEntity : TableEntity
         {
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// Create a table storage logger.
         /// </summary>
         /// <param name="configuration">Configuration string for table storage.</param>
-        public Logger(string configuration)
+        public TableLogger(string configuration)
         {
             lock (_lock)
             {
@@ -103,12 +103,6 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="activity">Activity to log.</param>
         Task IActivityLogger.LogAsync(IActivity activity)
         {
-            var soFar = Conversation(activity.ChannelId, activity.Conversation.Id, 3, TimeSpan.FromSeconds(3.0));
-            Trace.WriteLine($"Log {JsonConvert.SerializeObject(activity)}");
-            foreach (var a in soFar)
-            {
-                Trace.WriteLine($"Found {a.Timestamp} {(a as IMessageActivity).Text}");
-            }
             if (!activity.Timestamp.HasValue)
             {
                 activity.Timestamp = DateTime.UtcNow;
@@ -124,7 +118,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="max">Maximum number of activities to return.</param>
         /// <param name="oldest">Don't include any activity older than this time span.</param>
         /// <returns>Enumeration over the recorded activities.</returns>
-        public IEnumerable<IActivity> Conversation(string channelId, string conversationId, int? max = null, TimeSpan oldest = default(TimeSpan))
+        IEnumerable<IActivity> IActivitySource.Activities(string channelId, string conversationId, int? max, TimeSpan oldest)
         {
             var query = new TableQuery();
             var pkFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, ActivityEntity.GeneratePartitionKey(channelId, conversationId));
@@ -202,7 +196,7 @@ namespace Microsoft.Bot.Builder.Azure
                     if (response != null && response.StatusCode == System.Net.HttpStatusCode.Conflict)
                     {
                         activity.Timestamp = activity.Timestamp.Value.AddTicks(1);
-                        return Logger.Write(table, activity, retriesLeft);
+                        return TableLogger.Write(table, activity, retriesLeft);
                     }
                 }
                 t.Wait();
