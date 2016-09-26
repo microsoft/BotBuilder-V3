@@ -115,11 +115,6 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new BotIdResolver("testBot"))
-                .As<IBotIdResolver>()
-                .SingleInstance();
-
-            builder
                 .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<IMessageActivity>()), Console.Out))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();

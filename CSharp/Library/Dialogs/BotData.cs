@@ -55,43 +55,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         BotUserData
     }
 
-    public class BotDataKey
-    {
-        public string UserId { get; set; }
-        public string ConversationId { get; set; }
-        public string BotId { get; set; }
-        public string ChannelId { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || !(obj is BotDataKey))
-            {
-                return false;
-            }
-            else
-            {
-                var otherKey = (BotDataKey)obj;
-                return otherKey.UserId == this.UserId &&
-                    otherKey.ConversationId == this.ConversationId &&
-                    otherKey.ChannelId == this.ChannelId &&
-                    otherKey.BotId == this.BotId;
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            return UserId.GetHashCode() +
-                ConversationId.GetHashCode() +
-                BotId.GetHashCode() +
-                ChannelId.GetHashCode();
-        }
-    }
-
     public interface IBotDataStore<T>
     {
-        Task<T> LoadAsync(BotDataKey key, BotStoreType botStoreType, CancellationToken cancellationToken);
-        Task SaveAsync(BotDataKey key, BotStoreType botStoreType, T data, CancellationToken cancellationToken);
-        Task<bool> FlushAsync(BotDataKey key, CancellationToken cancellationToken);
+        Task<T> LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken);
+        Task SaveAsync(IAddress key, BotStoreType botStoreType, T data, CancellationToken cancellationToken);
+        Task<bool> FlushAsync(IAddress key, CancellationToken cancellationToken);
     }
 
     public class InMemoryDataStore : IBotDataStore<BotData>
@@ -104,7 +72,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             { BotStoreType.BotUserData, new object() }
         };
 
-        async Task<BotData> IBotDataStore<BotData>.LoadAsync(BotDataKey key, BotStoreType botStoreType, CancellationToken cancellationToken)
+        async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
             string serializedData;
             serializedData = store.GetOrAdd(GetKey(key, botStoreType),
@@ -112,7 +80,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return Deserialize(serializedData);
         }
 
-        async Task IBotDataStore<BotData>.SaveAsync(BotDataKey key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
+        async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
         {
             lock (locks[botStoreType])
             {
@@ -128,13 +96,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        Task<bool> IBotDataStore<BotData>.FlushAsync(BotDataKey key, CancellationToken cancellationToken)
+        Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
             // Everything is saved. Flush is no-op
             return Task.FromResult(true);
         }
 
-        private string GetKey(BotDataKey key, BotStoreType botStoreType)
+        private string GetKey(IAddress key, BotStoreType botStoreType)
         {
             switch (botStoreType)
             {
@@ -183,7 +151,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.stateClient, nameof(stateClient), stateClient);
         }
 
-        async Task<BotData> IBotDataStore<BotData>.LoadAsync(BotDataKey key, BotStoreType botStoreType, CancellationToken cancellationToken)
+        async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
             BotData botData;
             switch (botStoreType)
@@ -203,7 +171,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return botData;
         }
 
-        async Task IBotDataStore<BotData>.SaveAsync(BotDataKey key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
+        async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
         {
             switch (botStoreType)
             {
@@ -221,7 +189,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        Task<bool> IBotDataStore<BotData>.FlushAsync(BotDataKey key, CancellationToken cancellationToken)
+        Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
             // Everything is saved. Flush is no-op
             return Task.FromResult(true);
@@ -240,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         LastWriteWins,
         /// <summary>
         /// Causes <see cref="CachingBotDataStore"/> to write data with the same <see cref="BotData.ETag"/> 
-        /// returned by <see cref="CachingBotDataStore.inner"/>. As a result <see cref="IBotDataStore{T}.FlushAsync(BotDataKey, CancellationToken)"/>
+        /// returned by <see cref="CachingBotDataStore.inner"/>. As a result <see cref="IBotDataStore{T}.FlushAsync(IAddress, CancellationToken)"/>
         /// might fail because of ETag inconsistencies.
         /// </summary>
         ETagBasedConsistency
@@ -252,7 +220,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public class CachingBotDataStore : IBotDataStore<BotData>
     {
         private readonly IBotDataStore<BotData> inner;
-        internal readonly Dictionary<BotDataKey, CacheEntry> cache = new Dictionary<BotDataKey, CacheEntry>();
+        internal readonly Dictionary<IAddress, CacheEntry> cache = new Dictionary<IAddress, CacheEntry>();
         private readonly CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy;
 
         public CachingBotDataStore(IBotDataStore<BotData> inner, CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy)
@@ -268,7 +236,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             public BotData BotUserData { set; get; }
         }
 
-        async Task<bool> IBotDataStore<BotData>.FlushAsync(BotDataKey key, CancellationToken cancellationToken)
+        async Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
             CacheEntry entry = default(CacheEntry);
             if (cache.TryGetValue(key, out entry))
@@ -287,7 +255,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        async Task<BotData> IBotDataStore<BotData>.LoadAsync(BotDataKey key, BotStoreType botStoreType, CancellationToken cancellationToken)
+        async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
             CacheEntry cacheEntry;
             BotData value = null;
@@ -330,7 +298,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return value;
         }
 
-        async Task IBotDataStore<BotData>.SaveAsync(BotDataKey key, BotStoreType botStoreType, BotData value, CancellationToken cancellationToken)
+        async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData value, CancellationToken cancellationToken)
         {
             CacheEntry entry;
             if (!cache.TryGetValue(key, out entry))
@@ -342,7 +310,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetCachedValue(entry, botStoreType, value);
         }
 
-        private async Task<BotData> LoadFromInnerAndCache(CacheEntry cacheEntry, BotStoreType botStoreType, BotDataKey key, CancellationToken token)
+        private async Task<BotData> LoadFromInnerAndCache(CacheEntry cacheEntry, BotStoreType botStoreType, IAddress key, CancellationToken token)
         {
             var value = await inner.LoadAsync(key, botStoreType, token);
 
@@ -375,7 +343,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        private async Task Save(BotDataKey key, CacheEntry entry, CancellationToken cancellationToken)
+        private async Task Save(IAddress key, CacheEntry entry, CancellationToken cancellationToken)
         {
             var tasks = new List<Task>();
 
@@ -425,16 +393,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public abstract class BotDataBase<T> : IBotData
     {
         protected readonly IBotDataStore<BotData> botDataStore;
-        protected readonly BotDataKey botDataKey;
+        protected readonly IAddress botDataKey;
         private IBotDataBag conversationData;
         private IBotDataBag privateConversationData;
         private IBotDataBag userData;
 
-        public BotDataBase(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore<BotData> botDataStore)
+        public BotDataBase(IAddress botDataKey, IBotDataStore<BotData> botDataStore)
         {
-            SetField.NotNull(out this.botDataStore, nameof(BotDataBase<T>.botDataStore), botDataStore);
-            SetField.CheckNull(nameof(message), message);
-            this.botDataKey = message.GetBotDataKey(botIdResolver.BotId);
+            SetField.NotNull(out this.botDataStore, nameof(botDataStore), botDataStore);
+            SetField.NotNull(out this.botDataKey, nameof(botDataKey), botDataKey);
         }
 
         protected abstract T MakeData();
@@ -505,8 +472,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class DictionaryBotData : BotDataBase<Dictionary<string, object>>
     {
-        public DictionaryBotData(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore<BotData> botDataStore)
-            : base(botIdResolver, message, botDataStore)
+        public DictionaryBotData(IAddress botDataKey, IBotDataStore<BotData> botDataStore)
+            : base(botDataKey, botDataStore)
         {
         }
 
@@ -566,8 +533,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class JObjectBotData : BotDataBase<JObject>
     {
-        public JObjectBotData(IBotIdResolver botIdResolver, IMessageActivity message, IBotDataStore<BotData> botDataStore)
-            : base(botIdResolver, message, botDataStore)
+        public JObjectBotData(IAddress botDataKey, IBotDataStore<BotData> botDataStore)
+            : base(botDataKey, botDataStore)
         {
         }
 
@@ -655,38 +622,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             this.Flush();
             base.Close();
-        }
-    }
-
-    public interface IBotIdResolver
-    {
-        string BotId { get; }
-    }
-
-    public sealed class BotIdResolver : IBotIdResolver
-    {
-        private readonly string botId;
-
-        public string BotId { get { return botId; } }
-
-        public BotIdResolver(string botId = null)
-        {
-            SetField.NotNull(out this.botId, nameof(botId), botId ?? ConfigurationManager.AppSettings["BotId"] ?? ConfigurationManager.AppSettings["MicrosoftAppId"]);
-        }
-    }
-
-    public static partial class Extensions
-    {
-        public static BotDataKey GetBotDataKey(this IMessageActivity message, string botId)
-        {
-            SetField.CheckNull(nameof(botId), botId);
-            return new BotDataKey
-            {
-                BotId = botId,
-                UserId = message.From.Id,
-                ConversationId = message.Conversation.Id,
-                ChannelId = message.ChannelId
-            };
         }
     }
 }
