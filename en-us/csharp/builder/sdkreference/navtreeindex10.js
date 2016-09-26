@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html#afe808cb7609cad1ffef46ae5c8908b6f":[7,0,0,0,0,4,0,4,4],
 "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html":[7,0,0,0,0,3,0,34,1],
 "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html#a8b9c5574788d1c2a78d74fee9e469768":[7,0,0,0,0,3,0,34,1,0],
 "dc/d97/interface_microsoft_1_1_bot_1_1_connector_1_1_i_state_client.html":[7,0,0,0,1,42],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "dd/d62/_match_analyzer_8cs_source.html":[8,0,159],
 "dd/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_collect_digits_outcome.html":[7,0,0,0,0,0,2,0,10],
 "dd/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_collect_digits_outcome.html#aa70ccea02f2ace7ade69f89a3497b5b0":[7,0,0,0,0,0,2,0,10,0],
-"dd/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_collect_digits_outcome.html#afcee0375b9f3aeefc2e034993e19cd70":[7,0,0,0,0,0,2,0,10,1],
-"dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html":[7,0,0,0,0,3,0,23]
+"dd/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_collect_digits_outcome.html#afcee0375b9f3aeefc2e034993e19cd70":[7,0,0,0,0,0,2,0,10,1]
 };

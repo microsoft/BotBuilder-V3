@@ -1,5 +1,6 @@
 var NAVTREEINDEX4 =
 {
+"d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html":[7,0,0,0,0,1,0,25],
 "d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html#a807f338a5ebb989bf23733749b0af04d":[7,0,0,0,0,1,0,25,0],
 "d4/d47/_state_client_8cs.html":[8,0,214],
 "d4/d47/_state_client_8cs_source.html":[8,0,214],
@@ -248,6 +249,5 @@ var NAVTREEINDEX4 =
 "d5/d61/namespace_microsoft_1_1_bot.html":[6,0,0,0],
 "d5/d77/interface_microsoft_1_1_bot_1_1_connector_1_1_i_attachments.html":[7,0,0,0,1,35],
 "d5/d77/interface_microsoft_1_1_bot_1_1_connector_1_1_i_attachments.html#a31f01ddde1cc3349bc630ce8d00579e5":[7,0,0,0,1,35,0],
-"d5/d77/interface_microsoft_1_1_bot_1_1_connector_1_1_i_attachments.html#a400ea75dee408ae0be85cdabd08fa397":[7,0,0,0,1,35,1],
-"d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html":[7,0,0,0,0,3,0,34,6]
+"d5/d77/interface_microsoft_1_1_bot_1_1_connector_1_1_i_attachments.html#a400ea75dee408ae0be85cdabd08fa397":[7,0,0,0,1,35,1]
 };

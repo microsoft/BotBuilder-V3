@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html#a162fa0c5bba9bc06d36cae3feb94bdc3":[7,0,0,0,0,2,0,25,8],
 "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html#a24ba29077a69c9da283cec7c47d11753":[7,0,0,0,0,2,0,25,9],
 "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html#a399ffbdf5cf6da55d74012a703bdb2d7":[7,0,0,0,0,2,0,25,10],
 "d8/d6e/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_recognize_primitive.html#a53841aacc823cca2a07961db1c9e2be1":[7,0,0,0,0,2,0,25,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "d9/df9/_set_field_8cs_source.html":[8,0,211],
 "da/d03/_voice_gender_8cs.html":[8,0,228],
 "da/d03/_voice_gender_8cs.html#adda5562a43410fa476e2ca6f9a3a155f":[8,0,228,0],
-"da/d03/_voice_gender_8cs.html#adda5562a43410fa476e2ca6f9a3a155fa63889cfb9d3cbe05d1bd2be5cc9953fd":[8,0,228,0,0],
-"da/d03/_voice_gender_8cs.html#adda5562a43410fa476e2ca6f9a3a155fab719ce180ec7bd9641fece2f920f4817":[8,0,228,0,1]
+"da/d03/_voice_gender_8cs.html#adda5562a43410fa476e2ca6f9a3a155fa63889cfb9d3cbe05d1bd2be5cc9953fd":[8,0,228,0,0]
 };

@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"forms.html#logic":[4,2,1],
 "forms.html#patterns":[4,4],
 "forms.html#quitExceptions":[4,2,6],
 "forms.html#simpleSandwichBot":[4,1],
@@ -46,8 +47,8 @@ var NAVTREEINDEX13 =
 "functions_n.html":[7,3,0,14],
 "functions_o.html":[7,3,0,15],
 "functions_p.html":[7,3,0,16],
-"functions_prop.html":[7,3,4,0],
 "functions_prop.html":[7,3,4],
+"functions_prop.html":[7,3,4,0],
 "functions_prop_b.html":[7,3,4,1],
 "functions_prop_c.html":[7,3,4,2],
 "functions_prop_d.html":[7,3,4,3],
@@ -76,8 +77,8 @@ var NAVTREEINDEX13 =
 "functions_t.html":[7,3,0,20],
 "functions_u.html":[7,3,0,21],
 "functions_v.html":[7,3,0,22],
-"functions_vars.html":[7,3,2,0],
 "functions_vars.html":[7,3,2],
+"functions_vars.html":[7,3,2,0],
 "functions_vars_a.html":[7,3,2,1],
 "functions_vars_b.html":[7,3,2,2],
 "functions_vars_c.html":[7,3,2,3],

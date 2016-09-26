@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html":[7,0,0,0,0,3,0,34,6],
 "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html#a523eb8f7a687694d28b2d3bf43ca681a":[7,0,0,0,0,3,0,34,6,0],
 "d5/d7e/_bot_configuration_exception_8cs.html":[8,0,38],
 "d5/d7e/_bot_configuration_exception_8cs_source.html":[8,0,38],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "d7/d39/interface_microsoft_1_1_bot_1_1_connector_1_1_i_contact_relation_update_activity.html#aafd9141842e995364c0e73fe7aed8e95":[7,0,0,0,1,38,4],
 "d7/d39/interface_microsoft_1_1_bot_1_1_connector_1_1_i_contact_relation_update_activity.html#abf930fcfa8f6d5ff0829e0679b2011c7":[7,0,0,0,1,38,0],
 "d7/d39/interface_microsoft_1_1_bot_1_1_connector_1_1_i_contact_relation_update_activity.html#ac1e043385af64a9409bd8cded03ed3f6":[7,0,0,0,1,38,8],
-"d7/d3c/_j_s_o_n_constants_8cs.html":[8,0,148],
-"d7/d3c/_j_s_o_n_constants_8cs_source.html":[8,0,148]
+"d7/d3c/_j_s_o_n_constants_8cs.html":[8,0,148]
 };
