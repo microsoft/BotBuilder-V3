@@ -31,7 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,17 +39,20 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
-    public interface IActivitySource
+    public interface IActivityManager
     {
         /// <summary>
-        /// Produce an enumeration over conversation in time reversed order.
+        /// Delete a specific conversation.
         /// </summary>
-        /// <param name="channelId">Channel where conversation happened.</param>
-        /// <param name="conversationId">Conversation within the channel.</param>
-        /// <param name="max">Maximum number of activities to return.</param>
-        /// <param name="oldest">Earliest time to include.</param>
-        /// <returns>Enumeration over the recorded activities.</returns>
-        Task<IEnumerable<IActivity>> Activities(string channelId, string conversationId, int? max = null, DateTime oldest = default(DateTime));
+        /// <param name="channelId">Channel where conversation took place.</param>
+        /// <param name="conversationId">Id of conversation to delete.</param>
+        /// <returns>Task.</returns>
+        Task DeleteConversation(string channelId, string conversationId);
+
+        /// <summary>
+        /// Delete any conversation records older than <paramref name="oldest"/>.
+        /// </summary>
+        /// <param name="oldest">Earliest remaining date in log.</param>
+        Task DeleteBefore(DateTime oldest);
     }
-    
- }
+}

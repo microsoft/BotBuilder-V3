@@ -30,7 +30,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
@@ -41,10 +40,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 
 namespace Microsoft.Bot.Builder.Azure
 {
-    public class TableLogger : IActivityLogger, IActivitySource
+    /// <summary>
+    /// Log conversation activities to Azure Table Storage.
+    /// </summary>
+    public class TableLogger : IActivityLogger, IActivitySource, IActivityManager
     {
         private class ActivityEntity : TableEntity
         {
@@ -71,30 +74,15 @@ namespace Microsoft.Bot.Builder.Azure
             }
         }
 
-        private static CloudTable _table = null;
-        private static string _lock = "";
-
-        /// <summary>
-        /// Name of the table storing activities.
-        /// </summary>
-        public const string TableName = "MicrosoftBotActivities";
+        private CloudTable _table = null;
 
         /// <summary>
         /// Create a table storage logger.
         /// </summary>
-        /// <param name="configuration">Configuration string for table storage.</param>
-        public TableLogger(string configuration)
+        /// <param name="table">Table stroage to use for storing activities.</param>
+        public TableLogger(CloudTable table)
         {
-            lock (_lock)
-            {
-                if (_table == null)
-                {
-                    var account = CloudStorageAccount.Parse(configuration);
-                    var client = account.CreateCloudTableClient();
-                    _table = client.GetTableReference(TableName);
-                    _table.CreateIfNotExists();
-                }
-            }
+            _table = table;
         }
 
         /// <summary>
@@ -116,16 +104,15 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="channelId">Channel where conversation happened.</param>
         /// <param name="conversationId">Conversation within the channel.</param>
         /// <param name="max">Maximum number of activities to return.</param>
-        /// <param name="oldest">Don't include any activity older than this time span.</param>
+        /// <param name="oldest">Earliest time to include.</param>
         /// <returns>Enumeration over the recorded activities.</returns>
-        IEnumerable<IActivity> IActivitySource.Activities(string channelId, string conversationId, int? max, TimeSpan oldest)
+        Task<IEnumerable<IActivity>> IActivitySource.Activities(string channelId, string conversationId, int? max, DateTime oldest)
         {
             var query = new TableQuery();
             var pkFilter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, ActivityEntity.GeneratePartitionKey(channelId, conversationId));
-            if (oldest != default(TimeSpan))
+            if (oldest != default(DateTime))
             {
-                var ts = DateTime.UtcNow - oldest;
-                var rowKey = ActivityEntity.GenerateRowKey(ts);
+                var rowKey = ActivityEntity.GenerateRowKey(oldest);
                 query = query.Where(TableQuery.CombineFilters(pkFilter, TableOperators.And, TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, rowKey)));
             }
             else
@@ -133,26 +120,33 @@ namespace Microsoft.Bot.Builder.Azure
                 query = query.Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, ActivityEntity.GeneratePartitionKey(channelId, conversationId)));
             }
             query = query.Take(max);
-            return _table.ExecuteQuery<IActivity>(query,
-                (partitionKey, rowKey, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].StringValue));
+            return Task.FromResult(_table.ExecuteQuery<IActivity>(query,
+                (partitionKey, rowKey, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].StringValue)));
+        }
+
+        /// <summary>
+        /// Delete a specific conversation.
+        /// </summary>
+        /// <param name="channelId">Channel identifier.</param>
+        /// <param name="conversationId">Conversation identifier.</param>
+        /// <returns>Task.</returns>
+        async Task IActivityManager.DeleteConversation(string channelId, string conversationId)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Delete any conversation records older than <paramref name="oldest"/>.
         /// </summary>
-        /// <param name="configuration">Table storage configuration string.</param>
         /// <param name="oldest">Maximum timespan from now to remember.</param>
-        public static async Task DeleteBefore(string configuration, TimeSpan oldest)
+        async Task IActivityManager.DeleteBefore(DateTime oldest)
         {
-            var account = CloudStorageAccount.Parse(configuration);
-            var client = account.CreateCloudTableClient();
-            var table = client.GetTableReference(TableName);
-            var rowKey = ActivityEntity.GenerateRowKey(DateTime.UtcNow - oldest);
+            var rowKey = ActivityEntity.GenerateRowKey(oldest);
             var query = new TableQuery<TableEntity>().Select(new string[] { "PartitionKey", "RowKey" });
             TableContinuationToken continuationToken = null;
             do
             {
-                var results = await table.ExecuteQuerySegmentedAsync(query, continuationToken);
+                var results = await _table.ExecuteQuerySegmentedAsync(query, continuationToken);
                 var partitionKey = string.Empty;
                 var batch = new TableBatchOperation();
                 foreach (var result in (from r in results where string.Compare(r.RowKey, rowKey, StringComparison.Ordinal) > 0 select r))
@@ -161,7 +155,7 @@ namespace Microsoft.Bot.Builder.Azure
                     {
                         if (batch.Count == 100)
                         {
-                            table.ExecuteBatchAsync(batch).Forget();
+                            await _table.ExecuteBatchAsync(batch);
                             batch = new TableBatchOperation();
                         }
                     }
@@ -169,7 +163,7 @@ namespace Microsoft.Bot.Builder.Azure
                     {
                         if (batch.Count > 0)
                         {
-                            table.ExecuteBatchAsync(batch).Forget();
+                            await _table.ExecuteBatchAsync(batch);
                             batch = new TableBatchOperation();
                         }
                         partitionKey = result.PartitionKey;
@@ -178,7 +172,7 @@ namespace Microsoft.Bot.Builder.Azure
                 }
                 if (batch.Count > 0)
                 {
-                    table.ExecuteBatchAsync(batch).Forget();
+                    await _table.ExecuteBatchAsync(batch);
                 }
                 continuationToken = results.ContinuationToken;
             } while (continuationToken != null);
@@ -202,6 +196,51 @@ namespace Microsoft.Bot.Builder.Azure
                 t.Wait();
                 return t;
             });
+        }
+    }
+
+    /// <summary>
+    /// Module for registering a LoggerTable.
+    /// </summary>
+    public class TableLoggerModule : Autofac.Module
+    {
+        private CloudStorageAccount _account;
+        private string _tableName;
+
+        /// <summary>
+        /// Create a TableLogger for a particular storage account and table name.
+        /// </summary>
+        /// <param name="account">Azure storage account to use.</param>
+        /// <param name="tableName">Where to log activities.</param>
+        public TableLoggerModule(CloudStorageAccount account, string tableName)
+        {
+            _account = account;
+            _tableName = tableName;
+        }
+
+        /// <summary>
+        /// Update builder with registration for TableLogger.
+        /// </summary>
+        /// <param name="builder">Builder to use for registration.</param>
+        protected override void Load(ContainerBuilder builder)
+        {
+            base.Load(builder);
+            builder.RegisterInstance(_account)
+                .AsSelf();
+            builder.Register(c => c.Resolve<CloudStorageAccount>().CreateCloudTableClient())
+                .AsSelf()
+                .SingleInstance();
+            builder.Register(c =>
+            {
+                var table = c.Resolve<CloudTableClient>().GetTableReference(_tableName);
+                table.CreateIfNotExists();
+                return table;
+            })
+                .AsSelf()
+                .SingleInstance();
+            builder.RegisterType<TableLogger>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
         }
     }
 
