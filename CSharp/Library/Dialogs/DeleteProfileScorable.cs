@@ -16,17 +16,16 @@ namespace Microsoft.Bot.Builder.Dialogs
     public sealed class DeleteProfileScorable : IScorable<IActivity, double>
     {
         private readonly IDialogStack stack;
-        private readonly Regex regex = new Regex("^(\\s)*/deleteprofile", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-        private readonly Func<IDialog<object>> makeroot;
         private readonly IBotData botData;
         private readonly IBotToUser botToUser;
+        private readonly Regex regex;
 
-        public DeleteProfileScorable(IDialogStack stack, IBotData botData, IBotToUser botToUser, Func<IDialog<object>> makeroot)
+        public DeleteProfileScorable(IDialogStack stack, IBotData botData, IBotToUser botToUser, Regex regex)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
             SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
-            SetField.NotNull(out this.makeroot, nameof(makeroot), makeroot);
+            SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
         async Task<object> IScorable<IActivity, double>.PrepareAsync(IActivity activity, CancellationToken token)

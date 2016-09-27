@@ -37,6 +37,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Resources;
+using System.Text.RegularExpressions;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Internals.Scorables;
@@ -53,6 +54,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         public const string BlobKey = "DialogState";
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
+
+        public static readonly object Key_DeleteProfile_Regex = new object();
 
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
@@ -172,7 +175,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             // Scorable implementing "/deleteprofile"
             builder
-                .RegisterType<DeleteProfileScorable>()
+                .Register(c => new Regex("^(\\s)*/deleteprofile", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                .Keyed<Regex>(Key_DeleteProfile_Regex)
+                .SingleInstance();
+
+            builder
+                .Register(c => new DeleteProfileScorable(c.Resolve<IDialogStack>(), c.Resolve<IBotData>(), c.Resolve<IBotToUser>(), c.ResolveKeyed<Regex>(Key_DeleteProfile_Regex)))
                 .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
