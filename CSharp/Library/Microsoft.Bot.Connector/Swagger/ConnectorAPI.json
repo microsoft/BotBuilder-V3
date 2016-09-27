@@ -153,7 +153,7 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
@@ -218,7 +218,7 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
@@ -272,7 +272,7 @@
           {
             "name": "activityId",
             "in": "path",
-            "description": "activityId to update (OPTIONAL)",
+            "description": "activityId to update",
             "required": true,
             "type": "string"
           },
@@ -290,7 +290,7 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
@@ -360,13 +360,66 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
             "description": "﻿The operation has been accepted and will be processed.",
             "schema": { "$ref": "#/definitions/APIResponse" }
           },
+          "400": {
+            "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "401": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "403": {
+            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "404": {
+            "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "500": {
+            "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          },
+          "503": {
+            "description": "﻿The service you are trying to communciate with is unavailable.",
+            "schema": { "$ref": "#/definitions/APIResponse" }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [ "Conversations" ],
+        "summary": "DeleteActivity",
+        "description": "This method allows you to delete an existing activity.\r\n\r\nSome channels allow you to delete an existing activity, and if successful this method will remove an activity.",
+        "operationId": "Conversations_DeleteActivity",
+        "consumes": [],
+        "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
+        "parameters": [
+          {
+            "name": "conversationId",
+            "in": "path",
+            "description": "Conversation ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "description": "activityId to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "﻿The operation succeeded." },
+          "202": { "description": "﻿The operation has been accepted and will be processed." },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/APIResponse" }
@@ -538,7 +591,7 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "201": {
-            "description": "﻿An ResourceResponse object will be returned containing the ID for the resource.",
+            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
@@ -684,7 +737,12 @@
         },
         "timestamp": {
           "format": "date-time",
-          "description": "Time when message was sent",
+          "description": "UTC Time when message was sent (Set by service)",
+          "type": "string"
+        },
+        "localTimestamp": {
+          "format": "date-time",
+          "description": "local time when message was sent (set by client Ex: 2016-09-23T13:07:49.4714686-07:00)",
           "type": "string"
         },
         "serviceUrl": {
@@ -766,6 +824,10 @@
         "replyToId": {
           "description": "the original id this message is a response to",
           "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Open ended value"
         }
       }
     },

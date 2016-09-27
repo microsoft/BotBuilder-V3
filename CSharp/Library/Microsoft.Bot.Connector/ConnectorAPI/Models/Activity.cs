@@ -25,11 +25,12 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object))
         {
             Type = type;
             Id = id;
             Timestamp = timestamp;
+            LocalTimestamp = localTimestamp;
             ServiceUrl = serviceUrl;
             ChannelId = channelId;
             From = from;
@@ -49,6 +50,7 @@ namespace Microsoft.Bot.Connector
             ChannelData = channelData;
             Action = action;
             ReplyToId = replyToId;
+            Value = value;
         }
 
         /// <summary>
@@ -65,10 +67,17 @@ namespace Microsoft.Bot.Connector
         public string Id { get; set; }
 
         /// <summary>
-        /// Time when message was sent
+        /// UTC Time when message was sent (Set by service)
         /// </summary>
         [JsonProperty(PropertyName = "timestamp")]
         public DateTime? Timestamp { get; set; }
+
+        /// <summary>
+        /// local time when message was sent (set by client Ex:
+        /// 2016-09-23T13:07:49.4714686-07:00)
+        /// </summary>
+        [JsonProperty(PropertyName = "localTimestamp")]
+        public DateTimeOffset? LocalTimestamp { get; set; }
 
         /// <summary>
         /// Service endpoint
@@ -185,6 +194,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "replyToId")]
         public string ReplyToId { get; set; }
+
+        /// <summary>
+        /// Open ended value
+        /// </summary>
+        [JsonProperty(PropertyName = "value")]
+        public object Value { get; set; }
 
     }
 }

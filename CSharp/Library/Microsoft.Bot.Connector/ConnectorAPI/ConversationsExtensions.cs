@@ -188,7 +188,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
+        /// activityId to update
         /// </param>
         /// <param name='activity'>
         /// replacement Activity
@@ -215,7 +215,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
+        /// activityId to update
         /// </param>
         /// <param name='activity'>
         /// replacement Activity
@@ -306,6 +306,54 @@ namespace Microsoft.Bot.Connector
             using (var _result = await operations.ReplyToActivityWithHttpMessagesAsync(conversationId, activityId, activity, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// DeleteActivity
+        /// </summary>
+        /// This method allows you to delete an existing activity.
+        /// 
+        /// Some channels allow you to delete an existing activity, and if successful
+        /// this method will remove an activity.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to delete
+        /// </param>
+        public static APIResponse DeleteActivity(this IConversations operations, string conversationId, string activityId)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).DeleteActivityAsync(conversationId, activityId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// DeleteActivity
+        /// </summary>
+        /// This method allows you to delete an existing activity.
+        /// 
+        /// Some channels allow you to delete an existing activity, and if successful
+        /// this method will remove an activity.
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to delete
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<APIResponse> DeleteActivityAsync(this IConversations operations, string conversationId, string activityId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var _result = await operations.DeleteActivityWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false))
+            {
+                return await _result.HandleErrorAsync<APIResponse>().ConfigureAwait(false);
             }
         }
 

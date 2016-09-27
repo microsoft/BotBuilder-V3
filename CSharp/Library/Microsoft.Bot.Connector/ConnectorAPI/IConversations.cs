@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Connector
         /// Conversation ID
         /// </param>
         /// <param name='activityId'>
-        /// activityId to update (OPTIONAL)
+        /// activityId to update
         /// </param>
         /// <param name='activity'>
         /// replacement Activity
@@ -153,6 +153,26 @@ namespace Microsoft.Bot.Connector
         /// The cancellation token.
         /// </param>
         Task<HttpOperationResponse<object>> ReplyToActivityWithHttpMessagesAsync(string conversationId, string activityId, Activity activity, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// DeleteActivity
+        /// </summary>
+        /// This method allows you to delete an existing activity.
+        /// 
+        /// Some channels allow you to delete an existing activity, and if
+        /// successful this method will remove an activity.
+        /// <param name='conversationId'>
+        /// Conversation ID
+        /// </param>
+        /// <param name='activityId'>
+        /// activityId to delete
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<APIResponse>> DeleteActivityWithHttpMessagesAsync(string conversationId, string activityId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// GetConversationMembers
         /// </summary>
