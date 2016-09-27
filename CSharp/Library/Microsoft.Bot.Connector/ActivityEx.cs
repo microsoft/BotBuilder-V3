@@ -17,7 +17,7 @@ namespace Microsoft.Bot.Connector
     using System.Configuration;
     using System.Text;
 
-    public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity, IActionActivity
+    public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity, ITriggerActivity
     {
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public JObject Properties { get; set; }
