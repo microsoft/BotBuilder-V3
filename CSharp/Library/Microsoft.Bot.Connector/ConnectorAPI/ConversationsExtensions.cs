@@ -353,7 +353,7 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.DeleteActivityWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<APIResponse>().ConfigureAwait(false);
+                return _result.Body;
             }
         }
 
