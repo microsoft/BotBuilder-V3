@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Default : 5 secs
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public uint? InitialSilenceTimeoutInSeconds { get; set; }
+        public double? InitialSilenceTimeoutInSeconds { get; set; }
 
         /// <summary>
         /// Mamimum allowed time between digits if we are doing dtmf based choice recognition or CollectDigits recognition
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Default : 1 sec
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public uint? InterdigitTimeoutInSeconds { get; set; }
+        public double? InterdigitTimeoutInSeconds { get; set; }
 
         /// <summary>
         /// List of choices to recognize against. Choices can be speech or dtmf based.

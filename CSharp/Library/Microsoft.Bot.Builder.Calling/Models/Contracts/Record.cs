@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Maximum duration of recording . Default : 180 secs
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public uint? MaxDurationInSeconds { get; set; }
+        public double? MaxDurationInSeconds { get; set; }
 
         /// <summary>
         /// Maximum initial silence allowed from the time we start the recording operation 
@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Default : 5
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public uint? InitialSilenceTimeoutInSeconds { get; set; }
+        public double? InitialSilenceTimeoutInSeconds { get; set; }
 
         /// <summary>
         /// Maximum allowed silence once the user has started speaking before we conclude 
@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         /// Default : 1
         /// </summary>
         [JsonProperty(Required = Required.Default)]
-        public uint? MaxSilenceTimeoutInSeconds { get; set; }
+        public double? MaxSilenceTimeoutInSeconds { get; set; }
 
         /// <summary>
         /// The format is which the recording is expected.
