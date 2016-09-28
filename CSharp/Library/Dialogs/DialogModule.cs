@@ -88,7 +88,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // make the address and cookie available for the lifetime scope
 
             builder
-                .RegisterType<Address>()
+                .Register(c => Address.FromActivity(c.Resolve<IActivity>()))
                 .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 

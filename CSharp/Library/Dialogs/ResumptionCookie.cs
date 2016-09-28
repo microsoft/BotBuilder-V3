@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +51,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public sealed class ResumptionCookie : IEquatable<ResumptionCookie>
     {
+        /// <summary>
+        /// The key that minimally and completely identifies a bot's conversation with a user on a channel.
+        /// </summary>
         public IAddress Address { get; set; }
 
         /// <summary>
@@ -78,33 +82,33 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Creates an instance of the resumption cookie. 
         /// </summary>
-        /// <param name="userId"> The user Id.</param>
-        /// <param name="botId"> The bot Id.</param>
-        /// <param name="conversationId"> The conversation Id.</param>
-        /// <param name="channelId"> The channel Id of the conversation.</param>
-        /// <param name="serviceUrl"> The service url of the conversation.</param>
-        /// <param name="locale"> The locale of the message.</param>
-        public ResumptionCookie(string userId, string botId, string conversationId, string channelId, string serviceUrl, string locale = "en")
+        /// <param name="address">The address.</param>
+        /// <param name="userName">The user name.</param>
+        /// <param name="isGroup">The IsGroup flag for conversation.</param>
+        /// <param name="locale">The locale of the message.</param>
+        [JsonConstructor]
+        public ResumptionCookie(Address address, string userName, bool isGroup, string locale)
         {
-            // purposefully using named arguments because these all have the same type
-            this.Address = new Address(botId: botId, channelId: channelId, userId: userId, conversationId: conversationId, serviceUrl: serviceUrl);
-            SetField.CheckNull(nameof(locale), locale);
-            this.IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(serviceUrl);
+            this.Address = address;
+            this.UserName = userName;
+            this.IsGroup = isGroup;
             this.Locale = locale;
+            this.IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(address.ServiceUrl);
         }
 
         /// <summary>
         /// Creates an instance of resumption cookie form a <see cref="Connector.IMessageActivity"/>
         /// </summary>
-        /// <param name="msg"> The message.</param>
+        /// <param name="msg">The message.</param>
         public ResumptionCookie(IMessageActivity msg)
+            : this
+                  (
+                    address: Dialogs.Address.FromActivity(msg),
+                    userName: msg.From?.Name,
+                    isGroup: msg.Conversation?.IsGroup ?? false,
+                    locale: msg.Locale
+                  )
         {
-            this.Address = new Address(msg);
-            UserName = msg.From?.Name;
-            IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(msg.ServiceUrl);
-            var isGroup = msg.Conversation?.IsGroup;
-            IsGroup = isGroup.HasValue && isGroup.Value;
-            Locale = msg.Locale;
         }
 
         public bool Equals(ResumptionCookie other)

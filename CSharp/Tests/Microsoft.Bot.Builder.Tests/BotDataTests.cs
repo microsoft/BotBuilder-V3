@@ -144,7 +144,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var msg = DialogTestBase.MakeTestMessage();
 
-            return new JObjectBotData(new Address(msg), new CachingBotDataStore(new InMemoryDataStore(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency));
+            return new JObjectBotData(Address.FromActivity(msg), new CachingBotDataStore(new InMemoryDataStore(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency));
         }
     }
 
@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Builder.Tests
         protected override IBotData MakeBotData()
         {
             var msg = DialogTestBase.MakeTestMessage();
-            return new DictionaryBotData(new Address(msg), new CachingBotDataStore(new InMemoryDataStore(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency));
+            return new DictionaryBotData(Address.FromActivity(msg), new CachingBotDataStore(new InMemoryDataStore(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency));
         }
     }
 

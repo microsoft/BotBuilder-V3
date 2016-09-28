@@ -56,16 +56,17 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public sealed class Address : IAddress, IEquatable<IAddress>
     {
-        public Address(IActivity activity)
-            : this(
-                      // purposefully using named arguments because these all have the same type
-                      botId: activity.Recipient.Id,
-                      channelId: activity.ChannelId,
-                      userId: activity.From.Id,
-                      conversationId: activity.Conversation.Id,
-                      serviceUrl: activity.ServiceUrl
-                  )
+        public static Address FromActivity(IActivity activity)
         {
+            return new Address
+                (
+                    // purposefully using named arguments because these all have the same type
+                    botId: activity.Recipient.Id,
+                    channelId: activity.ChannelId,
+                    userId: activity.From.Id,
+                    conversationId: activity.Conversation.Id,
+                    serviceUrl: activity.ServiceUrl
+                );
         }
 
         public Address(string botId, string channelId, string userId, string conversationId, string serviceUrl)

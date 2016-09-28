@@ -28,7 +28,16 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
         public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string botId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state, CancellationToken token)
         {
             // Get the resumption cookie
-            var resumptionCookie = new ResumptionCookie(FacebookHelpers.TokenDecoder(userId), FacebookHelpers.TokenDecoder(botId), FacebookHelpers.TokenDecoder(conversationId), channelId, FacebookHelpers.TokenDecoder(serviceUrl), locale);
+            var address = new Address
+                (
+                    // purposefully using named arguments because these all have the same type
+                    botId: FacebookHelpers.TokenDecoder(botId),
+                    channelId: channelId,
+                    userId: FacebookHelpers.TokenDecoder(userId),
+                    conversationId: FacebookHelpers.TokenDecoder(conversationId),
+                    serviceUrl: FacebookHelpers.TokenDecoder(serviceUrl)
+                );
+            var resumptionCookie = new ResumptionCookie(address, userName: null, isGroup: false, locale: locale);
 
             // Exchange the Facebook Auth code with Access token
             var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(resumptionCookie, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
