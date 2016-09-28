@@ -33,6 +33,7 @@
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -56,6 +57,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
         }
 
+        [JsonConstructor]
         public Address(string botId, string channelId, string userId, string conversationId, string serviceUrl)
         {
             SetField.CheckNull(nameof(botId), botId);
