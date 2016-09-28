@@ -24,10 +24,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the ConversationParameters class.
         /// </summary>
-        public ConversationParameters(bool? isGroup = default(bool?), ChannelAccount bot = default(ChannelAccount), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string))
+        public ConversationParameters(ChannelAccount bot = default(ChannelAccount), bool? isGroup = default(bool?), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string))
         {
-            IsGroup = isGroup;
             Bot = bot;
+            IsGroup = isGroup;
             Members = members;
             TopicName = topicName;
         }

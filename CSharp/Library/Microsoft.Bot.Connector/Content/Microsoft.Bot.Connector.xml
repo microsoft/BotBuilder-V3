@@ -732,7 +732,7 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Nullable{System.Boolean},Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Nullable{System.Boolean},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>
