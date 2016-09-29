@@ -99,6 +99,7 @@
     <Compile Include="Dialogs\IActivityLogger.cs" />
     <Compile Include="Dialogs\IActivityManager.cs" />
     <Compile Include="Dialogs\IActivitySource.cs" />
+    <Compile Include="Dialogs\ReplayTranscript.cs" />
     <Compile Include="Dialogs\ResumptionCookie.cs" />
     <Compile Include="Dialogs\ScorableDialogs.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />

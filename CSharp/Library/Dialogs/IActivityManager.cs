@@ -32,9 +32,7 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
@@ -46,13 +44,23 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <param name="channelId">Channel where conversation took place.</param>
         /// <param name="conversationId">Id of conversation to delete.</param>
+        /// <param name="cancel">Cancellation token.</param>
         /// <returns>Task.</returns>
-        Task DeleteConversation(string channelId, string conversationId);
+        Task DeleteConversationAsync(string channelId, string conversationId, CancellationToken cancel = default(CancellationToken));
 
         /// <summary>
         /// Delete any conversation records older than <paramref name="oldest"/>.
         /// </summary>
         /// <param name="oldest">Earliest remaining date in log.</param>
-        Task DeleteBefore(DateTime oldest);
+        /// <param name="cancel">Cancellation token.</param>
+        Task DeleteBeforeAsync(DateTime oldest, CancellationToken cancel = default(CancellationToken));
+
+        /// <summary>
+        /// Delete all activities involving <paramref name="userId"/>.
+        /// </summary>
+        /// <param name="userId">User to delete.</param>
+        /// <param name="cancel">Cancellation token.</param>
+        /// <returns>Task.</returns>
+        Task DeleteUserActivitiesAsync(string userId, CancellationToken cancel = default(CancellationToken));
     }
 }
