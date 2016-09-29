@@ -34,6 +34,7 @@ using Autofac;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
@@ -139,6 +140,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [TestCategory("Azure")]
         public async Task TableLoggerTest()
         {
             var tableName = "Activities";

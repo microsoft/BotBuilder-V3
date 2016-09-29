@@ -15,6 +15,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="Microsoft.Azure.KeyVault.Core" version="1.0.0"/>
+			<dependency id="Microsoft.Bot.Builder" version="3.0.0"/>
       <dependency id="Microsoft.Data.Edm" version="5.6.4" />
       <dependency id="Microsoft.Data.OData" version="5.6.4" />
       <dependency id="Microsoft.Data.Services.Client" version="5.6.4" />

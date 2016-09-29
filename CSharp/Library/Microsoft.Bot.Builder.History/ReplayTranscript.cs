@@ -38,7 +38,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Dialogs
+namespace Microsoft.Bot.Builder.History
 {
     /// <summary>
     /// Class to collect and then replay activities as a transcript.
@@ -65,10 +65,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <param name="activity">Activity.</param>
         /// <returns>Task.</returns>
+#pragma warning disable CS1998
         public async Task Collect(IActivity activity)
         {
             _activities.Add(activity);
         }
+#pragma warning restore CS1998
 
         /// <summary>
         /// Replay collected transcript.

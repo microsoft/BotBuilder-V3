@@ -44,6 +44,7 @@ using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 
 using Autofac;
+using Microsoft.Bot.Builder.History;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {

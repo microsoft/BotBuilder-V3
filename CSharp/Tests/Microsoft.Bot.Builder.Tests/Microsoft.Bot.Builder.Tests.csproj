@@ -123,7 +123,6 @@
     <Compile Include="ExceptionTests.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="FormTests.cs" />
-    <Compile Include="LoggerTests.cs" />
     <Compile Include="LuisResolutionTests.cs" />
     <Compile Include="LuisTests.cs" />
     <Compile Include="LocalizationTests.cs" />
@@ -167,7 +166,9 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

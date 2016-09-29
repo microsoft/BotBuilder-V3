@@ -32,6 +32,7 @@
 //
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;

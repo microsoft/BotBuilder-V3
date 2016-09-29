@@ -31,42 +31,36 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Connector;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Dialogs
+namespace Microsoft.Bot.Builder.History
 {
-    /// <summary>
-    /// Interface for getting activities from some source.
-    /// </summary>
-    public interface IActivitySource
+    public interface IActivityManager
     {
         /// <summary>
-        /// Produce an enumeration over conversation with most recent first.
+        /// Delete a specific conversation.
         /// </summary>
-        /// <param name="channelId">Channel where conversation happened.</param>
-        /// <param name="conversationId">Conversation within the channel.</param>
-        /// <param name="max">Maximum number of activities to return.</param>
-        /// <param name="oldest">Earliest time to include.</param>
+        /// <param name="channelId">Channel where conversation took place.</param>
+        /// <param name="conversationId">Id of conversation to delete.</param>
         /// <param name="cancel">Cancellation token.</param>
-        /// <returns>Enumeration over the recorded activities.</returns>
-        IEnumerable<IActivity> Activities(string channelId, string conversationId,
-            int? max = null, DateTime oldest = default(DateTime),
-            CancellationToken cancel = default(CancellationToken));
+        /// <returns>Task.</returns>
+        Task DeleteConversationAsync(string channelId, string conversationId, CancellationToken cancel = default(CancellationToken));
 
         /// <summary>
-        /// Walk over recorded activities with most recent first and call a function on them.
+        /// Delete any conversation records older than <paramref name="oldest"/>.
         /// </summary>
-        /// <param name="function">Function to apply to each actitivty.</param>
-        /// <param name="channelId">ChannelId to filter on or null for no filter.</param>
-        /// <param name="conversationId">ConversationId to filter on or null for no filter.</param>
-        /// <param name="max">Maximum number of results, or null for no limit.</param>
-        /// <param name="oldest">Oldest timestamp to include.</param>
+        /// <param name="oldest">Earliest remaining date in log.</param>
         /// <param name="cancel">Cancellation token.</param>
-        /// <returns></returns>
-        Task WalkActivitiesAsync(Func<IActivity, Task> function, string channelId = null, string conversationId = null, int? max = null, DateTime oldest = default(DateTime), CancellationToken cancel = default(CancellationToken));
+        Task DeleteBeforeAsync(DateTime oldest, CancellationToken cancel = default(CancellationToken));
+
+        /// <summary>
+        /// Delete all activities involving <paramref name="userId"/>.
+        /// </summary>
+        /// <param name="userId">User to delete.</param>
+        /// <param name="cancel">Cancellation token.</param>
+        /// <returns>Task.</returns>
+        Task DeleteUserActivitiesAsync(string userId, CancellationToken cancel = default(CancellationToken));
     }
 }

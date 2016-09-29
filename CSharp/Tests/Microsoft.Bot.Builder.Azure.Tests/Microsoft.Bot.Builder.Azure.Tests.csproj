@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77299F9C-8F49-4839-B7EA-55BA726321D5}</ProjectGuid>
+    <ProjectGuid>{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Bot.Builder.Azure</RootNamespace>
-    <AssemblyName>Microsoft.Bot.Builder.Azure</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Builder.Azure.Tests</RootNamespace>
+    <AssemblyName>Microsoft.Bot.Builder.Azure.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Bot.Builder.Azure.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Bot.Builder.Azure.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -53,12 +51,17 @@
       <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\WindowsAzure.Storage.7.2.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -75,28 +78,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TableLogger.cs" />
+    <Compile Include="LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Builder.csproj">
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.Azure\Microsoft.Bot.Builder.Azure.csproj">
+      <Project>{77299f9c-8f49-4839-b7ea-55ba726321d5}</Project>
+      <Name>Microsoft.Bot.Builder.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.csproj">
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Bot.Builder.History\Microsoft.Bot.Builder.History.csproj">
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.History\Microsoft.Bot.Builder.History.csproj">
       <Project>{d2834d71-d7a2-451b-9a61-1488af049526}</Project>
       <Name>Microsoft.Bot.Builder.History</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
-      <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
+      <Project>{DF397EFC-91DB-4911-9971-C509926FC288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="createpackage.cmd" />
-    <None Include="Microsoft.Bot.Builder.Azure.nuspec" />
-    <None Include="packages.config" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

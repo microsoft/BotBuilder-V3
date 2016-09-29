@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
@@ -38,7 +39,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Dialogs
+namespace Microsoft.Bot.Builder.History
 {
     /// <summary>
     /// Log message activities between bots and users.
