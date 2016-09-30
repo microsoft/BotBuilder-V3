@@ -31,10 +31,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
-using System.Data;
+
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -80,7 +81,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 var keyboards = message.Attachments.Where(t => t.ContentType == KeyboardCard.ContentType).ToList();
                 if (keyboards.Count > 1)
                 {
-                    throw new ConstraintException("Each message can only have one keyboard card!");
+                    throw new ArgumentException("Each message can only have one keyboard card!");
                 }
 
                 var keyboard = keyboards.FirstOrDefault();

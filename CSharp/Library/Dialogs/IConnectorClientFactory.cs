@@ -92,8 +92,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
             else
             {
-                // TODO: remove this when going to against production
-                //return new StateClient(new Uri("https://intercom-api-scratch.azurewebsites.net/"), this.credentials);
                 return new StateClient(this.credentials);
             }
         }
