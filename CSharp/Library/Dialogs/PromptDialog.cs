@@ -35,6 +35,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Builder.ConnectorEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Generate buttons for choices and let connector generate the right style based on channel capabilities
         /// </summary>
         Auto,
+
+        /// <summary>
+        /// Generate keyboard card for choices that will be mapped to a 
+        /// <see cref="HeroCard"/> or a keyboard, e.g. Facebook quick replies
+        /// </summary>
+        /// <remarks>
+        /// Make sure to use <see cref="MapToChannelData_BotToUser"/> with <see cref="KeyboardCardMapper"/>
+        /// when you use this option
+        /// </remarks>
+        Keyboard,
 
         /// <summary>
         /// Show choices as Text.
@@ -224,9 +235,17 @@ namespace Microsoft.Bot.Builder.Dialogs
             switch (PromptStyle)
             {
                 case PromptStyle.Auto:
+                case PromptStyle.Keyboard:
                     if (options != null && options.Any())
                     {
-                        message.AddHeroCard(prompt, options, descriptions);
+                        if (PromptStyle == PromptStyle.Keyboard)
+                        {
+                            message.AddKeyboardCard(prompt, options, descriptions);
+                        }
+                        else
+                        {
+                            message.AddHeroCard(prompt, options, descriptions);
+                        }
                     }
                     else
                     {
@@ -631,7 +650,46 @@ namespace Microsoft.Bot.Builder.Dialogs
             message.Attachments = options.GenerateHeroCard(text, descriptions);
         }
 
+        /// <summary>
+        /// Generates buttons from options and add them to the message.
+        /// </summary>
+        /// <remarks>
+        /// <typeparamref name="T"/> should implement ToString().
+        /// </remarks>
+        /// <typeparam name="T"> Type of the options.</typeparam>
+        /// <param name="message"> The message that the buttons will be added to.</param>
+        /// <param name="text"> The text in the <see cref="HeroCard"/>.</param>
+        /// <param name="options"> The options that cause generation of buttons.</param>
+        /// <param name="descriptions">Descriptions for each option.</param>
+        public static void AddKeyboardCard<T>(this IMessageActivity message, string text, IEnumerable<T> options,
+            IEnumerable<string> descriptions = null)
+        {
+            message.AttachmentLayout = AttachmentLayoutTypes.List;
+            message.Attachments = options.GenerateKeyboardCard(text, descriptions);
+        }
+
         internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
+        {
+            var attachments = new List<Attachment>
+            {
+                new HeroCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+            };
+
+            return attachments;
+        }
+
+        internal static IList<Attachment> GenerateKeyboardCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
+        {
+            var attachments = new List<Attachment>
+            {
+                new KeyboardCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+            };
+
+            return attachments;
+        }
+
+        internal static IList<CardAction> GenerateButtons<T>(IEnumerable<T> options,
+            IEnumerable<string> descriptions = null)
         {
             var actions = new List<CardAction>();
             int i = 0;
@@ -640,20 +698,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 var title = (adescriptions == null ? option.ToString() : adescriptions[i]);
                 actions.Add(new CardAction
-                { 
+                {
                     Title = title,
                     Type = ActionTypes.ImBack,
                     Value = option.ToString()
                 });
                 ++i;
             }
-
-            var attachments = new List<Attachment>
-            {
-                new HeroCard(text: text, buttons: actions).ToAttachment()
-            };
-
-            return attachments;
+            return actions;
         }
     }
 }

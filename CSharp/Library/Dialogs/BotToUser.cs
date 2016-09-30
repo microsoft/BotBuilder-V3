@@ -34,11 +34,13 @@
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -61,6 +63,70 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
             await this.client.Conversations.ReplyToActivityAsync((Activity)message, cancellationToken);
+        }
+    }
+
+    public interface IMessageActivityMapper
+    {
+        IMessageActivity Map(IMessageActivity message);
+    }
+
+    public sealed class KeyboardCardMapper : IMessageActivityMapper
+    {
+        public IMessageActivity Map(IMessageActivity message)
+        {
+            if (message.Attachments.Any())
+            {
+                var keyboards = message.Attachments.Where(t => t.ContentType == KeyboardCard.ContentType).ToList();
+                if (keyboards.Count > 1)
+                {
+                    throw new ConstraintException("Each message can only have one keyboard card!");
+                }
+
+                var keyboard = keyboards.FirstOrDefault();
+                if (keyboard != null)
+                {
+                    message.Attachments.Remove(keyboard);
+                    var keyboardCard = (KeyboardCard)keyboard.Content;
+                    if (message.ChannelId == "facebook" && keyboardCard.Buttons.Count <= 10)
+                    {
+                        message.ChannelData = keyboardCard.ToFacebookMessage();
+                    }
+                    else
+                    {
+                        message.Attachments.Add(keyboardCard.ToHeroCard().ToAttachment());
+                    }
+                }
+            }
+
+            return message;
+        }
+    }
+    
+
+    public sealed class MapToChannelData_BotToUser : IBotToUser
+    {
+        private readonly IBotToUser inner;
+        private readonly IList<IMessageActivityMapper> mappers;
+
+        public MapToChannelData_BotToUser(IBotToUser inner, IList<IMessageActivityMapper> mappers)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.mappers, nameof(mappers), mappers);
+        }
+
+        public async Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var mapper in mappers)
+            {
+                message = mapper.Map(message);
+            }
+            await this.inner.PostAsync(message, cancellationToken);
+        }
+
+        public IMessageActivity MakeMessage()
+        {
+            return this.inner.MakeMessage(); 
         }
     }
 

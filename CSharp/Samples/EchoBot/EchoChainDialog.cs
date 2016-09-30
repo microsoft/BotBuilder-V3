@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Sample.EchoBot
                     }, (context, txt) =>
                     {
                         return Chain.From(() => new PromptDialog.PromptConfirm("Are you sure you want to reset the count?",
-                        "Didn't get that!", 3)).ContinueWith<bool, string>(async (ctx, res) =>
+                        "Didn't get that!", 3, PromptStyle.Keyboard)).ContinueWith<bool, string>(async (ctx, res) =>
                         {
                             string reply;
                             if (await res)

@@ -93,7 +93,13 @@ namespace Microsoft.Bot.Builder.Tests
 
             builder
                 .RegisterType<BotToUserQueue>()
-                .AsSelf()
+                .AsSelf()                
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new MapToChannelData_BotToUser(
+                    c.Resolve<BotToUserQueue>(),
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 

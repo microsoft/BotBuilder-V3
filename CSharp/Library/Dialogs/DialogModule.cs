@@ -221,6 +221,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterType<AlwaysSendDirect_BotToUser>()
                 .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new MapToChannelData_BotToUser(
+                    c.Resolve<AlwaysSendDirect_BotToUser>(), 
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 

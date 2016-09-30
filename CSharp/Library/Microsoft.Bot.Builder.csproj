@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectorEx\KeyboardCard.cs" />
     <Compile Include="Dialogs\DeleteProfileScorable.cs" />
     <Compile Include="Dialogs\DialogModule.cs" />
     <Compile Include="Dialogs\BotData.cs" />
