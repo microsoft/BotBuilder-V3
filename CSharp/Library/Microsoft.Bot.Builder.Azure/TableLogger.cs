@@ -80,7 +80,7 @@ namespace Microsoft.Bot.Builder.Azure
                 From = activity.From.Id;
                 Recipient = activity.Recipient.Id;
                 
-                Activity = JsonConvert.SerializeObject(activity).Compress();
+                CompressedActivity = JsonConvert.SerializeObject(activity).Compress();
                 Version = 3.0;
             }
 
@@ -102,7 +102,26 @@ namespace Microsoft.Bot.Builder.Azure
             /// <summary>
             /// Compressed JSON Serialization of full activity message.
             /// </summary>
-            public byte[] Activity { get; set; }
+            public byte[] CompressedActivity { get; set; }
+
+            /// <summary>
+            /// Return acutal IActivity.
+            /// </summary>
+            /// <returns>Logged IActivity.</returns>
+            public IActivity Activity()
+            {
+                return (IActivity) JsonConvert.DeserializeObject(CompressedActivity.Decompress());
+            }
+
+            /// <summary>
+            /// Generate activity object from table storage properties.
+            /// </summary>
+            /// <param name="properties"></param>
+            /// <returns>Logged IActivity.</returns>
+            public static IActivity Activity(IDictionary<string, EntityProperty> properties)
+            {
+                return (IActivity)JsonConvert.DeserializeObject(properties["CompressedActivity"].BinaryValue.Decompress());
+            }
 
             /// <summary>
             /// Generate a partition key given <paramref name="channelId"/> and <paramref name="conversationId"/>.
@@ -155,7 +174,7 @@ namespace Microsoft.Bot.Builder.Azure
         {
             var query = BuildQuery(channelId, conversationId, oldest);
             return _table.ExecuteQuery(query,
-                (partitionKey, rowKey, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].BinaryValue.Decompress()));
+                (partitionKey, rowKey, timestamp, properties, etag) => ActivityEntity.Activity(properties));
         }
 
         async Task IActivitySource.WalkActivitiesAsync(Func<IActivity, Task> function, string channelId, string conversationId, DateTime oldest, CancellationToken cancel)
@@ -165,7 +184,7 @@ namespace Microsoft.Bot.Builder.Azure
             do
             {
                 var results = await _table.ExecuteQuerySegmentedAsync(query, 
-                    (paritionKey, rowKy, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].BinaryValue.Decompress()),
+                    (paritionKey, rowKy, timestamp, properties, etag) => ActivityEntity.Activity(properties),
                     continuationToken, cancel);
                 foreach (var result in results)
                 {
