@@ -260,8 +260,6 @@ The [receipt card](/en-us/csharp/builder/sdkreference/attachments.html#receiptca
 
 ![Receipt card](/en-us/images/skype/skype-bot-receipt-card.png)
 
-If the height of the card is too large, it is partially folded and a "Show all" action is shown to expand it.
-
 **Property**|**Type**|**Description**
 |:----------------------------:|---------------------------------|---------------------------------
 title|Rich text|Title of the card. Maximum 2 lines

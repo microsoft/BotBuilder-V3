@@ -14,7 +14,7 @@ Existing bots registered in the Skype Bot Portal and developed using the Skype B
 
 To update to the new environment you need to register a new bot with the Microsoft Bot Framework and update your bot to the latest API. If you have a published bot you can request migration of the existing Skype bot and users (see below).
 
-**Edit 03 Aug 16** Updated Skype apps supportig the latest features are now available for all mobile and desktop platforms.
+**Edit 03 Aug 16** Updated Skype apps supporting the latest features are now available for all mobile and desktop platforms.
 
 
 * TOC
