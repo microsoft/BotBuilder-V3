@@ -45,28 +45,25 @@ namespace Microsoft.Bot.Builder.History
     public interface IActivitySource
     {
         /// <summary>
-        /// Produce an enumeration over conversation with most recent first.
+        /// Produce an enumeration over conversation.
         /// </summary>
         /// <param name="channelId">Channel where conversation happened.</param>
         /// <param name="conversationId">Conversation within the channel.</param>
-        /// <param name="max">Maximum number of activities to return.</param>
         /// <param name="oldest">Earliest time to include.</param>
-        /// <param name="cancel">Cancellation token.</param>
         /// <returns>Enumeration over the recorded activities.</returns>
-        IEnumerable<IActivity> Activities(string channelId, string conversationId,
-            int? max = null, DateTime oldest = default(DateTime),
-            CancellationToken cancel = default(CancellationToken));
+        /// <remarks>Activities are ordered by channel, then conversation, then time ascending.</remarks>
+        IEnumerable<IActivity> Activities(string channelId, string conversationId, DateTime oldest = default(DateTime));
 
         /// <summary>
-        /// Walk over recorded activities with most recent first and call a function on them.
+        /// Walk over recorded activities and call a function on them.
         /// </summary>
         /// <param name="function">Function to apply to each actitivty.</param>
         /// <param name="channelId">ChannelId to filter on or null for no filter.</param>
         /// <param name="conversationId">ConversationId to filter on or null for no filter.</param>
-        /// <param name="max">Maximum number of results, or null for no limit.</param>
         /// <param name="oldest">Oldest timestamp to include.</param>
         /// <param name="cancel">Cancellation token.</param>
         /// <returns></returns>
-        Task WalkActivitiesAsync(Func<IActivity, Task> function, string channelId = null, string conversationId = null, int? max = null, DateTime oldest = default(DateTime), CancellationToken cancel = default(CancellationToken));
+        /// <remarks>Activities are ordered by channel, then conversation, then time ascending.</remarks>
+        Task WalkActivitiesAsync(Func<IActivity, Task> function, string channelId = null, string conversationId = null, DateTime oldest = default(DateTime), CancellationToken cancel = default(CancellationToken));
     }
 }

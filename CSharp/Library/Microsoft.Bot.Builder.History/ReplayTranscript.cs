@@ -37,6 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.History
 {
@@ -45,15 +46,16 @@ namespace Microsoft.Bot.Builder.History
     /// </summary>
     public sealed class ReplayTranscript
     {
+        private IBotToUser _botToUser;
         private Func<IActivity, string> _header;
-        private List<IActivity> _activities = new List<IActivity>();
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="header">Function for defining the transcript header on each message.</param>
-        public ReplayTranscript(Func<IActivity, string> header = null)
+        public ReplayTranscript(IBotToUser botToUser, Func<IActivity, string> header = null)
         {
+            _botToUser = botToUser;
             if (_header == null)
             {
                 _header = (activity) => $"({activity.From.Name} {activity.Timestamp:g})";
@@ -61,47 +63,26 @@ namespace Microsoft.Bot.Builder.History
         }
 
         /// <summary>
-        /// Collect activity to replay.
+        /// Replay activity to IBotToUser.
         /// </summary>
         /// <param name="activity">Activity.</param>
         /// <returns>Task.</returns>
-#pragma warning disable CS1998
-        public async Task Collect(IActivity activity)
+        public async Task Replay(IActivity activity)
         {
-            _activities.Add(activity);
-        }
-#pragma warning restore CS1998
-
-        /// <summary>
-        /// Replay collected transcript.
-        /// </summary>
-        /// <param name="botToUser">Where to post the transcript.</param>
-        /// <returns>Task.</returns>
-        public async Task Replay(IBotToUser botToUser)
-        {
-            foreach (var activity in _activities.Reverse<IActivity>())
+            if (activity is IMessageActivity)
             {
-                if (activity is IMessageActivity)
-                {
-                    var intro = botToUser.MakeMessage();
-                    intro.Text = _header(activity);
-                    await botToUser.PostAsync(intro);
+                var msg = _botToUser.MakeMessage();
+                msg.Text = _header(activity);
+                await _botToUser.PostAsync(msg);
 
-                    var act = activity as IMessageActivity;
-                    var msg = botToUser.MakeMessage();
-                    if (activity.ChannelId == msg.ChannelId)
-                    {
-                        msg.ChannelData = activity.ChannelData;
-                    }
-                    msg.AttachmentLayout = act.AttachmentLayout;
-                    msg.Attachments = act.Attachments;
-                    msg.Entities = act.Entities;
-                    msg.Locale = act.Locale;
-                    msg.Summary = act.Summary;
-                    msg.Text = act.Text;
-                    msg.TextFormat = act.TextFormat;
-                    await botToUser.PostAsync(msg);
+                var act = JsonConvert.DeserializeObject<Activity>(JsonConvert.SerializeObject(activity));
+                if (act.ChannelId != msg.ChannelId)
+                {
+                    act.ChannelData = null;
                 }
+                act.From = msg.From;
+                act.Recipient = msg.Recipient;
+                await _botToUser.PostAsync(act);
             }
         }
     }

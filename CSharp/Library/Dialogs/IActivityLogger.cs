@@ -93,14 +93,14 @@ namespace Microsoft.Bot.Builder.History
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class LogToBot : IPostToBot
+    public sealed class LogPostToBot : IPostToBot
     {
-        private readonly IActivityLogger logger;
         private readonly IPostToBot inner;
-        public LogToBot(IActivityLogger logger, IPostToBot inner)
+        private readonly IActivityLogger logger;
+        public LogPostToBot(IPostToBot inner, IActivityLogger logger)
         {
-            SetField.NotNull(out this.logger, nameof(logger), logger);
             SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.logger, nameof(logger), logger);
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
@@ -114,15 +114,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class LogToUser : IBotToUser
+    public sealed class LogBotToUser : IBotToUser
     {
-        private readonly IActivityLogger logger;
         private readonly IBotToUser inner;
-        public LogToUser(IActivityLogger logger, IBotToUser inner)
+        private readonly IActivityLogger logger;
+        public LogBotToUser(IBotToUser inner, IActivityLogger logger)
         {
-            SetField.NotNull(out this.logger, nameof(logger), logger);
             SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.logger, nameof(logger), logger);
         }
+
         IMessageActivity IBotToUser.MakeMessage()
         {
             return this.inner.MakeMessage();

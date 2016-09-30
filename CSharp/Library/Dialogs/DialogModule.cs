@@ -197,7 +197,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterType<NullActivityLogger>()
                 .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder
                 .Register(c =>
@@ -219,7 +219,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
                     outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
-                    outer = new LogToBot(cc.Resolve<IActivityLogger>(), outer);
+                    outer = new LogPostToBot(outer, cc.Resolve<IActivityLogger>());
                     return outer;
                 })
                 .As<IPostToBot>()

@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.Tests
             int? max = null, DateTime oldest = default(DateTime),
             int? take = null)
         {
-            return (from activity in activities.Take(take ?? activities.Count()).Reverse()
+            return (from activity in activities.Take(take ?? activities.Count())
                     where activity.Timestamp >= oldest
                     && (channel == null || activity.ChannelId == channel)
                     && (conversation == null || activity.Conversation.Id == conversation)
@@ -121,8 +121,8 @@ namespace Microsoft.Bot.Builder.Tests
         {
             public bool Equals(IActivity x, IActivity y)
             {
-                var m1 = x as IMessageActivity;
-                var m2 = y as IMessageActivity;
+                var m1 = (IMessageActivity)x;
+                var m2 = (IMessageActivity) y;
                 return m1.ChannelId == m2.ChannelId
                     && m1.Conversation.Id == m2.Conversation.Id
                     && m1.From.Id == m2.From.Id
@@ -158,6 +158,8 @@ namespace Microsoft.Bot.Builder.Tests
                 ToUser("Welcome to the bot"),
                 ToBot("Weather"),
                 ToUser("or not"),
+                // Make sure auto-increment works
+                ToUser("right away", increment:0),
                 ToUser("another conversation", conversation:"conversation2"),
                 ToUser("somewhere else", channel:"channel2"),
                 MakeActivity("to someone else", to:"user2"),
@@ -171,8 +173,22 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 await logger.LogAsync(activities[i]);
                 var oldest = _lastActivity.AddSeconds(-30);
-                AssertEqual(Filter(activities, max: 2, oldest: oldest, take: i + 1), source.Activities(_defaultChannel, _defaultConversation, 2, oldest));
+                AssertEqual(Filter(activities, oldest: oldest, take: i + 1), source.Activities(_defaultChannel, _defaultConversation, oldest));
             }
+
+            // Force a logging failure because message is too big.
+            var chars = new char[100000];
+            for(var i = 0; i < chars.Length; ++i)
+            {
+                chars[i] = (char)i;
+            }
+            try
+            {
+                await logger.LogAsync(MakeActivity(new string(chars)));
+                Assert.Fail("Should have gotten exception.");
+            }
+            catch (System.AggregateException)
+            { }
 
             var conversation = Filter(activities);
             AssertEqual(conversation, source.Activities(_defaultChannel, _defaultConversation));
@@ -180,7 +196,7 @@ namespace Microsoft.Bot.Builder.Tests
             AssertEqual(Filter(activities, conversation: "conversation2"), source.Activities(_defaultChannel, "conversation2"));
 
             var transcript = new List<string>();
-            foreach (var activity in conversation.Reverse<IActivity>())
+            foreach (var activity in conversation)
             {
                 var msg = activity as IMessageActivity;
                 if (msg != null)
@@ -189,8 +205,6 @@ namespace Microsoft.Bot.Builder.Tests
                     transcript.Add($"{msg.Text}");
                 }
             }
-            var replay = new ReplayTranscript();
-            await source.WalkActivitiesAsync(replay.Collect, _defaultChannel, _defaultConversation);
             int j = 0;
             var botToUser = new Mock<IBotToUser>();
             botToUser
@@ -201,7 +215,8 @@ namespace Microsoft.Bot.Builder.Tests
             botToUser
                 .Setup(p => p.MakeMessage())
                 .Returns(new Activity());
-            await replay.Replay(botToUser.Object);
+            var replay = new ReplayTranscript(botToUser.Object);
+            await source.WalkActivitiesAsync(replay.Replay, _defaultChannel, _defaultConversation);
 
             await manager.DeleteConversationAsync(_defaultChannel, "conversation2");
             Assert.AreEqual(0, source.Activities(_defaultChannel, "conversation2").Count());

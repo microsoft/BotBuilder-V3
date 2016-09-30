@@ -33,13 +33,17 @@
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.History;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,6 +52,10 @@ namespace Microsoft.Bot.Builder.Azure
     /// <summary>
     /// Log conversation activities to Azure Table Storage.
     /// </summary>
+    /// <remarks>
+    /// Activities are limited to ~64k when converted to JSON and compressed.  If an activity is bigger than that,
+    /// it will be dropped.  If your activities are larger, you either need to preprocess them first or use another implementation.
+    /// </remarks>
     public class TableLogger : IActivityLogger, IActivitySource, IActivityManager
     {
         /// <summary>
@@ -71,7 +79,8 @@ namespace Microsoft.Bot.Builder.Azure
                 RowKey = GenerateRowKey(activity.Timestamp.Value);
                 From = activity.From.Id;
                 Recipient = activity.Recipient.Id;
-                Activity = JsonConvert.SerializeObject(activity);
+                
+                Activity = JsonConvert.SerializeObject(activity).Compress();
                 Version = 3.0;
             }
 
@@ -91,9 +100,9 @@ namespace Microsoft.Bot.Builder.Azure
             public string Recipient { get; set; }
 
             /// <summary>
-            /// JSON Serialization of full activity message.
+            /// Compressed JSON Serialization of full activity message.
             /// </summary>
-            public string Activity { get; set; }
+            public byte[] Activity { get; set; }
 
             /// <summary>
             /// Generate a partition key given <paramref name="channelId"/> and <paramref name="conversationId"/>.
@@ -107,13 +116,13 @@ namespace Microsoft.Bot.Builder.Azure
             }
 
             /// <summary>
-            /// Generate row key that orders activities by time descending.
+            /// Generate row key for ascending <paramref name="timestamp"/>.
             /// </summary>
             /// <param name="timestamp">Timestamp of activity.</param>
             /// <returns></returns>
             public static string GenerateRowKey(DateTime timestamp)
             {
-                return $"{DateTime.MaxValue.Ticks - timestamp.Ticks:D19}";
+                return $"{timestamp.Ticks:D19}";
             }
         }
 
@@ -125,6 +134,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="table">Table stroage to use for storing activities.</param>
         public TableLogger(CloudTable table)
         {
+            SetField.CheckNull(nameof(_table), table);
             _table = table;
         }
 
@@ -141,40 +151,21 @@ namespace Microsoft.Bot.Builder.Azure
             return Write(_table, activity);
         }
 
-        /// <summary>
-        /// Produce an enumeration over conversation in time reversed order.
-        /// </summary>
-        /// <param name="channelId">Channel where conversation happened.</param>
-        /// <param name="conversationId">Conversation within the channel.</param>
-        /// <param name="max">Maximum number of activities to return.</param>
-        /// <param name="oldest">Earliest time to include.</param>
-        /// <param name="cancel">Cancellation token.</param>
-        /// <returns>Enumeration over the recorded activities.</returns>
-        IEnumerable<IActivity> IActivitySource.Activities(string channelId, string conversationId, int? max, DateTime oldest, CancellationToken cancel)
+        IEnumerable<IActivity> IActivitySource.Activities(string channelId, string conversationId, DateTime oldest)
         {
-            var query = BuildQuery(channelId, conversationId, max, oldest);
+            var query = BuildQuery(channelId, conversationId, oldest);
             return _table.ExecuteQuery(query,
-                (partitionKey, rowKey, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].StringValue));
+                (partitionKey, rowKey, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].BinaryValue.Decompress()));
         }
 
-        /// <summary>
-        /// Walk over recorded activities and call a function on them.
-        /// </summary>
-        /// <param name="function">Function to apply to each actitivty.</param>
-        /// <param name="channelId">ChannelId to filter on or null for no filter.</param>
-        /// <param name="conversationId">ConversationId to filter on or null for no filter.</param>
-        /// <param name="max">Maximum number of results, or null for no limit.</param>
-        /// <param name="oldest">Oldest timestamp to include.</param>
-        /// <param name="cancel">Cancellation token.</param>
-        /// <returns></returns>
-        async Task IActivitySource.WalkActivitiesAsync(Func<IActivity, Task> function, string channelId, string conversationId, int? max, DateTime oldest, CancellationToken cancel)
+        async Task IActivitySource.WalkActivitiesAsync(Func<IActivity, Task> function, string channelId, string conversationId, DateTime oldest, CancellationToken cancel)
         {
-            var query = BuildQuery(channelId, conversationId, max, oldest);
+            var query = BuildQuery(channelId, conversationId, oldest);
             TableContinuationToken continuationToken = null;
             do
             {
                 var results = await _table.ExecuteQuerySegmentedAsync(query, 
-                    (paritionKey, rowKy, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].StringValue),
+                    (paritionKey, rowKy, timestamp, properties, etag) => JsonConvert.DeserializeObject<Activity>(properties["Activity"].BinaryValue.Decompress()),
                     continuationToken, cancel);
                 foreach (var result in results)
                 {
@@ -209,8 +200,10 @@ namespace Microsoft.Bot.Builder.Azure
         async Task IActivityManager.DeleteBeforeAsync(DateTime oldest, CancellationToken cancel)
         {
             var rowKey = ActivityEntity.GenerateRowKey(oldest);
-            var query = new TableQuery<ActivityEntity>().Select(new string[] { "PartitionKey", "RowKey" });
-            await DeleteAsync(query, cancel, qs => (from r in qs where string.Compare(r.RowKey, rowKey, StringComparison.Ordinal) > 0 select r));
+            var query = new TableQuery<ActivityEntity>()
+                .Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, rowKey))
+                .Select(new string[] { "PartitionKey", "RowKey" });
+            await DeleteAsync(query, cancel);
         }
 
         async Task IActivityManager.DeleteUserActivitiesAsync(string userId, CancellationToken cancel)
@@ -219,7 +212,7 @@ namespace Microsoft.Bot.Builder.Azure
             await DeleteAsync(query, cancel, qs => (from r in qs where r.From == userId || r.Recipient == userId select r));
         }
 
-        private TableQuery BuildQuery(string channelId, string conversationId, int? max, DateTime oldest)
+        private static TableQuery BuildQuery(string channelId, string conversationId, DateTime oldest)
         {
             var query = new TableQuery();
             string filter = null;
@@ -236,7 +229,7 @@ namespace Microsoft.Bot.Builder.Azure
             if (oldest != default(DateTime))
             {
                 var rowKey = ActivityEntity.GenerateRowKey(oldest);
-                var rowFilter = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, rowKey);
+                var rowFilter = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.GreaterThanOrEqual, rowKey);
                 if (filter == null)
                 {
                     filter = rowFilter;
@@ -250,7 +243,6 @@ namespace Microsoft.Bot.Builder.Azure
             {
                 query.Where(filter);
             }
-            query.Take(max);
             return query;
         }
 
@@ -310,7 +302,7 @@ namespace Microsoft.Bot.Builder.Azure
                 }
                 t.Wait();
                 return t;
-            });
+            }).Unwrap();
         }
     }
 
@@ -363,6 +355,34 @@ namespace Microsoft.Bot.Builder.Azure
     {
         public static void Forget<T>(this Task<T> task)
         {
+        }
+
+        public static byte[] Compress(this string str)
+        {
+            var bytes = Encoding.UTF8.GetBytes(str);
+
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    msi.CopyTo(gs);
+                }
+                return mso.ToArray();
+            }
+        }
+
+        public static string Decompress(this byte[] bytes)
+        {
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+                {
+                    gs.CopyTo(mso);
+                }
+                return Encoding.UTF8.GetString(mso.ToArray());
+            }
         }
     }
 }
