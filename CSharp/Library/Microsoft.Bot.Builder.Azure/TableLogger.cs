@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Builder.Azure
     /// Log conversation activities to Azure Table Storage.
     /// </summary>
     /// <remarks>
-    /// Activities are limited to ~64k when converted to JSON and compressed.  If an activity is bigger than that,
+    /// Activities are limited to ~1mb when converted to JSON and compressed.  If an activity is bigger than that,
     /// it will be dropped.  If your activities are larger, you either need to preprocess them first or use another implementation.
     /// </remarks>
     public class TableLogger : IActivityLogger, IActivitySource, IActivityManager
@@ -79,8 +79,7 @@ namespace Microsoft.Bot.Builder.Azure
                 RowKey = GenerateRowKey(activity.Timestamp.Value);
                 From = activity.From.Id;
                 Recipient = activity.Recipient.Id;
-                
-                CompressedActivity = JsonConvert.SerializeObject(activity).Compress();
+                Activity = activity;
                 Version = 3.0;
             }
 
@@ -100,27 +99,58 @@ namespace Microsoft.Bot.Builder.Azure
             public string Recipient { get; set; }
 
             /// <summary>
-            /// Compressed JSON Serialization of full activity message.
+            /// Logged activity.
             /// </summary>
-            public byte[] CompressedActivity { get; set; }
+            [IgnoreProperty]
+            public IActivity Activity { get; set; }
+
+            private const int FieldLimit = 1 << 16;
 
             /// <summary>
-            /// Return acutal IActivity.
+            /// Write out entity with distributed activity.
             /// </summary>
-            /// <returns>Logged IActivity.</returns>
-            public IActivity Activity()
+            /// <param name="operationContext"></param>
+            /// <returns></returns>
+            public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
             {
-                return (IActivity) JsonConvert.DeserializeObject(CompressedActivity.Decompress());
+                var props = base.WriteEntity(operationContext);
+                var buffer = JsonConvert.SerializeObject(Activity).Compress();
+                var start = 0;
+                var blockid = 0;
+                while (start < buffer.Length)
+                {
+                    var blockSize = Math.Min(buffer.Length - start, FieldLimit);
+                    var block = new byte[blockSize];
+                    Array.Copy(buffer, start, block, 0, blockSize);
+                    props[$"Activity{blockid++}"] = new EntityProperty(block);
+                    start += blockSize;
+                }
+                return props;
             }
 
             /// <summary>
-            /// Generate activity object from table storage properties.
+            /// Read entity with distributed activity.
             /// </summary>
             /// <param name="properties"></param>
-            /// <returns>Logged IActivity.</returns>
-            public static IActivity Activity(IDictionary<string, EntityProperty> properties)
+            /// <param name="operationContext"></param>
+            public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
             {
-                return (IActivity)JsonConvert.DeserializeObject(properties["CompressedActivity"].BinaryValue.Decompress());
+                base.ReadEntity(properties, operationContext);
+                var blocks = 0;
+                var size = 0;
+                EntityProperty entityBlock;
+                while (properties.TryGetValue($"Activity{blocks}", out entityBlock))
+                {
+                    ++blocks;
+                    size += entityBlock.BinaryValue.Length;
+                }
+                var buffer = new byte[size];
+                for (var blockid = 0; blockid < blocks; ++blockid)
+                {
+                    var block = properties[$"Activity{blockid}"].BinaryValue;
+                    Array.Copy(block, 0, buffer, blockid * FieldLimit, block.Length);
+                }
+                Activity = JsonConvert.DeserializeObject<Activity>(buffer.Decompress());
             }
 
             /// <summary>
@@ -173,8 +203,12 @@ namespace Microsoft.Bot.Builder.Azure
         IEnumerable<IActivity> IActivitySource.Activities(string channelId, string conversationId, DateTime oldest)
         {
             var query = BuildQuery(channelId, conversationId, oldest);
-            return _table.ExecuteQuery(query,
-                (partitionKey, rowKey, timestamp, properties, etag) => ActivityEntity.Activity(properties));
+            return _table.ExecuteQuery(query, (pkey, rkey, ts, properties, etag) =>
+            {
+                var entity = new ActivityEntity();
+                entity.ReadEntity(properties, null);
+                return entity.Activity;
+            });
         }
 
         async Task IActivitySource.WalkActivitiesAsync(Func<IActivity, Task> function, string channelId, string conversationId, DateTime oldest, CancellationToken cancel)
@@ -183,8 +217,13 @@ namespace Microsoft.Bot.Builder.Azure
             TableContinuationToken continuationToken = null;
             do
             {
-                var results = await _table.ExecuteQuerySegmentedAsync(query, 
-                    (paritionKey, rowKy, timestamp, properties, etag) => ActivityEntity.Activity(properties),
+                var results = await _table.ExecuteQuerySegmentedAsync(query,
+                    (pKey, rowKey, timestamp, properties, etag) =>
+                    {
+                        var entity = new ActivityEntity();
+                        entity.ReadEntity(properties, null);
+                        return entity.Activity;
+                    },
                     continuationToken, cancel);
                 foreach (var result in results)
                 {

@@ -122,7 +122,7 @@ namespace Microsoft.Bot.Builder.Tests
             public bool Equals(IActivity x, IActivity y)
             {
                 var m1 = (IMessageActivity)x;
-                var m2 = (IMessageActivity) y;
+                var m2 = (IMessageActivity)y;
                 return m1.ChannelId == m2.ChannelId
                     && m1.Conversation.Id == m2.Conversation.Id
                     && m1.From.Id == m2.From.Id
@@ -138,20 +138,29 @@ namespace Microsoft.Bot.Builder.Tests
                 throw new NotImplementedException();
             }
         }
-
+         
         [TestMethod]
         [TestCategory("Azure")]
         public async Task TableLoggerTest()
         {
             var tableName = "Activities";
-            CloudStorageAccount.DevelopmentStorageAccount.CreateCloudTableClient().GetTableReference(tableName).DeleteIfExists();
+            var account = CloudStorageAccount.DevelopmentStorageAccount;
+            account.CreateCloudTableClient().GetTableReference(tableName).DeleteIfExists();
             var builder = new ContainerBuilder();
-            builder
-                .RegisterModule(new TableLoggerModule(CloudStorageAccount.DevelopmentStorageAccount, tableName));
+            builder.RegisterModule(new TableLoggerModule(account, tableName));
             var container = builder.Build();
             var logger = container.Resolve<IActivityLogger>();
             var source = container.Resolve<IActivitySource>();
             var manager = container.Resolve<IActivityManager>();
+
+            // Message bigger than one block
+            var chars = new char[100000];
+            var rand = new Random();
+            for (var i = 0; i < chars.Length; ++i)
+            {
+                chars[i] = (char)('0' + rand.Next(74));
+            }
+
             var activities = new List<IActivity>
             {
                 ToBot("Hi"),
@@ -160,6 +169,8 @@ namespace Microsoft.Bot.Builder.Tests
                 ToUser("or not"),
                 // Make sure auto-increment works
                 ToUser("right away", increment:0),
+                // Bigger than one property
+                ToUser(new string(chars)),
                 ToUser("another conversation", conversation:"conversation2"),
                 ToUser("somewhere else", channel:"channel2"),
                 MakeActivity("to someone else", to:"user2"),
@@ -175,20 +186,6 @@ namespace Microsoft.Bot.Builder.Tests
                 var oldest = _lastActivity.AddSeconds(-30);
                 AssertEqual(Filter(activities, oldest: oldest, take: i + 1), source.Activities(_defaultChannel, _defaultConversation, oldest));
             }
-
-            // Force a logging failure because message is too big.
-            var chars = new char[100000];
-            for(var i = 0; i < chars.Length; ++i)
-            {
-                chars[i] = (char)i;
-            }
-            try
-            {
-                await logger.LogAsync(MakeActivity(new string(chars)));
-                Assert.Fail("Should have gotten exception.");
-            }
-            catch (System.AggregateException)
-            { }
 
             var conversation = Filter(activities);
             AssertEqual(conversation, source.Activities(_defaultChannel, _defaultConversation));
@@ -238,7 +235,9 @@ namespace Microsoft.Bot.Builder.Tests
 
         private void AssertEqual(IEnumerable<IActivity> expected, IEnumerable<IActivity> actual)
         {
-            Assert.IsTrue(expected.SequenceEqual(actual, new CompareActivity()));
+            var exp = expected.ToList();
+            var act = actual.ToList();
+            Assert.IsTrue(exp.SequenceEqual(act, new CompareActivity()));
         }
     }
 }
