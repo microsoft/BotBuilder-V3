@@ -37,6 +37,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.History
 {
+    /// <summary>
+    /// Interface for managing activity history.
+    /// </summary>
     public interface IActivityManager
     {
         /// <summary>

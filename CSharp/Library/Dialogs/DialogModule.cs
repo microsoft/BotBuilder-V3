@@ -231,9 +231,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new LogToUser(new MapToChannelData_BotToUser(
+                .Register(c => new LogBotToUser(new MapToChannelData_BotToUser(
                     c.Resolve<AlwaysSendDirect_BotToUser>(), 
-                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }), c.Resolve<IActivityLogger>())
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }), c.Resolve<IActivityLogger>()))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 

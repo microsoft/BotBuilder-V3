@@ -37,6 +37,7 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage.Table.Protocol;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -183,8 +184,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="table">Table stroage to use for storing activities.</param>
         public TableLogger(CloudTable table)
         {
-            SetField.CheckNull(nameof(_table), table);
-            _table = table;
+            SetField.NotNull(out _table, nameof(_table), table);
         }
 
         /// <summary>
@@ -245,8 +245,8 @@ namespace Microsoft.Bot.Builder.Azure
         {
             var pk = ActivityEntity.GeneratePartitionKey(channelId, conversationId);
             var query = new TableQuery<ActivityEntity>()
-                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, pk))
-                .Select(new string[] { "PartitionKey", "RowKey" });
+                .Where(TableQuery.GenerateFilterCondition(TableConstants.PartitionKey, QueryComparisons.Equal, pk))
+                .Select(new string[] { TableConstants.PartitionKey, TableConstants.RowKey });
             await DeleteAsync(query, cancel);
         }
 
@@ -259,14 +259,14 @@ namespace Microsoft.Bot.Builder.Azure
         {
             var rowKey = ActivityEntity.GenerateRowKey(oldest);
             var query = new TableQuery<ActivityEntity>()
-                .Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.LessThan, rowKey))
-                .Select(new string[] { "PartitionKey", "RowKey" });
+                .Where(TableQuery.GenerateFilterCondition(TableConstants.RowKey, QueryComparisons.LessThan, rowKey))
+                .Select(new string[] { TableConstants.PartitionKey, TableConstants.RowKey });
             await DeleteAsync(query, cancel);
         }
 
         async Task IActivityManager.DeleteUserActivitiesAsync(string userId, CancellationToken cancel)
         {
-            var query = new TableQuery<ActivityEntity>().Select(new string[] { "PartitionKey", "RowKey", "From", "Recipient" });
+            var query = new TableQuery<ActivityEntity>().Select(new string[] { TableConstants.PartitionKey, TableConstants.RowKey, "From", "Recipient" });
             await DeleteAsync(query, cancel, qs => (from r in qs where r.From == userId || r.Recipient == userId select r));
         }
 
@@ -277,17 +277,17 @@ namespace Microsoft.Bot.Builder.Azure
             if (channelId != null && conversationId != null)
             {
                 var pkey = ActivityEntity.GeneratePartitionKey(channelId, conversationId);
-                filter = TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, pkey);
+                filter = TableQuery.GenerateFilterCondition(TableConstants.PartitionKey, QueryComparisons.Equal, pkey);
             }
             else if (channelId != null)
             {
                 var pkey = ActivityEntity.GeneratePartitionKey(channelId, "");
-                filter = TableQuery.GenerateFilterCondition("ParitionKey", QueryComparisons.GreaterThanOrEqual, pkey);
+                filter = TableQuery.GenerateFilterCondition(TableConstants.PartitionKey, QueryComparisons.GreaterThanOrEqual, pkey);
             }
             if (oldest != default(DateTime))
             {
                 var rowKey = ActivityEntity.GenerateRowKey(oldest);
-                var rowFilter = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.GreaterThanOrEqual, rowKey);
+                var rowFilter = TableQuery.GenerateFilterCondition(TableConstants.RowKey, QueryComparisons.GreaterThanOrEqual, rowKey);
                 if (filter == null)
                 {
                     filter = rowFilter;
@@ -411,10 +411,11 @@ namespace Microsoft.Bot.Builder.Azure
 
     static partial class Extensions
     {
-        public static void Forget<T>(this Task<T> task)
-        {
-        }
-
+        /// <summary>
+        /// Compress a string into a byte array.
+        /// </summary>
+        /// <param name="str">String to compress.</param>
+        /// <returns>Compressed byte array.</returns>
         public static byte[] Compress(this string str)
         {
             var bytes = Encoding.UTF8.GetBytes(str);
@@ -430,6 +431,11 @@ namespace Microsoft.Bot.Builder.Azure
             }
         }
 
+        /// <summary>
+        /// Decompress a string from a byte array.
+        /// </summary>
+        /// <param name="bytes">Compressed string.</param>
+        /// <returns>Uncompressed string.</returns>
         public static string Decompress(this byte[] bytes)
         {
             using (var msi = new MemoryStream(bytes))

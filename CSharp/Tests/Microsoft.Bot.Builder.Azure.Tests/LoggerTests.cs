@@ -143,7 +143,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestCategory("Azure")]
         public async Task TableLoggerTest()
         {
-            var tableName = "Activities";
+            var tableName = "TableLoggerTestActivities";
             var account = CloudStorageAccount.DevelopmentStorageAccount;
             account.CreateCloudTableClient().GetTableReference(tableName).DeleteIfExists();
             var builder = new ContainerBuilder();

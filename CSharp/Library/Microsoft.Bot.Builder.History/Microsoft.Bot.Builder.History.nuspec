@@ -14,7 +14,7 @@
     <summary>Microsoft History extensions for Microsoft.Bot.Builder.</summary>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Microsoft.Bot.Builder" version="3.0.0"/>
+      <dependency id="Microsoft.Bot.Builder" version="$builder$"/>
     </dependencies>
   </metadata>
   <files>

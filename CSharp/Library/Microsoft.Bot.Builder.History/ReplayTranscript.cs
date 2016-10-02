@@ -52,6 +52,7 @@ namespace Microsoft.Bot.Builder.History
         /// <summary>
         /// Constructor.
         /// </summary>
+        /// <param name="botToUser">Where to replay transcript.</param>
         /// <param name="header">Function for defining the transcript header on each message.</param>
         public ReplayTranscript(IBotToUser botToUser, Func<IActivity, string> header = null)
         {
@@ -82,6 +83,9 @@ namespace Microsoft.Bot.Builder.History
                 }
                 act.From = msg.From;
                 act.Recipient = msg.Recipient;
+                act.ReplyToId = msg.ReplyToId;
+                act.ChannelId = msg.ChannelId;
+                act.Conversation = msg.Conversation;
                 await _botToUser.PostAsync(act);
             }
         }

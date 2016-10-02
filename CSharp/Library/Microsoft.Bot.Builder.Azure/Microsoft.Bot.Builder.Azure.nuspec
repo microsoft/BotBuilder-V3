@@ -6,16 +6,16 @@
     <authors>Microsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      Provide Microsoft Azure extensions to the Microsoft Bot Builder.  In particular this include:
-      * Activity logger for table storage which allows recording and retrieving conversation activities.
+      Provide Microsoft Azure extensions to the Microsoft Bot Builder.  In particular this includes:
+      * TableLogger -- Activity logger for table storage which allows recording and retrieving conversation activities.
+      * ReplayTranscript -- Replay activity history on any channel.
     </description>
     <projectUrl>https://github.com/Microsoft/BotBuilder</projectUrl>
     <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
-    <summary>Microsoft Azure extensions for Microsoft.Bot.Builder.</summary>
+    <summary>Microsoft Azure extensions for Microsoft Bot Builder.</summary>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Microsoft.Bot.Builder" version="3.3"/>
-      <dependency id="Microsoft.Bot.Builder.History" version="3.0"/>
+      <dependency id="Microsoft.Bot.Builder.History" version="$history$"/>
       <dependency id="Newtonsoft.Json" version="8.0.3" />
       <dependency id="WindowsAzure.Storage" version="7.2.1" />
     </dependencies>
