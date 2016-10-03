@@ -102,7 +102,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return Task.FromResult(true);
         }
 
-        private string GetKey(IAddress key, BotStoreType botStoreType)
+        private static string GetKey(IAddress key, BotStoreType botStoreType)
         {
             switch (botStoreType)
             {
@@ -238,7 +238,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
-            CacheEntry entry = default(CacheEntry);
+            CacheEntry entry;
             if (cache.TryGetValue(key, out entry))
             {
                 // Removing the cached entry to make sure that we are not leaking 
@@ -287,6 +287,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                             value = cacheEntry.BotUserData;
                         }
                         break;
+                    default:
+                        throw new NotImplementedException();
                 }
 
                 if (value == null)
@@ -340,13 +342,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 case BotStoreType.BotUserData:
                     entry.BotUserData = value;
                     break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
         private async Task Save(IAddress key, CacheEntry entry, CancellationToken cancellationToken)
         {
-            var tasks = new List<Task>();
-
             switch (this.dataConsistencyPolicy)
             {
                 case CachingBotDataStoreConsistencyPolicy.LastWriteWins:
@@ -371,6 +373,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 default:
                     throw new ArgumentException($"{this.dataConsistencyPolicy} is not a valid consistency policy!");
             }
+
+            var tasks = new List<Task>(capacity: 3);
 
             if (entry?.BotConversationData != null)
             {
