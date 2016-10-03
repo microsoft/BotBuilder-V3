@@ -162,6 +162,38 @@ namespace Microsoft.Bot.Builder.Tests
     public sealed class FiberTests : FiberTestBase
     {
         [TestMethod]
+        public async Task Wait_is_Awaitable()
+        {
+            var expected = Guid.NewGuid();
+
+            var completion = new Wait<object, Guid>();
+
+            IWait wait = completion;
+            Assert.AreEqual(Need.None, wait.Need, "at initial state");
+
+            IWait<object, Guid> typed = completion;
+            typed.Wait(async (f, c, item) => {
+                Assert.AreEqual(Need.Call, wait.Need, "inside callback state");
+                return null;
+            });
+            Assert.AreEqual(Need.Wait, wait.Need, "waiting state");
+
+            IPost<Guid> post = completion;
+            post.Post(expected);
+            Assert.AreEqual(Need.Poll, wait.Need, "need to poll state");
+
+            IFiber<object> fiber = null;
+            object context = null;
+            await typed.PollAsync(fiber, context);
+            Assert.AreEqual(Need.Done, wait.Need, "done state");
+
+            IAwaitable<Guid> awaitable = completion;
+            var actual = await awaitable;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public async Task Fiber_Is_Serializable()
         {
             // arrange
