@@ -36,12 +36,11 @@ var ChatConnector = (function () {
                 _this.verifyBotFramework(req, res);
             }
             else {
-                var requestData = '';
+                var requestData = [];
                 req.on('data', function (chunk) {
-                    requestData += chunk;
-                });
-                req.on('end', function () {
-                    req.body = JSON.parse(requestData);
+                    requestData.push(chunk)
+                }).on('end', function () {
+                    req.body = Buffer.concat(body).toString();
                     _this.verifyBotFramework(req, res);
                 });
             }
