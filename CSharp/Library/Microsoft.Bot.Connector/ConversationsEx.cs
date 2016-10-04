@@ -130,6 +130,38 @@ namespace Microsoft.Bot.Connector
             return operations.ReplyToActivityAsync(activity.Conversation.Id, activity.ReplyToId, activity, cancellationToken);
         }
 
+        /// <summary>
+        /// Update an activity in an existing conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to update
+        /// </param>
+        public static ResourceResponse UpdateActivity(this IConversations operations, Activity activity)
+        {
+            return Task.Factory.StartNew(s => ((IConversations)s).UpdateActivityAsync(activity.Conversation.Id, activity.Id, activity), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Update an activity in an existing conversation
+        /// </summary>
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='activity'>
+        /// Activity to update
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static Task<ResourceResponse> UpdateActivityAsync(this IConversations operations, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return operations.UpdateActivityAsync(activity.Conversation.Id, activity.Id, activity, cancellationToken);
+        }
+
+
         private static ConversationParameters GetDirectParameters(string botId, string userId)
         {
             return new ConversationParameters() { Bot = new ChannelAccount(botId), Members = new ChannelAccount[] { new ChannelAccount(userId) } };
