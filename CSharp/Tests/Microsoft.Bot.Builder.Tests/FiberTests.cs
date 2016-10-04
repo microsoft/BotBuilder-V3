@@ -171,9 +171,18 @@ namespace Microsoft.Bot.Builder.Tests
             IWait wait = completion;
             Assert.AreEqual(Need.None, wait.Need, "at initial state");
 
+            IFiber<object> fiber = new Mock<IFiber<object>>(MockBehavior.Strict).Object;
+            object context = new object();
+
             IWait<object, Guid> typed = completion;
             typed.Wait(async (f, c, item) => {
                 Assert.AreEqual(Need.Call, wait.Need, "inside callback state");
+
+                Assert.AreEqual(fiber, f);
+                Assert.AreEqual(context, c);
+
+                Assert.AreEqual(expected, item.GetAwaiter().GetResult());
+                Assert.AreEqual(expected, await item);
                 return null;
             });
             Assert.AreEqual(Need.Wait, wait.Need, "waiting state");
@@ -182,8 +191,6 @@ namespace Microsoft.Bot.Builder.Tests
             post.Post(expected);
             Assert.AreEqual(Need.Poll, wait.Need, "need to poll state");
 
-            IFiber<object> fiber = null;
-            object context = null;
             await typed.PollAsync(fiber, context);
             Assert.AreEqual(Need.Done, wait.Need, "done state");
 
