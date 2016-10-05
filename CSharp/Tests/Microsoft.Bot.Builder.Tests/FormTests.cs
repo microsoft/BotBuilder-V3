@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.Tests
             public string Text { get; set; }
             public int Integer { get; set; }
             public float? Float { get; set; }
-            public SimpleChoices Choices { get; set; }
+            public SimpleChoices SomeChoices { get; set; }
             public DateTime Date { get; set; }
         }
 
@@ -222,6 +222,41 @@ namespace Microsoft.Bot.Builder.Tests
                 "1/1/2016",
                 "99"
                 );
+        }
+
+        [TestMethod]
+        public async Task Field_Dependency_Script()
+        {
+            await VerifyFormScript(@"..\..\SimpleForm-dependency.script",
+                "en-us",
+                () => new FormBuilder<SimpleForm>()
+                    .Field("Float")
+                    .Field("SomeChoices", 
+                        validate: async (state, value) =>
+                        {
+                            var result = new ValidateResult { IsValid = true, Value = value };
+                            if ((SimpleChoices) value == SimpleChoices.One)
+                            {
+                                state.Float = null;
+                            }
+                            return result;
+                        })
+                    .Confirm("All OK?")
+                    .Build(),
+            FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+            "Hi",
+            "1.0",
+            "one",
+            "2.0",
+            "no",
+            "Some Choices",
+            "one",
+            "3.0",
+            "no",
+            "some choices",
+            "two",
+            "yes"
+        );
         }
 
         [TestMethod]
@@ -429,7 +464,7 @@ namespace Microsoft.Bot.Builder.Tests
                     .Message("Welcome")
                     .Field(nameof(xxx))
                     .Field(nameof(yyy), validate: async (state, value) =>
-                        new ValidateResult() { IsValid = true} )
+                        new ValidateResult() { IsValid = true })
                     .Build()
                     ;
             }

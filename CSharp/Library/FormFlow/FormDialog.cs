@@ -620,6 +620,15 @@ namespace Microsoft.Bot.Builder.FormFlow
                 case StepDirection.Next:
                     {
                         var start = _formState.Step;
+                        // Reset any non-optional field step that has been reset to no value
+                        for (var i = 0; i < _form.Steps.Count; ++i)
+                        {
+                            var step = _form.Steps[i];
+                            if (step.Type == StepType.Field && _formState.Phase(i) == StepPhase.Completed && !step.Field.Optional && step.Field.IsUnknown(_state))
+                            {
+                                _formState.SetPhase(i, StepPhase.Ready);
+                            }
+                        }
                         // Next ready step including current one
                         for (var offset = 0; offset < _form.Steps.Count; ++offset)
                         {
