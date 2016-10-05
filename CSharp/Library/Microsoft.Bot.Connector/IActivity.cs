@@ -70,14 +70,4 @@ namespace Microsoft.Bot.Connector
         /// </remarks>
         dynamic ChannelData { get; set; }
     }
-
-
-
-    /// <summary>
-    /// The From address is typing
-    /// </summary>
-    public interface ITypingActivity : IActivity
-    {
-    }
-
 }

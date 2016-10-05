@@ -85,7 +85,9 @@
     <Compile Include="ConnectorAPI\Models\VideoCard.cs" />
     <Compile Include="ContactRelationUpdateActionTypes.cs" />
     <Compile Include="HttpClientEx.cs" />
+    <Compile Include="IEndOfConversationActivity.cs" />
     <Compile Include="ITriggerActivity.cs" />
+    <Compile Include="ITypingActivity.cs" />
     <Compile Include="TextFormatTypes.cs" />
     <Compile Include="AttachmentLayoutTypes.cs" />
     <Compile Include="AttachmentsEx.cs" />

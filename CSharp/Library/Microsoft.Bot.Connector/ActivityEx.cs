@@ -13,7 +13,14 @@ namespace Microsoft.Bot.Connector
     using System.Configuration;
     using System.Text;
 
-    public partial class Activity : IActivity, IContactRelationUpdateActivity, IMessageActivity, ITypingActivity, IConversationUpdateActivity, ITriggerActivity
+    public partial class Activity :
+        IActivity,
+        IConversationUpdateActivity,
+        IContactRelationUpdateActivity,
+        IMessageActivity,
+        ITypingActivity,
+        IEndOfConversationActivity,
+        ITriggerActivity
     {
         [JsonExtensionData(ReadData = true, WriteData = true)]
         public JObject Properties { get; set; }
@@ -50,6 +57,10 @@ namespace Microsoft.Bot.Connector
         public static IConversationUpdateActivity CreateConversationUpdateActivity() { return new Activity(ActivityTypes.ConversationUpdate); }
 
         public static ITypingActivity CreateTypingActivity() { return new Activity(ActivityTypes.Typing); }
+
+        public static IEndOfConversationActivity CreateEndOfConversationActivity() { return new Activity(ActivityTypes.EndOfConversation); }
+
+        public static ITriggerActivity CreateTriggerActivity() { return new Activity(ActivityTypes.Trigger); }
 
         /// <summary>
         /// Get StateClient appropriate for this activity
