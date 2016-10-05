@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector
 {
@@ -23,14 +19,19 @@ namespace Microsoft.Bot.Connector
         string Id { get; set; }
 
         /// <summary>
-        /// (PROPOSED) ServiceUrl
+        /// ServiceUrl
         /// </summary>
         string ServiceUrl { get; set; }
 
         /// <summary>
-        /// Time when message was sent
+        /// UTC Time when message was sent
         /// </summary>
         DateTime? Timestamp { get; set; }
+
+        /// <summary>
+        /// Client Time when message was sent Ex: 2016-09-23T13:07:49.4714686-07:00
+        /// </summary>
+        DateTimeOffset? LocalTimestamp { get; set; }
 
         /// <summary>
         /// Channel this activity is associated with
@@ -43,14 +44,19 @@ namespace Microsoft.Bot.Connector
         ChannelAccount From { get; set; }
 
         /// <summary>
-        /// Conversation Address 
+        /// Address for the conversation that this activity is associated with
         /// </summary>
         ConversationAccount Conversation { get; set; }
 
         /// <summary>
-        /// Bot's address 
+        /// Address that received the message
         /// </summary>
         ChannelAccount Recipient { get; set; }
+
+        /// <summary>
+        /// The original id this message is a response to
+        /// </summary>
+        string ReplyToId { get; set; }
 
         /// <summary>
         /// Channel specific payload

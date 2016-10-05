@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector
 {
@@ -51,15 +49,9 @@ namespace Microsoft.Bot.Connector
         IList<Entity> Entities { get; set; }
 
         /// <summary>
-        /// the original id this message is a response to
+        /// True if this activity has text, attachments, or channelData
         /// </summary>
-        string ReplyToId { get; set; }
-
-        /// <summary>
-        /// Get mentions from the Entities field
-        /// </summary>
-        /// <returns></returns>
-        Mention[] GetMentions();
+        bool HasContent();
 
         /// <summary>
         /// Get channeldata as typed structure
@@ -69,10 +61,8 @@ namespace Microsoft.Bot.Connector
         TypeT GetChannelData<TypeT>();
 
         /// <summary>
-        /// Return the "major" portion of the activity
+        /// Get mentions
         /// </summary>
-        /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
-        string GetActivityType();
-
+        Mention[] GetMentions();
     }
 }
