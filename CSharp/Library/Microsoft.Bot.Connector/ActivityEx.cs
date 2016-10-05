@@ -63,6 +63,41 @@ namespace Microsoft.Bot.Connector
         public static ITriggerActivity CreateTriggerActivity() { return new Activity(ActivityTypes.Trigger); }
 
         /// <summary>
+        /// True if the Activity is of the specified activity type
+        /// </summary>
+        protected bool IsActivity(string activity) { return string.Compare(this.Type?.Split('/').First(), activity, true) == 0; }
+
+        /// <summary>
+        /// Return an IMessageActivity mask if this is a message activity
+        /// </summary>
+        public IMessageActivity AsMessageActivity() { return IsActivity(ActivityTypes.Message) ? this : null; }
+
+        /// <summary>
+        /// Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
+        /// </summary>
+        public IContactRelationUpdateActivity AsContactRelationUpdateActivity() { return IsActivity(ActivityTypes.ContactRelationUpdate) ? this : null; }
+
+        /// <summary>
+        /// Return an IConversationUpdateActivity mask if this is a conversation update activity
+        /// </summary>
+        public IConversationUpdateActivity AsConversationUpdateActivity() { return IsActivity(ActivityTypes.ConversationUpdate) ? this : null; }
+
+        /// <summary>
+        /// Return an ITypingActivity mask if this is a typing activity
+        /// </summary>
+        public ITypingActivity AsTypingActivity() { return IsActivity(ActivityTypes.Typing) ? this : null; }
+
+        /// <summary>
+        /// Return an ITriggerActivity mask if this is a trigger activity
+        /// </summary>
+        public ITriggerActivity AsTriggerActivity() { return IsActivity(ActivityTypes.Trigger) ? this : null; }
+
+        /// <summary>
+        /// Return an IEndOfConversationActivity mask if this is an end of conversation activity
+        /// </summary>
+        public IEndOfConversationActivity AsEndOfConversationActivity() { return IsActivity(ActivityTypes.EndOfConversation) ? this : null; }
+
+        /// <summary>
         /// Get StateClient appropriate for this activity
         /// </summary>
         /// <param name="microsoftAppId"></param>

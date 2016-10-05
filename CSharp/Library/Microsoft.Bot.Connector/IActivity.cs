@@ -75,5 +75,35 @@ namespace Microsoft.Bot.Connector
         /// The channel data essentially allows a bot to have access to native functionality on a per channel basis.
         /// </remarks>
         dynamic ChannelData { get; set; }
+
+        /// <summary>
+        /// Return IMessageActivity if this is a message activity, null otherwise
+        /// </summary>
+        IMessageActivity AsMessageActivity();
+
+        /// <summary>
+        /// Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
+        /// </summary>
+        IContactRelationUpdateActivity AsContactRelationUpdateActivity();
+
+        /// <summary>
+        /// Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
+        /// </summary>
+        IConversationUpdateActivity AsConversationUpdateActivity();
+
+        /// <summary>
+        /// Return ITypingActivity if this is a typing activity, null otherwise
+        /// </summary>
+        ITypingActivity AsTypingActivity();
+
+        /// <summary>
+        /// Return IEndOfConversationActivity if this is an end-of-conversation activity, null otherwise
+        /// </summary>
+        IEndOfConversationActivity AsEndOfConversationActivity();
+
+        /// <summary>
+        /// Returns ITriggerActivity if this is a trigger activity, null otherwise
+        /// </summary>
+        ITriggerActivity AsTriggerActivity();
     }
 }

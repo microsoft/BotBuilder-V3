@@ -3304,6 +3304,41 @@
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.IsActivity(System.String)">
+            <summary>
+            True if the Activity is of the specified activity type
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsMessageActivity">
+            <summary>
+            Return an IMessageActivity mask if this is a message activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsContactRelationUpdateActivity">
+            <summary>
+            Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsConversationUpdateActivity">
+            <summary>
+            Return an IConversationUpdateActivity mask if this is a conversation update activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsTypingActivity">
+            <summary>
+            Return an ITypingActivity mask if this is a typing activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsTriggerActivity">
+            <summary>
+            Return an ITriggerActivity mask if this is a trigger activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsEndOfConversationActivity">
+            <summary>
+            Return an IEndOfConversationActivity mask if this is an end of conversation activity
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
             <summary>
             Get StateClient appropriate for this activity
@@ -3812,6 +3847,36 @@
             
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsMessageActivity">
+            <summary>
+            Return IMessageActivity if this is a message activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsContactRelationUpdateActivity">
+            <summary>
+            Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsConversationUpdateActivity">
+            <summary>
+            Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsTypingActivity">
+            <summary>
+            Return ITypingActivity if this is a typing activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsEndOfConversationActivity">
+            <summary>
+            Return IEndOfConversationActivity if this is an end-of-conversation activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsTriggerActivity">
+            <summary>
+            Returns ITriggerActivity if this is a trigger activity, null otherwise
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IContactRelationUpdateActivity">
             <summary>
