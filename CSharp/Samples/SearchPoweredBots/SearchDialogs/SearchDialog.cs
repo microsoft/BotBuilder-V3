@@ -42,22 +42,26 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.SearchDialogs
 {
+    public delegate string CanonicalizerDelegate(string propertyName);
+
     [Serializable]
     public abstract class SearchDialog : IDialog<IList<SearchHit>>
     {
         protected readonly SearchQueryBuilder queryBuilder;
         protected readonly PromptStyler hitStyler;
         protected readonly bool multipleSelection;
+        protected readonly CanonicalizerDelegate canonicalizer;
         private readonly List<SearchHit> selected = new List<SearchHit>();
 
         protected bool firstPrompt = true;
         private List<SearchHit> found;
 
-        public SearchDialog(SearchQueryBuilder queryBuilder = null, PromptStyler searchHitStyler = null, bool multipleSelection = false)
+        public SearchDialog(SearchQueryBuilder queryBuilder = null, PromptStyler searchHitStyler = null, bool multipleSelection = false, CanonicalizerDelegate canonicalizer = null)
         {
             this.queryBuilder = queryBuilder ?? new SearchQueryBuilder();
             this.hitStyler = searchHitStyler ?? new SearchHitStyler();
             this.multipleSelection = multipleSelection;
+            this.canonicalizer = canonicalizer;
         }
 
         public Task StartAsync(IDialogContext context)
@@ -238,6 +242,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
 
         protected void SelectRefiner(IDialogContext context)
         {
+            // var dialog = new SearchLanguageDialog(canonicalizer);
             var dialog = new SearchSelectRefinerDialog(GetTopRefiners(), this.queryBuilder);
             context.Call(dialog, Refine);
         }
@@ -249,7 +254,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             context.Call(dialog, ResumeFromRefine);
         }
 
-        protected async Task ResumeFromRefine(IDialogContext context, IAwaitable<string> input)
+        protected async Task ResumeFromRefine(IDialogContext context, IAwaitable<FilterExpression> input)
         {
             await input; // refiner filter is already applied to the SearchQueryBuilder instance we passed in
             await Search(context, null);

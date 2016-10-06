@@ -60,13 +60,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
 
         public Task StartAsync(IDialogContext context)
         {
-            IEnumerable<string> unusedRefiners = this.refiners;
-            if (this.queryBuilder != null)
-            {
-                unusedRefiners = unusedRefiners.Except(this.queryBuilder.Refinements.Keys, StringComparer.OrdinalIgnoreCase);
-            }
-
-            PromptOptions<string> promptOptions = new PromptOptions<string>("What do you want to refine by?", options: unusedRefiners.ToList(), promptStyler: this.promptStyler);
+            PromptOptions<string> promptOptions = new PromptOptions<string>("What do you want to refine by?", options: this.refiners.ToList(), promptStyler: this.promptStyler);
             PromptDialog.Choice(context, ReturnSelection, promptOptions);
             return Task.CompletedTask;
         }

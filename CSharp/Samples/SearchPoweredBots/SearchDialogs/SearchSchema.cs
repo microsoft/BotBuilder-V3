@@ -7,9 +7,11 @@ using Microsoft.Azure.Search.Models;
 
 namespace Microsoft.Bot.Sample.SearchDialogs
 {
+    public enum PreferredFilter { None, MinValue, MaxValue, RangeMin, RangeMax, Range };
     [Serializable]
     public class SearchField
     {
+        // Fields from Azure Search
         public string Name;
         public Type Type;
         public bool IsFacetable;
@@ -18,6 +20,9 @@ namespace Microsoft.Bot.Sample.SearchDialogs
         public bool IsRetrievable;
         public bool IsSearchable;
         public bool IsSortable;
+
+        // Fields to control
+        public PreferredFilter FilterPreference;
     }
 
     [Serializable]
