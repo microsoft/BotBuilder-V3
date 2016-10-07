@@ -194,6 +194,10 @@ You can access LUIS experts at the [Language Understanding Intelligent Service F
 * [AuthBot](https://www.nuget.org/packages/AuthBot) - Azure Active Directory authentication
 * [BestMatchDialog](http://www.garypretty.co.uk/2016/08/01/bestmatchdialog-for-microsoft-bot-framework-now-available-via-nuget/) - regular expression-based dispatch of user text to dialog methods
 
+## What are some community-authored templates?
+
+* [ES6 BotBuilder](https://github.com/brene/botbuilder-es6-template) - ES6 Bot Builder template
+
 ## Where can I get more help?
 
 The [GitHub issues](https://github.com/Microsoft/BotBuilder/issues) has an active forum.  [Gitter](https://gitter.im/Microsoft/BotBuilder) has active discussions.  [Stack Overflow](http://stackoverflow.com/questions/tagged/botframework) has a list of tagged Bot Framework questions.
