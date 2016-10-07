@@ -331,7 +331,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             }
             else if (fieldState.State == FieldStepStates.SentClarify)
             {
-                feedback = Template(TemplateUsage.NotUnderstood).Prompt(state, _field, input);
+                feedback = Template(TemplateUsage.NotUnderstood, ClarifyRecognizer(fieldState, _field.Prompt.Recognizer)).Prompt(state, _field, input);
             }
             return feedback;
         }

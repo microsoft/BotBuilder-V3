@@ -13,6 +13,13 @@
         "../packages/Microsoft.Rest.ClientRuntime.2.3.2/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
         "../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
         "bin/Debug/Microsoft.Bot.Builder.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Microsoft.Bot.Builder.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
       }
     },
     "Microsoft.Bot.Connector/1.0.0": {
@@ -29,6 +36,13 @@
         "../../packages/Newtonsoft.Json.8.0.3/lib/net45/Newtonsoft.Json.dll": {},
         "../../packages/System.IdentityModel.Tokens.Jwt.4.0.2.206221351/lib/net45/System.IdentityModel.Tokens.Jwt.dll": {},
         "bin/Debug/Microsoft.Bot.Connector.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Microsoft.Bot.Connector.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
       }
     }
   }

@@ -142,7 +142,14 @@ namespace Microsoft.Bot.Builder.Tests
             string IFormTarget.Text { get; set; }
         }
 
-        public enum SimpleChoices { One = 1, Two, Three };
+        public enum SimpleChoices
+        {
+            One = 1,
+            [Terms("Two", "More than one")]
+            Two,
+            [Terms("Three", "More than one")]
+            Three
+        };
 
         [Serializable]
         private sealed class SimpleForm
@@ -150,6 +157,7 @@ namespace Microsoft.Bot.Builder.Tests
             public string Text { get; set; }
             public int Integer { get; set; }
             public float? Float { get; set; }
+            [Template(TemplateUsage.NotUnderstood, "Choices {||}")]
             public SimpleChoices SomeChoices { get; set; }
             public DateTime Date { get; set; }
         }
@@ -206,7 +214,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Test_Next_Script()
+        public async Task SimpleForm_Next_Script()
         {
             await VerifyFormScript(@"..\..\SimpleForm-next.script",
                 "en-us", () => new FormBuilder<SimpleForm>()
@@ -225,17 +233,17 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Field_Dependency_Script()
+        public async Task SimpleForm_Dependency_Script()
         {
             await VerifyFormScript(@"..\..\SimpleForm-dependency.script",
                 "en-us",
                 () => new FormBuilder<SimpleForm>()
                     .Field("Float")
-                    .Field("SomeChoices", 
+                    .Field("SomeChoices",
                         validate: async (state, value) =>
                         {
                             var result = new ValidateResult { IsValid = true, Value = value };
-                            if ((SimpleChoices) value == SimpleChoices.One)
+                            if ((SimpleChoices)value == SimpleChoices.One)
                             {
                                 state.Float = null;
                             }
@@ -257,6 +265,22 @@ namespace Microsoft.Bot.Builder.Tests
             "two",
             "yes"
         );
+        }
+
+        [TestMethod]
+        public async Task SimpleForm_NotUnderstood_Script()
+        {
+            await VerifyFormScript(@"..\..\SimpleForm-NotUnderstood.script",
+                "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+                "some text here",
+                "99",
+                "1.5",
+                "more than one",
+                "foo",
+                "two",
+                "1/1/2016"
+                );
         }
 
         [TestMethod]
