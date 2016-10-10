@@ -33,17 +33,17 @@ namespace Microsoft.Bot.Sample.JobListingBot.Dialogs
             return Task.CompletedTask;
         }
 
-        public async Task StartSearchDialog(IDialogContext context, IAwaitable<string> input)
+        public async Task StartSearchDialog(IDialogContext context, IAwaitable<FilterExpression> input)
         {
-            string title = await input;
+            FilterExpression titleExpression = await input;
 
-            if (string.IsNullOrEmpty(title))
-            {
-                context.Done<IMessageActivity>(null);
-            }
-            else
+            if (titleExpression.Operator == Operator.Equal && titleExpression.Values?.Length == 1)
             {
                 context.Call(new JobsDialog(this.queryBuilder), Done);
+            }
+            else
+            { 
+                context.Done<IMessageActivity>(null);
             }
         }
 
