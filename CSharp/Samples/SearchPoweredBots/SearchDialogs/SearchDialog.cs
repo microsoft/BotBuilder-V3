@@ -243,13 +243,13 @@ namespace Microsoft.Bot.Sample.SearchDialogs
         protected void SelectRefiner(IDialogContext context)
         {
             // var dialog = new SearchLanguageDialog(canonicalizer);
-            var dialog = new SearchSelectRefinerDialog(GetTopRefiners(), this.queryBuilder);
+            var dialog = new SearchSelectRefinerDialog(GetTopRefiners().Select(r => SearchDialogIndexClient.Schema.Fields[r]), this.queryBuilder);
             context.Call(dialog, Refine);
         }
 
-        protected async Task Refine(IDialogContext context, IAwaitable<string> input)
+        protected async Task Refine(IDialogContext context, IAwaitable<SearchField> input)
         {
-            string refiner = await input;
+            SearchField refiner = await input;
             var dialog = new SearchRefineDialog(refiner, this.queryBuilder);
             context.Call(dialog, ResumeFromRefine);
         }

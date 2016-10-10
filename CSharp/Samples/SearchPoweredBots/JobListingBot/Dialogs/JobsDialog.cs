@@ -24,12 +24,14 @@ namespace Microsoft.Bot.Sample.JobListingBot.Dialogs
 
         protected override SearchHit ToSearchHit(SearchResult hit)
         {
+            string description = (string)hit.Document["job_description"];
+
             return new SearchHit
             {
                 Key = (string)hit.Document["id"],
                 Title = GetTitleForItem(hit),
                 PictureUrl = null,
-                Description = ((string)hit.Document["job_description"]).Substring(0, 512) + "..."
+                Description = description.Length > 512 ? description.Substring(0, 512) + "..." : description
             };
         }
 

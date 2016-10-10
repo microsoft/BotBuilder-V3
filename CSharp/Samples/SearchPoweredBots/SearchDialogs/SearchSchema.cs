@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Azure.Search.Models;
 
 namespace Microsoft.Bot.Sample.SearchDialogs
 {
     public enum PreferredFilter { None, MinValue, MaxValue, RangeMin, RangeMax, Range };
+
     [Serializable]
     public class SearchField
     {
