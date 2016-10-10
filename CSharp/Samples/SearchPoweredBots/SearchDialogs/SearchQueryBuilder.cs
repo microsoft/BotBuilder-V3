@@ -90,7 +90,18 @@ namespace Microsoft.Bot.Sample.SearchDialogs
                 }
                 else
                 {
-                    filter = $"{field.Name} {op} {constant}";
+                    if (field.Type == typeof(string[]))
+                    {
+                        if (expression.Operator != Operator.Equal)
+                        {
+                            throw new NotSupportedException();
+                        }
+                        filter = $"{field.Name}/any(z: z eq {constant})";
+                    }
+                    else
+                    { 
+                        filter = $"{field.Name} {op} {constant}";
+                    }
                 }
             }
             return filter;

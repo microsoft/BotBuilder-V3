@@ -189,7 +189,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
                     }
                 }
             }
-            else if (field.Type == typeof(string))
+            else if (field.Type == typeof(string) || field.Type == typeof(string[]))
             {
                 // We append <space>(<count>) to the facet name, undo that here so filters work
                 expression = new FilterExpression(Operator.Equal, value.Substring(0, value.LastIndexOf('(') - 1));

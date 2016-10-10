@@ -45,6 +45,8 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             else if (field.Type == DataType.Int64) type = typeof(Int64);
             else if (field.Type == DataType.String) type = typeof(string);
             else if (field.Type == DataType.GeographyPoint) type = typeof(Spatial.GeographyPoint);
+            // Azure Search DataType objects don't follow value comparisons, so use overloaded string conversion operator to be a consistent representation
+            else if ((string)field.Type == (string)DataType.Collection(DataType.String)) type = typeof(string[]);
             else
             {
                 throw new ArgumentException($"Cannot map {field.Type} to a C# type");

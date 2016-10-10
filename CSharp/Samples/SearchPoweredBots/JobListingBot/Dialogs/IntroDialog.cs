@@ -20,7 +20,8 @@ namespace Microsoft.Bot.Sample.JobListingBot.Dialogs
                 new Field[] {
                     new Field() { Name = "business_title", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true },
                     new Field() { Name = "agency", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true },
-                    new Field { Name = "work_location", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true }
+                    new Field { Name = "work_location", Type = DataType.String, IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = true },
+                    new Field { Name = "tags", Type = DataType.Collection(DataType.String), IsFacetable = true, IsFilterable = true, IsKey = false, IsRetrievable = true, IsSearchable = true, IsSortable = false },
                 });
             context.Wait(SelectTitle);
             return Task.CompletedTask;

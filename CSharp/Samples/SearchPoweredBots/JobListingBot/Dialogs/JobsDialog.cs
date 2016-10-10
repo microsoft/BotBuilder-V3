@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Sample.JobListingBot.Dialogs
     [Serializable]
     public class JobsDialog : SearchDialog
     {
-        private static readonly string[] TopRefiners = { "business_title", "agency", "work_location" };
+        private static readonly string[] TopRefiners = { "business_title", "agency", "work_location", "tags" };
 
         public JobsDialog(SearchQueryBuilder queryBuilder) : base(queryBuilder, new JobStyler(), multipleSelection: true)
         {
