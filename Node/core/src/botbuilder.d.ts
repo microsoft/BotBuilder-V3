@@ -335,29 +335,29 @@ export interface ILocalizer {
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    trygettext(language: string, msgid: string, namespace?: string): string;
+    trygettext(locale: string, msgid: string, namespace?: string): string;
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    gettext(language: string, msgid: string, namespace?: string): string;
+    gettext(locale: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      * @param namespace (Optional) namespace for the msgid and msgid_plural keys.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
+    ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
