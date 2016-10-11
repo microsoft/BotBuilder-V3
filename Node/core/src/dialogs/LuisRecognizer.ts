@@ -132,7 +132,8 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
                     if (!err) {
                         callback(null, result.intents, result.entities);
                     } else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 } catch (e) {
                     console.error(e.toString());

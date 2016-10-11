@@ -276,13 +276,7 @@ export class Prompts extends dlg.Dialog {
             }
                                                                                
             var locale:string = session.preferredLocale();
-            logger.debug("prompts::preferred locale %s", locale);    
-            if (!locale && session.localizer) {
-                locale = session.localizer.defaultLocale();
-                logger.debug("prompts::sendPrompt using default locale %s", locale);                                                                                   
-            }
             prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            logger.debug("prompts::sendPrompt localized prompt %s", prompt);                                                                   
             
                         
             // Append list
@@ -358,10 +352,14 @@ export class Prompts extends dlg.Dialog {
     }
 
     static confirm(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var locale:string = session.preferredLocale();
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['confirm_yes','confirm_no'];
+        args.enumValues = [
+            session.localizer.gettext(locale, 'confirm_yes', consts.Library.system),
+            session.localizer.gettext(locale, 'confirm_no', consts.Library.system)
+        ];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     }

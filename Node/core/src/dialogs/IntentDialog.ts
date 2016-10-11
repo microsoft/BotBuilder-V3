@@ -261,7 +261,8 @@ export class IntentDialog extends dlg.Dialog {
             if (!err) {
                 done(null, result);
             } else {
-                done(err instanceof Error ? err : new Error(err.toString()), null);
+                var m = err.toString();
+                done(err instanceof Error ? err : new Error(m), null);
             }
         });
     }
@@ -314,7 +315,8 @@ export class IntentDialog extends dlg.Dialog {
     }
 
     private emitError(session: ses.Session, err: Error): void {
-        err = err instanceof Error ? err : new Error(err.toString());
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         session.error(err);
     }
 }

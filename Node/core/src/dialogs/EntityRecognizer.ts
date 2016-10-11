@@ -257,7 +257,7 @@ export class EntityRecognizer {
             }
             return list;
         } else {
-            return [choices.toString()];
+            return [(<string>choices).toString()];
         }
     }
 }

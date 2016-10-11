@@ -47,11 +47,7 @@ export class DefaultLocalizer implements ILocalizer {
     constructor() {        
     }
 
-    initialize(settings?: ILocalizerSettings) {
-        if (!settings) {
-            return;
-        }
-
+    initialize(settings: ILocalizerSettings = {}) {
         if (settings.botLocalePath) {
             this.botLocalePath = settings.botLocalePath.toLowerCase();
             if (this.botLocalePath.charAt(this.botLocalePath.length - 1) != '/') {
