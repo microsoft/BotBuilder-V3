@@ -126,7 +126,7 @@ function waterfall(steps) {
         }
         else if (steps && steps.length > 0) {
             try {
-                logger.info(s, 'waterfall() step %d of %d', 0, steps.length);
+                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             }

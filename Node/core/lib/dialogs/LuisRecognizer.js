@@ -83,7 +83,8 @@ var LuisRecognizer = (function () {
                         callback(null, result.intents, result.entities);
                     }
                     else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 }
                 catch (e) {

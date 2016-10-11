@@ -66,8 +66,8 @@ var Session = (function (_super) {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        logger.debug("loading localizer for: " + this.message.textLocale);
-        this.localizer.load(this.message.textLocale, function (err) {
+        var locale = this.preferredLocale();
+        this.localizer.load(locale, function (err) {
             if (err) {
                 _this.error(err);
             }
@@ -78,30 +78,41 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.error = function (err) {
-        err = err instanceof Error ? err : new Error(err.toString());
         logger.info(this, 'session.error()');
-        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+        if (this.options.dialogErrorMessage) {
+            this.endConversation(this.options.dialogErrorMessage);
+        }
+        else {
+            var locale = this.preferredLocale();
+            this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
+        }
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         return this;
     };
     Session.prototype.preferredLocale = function (locale, callback) {
         if (locale) {
             this._locale = locale;
+            if (this.userData) {
+                this.userData[consts.Data.PreferredLocale] = locale;
+            }
             if (this.localizer) {
                 this.localizer.load(locale, callback);
             }
         }
-        else {
-            if (!this._locale) {
-                if (this.message && this.message.textLocale) {
-                    this._locale = this.message.textLocale;
-                }
-                else if (this.localizer) {
-                    this._locale = this.localizer.defaultLocale();
-                }
+        else if (!this._locale) {
+            if (this.userData && this.userData[consts.Data.PreferredLocale]) {
+                this._locale = this.userData[consts.Data.PreferredLocale];
             }
-            return this._locale;
+            else if (this.message && this.message.textLocale) {
+                this._locale = this.message.textLocale;
+            }
+            else if (this.localizer) {
+                this._locale = this.localizer.defaultLocale();
+            }
         }
+        return this._locale;
     };
     Session.prototype.gettext = function (messageid) {
         var args = [];
@@ -158,7 +169,7 @@ var Session = (function (_super) {
         this.prepareMessage(m);
         this.batch.push(m);
         logger.info(this, 'session.sendTyping()');
-        this.startBatch();
+        this.sendBatch();
         return this;
     };
     Session.prototype.messageSent = function () {
@@ -357,6 +368,9 @@ var Session = (function (_super) {
                     _this.sendingBatch = false;
                     if (_this.batchStarted) {
                         _this.startBatch();
+                    }
+                    if (callback) {
+                        callback(err);
                     }
                 }
             }

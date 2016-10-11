@@ -197,13 +197,7 @@ var Prompts = (function (_super) {
                 prompt = mb.Message.randomPrompt(args.prompt);
             }
             var locale = session.preferredLocale();
-            logger.debug("prompts::preferred locale %s", locale);
-            if (!locale && session.localizer) {
-                locale = session.localizer.defaultLocale();
-                logger.debug("prompts::sendPrompt using default locale %s", locale);
-            }
             prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            logger.debug("prompts::sendPrompt localized prompt %s", prompt);
             var connector = '';
             var list;
             var msg = new mb.Message();
@@ -219,7 +213,8 @@ var Prompts = (function (_super) {
                     break;
                 case ListStyle.inline:
                     list = ' (';
-                    args.enumValues.forEach(function (value, index) {
+                    args.enumValues.forEach(function (v, index) {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                         if (index == args.enumValues.length - 2) {
                             connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
@@ -233,7 +228,8 @@ var Prompts = (function (_super) {
                     break;
                 case ListStyle.list:
                     list = '\n   ';
-                    args.enumValues.forEach(function (value, index) {
+                    args.enumValues.forEach(function (v, index) {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                         connector = '\n   ';
                     });
@@ -269,10 +265,14 @@ var Prompts = (function (_super) {
         beginPrompt(session, args);
     };
     Prompts.confirm = function (session, prompt, options) {
+        var locale = session.preferredLocale();
         var args = options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['confirm_yes', 'confirm_no'];
+        args.enumValues = [
+            session.localizer.gettext(locale, 'confirm_yes', consts.Library.system),
+            session.localizer.gettext(locale, 'confirm_no', consts.Library.system)
+        ];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     };
@@ -281,7 +281,12 @@ var Prompts = (function (_super) {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
+        var c = entities.EntityRecognizer.expandChoices(choices);
+        if (c.length == 0) {
+            console.error("0 length choice for prompt:", prompt);
+            throw "0 length choice list supplied";
+        }
+        args.enumValues = c;
         beginPrompt(session, args);
     };
     Prompts.time = function (session, prompt, options) {

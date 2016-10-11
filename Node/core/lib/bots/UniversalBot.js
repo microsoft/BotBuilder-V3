@@ -37,12 +37,6 @@ var UniversalBot = (function (_super) {
         }
         if (connector) {
             this.connector(consts.defaultConnector, connector);
-            var asStorage = connector;
-            if (!this.settings.storage &&
-                typeof asStorage.getData === 'function' &&
-                typeof asStorage.saveData === 'function') {
-                this.settings.storage = asStorage;
-            }
         }
     }
     UniversalBot.prototype.set = function (name, value) {
@@ -58,6 +52,12 @@ var UniversalBot = (function (_super) {
         if (connector) {
             this.connectors[channelId || consts.defaultConnector] = c = connector;
             c.onEvent(function (events, cb) { return _this.receive(events, cb); });
+            var asStorage = connector;
+            if (!this.settings.storage &&
+                typeof asStorage.getData === 'function' &&
+                typeof asStorage.saveData === 'function') {
+                this.settings.storage = asStorage;
+            }
         }
         else if (this.connectors.hasOwnProperty(channelId)) {
             c = this.connectors[channelId];
@@ -199,7 +199,7 @@ var UniversalBot = (function (_super) {
                 }, _this.errorLogger(done));
             }
             else if (done) {
-                done;
+                done(null);
             }
         }));
     };
@@ -393,7 +393,8 @@ var UniversalBot = (function (_super) {
         };
     };
     UniversalBot.prototype.emitError = function (err) {
-        var e = err instanceof Error ? err : new Error(err.toString());
+        var m = err.toString();
+        var e = err instanceof Error ? err : new Error(m);
         if (this.listenerCount('error') > 0) {
             this.emit('error', e);
         }

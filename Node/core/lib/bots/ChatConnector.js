@@ -36,11 +36,12 @@ var ChatConnector = (function () {
                 _this.verifyBotFramework(req, res);
             }
             else {
-                var requestData = [];
+                var requestData = '';
                 req.on('data', function (chunk) {
-                    requestData.push(chunk)
-                }).on('end', function () {
-                    req.body = Buffer.concat(body).toString();
+                    requestData += chunk;
+                });
+                req.on('end', function () {
+                    req.body = JSON.parse(requestData);
                     _this.verifyBotFramework(req, res);
                 });
             }
@@ -243,7 +244,8 @@ var ChatConnector = (function () {
                     callback(null, data);
                 }
                 else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var m = err.toString();
+                    callback(err instanceof Error ? err : new Error(m), null);
                 }
             });
         }
@@ -322,7 +324,8 @@ var ChatConnector = (function () {
                         callback(null);
                     }
                     else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 }
             });

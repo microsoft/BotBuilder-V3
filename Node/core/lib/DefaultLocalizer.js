@@ -6,9 +6,7 @@ var DefaultLocalizer = (function () {
     function DefaultLocalizer() {
     }
     DefaultLocalizer.prototype.initialize = function (settings) {
-        if (!settings) {
-            return;
-        }
+        if (settings === void 0) { settings = {}; }
         if (settings.botLocalePath) {
             this.botLocalePath = settings.botLocalePath.toLowerCase();
             if (this.botLocalePath.charAt(this.botLocalePath.length - 1) != '/') {
