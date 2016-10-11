@@ -113,10 +113,6 @@
     <Compile Include="DispatchTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.Azure\Microsoft.Bot.Builder.Azure.csproj">
-      <Project>{77299F9C-8F49-4839-B7EA-55BA726321D5}</Project>
-      <Name>Microsoft.Bot.Builder.Azure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.csproj">
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
