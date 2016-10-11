@@ -227,11 +227,12 @@ namespace Microsoft.Bot.Builder.Tests
                 msg.Text = "test";
                 using (var scope = DialogModule.BeginLifetimeScope(container, msg))
                 {
+                    connectorFactory = scope.Resolve<IConnectorClientFactory>();
+
                     scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("1:test", reply.Text);
-                    var connectorFactory = scope.Resolve<IConnectorClientFactory>();
                     var stateClient = connectorFactory.MakeStateClient();
                     var data = await stateClient.BotState.GetPrivateConversationDataAsync(msg.ChannelId, msg.Conversation.Id, msg.From.Id);
                     Assert.AreEqual(1, data.GetProperty<int>("count"));
