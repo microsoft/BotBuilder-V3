@@ -2,7 +2,7 @@
 layout: page
 title: IntentDialog
 permalink: /en-us/node/builder/chat/IntentDialog/
-weight: 2624
+weight: 2625
 parent1: Bot Builder for Node.js
 parent2: Chat Bots
 ---
