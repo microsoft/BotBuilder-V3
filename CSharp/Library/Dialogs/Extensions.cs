@@ -40,11 +40,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public static partial class Extensions
     {
-        public static T GetValue<T>(this SerializationInfo info, string name)
-        {
-            return (T)info.GetValue(name, typeof(T));
-        }
-
         public static T MaxBy<T, R>(this IEnumerable<T> items, Func<T, R> selectRank, IComparer<R> comparer = null)
         {
             comparer = comparer ?? Comparer<R>.Default;
