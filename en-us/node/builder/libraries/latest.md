@@ -22,6 +22,20 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.3.0
+* Added new prompt localization system.
+* Fixed an issue with callbacks passed to UniversalBot.send() not being called.
+* Added missing Keyboard class export.
+* Fixed a missing callback in Session.sendBatch().
+* Updated Session.sendTyping() to send the current batch immediately. 
+* Fixed waterfall step count that's logged to console. 
+* Took a PR to prevent a server crash if request body has nothing.
+* Added a new IntentDialog.recognizer() method .
+* Added a new Session.preferredLocale() method.
+* Fixed a bug where a late bound connector wasn't getting used as storage.
+* Updated reference docs.
+* Updated LKG build and package.json version.
+
 ### v3.2.3
 * Moved setting of sessionState.lastAccess to happen after middleware runs. This lets you write middleware that expires old sessions.
 * Fixed a couple of issues with proactive conversations not working. Also should fix issues with proactive conversations for groups not working. 
