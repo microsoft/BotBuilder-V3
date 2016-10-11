@@ -52,6 +52,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// Associate a LUIS intent with a dialog method.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [Serializable]
     public class LuisIntentAttribute : AttributeString
     {
         /// <summary>

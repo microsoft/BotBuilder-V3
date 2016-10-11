@@ -33,38 +33,57 @@
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
-    public abstract class ResolverScope<InnerScore> : Token<IResolver, InnerScore>, IResolver
+    /// <summary>
+    /// Helper methods to enumerate inherited attributes for a method.
+    /// </summary>
+    /// <remarks>
+    /// http://bradwilson.typepad.com/blog/2011/08/interface-attributes-class-attributes.html
+    /// </remarks>
+    public static partial class InheritedAttributes
     {
-        protected readonly IResolver inner;
-        public ResolverScope(IResolver inner)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-        public virtual bool TryResolve(Type type, object tag, out object value)
-        {
-            return inner.TryResolve(type, tag, out value);
-        }
-    }
+        public static readonly ConcurrentDictionary<MethodInfo, IReadOnlyList<Attribute>> AttributesByMethod
+            = new ConcurrentDictionary<MethodInfo, IReadOnlyList<Attribute>>();
 
-    public abstract class ResolverScorable<OuterState, OuterScore, InnerState, InnerScore> : ScorableAggregator<IResolver, OuterState, OuterScore, InnerState, InnerScore>
-        where OuterState : ResolverScope<InnerScore>
-    {
-        protected readonly IScorable<IResolver, InnerScore> inner;
-        public ResolverScorable(IScorable<IResolver, InnerScore> inner)
+        private static IReadOnlyList<Attribute> ForHelper(MethodInfo method)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
+            var declaring = method.DeclaringType;
+            var interfaces = declaring.GetInterfaces();
+
+            var methods =
+                from i in interfaces
+                let map = declaring.GetInterfaceMap(i)
+                let index = Array.IndexOf(map.TargetMethods, method)
+                where index >= 0
+                let source = map.InterfaceMethods[index]
+                select source;
+
+            Func<MethodInfo, IEnumerable<Attribute>> ExpandAttributes = m =>
+            {
+                var ma = m.GetCustomAttributes<Attribute>(inherit: true);
+                var ta = m.DeclaringType.GetCustomAttributes<Attribute>(inherit: true);
+
+                return ma.Concat(ta);
+            };
+
+            return ExpandAttributes(method).Concat(methods.SelectMany(m => ExpandAttributes(m))).ToArray();
+        }
+
+        public static IEnumerable<A> For<A>(MethodInfo method) where A : Attribute
+        {
+            return AttributesByMethod
+                .GetOrAdd(method, m => ForHelper(m))
+                .OfType<A>();
         }
     }
 }

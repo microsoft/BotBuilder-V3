@@ -72,6 +72,10 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
     public sealed class NullResolver : IResolver
     {
+        public static readonly IResolver Instance = new NullResolver();
+        private NullResolver()
+        {
+        }
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
             value = null;
@@ -109,6 +113,15 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
 
             return base.TryResolve(type, tag, out value);
+        }
+
+        public static void AddBases(Dictionary<Type, object> serviceByType, Type type, object service)
+        {
+            serviceByType.Add(type, service);
+            foreach (var t in type.GetInterfaces())
+            {
+                serviceByType.Add(t, service);
+            }
         }
     }
 

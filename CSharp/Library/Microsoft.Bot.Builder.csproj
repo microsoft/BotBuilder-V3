@@ -84,6 +84,7 @@
     <Compile Include="Dialogs\Exceptions.cs" />
     <Compile Include="Dialogs\Address.cs" />
     <Compile Include="Dialogs\IActivityLogger.cs" />
+    <Compile Include="Dialogs\DispatchDialog.cs" />
     <Compile Include="Dialogs\ResumptionCookie.cs" />
     <Compile Include="Dialogs\ScorableDialogs.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Cache.cs" />
     <Compile Include="Fibers\Pair.cs" />
     <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Scope.cs" />
@@ -154,11 +156,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scorables\InheritedAttributes.cs" />
     <Compile Include="Scorables\Binding.cs" />
     <Compile Include="Scorables\ResolverScorable.cs" />
     <Compile Include="Scorables\Scorable.cs" />
     <Compile Include="Scorables\ScorableBase.cs" />
-    <Compile Include="Scorables\AttributeScorable.cs" />
+    <Compile Include="Scorables\OrderScorable.cs" />
     <Compile Include="Scorables\LuisIntentScorable.cs" />
     <Compile Include="Scorables\MethodScorable.cs" />
     <Compile Include="Scorables\FoldScorable.cs" />

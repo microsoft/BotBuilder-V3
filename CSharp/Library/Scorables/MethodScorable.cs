@@ -42,6 +42,30 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [Serializable]
+    // TODO: name this better
+    public sealed class MethodBindAttribute : Attribute
+    {
+    }
+
+    public sealed class MethodScorableFactory : IScorableFactory<IResolver, Binding>
+    {
+        IScorable<IResolver, Binding> IScorableFactory<IResolver, Binding>.ScorableFor(IEnumerable<MethodInfo> methods)
+        {
+            var specs =
+                from method in methods
+                from bind in InheritedAttributes.For<MethodBindAttribute>(method)
+                select new { method, bind };
+
+            var scorables = from spec in specs
+                            select new MethodScorable(spec.method);
+
+            var all = scorables.ToArray().Fold(Binding.ResolutionComparer.Instance);
+            return all;
+        }
+    }
+
     // TODO: more generic name, or reuse existing attribute for overriding name?
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = true)]
     [Serializable]

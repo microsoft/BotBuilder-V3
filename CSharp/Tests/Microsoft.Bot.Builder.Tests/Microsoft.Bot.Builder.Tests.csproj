@@ -96,6 +96,7 @@
     <Compile Include="ChainTests.cs" />
     <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
+    <Compile Include="DispatchDialogTests .cs" />
     <Compile Include="ExceptionTests.cs" />
     <Compile Include="FiberTests.cs" />
     <Compile Include="FormTests.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="ScopeTests.cs" />
     <Compile Include="ScorablesTests.cs" />
     <Compile Include="Script.cs" />
-    <Compile Include="DispatchTests.cs" />
+    <Compile Include="DispatchTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.csproj">

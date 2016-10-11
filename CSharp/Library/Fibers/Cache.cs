@@ -97,7 +97,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                     if (!this.cache.TryGetValue(key, out task))
                     {
                         // TODO: properly propagate the CancellationToken
-                        task = make(context, key, CancellationToken.None);
+                        task = make(context, key, token);
                         this.cache.Add(key, task);
                     }
                 }

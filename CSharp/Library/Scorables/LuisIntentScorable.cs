@@ -39,17 +39,51 @@ using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
+    public sealed class LuisIntentScorableFactory : IScorableFactory<IResolver, IntentRecommendation>
+    {
+        private readonly Func<ILuisModel, ILuisService> make;
+        public LuisIntentScorableFactory(Func<ILuisModel, ILuisService> make)
+        {
+            SetField.NotNull(out this.make, nameof(make), make);
+        }
+
+        IScorable<IResolver, IntentRecommendation> IScorableFactory<IResolver, IntentRecommendation>.ScorableFor(IEnumerable<MethodInfo> methods)
+        {
+            var scorableByMethod = methods.ToDictionary(m => m, m => new MethodScorable(m));
+
+            var specs =
+                from method in methods
+                from model in InheritedAttributes.For<LuisModelAttribute>(method)
+                from intent in InheritedAttributes.For<LuisIntentAttribute>(method)
+                select new { method, intent, model };
+
+            // for a given LUIS model and intent, fold the corresponding method scorables together to enable overload resolution
+            var scorables =
+                from spec in specs
+                group spec by new { spec.model, spec.intent } into modelIntents
+                let method = modelIntents.Select(m => scorableByMethod[m.method]).ToArray().Fold(Binding.ResolutionComparer.Instance)
+                let service = this.make(modelIntents.Key.model)
+                select new LuisIntentScorable<Binding, Binding>(service, modelIntents.Key.model, modelIntents.Key.intent, method);
+
+            var all = scorables.ToArray().Fold(IntentComparer.Instance);
+
+            return all;
+        }
+    }
+
     /// <summary>
     /// Scorable to represent a specific LUIS intent recommendation.
     /// </summary>
     public sealed class LuisIntentScorable<InnerState, InnerScore> : ResolverScorable<LuisIntentScorable<InnerState, InnerScore>.Scope, IntentRecommendation, InnerState, InnerScore>
     {
+        private readonly ILuisService service;
         private readonly ILuisModel model;
         private readonly LuisIntentAttribute intent;
 
@@ -129,9 +163,10 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
         }
 
-        public LuisIntentScorable(ILuisModel model, LuisIntentAttribute intent, IScorable<IResolver, InnerScore> inner)
+        public LuisIntentScorable(ILuisService service, ILuisModel model, LuisIntentAttribute intent, IScorable<IResolver, InnerScore> inner)
             : base(inner)
         {
+            SetField.NotNull(out this.service, nameof(service), service);
             SetField.NotNull(out this.model, nameof(model), model);
             SetField.NotNull(out this.intent, nameof(intent), intent);
         }
@@ -149,13 +184,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return null;
             }
 
-            ILuisService service;
-            if (! resolver.TryResolve(this.model, out service))
-            {
-                return null;
-            }
-
-            var result = await service.QueryAsync(text, token);
+            var result = await this.service.QueryAsync(text, token);
             var intents = result.Intents;
             if (intents == null)
             {
