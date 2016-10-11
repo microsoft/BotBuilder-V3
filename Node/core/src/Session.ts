@@ -560,7 +560,8 @@ export class Session extends events.EventEmitter implements ISession {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         } else {
             done(null, { score: 0.0 });
         }

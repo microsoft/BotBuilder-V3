@@ -55,8 +55,7 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
         var result: intent.IIntentRecognizerResult = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
-            var locale = context.message.textLocale || '*';
-            var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
+            var model = this.models.hasOwnProperty(context.locale || '*') ? this.models[context.locale] : this.models['*'];
             if (model) {
                 LuisRecognizer.recognize(utterance, model, (err, intents, entities) => {
                     if (!err) {
@@ -96,7 +95,7 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
                     }
                 });
             } else {
-                cb(new Error("LUIS model not found for locale '" + locale + "'."), null);
+                cb(new Error("LUIS model not found for locale '" + context.locale + "'."), null);
             }
         } else {
             cb(null, result);

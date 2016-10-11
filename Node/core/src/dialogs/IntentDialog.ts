@@ -108,7 +108,8 @@ export class IntentDialog extends dlg.Dialog {
 
     public replyReceived(session: ses.Session, recognizeResult?: dlg.IRecognizeResult): void {
         if (!recognizeResult) {
-            this.recognize({ message: session.message, dialogData: session.dialogData, activeDialog: true }, (err, result) => {
+            var locale = session.preferredLocale();
+            this.recognize({ message: session.message, locale: locale, dialogData: session.dialogData, activeDialog: true }, (err, result) => {
                 if (!err) {
                     this.invokeIntent(session, <IIntentRecognizerResult>result);
                 } else {
