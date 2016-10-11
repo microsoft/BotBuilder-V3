@@ -54,6 +54,7 @@ using Moq;
 using Autofac;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -64,6 +65,24 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class FormTests : DialogTestBase
     {
+        // http://stackoverflow.com/questions/3330989/order-of-serialized-fields-using-json-net
+        public class OrderedContractResolver : DefaultContractResolver
+        {
+            protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+            {
+                return base.CreateProperties(type, memberSerialization).OrderBy(p => p.PropertyName).ToList();
+            }
+        }
+
+        public static string SerializeToJson(object item)
+        {
+            var settings = new JsonSerializerSettings()
+            {
+                ContractResolver = new OrderedContractResolver()
+            };
+            return JsonConvert.SerializeObject(item, settings);
+        }
+
         public async Task RecordFormScript<T>(string filePath,
             string locale, BuildFormDelegate<T> buildForm, FormOptions options, T initialState, IEnumerable<EntityRecommendation> entities,
             params string[] inputs)
@@ -74,15 +93,15 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 var root = new FormDialog<T>(initialState, buildForm, options, entities, CultureInfo.GetCultureInfo(locale));
                 stream.WriteLine($"{locale}");
-                stream.WriteLine($"{JsonConvert.SerializeObject(initialState)}");
-                stream.WriteLine($"{JsonConvert.SerializeObject(entities)}");
+                stream.WriteLine($"{SerializeToJson(initialState)}");
+                stream.WriteLine($"{SerializeToJson(entities)}");
                 var builder = new ContainerBuilder();
                 builder
                     .RegisterInstance(root)
                     .AsSelf()
                     .As<IDialog<object>>();
                 builder.Update(container);
-                await Script.RecordScript(container, false, stream, () => "State:" + JsonConvert.SerializeObject(initialState), inputs);
+                await Script.RecordScript(container, false, stream, () => "State:" + SerializeToJson(initialState), inputs);
             }
         }
 
@@ -107,9 +126,9 @@ namespace Microsoft.Bot.Builder.Tests
                         .As<IDialog<object>>();
                     builder.Update(container);
                     Assert.AreEqual(locale, stream.ReadLine());
-                    Assert.AreEqual(JsonConvert.SerializeObject(initialState), stream.ReadLine());
-                    Assert.AreEqual(JsonConvert.SerializeObject(entities), stream.ReadLine());
-                    await Script.VerifyScript(container, false, stream, (state) => Assert.AreEqual(state, JsonConvert.SerializeObject(currentState)), inputs);
+                    Assert.AreEqual(SerializeToJson(initialState), stream.ReadLine());
+                    Assert.AreEqual(SerializeToJson(entities), stream.ReadLine());
+                    await Script.VerifyScript(container, false, stream, (state) => Assert.AreEqual(state, SerializeToJson(currentState)), inputs);
                 }
             }
             catch (Exception)
