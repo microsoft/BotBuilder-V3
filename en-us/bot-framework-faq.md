@@ -249,11 +249,3 @@ Direct Line is suitable for:
 * Desktop applications on Windows, OSX, and more
 * Webpages where you need more customization than the [embeddable Web Chat channel](/en-us/support/embed-chat-control2/) offers
 * Service-to-service applications
-
-## Why does my Direct Line conversation start over after every message?
-
-If your Direct Line conversation appears to start over after every message, you are likely omitting the "from" field on the messages you sent from your Direct Line client. Direct Line auto-allocates IDs when the "from" property is null, so every message sent from your client appears to your bot to be a new user.
-
-To fix this, set the "from" field to a stable value that represents the user.
-
-The value of the field is up to you. If you already have a signed-in user in your webpage or app, you can use the existing user ID. If not, you could generate a random user ID on page/app load, optionally store that ID in a cookie or device state, and use that ID.

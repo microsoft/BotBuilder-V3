@@ -160,7 +160,15 @@ The State Service allow you to persist progress through the dialogs in a convers
 1. During development of your bot, if you want to manually reset the conversation's dialog stack and state, you can use the " /deleteprofile" command (with the leading space so it's not interpreted by the channel) to clear out the state.
 2. During production usage of your bot, you can version your bot data so that if you bump the version, the associated data is cleared.  This can be accomplished with the exiting middleware in Node or an IPostToBot implementation in C#.
 
-If the dialog stack cannot be deserialized correctly (due to serialization format changes or because the code has changed too much), the conversation state will be reset.  
+If the dialog stack cannot be deserialized correctly (due to serialization format changes or because the code has changed too much), the conversation state will be reset.
+
+## Why does my Direct Line conversation start over after every message?
+
+If your Direct Line conversation appears to start over after every message, you are likely omitting the "from" field on the messages you sent from your Direct Line client. Direct Line auto-allocates IDs when the "from" property is null, so every message sent from your client appears to your bot to be a new user.
+
+To fix this, set the "from" field to a stable value that represents the user.
+
+The value of the field is up to you. If you already have a signed-in user in your webpage or app, you can use the existing user ID. If not, you could generate a random user ID on page/app load, optionally store that ID in a cookie or device state, and use that ID.
 
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
