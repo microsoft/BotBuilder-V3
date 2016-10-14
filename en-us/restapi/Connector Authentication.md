@@ -101,7 +101,7 @@ Issue HTTPS GET calls to download the OpenId JSON document hosted at https://api
 
 Example request:
 
-    -- connect to apis.aps.skype.com --
+    -- connect to api.aps.skype.com --
     GET /v1/.well-known/openidconfiguration HTTP/1.1
 
 Example response:
@@ -122,7 +122,7 @@ Example response:
 
 Issue an HTTPS GET to this document to retrieve a list of valid signing keys. The document is in the JWK format (see [references](#references) for more details). The list of keys is relatively stable and may be cached for long periods of time (by default, 5 days within the Bot Builder SDK).
 
-    -- connect to apis.aps.skype.com --
+    -- connect to api.aps.skype.com --
     GET /v1/keys HTTP/1.1
 
 ### (Connector -> Bot) Step 3: Verify the JWT token
