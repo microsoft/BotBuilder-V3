@@ -31,7 +31,14 @@ The Vision APIs are useful for any bot that receives images as input from users 
 Before you get started, you need to obtain your own subscription key from the [Microsoft Cognitive Services](https://www.microsoft.com/cognitive-services/){:target="_blank"} site. Our Getting Started guides (available for [C#](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api/documentation/getstarted/getstartedvisionapiforwindows){:target="_blank"} and [Python](https://www.microsoft.com/cognitive-services/en-us/computer-vision-api/documentation/getstarted/getstartedwithpython){:target="_blank"}) describe how to obtain the key and start making calls to the APIs. You can find detailed documentation about each API, including developer guides and API references by navigating to the Cognitive Services [documentation site](https://www.microsoft.com/cognitive-services/en-us/documentation){:target="_blank"} and selecting the API you are interested in from the navigation bar on the left side of the screen. 
 
 ## Example: Vision Bot
-Let's build a few bots that use the Vision APIs to help you get started. For our first example, we will build a simplified version of CaptionBot.ai. The Vision Bot can receive an image, either as an attachment or url, and then return a computer-generated caption of the image via the Computer Vision API. We will use the [Bot Application .NET template](http://docs.botframework.com/connector/getstarted/#getting-started-in-net){:target="_blank"} as our starting point. 
+For our first example, we will build a simplified version of CaptionBot.ai. The Vision Bot can receive an image, either as an attachment or url, and then return a computer-generated caption of the image via the Computer Vision API. We will use the [Bot Application .NET template](http://docs.botframework.com/connector/getstarted/#getting-started-in-net){:target="_blank"} as our starting point. 
+
+<div align="center">
+<br> 
+<h4>Chat with Vision bot</h4> 
+<iframe width="800" height="500" src='https://webchat.botframework.com/embed/visionbot?s=PHyAulBypcw.cwA.my0.pPuhVC0VqtOR4yIVkVjFXwjc9HUTsrQ2WHcYvQkFjGE'></iframe>
+<br><br><br>
+</div>
 
 After you create your project with the Bot Application.NET template, install the *Microsoft.ProjectOxford.Vision* package from [nuGet](https://www.nuget.org/packages/Microsoft.ProjectOxford.Vision/){:target="_blank"}. Next, go to *MessagesController.cs* class file and add the following namespaces.
 
