@@ -36,7 +36,7 @@ For our first example, we will build a simplified version of CaptionBot.ai. The 
 <div align="center">
 <br> 
 <h4>Chat with Vision bot</h4> 
-<iframe width="800" height="500" src='https://webchat.botframework.com/embed/visionbot?s=PHyAulBypcw.cwA.my0.pPuhVC0VqtOR4yIVkVjFXwjc9HUTsrQ2WHcYvQkFjGE'></iframe>
+<iframe width="700" height="500" src='https://webchat.botframework.com/embed/visionbot?s=PHyAulBypcw.cwA.my0.pPuhVC0VqtOR4yIVkVjFXwjc9HUTsrQ2WHcYvQkFjGE'></iframe>
 <br><br><br>
 </div>
 

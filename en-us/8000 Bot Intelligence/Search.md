@@ -267,7 +267,7 @@ For our last example, we will build a bot that receives a product image url and 
 <div align="center">
 <br> 
 <h4>Chat with Product bot</h4> 
-<iframe width="800" height="500" src='https://webchat.botframework.com/embed/ProductSearch?s=pG0VT-DNpyM.cwA.boI.H5R6cD-k4qIZRllK-LGoYZABte2qDdthqiD5AP8nwMg'></iframe>
+<iframe width="700" height="500" src='https://webchat.botframework.com/embed/ProductSearch?s=pG0VT-DNpyM.cwA.boI.H5R6cD-k4qIZRllK-LGoYZABte2qDdthqiD5AP8nwMg'></iframe>
 <br><br><br>
 </div>
 
