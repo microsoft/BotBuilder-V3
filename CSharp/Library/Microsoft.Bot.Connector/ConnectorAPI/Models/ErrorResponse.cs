@@ -12,28 +12,28 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// A response containing a resource ID
+    /// An HTTP API response
     /// </summary>
-    public partial class ResourceResponse
+    public partial class ErrorResponse
     {
         /// <summary>
-        /// Initializes a new instance of the ResourceResponse class.
+        /// Initializes a new instance of the ErrorResponse class.
         /// </summary>
-        public ResourceResponse() { }
+        public ErrorResponse() { }
 
         /// <summary>
-        /// Initializes a new instance of the ResourceResponse class.
+        /// Initializes a new instance of the ErrorResponse class.
         /// </summary>
-        public ResourceResponse(string id = default(string))
+        public ErrorResponse(Error error = default(Error))
         {
-            Id = id;
+            Error = error;
         }
 
         /// <summary>
-        /// Id of the resource
+        /// Error message
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        [JsonProperty(PropertyName = "error")]
+        public Error Error { get; set; }
 
     }
 }

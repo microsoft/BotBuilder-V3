@@ -44,6 +44,115 @@
             Signin button
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.Error">
+            <summary>
+            Object representing error information
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Code">
+            <summary>
+            Error code
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ErrorResponse">
+            <summary>
+            An HTTP API response
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorResponse.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorResponse.#ctor(Microsoft.Bot.Connector.Error)">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ErrorResponse.Error">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ErrorCodes">
+            <summary>
+            Error codes to communicate when throwing an APIException
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.ServiceError">
+            <summary>
+            Other error, not specified
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.BadArgument">
+            <summary>
+            Bad argument
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.BadSyntax">
+            <summary>
+            Error parsing request
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.MissingProperty">
+            <summary>
+            Mandatory property was not specified
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.MessageSizeTooBig">
+            <summary>
+            Message exceeded size limits
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SigninCard">
+            <summary>
+            A card representing a request to sign in
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
+            </summary>
+            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
+            <param name="buttonLabel"> The signin button label.</param>
+            <param name="url"> The sigin url.</param>
+            <returns> The created sigin card.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Text">
+            <summary>
+            Text for signin request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Buttons">
+            <summary>
+            Action to use to perform signin
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.AnimationCard">
             <summary>
             An animation card (Ex: gif or short video clip)
@@ -1562,7 +1671,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
-            * Generate your own from the [State API Swagger file](StateAPI.json)
+            * Generate your own from the [State API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -1823,40 +1933,6 @@
             <summary>
             Set of actions applicable to the current card
             </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.SigninCard">
-            <summary>
-            A card representing a request to sign in
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor">
-            <summary>
-            Initializes a new instance of the SigninCard class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
-            <summary>
-            Initializes a new instance of the SigninCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Text">
-            <summary>
-            Text for signin request
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Buttons">
-            <summary>
-            Action to use to perform signin
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
-            <summary>
-            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
-            </summary>
-            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
-            <param name="buttonLabel"> The signin button label.</param>
-            <param name="url"> The sigin url.</param>
-            <returns> The created sigin card.</returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.BotState">
             <summary>
@@ -2484,7 +2560,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
-            * Generate your own from the [State API Swagger file](StateAPI.json)
+            * Generate your own from the [State API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2573,7 +2650,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -3020,7 +3097,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -3428,7 +3505,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.LocalTimestamp">
             <summary>
-            local time when message was sent (set by client Ex:
+            Local time when message was sent (set by client Ex:
             2016-09-23T13:07:49.4714686-07:00)
             </summary>
         </member>
@@ -3532,26 +3609,6 @@
         <member name="P:Microsoft.Bot.Connector.Activity.Value">
             <summary>
             Open ended value
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.APIResponse">
-            <summary>
-            An HTTP API response
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor">
-            <summary>
-            Initializes a new instance of the APIResponse class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the APIResponse class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
-            <summary>
-            Message to send in the HTTP response payload
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachment">

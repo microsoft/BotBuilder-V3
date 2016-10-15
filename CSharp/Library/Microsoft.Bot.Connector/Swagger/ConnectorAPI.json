@@ -3,7 +3,7 @@
   "info": {
     "version": "v3",
     "title": "Microsoft Bot Connector API - v3.0",
-    "description": "﻿The Bot Connector REST API allows your bot to send and receive messages to channels configured in the\r\n[Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST\r\nand JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [Connector API Swagger file](ConnectorAPI.json)\r\n\r\n© 2016 Microsoft",
+    "description": "﻿The Bot Connector REST API allows your bot to send and receive messages to channels configured in the\r\n[Bot Framework Developer Portal](https://dev.botframework.com). The Connector service uses industry-standard REST\r\nand JSON over HTTPS.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nMany bots will use both the Bot Connector REST API and the associated [Bot State REST API](/en-us/restapi/state). The\r\nBot State REST API allows a bot to store and retrieve state associated with users and conversations.\r\n\r\nAuthentication for both the Bot Connector and Bot State REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot Connector REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [Connector API Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)\r\n\r\n© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -42,27 +42,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -104,27 +98,21 @@
           "302": { "description": "﻿The Location header describes where the content is now." },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -162,27 +150,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -222,32 +204,26 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "description": "﻿An object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -294,32 +270,26 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "description": "﻿An object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -364,32 +334,26 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "description": "﻿An object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -418,31 +382,25 @@
           }
         ],
         "responses": {
-          "200": { "description": "﻿The operation succeeded." },
-          "202": { "description": "﻿The operation has been accepted and will be processed." },
+          "200": { "description": "﻿The operation succeeded, there is no response." },
+          "202": { "description": "﻿The request has been accepted for processing, but the processing has not been completed" },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -475,27 +433,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -535,27 +487,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -595,32 +541,26 @@
             "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "202": {
-            "description": "﻿The operation has been accepted and will be processed.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "description": "﻿An object will be returned containing the ID for the resource.",
+            "schema": { "$ref": "#/definitions/ResourceResponse" }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
-          "403": {
-            "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
-          },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "﻿An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "﻿The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -662,12 +602,26 @@
         }
       }
     },
-    "APIResponse": {
+    "ErrorResponse": {
       "description": "An HTTP API response",
       "type": "object",
       "properties": {
+        "error": {
+          "$ref": "#/definitions/Error",
+          "description": "Error message"
+        }
+      }
+    },
+    "Error": {
+      "description": "Object representing error information",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code",
+          "type": "string"
+        },
         "message": {
-          "description": "Message to send in the HTTP response payload",
+          "description": "Error message",
           "type": "string"
         }
       }
@@ -742,7 +696,7 @@
         },
         "localTimestamp": {
           "format": "date-time",
-          "description": "local time when message was sent (set by client Ex: 2016-09-23T13:07:49.4714686-07:00)",
+          "description": "Local time when message was sent (set by client Ex: 2016-09-23T13:07:49.4714686-07:00)",
           "type": "string"
         },
         "serviceUrl": {

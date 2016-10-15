@@ -78,6 +78,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionTypes.cs" />
+    <Compile Include="ConnectorAPI\Models\Error.cs" />
+    <Compile Include="ConnectorAPI\Models\ErrorResponse.cs" />
+    <Compile Include="ErrorResponseEx.cs" />
+    <Compile Include="SigninCardEx.cs" />
     <Compile Include="ConnectorAPI\Models\AnimationCard.cs" />
     <Compile Include="ConnectorAPI\Models\AudioCard.cs" />
     <Compile Include="ConnectorAPI\Models\MediaUrl.cs" />
@@ -92,7 +96,6 @@
     <Compile Include="AttachmentLayoutTypes.cs" />
     <Compile Include="AttachmentsEx.cs" />
     <Compile Include="ActivityTypes.cs" />
-    <Compile Include="APIResponseEx.cs" />
     <Compile Include="ConnectorAPI\Attachments.cs" />
     <Compile Include="ConnectorAPI\AttachmentsExtensions.cs" />
     <Compile Include="ConnectorAPI\IAttachments.cs" />
@@ -128,7 +131,6 @@
     <Compile Include="ConnectorAPI\IConversations.cs" />
     <Compile Include="ActivityEx.cs" />
     <Compile Include="ConnectorAPI\Models\Activity.cs" />
-    <Compile Include="ConnectorAPI\Models\APIResponse.cs" />
     <Compile Include="ConnectorAPI\Models\Attachment.cs" />
     <Compile Include="ConnectorAPI\Models\ChannelAccount.cs" />
     <Compile Include="ConnectorAPI\Models\ConversationAccount.cs" />

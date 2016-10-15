@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Connector
         public DateTime? Timestamp { get; set; }
 
         /// <summary>
-        /// local time when message was sent (set by client Ex:
+        /// Local time when message was sent (set by client Ex:
         /// 2016-09-23T13:07:49.4714686-07:00)
         /// </summary>
         [JsonProperty(PropertyName = "localTimestamp")]

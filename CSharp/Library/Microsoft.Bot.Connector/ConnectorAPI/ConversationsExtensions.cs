@@ -325,7 +325,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='activityId'>
         /// activityId to delete
         /// </param>
-        public static APIResponse DeleteActivity(this IConversations operations, string conversationId, string activityId)
+        public static ErrorResponse DeleteActivity(this IConversations operations, string conversationId, string activityId)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).DeleteActivityAsync(conversationId, activityId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -349,7 +349,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<APIResponse> DeleteActivityAsync(this IConversations operations, string conversationId, string activityId, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ErrorResponse> DeleteActivityAsync(this IConversations operations, string conversationId, string activityId, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.DeleteActivityWithHttpMessagesAsync(conversationId, activityId, null, cancellationToken).ConfigureAwait(false))
             {

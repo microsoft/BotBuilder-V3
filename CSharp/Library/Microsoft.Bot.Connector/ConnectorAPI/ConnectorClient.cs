@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Connector
     /// * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
     /// * [Bot Builder for Node.js](/en-us/node/builder/overview/)
     /// * Generate your own from the [Connector API Swagger
-    /// file](ConnectorAPI.json)
+    /// file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
     /// 
     /// © 2016 Microsoft
     /// </summary>
@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        protected ConnectorClient(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
+        public ConnectorClient(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (credentials == null)
             {

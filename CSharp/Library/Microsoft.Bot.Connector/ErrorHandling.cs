@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Connector
         {
             if (!result.Response.IsSuccessStatusCode)
             {
-                APIResponse errorMessage = result.Body as APIResponse;
+                ErrorResponse errorMessage = result.Body as ErrorResponse;
 
                 string _requestContent = null;
                 if (result.Request != null && result.Request.Content != null)
@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Connector
                     }
                 }
 
-                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Message) ? result.Response.ReasonPhrase : errorMessage.Message)
+                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Error?.Message) ? result.Response.ReasonPhrase : errorMessage?.Error?.Message)
                 {
                     Request = new HttpRequestMessageWrapper(result.Request, _requestContent),
                     Response = new HttpResponseMessageWrapper(result.Response, _responseContent),
@@ -52,11 +52,11 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        public static async Task<APIResponse> HandleErrorAsync(this HttpOperationResponse<APIResponse> result)
+        public static async Task<ErrorResponse> HandleErrorAsync(this HttpOperationResponse<ErrorResponse> result)
         {
             if (!result.Response.IsSuccessStatusCode)
             {
-                APIResponse errorMessage = result.Body as APIResponse;
+                ErrorResponse errorMessage = result.Body as ErrorResponse;
 
                 string _requestContent = null;
                 if (result.Request != null && result.Request.Content != null)
@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Connector
                     }
                 }
 
-                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Message) ? result.Response.ReasonPhrase : errorMessage.Message)
+                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Error?.Message) ? result.Response.ReasonPhrase : errorMessage?.Error?.Message)
                 {
                     Request = new HttpRequestMessageWrapper(result.Request, _requestContent),
                     Response = new HttpResponseMessageWrapper(result.Response, _responseContent),
@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Connector
         {
             if (!result.Response.IsSuccessStatusCode)
             {
-                APIResponse errorMessage = result.Body as APIResponse;
+                ErrorResponse errorMessage = result.Body as ErrorResponse;
 
                 string _requestContent = null;
                 if (result.Request != null && result.Request.Content != null)
@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Connector
                     }
                 }
 
-                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Message) ? result.Response.ReasonPhrase : errorMessage.Message)
+                throw new HttpOperationException(String.IsNullOrEmpty(errorMessage?.Error?.Message) ? result.Response.ReasonPhrase : errorMessage?.Error?.Message)
                 {
                     Request = new HttpRequestMessageWrapper(result.Request, _requestContent),
                     Response = new HttpResponseMessageWrapper(result.Response, _responseContent),

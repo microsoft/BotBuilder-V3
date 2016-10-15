@@ -3,7 +3,7 @@
   "info": {
     "version": "v3",
     "title": "Microsoft Bot Connector API - v3.0",
-    "description": "The Bot State REST API allows your bot to store and retrieve state associated with conversations conducted through\r\nthe [Bot Connector REST API](/en-us/restapi/connector). The Bot State REST API uses REST and HTTPS to send and receive\r\nencoded content that your bot controls.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nYour bot may store data for a user, a conversation, or a single user within a conversation (called \"private\" data).\r\nEach payload may be up to 32 kilobytes in size. The data may be removed by the bot or upon a user's request, e.g.\r\nif the user requests the channel to inform the bot (and therefore, the Bot Framework) to delete the user's data.\r\n\r\nThe Bot State REST API is only useful in conjunction with the Bot Connector REST API.\r\n\r\nAuthentication for both the Bot State and Bot Connector REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot State REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [State API Swagger file](StateAPI.json)\r\n\r\n© 2016 Microsoft",
+    "description": "The Bot State REST API allows your bot to store and retrieve state associated with conversations conducted through\r\nthe [Bot Connector REST API](/en-us/restapi/connector). The Bot State REST API uses REST and HTTPS to send and receive\r\nencoded content that your bot controls.\r\n\r\nClient libraries for this REST API are available. See below for a list.\r\n\r\nYour bot may store data for a user, a conversation, or a single user within a conversation (called \"private\" data).\r\nEach payload may be up to 32 kilobytes in size. The data may be removed by the bot or upon a user's request, e.g.\r\nif the user requests the channel to inform the bot (and therefore, the Bot Framework) to delete the user's data.\r\n\r\nThe Bot State REST API is only useful in conjunction with the Bot Connector REST API.\r\n\r\nAuthentication for both the Bot State and Bot Connector REST APIs is accomplished with JWT Bearer tokens, and is\r\ndescribed in detail in the [Connector Authentication](/en-us/restapi/authentication) document.\r\n\r\n# Client Libraries for the Bot State REST API\r\n\r\n* [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)\r\n* [Bot Builder for Node.js](/en-us/node/builder/overview/)\r\n* Generate your own from the [State API Swagger file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)\r\n\r\n© 2016 Microsoft",
     "termsOfService": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx",
     "contact": {
       "name": "Bot Framework",
@@ -24,7 +24,7 @@
         "summary": "GetUserData",
         "description": "Get a bots data for the user across all conversations",
         "operationId": "BotState_GetUserData",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -49,21 +49,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -105,25 +105,25 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "412": {
             "description": "The object you are trying to change has been changed by another operation.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -133,7 +133,7 @@
         "summary": "DeleteStateForUser",
         "description": "Delete all data for a user in a channel (UserData and PrivateConversationData)",
         "operationId": "BotState_DeleteStateForUser",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -162,25 +162,25 @@
           "204": { "description": "The operation succeeded but no content was returned." },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "412": {
             "description": "The object you are trying to change has been changed by another operation.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -192,7 +192,7 @@
         "summary": "GetConversationData",
         "description": "get the bots data for all users in a conversation",
         "operationId": "BotState_GetConversationData",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -217,21 +217,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -273,25 +273,25 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "412": {
             "description": "The object you are trying to change has been changed by another operation.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -303,7 +303,7 @@
         "summary": "GetPrivateConversationData",
         "description": "get bot's data for a single user in a conversation",
         "operationId": "BotState_GetPrivateConversationData",
-        "consumes": [ ],
+        "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
         "parameters": [
           {
@@ -335,21 +335,21 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -398,25 +398,25 @@
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "401": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "403": { "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password." },
           "404": {
             "description": "The resource was not found.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "412": {
             "description": "The object you are trying to change has been changed by another operation.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
             "description": "An internal server has occurred. Inspect the message for a more detailed description.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "503": {
             "description": "The service you are trying to communciate with is unavailable.",
-            "schema": { "$ref": "#/definitions/APIResponse" }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         },
         "deprecated": false
@@ -433,23 +433,18 @@
     },
     "Object": {
       "type": "object",
-      "properties": { }
+      "properties": {}
     },
-    "APIResponse": {
+    "ErrorResponse": {
       "type": "object",
-      "properties": { "message": { "type": "string" } }
-    }
-  },
-  "securityDefinitions": {
-    "basic": {
-      "type": "basic",
-      "description": "Basic HTTP Authentication using AppId/AppSecret"
+      "properties": { "error": { "$ref": "#/definitions/Error" } }
     },
-    "apiKey": {
-      "type": "apiKey",
-      "description": "API Subscription Key Authentication",
-      "name": "Ocp-Apim-Subscription-Key",
-      "in": "header"
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      }
     }
   }
 }
