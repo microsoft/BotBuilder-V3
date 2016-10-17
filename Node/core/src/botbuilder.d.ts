@@ -1825,8 +1825,9 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage): void;
+    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a number.
