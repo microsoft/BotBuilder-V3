@@ -203,7 +203,7 @@ export class DefaultLocalizer implements ILocalizer {
         });
     }
     
-    public load(locale: string, done: ErrorCallback): void {
+    public load(locale: string, done?: ErrorCallback): void {
         if (locale) {
             locale = locale.toLowerCase();
         }
@@ -213,7 +213,9 @@ export class DefaultLocalizer implements ILocalizer {
 
         if (DefaultLocalizer.localeRequests[localeRequestKey]) {
             logger.debug("localizer::already loaded requested locale: %s", localeRequestKey);                                               
-            done(null);
+            if (done) {
+                done(null);
+            }
             return;
         }
 
@@ -276,12 +278,12 @@ export class DefaultLocalizer implements ILocalizer {
             
         ],
         (err, results) => {
-            if (err) {
-                done(err);
-            } else {
+            if (!err) {
                 DefaultLocalizer.localeRequests[localeRequestKey] = true;
                 logger.debug("localizer::loaded requested locale: %s", localeRequestKey);                            
-                done();
+            }
+            if (done) {
+                done(err);
             }
         });
     }
