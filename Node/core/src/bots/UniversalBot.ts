@@ -48,7 +48,7 @@ export interface IUniversalBotSettings {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
     localizer?: ILocalizer;
-    localizerSettings?: ILocalizerSettings;    
+    localizerSettings?: IDefaultLocalizerSettings;    
     lookupUser?: ILookupUser;
     processLimit?: number;
     autoBatchDelay?: number;

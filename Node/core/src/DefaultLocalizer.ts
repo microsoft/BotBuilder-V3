@@ -44,10 +44,7 @@ export class DefaultLocalizer implements ILocalizer {
     private static filesParsedMap: any = {};
     private static map: any = {};
 
-    constructor() {        
-    }
-
-    initialize(settings: ILocalizerSettings = {}) {
+    constructor(settings: IDefaultLocalizerSettings = {}) {        
         if (settings.botLocalePath) {
             this.botLocalePath = settings.botLocalePath.toLowerCase();
             if (this.botLocalePath.charAt(this.botLocalePath.length - 1) != '/') {

@@ -310,7 +310,8 @@ export interface IIsFact {
     toFact(): IFact;
 }
 
-interface ILocalizerSettings {
+/** Settings used to initialize an ILocalizer implementation. */
+interface IDefaultLocalizerSettings {
     /** The path to the parent of the bot's locale directory  */
     botLocalePath?: string;
 
@@ -320,12 +321,6 @@ interface ILocalizerSettings {
 
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
-    /**
-     * Intitializes the localizer.
-     * @param localizerSettings (Optional) settings to supply to the localizer.
-     */
-    initialize(localizerSettings?: ILocalizerSettings): void;
-    
     /**
      * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
      * @param locale The locale to load.
@@ -741,8 +736,11 @@ export interface IUniversalBotSettings {
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user. */
+    /** (Optional) cutstom localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+
+    /** (Optional) settings used to configure the frameworks built in default localizer. */
+    localizerSettings?: IDefaultLocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;
