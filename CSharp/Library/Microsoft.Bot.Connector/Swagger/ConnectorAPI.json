@@ -44,7 +44,7 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
@@ -100,7 +100,7 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
@@ -152,10 +152,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
@@ -174,7 +178,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "SendToConversation",
-        "description": "This method allows you to send an activity to a conversation regardless of previous posts to a conversation.\r\n         \r\nThis is slightly different then ReplyToConversation().\r\n* SendToConverstion(conversationId) - will simply append a message to the end of the conversation according to the timestamp or semantics of the channel\r\n* ReplyToActivity(conversationId,ActivityId) - models the semantics of threaded conversations, meaning it has the information necessary for the channel to reply to the actual message being responded to.\r\n         \r\nSendToConversation is appropriate for the first message which initiates a conversation, or if you don't have a particular activity you are\r\nresponding to.\r\n         \r\nReplyToActivity is preferable to SendToConversation() because it maintains threaded conversations.",
+        "description": "This method allows you to send an activity to the end of a conversation.\r\n\r\nThis is slightly different from ReplyToActivity().\r\n* SendToConverstion(conversationId) - will append the activity to the end of the conversation according to the timestamp or semantics of the channel.\r\n* ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply to another activity, if the channel supports it. If the channel does not support nested replies, ReplyToActivity falls back to SendToConversation.\r\n\r\nUse ReplyToActivity when replying to a specific activity in the conversation.\r\n\r\nUse SendToConversation in all other cases.",
         "operationId": "Conversations_SendToConversation",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json" ],
@@ -211,7 +215,7 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
@@ -233,7 +237,7 @@
       "put": {
         "tags": [ "Conversations" ],
         "summary": "UpdateActivity",
-        "description": "This method allows you to edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, you can remove buttons after someone has clicked \"Approve\" button.",
+        "description": "Edit an existing activity.\r\n\r\nSome channels allow you to edit an existing activity to reflect the new state of a bot conversation.\r\n\r\nFor example, you can remove buttons after someone has clicked \"Approve\" button.",
         "operationId": "Conversations_UpdateActivity",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json" ],
@@ -277,10 +281,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
@@ -297,7 +305,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "ReplyToActivity",
-        "description": "This method allows you to reply to an activity.\r\n\r\nThis is slightly different then SendToConversation().  \r\n* SendToConverstion(conversationId) - will simply append a message to the end of the conversation according to the timestamp or semantics of the channel\r\n* ReplyToActivity(conversationId,ActivityId) - models the semantics of threaded conversations, meaning it has the information necessary for the\r\nchannel to reply to the actual message being responded to. \r\n\r\nReplyToActivity is almost always preferable to SendToConversation() because it maintains threaded conversations.\r\n\r\nSendToConversation is appropriate for the first message which initiates a conversation, or if you don't have a particular activity you are responding to.",
+        "description": "This method allows you to reply to an activity.\r\n\r\nThis is slightly different from SendToConversation().\r\n* SendToConverstion(conversationId) - will append the activity to the end of the conversation according to the timestamp or semantics of the channel.\r\n* ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply to another activity, if the channel supports it. If the channel does not support nested replies, ReplyToActivity falls back to SendToConversation.\r\n\r\nUse ReplyToActivity when replying to a specific activity in the conversation.\r\n\r\nUse SendToConversation in all other cases.",
         "operationId": "Conversations_ReplyToActivity",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json" ],
@@ -341,7 +349,7 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
@@ -361,7 +369,7 @@
       "delete": {
         "tags": [ "Conversations" ],
         "summary": "DeleteActivity",
-        "description": "This method allows you to delete an existing activity.\r\n\r\nSome channels allow you to delete an existing activity, and if successful this method will remove an activity.",
+        "description": "Delete an existing activity.\r\n\r\nSome channels allow you to delete an existing activity, and if successful this method will remove the specified activity.",
         "operationId": "Conversations_DeleteActivity",
         "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -388,10 +396,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
@@ -410,7 +422,7 @@
       "get": {
         "tags": [ "Conversations" ],
         "summary": "GetConversationMembers",
-        "description": "Call this method to enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount[] objects \r\nwhich are the members of the conversation.",
+        "description": "Enumerate the members of a converstion. \r\n\r\nThis REST API takes a ConversationId and returns an array of ChannelAccount objects representing the members of the conversation.",
         "operationId": "Conversations_GetConversationMembers",
         "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -435,10 +447,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
@@ -457,7 +473,7 @@
       "get": {
         "tags": [ "Conversations" ],
         "summary": "GetActivityMembers",
-        "description": "Call this method to enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount[] objects \r\nwhich are the members of the particular activity in the conversation.",
+        "description": "Enumerate the members of an activity. \r\n\r\nThis REST API takes a ConversationId and a ActivityId, returning an array of ChannelAccount objects representing the members of the particular activity in the conversation.",
         "operationId": "Conversations_GetActivityMembers",
         "consumes": [],
         "produces": [ "application/json", "text/json", "application/xml", "text/xml" ],
@@ -489,10 +505,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {
@@ -511,7 +531,7 @@
       "post": {
         "tags": [ "Conversations" ],
         "summary": "UploadAttachment",
-        "description": "This method allows you to upload an attachment directly into a channels blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments api.",
+        "description": "Upload an attachment directly into a channel's blob storage.\r\n\r\nThis is useful because it allows you to store data in a compliant store when dealing with enterprises.\r\n\r\nThe response is a ResourceResponse which contains an AttachmentId which is suitable for using with the attachments API.",
         "operationId": "Conversations_UploadAttachment",
         "consumes": [ "application/json", "text/json", "application/xml", "text/xml", "application/x-www-form-urlencoded" ],
         "produces": [ "application/json", "text/json" ],
@@ -548,10 +568,14 @@
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
-          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft app password. " },
+          "401": { "description": "﻿The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. " },
           "403": { "description": "﻿The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource." },
           "404": {
             "description": "﻿The resource was not found.",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "405": {
+            "description": "﻿The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
             "schema": { "$ref": "#/definitions/ErrorResponse" }
           },
           "500": {

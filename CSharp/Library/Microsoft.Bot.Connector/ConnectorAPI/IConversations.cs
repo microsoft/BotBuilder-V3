@@ -59,25 +59,22 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SendToConversation
         /// </summary>
-        /// This method allows you to send an activity to a conversation
-        /// regardless of previous posts to a conversation.
+        /// This method allows you to send an activity to the end of a
+        /// conversation.
         /// 
-        /// This is slightly different then ReplyToConversation().
-        /// * SendToConverstion(conversationId) - will simply append a message
-        /// to the end of the conversation according to the timestamp or
-        /// semantics of the channel
-        /// * ReplyToActivity(conversationId,ActivityId) - models the
-        /// semantics of threaded conversations, meaning it has the
-        /// information necessary for the channel to reply to the actual
-        /// message being responded to.
+        /// This is slightly different from ReplyToActivity().
+        /// * SendToConverstion(conversationId) - will append the activity to
+        /// the end of the conversation according to the timestamp or
+        /// semantics of the channel.
+        /// * ReplyToActivity(conversationId,ActivityId) - adds the activity
+        /// as a reply to another activity, if the channel supports it. If
+        /// the channel does not support nested replies, ReplyToActivity
+        /// falls back to SendToConversation.
         /// 
-        /// SendToConversation is appropriate for the first message which
-        /// initiates a conversation, or if you don't have a particular
-        /// activity you are
-        /// responding to.
+        /// Use ReplyToActivity when replying to a specific activity in the
+        /// conversation.
         /// 
-        /// ReplyToActivity is preferable to SendToConversation() because it
-        /// maintains threaded conversations.
+        /// Use SendToConversation in all other cases.
         /// <param name='activity'>
         /// Activity to send
         /// </param>
@@ -94,7 +91,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// UpdateActivity
         /// </summary>
-        /// This method allows you to edit an existing activity.
+        /// Edit an existing activity.
         /// 
         /// Some channels allow you to edit an existing activity to reflect
         /// the new state of a bot conversation.
@@ -122,21 +119,19 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// This method allows you to reply to an activity.
         /// 
-        /// This is slightly different then SendToConversation().
-        /// * SendToConverstion(conversationId) - will simply append a message
-        /// to the end of the conversation according to the timestamp or
-        /// semantics of the channel
-        /// * ReplyToActivity(conversationId,ActivityId) - models the
-        /// semantics of threaded conversations, meaning it has the
-        /// information necessary for the
-        /// channel to reply to the actual message being responded to.
+        /// This is slightly different from SendToConversation().
+        /// * SendToConverstion(conversationId) - will append the activity to
+        /// the end of the conversation according to the timestamp or
+        /// semantics of the channel.
+        /// * ReplyToActivity(conversationId,ActivityId) - adds the activity
+        /// as a reply to another activity, if the channel supports it. If
+        /// the channel does not support nested replies, ReplyToActivity
+        /// falls back to SendToConversation.
         /// 
-        /// ReplyToActivity is almost always preferable to
-        /// SendToConversation() because it maintains threaded conversations.
+        /// Use ReplyToActivity when replying to a specific activity in the
+        /// conversation.
         /// 
-        /// SendToConversation is appropriate for the first message which
-        /// initiates a conversation, or if you don't have a particular
-        /// activity you are responding to.
+        /// Use SendToConversation in all other cases.
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
@@ -156,10 +151,10 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// DeleteActivity
         /// </summary>
-        /// This method allows you to delete an existing activity.
+        /// Delete an existing activity.
         /// 
         /// Some channels allow you to delete an existing activity, and if
-        /// successful this method will remove an activity.
+        /// successful this method will remove the specified activity.
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
@@ -176,11 +171,11 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// GetConversationMembers
         /// </summary>
-        /// Call this method to enumerate the members of a converstion.
+        /// Enumerate the members of a converstion.
         /// 
         /// This REST API takes a ConversationId and returns an array of
-        /// ChannelAccount[] objects
-        /// which are the members of the conversation.
+        /// ChannelAccount objects representing the members of the
+        /// conversation.
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
@@ -194,12 +189,11 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// GetActivityMembers
         /// </summary>
-        /// Call this method to enumerate the members of an activity.
+        /// Enumerate the members of an activity.
         /// 
         /// This REST API takes a ConversationId and a ActivityId, returning
-        /// an array of ChannelAccount[] objects
-        /// which are the members of the particular activity in the
-        /// conversation.
+        /// an array of ChannelAccount objects representing the members of
+        /// the particular activity in the conversation.
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
@@ -216,14 +210,13 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// UploadAttachment
         /// </summary>
-        /// This method allows you to upload an attachment directly into a
-        /// channels blob storage.
+        /// Upload an attachment directly into a channel's blob storage.
         /// 
         /// This is useful because it allows you to store data in a compliant
         /// store when dealing with enterprises.
         /// 
         /// The response is a ResourceResponse which contains an AttachmentId
-        /// which is suitable for using with the attachments api.
+        /// which is suitable for using with the attachments API.
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
