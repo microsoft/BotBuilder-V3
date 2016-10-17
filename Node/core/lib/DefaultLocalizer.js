@@ -3,9 +3,7 @@ var fs = require('fs');
 var async = require('async');
 var logger = require('./logger');
 var DefaultLocalizer = (function () {
-    function DefaultLocalizer() {
-    }
-    DefaultLocalizer.prototype.initialize = function (settings) {
+    function DefaultLocalizer(settings) {
         if (settings === void 0) { settings = {}; }
         if (settings.botLocalePath) {
             this.botLocalePath = settings.botLocalePath.toLowerCase();
@@ -22,7 +20,7 @@ var DefaultLocalizer = (function () {
         else {
             this.defaultLocale("en");
         }
-    };
+    }
     DefaultLocalizer.prototype.defaultLocale = function (locale) {
         if (locale) {
             this._defaultLocale = locale;
@@ -162,7 +160,9 @@ var DefaultLocalizer = (function () {
         logger.debug("localizer::load requested for: %s", localeRequestKey);
         if (DefaultLocalizer.localeRequests[localeRequestKey]) {
             logger.debug("localizer::already loaded requested locale: %s", localeRequestKey);
-            done(null);
+            if (done) {
+                done(null);
+            }
             return;
         }
         var fb = this.getFallback(locale);
@@ -214,13 +214,12 @@ var DefaultLocalizer = (function () {
                 }
             },
         ], function (err, results) {
-            if (err) {
-                done(err);
-            }
-            else {
+            if (!err) {
                 DefaultLocalizer.localeRequests[localeRequestKey] = true;
                 logger.debug("localizer::loaded requested locale: %s", localeRequestKey);
-                done();
+            }
+            if (done) {
+                done(err);
             }
         });
     };

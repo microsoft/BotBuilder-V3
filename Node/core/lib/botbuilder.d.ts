@@ -310,7 +310,8 @@ export interface IIsFact {
     toFact(): IFact;
 }
 
-interface ILocalizerSettings {
+/** Settings used to initialize an ILocalizer implementation. */
+interface IDefaultLocalizerSettings {
     /** The path to the parent of the bot's locale directory  */
     botLocalePath?: string;
 
@@ -320,12 +321,6 @@ interface ILocalizerSettings {
 
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
-    /**
-     * Intitializes the localizer.
-     * @param localizerSettings (Optional) settings to supply to the localizer.
-     */
-    initialize(localizerSettings?: ILocalizerSettings): void;
-    
     /**
      * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
      * @param locale The locale to load.
@@ -477,6 +472,9 @@ export interface IPromptOptions {
 
     /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
+
+    /** (Optional) namespace to use when localizing a passed in prompt. */
+    localizationNamespace?: string;
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
@@ -738,8 +736,11 @@ export interface IUniversalBotSettings {
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user. */
+    /** (Optional) cutstom localizer used to localize the bots responses to the user. */
     localizer?: ILocalizer;
+
+    /** (Optional) settings used to configure the frameworks built in default localizer. */
+    localizerSettings?: IDefaultLocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;
@@ -1822,8 +1823,9 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage): void;
+    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a number.

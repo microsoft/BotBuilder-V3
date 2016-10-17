@@ -28,12 +28,11 @@ var Session = (function (_super) {
         this.localizer = null;
         this.library = options.library;
         if (!options.localizer) {
-            this.localizer = new dfLoc.DefaultLocalizer();
+            this.localizer = new dfLoc.DefaultLocalizer(options.localizerSettings);
         }
         else {
             this.localizer = options.localizer;
         }
-        this.localizer.initialize(options.localizerSettings);
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -471,7 +470,8 @@ var Session = (function (_super) {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         }
         else {
             done(null, { score: 0.0 });

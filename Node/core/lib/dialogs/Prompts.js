@@ -252,11 +252,11 @@ var Prompts = (function (_super) {
             }
         }
     };
-    Prompts.text = function (session, prompt) {
-        beginPrompt(session, {
-            promptType: PromptType.text,
-            prompt: prompt
-        });
+    Prompts.text = function (session, prompt, options) {
+        var args = options || {};
+        args.promptType = PromptType.text;
+        args.prompt = prompt;
+        beginPrompt(session, args);
     };
     Prompts.number = function (session, prompt, options) {
         var args = options || {};
