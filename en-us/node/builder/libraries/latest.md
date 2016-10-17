@@ -22,6 +22,15 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.3.1
+* Added new locals for Spanish, Italian, and Chinese.
+* Fixed an issue with the preferred local not being passed to LuisRecognizer class.
+* Fixed an issue with localizationNamespace param not being passed for prompts.
+* Fixed an issue with DefaultLocalizer class assuming it would always have a done callback.
+* Cleaned up passing of localizerSettings from bot to DefaultLocalizer.
+* Updated typescript definitions and docs.
+* Updated LKG build and package.json version.
+
 ### v3.3.0
 * Added new prompt localization system.
 * Fixed an issue with callbacks passed to UniversalBot.send() not being called.
