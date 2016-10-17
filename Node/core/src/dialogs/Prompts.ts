@@ -52,6 +52,7 @@ export interface IPromptOptions {
     refDate?: number;
     listStyle?: ListStyle;
     promptAfterAction?: boolean;
+    localizationNamespace?: string;
 }
 
 export interface IPromptArgs extends IPromptOptions {
@@ -59,7 +60,6 @@ export interface IPromptArgs extends IPromptOptions {
     prompt: string|string[]|IMessage|IIsMessage;
     enumValues?: string[];
     retryCnt?: number;
-    localizationNamespace?: string;
 }
 
 export interface IPromptResult<T> extends dlg.IDialogResult<T> {
@@ -337,11 +337,11 @@ export class Prompts extends dlg.Dialog {
         }
     }
 
-    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage): void {
-        beginPrompt(session, {
-            promptType: PromptType.text,
-            prompt: prompt
-        });
+    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var args: IPromptArgs = <any>options || {};
+        args.promptType = PromptType.text;
+        args.prompt = prompt;
+        beginPrompt(session, args);
     }
 
     static number(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {

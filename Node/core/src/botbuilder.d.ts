@@ -477,6 +477,9 @@ export interface IPromptOptions {
 
     /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
+
+    /** (Optional) namespace to use when localizing a passed in prompt. */
+    localizationNamespace?: string;
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
