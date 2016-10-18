@@ -1,5 +1,9 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how the default localizer can be used to localize prompts. 
+This Bot demonstrates basic localization support for a bot. It shows how to:
+
+* Configure the bots default language and localization file path.
+* Prompt the user for their preferred language.
+* Localize all of a bots prompts across multiple languages.
 
 # RUN THE BOT:
 
@@ -9,67 +13,82 @@ This Bot demonstrates how the default localizer can be used to localize prompts.
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../core/');
-var fs = require("fs");
 
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector, {localizerSettings: { botLocalePath: "./locale", defaultLocale: "en" }});
-
-// Locale detection middleware
-bot.use({
-    botbuilder: function (session, next) {
-        // Use proper method to detect locale -- typing es triggers the es locale to be set
-        if (/^es/i.test(session.message.text)) {
-            // Set the locale for the session once its detected
-            session.preferredLocale("es", (err) => {
-                next();
-            });
-
-        // Use proper method to detect locale -- typing us triggers the en-us locale to be set            
-        } else if (/^us/i.test(session.message.text)) {
-            // Set the locale for the session once its detected
-            session.preferredLocale("en-us", (err) => {
-                next();
-            });
-        } else {
-            // By not setting the preferred locale, we will fallback to the default (en in this case) 
-            next();
-        }
+var bot = new builder.UniversalBot(connector, {
+    localizerSettings: { 
+        botLocalePath: "./locale", 
+        defaultLocale: "en" 
     }
 });
 
-
-bot.dialog('/', [
-    function (session, args, next) {
-        // This key is present in all the locale/*/index.json files, so whichever locale is set on the session should 
-        // dictate what's output to the user
-        session.send("Hello World");
-
-        // This key is only in the locale/en/index.json file, so en-us will fallback to this because its a child of en.
-        // es will also fallback to this, but only because our default locale is en.  
-        session.send("Hello World2");
-
-        // This key is not present in any of the locale/*/index.json files, so we will just end up showing 'Hello World3'
-        session.send("Hello World3");
-
-        // This key has multiple values associated with it, delimited by a semi-colon
-        // To display a random value, get the entire localized string then split it on the semi-colon
-        // and select a random index from the array
-        var valuesStr = session.localizer.gettext(session.preferredLocale(), "nums");
-        var valuesArray = valuesStr.split(";");
-        session.send(valuesArray[Math.floor(Math.random() * valuesArray.length)]);
-
-        // This key has multiple values as well, but stored as an array, so a random element will be returned each time
+bot.dialog("/", [
+    function (session) {
         session.send("greeting");
-
-        // Supply the localized key to the prompt.
-        // Note that our locale/en/botbuilder.json file overrides the system's default prompt when a number is not supplied
-        builder.Prompts.choice(session, "listr", "y|n|idk")   
+        session.send("instructions");
+        session.beginDialog('/localePicker');
+    },
+    function (session) {
+        builder.Prompts.text(session, "text_prompt");
     },
     function (session, results) {
-        if (results.response) {
-            session.send("Thanks");
-        } else {
-            session.send("Sorry!");
+        session.send("input_response", results.response);
+        builder.Prompts.number(session, "number_prompt");
+    },
+    function (session, results) {
+        session.send("input_response", results.response);
+        builder.Prompts.choice(session, "listStyle_prompt", "auto|inline|list|button|none");
+    },
+    function (session, results) {
+        // You can use the localizer manually to load a localized list of options.
+        var style = builder.ListStyle[results.response.entity];
+        var options = session.localizer.gettext(session.preferredLocale(), "choice_options");
+        builder.Prompts.choice(session, "choice_prompt", options, { listStyle: style });
+    },
+    function (session, results) {
+        session.send("choice_response", results.response.entity);
+        builder.Prompts.confirm(session, "confirm_prompt");
+    },
+    function (session, results) {
+        // You can use the localizer manually to load prompts from another namespace.
+        var choice = results.response ? 'confirm_yes' : 'confirm_no';
+        session.send("choice_response", session.localizer.gettext(session.preferredLocale(), choice, 'BotBuilder'));
+        builder.Prompts.time(session, "time_prompt");
+    },
+    function (session, results) {
+        session.send("time_response", JSON.stringify(results.response));
+        session.endDialog("demo_finished");
+    }
+])
+
+bot.dialog('/localePicker', [
+    function (session) {
+        // Prompt the user to select their preferred locale
+        builder.Prompts.choice(session, "locale_prompt", 'English|Español|Italiano');
+    },
+    function (session, results) {
+        // Update preferred locale
+        var locale;
+        switch (results.response.entity) {
+            case 'English':
+                locale = 'en';
+                break;
+            case 'Español':
+                locale = 'es';
+                break;
+            case 'Italiano':
+                locale = 'it';
+                break;
         }
+        session.preferredLocale(locale, function (err) {
+            if (!err) {
+                // Locale files loaded
+                session.endDialog('locale_updated');
+            } else {
+                // Problem loading the selected locale
+                session.error(err);
+            }
+        });
     }
 ]);
+
