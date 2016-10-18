@@ -10,7 +10,7 @@ $( document ).ready(function() {
 		}
 	}
     // open left nav container if a page is currently selected
-    var currentNav = $(".page-link.navselected").closest(".navContainer").parent();
+    var currentNav = getClosestNavcontainer($(".page-link.navselected"));
     var isNodeRefDocVar = isNodeRefDoc();
     if (currentNav.length == 0 && isNodeRefDocVar == "") {
         // show all nodes
@@ -22,12 +22,12 @@ $( document ).ready(function() {
         if (isNodeRefDocVar == "chat") {
             var currentListHref = $('a[href*="/node/builder/chat-ref/"]').first();
             currentListHref.addClass("navselected");
-            currentNav = currentListHref.closest(".navContainer").parent();
+            currentNav = getClosestNavcontainer(currentListHref);
         } 
         if (isNodeRefDocVar == "calling") {
             var currentListHref = $('a[href*="/node/builder/calling-ref/"]').first();
             currentListHref.addClass("navselected");
-            currentNav = currentListHref.closest(".navContainer").parent();
+            currentNav = getClosestNavcontainer(currentListHref);
         } 
         toggleNav(currentNav, 0);
     }
@@ -44,7 +44,9 @@ $( document ).ready(function() {
     
 });
 
-
+function getClosestNavcontainer(currentElement) {
+    return currentElement.closest(".navContainer").prev();
+}
 
 function activateAllTabs(allTabsInPage) {
     $.each(allTabsInPage, function(i, val){
@@ -59,7 +61,8 @@ function activateAllTabs(allTabsInPage) {
 }
 
 function toggleNav(parent, dur) {    
-    $content = parent.children().first();
+    //$content = parent.children().first();
+    $content = parent.next();
     $content.slideToggle(dur);
     parent.show();
     parent.toggleClass("rotate");
